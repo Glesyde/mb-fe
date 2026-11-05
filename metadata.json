@@ -1,0 +1,8 @@
+{
+  "name": "Gracespring Hospital HIS - Hospital Information System",
+  "description": "A comprehensive medical dashboard for managing hospital operations, patients, and clinical data with a trust-inspiring professional interface.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

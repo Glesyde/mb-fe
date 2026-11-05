@@ -1,0 +1,21 @@
+src/components/Header.tsx(189,12): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/components/Header.tsx(190,11): error TS17002: Expected corresponding JSX closing tag for 'header'.
+src/components/Header.tsx(191,7): error TS1005: ')' expected.
+src/components/Header.tsx(267,5): error TS1128: Declaration or statement expected.
+src/components/Header.tsx(268,3): error TS1109: Expression expected.
+src/components/Header.tsx(269,1): error TS1128: Declaration or statement expected.
+src/components/PatientDemographics.tsx(144,6): error TS17008: JSX element 'div' has no corresponding closing tag.
+src/components/PatientDemographics.tsx(518,1): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/components/PatientDemographics.tsx(521,1): error TS1005: '</' expected.
+src/components/UserManagementModule.tsx(178,5): error TS2657: JSX expressions must have one parent element.
+src/components/UserManagementModule.tsx(480,12): error TS17008: JSX element 'form' has no corresponding closing tag.
+src/components/UserManagementModule.tsx(547,23): error TS17002: Expected corresponding JSX closing tag for 'div'.
+src/components/UserManagementModule.tsx(550,15): error TS1005: ')' expected.
+src/components/UserManagementModule.tsx(581,13): error TS1005: ')' expected.
+src/components/UserManagementModule.tsx(599,11): error TS1128: Declaration or statement expected.
+src/components/UserManagementModule.tsx(600,9): error TS1109: Expression expected.
+src/components/UserManagementModule.tsx(601,7): error TS1109: Expression expected.
+src/components/UserManagementModule.tsx(601,8): error TS1128: Declaration or statement expected.
+src/components/UserManagementModule.tsx(602,5): error TS1128: Declaration or statement expected.
+src/components/UserManagementModule.tsx(603,3): error TS1109: Expression expected.
+src/components/UserManagementModule.tsx(604,1): error TS1128: Declaration or statement expected.

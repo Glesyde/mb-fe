@@ -1,0 +1,134 @@
+/* ============================================================
+   Medical Lab Flag Colors — WHO / Standard EMR Color Codes
+   Change colors here to update ALL flag badges across the app.
+   ============================================================ */
+
+/* Normal — within reference range */
+.flag-normal {
+  background-color: #DCFCE7;
+  color: #16A34A;
+  border-color: #BBF7D0;
+}
+.flag-row-normal { background-color: transparent; }
+
+/* High (H) — above normal range */
+.flag-high {
+  background-color: #FEE2E2;
+  color: #DC2626;
+  border-color: #FECACA;
+}
+.flag-row-high { background-color: #FEE2E2; opacity: 0.4; }
+
+/* Critically High (HH) — dangerously high */
+.flag-critical-high {
+  background-color: #DC2626;
+  color: #FFFFFF;
+  border-color: #B91C1C;
+}
+.flag-row-critical-high { background-color: rgba(220, 38, 38, 0.08); }
+
+/* Low (L) — below normal range */
+.flag-low {
+  background-color: #FEF3C7;
+  color: #D97706;
+  border-color: #FDE68A;
+}
+.flag-row-low { background-color: rgba(254, 243, 199, 0.5); }
+
+/* Critically Low (LL) — dangerously low */
+.flag-critical-low {
+  background-color: #991B1B;
+  color: #FFFFFF;
+  border-color: #7F1D1D;
+}
+.flag-row-critical-low { background-color: rgba(153, 27, 27, 0.08); }
+
+/* Abnormal / Other (A / *) — abnormal but unspecified */
+.flag-abnormal {
+  background-color: #FEF9C3;
+  color: #CA8A04;
+  border-color: #FEF08A;
+}
+.flag-row-abnormal { background-color: rgba(254, 249, 195, 0.5); }
+
+/* Shared badge base style */
+.flag-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border-width: 1px;
+  border-style: solid;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   React Quill Custom Overrides
+   ============================================================ */
+.ql-toolbar.ql-snow {
+  border: 1px solid #e2e8f0 !important;
+  border-bottom: none !important;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  background-color: #f8fafc;
+  padding: 12px 16px !important;
+  font-family: inherit !important;
+}
+
+.ql-container.ql-snow {
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 1rem !important;
+  background-color: #f8fafc;
+  font-family: inherit !important;
+  font-size: 0.875rem !important;
+  transition: all 0.2s ease;
+}
+
+.ql-editor {
+  padding: 16px !important;
+  color: #0f172a;
+  min-height: 100px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.editor-tall .ql-editor {
+  min-height: 180px;
+}
+
+.editor-short .ql-editor {
+  min-height: 100px;
+}
+
+.ql-editor:focus {
+  outline: none;
+}
+
+/* Focus styles matching previous textareas */
+.quill:focus-within .ql-container.ql-snow {
+  border-color: #3949ab !important;
+  box-shadow: 0 0 0 4px rgba(57, 73, 171, 0.1);
+}
+
+.quill:focus-within .ql-toolbar.ql-snow {
+  border-color: #3949ab !important;
+}
+
+/* Fix overflowing toolbar buttons */
+.ql-toolbar.ql-snow .ql-formats {
+  margin-right: 8px !important;
+  margin-bottom: 4px !important;
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
