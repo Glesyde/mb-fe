@@ -312,8 +312,8 @@ const AsdPdaRepairConsentForm: React.FC<AsdPdaRepairConsentFormProps> = ({
         </div>
         <div className="text-right z-10 flex flex-col items-end gap-3">
              <div className="hidden md:block text-right">
-                <p className="text-[10px] text-[#a5b4fc] font-bold leading-tight uppercase tracking-wider">Gracespring Hospitals</p>
-                <p className="text-[10px] text-white/70">+234 705 648 2776 • admin@gracespringhospitals.com</p>
+                <p className="text-[10px] text-[#a5b4fc] font-bold leading-tight uppercase tracking-wider">Medbookie</p>
+                <p className="text-[10px] text-white/70">+234 705 648 2776 • admin@Medbookiehospitals.com</p>
              </div>
              {onPrint && (
                <button 
@@ -333,7 +333,7 @@ const AsdPdaRepairConsentForm: React.FC<AsdPdaRepairConsentFormProps> = ({
         <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden">
           <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">Patient Rights</div>
           <p className="text-sm text-amber-900 font-medium leading-relaxed italic mb-4">
-            "You (or your child's parent/guardian) have the right to make decisions about medical care and to refuse any procedure. You may withdraw consent at any time before the procedure begins. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Gracespring Hospitals Consent Policy (GSH-T6)."
+            "You (or your child's parent/guardian) have the right to make decisions about medical care and to refuse any procedure. You may withdraw consent at any time before the procedure begins. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6)."
           </p>
           <h4 className="font-black text-amber-900 uppercase text-xs mb-1">About this operation</h4>
           <p className="text-xs text-amber-900 font-medium leading-relaxed italic">
@@ -1160,7 +1160,7 @@ export default AsdPdaRepairConsentForm;
 //         <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden shadow-sm">
 //           <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">Patient Rights</div>
 //           <p className="text-xs text-amber-900 font-medium leading-relaxed italic mb-4">
-//             You (or your child's parent/guardian) have the right to make decisions about medical care and to refuse any procedure. You may withdraw consent at any time before the procedure begins. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Gracespring Hospitals Consent Policy (GSH-T6).
+//             You (or your child's parent/guardian) have the right to make decisions about medical care and to refuse any procedure. You may withdraw consent at any time before the procedure begins. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6).
 //           </p>
 //           <h4 className="font-black text-amber-900 uppercase text-xs mb-1">About this operation</h4>
 //           <p className="text-xs text-amber-900 font-medium leading-relaxed italic">

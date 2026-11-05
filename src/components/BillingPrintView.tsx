@@ -134,7 +134,7 @@ const BillingPrintView: React.FC = () => {
 
             {/* Footer Notes */}
             <div className="mt-8 pt-8 border-t border-slate-200 text-center">
-              <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Thank you for choosing Gracespring Hospital</p>
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Thank you for choosing Medbookie</p>
               <p className="text-[10px] text-slate-400">Please retain this document for your records.</p>
             </div>
           </div>

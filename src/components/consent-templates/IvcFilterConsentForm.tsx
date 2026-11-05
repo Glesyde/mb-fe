@@ -268,7 +268,7 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
         <div className="z-10">
           <div className="flex items-center gap-4 mb-2">
             <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
-              <img src="/assets/login-bg.jpeg" alt="Gracespring Hospitals" className="w-10 h-10 object-contain" />
+              <img src="/assets/login-bg.jpeg" alt="Medbookie" className="w-10 h-10 object-contain" />
             </div>
             <div>
               <h1 className="text-3xl font-black tracking-tighter">Procedure Consent Form</h1>
@@ -279,8 +279,8 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
         </div>
         <div className="text-right z-10 flex flex-col items-end gap-3">
           <div className="hidden md:block text-right">
-            <p className="text-[10px] text-brand-active font-bold leading-tight uppercase tracking-wider">Gracespring Hospitals</p>
-            <p className="text-[10px] text-brand-active">+234 705 648 2776 • admin@gracespringhospitals.com</p>
+            <p className="text-[10px] text-brand-active font-bold leading-tight uppercase tracking-wider">Medbookie</p>
+            <p className="text-[10px] text-brand-active">+234 705 648 2776 • admin@Medbookiehospitals.com</p>
           </div>
           <button 
             onClick={onPrint}
@@ -298,7 +298,7 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
         <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden">
           <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">Patient Rights</div>
           <p className="text-sm text-amber-900 font-medium leading-relaxed italic">
-            "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Gracespring Hospitals Consent Policy (GSH-T6)."
+            "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6)."
           </p>
         </div>
 
@@ -413,7 +413,7 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
             <p className="text-sm text-slate-700 leading-relaxed font-medium">
               An Inferior Vena Cava (IVC) filter is a small, cage-like medical device made of metal (usually nitinol or stainless steel) that is inserted into the inferior vena cava — the large vein that carries blood from the lower body back to the heart. Its purpose is to catch blood clots (thrombus) that break away from the deep veins of the legs or pelvis before they can travel to the lungs and cause a potentially fatal pulmonary embolism (PE).
             </p>
-            <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">How is it performed at Gracespring Hospitals?</h4>
+            <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">How is it performed at Medbookie?</h4>
             <p className="text-sm text-slate-700 leading-relaxed font-medium">
               The procedure is performed using C-arm fluoroscopic (real-time X-ray) guidance in the Interventional Radiology / Vascular Suite under local anaesthesia with or without conscious sedation. You will be awake or lightly sedated and will not require a general anaesthetic for this procedure. The procedure typically takes 30–60 minutes.
             </p>
@@ -892,7 +892,7 @@ export default IvcFilterConsentForm;
 //         <div className="z-10">
 //           <div className="flex items-center gap-4 mb-2">
 //             <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
-//               <img src="/assets/login-bg.jpeg" alt="Gracespring Hospitals" className="w-10 h-10 object-contain" />
+//               <img src="/assets/login-bg.jpeg" alt="Medbookie" className="w-10 h-10 object-contain" />
 //             </div>
 //             <div>
 //               <h1 className="text-3xl font-black tracking-tighter">Procedure Consent Form</h1>
@@ -903,8 +903,8 @@ export default IvcFilterConsentForm;
 //         </div>
 //         <div className="text-right z-10 flex flex-col items-end gap-3">
 //           <div className="hidden md:block text-right">
-//             <p className="text-[10px] text-brand-active font-bold leading-tight uppercase tracking-wider">Gracespring Hospitals</p>
-//             <p className="text-[10px] text-brand-active">+234 705 648 2776 • admin@gracespringhospitals.com</p>
+//             <p className="text-[10px] text-brand-active font-bold leading-tight uppercase tracking-wider">Medbookie</p>
+//             <p className="text-[10px] text-brand-active">+234 705 648 2776 • admin@Medbookiehospitals.com</p>
 //           </div>
 //           <button 
 //             onClick={onPrint}
@@ -922,7 +922,7 @@ export default IvcFilterConsentForm;
 //         <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden">
 //           <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">Patient Rights</div>
 //           <p className="text-sm text-amber-900 font-medium leading-relaxed italic">
-//             "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Gracespring Hospitals Consent Policy (GSH-T6)."
+//             "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6)."
 //           </p>
 //         </div>
 
@@ -1037,7 +1037,7 @@ export default IvcFilterConsentForm;
 //             <p className="text-sm text-slate-700 leading-relaxed font-medium">
 //               An Inferior Vena Cava (IVC) filter is a small, cage-like medical device made of metal (usually nitinol or stainless steel) that is inserted into the inferior vena cava — the large vein that carries blood from the lower body back to the heart. Its purpose is to catch blood clots (thrombus) that break away from the deep veins of the legs or pelvis before they can travel to the lungs and cause a potentially fatal pulmonary embolism (PE).
 //             </p>
-//             <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">How is it performed at Gracespring Hospitals?</h4>
+//             <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">How is it performed at Medbookie?</h4>
 //             <p className="text-sm text-slate-700 leading-relaxed font-medium">
 //               The procedure is performed using C-arm fluoroscopic (real-time X-ray) guidance in the Interventional Radiology / Vascular Suite under local anaesthesia with or without conscious sedation. You will be awake or lightly sedated and will not require a general anaesthetic for this procedure. The procedure typically takes 30–60 minutes.
 //             </p>
@@ -1491,7 +1491,7 @@ export default IvcFilterConsentForm;
 //         <div className="z-10">
 //           <div className="flex items-center gap-4 mb-2">
 //             <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
-//               <img src="/assets/login-bg.jpeg" alt="Gracespring Hospitals" className="w-10 h-10 object-contain" />
+//               <img src="/assets/login-bg.jpeg" alt="Medbookie" className="w-10 h-10 object-contain" />
 //             </div>
 //             <div>
 //               <h1 className="text-3xl font-black tracking-tighter">Procedure Consent Form</h1>
@@ -1502,8 +1502,8 @@ export default IvcFilterConsentForm;
 //         </div>
 //         <div className="text-right z-10 flex flex-col items-end gap-3">
 //           <div className="hidden md:block text-right">
-//             <p className="text-[10px] text-brand-active font-bold leading-tight uppercase tracking-wider">Gracespring Hospitals</p>
-//             <p className="text-[10px] text-brand-active">+234 705 648 2776 • admin@gracespringhospitals.com</p>
+//             <p className="text-[10px] text-brand-active font-bold leading-tight uppercase tracking-wider">Medbookie</p>
+//             <p className="text-[10px] text-brand-active">+234 705 648 2776 • admin@Medbookiehospitals.com</p>
 //           </div>
 //           <button 
 //             onClick={onPrint}
@@ -1521,7 +1521,7 @@ export default IvcFilterConsentForm;
 //         <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden">
 //           <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">Patient Rights</div>
 //           <p className="text-sm text-amber-900 font-medium leading-relaxed italic">
-//             "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Gracespring Hospitals Consent Policy (GSH-T6)."
+//             "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6)."
 //           </p>
 //         </div>
 
@@ -1636,7 +1636,7 @@ export default IvcFilterConsentForm;
 //             <p className="text-sm text-slate-700 leading-relaxed font-medium">
 //               An Inferior Vena Cava (IVC) filter is a small, cage-like medical device made of metal (usually nitinol or stainless steel) that is inserted into the inferior vena cava — the large vein that carries blood from the lower body back to the heart. Its purpose is to catch blood clots (thrombus) that break away from the deep veins of the legs or pelvis before they can travel to the lungs and cause a potentially fatal pulmonary embolism (PE).
 //             </p>
-//             <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">How is it performed at Gracespring Hospitals?</h4>
+//             <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">How is it performed at Medbookie?</h4>
 //             <p className="text-sm text-slate-700 leading-relaxed font-medium">
 //               The procedure is performed using C-arm fluoroscopic (real-time X-ray) guidance in the Interventional Radiology / Vascular Suite under local anaesthesia with or without conscious sedation. You will be awake or lightly sedated and will not require a general anaesthetic for this procedure. The procedure typically takes 30–60 minutes.
 //             </p>

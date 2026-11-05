@@ -570,7 +570,7 @@ const RenalDialysisTreatmentChartModal: React.FC<RenalDialysisModalProps> = ({ i
         </div>
 
         <div className="bg-slate-100 text-[10px] text-slate-500 p-2 text-center shrink-0 border-t border-slate-300">
-          GSH-REN-003 • Controlled clinical record – file in patient notes • Gracespring Hospitals &nbsp;|&nbsp; UF rate target &lt; 13 mL/kg/h • spKt/V ≥ 1.2 • URR ≥ 65% • HDF conv. vol 21–25 L
+          GSH-REN-003 • Controlled clinical record – file in patient notes • Medbookie &nbsp;|&nbsp; UF rate target &lt; 13 mL/kg/h • spKt/V ≥ 1.2 • URR ≥ 65% • HDF conv. vol 21–25 L
         </div>
       </div>
     </div>
@@ -1136,7 +1136,7 @@ export default RenalDialysisTreatmentChartModal;
 //         </div>
 
 //         <div className="bg-slate-100 text-[10px] text-slate-500 p-2 text-center shrink-0 border-t border-slate-300">
-//           GSH-REN-003 • Controlled clinical record – file in patient notes • Gracespring Hospitals &nbsp;|&nbsp; UF rate target &lt; 13 mL/kg/h • spKt/V ≥ 1.2 • URR ≥ 65% • HDF conv. vol 21–25 L
+//           GSH-REN-003 • Controlled clinical record – file in patient notes • Medbookie &nbsp;|&nbsp; UF rate target &lt; 13 mL/kg/h • spKt/V ≥ 1.2 • URR ≥ 65% • HDF conv. vol 21–25 L
 //         </div>
 //       </div>
 //     </div>

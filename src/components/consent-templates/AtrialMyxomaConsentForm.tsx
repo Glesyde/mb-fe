@@ -295,7 +295,7 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
         <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden shadow-sm">
           <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">Patient Rights</div>
           <p className="text-xs text-amber-900 font-medium leading-relaxed italic mb-4">
-            You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Gracespring Hospitals Consent Policy (GSH-T6).
+            You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6).
           </p>
           <h4 className="font-black text-amber-900 uppercase text-xs mb-1">About this operation</h4>
           <p className="text-xs text-amber-900 font-medium leading-relaxed italic">
@@ -916,7 +916,7 @@ export default AtrialMyxomaConsentForm;
 //         <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden shadow-sm">
 //           <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">Patient Rights</div>
 //           <p className="text-xs text-amber-900 font-medium leading-relaxed italic mb-4">
-//             You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Gracespring Hospitals Consent Policy (GSH-T6).
+//             You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6).
 //           </p>
 //           <h4 className="font-black text-amber-900 uppercase text-xs mb-1">About this operation</h4>
 //           <p className="text-xs text-amber-900 font-medium leading-relaxed italic">

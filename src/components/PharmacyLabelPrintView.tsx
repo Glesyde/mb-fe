@@ -235,7 +235,7 @@ const PharmacyLabelPrintView: React.FC = () => {
             Patient: <span className="font-black">{patientName}</span>
           </div>
           <div className="text-[5.5pt] font-semibold text-black leading-tight text-left">
-            {dispDate} &bull; Gracespring Hospitals Ltd
+            {dispDate} &bull; Medbookie Ltd
           </div>
         </div>
 

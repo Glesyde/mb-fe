@@ -125,13 +125,13 @@ const GeneralConsentPrintTemplate: React.FC<GeneralConsentPrintTemplateProps> = 
 
         {/* Address Bar */}
         <div className="w-full text-center py-2 border-b border-slate-200 mb-4">
-          <p className="text-[8px] text-slate-500 font-medium italic">Head Office: Gracespring Hospitals Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@gracespringhospital.com</p>
+          <p className="text-[8px] text-slate-500 font-medium italic">Head Office: Medbookie Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@Medbookiehospital.com</p>
         </div>
 
         {/* Patient Rights */}
         <div className="mb-4 p-3 rounded bg-amber-50 border border-amber-200">
           <p className="text-[9px] leading-relaxed text-amber-800 text-justify">
-            <span className="font-black">Patient Rights:</span> You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the <span className="font-black">National Health Act 2014 (Nigeria)</span> and Gracespring Hospitals Consent Policy (GSH-T6).
+            <span className="font-black">Patient Rights:</span> You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the <span className="font-black">National Health Act 2014 (Nigeria)</span> and Medbookie Consent Policy (GSH-T6).
           </p>
         </div>
 
@@ -271,7 +271,7 @@ const GeneralConsentPrintTemplate: React.FC<GeneralConsentPrintTemplateProps> = 
 
         {/* Footer */}
         <div className="mt-6 pt-4 border-t border-slate-200 flex justify-between items-center text-[8px] text-slate-400 font-bold uppercase tracking-widest">
-          <span>Gracespring Hospitals - Clinical Documentation</span>
+          <span>Medbookie - Clinical Documentation</span>
           <span>Form GSH-CONSENT-GEN-021 • v1.0</span>
         </div>
       </div>

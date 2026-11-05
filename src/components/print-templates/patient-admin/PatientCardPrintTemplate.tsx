@@ -74,7 +74,7 @@ const PatientCardPrintTemplate: React.FC = () => {
                     <img src="/assets/login-bg.jpeg" alt="Logo" className="w-full h-full object-contain" />
                 </div>
                 <div>
-                   <h2 className="text-white font-black text-[11px] leading-none uppercase tracking-tighter">Gracespring</h2>
+                   <h2 className="text-white font-black text-[11px] leading-none uppercase tracking-tighter">Medbookie</h2>
                    <p className="text-brand-active text-[7px] font-black uppercase tracking-[0.15em] mt-0.5">Medical Center</p>
                 </div>
              </div>
@@ -165,7 +165,7 @@ const PatientCardPrintTemplate: React.FC = () => {
 
               <div className="space-y-1.5">
                  <p className="text-[6px] text-white/40 leading-tight uppercase font-medium tracking-tight">
-                    This document is property of Gracespring Hospital. If found, please return to any hospital branch or call +234 705 648 2776. Presentation of this card is mandatory for all clinical encounters.
+                    This document is property of Medbookie. If found, please return to any hospital branch or call +234 705 648 2776. Presentation of this card is mandatory for all clinical encounters.
                  </p>
                  <p className="text-[6px] text-brand-active/40 font-black uppercase tracking-widest italic pt-1">Medical Facility Utility Only • Rev 2.1</p>
               </div>

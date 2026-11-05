@@ -97,10 +97,10 @@ const PrescriptionPrintTemplate: React.FC = () => {
         <div className="w-full flex items-center justify-between border-b-2 border-slate-800 pb-4 mb-4">
           <div className="flex items-center gap-3">
             {/* Make sure the logo path is correct */}
-            <img src="/assets/login-bg.jpeg" alt="Gracespring Logo" style={{ width: '25mm', height: 'auto', objectFit: 'contain' }} />
+            <img src="/assets/login-bg.jpeg" alt="Medbookie Logo" style={{ width: '25mm', height: 'auto', objectFit: 'contain' }} />
             <div>
               <h1 className="text-slate-900 font-black leading-none tracking-tight uppercase" style={{ fontSize: '14pt' }}>
-                Gracespring Hospitals
+                Medbookie
               </h1>
               <p className="text-slate-500 mt-1" style={{ fontSize: '7pt', lineHeight: 1.2 }}>
                 Plot 3, Block 32, Ajayi Apata Estate<br/>
@@ -218,7 +218,7 @@ const PrescriptionPrintTemplate: React.FC = () => {
           
           <div className="text-center mt-6 border-t border-slate-200 pt-2">
              <p className="text-[7px] text-slate-400 font-bold uppercase tracking-widest">
-               Electronically generated via Gracespring EMR • Encounter: {encounterNumber}
+               Electronically generated via Medbookie EMR • Encounter: {encounterNumber}
              </p>
           </div>
         </div>
@@ -328,10 +328,10 @@ export default PrescriptionPrintTemplate;
 //         {/* Header Block */}
 //         <div className="w-full flex items-center justify-between border-b-2 border-slate-800 pb-4 mb-4">
 //           <div className="flex items-center gap-3">
-//             <img src="/assets/login-bg.jpeg" alt="Gracespring Logo" style={{ width: '25mm', height: 'auto', objectFit: 'contain' }} />
+//             <img src="/assets/login-bg.jpeg" alt="Medbookie Logo" style={{ width: '25mm', height: 'auto', objectFit: 'contain' }} />
 //             <div>
 //               <h1 className="text-slate-900 font-black leading-none tracking-tight uppercase" style={{ fontSize: '14pt' }}>
-//                 Gracespring Hospitals
+//                 Medbookie
 //               </h1>
 //               <p className="text-slate-500 mt-1" style={{ fontSize: '7pt', lineHeight: 1.2 }}>
 //                 Plot 3, Block 32, Ajayi Apata Estate<br/>
@@ -445,7 +445,7 @@ export default PrescriptionPrintTemplate;
           
 //           <div className="text-center mt-6 border-t border-slate-200 pt-2">
 //              <p className="text-[7px] text-slate-400 font-bold uppercase tracking-widest">
-//                Electronically generated via Gracespring EMR • Encounter: {encounterNumber}
+//                Electronically generated via Medbookie EMR • Encounter: {encounterNumber}
 //              </p>
 //           </div>
 //         </div>

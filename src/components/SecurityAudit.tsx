@@ -165,7 +165,7 @@ const SecurityAudit: React.FC = () => {
               </h2>
               <p className="text-slate-400 font-medium max-w-md">
                 Immutable logging of all sensitive clinical and financial
-                transactions across the Gracespring Hospital HIS network.
+                transactions across the Medbookie HIS network.
               </p>
             </div>
             <div className="flex items-center gap-10">

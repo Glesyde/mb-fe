@@ -338,7 +338,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
         <div className="z-10">
           <div className="flex items-center gap-4 mb-2">
             <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
-              <img src="/assets/login-bg.jpeg" alt="Gracespring Hospitals" className="w-10 h-10 object-contain" />
+              <img src="/assets/login-bg.jpeg" alt="Medbookie" className="w-10 h-10 object-contain" />
             </div>
             <div>
               <h1 className="text-3xl font-black tracking-tighter">Procedure Consent Form</h1>
@@ -349,8 +349,8 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
         </div>
         <div className="text-right z-10 flex flex-col items-end gap-3">
           <div className="hidden md:block text-right">
-            <p className="text-[10px] text-[#93c5fd] font-bold leading-tight uppercase tracking-wider">Gracespring Hospitals</p>
-            <p className="text-[10px] text-[#93c5fd]">+234 705 648 2776 • admin@gracespringhospitals.com</p>
+            <p className="text-[10px] text-[#93c5fd] font-bold leading-tight uppercase tracking-wider">Medbookie</p>
+            <p className="text-[10px] text-[#93c5fd]">+234 705 648 2776 • admin@Medbookiehospitals.com</p>
           </div>
           <button 
             onClick={onPrint}
@@ -369,7 +369,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
           <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden">
             <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">Patient Rights</div>
             <p className="text-sm text-amber-900 font-medium leading-relaxed italic">
-              "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Gracespring Hospitals Consent Policy (GSH-T6)."
+              "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6)."
             </p>
           </div>
         </section>
@@ -506,7 +506,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
              <p className="text-sm text-slate-700 font-medium leading-relaxed">
                Through a chest drain, local anaesthetic is first instilled into the pleural space to reduce pain, followed by the sclerosing agent mixed with saline. This deliberately irritates and inflames the two layers of the lung lining (pleura) so that they stick together and seal the space, stopping fluid or air from re-accumulating.
              </p>
-             <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">HOW IT IS PERFORMED AT GRACESPRING HOSPITALS</h4>
+             <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">HOW IT IS PERFORMED AT Medbookie</h4>
              <p className="text-sm text-slate-700 font-medium leading-relaxed">
                A chest drain is confirmed to be correctly positioned (or is inserted first), and a chest X-ray confirms the lung has re-expanded. Local anaesthetic (e.g. lidocaine) is instilled through the drain into the pleural space to reduce discomfort. The sclerosing agent mixed with saline is instilled through the drain. The drain is clamped for a period and the patient may be repositioned to spread the agent across the pleural surfaces. The drain is unclamped and left on drainage/suction; it is removed once output is low and a chest X-ray is satisfactory.
              </p>
@@ -1600,7 +1600,7 @@ export default ChemicalPleurodesisConsentForm;
 //         <div className="z-10">
 //           <div className="flex items-center gap-4 mb-2">
 //             <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
-//               <img src="/assets/login-bg.jpeg" alt="Gracespring Hospitals" className="w-10 h-10 object-contain" />
+//               <img src="/assets/login-bg.jpeg" alt="Medbookie" className="w-10 h-10 object-contain" />
 //             </div>
 //             <div>
 //               <h1 className="text-3xl font-black tracking-tighter">Procedure Consent Form</h1>
@@ -1611,8 +1611,8 @@ export default ChemicalPleurodesisConsentForm;
 //         </div>
 //         <div className="text-right z-10 flex flex-col items-end gap-3">
 //           <div className="hidden md:block text-right">
-//             <p className="text-[10px] text-[#93c5fd] font-bold leading-tight uppercase tracking-wider">Gracespring Hospitals</p>
-//             <p className="text-[10px] text-[#93c5fd]">+234 705 648 2776 • admin@gracespringhospitals.com</p>
+//             <p className="text-[10px] text-[#93c5fd] font-bold leading-tight uppercase tracking-wider">Medbookie</p>
+//             <p className="text-[10px] text-[#93c5fd]">+234 705 648 2776 • admin@Medbookiehospitals.com</p>
 //           </div>
 //           <button 
 //             onClick={onPrint}
@@ -1631,7 +1631,7 @@ export default ChemicalPleurodesisConsentForm;
 //           <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden">
 //             <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">Patient Rights</div>
 //             <p className="text-sm text-amber-900 font-medium leading-relaxed italic">
-//               "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Gracespring Hospitals Consent Policy (GSH-T6)."
+//               "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6)."
 //             </p>
 //           </div>
 //         </section>
@@ -1768,7 +1768,7 @@ export default ChemicalPleurodesisConsentForm;
 //              <p className="text-sm text-slate-700 font-medium leading-relaxed">
 //                Through a chest drain, local anaesthetic is first instilled into the pleural space to reduce pain, followed by the sclerosing agent mixed with saline. This deliberately irritates and inflames the two layers of the lung lining (pleura) so that they stick together and seal the space, stopping fluid or air from re-accumulating.
 //              </p>
-//              <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">HOW IT IS PERFORMED AT GRACESPRING HOSPITALS</h4>
+//              <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">HOW IT IS PERFORMED AT Medbookie</h4>
 //              <p className="text-sm text-slate-700 font-medium leading-relaxed">
 //                A chest drain is confirmed to be correctly positioned (or is inserted first), and a chest X-ray confirms the lung has re-expanded. Local anaesthetic (e.g. lidocaine) is instilled through the drain into the pleural space to reduce discomfort. The sclerosing agent mixed with saline is instilled through the drain. The drain is clamped for a period and the patient may be repositioned to spread the agent across the pleural surfaces. The drain is unclamped and left on drainage/suction; it is removed once output is low and a chest X-ray is satisfactory.
 //              </p>
@@ -2880,7 +2880,7 @@ export default ChemicalPleurodesisConsentForm;
 //         <div className="z-10">
 //           <div className="flex items-center gap-4 mb-2">
 //             <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
-//               <img src="/assets/login-bg.jpeg" alt="Gracespring Hospitals" className="w-10 h-10 object-contain" />
+//               <img src="/assets/login-bg.jpeg" alt="Medbookie" className="w-10 h-10 object-contain" />
 //             </div>
 //             <div>
 //               <h1 className="text-3xl font-black tracking-tighter">Procedure Consent Form</h1>
@@ -2891,8 +2891,8 @@ export default ChemicalPleurodesisConsentForm;
 //         </div>
 //         <div className="text-right z-10 flex flex-col items-end gap-3">
 //           <div className="hidden md:block text-right">
-//             <p className="text-[10px] text-[#93c5fd] font-bold leading-tight uppercase tracking-wider">Gracespring Hospitals</p>
-//             <p className="text-[10px] text-[#93c5fd]">+234 705 648 2776 • admin@gracespringhospitals.com</p>
+//             <p className="text-[10px] text-[#93c5fd] font-bold leading-tight uppercase tracking-wider">Medbookie</p>
+//             <p className="text-[10px] text-[#93c5fd]">+234 705 648 2776 • admin@Medbookiehospitals.com</p>
 //           </div>
 //           <button 
 //             onClick={onPrint}
@@ -2911,7 +2911,7 @@ export default ChemicalPleurodesisConsentForm;
 //           <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden">
 //             <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">Patient Rights</div>
 //             <p className="text-sm text-amber-900 font-medium leading-relaxed italic">
-//               "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Gracespring Hospitals Consent Policy (GSH-T6)."
+//               "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6)."
 //             </p>
 //           </div>
 //         </section>
@@ -3048,7 +3048,7 @@ export default ChemicalPleurodesisConsentForm;
 //              <p className="text-sm text-slate-700 font-medium leading-relaxed">
 //                Through a chest drain, local anaesthetic is first instilled into the pleural space to reduce pain, followed by the sclerosing agent mixed with saline. This deliberately irritates and inflames the two layers of the lung lining (pleura) so that they stick together and seal the space, stopping fluid or air from re-accumulating.
 //              </p>
-//              <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">HOW IT IS PERFORMED AT GRACESPRING HOSPITALS</h4>
+//              <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">HOW IT IS PERFORMED AT Medbookie</h4>
 //              <p className="text-sm text-slate-700 font-medium leading-relaxed">
 //                A chest drain is confirmed to be correctly positioned (or is inserted first), and a chest X-ray confirms the lung has re-expanded. Local anaesthetic (e.g. lidocaine) is instilled through the drain into the pleural space to reduce discomfort. The sclerosing agent mixed with saline is instilled through the drain. The drain is clamped for a period and the patient may be repositioned to spread the agent across the pleural surfaces. The drain is unclamped and left on drainage/suction; it is removed once output is low and a chest X-ray is satisfactory.
 //              </p>
@@ -4087,7 +4087,7 @@ export default ChemicalPleurodesisConsentForm;
 //         <div className="z-10">
 //           <div className="flex items-center gap-4 mb-2">
 //             <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
-//               <img src="/assets/login-bg.jpeg" alt="Gracespring Hospitals" className="w-10 h-10 object-contain" />
+//               <img src="/assets/login-bg.jpeg" alt="Medbookie" className="w-10 h-10 object-contain" />
 //             </div>
 //             <div>
 //               <h1 className="text-3xl font-black tracking-tighter">Procedure Consent Form</h1>
@@ -4098,8 +4098,8 @@ export default ChemicalPleurodesisConsentForm;
 //         </div>
 //         <div className="text-right z-10 flex flex-col items-end gap-3">
 //           <div className="hidden md:block text-right">
-//             <p className="text-[10px] text-[#93c5fd] font-bold leading-tight uppercase tracking-wider">Gracespring Hospitals</p>
-//             <p className="text-[10px] text-[#93c5fd]">+234 705 648 2776 • admin@gracespringhospitals.com</p>
+//             <p className="text-[10px] text-[#93c5fd] font-bold leading-tight uppercase tracking-wider">Medbookie</p>
+//             <p className="text-[10px] text-[#93c5fd]">+234 705 648 2776 • admin@Medbookiehospitals.com</p>
 //           </div>
 //           <button 
 //             onClick={onPrint}
@@ -4118,7 +4118,7 @@ export default ChemicalPleurodesisConsentForm;
 //           <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden">
 //             <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">Patient Rights</div>
 //             <p className="text-sm text-amber-900 font-medium leading-relaxed italic">
-//               "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Gracespring Hospitals Consent Policy (GSH-T6)."
+//               "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6)."
 //             </p>
 //           </div>
 //         </section>
@@ -4255,7 +4255,7 @@ export default ChemicalPleurodesisConsentForm;
 //              <p className="text-sm text-slate-700 font-medium leading-relaxed">
 //                Through a chest drain, local anaesthetic is first instilled into the pleural space to reduce pain, followed by the sclerosing agent mixed with saline. This deliberately irritates and inflames the two layers of the lung lining (pleura) so that they stick together and seal the space, stopping fluid or air from re-accumulating.
 //              </p>
-//              <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">HOW IT IS PERFORMED AT GRACESPRING HOSPITALS</h4>
+//              <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">HOW IT IS PERFORMED AT Medbookie</h4>
 //              <p className="text-sm text-slate-700 font-medium leading-relaxed">
 //                A chest drain is confirmed to be correctly positioned (or is inserted first), and a chest X-ray confirms the lung has re-expanded. Local anaesthetic (e.g. lidocaine) is instilled through the drain into the pleural space to reduce discomfort. The sclerosing agent mixed with saline is instilled through the drain. The drain is clamped for a period and the patient may be repositioned to spread the agent across the pleural surfaces. The drain is unclamped and left on drainage/suction; it is removed once output is low and a chest X-ray is satisfactory.
 //              </p>

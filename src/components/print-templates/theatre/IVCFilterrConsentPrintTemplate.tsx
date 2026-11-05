@@ -145,14 +145,14 @@ const IVCFilterConsentPrintTemplate: React.FC<IVCFilterConsentPrintTemplateProps
 
         {/* Address Bar */}
         <div className="w-full text-center py-2 border-b border-slate-200 mb-6">
-          <p className="text-[8px] text-slate-500 font-medium italic">Head Office: Gracespring Hospitals Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria Lagos State, Nigeria. &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@gracespringhospital.com</p>
+          <p className="text-[8px] text-slate-500 font-medium italic">Head Office: Medbookie Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria Lagos State, Nigeria. &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@Medbookiehospital.com</p>
         </div>
 
         {/* Patient Rights */}
         <div className="border border-gray-300 p-4 mb-6 bg-brand-active/50 rounded-sm italic">
           <p className="text-[10px] font-bold text-gray-700 uppercase tracking-wide mb-1">Patient Rights</p>
           <p className="text-[9px] text-gray-600 leading-relaxed">
-            You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Gracespring Hospitals Consent Policy (GSH-T6).
+            You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6).
           </p>
         </div>
 
@@ -766,10 +766,10 @@ const IVCFilterConsentPrintTemplate: React.FC<IVCFilterConsentPrintTemplateProps
         {/* Footer */}
         <div className="text-center border-t border-gray-300 pt-4 mt-8">
           <p className="text-[8px] text-gray-500">
-            Gracespring Hospitals • Gracespring Hospitals Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria Lagos State, Nigeria.
+            Medbookie • Medbookie Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria Lagos State, Nigeria.
           </p>
           <p className="text-[8px] text-gray-500">
-            +234 705 648 2776 • info@gracespringhospital.com
+            +234 705 648 2776 • info@Medbookiehospital.com
           </p>
           <p className="text-[8px] text-gray-400 mt-2">
             Document: GSH-T6 IVC Filter Consent Form • Version 1.0 • {new Date().toLocaleDateString()}

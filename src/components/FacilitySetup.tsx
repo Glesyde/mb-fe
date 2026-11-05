@@ -25,7 +25,7 @@ const FacilitySetup: React.FC = () => {
           <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Hospital Legal Name</label>
           <div className="relative group">
             <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-primary transition-colors" size={18} />
-            <input type="text" defaultValue="Gracespring Specialist Hospital" className="w-full pl-11 pr-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 outline-none focus:bg-white focus:ring-8 focus:ring-brand-active0/5 focus:border-brand-active0 transition-all" />
+            <input type="text" defaultValue="Medbookie Specialist Hospital" className="w-full pl-11 pr-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 outline-none focus:bg-white focus:ring-8 focus:ring-brand-active0/5 focus:border-brand-active0 transition-all" />
           </div>
         </div>
 
@@ -33,7 +33,7 @@ const FacilitySetup: React.FC = () => {
           <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Public Enquiry Email</label>
           <div className="relative group">
             <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-primary transition-colors" size={18} />
-            <input type="email" defaultValue="admin@Gracespring.his" className="w-full pl-11 pr-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 outline-none focus:bg-white focus:ring-8 focus:ring-brand-active0/5 focus:border-brand-active0 transition-all" />
+            <input type="email" defaultValue="admin@Medbookie.his" className="w-full pl-11 pr-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 outline-none focus:bg-white focus:ring-8 focus:ring-brand-active0/5 focus:border-brand-active0 transition-all" />
           </div>
         </div>
 
@@ -49,7 +49,7 @@ const FacilitySetup: React.FC = () => {
           <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Official Website</label>
           <div className="relative group">
             <Globe className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-primary transition-colors" size={18} />
-            <input type="text" defaultValue="www.Gracespring-hospital.com" className="w-full pl-11 pr-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 outline-none focus:bg-white focus:ring-8 focus:ring-brand-active0/5 focus:border-brand-active0 transition-all" />
+            <input type="text" defaultValue="www.Medbookie-hospital.com" className="w-full pl-11 pr-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 outline-none focus:bg-white focus:ring-8 focus:ring-brand-active0/5 focus:border-brand-active0 transition-all" />
           </div>
         </div>
       </div>

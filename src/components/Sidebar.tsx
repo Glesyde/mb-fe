@@ -401,7 +401,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             Ver 0.0.3 | Electronic Hospitals Record
           </p>
           <p className="text-[7px] text-gray-500">
-            © 2026 Gracespring Hospitals Limited
+            © 2026 Medbookie Limited
           </p>
         </div>
       )}

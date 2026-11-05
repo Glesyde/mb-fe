@@ -386,12 +386,12 @@ const IPDBillingPrintTemplate: React.FC = () => {
 
           {/* Hospital Address and Document Meta */}
           <div className="border-t-2 border-slate-200 pt-4 text-center">
-            <h4 className="font-bold text-slate-800 text-[11px] uppercase tracking-widest mb-1">Gracespring Hospitals Limited</h4>
+            <h4 className="font-bold text-slate-800 text-[11px] uppercase tracking-widest mb-1">Medbookie Limited</h4>
             <p className="text-[10px] text-slate-500">
               Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos
             </p>
             <p className="text-[10px] text-slate-500 mt-0.5">
-              +234 705 648 2776 &nbsp;|&nbsp; finance@gracespringhospital.com
+              +234 705 648 2776 &nbsp;|&nbsp; finance@Medbookiehospital.com
             </p>
             
             <div className="flex justify-between items-center text-[9px] text-slate-400 mt-4 px-4">
@@ -538,7 +538,7 @@ export default IPDBillingPrintTemplate;
 //         <div className="w-full bg-[#3B309A] flex items-center" style={{ padding: '5mm 6mm', minHeight: '22mm' }}>
 //           {/* Logo — larger */}
 //           <div className="flex items-center justify-center border-r-[1.5px] border-[#4c3fbf]" style={{ width: '44mm', paddingRight: '5mm' }}>
-//             <img src="/assets/login-bg.jpeg" alt="Gracespring Logo" style={{ width: '40mm', height: 'auto', objectFit: 'contain' }} />
+//             <img src="/assets/login-bg.jpeg" alt="Medbookie Logo" style={{ width: '40mm', height: 'auto', objectFit: 'contain' }} />
 //           </div>
 //           <div className="flex flex-col justify-center" style={{ paddingLeft: '6mm' }}>
 //             <h1 className="text-white font-extrabold leading-none tracking-tight" style={{ fontSize: '20pt', marginBottom: '3px' }}>
@@ -553,7 +553,7 @@ export default IPDBillingPrintTemplate;
 //         {/* Address bar */}
 //         <div className="w-full text-center border-b border-slate-200" style={{ padding: '3px 0 4px' }}>
 //           <p style={{ fontSize: '6.5pt', color: '#94a3b8' }}>
-//             Head Office: Gracespring Hospitals Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@gracespringhospital.com
+//             Head Office: Medbookie Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@Medbookiehospital.com
 //           </p>
 //         </div>
 
@@ -922,7 +922,7 @@ export default IPDBillingPrintTemplate;
 //         <div className="w-full bg-[#3B309A] flex items-center" style={{ padding: '5mm 6mm', minHeight: '22mm' }}>
 //           {/* Logo — larger */}
 //           <div className="flex items-center justify-center border-r-[1.5px] border-[#4c3fbf]" style={{paddingRight: '5mm' }}>
-//             <img src="/assets/logo-nobg.png" alt="Gracespring Logo" style={{ width: '50mm', height: 'auto', objectFit: 'contain' }} />
+//             <img src="/assets/logo-nobg.png" alt="Medbookie Logo" style={{ width: '50mm', height: 'auto', objectFit: 'contain' }} />
 //           </div>
 //           <div className="flex flex-col justify-center" style={{ paddingLeft: '6mm' }}>
 //             <h1 className="text-white font-extrabold leading-none tracking-tight" style={{ fontSize: '20pt', marginBottom: '3px' }}>
@@ -937,7 +937,7 @@ export default IPDBillingPrintTemplate;
 //         {/* Address bar */}
 //         <div className="w-full text-center border-b border-slate-200" style={{ padding: '3px 0 4px' }}>
 //           <p style={{ fontSize: '6.5pt', color: '#94a3b8' }}>
-//             Head Office: Gracespring Hospitals Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; finance@gracespringhospital.com
+//             Head Office: Medbookie Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; finance@Medbookiehospital.com
 //           </p>
 //         </div>
 
@@ -1319,10 +1319,10 @@ export default IPDBillingPrintTemplate;
 //           <div className="flex items-center gap-4">
 //             <img src="/assets/logo-nobg.png" alt="Hospital Logo" className="w-16 h-16 object-contain" />
 //             <div>
-//               <h1 className="text-xl font-black tracking-tight text-slate-900 uppercase">Gracespring Hospitals</h1>
+//               <h1 className="text-xl font-black tracking-tight text-slate-900 uppercase">Medbookie</h1>
 //               <p className="text-xs text-slate-500 mt-1 max-w-[280px] leading-relaxed">
 //                 Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria<br/>
-//                 +234 705 648 2776 • finance@gracespringhospital.com
+//                 +234 705 648 2776 • finance@Medbookiehospital.com
 //               </p>
 //             </div>
 //           </div>
@@ -1634,7 +1634,7 @@ export default IPDBillingPrintTemplate;
 //         <div className="w-full bg-[#3B309A] flex items-center" style={{ padding: '5mm 6mm', minHeight: '22mm' }}>
 //           {/* Logo — larger */}
 //           <div className="flex items-center justify-center border-r-[1.5px] border-[#4c3fbf]" style={{ width: '44mm', paddingRight: '5mm' }}>
-//             <img src="/assets/login-bg.jpeg" alt="Gracespring Logo" style={{ width: '40mm', height: 'auto', objectFit: 'contain' }} />
+//             <img src="/assets/login-bg.jpeg" alt="Medbookie Logo" style={{ width: '40mm', height: 'auto', objectFit: 'contain' }} />
 //           </div>
 //           <div className="flex flex-col justify-center" style={{ paddingLeft: '6mm' }}>
 //             <h1 className="text-white font-extrabold leading-none tracking-tight" style={{ fontSize: '20pt', marginBottom: '3px' }}>
@@ -1649,7 +1649,7 @@ export default IPDBillingPrintTemplate;
 //         {/* Address bar */}
 //         <div className="w-full text-center border-b border-slate-200" style={{ padding: '3px 0 4px' }}>
 //           <p style={{ fontSize: '6.5pt', color: '#94a3b8' }}>
-//             Head Office: Gracespring Hospitals Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@gracespringhospital.com
+//             Head Office: Medbookie Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@Medbookiehospital.com
 //           </p>
 //         </div>
 
@@ -2016,7 +2016,7 @@ export default IPDBillingPrintTemplate;
 //         <div className="w-full bg-[#3B309A] flex items-center" style={{ padding: '5mm 6mm', minHeight: '22mm' }}>
 //           {/* Logo — larger */}
 //           <div className="flex items-center justify-center border-r-[1.5px] border-[#4c3fbf]" style={{ width: '44mm', paddingRight: '5mm' }}>
-//             <img src="/assets/login-bg.jpeg" alt="Gracespring Logo" style={{ width: '40mm', height: 'auto', objectFit: 'contain' }} />
+//             <img src="/assets/login-bg.jpeg" alt="Medbookie Logo" style={{ width: '40mm', height: 'auto', objectFit: 'contain' }} />
 //           </div>
 //           <div className="flex flex-col justify-center" style={{ paddingLeft: '6mm' }}>
 //             <h1 className="text-white font-extrabold leading-none tracking-tight" style={{ fontSize: '20pt', marginBottom: '3px' }}>
@@ -2031,7 +2031,7 @@ export default IPDBillingPrintTemplate;
 //         {/* Address bar */}
 //         <div className="w-full text-center border-b border-slate-200" style={{ padding: '3px 0 4px' }}>
 //           <p style={{ fontSize: '6.5pt', color: '#94a3b8' }}>
-//             Head Office: Gracespring Hospitals Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@gracespringhospital.com
+//             Head Office: Medbookie Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@Medbookiehospital.com
 //           </p>
 //         </div>
 

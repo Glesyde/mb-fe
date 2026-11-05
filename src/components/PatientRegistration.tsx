@@ -3043,7 +3043,7 @@ const PatientRegistration: React.FC = () => {
                       <p className="text-[10px] text-slate-600 leading-relaxed max-w-lg">
                         "I confirm the preferences recorded above reflect my wishes. I understand
                         that I may withdraw or change this consent at any time by notifying
-                        Gracespring Hospitals in writing."
+                        Medbookie in writing."
                       </p>
                     </div>
 
@@ -6026,7 +6026,7 @@ export default PatientRegistration;
 //                       <p className="text-[10px] text-slate-600 leading-relaxed max-w-lg">
 //                         "I confirm the preferences recorded above reflect my wishes. I understand
 //                         that I may withdraw or change this consent at any time by notifying
-//                         Gracespring Hospitals in writing."
+//                         Medbookie in writing."
 //                       </p>
 //                     </div>
 

@@ -87,7 +87,7 @@ const SettingsModule: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-1.5">
                 <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Hospital Name</label>
-                <input type="text" defaultValue="Gracespring Specialist Hospital" className="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-brand-active0/10 focus:border-brand-active0 transition-all" />
+                <input type="text" defaultValue="Medbookie Specialist Hospital" className="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-brand-active0/10 focus:border-brand-active0 transition-all" />
               </div>
               <div className="space-y-1.5">
                 <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Official Email</label>

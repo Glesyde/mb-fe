@@ -416,8 +416,8 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
           </div>
           <div className="text-right z-10 flex flex-col items-end gap-3">
              <div className="hidden md:block text-right">
-                <p className="text-[10px] text-brand-active font-bold leading-tight uppercase tracking-wider">Gracespring Hospitals</p>
-                <p className="text-[10px] text-brand-active">+234 705 648 2776 • admin@gracespringhospitals.com</p>
+                <p className="text-[10px] text-brand-active font-bold leading-tight uppercase tracking-wider">Medbookie</p>
+                <p className="text-[10px] text-brand-active">+234 705 648 2776 • admin@Medbookiehospitals.com</p>
              </div>
              <button 
                onClick={() => setIsPrintOpen(true)}
@@ -435,7 +435,7 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
           <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden">
             <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">Patient Rights</div>
             <p className="text-sm text-amber-900 font-medium leading-relaxed italic">
-              "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Gracespring Hospitals Consent Policy (GSH-T6)."
+              "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6)."
             </p>
           </div>
 
@@ -1256,8 +1256,8 @@ export default GeneralConsentForm;
 //           </div>
 //           <div className="text-right z-10 flex flex-col items-end gap-3">
 //              <div className="hidden md:block text-right">
-//                 <p className="text-[10px] text-brand-active font-bold leading-tight uppercase tracking-wider">Gracespring Hospitals</p>
-//                 <p className="text-[10px] text-brand-active">+234 705 648 2776 • admin@gracespringhospitals.com</p>
+//                 <p className="text-[10px] text-brand-active font-bold leading-tight uppercase tracking-wider">Medbookie</p>
+//                 <p className="text-[10px] text-brand-active">+234 705 648 2776 • admin@Medbookiehospitals.com</p>
 //              </div>
 //              <button 
 //                onClick={() => setIsPrintOpen(true)}
@@ -1275,7 +1275,7 @@ export default GeneralConsentForm;
 //           <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden">
 //             <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">Patient Rights</div>
 //             <p className="text-sm text-amber-900 font-medium leading-relaxed italic">
-//               "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Gracespring Hospitals Consent Policy (GSH-T6)."
+//               "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6)."
 //             </p>
 //           </div>
 
@@ -2107,8 +2107,8 @@ export default GeneralConsentForm;
 //           </div>
 //           <div className="text-right z-10 flex flex-col items-end gap-3">
 //              <div className="hidden md:block text-right">
-//                 <p className="text-[10px] text-brand-active font-bold leading-tight uppercase tracking-wider">Gracespring Hospitals</p>
-//                 <p className="text-[10px] text-brand-active">+234 705 648 2776 • admin@gracespringhospitals.com</p>
+//                 <p className="text-[10px] text-brand-active font-bold leading-tight uppercase tracking-wider">Medbookie</p>
+//                 <p className="text-[10px] text-brand-active">+234 705 648 2776 • admin@Medbookiehospitals.com</p>
 //              </div>
 //              <button 
 //                onClick={() => setIsPrintOpen(true)}
@@ -2126,7 +2126,7 @@ export default GeneralConsentForm;
 //           <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden">
 //             <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">Patient Rights</div>
 //             <p className="text-sm text-amber-900 font-medium leading-relaxed italic">
-//               "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Gracespring Hospitals Consent Policy (GSH-T6)."
+//               "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6)."
 //             </p>
 //           </div>
 
@@ -2885,8 +2885,8 @@ export default GeneralConsentForm;
 //           </div>
 //           <div className="text-right z-10 flex flex-col items-end gap-3">
 //              <div className="hidden md:block text-right">
-//                 <p className="text-[10px] text-brand-active font-bold leading-tight uppercase tracking-wider">Gracespring Hospitals</p>
-//                 <p className="text-[10px] text-brand-active">+234 705 648 2776 • admin@gracespringhospitals.com</p>
+//                 <p className="text-[10px] text-brand-active font-bold leading-tight uppercase tracking-wider">Medbookie</p>
+//                 <p className="text-[10px] text-brand-active">+234 705 648 2776 • admin@Medbookiehospitals.com</p>
 //              </div>
 //              <button 
 //                onClick={() => setIsPrintOpen(true)}
@@ -2904,7 +2904,7 @@ export default GeneralConsentForm;
 //           <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden">
 //             <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">Patient Rights</div>
 //             <p className="text-sm text-amber-900 font-medium leading-relaxed italic">
-//               "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Gracespring Hospitals Consent Policy (GSH-T6)."
+//               "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6)."
 //             </p>
 //           </div>
 

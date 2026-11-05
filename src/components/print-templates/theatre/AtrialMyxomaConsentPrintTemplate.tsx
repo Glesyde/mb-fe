@@ -144,7 +144,7 @@ const AtrialMyxomaConsentPrintTemplate: React.FC<AtrialMyxomaConsentPrintTemplat
         <div className="border border-gray-300 p-4 mb-4 bg-blue-50/50 rounded-sm italic">
           <p className="text-[10px] font-bold text-gray-700 uppercase tracking-wide mb-1">Patient Rights</p>
           <p className="text-[9px] text-gray-600 leading-relaxed mb-2">
-            You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Gracespring Hospitals Consent Policy (GSH-T6).
+            You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6).
           </p>
           <p className="text-[10px] font-bold text-gray-700 uppercase tracking-wide mb-1 mt-3">About this operation</p>
           <p className="text-[9px] text-gray-600 leading-relaxed">
@@ -510,7 +510,7 @@ export default AtrialMyxomaConsentPrintTemplate;
 //         <div className="border border-gray-300 p-4 mb-4 bg-blue-50/50 rounded-sm italic">
 //           <p className="text-[10px] font-bold text-gray-700 uppercase tracking-wide mb-1">Patient Rights</p>
 //           <p className="text-[9px] text-gray-600 leading-relaxed mb-2">
-//             You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Gracespring Hospitals Consent Policy (GSH-T6).
+//             You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6).
 //           </p>
 //           <p className="text-[10px] font-bold text-gray-700 uppercase tracking-wide mb-1 mt-3">About this operation</p>
 //           <p className="text-[9px] text-gray-600 leading-relaxed">

@@ -66,7 +66,7 @@ const StaffIdPrintTemplate: React.FC = () => {
           <div className="absolute top-0 right-0 left-0 h-[20mm] bg-[#3B309A] overflow-hidden flex items-center justify-between px-4">
             <img src="/assets/login-bg.jpeg" alt="Header Logo" className="h-[12mm] w-[12mm] object-contain shrink-0" />
             <div className="flex-1 text-right">
-              <h2 className="text-white font-black text-sm uppercase tracking-widest leading-none">Gracespring Hospital</h2>
+              <h2 className="text-white font-black text-sm uppercase tracking-widest leading-none">Medbookie</h2>
               <p className="text-brand-active text-[6px] font-bold uppercase tracking-widest mt-1">Staff Identification Card</p>
             </div>
           </div>
@@ -111,7 +111,7 @@ const StaffIdPrintTemplate: React.FC = () => {
           <div className="w-full text-[7px] font-medium text-slate-600 leading-snug space-y-1">
             <p>1. This card must be worn at all times while on hospital premises.</p>
             <p>2. Unauthorized use or transfer of this card is strictly prohibited.</p>
-            <p>3. If found, please return to Gracespring Hospital Administration immediately.</p>
+            <p>3. If found, please return to Medbookie Administration immediately.</p>
           </div>
 
           <div className="mt-auto mb-4 w-full flex justify-between items-end">

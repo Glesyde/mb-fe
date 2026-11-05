@@ -148,8 +148,8 @@ const InventoryPrintTemplate: React.FC<InventoryPrintTemplateProps> = ({ type })
         {/* Address strip */}
         <div className="text-center py-2 border-b border-slate-200 mb-1">
           <p className="text-[8px] text-slate-500 font-medium">
-            Gracespring Hospitals Limited &nbsp;•&nbsp; Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos &nbsp;•&nbsp;
-            +234 705 648 2776 &nbsp;•&nbsp; info@gracespringhospital.com
+            Medbookie Limited &nbsp;•&nbsp; Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos &nbsp;•&nbsp;
+            +234 705 648 2776 &nbsp;•&nbsp; info@Medbookiehospital.com
           </p>
         </div>
 
@@ -262,7 +262,7 @@ const InventoryPrintTemplate: React.FC<InventoryPrintTemplateProps> = ({ type })
         {/* ── Footer ── */}
         <div className="mt-14 pt-4 border-t border-slate-200 text-center">
           <p className="text-[8px] text-slate-400 font-bold uppercase tracking-[0.15em]">
-            Gracespring Hospitals • {item.items_uhid} • Generated {new Date().toLocaleString('en-GB')}
+            Medbookie • {item.items_uhid} • Generated {new Date().toLocaleString('en-GB')}
           </p>
           <p className="text-[7px] text-slate-300 mt-0.5">This report is computer-generated from the Hospital Information System. No signature required if stamped.</p>
         </div>

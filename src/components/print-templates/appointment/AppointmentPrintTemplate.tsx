@@ -105,7 +105,7 @@ const AppointmentPrintTemplate: React.FC = () => {
 
         {/* Address Bar */}
         <div className="w-full text-center py-2 border-b border-slate-200 mb-8">
-          <p className="text-[8px] text-slate-500 font-medium">Head Office: Gracespring Hospitals Limited, Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria, Lagos State, Nigeria. &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@gracespringhospital.com</p>
+          <p className="text-[8px] text-slate-500 font-medium">Head Office: Medbookie Limited, Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria, Lagos State, Nigeria. &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@Medbookiehospital.com</p>
         </div>
 
         {/* Appointment Status Banner */}
@@ -176,7 +176,7 @@ const AppointmentPrintTemplate: React.FC = () => {
 
         {/* Footer */}
         <div className="mt-16 text-center border-t border-slate-200 pt-6">
-          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest tracking-[0.2em]">GraceSpring Hospital's Health Management System • Confidential Slip • {data.appointment_code}</p>
+          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest tracking-[0.2em]">Medbookie's Health Management System • Confidential Slip • {data.appointment_code}</p>
         </div>
       </div>
     </div>

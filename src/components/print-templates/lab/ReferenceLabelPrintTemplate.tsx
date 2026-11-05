@@ -69,7 +69,7 @@ const ReferenceLabelPrintTemplate: React.FC = () => {
             )}
           </div>
           <div style={{ fontSize: '6px', textAlign: 'center', textTransform: 'uppercase', marginTop: 'auto' }}>
-            gracespringhospitals · lab
+            Medbookiehospitals · lab
           </div>
         </div>
       </div>

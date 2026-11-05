@@ -1835,7 +1835,7 @@ export default DynamicConsentForm;
 //         <div className="z-10">
 //           <div className="flex items-center gap-4 mb-2">
 //             <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
-//               <img src="/assets/login-bg.jpeg" alt="Gracespring Hospitals" className="w-10 h-10 object-contain" />
+//               <img src="/assets/login-bg.jpeg" alt="Medbookie" className="w-10 h-10 object-contain" />
 //             </div>
 //             <div>
 //               <h1 className="text-3xl font-black tracking-tighter">Procedure Consent Form</h1>

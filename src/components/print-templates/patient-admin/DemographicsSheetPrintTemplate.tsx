@@ -100,7 +100,7 @@ const DemographicsSheetPrintTemplate: React.FC = () => {
 
         {/* Address Bar */}
         <div className="w-full text-center py-2 border-b border-slate-200 mb-6">
-          <p className="text-[8px] text-slate-500 font-medium">Head Office: Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos. &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@gracespringhospital.com</p>
+          <p className="text-[8px] text-slate-500 font-medium">Head Office: Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos. &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@Medbookiehospital.com</p>
         </div>
 
         {/* Patient Section */}
@@ -315,7 +315,7 @@ export default DemographicsSheetPrintTemplate;
 
 //         {/* Address Bar */}
 //         <div className="w-full text-center py-2 border-b border-slate-200 mb-8">
-//           <p className="text-[8px] text-slate-500 font-medium">Head Office: Gracespring Hospitals Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria Lagos State, Nigeria. &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@gracespringhospital.com</p>
+//           <p className="text-[8px] text-slate-500 font-medium">Head Office: Medbookie Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria Lagos State, Nigeria. &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@Medbookiehospital.com</p>
 //         </div>
 
 //         {/* Patient Section */}

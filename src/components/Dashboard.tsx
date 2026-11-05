@@ -73,7 +73,7 @@ const Dashboard: React.FC = () => {
       {/* Footer tagline */}
       <div className="mt-auto pt-12 text-center">
         <p className="text-xs text-slate-300 font-medium uppercase tracking-widest">
-          Gracespring Hospitals Information System · Secure · Real-time · HL7 Ready copyright 2026
+          Medbookie Information System · Secure · Real-time · HL7 Ready copyright 2026
         </p>
       </div>
     </div>

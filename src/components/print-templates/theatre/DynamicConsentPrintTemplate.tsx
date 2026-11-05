@@ -159,13 +159,13 @@ const DynamicConsentPrintTemplate: React.FC<DynamicConsentPrintTemplateProps> = 
       </div>
 
       <div className="w-full text-center py-2 border-b border-slate-200 mb-4">
-        <p className="text-[8px] text-slate-500 font-medium italic">Head Office: Gracespring Hospitals Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@gracespringhospital.com</p>
+        <p className="text-[8px] text-slate-500 font-medium italic">Head Office: Medbookie Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@Medbookiehospital.com</p>
       </div>
 
       {sections.map(renderSection)}
 
       <div className="mt-6 pt-4 border-t border-slate-200 flex justify-between items-center text-[8px] text-slate-400 font-bold uppercase tracking-widest">
-        <span>Gracespring Hospitals - Clinical Documentation</span>
+        <span>Medbookie - Clinical Documentation</span>
         <span>{templateData.slug} v{templateData.version}</span>
       </div>
     </div>
@@ -334,13 +334,13 @@ export default DynamicConsentPrintTemplate;
 //       </div>
 
 //       <div className="w-full text-center py-2 border-b border-slate-200 mb-4">
-//         <p className="text-[8px] text-slate-500 font-medium italic">Head Office: Gracespring Hospitals Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@gracespringhospital.com</p>
+//         <p className="text-[8px] text-slate-500 font-medium italic">Head Office: Medbookie Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@Medbookiehospital.com</p>
 //       </div>
 
 //       {sections.map(renderSection)}
 
 //       <div className="mt-6 pt-4 border-t border-slate-200 flex justify-between items-center text-[8px] text-slate-400 font-bold uppercase tracking-widest">
-//         <span>Gracespring Hospitals - Clinical Documentation</span>
+//         <span>Medbookie - Clinical Documentation</span>
 //         <span>{templateData.slug} • v{templateData.version}</span>
 //       </div>
 //     </div>

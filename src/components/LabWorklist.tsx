@@ -741,7 +741,7 @@ const LabWorklist: React.FC = () => {
                     <img src={`${(import.meta as any).env?.VITE_API_BASE_URL || ''}${printOrder.qr_code_path}`} alt="QR Code" className="h-8 w-8 ml-2" />
                   )}
                 </div>
-                <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest text-center mt-2">gracespringhospitals · lab</p>
+                <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest text-center mt-2">Medbookiehospitals · lab</p>
               </div>
               <p className="text-[10px] text-slate-400 text-center mt-3">Preview · Prints at 50mm × 25mm</p>
             </div>
@@ -1601,7 +1601,7 @@ export default LabWorklist;
 //                     <img src={`${(import.meta as any).env?.VITE_API_BASE_URL || ''}${printOrder.qr_code_path}`} alt="QR Code" className="h-8 w-8 ml-2" />
 //                   )}
 //                 </div>
-//                 <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest text-center mt-2">gracespringhospitals · lab</p>
+//                 <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest text-center mt-2">Medbookiehospitals · lab</p>
 //               </div>
 //               <p className="text-[10px] text-slate-400 text-center mt-3">Preview · Prints at 50mm × 25mm</p>
 //             </div>
@@ -2554,7 +2554,7 @@ export default LabWorklist;
 //                     <img src={`${(import.meta as any).env?.VITE_API_BASE_URL || ''}${printOrder.qr_code_path}`} alt="QR Code" className="h-8 w-8 ml-2" />
 //                   )}
 //                 </div>
-//                 <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest text-center mt-2">gracespringhospitals · lab</p>
+//                 <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest text-center mt-2">Medbookiehospitals · lab</p>
 //               </div>
 //               <p className="text-[10px] text-slate-400 text-center mt-3">Preview · Prints at 50mm × 25mm</p>
 //             </div>
@@ -3514,7 +3514,7 @@ export default LabWorklist;
 //                     <img src={`${import.meta.env.VITE_API_BASE_URL}${printOrder.qr_code_path}`} alt="QR Code" className="h-8 w-8 ml-2" />
 //                   )}
 //                 </div>
-//                 <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest text-center mt-2">gracespringhospitals · lab</p>
+//                 <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest text-center mt-2">Medbookiehospitals · lab</p>
 //               </div>
 //               <p className="text-[10px] text-slate-400 text-center mt-3">Preview · Prints at 50mm × 25mm</p>
 //             </div>
@@ -4208,7 +4208,7 @@ export default LabWorklist;
 //                     <img src={`${import.meta.env.VITE_API_BASE_URL}${printOrder.qr_code_path}`} alt="QR Code" className="h-8 w-8 ml-2" />
 //                   )}
 //                 </div>
-//                 <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest text-center mt-2">gracespringhospitals · lab</p>
+//                 <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest text-center mt-2">Medbookiehospitals · lab</p>
 //               </div>
 //               <p className="text-[10px] text-slate-400 text-center mt-3">Preview · Prints at 50mm × 25mm</p>
 //             </div>

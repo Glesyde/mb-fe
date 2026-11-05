@@ -96,7 +96,7 @@ const OperativeNotePrintTemplate: React.FC<OperativeNotePrintTemplateProps> = ({
 
         {/* Address Bar */}
         <div className="w-full text-center py-2 border-b border-slate-200 mb-6">
-          <p className="text-[8px] text-slate-500 font-medium">Head Office: Gracespring Hospitals Limited, Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria, Lagos State, Nigeria. &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@gracespringhospital.com</p>
+          <p className="text-[8px] text-slate-500 font-medium">Head Office: Medbookie Limited, Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria, Lagos State, Nigeria. &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@Medbookiehospital.com</p>
         </div>
 
         {/* Title & Sticker */}
@@ -513,7 +513,7 @@ const OperativeNotePrintTemplate: React.FC<OperativeNotePrintTemplateProps> = ({
 
         {/* Footer */}
         <div className="flex justify-between items-center text-[8px] text-gray-500 mt-6 pt-2 border-t border-gray-200">
-          <span>Gracespring Hospitals - Operating Theatres</span>
+          <span>Medbookie - Operating Theatres</span>
           <span>GH-OT-021 • v1.0 • File in patient case-notes</span>
         </div>
       </div>

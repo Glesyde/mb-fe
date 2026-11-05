@@ -212,7 +212,7 @@ const Header: React.FC<HeaderProps> = ({ toggleMobileMenu, user, onLogout }) => 
           <div>
             <div className="flex items-center gap-2">
               <span className="text-white font-extrabold text-sm tracking-tight leading-none">
-                Gracespring HIS
+                Medbookie HIS
               </span>
               <span className="hidden sm:inline-flex text-[9px] font-bold text-brand-active px-2 py-0.5 bg-white/10 rounded-full border border-white/20 uppercase tracking-widest leading-none">
                 HL7 V4.2

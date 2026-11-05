@@ -4,7 +4,7 @@ import axios from "axios";
 export const BASE_URL =
   (import.meta as any).env?.VITE_API_BASE_URL
 // ||
-// "https://api-his.gracespringhospitals.com";
+// "https://api-his.Medbookiehospitals.com";
 
 console.debug("[AUTH_DEBUG] API Base URL:", BASE_URL);
 

@@ -249,12 +249,12 @@ const LabReportPrintTemplate: React.FC = () => {
 
           {/* Hospital Address and Document Meta */}
           <div className="border-t-2 border-slate-200 pt-4 text-center">
-            <h4 className="font-bold text-slate-800 text-[11px] uppercase tracking-widest mb-1">Gracespring Hospitals Limited</h4>
+            <h4 className="font-bold text-slate-800 text-[11px] uppercase tracking-widest mb-1">Medbookie Limited</h4>
             <p className="text-[10px] text-slate-500">
               Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos
             </p>
             <p className="text-[10px] text-slate-500 mt-0.5">
-              +234 705 648 2776 &nbsp;|&nbsp; info@gracespringhospital.com
+              +234 705 648 2776 &nbsp;|&nbsp; info@Medbookiehospital.com
             </p>
             
             <div className="flex justify-between items-center text-[9px] text-slate-400 mt-4 px-4">
@@ -416,7 +416,7 @@ export default LabReportPrintTemplate;
 //              <div className="flex items-center gap-4">
 //                <img src="/assets/logo-nobg.png" alt="Hospital Logo" className="w-30 h-20 object-contain" />
 //                <div>
-//                  {/* <h1 className="border-2 border-[red] text-xl font-black tracking-tight text-slate-900 uppercase">Gracespring Hospitals</h1> */}
+//                  {/* <h1 className="border-2 border-[red] text-xl font-black tracking-tight text-slate-900 uppercase">Medbookie</h1> */}
 //                  {/* <p className="text-xs text-white mt-1 max-w-[250px] leading-relaxed">
 //                    Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos
 //                  </p> */}
@@ -439,7 +439,7 @@ export default LabReportPrintTemplate;
 //             <img src="/assets/logo-nobg.png" alt="Hospital Logo" className="w-24 h-auto object-contain" />
 //             <div>
 //               <h1 className="text-2xl font-black tracking-tight uppercase" style={{ color: BRAND }}>
-//                 Gracespring Hospitals
+//                 Medbookie
 //               </h1>
 //               <p className="text-xs font-semibold text-slate-500 mt-1">Laboratory Services Division</p>
 //             </div>
@@ -557,12 +557,12 @@ export default LabReportPrintTemplate;
 
 //           {/* Hospital Address and Document Meta */}
 //           <div className="border-t-2 border-slate-200 pt-4 text-center">
-//             <h4 className="font-bold text-slate-800 text-[11px] uppercase tracking-widest mb-1">Gracespring Hospitals Limited</h4>
+//             <h4 className="font-bold text-slate-800 text-[11px] uppercase tracking-widest mb-1">Medbookie Limited</h4>
 //             <p className="text-[10px] text-slate-500">
 //               Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos
 //             </p>
 //             <p className="text-[10px] text-slate-500 mt-0.5">
-//               +234 705 648 2776 &nbsp;|&nbsp; lab@gracespringhospital.com
+//               +234 705 648 2776 &nbsp;|&nbsp; lab@Medbookiehospital.com
 //             </p>
             
 //             <div className="flex justify-between items-center text-[9px] text-slate-400 mt-4 px-4">
@@ -708,7 +708,7 @@ export default LabReportPrintTemplate;
 // //             <div className="flex items-center gap-4">
 // //               <img src="/assets/logo-nobg.png" alt="Hospital Logo" className="w-30 h-20 object-contain" />
 // //               <div>
-// //                 {/* <h1 className="border-2 border-[red] text-xl font-black tracking-tight text-slate-900 uppercase">Gracespring Hospitals</h1> */}
+// //                 {/* <h1 className="border-2 border-[red] text-xl font-black tracking-tight text-slate-900 uppercase">Medbookie</h1> */}
 // //                 {/* <p className="text-xs text-white mt-1 max-w-[250px] leading-relaxed">
 // //                   Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos
 // //                 </p> */}
@@ -1022,8 +1022,8 @@ export default LabReportPrintTemplate;
 // // //         {/* Address strip */}
 // // //         <div className="text-center py-2 border-b border-slate-200 mb-1">
 // // //           <p className="text-[8px] text-slate-500 font-medium">
-// // //             Gracespring Hospitals Limited &nbsp;•&nbsp; Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos &nbsp;•&nbsp;
-// // //             +234 705 648 2776 &nbsp;•&nbsp; lab@gracespringhospital.com
+// // //             Medbookie Limited &nbsp;•&nbsp; Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos &nbsp;•&nbsp;
+// // //             +234 705 648 2776 &nbsp;•&nbsp; lab@Medbookiehospital.com
 // // //           </p>
 // // //         </div>
 
@@ -1165,7 +1165,7 @@ export default LabReportPrintTemplate;
 // // //         {/* ── Footer ── */}
 // // //         <div className="mt-10 pt-4 border-t border-slate-200 text-center">
 // // //           <p className="text-[8px] text-slate-400 font-bold uppercase tracking-[0.15em]">
-// // //             Gracespring Hospitals • {data.reference_no} • Generated {new Date().toLocaleString('en-GB')}
+// // //             Medbookie • {data.reference_no} • Generated {new Date().toLocaleString('en-GB')}
 // // //           </p>
 // // //           <p className="text-[7px] text-slate-300 mt-0.5">This report is computer-generated and electronically validated. No signature required if stamped.</p>
 // // //         </div>
@@ -1347,8 +1347,8 @@ export default LabReportPrintTemplate;
 // // //         {/* Address strip */}
 // // //         <div className="text-center py-2 border-b border-slate-200 mb-1">
 // // //           <p className="text-[8px] text-slate-500 font-medium">
-// // //             Gracespring Hospitals Limited &nbsp;•&nbsp; Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos &nbsp;•&nbsp;
-// // //             +234 705 648 2776 &nbsp;•&nbsp; info@gracespringhospital.com
+// // //             Medbookie Limited &nbsp;•&nbsp; Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos &nbsp;•&nbsp;
+// // //             +234 705 648 2776 &nbsp;•&nbsp; info@Medbookiehospital.com
 // // //           </p>
 // // //         </div>
 
@@ -1569,7 +1569,7 @@ export default LabReportPrintTemplate;
 // // //         {/* ── Footer ── */}
 // // //         <div className="mt-10 pt-4 border-t border-slate-200 text-center">
 // // //           <p className="text-[8px] text-slate-400 font-bold uppercase tracking-[0.15em]">
-// // //             Gracespring Hospitals • {data.reference_no} • Generated {new Date().toLocaleString('en-GB')}
+// // //             Medbookie • {data.reference_no} • Generated {new Date().toLocaleString('en-GB')}
 // // //           </p>
 // // //           <p className="text-[7px] text-slate-300 mt-0.5">This report is computer-generated and electronically validated. No signature required if stamped.</p>
 // // //         </div>

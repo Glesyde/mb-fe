@@ -85,7 +85,7 @@ const WristbandPrintView: React.FC = () => {
         <div className="hospital-logo">
           <div className="logo-icon">✦</div>
           <div className="logo-text">
-            <div className="logo-name">GRACESPRING</div>
+            <div className="logo-name">Medbookie</div>
             <div className="logo-sub">HOSPITALS</div>
           </div>
         </div>

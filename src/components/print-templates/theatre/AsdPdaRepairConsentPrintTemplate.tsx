@@ -143,7 +143,7 @@ const AsdPdaRepairConsentPrintTemplate: React.FC<AsdPdaRepairConsentPrintTemplat
         <div className="border border-gray-300 p-4 mb-4 bg-blue-50/50 rounded-sm italic">
           <p className="text-[10px] font-bold text-gray-700 uppercase tracking-wide mb-1">Patient Rights</p>
           <p className="text-[9px] text-gray-600 leading-relaxed mb-2">
-            You (or your child's parent/guardian) have the right to make decisions about medical care and to refuse any procedure. You may withdraw consent at any time before the procedure begins. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Gracespring Hospitals Consent Policy (GSH-T6).
+            You (or your child's parent/guardian) have the right to make decisions about medical care and to refuse any procedure. You may withdraw consent at any time before the procedure begins. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6).
           </p>
           <p className="text-[10px] font-bold text-gray-700 uppercase tracking-wide mb-1 mt-3">About this operation</p>
           <p className="text-[9px] text-gray-600 leading-relaxed">
@@ -645,7 +645,7 @@ export default AsdPdaRepairConsentPrintTemplate;
 //         <div className="border border-gray-300 p-4 mb-4 bg-blue-50/50 rounded-sm italic">
 //           <p className="text-[10px] font-bold text-gray-700 uppercase tracking-wide mb-1">Patient Rights</p>
 //           <p className="text-[9px] text-gray-600 leading-relaxed mb-2">
-//             You (or your child's parent/guardian) have the right to make decisions about medical care and to refuse any procedure. You may withdraw consent at any time before the procedure begins. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Gracespring Hospitals Consent Policy (GSH-T6).
+//             You (or your child's parent/guardian) have the right to make decisions about medical care and to refuse any procedure. You may withdraw consent at any time before the procedure begins. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6).
 //           </p>
 //           <p className="text-[10px] font-bold text-gray-700 uppercase tracking-wide mb-1 mt-3">About this operation</p>
 //           <p className="text-[9px] text-gray-600 leading-relaxed">

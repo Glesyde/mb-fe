@@ -725,7 +725,7 @@ const PatientDocuments: React.FC = () => {
 
           {/* Slim footer */}
           <div className="py-2 px-8 bg-[#1e1b4b]/80 border-t border-white/5 flex justify-center shrink-0">
-            <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest italic">Gracespring Secure Clinical Document Viewer</p>
+            <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest italic">Medbookie Secure Clinical Document Viewer</p>
           </div>
         </div>
       )}

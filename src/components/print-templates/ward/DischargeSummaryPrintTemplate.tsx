@@ -145,7 +145,7 @@ const DischargeSummaryPrintTemplate: React.FC = () => {
         {/* ── HEADER BLOCK ── */}
         <div className="w-full bg-[#3B309A] flex items-center" style={{ padding: '5mm 6mm', minHeight: '22mm' }}>
           <div className="flex items-center justify-center border-r-[1.5px] border-[#4c3fbf]" style={{ width: '44mm', paddingRight: '5mm' }}>
-            <img src="/assets/login-bg.jpeg" alt="Gracespring Logo" style={{ width: '40mm', height: 'auto', objectFit: 'contain' }} />
+            <img src="/assets/login-bg.jpeg" alt="Medbookie Logo" style={{ width: '40mm', height: 'auto', objectFit: 'contain' }} />
           </div>
           <div className="flex flex-col justify-center" style={{ paddingLeft: '6mm' }}>
             <h1 className="text-white font-extrabold leading-none tracking-tight" style={{ fontSize: '20pt', marginBottom: '3px' }}>
@@ -160,7 +160,7 @@ const DischargeSummaryPrintTemplate: React.FC = () => {
         {/* Address bar */}
         <div className="w-full text-center border-b border-slate-200" style={{ padding: '3px 0 4px' }}>
           <p style={{ fontSize: '6.5pt', color: '#94a3b8' }}>
-            Head Office: Gracespring Hospitals Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@gracespringhospital.com
+            Head Office: Medbookie Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@Medbookiehospital.com
           </p>
         </div>
 

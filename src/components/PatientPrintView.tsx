@@ -97,7 +97,7 @@ const PatientPrintView: React.FC = () => {
 
           {/* Address Bar */}
           <div className="w-full text-center py-2 border-b border-slate-200 mb-8">
-            <p className="text-[8px] text-slate-500 font-medium">Head Office: Gracespring Hospitals Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria Lagos State, Nigeria. &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@gracespringhospital.com</p>
+            <p className="text-[8px] text-slate-500 font-medium">Head Office: Medbookie Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria Lagos State, Nigeria. &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@Medbookiehospital.com</p>
           </div>
 
           {/* Patient Identity */}
@@ -162,7 +162,7 @@ const PatientPrintView: React.FC = () => {
 
           {/* Footer */}
           <div className="mt-auto pt-16 text-center border-t border-slate-200">
-            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">Confidential Medical Summary • Gracespring Hospital • {new Date().toLocaleDateString()}</p>
+            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">Confidential Medical Summary • Medbookie • {new Date().toLocaleDateString()}</p>
           </div>
         </div>
       </div>

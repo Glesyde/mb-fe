@@ -106,7 +106,7 @@ const UserProfile: React.FC = () => {
             </div>
             <div className="flex flex-wrap items-center gap-4">
               <p className="text-xs text-slate-500 font-bold flex items-center gap-1.5">
-                <Mail size={12} className="text-slate-400" /> Gracespring Identity
+                <Mail size={12} className="text-slate-400" /> Medbookie Identity
                 Account
               </p>
               <p className="text-xs text-slate-500 font-bold flex items-center gap-1.5">
