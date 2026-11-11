@@ -1,0 +1,76 @@
+{
+  "id": "C26",
+  "title": "HbA1c improving 5.9 → 5.4 (main demo pattern)",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 33,
+    "observations": [
+      {
+        "key": "AMH",
+        "value": 2.5,
+        "unit": "ng/mL",
+        "date": "2026-05-01"
+      },
+      {
+        "key": "HBA1C",
+        "value": 5.9,
+        "unit": "%",
+        "date": "2025-11-15"
+      },
+      {
+        "key": "HBA1C",
+        "value": 5.6,
+        "unit": "%",
+        "date": "2026-04-01"
+      },
+      {
+        "key": "HBA1C",
+        "value": 5.4,
+        "unit": "%",
+        "date": "2026-09-01"
+      },
+      {
+        "key": "BMI",
+        "value": 26,
+        "unit": "kg/m2",
+        "date": "2026-09-01"
+      }
+    ],
+    "cycleLengths": [
+      28,
+      29,
+      28,
+      27,
+      28,
+      29
+    ],
+    "history": {}
+  },
+  "expected": {
+    "vectors": {
+      "V1": "STABLE",
+      "V2": "STABLE",
+      "V3": "IMPROVING",
+      "V5": "STABLE"
+    },
+    "density": {
+      "V3": "ESTABLISHED"
+    },
+    "pathways": [],
+    "rulesInclude": [
+      "R37",
+      "R01",
+      "R11"
+    ],
+    "rulesExclude": [
+      "R38"
+    ],
+    "vectorRules": {
+      "V3": [
+        "R37"
+      ]
+    }
+  }
+}

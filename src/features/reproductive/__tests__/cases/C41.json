@@ -1,0 +1,43 @@
+{
+  "id": "C41",
+  "title": "Basal FSH 14.2 (R03)",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 37,
+    "observations": [
+      {
+        "key": "FSH",
+        "value": 14.2,
+        "unit": "IU/L",
+        "date": "2026-06-01"
+      },
+      {
+        "key": "AMH",
+        "value": 1.2,
+        "unit": "ng/mL",
+        "date": "2026-06-01"
+      }
+    ]
+  },
+  "expected": {
+    "vectors": {
+      "V1": "STABLE",
+      "V2": "NOT_ENOUGH_DATA",
+      "V3": "NOT_ENOUGH_DATA",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [],
+    "rulesInclude": [
+      "R03",
+      "R01"
+    ],
+    "vectorRules": {
+      "V1": [
+        "R01",
+        "R03"
+      ]
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "C15",
+  "title": "Ectopic red flag in free text (P6 emergency)",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 29,
+    "observations": [
+      {
+        "key": "AMH",
+        "value": 2.5,
+        "unit": "ng/mL",
+        "date": "2026-06-01"
+      }
+    ],
+    "cycleLengths": [
+      28,
+      29,
+      28,
+      27,
+      28,
+      29
+    ],
+    "symptoms": {
+      "freeText": "Sudden severe pain on my right side low in my pelvis. My period is late and I nearly fainted."
+    }
+  },
+  "expected": {
+    "emergency": true,
+    "vectors": {},
+    "pathways": [
+      "P6"
+    ],
+    "urgency": {
+      "P6": "EMERGENCY"
+    },
+    "rulesInclude": [
+      "R35"
+    ],
+    "rulesExclude": [
+      "R01",
+      "R11",
+      "R04"
+    ]
+  }
+}

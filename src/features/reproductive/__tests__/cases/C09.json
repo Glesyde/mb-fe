@@ -1,0 +1,54 @@
+{
+  "id": "C09",
+  "title": "PCOS-like pattern: 24, irregular cycles, ovulation check wanted, trying 6 months",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 24,
+    "observations": [
+      {
+        "key": "AMH",
+        "value": 9.8,
+        "unit": "ng/mL",
+        "date": "2026-06-01"
+      }
+    ],
+    "cycleLengths": [
+      38,
+      50,
+      42,
+      61
+    ],
+    "reproductive": {
+      "tryingSince": "2026-05-01",
+      "questions": [
+        "OVULATION_CHECK"
+      ]
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V1": "NEEDS_ATTENTION",
+      "V2": "NEEDS_ATTENTION",
+      "V3": "NOT_ENOUGH_DATA",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [
+      "P5",
+      "P2",
+      "P3"
+    ],
+    "rulesInclude": [
+      "R10",
+      "R12",
+      "R28",
+      "R29"
+    ],
+    "rulesExclude": [
+      "R06",
+      "R07",
+      "R11"
+    ]
+  }
+}

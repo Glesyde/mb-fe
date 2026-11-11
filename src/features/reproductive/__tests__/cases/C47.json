@@ -1,0 +1,27 @@
+{
+  "id": "C47",
+  "title": "Male, hazardous occupation",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "male",
+    "age": 40,
+    "lifestyle": {
+      "occupation": "Pesticide sprayer",
+      "hazardousOccupation": true
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V3": "NOT_ENOUGH_DATA",
+      "V4": "NOT_ENOUGH_DATA",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [
+      "P1"
+    ],
+    "rulesInclude": [
+      "R21"
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "id": "C11",
+  "title": "Planned ovarian surgery for endometriomas",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 34,
+    "observations": [
+      {
+        "key": "AMH",
+        "value": 1.4,
+        "unit": "ng/mL",
+        "date": "2026-06-01"
+      }
+    ],
+    "history": {
+      "endometriosis": true,
+      "plannedOvarianSurgery": true
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V1": "STABLE",
+      "V2": "NOT_ENOUGH_DATA",
+      "V3": "NOT_ENOUGH_DATA",
+      "V5": "NEEDS_ATTENTION"
+    },
+    "pathways": [
+      "P4",
+      "P5"
+    ],
+    "rulesInclude": [
+      "R31",
+      "R08",
+      "R01"
+    ]
+  }
+}

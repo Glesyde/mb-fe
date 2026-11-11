@@ -1,0 +1,50 @@
+{
+  "id": "C12",
+  "title": "Past chemotherapy, low AMH for age",
+  "kind": "engine",
+  "language": "ar",
+  "input": {
+    "sex": "female",
+    "age": 28,
+    "observations": [
+      {
+        "key": "AMH",
+        "value": 0.6,
+        "unit": "ng/mL",
+        "date": "2026-06-01"
+      }
+    ],
+    "cycleLengths": [
+      28,
+      29,
+      28,
+      27,
+      28,
+      29
+    ],
+    "history": {
+      "pastChemoOrRadiotherapy": true
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V1": "NEEDS_ATTENTION",
+      "V2": "STABLE",
+      "V3": "NOT_ENOUGH_DATA",
+      "V5": "NEEDS_ATTENTION"
+    },
+    "pathways": [],
+    "rulesInclude": [
+      "R01",
+      "R34"
+    ],
+    "rulesExclude": [
+      "R30"
+    ],
+    "reasons": {
+      "V5": [
+        "history.pastChemoOrRadiotherapy"
+      ]
+    }
+  }
+}

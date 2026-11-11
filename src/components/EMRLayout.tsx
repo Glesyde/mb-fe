@@ -6,13 +6,15 @@ import {
   User, 
   FilePlus, 
   ChevronLeft, 
-  ChevronRight 
+  ChevronRight,
+  BarChart3
 } from "lucide-react";
 
 const NAV_TABS = [
   { to: "/emr/worklist", label: "My Worklist", icon: ClipboardList },
   { to: "/emr/chart", label: "Patient Chart", icon: User },
   { to: "/emr/orders", label: "Order Entry (CPOE)", icon: FilePlus },
+  { to: "/emr/reproductive-population", label: "Reproductive Insights", icon: BarChart3 },
 ];
 
 const EMRLayout: React.FC = () => {

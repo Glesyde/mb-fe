@@ -1,0 +1,97 @@
+{
+  "id": "C23",
+  "title": "Linked couple: woman 33 trying 14 months, partner shares semen, profile and lifestyle",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 33,
+    "observations": [
+      {
+        "key": "AMH",
+        "value": 2.4,
+        "unit": "ng/mL",
+        "date": "2026-06-01"
+      }
+    ],
+    "cycleLengths": [
+      28,
+      29,
+      28,
+      27,
+      28,
+      29
+    ],
+    "history": {},
+    "reproductive": {
+      "tryingSince": "2025-09-01",
+      "rubellaStatus": "immune"
+    }
+  },
+  "partner": {
+    "input": {
+      "sex": "male",
+      "age": 35,
+      "semen": [
+        {
+          "date": "2026-06-01",
+          "values": {
+            "SEMEN_VOLUME": 2.5,
+            "SPERM_CONCENTRATION": 9,
+            "TOTAL_SPERM_NUMBER": 100,
+            "TOTAL_MOTILITY": 55,
+            "PROGRESSIVE_MOTILITY": 22,
+            "NORMAL_FORMS": 6
+          }
+        }
+      ],
+      "lifestyle": {
+        "heatExposure": true
+      }
+    },
+    "sharedCategories": [
+      "PROFILE",
+      "HORMONES_SEMEN",
+      "LIFESTYLE"
+    ]
+  },
+  "expected": {
+    "vectors": {
+      "V1": "STABLE",
+      "V2": "STABLE",
+      "V3": "NOT_ENOUGH_DATA",
+      "V4": "NEEDS_ATTENTION",
+      "V5": "STABLE"
+    },
+    "pathways": [
+      "P5",
+      "P3"
+    ],
+    "rulesInclude": [
+      "R07",
+      "R29",
+      "R01"
+    ],
+    "rulesExclude": [
+      "R23",
+      "R20"
+    ],
+    "vectorRules": {
+      "V4": [
+        "R20",
+        "R22",
+        "R23"
+      ]
+    },
+    "reasons": {
+      "V4": [
+        "v4.fromPartner"
+      ]
+    },
+    "partnerSteps": [
+      "R23",
+      "R20",
+      "R22"
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "id": "C14",
+  "title": "Family history of early menopause",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 27,
+    "observations": [
+      {
+        "key": "AMH",
+        "value": 2.0,
+        "unit": "ng/mL",
+        "date": "2026-06-01"
+      }
+    ],
+    "history": {
+      "familyEarlyMenopause": true
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V1": "STABLE",
+      "V2": "NOT_ENOUGH_DATA",
+      "V3": "NOT_ENOUGH_DATA",
+      "V5": "NEEDS_ATTENTION"
+    },
+    "pathways": [
+      "P4"
+    ],
+    "rulesInclude": [
+      "R32",
+      "R01"
+    ]
+  }
+}

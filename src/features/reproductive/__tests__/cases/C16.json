@@ -1,0 +1,40 @@
+{
+  "id": "C16",
+  "title": "Bleeding after sex",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 35,
+    "cycleLengths": [
+      28,
+      29,
+      28,
+      27,
+      28,
+      29
+    ],
+    "symptoms": {
+      "freeText": "I have had bleeding after sex twice this month."
+    }
+  },
+  "expected": {
+    "emergency": false,
+    "vectors": {
+      "V1": "NOT_ENOUGH_DATA",
+      "V2": "STABLE",
+      "V3": "NOT_ENOUGH_DATA",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [
+      "P6"
+    ],
+    "urgency": {
+      "P6": "URGENT"
+    },
+    "rulesInclude": [
+      "R36",
+      "R11"
+    ]
+  }
+}

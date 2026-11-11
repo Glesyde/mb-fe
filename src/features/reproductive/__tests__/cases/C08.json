@@ -1,0 +1,70 @@
+{
+  "id": "C08",
+  "title": "PCOS-like pattern: 26, cycles 45–60 days, high AMH, BMI 31",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 26,
+    "observations": [
+      {
+        "key": "AMH",
+        "value": 11.0,
+        "unit": "ng/mL",
+        "date": "2026-06-01"
+      },
+      {
+        "key": "BMI",
+        "value": 31,
+        "unit": "kg/m2",
+        "date": "2026-04-01"
+      },
+      {
+        "key": "BMI",
+        "value": 31.2,
+        "unit": "kg/m2",
+        "date": "2026-10-01"
+      }
+    ],
+    "cycleLengths": [
+      45,
+      52,
+      60,
+      48,
+      55
+    ],
+    "history": {}
+  },
+  "expected": {
+    "vectors": {
+      "V1": "NEEDS_ATTENTION",
+      "V2": "NEEDS_ATTENTION",
+      "V3": "NEEDS_ATTENTION",
+      "V5": "STABLE"
+    },
+    "pathways": [
+      "P5",
+      "P2",
+      "P1"
+    ],
+    "rulesInclude": [
+      "R01",
+      "R10",
+      "R13"
+    ],
+    "rulesExclude": [
+      "R11",
+      "R34",
+      "R12"
+    ],
+    "reasons": {
+      "V1": [
+        "v1.aboveBand"
+      ],
+      "V2": [
+        "v2.long",
+        "v2.variable"
+      ]
+    }
+  }
+}

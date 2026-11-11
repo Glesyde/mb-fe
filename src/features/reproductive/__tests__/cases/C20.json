@@ -1,0 +1,43 @@
+{
+  "id": "C20",
+  "title": "Male smoker",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "male",
+    "age": 31,
+    "semen": [
+      {
+        "date": "2026-06-01",
+        "values": {
+          "SEMEN_VOLUME": 2.5,
+          "SPERM_CONCENTRATION": 40,
+          "TOTAL_SPERM_NUMBER": 100,
+          "TOTAL_MOTILITY": 55,
+          "PROGRESSIVE_MOTILITY": 40,
+          "NORMAL_FORMS": 6
+        }
+      }
+    ],
+    "lifestyle": {
+      "smoking": "current"
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V3": "NEEDS_ATTENTION",
+      "V4": "NEEDS_ATTENTION",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [
+      "P1"
+    ],
+    "rulesInclude": [
+      "R17",
+      "R22"
+    ],
+    "rulesExclude": [
+      "R16"
+    ]
+  }
+}

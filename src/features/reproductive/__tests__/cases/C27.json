@@ -1,0 +1,46 @@
+{
+  "id": "C27",
+  "title": "HbA1c worsening 5.4 → 6.0",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 36,
+    "observations": [
+      {
+        "key": "HBA1C",
+        "value": 5.4,
+        "unit": "%",
+        "date": "2025-10-01"
+      },
+      {
+        "key": "HBA1C",
+        "value": 6.0,
+        "unit": "%",
+        "date": "2026-08-01"
+      }
+    ]
+  },
+  "expected": {
+    "vectors": {
+      "V1": "NOT_ENOUGH_DATA",
+      "V2": "NOT_ENOUGH_DATA",
+      "V3": "NEEDS_ATTENTION",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [
+      "P1"
+    ],
+    "rulesInclude": [
+      "R38"
+    ],
+    "rulesExclude": [
+      "R37"
+    ],
+    "reasons": {
+      "V3": [
+        "v3.hba1cRising"
+      ]
+    }
+  }
+}

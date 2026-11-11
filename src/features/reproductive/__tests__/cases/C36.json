@@ -1,0 +1,59 @@
+{
+  "id": "C36",
+  "title": "Arabic output: every message key resolves in the Arabic catalogue",
+  "kind": "catalogue",
+  "language": "ar",
+  "input": {
+    "sex": "female",
+    "age": 33,
+    "observations": [
+      {
+        "key": "AMH",
+        "value": 2.5,
+        "unit": "ng/mL",
+        "date": "2026-05-01"
+      },
+      {
+        "key": "HBA1C",
+        "value": 5.9,
+        "unit": "%",
+        "date": "2025-11-15"
+      },
+      {
+        "key": "HBA1C",
+        "value": 5.4,
+        "unit": "%",
+        "date": "2026-09-01"
+      }
+    ],
+    "cycleLengths": [
+      28,
+      29,
+      28,
+      27,
+      28,
+      29
+    ],
+    "history": {},
+    "reproductive": {
+      "planningPregnancy": true
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V1": "STABLE",
+      "V2": "STABLE",
+      "V3": "IMPROVING",
+      "V5": "STABLE"
+    },
+    "pathways": [
+      "P2",
+      "P3"
+    ],
+    "rulesInclude": [
+      "R28",
+      "R29",
+      "R37"
+    ]
+  }
+}

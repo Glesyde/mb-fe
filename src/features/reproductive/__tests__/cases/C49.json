@@ -1,0 +1,30 @@
+{
+  "id": "C49",
+  "title": "Woman smoker",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 32,
+    "lifestyle": {
+      "smoking": "current"
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V1": "NOT_ENOUGH_DATA",
+      "V2": "NOT_ENOUGH_DATA",
+      "V3": "NEEDS_ATTENTION",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [
+      "P1"
+    ],
+    "rulesInclude": [
+      "R16"
+    ],
+    "rulesExclude": [
+      "R17"
+    ]
+  }
+}

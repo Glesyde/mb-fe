@@ -1,0 +1,33 @@
+{
+  "id": "C50",
+  "title": "Absent periods",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 34,
+    "reproductive": {
+      "periodsAbsent": true
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V1": "NOT_ENOUGH_DATA",
+      "V2": "NEEDS_ATTENTION",
+      "V3": "NOT_ENOUGH_DATA",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [
+      "P5",
+      "P2"
+    ],
+    "rulesInclude": [
+      "R10"
+    ],
+    "reasons": {
+      "V2": [
+        "v2.absent"
+      ]
+    }
+  }
+}

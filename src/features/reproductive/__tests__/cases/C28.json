@@ -1,0 +1,40 @@
+{
+  "id": "C28",
+  "title": "Single AMH result only (baseline only)",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 29,
+    "observations": [
+      {
+        "key": "AMH",
+        "value": 3.1,
+        "unit": "ng/mL",
+        "date": "2026-07-01"
+      }
+    ]
+  },
+  "expected": {
+    "vectors": {
+      "V1": "STABLE",
+      "V2": "NOT_ENOUGH_DATA",
+      "V3": "NOT_ENOUGH_DATA",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "density": {
+      "V1": "BASELINE_ONLY"
+    },
+    "pathways": [],
+    "rulesInclude": [
+      "R01",
+      "R04",
+      "R39"
+    ],
+    "vectorRules": {
+      "V1": [
+        "R39"
+      ]
+    }
+  }
+}

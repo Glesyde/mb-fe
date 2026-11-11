@@ -1,0 +1,35 @@
+{
+  "id": "C39",
+  "title": "Trying 6 months at 38 (P5)",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 38,
+    "reproductive": {
+      "tryingSince": "2026-05-01",
+      "concerned": true,
+      "rubellaStatus": "immune"
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V1": "NOT_ENOUGH_DATA",
+      "V2": "NOT_ENOUGH_DATA",
+      "V3": "NOT_ENOUGH_DATA",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [
+      "P5",
+      "P3"
+    ],
+    "rulesInclude": [
+      "R05",
+      "R06",
+      "R29"
+    ],
+    "rulesExclude": [
+      "R07"
+    ]
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "id": "C06",
+  "title": "Normal ageing at 42",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 42,
+    "observations": [
+      {
+        "key": "AMH",
+        "value": 0.8,
+        "unit": "ng/mL",
+        "date": "2026-06-01"
+      },
+      {
+        "key": "BMI",
+        "value": 23.5,
+        "unit": "kg/m2",
+        "date": "2026-03-01"
+      },
+      {
+        "key": "BMI",
+        "value": 23.8,
+        "unit": "kg/m2",
+        "date": "2026-09-01"
+      }
+    ],
+    "cycleLengths": [
+      28,
+      29,
+      28,
+      27,
+      28,
+      29
+    ],
+    "history": {},
+    "reproductive": {}
+  },
+  "expected": {
+    "vectors": {
+      "V1": "STABLE",
+      "V2": "STABLE",
+      "V3": "STABLE",
+      "V5": "STABLE"
+    },
+    "density": {
+      "V1": "BASELINE_ONLY",
+      "V3": "TREND"
+    },
+    "pathways": [],
+    "rulesInclude": [
+      "R01",
+      "R04",
+      "R11",
+      "R39"
+    ],
+    "rulesExclude": [
+      "R34",
+      "R05",
+      "R06"
+    ],
+    "vectorRules": {
+      "V1": [
+        "R01",
+        "R39"
+      ]
+    }
+  }
+}

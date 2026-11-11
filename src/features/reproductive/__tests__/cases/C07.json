@@ -1,0 +1,51 @@
+{
+  "id": "C07",
+  "title": "Low AMH at 31, regular cycles, not trying (no natural-pregnancy prediction)",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 31,
+    "observations": [
+      {
+        "key": "AMH",
+        "value": 0.5,
+        "unit": "ng/mL",
+        "date": "2026-06-01"
+      }
+    ],
+    "cycleLengths": [
+      28,
+      29,
+      28,
+      27,
+      28,
+      29
+    ],
+    "history": {}
+  },
+  "expected": {
+    "vectors": {
+      "V1": "NEEDS_ATTENTION",
+      "V2": "STABLE",
+      "V3": "NOT_ENOUGH_DATA",
+      "V5": "STABLE"
+    },
+    "pathways": [],
+    "rulesInclude": [
+      "R01",
+      "R34",
+      "R11"
+    ],
+    "rulesExclude": [
+      "R05",
+      "R06",
+      "R07"
+    ],
+    "reasons": {
+      "V1": [
+        "v1.belowBand"
+      ]
+    }
+  }
+}

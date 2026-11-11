@@ -1,0 +1,47 @@
+{
+  "id": "C24",
+  "title": "BMI 17.5 with irregular periods",
+  "kind": "engine",
+  "language": "ar",
+  "input": {
+    "sex": "female",
+    "age": 22,
+    "observations": [
+      {
+        "key": "BMI",
+        "value": 17.5,
+        "unit": "kg/m2",
+        "date": "2026-09-01"
+      }
+    ],
+    "cycleLengths": [
+      38,
+      60,
+      42,
+      55
+    ]
+  },
+  "expected": {
+    "vectors": {
+      "V1": "NOT_ENOUGH_DATA",
+      "V2": "NEEDS_ATTENTION",
+      "V3": "NEEDS_ATTENTION",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [
+      "P5",
+      "P2",
+      "P1"
+    ],
+    "rulesInclude": [
+      "R15",
+      "R10"
+    ],
+    "rulesExclude": [
+      "R13"
+    ],
+    "density": {
+      "V3": "BASELINE_ONLY"
+    }
+  }
+}

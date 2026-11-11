@@ -33,6 +33,7 @@ import LoadingAnimation from "./animations/LoadingAnimation";
 import ConsentModal from "./ConsentModal";
 import MARPanel from "./MARPanel";
 import TransfusionPanel from "./TransfusionPanel";
+import ReproductiveTab from "../features/reproductive/components/ReproductiveTab";
 
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -183,6 +184,7 @@ const EMRChart: React.FC = () => {
     const [activeTab, setActiveTab] = useState<
         | "notes"
         | "diagnosis"
+        | "reproductive"
         | "profiling"
         | "vitals"
         | "io_chart"
@@ -4770,6 +4772,9 @@ const EMRChart: React.FC = () => {
 
 
 
+
+            case "reproductive":
+                return <ReproductiveTab patient={patientData} encounterNumber={encounterNumber} history={historyEncounters} vitals={vitalsList} />;
 
             // ==========================================
             // DIAGNOSIS TAB
@@ -11452,6 +11457,7 @@ const EMRChart: React.FC = () => {
                             { id: "history", label: "History", icon: HistoryIcon },
                             { id: "notes", label: "Physician Notes", icon: FileText },
                             { id: "diagnosis", label: "Diagnosis", icon: Stethoscope },
+                            { id: "reproductive", label: "Reproductive Health", icon: HeartPulse },
                             // { id: "profiling", label: "Clinical Tags", icon: Tags },
                             { id: "vitals", label: "Vitals", icon: Activity },
                             { id: "io_chart", label: "I/O Chart", icon: Droplets },

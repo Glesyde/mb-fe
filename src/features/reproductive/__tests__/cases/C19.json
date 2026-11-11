@@ -1,0 +1,35 @@
+{
+  "id": "C19",
+  "title": "Male, regular heat exposure at work, no semen analysis yet",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "male",
+    "age": 35,
+    "lifestyle": {
+      "heatExposure": true,
+      "occupation": "Bakery oven operator"
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V3": "NOT_ENOUGH_DATA",
+      "V4": "NEEDS_ATTENTION",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [
+      "P1"
+    ],
+    "rulesInclude": [
+      "R20"
+    ],
+    "rulesExclude": [
+      "R22"
+    ],
+    "gaps": {
+      "V4": [
+        "gap.noSemen"
+      ]
+    }
+  }
+}

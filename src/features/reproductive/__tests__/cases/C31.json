@@ -1,0 +1,65 @@
+{
+  "id": "C31",
+  "title": "Consent withdrawn for hormones and semen",
+  "kind": "engine",
+  "language": "ar",
+  "input": {
+    "sex": "female",
+    "age": 33,
+    "observations": [
+      {
+        "key": "AMH",
+        "value": 2.5,
+        "unit": "ng/mL",
+        "date": "2026-06-01"
+      },
+      {
+        "key": "HBA1C",
+        "value": 5.9,
+        "unit": "%",
+        "date": "2025-11-15"
+      },
+      {
+        "key": "HBA1C",
+        "value": 5.4,
+        "unit": "%",
+        "date": "2026-09-01"
+      }
+    ],
+    "cycleLengths": [
+      28,
+      29,
+      28,
+      27,
+      28,
+      29
+    ],
+    "consent": {
+      "HORMONES_SEMEN": false
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V1": "NOT_ENOUGH_DATA",
+      "V2": "STABLE",
+      "V3": "IMPROVING",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "dataWithdrawn": [
+      "V1"
+    ],
+    "pathways": [],
+    "rulesInclude": [
+      "R40",
+      "R37"
+    ],
+    "rulesExclude": [
+      "R01"
+    ],
+    "vectorRules": {
+      "V1": [
+        "R40"
+      ]
+    }
+  }
+}

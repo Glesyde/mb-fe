@@ -1,0 +1,25 @@
+{
+  "id": "C43",
+  "title": "Insurer or employer role has no access",
+  "kind": "access",
+  "language": "en",
+  "roleSets": [
+    [
+      "insurer"
+    ],
+    [
+      "employer"
+    ],
+    [
+      "insurance_officer",
+      "doctor"
+    ],
+    [
+      "hmo_officer"
+    ]
+  ],
+  "hasEmrAccess": true,
+  "expected": {
+    "allowed": false
+  }
+}

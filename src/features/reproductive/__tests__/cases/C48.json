@@ -1,0 +1,30 @@
+{
+  "id": "C48",
+  "title": "Planning pregnancy, rubella status unknown",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 30,
+    "reproductive": {
+      "planningPregnancy": true,
+      "rubellaStatus": "unknown"
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V1": "NOT_ENOUGH_DATA",
+      "V2": "NOT_ENOUGH_DATA",
+      "V3": "NOT_ENOUGH_DATA",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [
+      "P2",
+      "P3"
+    ],
+    "rulesInclude": [
+      "R28",
+      "R29"
+    ]
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "C22",
+  "title": "Male, no sperm on repeat analysis",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "male",
+    "age": 33,
+    "semen": [
+      {
+        "date": "2026-03-01",
+        "values": {
+          "SEMEN_VOLUME": 2.8,
+          "SPERM_CONCENTRATION": 0
+        }
+      },
+      {
+        "date": "2026-07-01",
+        "values": {
+          "SEMEN_VOLUME": 2.6,
+          "SPERM_CONCENTRATION": 0
+        }
+      }
+    ]
+  },
+  "expected": {
+    "vectors": {
+      "V3": "NOT_ENOUGH_DATA",
+      "V4": "NEEDS_ATTENTION",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [
+      "P5"
+    ],
+    "rulesInclude": [
+      "R22",
+      "R24",
+      "R25"
+    ],
+    "rulesExclude": [
+      "R23"
+    ],
+    "reasons": {
+      "V4": [
+        "v4.noSperm"
+      ]
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "C40",
+  "title": "Trying 12 months at 29 (P5)",
+  "kind": "engine",
+  "language": "ar",
+  "input": {
+    "sex": "female",
+    "age": 29,
+    "reproductive": {
+      "tryingSince": "2025-11-01",
+      "rubellaStatus": "immune"
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V1": "NOT_ENOUGH_DATA",
+      "V2": "NOT_ENOUGH_DATA",
+      "V3": "NOT_ENOUGH_DATA",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [
+      "P5",
+      "P3"
+    ],
+    "rulesInclude": [
+      "R07",
+      "R29"
+    ],
+    "rulesExclude": [
+      "R06"
+    ]
+  }
+}

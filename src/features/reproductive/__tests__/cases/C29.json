@@ -1,0 +1,41 @@
+{
+  "id": "C29",
+  "title": "Cycle records only",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 30,
+    "cycleLengths": [
+      28,
+      29,
+      28,
+      27,
+      28,
+      29
+    ]
+  },
+  "expected": {
+    "vectors": {
+      "V1": "NOT_ENOUGH_DATA",
+      "V2": "STABLE",
+      "V3": "NOT_ENOUGH_DATA",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [],
+    "rulesInclude": [
+      "R11"
+    ],
+    "gaps": {
+      "V1": [
+        "gap.noHormones"
+      ],
+      "V3": [
+        "gap.noMetabolic"
+      ],
+      "V5": [
+        "gap.noHistory"
+      ]
+    }
+  }
+}

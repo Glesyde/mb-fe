@@ -1,0 +1,40 @@
+{
+  "id": "C21",
+  "title": "Male asks for a DNA fragmentation test",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "male",
+    "age": 38,
+    "semen": [
+      {
+        "date": "2026-06-01",
+        "values": {
+          "SEMEN_VOLUME": 2.5,
+          "SPERM_CONCENTRATION": 40,
+          "TOTAL_SPERM_NUMBER": 100,
+          "TOTAL_MOTILITY": 55,
+          "PROGRESSIVE_MOTILITY": 40,
+          "NORMAL_FORMS": 6
+        }
+      }
+    ],
+    "reproductive": {
+      "questions": [
+        "DNA_FRAGMENTATION"
+      ]
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V3": "NOT_ENOUGH_DATA",
+      "V4": "STABLE",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [],
+    "rulesInclude": [
+      "R26",
+      "R22"
+    ]
+  }
+}

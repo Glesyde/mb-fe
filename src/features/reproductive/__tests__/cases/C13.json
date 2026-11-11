@@ -1,0 +1,30 @@
+{
+  "id": "C13",
+  "title": "New breast cancer diagnosis before treatment (urgent P4)",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 30,
+    "history": {
+      "newCancerDiagnosis": true
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V1": "NOT_ENOUGH_DATA",
+      "V2": "NOT_ENOUGH_DATA",
+      "V3": "NOT_ENOUGH_DATA",
+      "V5": "NEEDS_ATTENTION"
+    },
+    "pathways": [
+      "P4"
+    ],
+    "urgency": {
+      "P4": "URGENT"
+    },
+    "rulesInclude": [
+      "R30"
+    ]
+  }
+}

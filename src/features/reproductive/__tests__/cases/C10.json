@@ -1,0 +1,41 @@
+{
+  "id": "C10",
+  "title": "Endometriosis",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 32,
+    "cycleLengths": [
+      28,
+      29,
+      28,
+      27,
+      28,
+      29
+    ],
+    "history": {
+      "endometriosis": true
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V1": "NOT_ENOUGH_DATA",
+      "V2": "STABLE",
+      "V3": "NOT_ENOUGH_DATA",
+      "V5": "NEEDS_ATTENTION"
+    },
+    "pathways": [
+      "P5"
+    ],
+    "rulesInclude": [
+      "R08",
+      "R11"
+    ],
+    "vectorRules": {
+      "V5": [
+        "R08"
+      ]
+    }
+  }
+}

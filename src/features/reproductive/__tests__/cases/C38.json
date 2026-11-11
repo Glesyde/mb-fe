@@ -1,0 +1,34 @@
+{
+  "id": "C38",
+  "title": "Trying 4 months at 36 (reassure)",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 36,
+    "reproductive": {
+      "tryingSince": "2026-07-01",
+      "concerned": true,
+      "rubellaStatus": "immune"
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V1": "NOT_ENOUGH_DATA",
+      "V2": "NOT_ENOUGH_DATA",
+      "V3": "NOT_ENOUGH_DATA",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [
+      "P3"
+    ],
+    "rulesInclude": [
+      "R05",
+      "R29"
+    ],
+    "rulesExclude": [
+      "R06",
+      "R07"
+    ]
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "C25",
+  "title": "BMI 36, planning pregnancy",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 34,
+    "observations": [
+      {
+        "key": "BMI",
+        "value": 36,
+        "unit": "kg/m2",
+        "date": "2026-02-01"
+      },
+      {
+        "key": "BMI",
+        "value": 35.6,
+        "unit": "kg/m2",
+        "date": "2026-09-01"
+      }
+    ],
+    "reproductive": {
+      "planningPregnancy": true,
+      "rubellaStatus": "immune"
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V1": "NOT_ENOUGH_DATA",
+      "V2": "NOT_ENOUGH_DATA",
+      "V3": "NEEDS_ATTENTION",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [
+      "P3",
+      "P1"
+    ],
+    "rulesInclude": [
+      "R13",
+      "R14",
+      "R29"
+    ],
+    "rulesExclude": [
+      "R15",
+      "R28"
+    ]
+  }
+}

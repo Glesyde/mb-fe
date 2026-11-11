@@ -1,0 +1,41 @@
+{
+  "id": "C42",
+  "title": "Egg-freezing question for age reasons (R02, R33)",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 35,
+    "observations": [
+      {
+        "key": "AMH",
+        "value": 1.8,
+        "unit": "ng/mL",
+        "date": "2026-06-01"
+      }
+    ],
+    "reproductive": {
+      "eggFreezingConsidered": true,
+      "eggFreezingForAge": true,
+      "questions": [
+        "EGG_FREEZING"
+      ]
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V1": "STABLE",
+      "V2": "NOT_ENOUGH_DATA",
+      "V3": "NOT_ENOUGH_DATA",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [
+      "P4"
+    ],
+    "rulesInclude": [
+      "R02",
+      "R33",
+      "R01"
+    ]
+  }
+}

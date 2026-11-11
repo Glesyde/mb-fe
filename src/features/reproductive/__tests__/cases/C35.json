@@ -1,0 +1,49 @@
+{
+  "id": "C35",
+  "title": "AI wording times out at 3.5 s (template fallback)",
+  "kind": "explain",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 33,
+    "observations": [
+      {
+        "key": "AMH",
+        "value": 2.5,
+        "unit": "ng/mL",
+        "date": "2026-05-01"
+      },
+      {
+        "key": "HBA1C",
+        "value": 5.9,
+        "unit": "%",
+        "date": "2025-11-15"
+      },
+      {
+        "key": "HBA1C",
+        "value": 5.4,
+        "unit": "%",
+        "date": "2026-09-01"
+      }
+    ],
+    "cycleLengths": [
+      28,
+      29,
+      28,
+      27,
+      28,
+      29
+    ],
+    "history": {}
+  },
+  "explain": {
+    "mode": "delay",
+    "delayMs": 3500,
+    "text": "HbA1c came down from 5.9% to 5.4%. Your doctor decides."
+  },
+  "expected": {
+    "source": "TEMPLATE",
+    "fallbackReason": "TIMEOUT",
+    "note": "explain.standardWording"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "id": "C17",
+  "title": "Male, semen analysis within reference",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "male",
+    "age": 34,
+    "semen": [
+      {
+        "date": "2026-06-01",
+        "values": {
+          "SEMEN_VOLUME": 2.5,
+          "SPERM_CONCENTRATION": 40,
+          "TOTAL_SPERM_NUMBER": 100,
+          "TOTAL_MOTILITY": 55,
+          "PROGRESSIVE_MOTILITY": 40,
+          "NORMAL_FORMS": 6
+        }
+      }
+    ],
+    "observations": [
+      {
+        "key": "BMI",
+        "value": 23.5,
+        "unit": "kg/m2",
+        "date": "2026-03-01"
+      },
+      {
+        "key": "BMI",
+        "value": 23.8,
+        "unit": "kg/m2",
+        "date": "2026-09-01"
+      }
+    ],
+    "history": {}
+  },
+  "expected": {
+    "vectors": {
+      "V3": "STABLE",
+      "V4": "STABLE",
+      "V5": "STABLE"
+    },
+    "density": {
+      "V4": "BASELINE_ONLY"
+    },
+    "pathways": [],
+    "rulesInclude": [
+      "R22",
+      "R04",
+      "R39"
+    ],
+    "rulesExclude": [
+      "R23"
+    ]
+  }
+}

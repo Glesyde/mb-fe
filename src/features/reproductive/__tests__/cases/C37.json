@@ -1,0 +1,40 @@
+{
+  "id": "C37",
+  "title": "AMH measured on the pill (confounder note)",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 27,
+    "observations": [
+      {
+        "key": "AMH",
+        "value": 1.0,
+        "unit": "ng/mL",
+        "date": "2026-06-01",
+        "hormonalContraception": true
+      }
+    ]
+  },
+  "expected": {
+    "vectors": {
+      "V1": "NEEDS_ATTENTION",
+      "V2": "NOT_ENOUGH_DATA",
+      "V3": "NOT_ENOUGH_DATA",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [],
+    "rulesInclude": [
+      "R01"
+    ],
+    "rulesExclude": [
+      "R34"
+    ],
+    "reasons": {
+      "V1": [
+        "v1.belowBand",
+        "v1.confounder.hormonalContraception"
+      ]
+    }
+  }
+}

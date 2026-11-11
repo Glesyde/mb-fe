@@ -1,0 +1,26 @@
+{
+  "id": "C45",
+  "title": "Male, undescended testes",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "male",
+    "age": 30,
+    "history": {
+      "undescendedTestes": true
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V3": "NOT_ENOUGH_DATA",
+      "V4": "NOT_ENOUGH_DATA",
+      "V5": "NEEDS_ATTENTION"
+    },
+    "pathways": [
+      "P5"
+    ],
+    "rulesInclude": [
+      "R09"
+    ]
+  }
+}

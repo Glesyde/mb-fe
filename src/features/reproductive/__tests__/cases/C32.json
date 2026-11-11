@@ -1,0 +1,14 @@
+{
+  "id": "C32",
+  "title": "\"What percent fertile am I\" is blocked",
+  "kind": "inputCheck",
+  "language": "en",
+  "text": "what percent fertile am I",
+  "expected": {
+    "blocked": [
+      "FERTILITY_SCORE"
+    ],
+    "redFlags": [],
+    "outputRejected": true
+  }
+}

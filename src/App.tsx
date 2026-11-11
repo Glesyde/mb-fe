@@ -34,6 +34,9 @@ import EMRLayout from "./components/EMRLayout";
 import EMRWorklist from "./components/EMRWorklist";
 import EMRChart from "./components/EMRChart";
 import EMROrders from "./components/EMROrders";
+import ReproductivePopulationPage from "./features/reproductive/components/PopulationView";
+import ReproDemoPage from "./features/reproductive/components/DemoPage";
+import { isPublicDemoRoute, publicDemoFlag } from "./features/reproductive/publicDemo";
 
 // Billing & Revenue
 import BillingLayout from "./components/BillingLayout";
@@ -373,6 +376,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 };
 
 const App: React.FC = () => {
+  // Public demo for judges: outside the login and AuthProvider, only when VITE_REPRO_PUBLIC_DEMO=true.
+  if (isPublicDemoRoute(window.location.pathname, publicDemoFlag())) return <ReproDemoPage />;
+
   return (
     <NotificationProvider>
       <AuthProvider>
@@ -471,6 +477,7 @@ const App: React.FC = () => {
                 <Route path="worklist" element={<EMRWorklist />} />
                 <Route path="chart" element={<EMRChart />} />
                 <Route path="orders" element={<EMROrders />} />
+                <Route path="reproductive-population" element={<ReproductivePopulationPage />} />
               </Route>
 
               {/* Billing & Cashier */}

@@ -1,0 +1,33 @@
+{
+  "id": "C46",
+  "title": "Caffeine question and alcohol recorded",
+  "kind": "engine",
+  "language": "ar",
+  "input": {
+    "sex": "female",
+    "age": 28,
+    "lifestyle": {
+      "alcoholUnitsPerWeek": 4
+    },
+    "reproductive": {
+      "questions": [
+        "CAFFEINE"
+      ]
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V1": "NOT_ENOUGH_DATA",
+      "V2": "NOT_ENOUGH_DATA",
+      "V3": "NOT_ENOUGH_DATA",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [
+      "P1"
+    ],
+    "rulesInclude": [
+      "R18",
+      "R19"
+    ]
+  }
+}

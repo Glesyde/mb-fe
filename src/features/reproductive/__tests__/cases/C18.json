@@ -1,0 +1,45 @@
+{
+  "id": "C18",
+  "title": "Male, one analysis below WHO reference",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "male",
+    "age": 36,
+    "semen": [
+      {
+        "date": "2026-06-01",
+        "values": {
+          "SEMEN_VOLUME": 2.5,
+          "SPERM_CONCENTRATION": 9,
+          "TOTAL_SPERM_NUMBER": 100,
+          "TOTAL_MOTILITY": 55,
+          "PROGRESSIVE_MOTILITY": 22,
+          "NORMAL_FORMS": 6
+        }
+      }
+    ]
+  },
+  "expected": {
+    "vectors": {
+      "V3": "NOT_ENOUGH_DATA",
+      "V4": "NEEDS_ATTENTION",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [
+      "P2"
+    ],
+    "rulesInclude": [
+      "R22",
+      "R23"
+    ],
+    "rulesExclude": [
+      "R24"
+    ],
+    "reasons": {
+      "V4": [
+        "v4.belowReference"
+      ]
+    }
+  }
+}

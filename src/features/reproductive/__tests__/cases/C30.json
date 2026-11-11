@@ -1,0 +1,27 @@
+{
+  "id": "C30",
+  "title": "Thyroid symptoms",
+  "kind": "engine",
+  "language": "en",
+  "input": {
+    "sex": "female",
+    "age": 31,
+    "reproductive": {
+      "thyroidSymptoms": true
+    }
+  },
+  "expected": {
+    "vectors": {
+      "V1": "NOT_ENOUGH_DATA",
+      "V2": "NOT_ENOUGH_DATA",
+      "V3": "NOT_ENOUGH_DATA",
+      "V5": "NOT_ENOUGH_DATA"
+    },
+    "pathways": [
+      "P2"
+    ],
+    "rulesInclude": [
+      "R27"
+    ]
+  }
+}
