@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserProfile } from '../types';
 import { NAV_ITEMS, ROLE_PERMISSIONS } from '../services/constants';
 import { useAuth } from "../context/AuthContext";
+import MedBookieLogo from "./MedBookieLogo";
 
 interface HeaderProps {
   toggleMobileMenu: () => void;
@@ -200,12 +201,7 @@ const Header: React.FC<HeaderProps> = ({ toggleMobileMenu, user, onLogout }) => 
         <div className="flex items-center gap-3">
 
 
-          <img
-            src="/assets/logo-nobg.png"
-            alt="Logo"
-            className="block lg:hidden object-contain transition-all duration-300 w-10 h-10"
-            
-          />
+          <MedBookieLogo variant="onDark" compact className="lg:hidden" />
           {/* <div className="p-2 bg-white/15 backdrop-blur-md rounded-xl border border-white/20 shadow-sm flex items-center justify-center">
             <Stethoscope size={20} className="text-white" />
           </div>

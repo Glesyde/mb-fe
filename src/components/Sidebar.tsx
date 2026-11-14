@@ -6,6 +6,7 @@ import { NAV_PERMISSION_RULES } from "../services/constants";
 import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
 import { UserRole, NavItem } from "../types";
 import { useAuth } from "../context/AuthContext";
+import MedBookieLogo from "./MedBookieLogo";
 
 interface SidebarProps {
   isCollapsed: boolean;
@@ -352,13 +353,11 @@ const Sidebar: React.FC<SidebarProps> = ({
         }`}
       >
         <div className="flex items-center justify-center h-20 overflow-hidden">
-          <img
-            src="/assets/logo-nobg.png"
-            alt="Logo"
-            className={`object-contain transition-all duration-300 ${
-              isCollapsed ? "w-10 h-10" : "w-20"
-            }`}
-          />
+          {isCollapsed ? (
+            <MedBookieLogo variant="onDark" compact />
+          ) : (
+            <MedBookieLogo variant="onDark" size="sm" showTagline={sidebarWidth >= 320} />
+          )}
         </div>
       </div>
 

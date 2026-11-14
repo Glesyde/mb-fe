@@ -15,30 +15,7 @@ import {
   ServerCrash
 } from 'lucide-react';
 import LoadingAnimation from './animations/LoadingAnimation';
-
-/**
- * High-quality, scalable SVG / Typography component of your brand 
- * to keep visual clarity perfect (MedBookie | Health Information Software)
- */
-const MedBookieLogo: React.FC<{ className?: string }> = ({ className = '' }) => {
-  return (
-    <div className={`inline-flex items-center select-none ${className}`}>
-      <div className="text-2xl sm:text-[28px] font-extrabold tracking-tight leading-none">
-        <span className="text-[#F28C0F]">Med</span>
-        <span className="text-[#1E252B]">Bookie</span>
-      </div>
-      <div className="mx-3 h-7 w-[1.5px] bg-slate-200" />
-      <div className="flex flex-col justify-center text-left leading-none">
-        <span className="text-[#F28C0F] font-bold text-xs tracking-tight">
-          Health Information
-        </span>
-        <span className="text-slate-500 font-normal text-[11px] tracking-tight mt-[1px]">
-          Software
-        </span>
-      </div>
-    </div>
-  );
-};
+import MedBookieLogo from './MedBookieLogo';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
