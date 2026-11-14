@@ -1,9 +1,46 @@
-# Reproductive Health – API contract (future backend)
+# Reproductive Health – API contract
 
-**Status: documentation only.** No backend exists for this feature. Today the frontend uses
-`demoRepository` (browser storage, synthetic data). A future `apiRepository` implements the same
-`ReproRepository` interface (`src/features/reproductive/data/repository.ts`) against the endpoints
-below, so swapping it in is a one-line change.
+## Connected today (`VITE_REPRO_BACKEND=true`)
+
+The chart tab uses four HIS endpoints, all through `src/api/client.ts` (login cookie, session
+refresh). Code: `services/trajectory.service.ts` (calls) and `data/trajectoryMapper.ts` (response
+mapping). `/repro-demo` and demo scenarios never call them.
+
+| Endpoint | When | Body / query |
+| --- | --- | --- |
+| `GET /clinical/trajectory?patient_id=<MRN>` | Every time the tab evaluates a real patient | – |
+| `POST /clinical/trajectory-consent` | Consent step: "Confirm consent" | `{ patient_id, user_id, user_name, reason, consented_categories[] }` (PROFILE always included) |
+| `POST /clinical/trajectory-consent` | Manage consent: one switch | `{ patient_id, user_id, user_name, category, granted, reason }` |
+| `POST /clinical/trajectory-order-diagnostics` | Order tests: the clinician ticks tests and confirms | `{ patient_id, encounter_id, ordered_by, diagnostics: [{ test_name, loinc, source, reason }] }` |
+| `POST /clinical/trajectory-referral` | Referral summary: "Send referral to the HIS" | `{ patient_id, doctor_name, target_specialty, clinical_reason }` |
+
+`patient_id` is the MRN. `user_id`, `user_name`, `ordered_by` and `doctor_name` are the logged-in
+user (`user_id`/`ordered_by` as a number when numeric). A request counts as failed on an HTTP error or
+when the body has a `status` other than `"success"`; the HIS `message` is shown to the clinician.
+
+**What the tab reads from `GET /clinical/trajectory`:**
+
+- `consent_confirmed`, `consented_categories`, `consent_details.provision`, `consent_activity_log`.
+  The HIS is the record of consent: without `consent_confirmed: true` the consent step is shown.
+- `historical_trends`: released results only, dated by `timestamps.effective_at`. Semen parameters
+  (LOINC 3155-9, 6800-1, 9781-6, 13942-8, 13943-6, 13944-4) are regrouped per `order_id`. Skipped,
+  with the reason shown in the trace: percentages outside 0–100, negative values, unknown units
+  (FSH only in IU/L or mIU/mL), results not released, and parameters this tool does not use.
+- Age and sex from the FHIR `Patient` in `fhir_bundle_preview` (else `patient_age`, `patient_gender`);
+  BMI from the bundle only when it has a date (otherwise from the chart's vitals).
+- `emergency_halt` (red warning), `encounter_id` (for orders), `pending_diagnostic_orders` (a test
+  already open cannot be ordered again), `recommended_diagnostics`, `specialist_referrals`.
+- Not used: `explanation` (the tab's own reviewed template wording is shown) and `engine_error`.
+
+Still kept in this browser until the HIS has endpoints for them: cycles, history, lifestyle, plans,
+red-flag events, counselling, partner links, and a local copy of each referral (for the PDF/JSON
+summary and population measures).
+
+## Proposed endpoints (not built yet)
+
+The rest of this page describes endpoints the feature would need to move everything else off the
+browser. A future `apiRepository` implements the same `ReproRepository` interface
+(`src/features/reproductive/data/repository.ts`) against them.
 
 ## Conventions
 

@@ -72,6 +72,7 @@ per-case results with the error-source stage, edge cases, totals by age band, se
 | --- | --- | --- |
 | `VITE_API_BASE_URL` | The HIS API (existing; the chart tab reads patient, vitals and lab data through it) | – |
 | `VITE_REPRO_PUBLIC_DEMO` | Set to `true` to serve `/repro-demo` outside the login. Any other value: `/repro-demo` goes to normal routing | off |
+| `VITE_REPRO_BACKEND` | Set to `true` so the chart tab loads labs, age, sex and consent from `GET /clinical/trajectory?patient_id=<MRN>`. Any other value: the tab reads the chart's own data, as before. Never used by `/repro-demo` | off |
 | `VITE_REPRO_EXPLAIN_URL` | Optional AI wording endpoint. Unset → standard template wording (the default and the fallback) | unset |
 
 All data for this feature, including demo data and partner links, lives in this browser's

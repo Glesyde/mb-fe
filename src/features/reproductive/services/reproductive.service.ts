@@ -21,7 +21,8 @@ import type {
   VectorResult,
   VectorState,
 } from "../engine/types";
-import { mapEmrData, toEngineInput, type MappedEmr } from "../data/mappers";
+import { mapEmrData, mapVitals, toEngineInput, type MappedEmr } from "../data/mappers";
+import { mapTrajectory, type MappedTrajectory } from "../data/trajectoryMapper";
 import { isPermitted } from "../data/records";
 import type { Actor, ReproRecord, ReproRepository } from "../data/repository";
 import { explain, type ExplainOptions, type Explanation } from "./explanation.service";
@@ -68,6 +69,8 @@ export type RunOutcome =
       elapsedMs: number;
       hasData: boolean;
       partner: PartnerSummary | null;
+      /** Set when the data came from the HIS trajectory endpoint (VITE_REPRO_BACKEND=true). */
+      his: MappedTrajectory | null;
     };
 
 export interface RunOptions {
@@ -84,6 +87,25 @@ export interface RunOptions {
    * so no API call is made there.
    */
   partnerEmr?: { load: (mrn: string) => Promise<EmrSource | null>; actor: Actor };
+  /**
+   * Real chart with VITE_REPRO_BACKEND=true: loads GET /clinical/trajectory for this MRN. Labs, age,
+   * sex and consent then come from the HIS; BMI and blood pressure still come from the chart's
+   * vitals. Never called for demo records.
+   */
+  backend?: { load: () => Promise<unknown> };
+}
+
+/** Labs and profile from the HIS response; BMI and blood pressure from the chart's vitals rows. */
+function backendEmr(his: MappedTrajectory, source: EmrSource | undefined): MappedEmr {
+  const historyVitals = ((source?.history ?? []) as any[]).flatMap((e) => (Array.isArray(e?.vitals) ? e.vitals : []));
+  const vitals = mapVitals([...((source?.vitals ?? []) as any[]), ...historyVitals]);
+  const hisHasBmi = his.observations.some((o) => o.code.key === "BMI");
+  return {
+    profile: his.profile,
+    observations: [...vitals.observations.filter((o) => !(hisHasBmi && o.code.key === "BMI")), ...his.observations],
+    matchedLabParameters: his.matched,
+    skipped: [...vitals.skipped, ...his.skipped],
+  };
 }
 
 function assembleBrief(result: EngineResult): BriefPayload {
@@ -175,15 +197,38 @@ async function partnerContext(repo: ReproRepository, record: ReproRecord, partne
 export async function runEvaluation(options: RunOptions): Promise<RunOutcome> {
   const { repo, patientId, lang, clock } = options;
   const t0 = clock ? clock() : 0;
-  const record = await repo.getRecord(patientId);
+  let record = await repo.getRecord(patientId);
+  let his: MappedTrajectory | null = null;
+  if (options.backend && !record?.isDemo) {
+    his = mapTrajectory(await options.backend.load(), await repo.getToday());
+    // The HIS is the record of consent: without its confirmation, the consent step is shown,
+    // whatever this browser holds.
+    if (!his.consent.confirmed) return { status: "CONSENT_REQUIRED", asOf: await repo.getToday() };
+    {
+      // Entered data (cycles, history, plans…) still lives in this browser until the HIS has
+      // endpoints for it, so a local record is kept with the consent the HIS recorded.
+      if (!record) {
+        const by = his.consent.recordedBy ?? { id: "unknown", name: "HIS" };
+        await repo.createRecord(patientId, { sex: his.profile.sex, language: "en" }, by, his.consent.consented);
+        record = await repo.getRecord(patientId);
+      }
+      // The HIS consent always wins over the browser copy.
+      if (record) record = { ...record, consentMode: "CLINICIAN_CONFIRMED", consent: his.consent.resource };
+    }
+  }
   // A real patient is never evaluated before the clinician has confirmed consent.
   if (!record) return { status: "CONSENT_REQUIRED", asOf: await repo.getToday() };
   // Demo records follow the demo date; real patients are always evaluated at today.
   const asOf = record.isDemo ? await repo.getAsOf() : await repo.getToday();
 
-  const emr = options.emr && !record.isDemo ? mapEmrData({ ...options.emr, history: options.emr.history as any[], vitals: options.emr.vitals as any[], asOf }) : null;
+  const emr = his
+    ? backendEmr(his, options.emr)
+    : options.emr && !record.isDemo
+      ? mapEmrData({ ...options.emr, history: options.emr.history as any[], vitals: options.emr.vitals as any[], asOf }) : null;
   const input = toEngineInput(record, asOf, emr ?? undefined);
-  const mappingSummary = emr
+  const mappingSummary = his
+    ? `HIS trajectory: ${emr!.observations.length} value(s) read, ${his.matched.length} lab name(s) matched, ${emr!.skipped.length} skipped`
+    : emr
     ? `EMR: ${emr.observations.length} value(s) read, ${emr.matchedLabParameters.length} lab name(s) matched, ${emr.skipped.length} skipped`
     : record.isDemo
       ? "Demo data only"
@@ -229,5 +274,6 @@ export async function runEvaluation(options: RunOptions): Promise<RunOutcome> {
     elapsedMs: clock ? Math.round((clock() - t0) * 100) / 100 : 0,
     hasData,
     partner: partner.summary,
+    his,
   };
 }

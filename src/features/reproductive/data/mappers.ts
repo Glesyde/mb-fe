@@ -116,7 +116,7 @@ export function mapVitals(vitalsRows: any[]): MappedVitals {
 
 // --- Labs -----------------------------------------------------------------------------------------
 /** Lab parameter names we recognise (case-insensitive). Listed in the phase summary. */
-const LAB_NAME_PATTERNS: { key: ObservationKey; pattern: RegExp; units?: RegExp }[] = [
+export const LAB_NAME_PATTERNS: { key: ObservationKey; pattern: RegExp; units?: RegExp }[] = [
   { key: "AMH", pattern: /\bamh\b|anti[- ]?m(u|ü)ll?erian/i, units: /^(ng\/ml|pmol\/l|µg\/l|ug\/l)$/i },
   { key: "FSH", pattern: /\bfsh\b|follicle[- ]stimulating/i },
   { key: "ESTRADIOL", pattern: /\b(o?estradiol|e2)\b/i },

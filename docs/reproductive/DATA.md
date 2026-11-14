@@ -1,6 +1,8 @@
 # Reproductive Health – where the data comes from
 
-This feature has no backend of its own yet. It uses three kinds of data: **synthetic patients**,
+With `VITE_REPRO_BACKEND=true`, the chart tab reads labs, age, sex and consent from the HIS
+(`GET /clinical/trajectory`) and saves consent, test orders and referrals there (see
+`API_CONTRACT.md`, "Connected today"). Everything else still lives in the browser. It uses three kinds of data: **synthetic patients**,
 **named demo scenarios**, and **real EMR data** already held by the HIS. This page says where each
 comes from, where it is kept, and what its limits are.
 
@@ -57,6 +59,10 @@ labelled "Demo – synthetic data" and is never mixed with that patient's real H
 
 ## 3. Real EMR data (inside the patient chart)
 
+With `VITE_REPRO_BACKEND=true`, labs, age, sex and consent come from `GET /clinical/trajectory`
+instead (rules in `API_CONTRACT.md`); BMI and blood pressure still come from the chart's vitals.
+Without it, the tab reads what the chart already loads, as below.
+
 Read from what the chart already loads (`patientData`, `vitalsList`, `historyEncounters`) by
 `data/mappers.ts`. Nothing is evaluated until a clinician has confirmed consent in the consent step.
 
@@ -72,6 +78,8 @@ vitals is not used because the vitals form records no unit.
 
 ## 4. Where it is kept
 
+- With `VITE_REPRO_BACKEND=true`, consent, test orders and referrals are saved in the HIS. The
+  browser keeps the rest, and a local copy of consent that the HIS always overrides.
 - Everything entered in the feature (consent, cycles, results, history, plans, partner links,
   referrals, counselling, red flags) and all demo data live in **this browser's localStorage** under
   one versioned key, `medbookie.repro.demo`. If storage is unavailable, data is kept in memory for

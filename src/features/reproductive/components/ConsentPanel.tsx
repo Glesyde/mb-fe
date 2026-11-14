@@ -49,6 +49,7 @@ export const ConsentStep: React.FC<{ actor: Actor; today: string; onConfirm: (pe
 }) => {
   const [ticked, setTicked] = useState<ConsentCategory[]>(CONSENT_STEP_CATEGORIES.filter((c) => DEFAULT_PERMITTED.includes(c)));
   const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string>();
   const toggle = (c: ConsentCategory) => setTicked((t) => (t.includes(c) ? t.filter((x) => x !== c) : [...t, c]));
   return (
     <Card className="p-6 max-w-2xl">
@@ -78,8 +79,11 @@ export const ConsentStep: React.FC<{ actor: Actor; today: string; onConfirm: (pe
         disabled={busy}
         onClick={async () => {
           setBusy(true);
+          setError(undefined);
           try {
             await onConfirm(["PROFILE", ...ticked]);
+          } catch (e) {
+            setError(e instanceof Error ? e.message : String(e));
           } finally {
             setBusy(false);
           }
@@ -87,6 +91,7 @@ export const ConsentStep: React.FC<{ actor: Actor; today: string; onConfirm: (pe
       >
         Confirm consent
       </Button>
+      <FieldError message={error} />
     </Card>
   );
 };
