@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { PhoneCall, Siren } from "lucide-react";
 import type { RedFlagEvent } from "../data/repository";
+import type { SymptomIndicator } from "../engine/types";
 import { AR_TEXT_ATTRS, t } from "../i18n";
 import { formatTimestamp } from "./ui";
 
@@ -8,6 +9,16 @@ const FLAG_LABEL = {
   R35: "Severe, sudden one-sided pelvic pain with a missed period, a positive pregnancy test or fainting",
   R36: "Bleeding after sex or between periods",
 } as const;
+
+/** The symptom tick boxes, as the Symptoms tab labels them. */
+export const SYMPTOM_LABEL: Record<SymptomIndicator, string> = {
+  severeOneSidedPelvicPain: "Severe, sudden one-sided pelvic pain",
+  missedPeriod: "Missed period",
+  positivePregnancyTest: "Positive pregnancy test",
+  fainting: "Fainting",
+  bleedingAfterSex: "Bleeding after sex",
+  bleedingBetweenPeriods: "Bleeding between periods",
+};
 
 /**
  * Full-width emergency panel. Normal rendering for this patient stops until a clinician
@@ -51,6 +62,9 @@ export const EmergencyPanel: React.FC<{
               <p className="text-[11px] text-slate-500">
                 Found at entry {formatTimestamp(e.detectedAt)} · {e.source === "FREE_TEXT" ? "from symptom text (text not stored)" : e.source === "STRUCTURED" ? "from symptom checklist" : "demo scenario"}
               </p>
+              {e.indicators && e.indicators.length > 0 && (
+                <p className="text-xs text-slate-700 mt-0.5">Ticked: {e.indicators.map((k) => SYMPTOM_LABEL[k]).join(", ")}</p>
+              )}
             </div>
             <div className="flex gap-2 shrink-0">
               <button

@@ -17,7 +17,9 @@ import type {
   ReproductiveContext,
   SemenComponentKey,
   Sex,
+  SymptomIndicator,
 } from "../engine/types";
+import { SYMPTOM_INDICATORS } from "../engine/types";
 import { LAB_NAME_PATTERNS, type MappedProfile, type Skipped } from "./mappers";
 import { ageAt, ALL_CATEGORIES, makeObservation, makeSemenObservation } from "./records";
 import type { ActivityAction, ActivityEntry, Actor, ConsentResource, RedFlagEvent } from "./repository";
@@ -86,8 +88,42 @@ export interface MappedTrajectory {
    * edit (e.g. sticks per day, fibroids) are sent back unchanged instead of being cleared.
    */
   raw: { lifestyle: Record<string, unknown>; historyItems: Record<string, unknown>; plans: Record<string, unknown> };
+  /** Every red flag the HIS recorded (open and resolved), newest first, for the Symptoms tab. */
+  redFlagLog: RedFlagLogEntry[];
   /** Partner link as the HIS holds it. `null` = no link (or an older backend). */
   partner: HisPartnerLink | null;
+}
+
+/** One red flag in a patient's history. The symptom text is never part of it. */
+export interface RedFlagLogEntry {
+  ruleId: string;
+  raisedAt: string;
+  raisedBy: string;
+  status: "OPEN" | "ACKNOWLEDGED_REFERRED" | "DISMISSED";
+  resolvedAt: string | null;
+  resolvedBy: string | null;
+  note: string;
+}
+
+function mapRedFlagLog(data: Record<string, any>): RedFlagLogEntry[] {
+  const log: any[] = Array.isArray(data.red_flags?.log) ? data.red_flags.log : [];
+  return log
+    .filter(isObj)
+    .map((f) => {
+      const resolution = str(f.resolution).toUpperCase();
+      const status: RedFlagLogEntry["status"] =
+        str(f.status).toUpperCase() === "OPEN" ? "OPEN" : resolution === "DISMISSED" ? "DISMISSED" : "ACKNOWLEDGED_REFERRED";
+      return {
+        ruleId: str(f.rule_id),
+        raisedAt: isoDate(f.created_at) ?? "",
+        raisedBy: str(f.created_by_name),
+        status,
+        resolvedAt: isoDate(f.resolved_at),
+        resolvedBy: str(f.resolved_by_name) || null,
+        note: str(f.resolution_note),
+      };
+    })
+    .sort((a, b) => b.raisedAt.localeCompare(a.raisedAt));
 }
 
 export interface HisPartnerLink {
@@ -447,6 +483,9 @@ function mapRedFlags(data: Record<string, any>): RedFlagEvent[] | null {
         detectedAt: isoDate(f.created_at) ?? "",
         source: "STRUCTURED" as const,
         status: "OPEN" as const,
+        indicators: (Array.isArray(f.triggered_indicators) ? f.triggered_indicators : []).filter((x: unknown): x is SymptomIndicator =>
+          SYMPTOM_INDICATORS.includes(x as SymptomIndicator),
+        ),
       },
     ];
   });
@@ -510,5 +549,6 @@ export function mapTrajectory(response: unknown, today: string): MappedTrajector
       plans: isObj(data.plans_and_questions) ? data.plans_and_questions : {},
     },
     partner: mapPartner(data),
+    redFlagLog: mapRedFlagLog(data),
   };
 }

@@ -16,6 +16,7 @@ import type {
   RedFlag,
   ReproductiveContext,
   Sex,
+  SymptomIndicator,
   Symptoms,
 } from "../engine/types";
 
@@ -95,6 +96,8 @@ export interface RedFlagEvent {
   detectedAt: string;
   source: "FREE_TEXT" | "STRUCTURED" | "SCENARIO";
   status: "OPEN" | "ACKNOWLEDGED_REFERRED" | "DISMISSED";
+  /** The symptom boxes that were ticked and raised it (never the free text). */
+  indicators?: SymptomIndicator[];
   resolvedAt?: string;
   resolvedBy?: Actor;
 }

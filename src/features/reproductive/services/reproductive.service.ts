@@ -69,6 +69,11 @@ export type RunOutcome =
       elapsedMs: number;
       hasData: boolean;
       partner: PartnerSummary | null;
+      /**
+       * Only while an emergency stop is on: the cards and summary as they would be without the open
+       * red flags, shown under the emergency panel for reference. Never used for actions.
+       */
+      reference: { result: EngineResult; explanation: Explanation } | null;
       /** Set when the data came from the HIS trajectory endpoint (VITE_REPRO_BACKEND=true). */
       his: MappedTrajectory | null;
     };
@@ -300,6 +305,11 @@ export async function runEvaluation(options: RunOptions): Promise<RunOutcome> {
   const partner = his ? await hisPartnerContext(record, his, asOf, options.backend?.loadPartner) : await partnerContext(repo, record, options.partnerEmr);
   const result = evaluate(input, { haltOnAnyRedFlag: true, clock, mappingSummary, partner: partner.share });
   const explanation = await explain(result, lang, { ...options.explain, clock });
+  let reference: { result: EngineResult; explanation: Explanation } | null = null;
+  if (result.halted) {
+    const refResult = evaluate({ ...input, openRedFlags: [] }, { partner: partner.share });
+    reference = { result: refResult, explanation: await explain(refResult, lang, options.explain) };
+  }
 
   const s9 = clock ? clock() : 0;
   const brief = result.halted ? null : assembleBrief(result);
@@ -338,6 +348,7 @@ export async function runEvaluation(options: RunOptions): Promise<RunOutcome> {
     elapsedMs: clock ? Math.round((clock() - t0) * 100) / 100 : 0,
     hasData,
     partner: partner.summary,
+    reference,
     his,
   };
 }

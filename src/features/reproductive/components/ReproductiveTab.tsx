@@ -4,7 +4,7 @@ import { useAuth } from "../../../context/AuthContext";
 import { NAV_PERMISSION_RULES } from "../../../services/constants";
 import { emrService } from "../../../services/emr.service";
 import { patientService } from "../../../services/patient.service";
-import type { ConsentCategory, Language, VectorId } from "../engine/types";
+import type { ConsentCategory, CycleRecord, Language, Observation, VectorId } from "../engine/types";
 import { demoRepository } from "../data/demoRepository";
 import { mapPatientProfile } from "../data/mappers";
 import type { ActivityEntry, Actor, ReproRecord, ReproRepository } from "../data/repository";
@@ -14,6 +14,12 @@ import { AR_TEXT_ATTRS, stateLabel, t, tm } from "../i18n";
 import { runEvaluation, type EmrSource, type RunOutcome } from "../services/reproductive.service";
 import { CONSENT_STEP_REASON, reproBackendEnabled, trajectoryApi, type TrajectoryApi } from "../services/trajectory.service";
 import { suggestedTests } from "../services/orders";
+import { applyConsent } from "../engine/consent";
+
+/** Entries shown in Add data: only categories the patient still shares. */
+const pick = (i: { cycles: CycleRecord[]; observations: Observation[] }) => ({ cycles: i.cycles, observations: i.observations });
+/** The HIS `updated_at` of a section ("2026-11-15 15:29:54"), as an ISO time; null when never saved. */
+const savedAt = (raw: Record<string, unknown>) => (typeof raw.updated_at === "string" && raw.updated_at ? raw.updated_at.replace(" ", "T") : null);
 import { hisRedFlagId, type MappedTrajectory } from "../data/trajectoryMapper";
 import { historyBody, lifestyleBody, plansBody } from "../services/hisSections";
 import { checkInput } from "../guardrails/inputCheck";
@@ -34,8 +40,7 @@ import { VectorCard } from "./VectorCard";
 
 type Ready = Extract<RunOutcome, { status: "READY" }>;
 
-const SummaryBlock: React.FC<{ outcome: Ready; lang: Language }> = ({ outcome, lang }) => {
-  const { explanation } = outcome;
+const SummaryBlock: React.FC<{ explanation: Ready["explanation"]; lang: Language }> = ({ explanation, lang }) => {
   const aiHere = explanation.source === "AI" && lang === "en";
   return (
     <Card className="p-4">
@@ -164,7 +169,7 @@ export const ReproductiveView: React.FC<ReproductiveViewProps> = ({ repo, patien
   const his = outcome.his;
   const tests = his ? suggestedTests(result, his) : [];
   const orderable = tests.filter((x) => !x.alreadyOrdered).length;
-  const why = result.vectors.find((v) => v.vector === modal);
+  const why = (outcome.reference?.result ?? result).vectors.find((v) => v.vector === modal);
   const pdfCtx = outcome.brief ? { record, result, brief: outcome.brief, summary: outcome.explanation.text, subject } : null;
   const blocked = result.halted ? "Resolve the red flag first" : undefined;
   const partnerLabel = outcome.partner
@@ -292,6 +297,24 @@ export const ReproductiveView: React.FC<ReproductiveViewProps> = ({ repo, patien
               )();
             }}
           />
+          {outcome.reference && outcome.hasData && (
+            <section aria-label="Cards for reference" className="space-y-3">
+              <p className="flex items-center gap-2 text-xs font-bold text-amber-800 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
+                <Info size={14} /> For reference only. These cards and the summary leave out the open red flag. Resolve the red flag before using them
+                for any decision.
+              </p>
+              <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
+                <div className="xl:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 content-start">
+                  {outcome.reference.result.vectors.map((v) => (
+                    <VectorCard key={v.vector} v={v} lang={lang} onWhy={() => setModal(v.vector)} />
+                  ))}
+                </div>
+                <div className="space-y-4">
+                  <SummaryBlock explanation={outcome.reference.explanation} lang={lang} />
+                </div>
+              </div>
+            </section>
+          )}
           {trace}
         </>
       ) : !outcome.hasData ? (
@@ -365,7 +388,7 @@ export const ReproductiveView: React.FC<ReproductiveViewProps> = ({ repo, patien
                   )}
                 </Card>
               )}
-              <SummaryBlock outcome={outcome} lang={lang} />
+              <SummaryBlock explanation={outcome.explanation} lang={lang} />
             </div>
           </div>
           {result.gaps.length > 0 && <p className="text-xs text-slate-500">{result.gaps.map((g) => tm("en", g)).join(" ")}</p>}
@@ -382,6 +405,11 @@ export const ReproductiveView: React.FC<ReproductiveViewProps> = ({ repo, patien
           repo={his && backend ? hisRepo(repo, backend, his, record) : repo}
           record={record}
           sex={subject.sex}
+          previous={{
+            ...pick(applyConsent(input).input),
+            redFlags: his?.redFlagLog ?? [],
+            savedAt: his ? { lifestyle: savedAt(his.raw.lifestyle), history: his.history?.updatedAt, plans: savedAt(his.raw.plans) } : undefined,
+          }}
           asOf={outcome.asOf}
           actor={actor}
           onClose={() => setModal(null)}

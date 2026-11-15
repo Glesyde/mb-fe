@@ -6,7 +6,7 @@
 // that were actually changed are persisted, which keeps storage well under browser limits.
 
 import { addMonths } from "../engine/dates";
-import type { ConsentCategory, CycleRecord, HistoryItems, Lifestyle, Observation, RedFlag, ReproductiveContext, Symptoms } from "../engine/types";
+import { RULE_INDICATORS, type ConsentCategory, type CycleRecord, type HistoryItems, type Lifestyle, type Observation, type RedFlag, type ReproductiveContext, type Symptoms } from "../engine/types";
 import { checkInput } from "../guardrails/inputCheck";
 import { aggregateSplit, computePeople, type PersonFacts } from "../services/population.service";
 import { conditionsFromHistory, CONSENT_STATEMENT, CONSENT_STEP_CATEGORIES, isPermitted, newRecord } from "./records";
@@ -235,6 +235,7 @@ export function createDemoRepository(options: DemoRepositoryOptions = {}): Repro
             detectedAt: now(),
             source: check.redFlags.includes(ruleId) ? "FREE_TEXT" : "STRUCTURED",
             status: "OPEN",
+            indicators: RULE_INDICATORS[ruleId].filter((k) => symptoms[k] === true),
           });
           log(r, actor, "RED_FLAG_RAISED", `${ruleId} red flag found at entry (symptom text not stored)`);
         }

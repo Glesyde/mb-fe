@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import type { HistoryItems, QuestionTopic, ReproductiveContext, SemenComponentKey, Sex } from "../engine/types";
+import type { CycleRecord, HistoryItems, Observation, QuestionTopic, ReproductiveContext, SemenComponentKey, Sex } from "../engine/types";
+import type { RedFlagLogEntry } from "../data/trajectoryMapper";
 import { historyKeysFor } from "../engine/vectors";
 import { historyFromConditions, makeObservation, makeSemenObservation } from "../data/records";
 import type { Actor, ReproRecord, ReproRepository } from "../data/repository";
 import { t } from "../i18n";
 import { LAB_ENTRY_TYPES, SEMEN_ENTRY_FIELDS, validateAlcohol, validateCycle, validateDate, validateLab, validateSemen } from "../services/validation";
-import { Button, FieldError, inputClass, Label, Modal } from "./ui";
+import { SYMPTOM_LABEL } from "./EmergencyPanel";
+import { Button, FieldError, formatTimestamp, inputClass, Label, Modal } from "./ui";
 
 type Tab = "cycles" | "labs" | "semen" | "lifestyle" | "history" | "plans" | "symptoms";
 const TABS: { id: Tab; label: string }[] = [
@@ -33,7 +35,59 @@ interface Props {
   actor: Actor;
   onSaved: (message: string) => void;
   onClose: () => void;
+  /** What is already recorded (HIS and this browser), listed under each tab. */
+  previous?: PreviousEntries;
 }
+
+export interface PreviousEntries {
+  cycles: CycleRecord[];
+  observations: Observation[];
+  redFlags: RedFlagLogEntry[];
+  /** When the HIS last saved each one-answer section. The form opens with those answers. */
+  savedAt?: { lifestyle?: string | null; history?: string | null; plans?: string | null };
+}
+
+const SOURCE: Record<string, string> = { HIS: "HIS", ENTERED: "entered", WEARABLE: "wearable", DEMO: "demo" };
+const RED_FLAG_LABEL: Record<string, string> = {
+  R35: "Severe one-sided pelvic pain with a missed period, positive test or fainting",
+  R36: "Bleeding after sex or between periods",
+};
+const RED_FLAG_STATUS: Record<RedFlagLogEntry["status"], string> = {
+  OPEN: "Open",
+  ACKNOWLEDGED_REFERRED: "Acknowledged and referred",
+  DISMISSED: "Not present (dismissed)",
+};
+const day = (iso: string) => (iso ? formatTimestamp(iso.length > 10 ? iso : `${iso}T00:00:00`).split(",")[0] : "—");
+
+/** "Previously recorded" list under a tab, newest first. */
+const Previous: React.FC<{ title: string; empty: string; rows: { key: string; date: string; text: string; note?: string }[] }> = ({ title, empty, rows }) => (
+  <section className="mt-5 border-t border-slate-100 pt-4">
+    <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2">{title}</h3>
+    {rows.length === 0 ? (
+      <p className="text-xs text-slate-500">{empty}</p>
+    ) : (
+      <ul className="max-h-48 overflow-y-auto divide-y divide-slate-100 text-xs">
+        {rows.map((r) => (
+          <li key={r.key} className="py-1.5 flex gap-3">
+            <span className="font-mono text-slate-500 shrink-0 w-24">{r.date}</span>
+            <span className="text-slate-700">
+              {r.text}
+              {r.note && <span className="text-slate-500"> · {r.note}</span>}
+            </span>
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+);
+
+/** Tells the clinician the form shows the saved answers, and that unticking then saving updates them. */
+const SavedNote: React.FC<{ at?: string | null }> = ({ at }) =>
+  at ? (
+    <p className="text-[11px] text-slate-600 bg-slate-50 border border-slate-200 rounded-xl p-3 mb-4">
+      These are the answers saved on {day(at)}. Change or untick any of them, then save to update the record.
+    </p>
+  ) : null;
 
 const Check: React.FC<{ checked: boolean; onChange: (v: boolean) => void; children: React.ReactNode }> = ({ checked, onChange, children }) => (
   <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
@@ -42,7 +96,52 @@ const Check: React.FC<{ checked: boolean; onChange: (v: boolean) => void; childr
   </label>
 );
 
-export const DataEntryForms: React.FC<Props> = ({ repo, record, sex, asOf, actor, onSaved, onClose }) => {
+export const DataEntryForms: React.FC<Props> = ({ repo, record, sex, asOf, actor, onSaved, onClose, previous }) => {
+  const prev: PreviousEntries = previous ?? { cycles: record.cycles, observations: record.observations, redFlags: [] };
+  const byDate = <T,>(items: T[], date: (x: T) => string) => [...items].sort((a, b) => date(b).localeCompare(date(a)));
+  const labRows = byDate(
+    prev.observations.filter((o) => LAB_ENTRY_TYPES.some((l) => l.key === o.code.key) && o.valueQuantity),
+    (o) => o.effectiveDateTime,
+  ).map((o) => ({
+    key: o.id,
+    date: day(o.effectiveDateTime),
+    text: `${LAB_ENTRY_TYPES.find((l) => l.key === o.code.key)!.label}: ${o.valueQuantity!.value} ${o.valueQuantity!.unit}`,
+    note: SOURCE[o.source],
+  }));
+  const semenRows = byDate(
+    prev.observations.filter((o) => o.code.key === "SEMEN_ANALYSIS"),
+    (o) => o.effectiveDateTime,
+  ).map((o) => ({
+    key: o.id,
+    date: day(o.effectiveDateTime),
+    text: (o.component ?? [])
+      .map((c) => `${SEMEN_ENTRY_FIELDS.find((f) => f.key === c.code.key)?.label ?? c.code.key} ${c.valueQuantity.value} ${c.valueQuantity.unit}`)
+      .join(", "),
+    note: SOURCE[o.source],
+  }));
+  const cycleRows = byDate(prev.cycles, (c) => c.startDate).map((c, i) => ({
+    key: `${c.startDate}-${i}`,
+    date: day(c.startDate),
+    text: c.lengthDays ? `Cycle started, ${c.lengthDays} days` : "Cycle started",
+    note: SOURCE[c.source],
+  }));
+  const localFlags: RedFlagLogEntry[] = record.redFlags.map((f) => ({
+    ruleId: f.ruleId,
+    raisedAt: f.detectedAt,
+    raisedBy: "",
+    status: f.status,
+    resolvedAt: f.resolvedAt ?? null,
+    resolvedBy: f.resolvedBy?.name ?? null,
+    note: "",
+  }));
+  const flagRows = byDate([...prev.redFlags, ...localFlags.filter((f) => !prev.redFlags.some((h) => h.raisedAt === f.raisedAt && h.ruleId === f.ruleId))], (f) => f.raisedAt).map(
+    (f, i) => ({
+      key: `${f.ruleId}-${f.raisedAt}-${i}`,
+      date: day(f.raisedAt),
+      text: `${f.ruleId}: ${RED_FLAG_LABEL[f.ruleId] ?? "Red flag"} — ${RED_FLAG_STATUS[f.status]}`,
+      note: [f.resolvedBy && `by ${f.resolvedBy}`, f.note].filter(Boolean).join(" · ") || undefined,
+    }),
+  );
   const [tab, setTab] = useState<Tab>("cycles");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
@@ -76,7 +175,17 @@ export const DataEntryForms: React.FC<Props> = ({ repo, record, sex, asOf, actor
   });
   const [history, setHistory] = useState<HistoryItems>(historyFromConditions(record.conditions));
   const [plans, setPlans] = useState<ReproductiveContext>(record.reproductive);
-  const [symptoms, setSymptoms] = useState({ text: "", pain: false, missed: false, positive: false, faint: false, postcoital: false, intermenstrual: false });
+  // Boxes ticked on a symptom check that raised a red flag still open; the text is never kept.
+  const ticked = new Set(record.redFlags.filter((f) => f.status === "OPEN").flatMap((f) => f.indicators ?? []));
+  const [symptoms, setSymptoms] = useState({
+    text: "",
+    pain: ticked.has("severeOneSidedPelvicPain"),
+    missed: ticked.has("missedPeriod"),
+    positive: ticked.has("positivePregnancyTest"),
+    faint: ticked.has("fainting"),
+    postcoital: ticked.has("bleedingAfterSex"),
+    intermenstrual: ticked.has("bleedingBetweenPeriods"),
+  });
 
   const labType = LAB_ENTRY_TYPES.find((l) => l.key === lab.key)!;
   const historyKeys = historyKeysFor(sex);
@@ -131,6 +240,9 @@ export const DataEntryForms: React.FC<Props> = ({ repo, record, sex, asOf, actor
             >
               Save cycle
             </Button>
+          </div>
+          <div className="sm:col-span-2">
+            <Previous title="Cycles recorded" empty="No cycles recorded yet." rows={cycleRows} />
           </div>
         </div>
       )}
@@ -203,6 +315,9 @@ export const DataEntryForms: React.FC<Props> = ({ repo, record, sex, asOf, actor
               Save result
             </Button>
           </div>
+          <div className="sm:col-span-2">
+            <Previous title="Lab results recorded" empty="No lab results recorded yet." rows={labRows} />
+          </div>
         </div>
       )}
 
@@ -242,10 +357,15 @@ export const DataEntryForms: React.FC<Props> = ({ repo, record, sex, asOf, actor
               Save semen analysis
             </Button>
           </div>
+          <div className="sm:col-span-3">
+            <Previous title="Semen analyses recorded" empty="No semen analysis recorded yet." rows={semenRows} />
+          </div>
         </div>
       )}
 
       {tab === "lifestyle" && (
+        <>
+          <SavedNote at={prev.savedAt?.lifestyle} />
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="li-smoke">Smoking</Label>
@@ -298,9 +418,12 @@ export const DataEntryForms: React.FC<Props> = ({ repo, record, sex, asOf, actor
             </Button>
           </div>
         </div>
+        </>
       )}
 
       {tab === "history" && (
+        <>
+          <SavedNote at={prev.savedAt?.history} />
         <div className="space-y-4">
           <div className="grid sm:grid-cols-2 gap-2">
             {historyKeys.map((k) => (
@@ -314,9 +437,12 @@ export const DataEntryForms: React.FC<Props> = ({ repo, record, sex, asOf, actor
             Save history
           </Button>
         </div>
+        </>
       )}
 
       {tab === "plans" && (
+        <>
+          <SavedNote at={prev.savedAt?.plans} />
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="pl-since">Trying to conceive since (optional)</Label>
@@ -382,6 +508,7 @@ export const DataEntryForms: React.FC<Props> = ({ repo, record, sex, asOf, actor
             </Button>
           </div>
         </div>
+        </>
       )}
 
       {tab === "symptoms" && (
@@ -390,6 +517,12 @@ export const DataEntryForms: React.FC<Props> = ({ repo, record, sex, asOf, actor
             Symptoms are checked for red flags straight away, whatever the consent settings. The text is <strong>not stored</strong>; only a red flag, if
             found, is kept until a clinician resolves it.
           </p>
+          {ticked.size > 0 && (
+            <p className="text-xs text-red-800 bg-red-50 border border-red-200 rounded-xl p-3">
+              The ticked boxes raised a red flag that is still open. Unticking them and checking again does not close it: use "Acknowledge and refer" or
+              "Not present (dismiss)" on the red panel, so your decision is recorded.
+            </p>
+          )}
           <div>
             <Label htmlFor="sy-text">Symptoms in the patient's words (optional)</Label>
             <textarea id="sy-text" rows={3} className={inputClass} value={symptoms.text} onChange={(e) => setSymptoms({ ...symptoms, text: e.target.value })} />
@@ -433,6 +566,7 @@ export const DataEntryForms: React.FC<Props> = ({ repo, record, sex, asOf, actor
           >
             Check symptoms
           </Button>
+          <Previous title="Red flags recorded (symptom text is never stored)" empty="No red flags recorded." rows={flagRows} />
         </div>
       )}
     </Modal>

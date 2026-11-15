@@ -145,6 +145,22 @@ export interface Symptoms {
   bleedingBetweenPeriods?: boolean;
 }
 
+/** One symptom tick box. */
+export type SymptomIndicator = Exclude<keyof Symptoms, "freeText">;
+export const SYMPTOM_INDICATORS: SymptomIndicator[] = [
+  "severeOneSidedPelvicPain",
+  "missedPeriod",
+  "positivePregnancyTest",
+  "fainting",
+  "bleedingAfterSex",
+  "bleedingBetweenPeriods",
+];
+/** The tick boxes each red-flag rule looks at. */
+export const RULE_INDICATORS: Record<"R35" | "R36", SymptomIndicator[]> = {
+  R35: ["severeOneSidedPelvicPain", "missedPeriod", "positivePregnancyTest", "fainting"],
+  R36: ["bleedingAfterSex", "bleedingBetweenPeriods"],
+};
+
 export type ConsentState = Record<ConsentCategory, boolean>;
 
 export interface EngineInput {

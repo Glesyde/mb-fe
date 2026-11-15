@@ -43,7 +43,8 @@ from the same GET (`lifestyle`, `history`, `plans_and_questions`, `cycle_records
 `partner_link`). A save starts from the HIS copy so fields the tab does not edit are not cleared.
 When linked, the partner's own trajectory is loaded and only the categories they share (with their
 PARTNER_SHARING consent on) are used; never their symptoms or red flags. The HIS's cycle predictions
-are never used.
+are never used. Each open red flag's `triggered_indicators` (the symptom boxes that raised it) is
+shown on the red panel and pre-ticks the Symptoms tab; unticking does not close the flag.
 
 Still kept in this browser until the HIS has endpoints for them: saving cycles, lab results typed in
 by hand, counselling, "mark referral completed", changing partner sharing after linking, and a

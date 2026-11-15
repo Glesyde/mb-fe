@@ -297,7 +297,7 @@ describe("entered sections from the HIS", () => {
   });
 
   it("keeps open R35/R36 red flags with an id the HIS can resolve", () => {
-    expect(m.redFlags).toEqual([{ id: "HIS-rf-7", ruleId: "R35", detectedAt: "2026-11-15T11:19:05", source: "STRUCTURED", status: "OPEN" }]);
+    expect(m.redFlags).toEqual([{ id: "HIS-rf-7", ruleId: "R35", detectedAt: "2026-11-15T11:19:05", source: "STRUCTURED", status: "OPEN", indicators: [] }]);
   });
 
   it("words partner, red-flag and history events properly instead of as consent changes", () => {

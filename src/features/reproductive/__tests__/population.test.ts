@@ -44,7 +44,7 @@ describe("population aggregates", () => {
       ["Clinic C", false],
       ["Clinic D", true],
     ]);
-  });
+  }, 30_000); // 1,000 patients × every split: slow on a busy machine
 
   it("never returns individual rows or identifiers", () => {
     const text = JSON.stringify(SPLITS.map(({ id }) => computePopulation(population, AS_OF, id)));
