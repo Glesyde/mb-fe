@@ -7,13 +7,16 @@ import { patientService } from "../../../services/patient.service";
 import type { ConsentCategory, Language, VectorId } from "../engine/types";
 import { demoRepository } from "../data/demoRepository";
 import { mapPatientProfile } from "../data/mappers";
-import type { ActivityEntry, Actor, ReproRepository } from "../data/repository";
+import type { ActivityEntry, Actor, ReproRecord, ReproRepository } from "../data/repository";
 import { SCENARIOS } from "../data/synthetic/scenarios";
 import { canAccessReproductive } from "../guardrails/accessPolicy";
 import { AR_TEXT_ATTRS, stateLabel, t, tm } from "../i18n";
 import { runEvaluation, type EmrSource, type RunOutcome } from "../services/reproductive.service";
 import { CONSENT_STEP_REASON, reproBackendEnabled, trajectoryApi, type TrajectoryApi } from "../services/trajectory.service";
 import { suggestedTests } from "../services/orders";
+import { hisRedFlagId, type MappedTrajectory } from "../data/trajectoryMapper";
+import { historyBody, lifestyleBody, plansBody } from "../services/hisSections";
+import { checkInput } from "../guardrails/inputCheck";
 import { OrderTests } from "./OrderTests";
 import { ConsentChips, ConsentManager, ConsentStep } from "./ConsentPanel";
 import { DataEntryForms } from "./DataEntryForms";
@@ -87,7 +90,7 @@ export const ReproductiveView: React.FC<ReproductiveViewProps> = ({ repo, patien
           lang: "en",
           clock: () => performance.now(),
           partnerEmr: loadPartnerEmr ? { load: loadPartnerEmr, actor } : undefined,
-          backend: backend ? { load: () => backend.load(patientId) } : undefined,
+          backend: backend ? { load: () => backend.load(patientId), loadPartner: (mrn) => backend.load(mrn) } : undefined,
         });
       setOutcome(next);
       return next;
@@ -280,9 +283,14 @@ export const ReproductiveView: React.FC<ReproductiveViewProps> = ({ repo, patien
         <>
           <EmergencyPanel
             events={openFlags}
-            onResolve={async (id, resolution) =>
-              act(() => repo.resolveRedFlag(patientId, id, resolution, actor), resolution === "DISMISSED" ? "Red flag dismissed (recorded)" : "Acknowledged and referred (recorded)")()
-            }
+            onResolve={async (id, resolution) => {
+              const hisId = hisRedFlagId(id);
+              const note = resolution === "DISMISSED" ? "Not present (dismissed) in the Reproductive Health tab" : "Acknowledged and referred in the Reproductive Health tab";
+              return act(
+                () => (hisId !== null && backend ? backend.resolveRedFlag(patientId, hisId, resolution, actor, note) : repo.resolveRedFlag(patientId, id, resolution, actor)),
+                resolution === "DISMISSED" ? "Red flag dismissed (recorded)" : "Acknowledged and referred (recorded)",
+              )();
+            }}
           />
           {trace}
         </>
@@ -371,7 +379,7 @@ export const ReproductiveView: React.FC<ReproductiveViewProps> = ({ repo, patien
 
       {modal === "add" && (
         <DataEntryForms
-          repo={repo}
+          repo={his && backend ? hisRepo(repo, backend, his, record) : repo}
           record={record}
           sex={subject.sex}
           asOf={outcome.asOf}
@@ -405,7 +413,7 @@ export const ReproductiveView: React.FC<ReproductiveViewProps> = ({ repo, patien
       {why && <EvidenceDrawer v={why} onClose={() => setModal(null)} />}
       {modal === "partner" && (
         <PartnerLink
-          repo={repo}
+          repo={his && backend ? hisRepo(repo, backend, his, record) : repo}
           record={record}
           partner={outcome.partner}
           actor={actor}
@@ -450,6 +458,62 @@ export const ReproductiveView: React.FC<ReproductiveViewProps> = ({ repo, patien
     </div>
   );
 };
+
+/**
+ * Saves for a patient connected to the HIS: lifestyle, history, plans, symptoms, partner link and
+ * the partner-sharing consent go to the HIS (each POST creates or updates); everything else still
+ * saves in this browser. The tab reloads from the HIS after each save, so the returned record is
+ * only a placeholder.
+ */
+export function hisRepo(repo: ReproRepository, backend: TrajectoryApi, his: MappedTrajectory, record: ReproRecord): ReproRepository {
+  return {
+    ...repo,
+    setLifestyle: async (id, lifestyle, actor) => {
+      await backend.saveSection(id, "lifestyle", actor, lifestyleBody(his.raw.lifestyle, lifestyle));
+      return record;
+    },
+    setHistory: async (id, items, actor) => {
+      await backend.saveSection(id, "history", actor, historyBody(his.raw.historyItems, items));
+      return record;
+    },
+    setReproductiveContext: async (id, plans, actor) => {
+      await backend.saveSection(id, "plans", actor, plansBody(his.raw.plans, plans));
+      return record;
+    },
+    // The tab's own check still runs for the on-screen message. If the HIS cannot be reached, the
+    // symptoms are checked and kept in this browser instead, so a red flag is never lost.
+    submitSymptoms: async (id, symptoms, actor) => {
+      try {
+        await backend.submitSymptoms(id, actor, symptoms);
+        return { check: checkInput(symptoms.freeText ?? ""), record };
+      } catch (e) {
+        const local = await repo.submitSymptoms(id, symptoms, actor);
+        const reason = e instanceof Error ? e.message : String(e);
+        return { ...local, warning: `${reason}. They were checked and any red flag was kept in this browser instead, so it is not missed.` };
+      }
+    },
+    setConsent: async (id, category, granted, reason, actor) => {
+      await backend.setConsent(id, actor, category, granted, reason);
+      return record;
+    },
+    requestPartnerLink: async (id, partnerId, shared, actor) => {
+      await backend.partner(id, actor, "REQUEST", { partnerMrn: partnerId, shared });
+      return record;
+    },
+    // The HIS has no separate "decline": declining cancels the request.
+    respondPartnerLink: async (id, accept, shared, actor) => {
+      await backend.partner(id, actor, accept ? "ACCEPT" : "CANCEL", accept ? { shared } : {});
+      return record;
+    },
+    unlinkPartner: async (id, actor) => {
+      await backend.partner(id, actor, "CANCEL");
+      return record;
+    },
+    setPartnerSharing: async () => {
+      throw new Error("Changing what is shared after linking is not available in the HIS yet. End the link and send a new request with the new choice.");
+    },
+  };
+}
 
 export interface ReproductiveTabProps {
   patient: any;

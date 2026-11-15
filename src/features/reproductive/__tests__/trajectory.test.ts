@@ -240,3 +240,128 @@ describe("consent calls (POST /clinical/trajectory-consent)", () => {
     await expect(trajectoryApi.confirmConsent("TEST-0001", clinician, [], CONSENT_STEP_REASON)).rejects.toThrow("Consent was not saved: Patient not found");
   });
 });
+
+// Sections added to GET /clinical/trajectory on 2026-11-15 (anonymised).
+const sections = {
+  lifestyle: {
+    current: { smoking_status: "former", passive_smoke: false, alcohol_units_per_week: 4, heat_exposure: true, occupation: "Chef", hazardous_occupation: false, updated_at: "2026-11-15T06:09:40+00:00" },
+  },
+  history: { history_completed: true, items: { newCancerDiagnosis: true, pcos: false, fibroidsOrUterineAnomaly: true }, updated_at: "2026-11-15T11:15:19+00:00" },
+  plans_and_questions: {
+    trying_since: "2026-05-01",
+    rubella_status: "NOT_RECORDED",
+    planning_pregnancy: true,
+    concerned_about_fertility: true,
+    thyroid_symptoms: true,
+    asked_about_caffeine: true,
+    asked_for_dna_fragmentation: true,
+    wants_ovulation_check: false,
+    updated_at: "2026-11-15T11:17:12+00:00",
+  },
+  cycle_records: {
+    records: [{ start_date: "2026-09-01", length_days: 29 }, { start_date: "bad" }],
+    medical_calculation: { predicted_next_period: "2026-12-01", estimated_fertile_window: "x" },
+  },
+  red_flags: {
+    halted: true,
+    open: [{ id: 7, rule_id: "R35", created_at: "2026-11-15 11:19:05" }, { id: 8, rule_id: "R99" }],
+    log: [{ id: 1, rule_id: "R35", status: "RESOLVED" }],
+  },
+  consent_activity_log: [
+    { id: "9", at: "2026-11-15T11:29:02+00:00", by: { id: "1", name: "Test Clinician" }, action: "REPRO_PARTNER_LINK_REVOKED", category: "REPRO_PARTNER", reason: "Updated in patient chart" },
+    { id: "8", at: "2026-11-15T11:21:07+00:00", by: { id: "1", name: "Test Clinician" }, action: "REPRO_RED_FLAG_DISMISSED", category: "REPRO_RED_FLAG", reason: "Updated in patient chart" },
+    { id: "7", at: "2026-11-15T11:19:05+00:00", by: { id: "1", name: "Test Clinician" }, action: "REPRO_RED_FLAG_TRIGGERED", category: "REPRO_RED_FLAG", reason: "Symptom freeText discarded per privacy rule" },
+    { id: "6", at: "2026-11-15T11:15:19+00:00", by: { id: "1", name: "Test Clinician" }, action: "REPRO_HISTORY_CONFIRMED", category: "REPRO_HISTORY", reason: "Updated in patient chart" },
+  ],
+};
+
+describe("entered sections from the HIS", () => {
+  const m = mapTrajectory(fixture(sections), TODAY);
+
+  it("reads lifestyle, the history items the rules use, and plans (rubella NOT_RECORDED = unknown)", () => {
+    expect(m.lifestyle).toEqual({ smoking: "former", passiveSmoke: false, alcoholUnitsPerWeek: 4, heatExposure: true, occupation: "Chef", hazardousOccupation: false });
+    expect(m.history).toEqual({ completed: true, items: { newCancerDiagnosis: true, pcos: false }, updatedAt: "2026-11-15T11:15:19+00:00" });
+    expect(m.plans).toEqual({
+      tryingSince: "2026-05-01",
+      planningPregnancy: true,
+      concerned: true,
+      thyroidSymptoms: true,
+      rubellaStatus: "unknown",
+      questions: ["CAFFEINE", "DNA_FRAGMENTATION"],
+    });
+  });
+
+  it("reads cycle records only, never the HIS predictions", () => {
+    expect(m.cycles).toEqual([{ startDate: "2026-09-01", lengthDays: 29, source: "ENTERED" }]);
+    expect(JSON.stringify(m)).not.toMatch(/predicted|fertile/i);
+  });
+
+  it("keeps open R35/R36 red flags with an id the HIS can resolve", () => {
+    expect(m.redFlags).toEqual([{ id: "HIS-rf-7", ruleId: "R35", detectedAt: "2026-11-15T11:19:05", source: "STRUCTURED", status: "OPEN" }]);
+  });
+
+  it("words partner, red-flag and history events properly instead of as consent changes", () => {
+    expect(m.activity.map((a) => [a.action, a.detail])).toEqual([
+      ["PARTNER_LINK_ENDED", "Partner link ended"],
+      ["RED_FLAG_RESOLVED", "Red flag marked not present"],
+      ["RED_FLAG_RAISED", "Red flag raised: Symptom freeText discarded per privacy rule"],
+      ["HISTORY_UPDATED", "History updated"],
+    ]);
+  });
+
+  it("treats missing or never-saved sections as not filled in", () => {
+    const x = mapTrajectory(fixture({ lifestyle: { current: { smoking_status: "never" } }, plans_and_questions: { rubella_status: "IMMUNE" } }), TODAY);
+    expect([x.lifestyle, x.history, x.plans, x.cycles, x.redFlags]).toEqual([null, null, null, null, null]);
+  });
+
+  it("maps the other rubella answers", () => {
+    const rubella = (v: string) => mapTrajectory(fixture({ plans_and_questions: { rubella_status: v, updated_at: "2026-11-15" } }), TODAY).plans?.rubellaStatus;
+    expect([rubella("IMMUNE"), rubella("NON_IMMUNE"), rubella("susceptible"), rubella("")]).toEqual(["immune", "susceptible", "susceptible", "unknown"]);
+  });
+});
+
+describe("evaluation with HIS sections", () => {
+  const memory = (): StorageLike => {
+    const d = new Map<string, string>();
+    return { getItem: (k) => d.get(k) ?? null, setItem: (k, v) => void d.set(k, v), removeItem: (k) => void d.delete(k) };
+  };
+  const repo = () => createDemoRepository({ storage: memory(), now: () => "2026-11-15T09:00:00.000Z", today: TODAY });
+  const doctor = { id: "1", name: "Test Clinician" };
+
+  it("uses the HIS lifestyle, history and plans, and stops at the emergency panel for an open HIS red flag", async () => {
+    const out = await runEvaluation({ repo: repo(), patientId: "TEST-0001", lang: "en", backend: { load: async () => fixture(sections) } });
+    if (out.status !== "READY") throw new Error("not ready");
+    expect(out.input.lifestyle).toMatchObject({ heatExposure: true });
+    expect(out.input.history).toEqual({ newCancerDiagnosis: true });
+    expect(out.input.reproductive).toMatchObject({ planningPregnancy: true, thyroidSymptoms: true });
+    expect(out.input.openRedFlags).toEqual(["R35"]);
+    expect(out.result.halted).toBe(true);
+  });
+
+  it("keeps browser data for a section the HIS has not filled in, and never hides a browser red flag", async () => {
+    const r = repo();
+    await r.createRecord("TEST-0001", { sex: "male", language: "en" }, doctor, ["PROFILE", "LIFESTYLE", "HISTORY", "PLANS"]);
+    await r.setLifestyle("TEST-0001", { smoking: "current" }, doctor);
+    await r.submitSymptoms("TEST-0001", { bleedingAfterSex: true }, doctor);
+    const out = await runEvaluation({ repo: r, patientId: "TEST-0001", lang: "en", backend: { load: async () => fixture({ red_flags: { open: [] } }) } });
+    if (out.status !== "READY") throw new Error("not ready");
+    expect(out.input.lifestyle).toEqual({ smoking: "current" });
+    expect(out.input.openRedFlags?.length).toBeGreaterThan(0);
+  });
+});
+
+describe("red flag call (POST /clinical/trajectory-red-flag-resolve)", () => {
+  beforeEach(() => http.post.mockReset());
+  it("sends the HIS red flag id, the decision, the clinician and a note", async () => {
+    http.post.mockResolvedValue({ data: { status: "success" } });
+    await trajectoryApi.resolveRedFlag("TEST-0001", 7, "DISMISSED", { id: "1", name: "Test Clinician" }, "Not present");
+    expect(http.post).toHaveBeenCalledWith("/clinical/trajectory-red-flag-resolve", {
+      patient_id: "TEST-0001",
+      red_flag_id: 7,
+      resolution: "DISMISSED",
+      user_id: 1,
+      user_name: "Test Clinician",
+      note: "Not present",
+    });
+  });
+});

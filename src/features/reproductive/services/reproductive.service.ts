@@ -23,7 +23,7 @@ import type {
 } from "../engine/types";
 import { mapEmrData, mapVitals, toEngineInput, type MappedEmr } from "../data/mappers";
 import { mapTrajectory, type MappedTrajectory } from "../data/trajectoryMapper";
-import { isPermitted } from "../data/records";
+import { conditionsFromHistory, consentState, isPermitted } from "../data/records";
 import type { Actor, ReproRecord, ReproRepository } from "../data/repository";
 import { explain, type ExplainOptions, type Explanation } from "./explanation.service";
 
@@ -92,7 +92,70 @@ export interface RunOptions {
    * sex and consent then come from the HIS; BMI and blood pressure still come from the chart's
    * vitals. Never called for demo records.
    */
-  backend?: { load: () => Promise<unknown> };
+  backend?: {
+    load: () => Promise<unknown>;
+    /** Loads a linked partner's trajectory by MRN; only the categories they share are used. */
+    loadPartner?: (mrn: string) => Promise<unknown>;
+  };
+}
+
+/**
+ * Partner panel from the HIS link. When linked, the partner's own trajectory is loaded and only
+ * the categories they share (and only if their PARTNER_SHARING consent is on) reach the engine.
+ * Never their symptoms or red flags. A failed partner load leaves the panel without their cards.
+ */
+async function hisPartnerContext(record: ReproRecord, his: MappedTrajectory, asOf: string, loadPartner?: (mrn: string) => Promise<unknown>) {
+  const link = his.partner;
+  if (!link) return { share: undefined, summary: null };
+  const summary: PartnerSummary = { status: link.status, partnerId: link.partnerId, youShare: link.youShare, theyShare: link.theyShare, partnerSex: null, sharedVectors: [] };
+  if (link.status !== "LINKED" || !link.theyShare.length || !loadPartner) return { share: undefined, summary };
+  let other: MappedTrajectory;
+  try {
+    other = mapTrajectory(await loadPartner(link.partnerId), asOf);
+  } catch {
+    return { share: undefined, summary };
+  }
+  summary.partnerSex = other.profile.sex;
+  const otherConsent = consentState(other.consent.resource);
+  if (!other.consent.confirmed || !otherConsent.PARTNER_SHARING) return { share: undefined, summary: { ...summary, theyShare: [] } };
+  const input: EngineInput = {
+    asOf,
+    subject: { sex: other.profile.sex, ageYears: other.profile.ageYears },
+    observations: other.observations.filter((o) => o.effectiveDateTime.slice(0, 10) <= asOf),
+    cycles: other.cycles ?? [],
+    lifestyle: other.lifestyle,
+    history: other.history?.completed ? other.history.items : null,
+    reproductive: other.plans ?? {},
+    symptoms: {},
+    openRedFlags: [],
+    consent: otherConsent,
+  };
+  const shared = evaluate(applyConsent(input, link.theyShare).input);
+  summary.sharedVectors = shared.vectors.filter(
+    (v) =>
+      (VECTOR_CATEGORIES[v.vector] as readonly ConsentCategory[]).some((c) => link.theyShare.includes(c)) &&
+      !(record.profile.sex === "female" && v.vector === "V4") &&
+      !(his.profile.sex === "female" && v.vector === "V4"),
+  );
+  return { share: { input, sharedCategories: link.theyShare } as PartnerShare, summary };
+}
+
+/**
+ * Entered sections from the HIS replace the browser copy when the HIS has them. Until the tab saves
+ * a section to the HIS, a section the HIS has not filled in keeps the browser copy. Open red flags
+ * from both are shown, so a danger sign is never hidden.
+ */
+function withHisSections(record: ReproRecord, his: MappedTrajectory): ReproRecord {
+  const next = { ...record };
+  if (his.lifestyle) next.lifestyle = his.lifestyle;
+  if (his.history?.completed) {
+    next.historyCompleted = true;
+    next.conditions = conditionsFromHistory(record.patientId, his.history.items, (his.history.updatedAt ?? record.updatedAt).slice(0, 10));
+  }
+  if (his.plans) next.reproductive = his.plans;
+  if (his.cycles?.length) next.cycles = his.cycles;
+  if (his.redFlags) next.redFlags = [...record.redFlags.filter((r) => r.status === "OPEN"), ...his.redFlags];
+  return next;
 }
 
 /** Labs and profile from the HIS response; BMI and blood pressure from the chart's vitals rows. */
@@ -213,7 +276,7 @@ export async function runEvaluation(options: RunOptions): Promise<RunOutcome> {
         record = await repo.getRecord(patientId);
       }
       // The HIS consent always wins over the browser copy.
-      if (record) record = { ...record, consentMode: "CLINICIAN_CONFIRMED", consent: his.consent.resource };
+      if (record) record = withHisSections({ ...record, consentMode: "CLINICIAN_CONFIRMED", consent: his.consent.resource }, his);
     }
   }
   // A real patient is never evaluated before the clinician has confirmed consent.
@@ -233,7 +296,8 @@ export async function runEvaluation(options: RunOptions): Promise<RunOutcome> {
     : record.isDemo
       ? "Demo data only"
       : undefined;
-  const partner = await partnerContext(repo, record, options.partnerEmr);
+  // With the HIS connected, the partner link comes from the HIS only (never this browser's copy).
+  const partner = his ? await hisPartnerContext(record, his, asOf, options.backend?.loadPartner) : await partnerContext(repo, record, options.partnerEmr);
   const result = evaluate(input, { haltOnAnyRedFlag: true, clock, mappingSummary, partner: partner.share });
   const explanation = await explain(result, lang, { ...options.explain, clock });
 

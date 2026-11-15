@@ -87,7 +87,7 @@ describe("order call (POST /clinical/trajectory-order-diagnostics)", () => {
 describe("Order tests dialog", () => {
   const his = (over: Partial<MappedTrajectory> = {}) => ({ encounterId: 559, pendingOrders: [], recommended: [], ...over }) as unknown as MappedTrajectory;
   const setup = (h = his()) => {
-    const backend = { load: vi.fn(), confirmConsent: vi.fn(), setConsent: vi.fn(), orderDiagnostics: vi.fn(async () => {}), createReferral: vi.fn() };
+    const backend = { load: vi.fn(), confirmConsent: vi.fn(), setConsent: vi.fn(), orderDiagnostics: vi.fn(async () => {}), createReferral: vi.fn(), resolveRedFlag: vi.fn(), saveSection: vi.fn(), submitSymptoms: vi.fn(), partner: vi.fn() };
     const onOrdered = vi.fn();
     render(<OrderTests patientId="TEST-0001" his={h} tests={suggestedTests(result(), h)} backend={backend} actor={clinician} onOrdered={onOrdered} onClose={() => {}} />);
     return { backend, onOrdered };

@@ -408,7 +408,7 @@ export const DataEntryForms: React.FC<Props> = ({ repo, record, sex, asOf, actor
             onClick={async () => {
               setBusy(true);
               try {
-                const { check } = await repo.submitSymptoms(
+                const { check, warning } = await repo.submitSymptoms(
                   id,
                   {
                     freeText: symptoms.text,
@@ -423,7 +423,9 @@ export const DataEntryForms: React.FC<Props> = ({ repo, record, sex, asOf, actor
                 );
                 const blocked = check.blocked.map((b) => t("en", `guardrail.blocked.${b}`)).join(" ");
                 setSymptoms({ text: "", pain: false, missed: false, positive: false, faint: false, postcoital: false, intermenstrual: false });
-                onSaved(blocked ? `Symptoms checked. ${blocked}` : "Symptoms checked; the text was not stored");
+                onSaved(warning ?? (blocked ? `Symptoms checked. ${blocked}` : "Symptoms checked; the text was not stored"));
+              } catch (e) {
+                setErrors({ form: e instanceof Error ? e.message : String(e) });
               } finally {
                 setBusy(false);
               }

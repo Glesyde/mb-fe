@@ -185,7 +185,7 @@ export interface ReproRepository {
   setConsent(patientId: string, category: ConsentCategory, granted: boolean, reason: string, actor: Actor): Promise<ReproRecord>;
 
   /** Runs the red-flag check at entry time, whatever the consent. Stores red flags only, never the text. */
-  submitSymptoms(patientId: string, symptoms: Symptoms, actor: Actor): Promise<{ check: InputCheckResult; record: ReproRecord }>;
+  submitSymptoms(patientId: string, symptoms: Symptoms, actor: Actor): Promise<{ check: InputCheckResult; record: ReproRecord; warning?: string }>;
   resolveRedFlag(
     patientId: string,
     eventId: string,

@@ -4,10 +4,23 @@
 //
 // Not used: the backend explanation (our own template wording is used).
 
-import type { ConsentCategory, Observation, ObservationKey, SemenComponentKey, Sex } from "../engine/types";
+import type {
+  ConsentCategory,
+  CycleRecord,
+  DataSource,
+  HistoryItems,
+  Lifestyle,
+  Observation,
+  ObservationKey,
+  QuestionTopic,
+  RedFlag,
+  ReproductiveContext,
+  SemenComponentKey,
+  Sex,
+} from "../engine/types";
 import { LAB_NAME_PATTERNS, type MappedProfile, type Skipped } from "./mappers";
 import { ageAt, ALL_CATEGORIES, makeObservation, makeSemenObservation } from "./records";
-import type { ActivityEntry, Actor, ConsentResource } from "./repository";
+import type { ActivityAction, ActivityEntry, Actor, ConsentResource, RedFlagEvent } from "./repository";
 
 /** Semen parameters by the code the HIS sends (LOINC). */
 const SEMEN_BY_CODE: Record<string, SemenComponentKey> = {
@@ -60,6 +73,58 @@ export interface MappedTrajectory {
   recommended: { testName: string; loinc: string; source: string; reason: string }[];
   /** Referrals already sent to the HIS, newest first. */
   referrals: HisReferral[];
+  /** Entered sections. `null` = the HIS sent no such section (older backend). */
+  lifestyle: Lifestyle | null;
+  /** `completed: false` = history not filled in yet. */
+  history: { completed: boolean; items: HistoryItems; updatedAt: string | null } | null;
+  plans: ReproductiveContext | null;
+  cycles: CycleRecord[] | null;
+  /** Open red flags only; resolved ones stay in the HIS log. */
+  redFlags: RedFlagEvent[] | null;
+  /**
+   * The sections exactly as the HIS sent them. A save starts from these, so fields the tab does not
+   * edit (e.g. sticks per day, fibroids) are sent back unchanged instead of being cleared.
+   */
+  raw: { lifestyle: Record<string, unknown>; historyItems: Record<string, unknown>; plans: Record<string, unknown> };
+  /** Partner link as the HIS holds it. `null` = no link (or an older backend). */
+  partner: HisPartnerLink | null;
+}
+
+export interface HisPartnerLink {
+  /** PENDING_THEM: this patient asked; PENDING_YOU: the partner asked; LINKED: both agreed. */
+  status: "PENDING_THEM" | "PENDING_YOU" | "LINKED";
+  partnerId: string;
+  youShare: ConsentCategory[];
+  theyShare: ConsentCategory[];
+}
+
+/** Status words the HIS may use. Anything else (e.g. NONE, REVOKED) means no link. */
+const PARTNER_STATUS: Record<string, HisPartnerLink["status"]> = {
+  PENDING_THEM: "PENDING_THEM",
+  REQUESTED: "PENDING_THEM",
+  REQUEST_SENT: "PENDING_THEM",
+  PENDING: "PENDING_THEM",
+  PENDING_YOU: "PENDING_YOU",
+  INVITED: "PENDING_YOU",
+  REQUEST_RECEIVED: "PENDING_YOU",
+  LINKED: "LINKED",
+  ACTIVE: "LINKED",
+  ACCEPTED: "LINKED",
+};
+
+function mapPartner(data: Record<string, any>): HisPartnerLink | null {
+  const p = data.partner_link;
+  if (!isObj(p)) return null;
+  const status = PARTNER_STATUS[str(p.status).toUpperCase()];
+  const partnerId = str(p.partnerId) || str(p.partner_mrn) || str(p.partner_id);
+  if (!status || !partnerId) return null;
+  return { status, partnerId, youShare: categories(p.shared_by_you), theyShare: status === "LINKED" ? categories(p.shared_by_them) : [] };
+}
+
+/** Red flag ids from the HIS are kept as "HIS-rf-<id>" so they can be resolved there. */
+export const HIS_RED_FLAG_PREFIX = "HIS-rf-";
+export function hisRedFlagId(eventId: string): number | null {
+  return eventId.startsWith(HIS_RED_FLAG_PREFIX) ? num(eventId.slice(HIS_RED_FLAG_PREFIX.length)) : null;
 }
 
 export interface HisReferral {
@@ -227,24 +292,161 @@ function mapConsent(data: Record<string, any>, today: string): MappedTrajectory[
   };
 }
 
+/** Non-consent events the HIS writes into the same log, with the tab's wording. */
+const OTHER_EVENTS: { pattern: RegExp; action: ActivityAction; text: string }[] = [
+  { pattern: /^REPRO_PARTNER_LINK_REQUESTED$/, action: "PARTNER_LINK_REQUESTED", text: "Partner link requested" },
+  { pattern: /^REPRO_PARTNER_LINK_ACCEPTED$/, action: "PARTNER_LINK_ACCEPTED", text: "Partner link accepted" },
+  { pattern: /^REPRO_PARTNER_LINK_DECLINED$/, action: "PARTNER_LINK_DECLINED", text: "Partner link declined" },
+  { pattern: /^REPRO_PARTNER_LINK_(REVOKED|CANCELLED|CANCELED|ENDED)$/, action: "PARTNER_LINK_ENDED", text: "Partner link ended" },
+  { pattern: /^REPRO_PARTNER_SHARING/, action: "PARTNER_SHARING_CHANGED", text: "Partner sharing changed" },
+  { pattern: /^REPRO_RED_FLAG_TRIGGERED$/, action: "RED_FLAG_RAISED", text: "Red flag raised" },
+  { pattern: /^REPRO_RED_FLAG_DISMISSED$/, action: "RED_FLAG_RESOLVED", text: "Red flag marked not present" },
+  { pattern: /^REPRO_RED_FLAG_/, action: "RED_FLAG_RESOLVED", text: "Red flag acknowledged and referred" },
+  { pattern: /^REPRO_HISTORY_/, action: "HISTORY_UPDATED", text: "History updated" },
+  { pattern: /^REPRO_LIFESTYLE_/, action: "LIFESTYLE_UPDATED", text: "Lifestyle updated" },
+  { pattern: /^REPRO_PLANS_/, action: "PLANS_UPDATED", text: "Plans and questions updated" },
+];
+/** Generic reasons the HIS writes that add nothing for the reader. */
+const GENERIC_REASON = /^updated in patient chart$/i;
+
 function mapActivity(data: Record<string, any>): ActivityEntry[] {
   const log: any[] = Array.isArray(data.consent_activity_log) ? data.consent_activity_log : [];
   return log.flatMap((a, i) => {
     const at = isoDate(a?.at);
     if (!at) return [];
-    const category = CATEGORY_SET.has(a?.category) ? (a.category as ConsentCategory) : undefined;
+    const action = str(a?.action);
     const reason = str(a?.reason);
+    const base = { id: `HIS-log-${a?.id ?? i}`, at, by: actorOf(a?.by) ?? { id: "unknown", name: "HIS" } };
+    const other = OTHER_EVENTS.find((e) => e.pattern.test(action));
+    if (other) {
+      return [{ ...base, action: other.action, detail: `${other.text}${reason && !GENERIC_REASON.test(reason) ? `: ${reason}` : ""}` }];
+    }
+    if (action && !/^REPRO_CONSENT_/.test(action)) {
+      return [{ ...base, action: "CONSENT_CHANGED" as const, detail: `${action.replace(/^REPRO_/, "").replace(/_/g, " ").toLowerCase()}` }];
+    }
+    const category = CATEGORY_SET.has(a?.category) ? (a.category as ConsentCategory) : undefined;
     const detail = category
       ? `${a?.granted ? "Shared" : "Withdrawn"}${reason ? `: ${reason}` : ""}`
-      : `${str(a?.action) === "REPRO_CONSENT_CONFIRMED" ? "Consent confirmed" : "Consent updated"}. Shared: ${categories(a?.consented_categories).join(", ") || "none"}${reason ? `. ${reason}` : ""}`;
+      : `${action === "REPRO_CONSENT_CONFIRMED" ? "Consent confirmed" : "Consent updated"}. Shared: ${categories(a?.consented_categories).join(", ") || "none"}${reason ? `. ${reason}` : ""}`;
     return [
       {
-        id: `HIS-consent-${a?.id ?? i}`,
-        at,
-        by: actorOf(a?.by) ?? { id: "unknown", name: "HIS" },
-        action: str(a?.action) === "REPRO_CONSENT_CONFIRMED" ? ("CONSENT_CAPTURED" as const) : ("CONSENT_CHANGED" as const),
+        ...base,
+        action: action === "REPRO_CONSENT_CONFIRMED" ? ("CONSENT_CAPTURED" as const) : ("CONSENT_CHANGED" as const),
         detail,
         ...(category ? { category } : {}),
+      },
+    ];
+  });
+}
+
+// --- Entered sections ------------------------------------------------------------------------------
+const bool = (v: unknown): boolean | undefined => (typeof v === "boolean" ? v : undefined);
+/** Copies only the fields that are present, so "not answered" stays absent. */
+function defined<T extends object>(o: T): T {
+  return Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined)) as T;
+}
+
+function mapLifestyle(data: Record<string, any>): Lifestyle | null {
+  const c = data.lifestyle?.current;
+  if (!isObj(c) || !str(c.updated_at)) return null; // not filled in yet
+  const smoking = str(c.smoking_status).toLowerCase();
+  const units = num(c.alcohol_units_per_week);
+  return defined<Lifestyle>({
+    smoking: smoking === "current" || smoking === "former" || smoking === "never" ? smoking : undefined,
+    passiveSmoke: bool(c.passive_smoke),
+    alcoholUnitsPerWeek: units !== null && units >= 0 ? units : undefined,
+    heatExposure: bool(c.heat_exposure),
+    occupation: str(c.occupation) || undefined,
+    hazardousOccupation: bool(c.hazardous_occupation),
+  });
+}
+
+/** The history items this tool's rules use. Others the HIS sends (e.g. fibroids) are kept there only. */
+const HISTORY_KEYS: (keyof HistoryItems)[] = [
+  "newCancerDiagnosis",
+  "pastChemoOrRadiotherapy",
+  "pastOvarianSurgery",
+  "plannedOvarianSurgery",
+  "pastPelvicSurgery",
+  "pastPelvicInfection",
+  "pastEctopicPregnancy",
+  "endometriosis",
+  "familyEarlyMenopause",
+  "geneticPoiRisk",
+  "undescendedTestes",
+  "genitalSurgeryOrTrauma",
+  "pcos",
+];
+
+function mapHistory(data: Record<string, any>): MappedTrajectory["history"] {
+  const h = data.history;
+  if (!isObj(h)) return null;
+  const items: HistoryItems = {};
+  for (const k of HISTORY_KEYS) if (typeof h.items?.[k] === "boolean") items[k] = h.items[k];
+  return { completed: h.history_completed === true, items, updatedAt: isoDate(h.updated_at) };
+}
+
+function mapRubella(v: unknown): ReproductiveContext["rubellaStatus"] {
+  const r = str(v).toUpperCase().replace(/[\s-]+/g, "_");
+  if (r === "IMMUNE") return "immune";
+  if (r === "NON_IMMUNE" || r === "NOT_IMMUNE" || r === "SUSCEPTIBLE") return "susceptible";
+  return "unknown"; // NOT_RECORDED, empty or anything else
+}
+
+function mapPlans(data: Record<string, any>): ReproductiveContext | null {
+  const p = data.plans_and_questions;
+  if (!isObj(p) || !str(p.updated_at)) return null; // never saved
+  const questions: QuestionTopic[] = [];
+  if (p.asked_about_caffeine === true) questions.push("CAFFEINE");
+  if (p.asked_for_dna_fragmentation === true) questions.push("DNA_FRAGMENTATION");
+  if (p.wants_ovulation_check === true) questions.push("OVULATION_CHECK");
+  if (p.asked_about_egg_freezing === true) questions.push("EGG_FREEZING");
+  const trying = /^\d{4}-\d{2}-\d{2}/.test(str(p.trying_since)) ? str(p.trying_since).slice(0, 10) : undefined;
+  return defined<ReproductiveContext>({
+    tryingSince: trying,
+    planningPregnancy: bool(p.planning_pregnancy),
+    regularIntercourse: bool(p.regular_intercourse),
+    usingContraception: bool(p.using_contraception),
+    concerned: bool(p.concerned_about_fertility),
+    assistedConception: bool(p.in_assisted_conception),
+    eggFreezingConsidered: bool(p.considering_egg_freezing),
+    eggFreezingForAge: bool(p.egg_freezing_for_age),
+    periodsAbsent: bool(p.periods_absent),
+    thyroidSymptoms: bool(p.thyroid_symptoms),
+    rubellaStatus: mapRubella(p.rubella_status),
+    questions: questions.length ? questions : undefined,
+  });
+}
+
+/** Cycle records only. The HIS's own predictions (next period, fertile window) are never used. */
+function mapCycles(data: Record<string, any>): CycleRecord[] | null {
+  const c = data.cycle_records;
+  if (!isObj(c)) return null;
+  const records: any[] = Array.isArray(c.records) ? c.records : [];
+  return records.flatMap((r) => {
+    const start = str(r?.start_date) || str(r?.startDate) || str(r?.started_at);
+    if (!/^\d{4}-\d{2}-\d{2}/.test(start)) return [];
+    const length = num(r?.length_days ?? r?.lengthDays);
+    const src = str(r?.source).toUpperCase();
+    const source: DataSource = src === "WEARABLE" ? "WEARABLE" : src === "HIS" ? "HIS" : "ENTERED";
+    return [{ startDate: start.slice(0, 10), ...(length !== null && length > 0 ? { lengthDays: length } : {}), source }];
+  });
+}
+
+function mapRedFlags(data: Record<string, any>): RedFlagEvent[] | null {
+  const r = data.red_flags;
+  if (!isObj(r)) return null;
+  const open: any[] = Array.isArray(r.open) ? r.open : [];
+  return open.flatMap((f) => {
+    const rule = str(f?.rule_id).toUpperCase();
+    if ((rule !== "R35" && rule !== "R36") || f?.id === undefined) return [];
+    return [
+      {
+        id: `${HIS_RED_FLAG_PREFIX}${f.id}`,
+        ruleId: rule as RedFlag,
+        detectedAt: isoDate(f.created_at) ?? "",
+        source: "STRUCTURED" as const,
+        status: "OPEN" as const,
       },
     ];
   });
@@ -297,5 +499,16 @@ export function mapTrajectory(response: unknown, today: string): MappedTrajector
     pendingOrders: mapOrders(data),
     recommended: mapRecommended(data),
     referrals: mapReferrals(data),
+    lifestyle: mapLifestyle(data),
+    history: mapHistory(data),
+    plans: mapPlans(data),
+    cycles: mapCycles(data),
+    redFlags: mapRedFlags(data),
+    raw: {
+      lifestyle: isObj(data.lifestyle?.current) ? data.lifestyle.current : {},
+      historyItems: isObj(data.history?.items) ? data.history.items : {},
+      plans: isObj(data.plans_and_questions) ? data.plans_and_questions : {},
+    },
+    partner: mapPartner(data),
   };
 }

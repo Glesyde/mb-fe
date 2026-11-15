@@ -13,6 +13,12 @@ mapping). `/repro-demo` and demo scenarios never call them.
 | `POST /clinical/trajectory-consent` | Manage consent: one switch | `{ patient_id, user_id, user_name, category, granted, reason }` |
 | `POST /clinical/trajectory-order-diagnostics` | Order tests: the clinician ticks tests and confirms | `{ patient_id, encounter_id, ordered_by, diagnostics: [{ test_name, loinc, source, reason }] }` |
 | `POST /clinical/trajectory-referral` | Referral summary: "Send referral to the HIS" | `{ patient_id, doctor_name, target_specialty, clinical_reason }` |
+| `POST /clinical/trajectory-lifestyle` | Add data → Lifestyle (creates or updates) | `{ patient_id, user_id, user_name, smoking_status, passive_smoke, alcohol_units_per_week, heat_exposure, occupation, hazardous_occupation, …fields the HIS already holds }` |
+| `POST /clinical/trajectory-history` | Add data → History (creates or updates) | `{ patient_id, user_id, user_name, items: { …all items true/false } }` |
+| `POST /clinical/trajectory-plans` | Add data → Plans and questions (creates or updates) | `{ patient_id, user_id, user_name, trying_since, rubella_status (IMMUNE / NON_IMMUNE / NOT_RECORDED), …answers and questions as true/false }` |
+| `POST /clinical/trajectory-symptoms` | Add data → Symptoms | `{ patient_id, user_id, user_name, freeText, …six tick boxes }` (the HIS keeps red flags only; if it cannot be reached, the red flag is kept in this browser) |
+| `POST /clinical/trajectory-red-flag-resolve` | Emergency panel, for a red flag from the HIS | `{ patient_id, red_flag_id, resolution (ACKNOWLEDGED_REFERRED / DISMISSED), user_id, user_name, note }` |
+| `POST /clinical/trajectory-partner` | Link partner: send request / accept / decline or end | `{ patient_id, action (REQUEST / ACCEPT / CANCEL), user_id, user_name, partner_mrn?, shared_categories? }` |
 
 `patient_id` is the MRN. `user_id`, `user_name`, `ordered_by` and `doctor_name` are the logged-in
 user (`user_id`/`ordered_by` as a number when numeric). A request counts as failed on an HTTP error or
@@ -32,9 +38,16 @@ when the body has a `status` other than `"success"`; the HIS `message` is shown 
   already open cannot be ordered again), `recommended_diagnostics`, `specialist_referrals`.
 - Not used: `explanation` (the tab's own reviewed template wording is shown) and `engine_error`.
 
-Still kept in this browser until the HIS has endpoints for them: cycles, history, lifestyle, plans,
-red-flag events, counselling, partner links, and a local copy of each referral (for the PDF/JSON
-summary and population measures).
+Lifestyle, history, plans, cycles (read only), open red flags and the partner link are also read
+from the same GET (`lifestyle`, `history`, `plans_and_questions`, `cycle_records`, `red_flags`,
+`partner_link`). A save starts from the HIS copy so fields the tab does not edit are not cleared.
+When linked, the partner's own trajectory is loaded and only the categories they share (with their
+PARTNER_SHARING consent on) are used; never their symptoms or red flags. The HIS's cycle predictions
+are never used.
+
+Still kept in this browser until the HIS has endpoints for them: saving cycles, lab results typed in
+by hand, counselling, "mark referral completed", changing partner sharing after linking, and a
+local copy of each referral (for the PDF/JSON summary and population measures).
 
 ## Proposed endpoints (not built yet)
 

@@ -68,7 +68,7 @@ describe("Referral summary dialog with the HIS", () => {
 
   it("pre-fills specialty and reason, lets the clinician edit them, then sends and keeps a local summary", async () => {
     const { repo, ctx } = await context();
-    const api = { load: vi.fn(), confirmConsent: vi.fn(), setConsent: vi.fn(), orderDiagnostics: vi.fn(), createReferral: vi.fn(async () => {}) };
+    const api = { load: vi.fn(), confirmConsent: vi.fn(), setConsent: vi.fn(), orderDiagnostics: vi.fn(), createReferral: vi.fn(async () => {}), resolveRedFlag: vi.fn(), saveSection: vi.fn(), submitSymptoms: vi.fn(), partner: vi.fn() };
     const onChanged = vi.fn();
     render(<ReferralSummary repo={repo} ctx={ctx} today="2026-11-01" actor={clinician} his={{ api, data: his }} onChanged={onChanged} onClose={() => {}} />);
 
@@ -89,7 +89,7 @@ describe("Referral summary dialog with the HIS", () => {
 
   it("keeps nothing locally when the HIS refuses the referral", async () => {
     const { repo, ctx } = await context();
-    const api = { load: vi.fn(), confirmConsent: vi.fn(), setConsent: vi.fn(), orderDiagnostics: vi.fn(), createReferral: vi.fn(async () => Promise.reject(new Error("The referral was not saved: down"))) };
+    const api = { load: vi.fn(), confirmConsent: vi.fn(), setConsent: vi.fn(), orderDiagnostics: vi.fn(), createReferral: vi.fn(async () => Promise.reject(new Error("The referral was not saved: down"))), resolveRedFlag: vi.fn(), saveSection: vi.fn(), submitSymptoms: vi.fn(), partner: vi.fn() };
     render(<ReferralSummary repo={repo} ctx={ctx} today="2026-11-01" actor={clinician} his={{ api, data: his }} onChanged={() => {}} onClose={() => {}} />);
     await waitFor(() => expect((screen.getByLabelText("Clinical reason") as HTMLTextAreaElement).value).not.toBe(""));
     fireEvent.click(screen.getByRole("button", { name: "Send referral to the HIS" }));
