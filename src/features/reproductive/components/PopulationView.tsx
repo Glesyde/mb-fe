@@ -7,6 +7,7 @@ import { demoRepository } from "../data/demoRepository";
 import type { ReproRepository } from "../data/repository";
 import { canAccessReproductive } from "../guardrails/accessPolicy";
 import { t } from "../i18n";
+import { reproBackendEnabled } from "../services/trajectory.service";
 import { MIN_GROUP_SIZE, REFERRAL_WINDOW_DAYS, SPLITS, STATE_BUCKETS, type PopulationAggregates, type PopulationGroup, type Split, type StateBucket } from "../services/population.service";
 import { Card, Chip, SectionTitle, SegmentedControl } from "./ui";
 
@@ -190,6 +191,15 @@ const ReproductivePopulationPage: React.FC = () => {
   const { roles, hasAnyPermission } = useAuth();
   if (!canAccessReproductive(roles, hasAnyPermission(NAV_PERMISSION_RULES.emr)).allowed) {
     return <Card className="p-6 text-sm text-slate-600">Reproductive health data is not available for this account.</Card>;
+  }
+  // With the HIS on, made-up patients are never shown here; /repro-demo still has them.
+  if (reproBackendEnabled()) {
+    return (
+      <Card className="p-6 text-sm text-slate-600">
+        Population figures are not available yet, waiting for the HIS. They need an endpoint that returns counts across patients
+        (never names).
+      </Card>
+    );
   }
   return <PopulationView repo={demoRepository} synthetic />;
 };

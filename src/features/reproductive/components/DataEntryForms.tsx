@@ -35,9 +35,18 @@ interface Props {
   actor: Actor;
   onSaved: (message: string) => void;
   onClose: () => void;
-  /** What is already recorded (HIS and this browser), listed under each tab. */
+  /** What is already recorded, listed under each tab. */
   previous?: PreviousEntries;
+  /** Chart with the HIS: tabs the HIS cannot save yet show a notice instead of a form. */
+  hisOnly?: boolean;
 }
+
+/** Shown instead of a form the HIS has no endpoint for. Nothing is saved in the browser. */
+const NotAvailable: React.FC<{ what: string }> = ({ what }) => (
+  <p className="text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-xl p-3">
+    Adding {what} here is not available yet, waiting for the HIS. What the HIS already has is listed below.
+  </p>
+);
 
 export interface PreviousEntries {
   cycles: CycleRecord[];
@@ -96,7 +105,7 @@ const Check: React.FC<{ checked: boolean; onChange: (v: boolean) => void; childr
   </label>
 );
 
-export const DataEntryForms: React.FC<Props> = ({ repo, record, sex, asOf, actor, onSaved, onClose, previous }) => {
+export const DataEntryForms: React.FC<Props> = ({ repo, record, sex, asOf, actor, onSaved, onClose, previous, hisOnly = false }) => {
   const prev: PreviousEntries = previous ?? { cycles: record.cycles, observations: record.observations, redFlags: [] };
   const byDate = <T,>(items: T[], date: (x: T) => string) => [...items].sort((a, b) => date(b).localeCompare(date(a)));
   const labRows = byDate(
@@ -213,7 +222,16 @@ export const DataEntryForms: React.FC<Props> = ({ repo, record, sex, asOf, actor
       </div>
       <FieldError message={errors.form} />
 
-      {tab === "cycles" && (
+      {tab === "cycles" && hisOnly && (
+        <div>
+          <NotAvailable what="cycle records" />
+          <div>
+            <Previous title="Cycles recorded" empty="No cycles recorded yet." rows={cycleRows} />
+          </div>
+        </div>
+      )}
+
+      {tab === "cycles" && !hisOnly && (
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="cy-start">Cycle start date</Label>
@@ -247,7 +265,16 @@ export const DataEntryForms: React.FC<Props> = ({ repo, record, sex, asOf, actor
         </div>
       )}
 
-      {tab === "labs" && (
+      {tab === "labs" && hisOnly && (
+        <div>
+          <NotAvailable what="lab results" />
+          <div>
+            <Previous title="Lab results recorded" empty="No lab results recorded yet." rows={labRows} />
+          </div>
+        </div>
+      )}
+
+      {tab === "labs" && !hisOnly && (
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="lab-type">Test</Label>
@@ -321,7 +348,16 @@ export const DataEntryForms: React.FC<Props> = ({ repo, record, sex, asOf, actor
         </div>
       )}
 
-      {tab === "semen" && (
+      {tab === "semen" && hisOnly && (
+        <div>
+          <NotAvailable what="semen analyses" />
+          <div>
+            <Previous title="Semen analyses recorded" empty="No semen analysis recorded yet." rows={semenRows} />
+          </div>
+        </div>
+      )}
+
+      {tab === "semen" && !hisOnly && (
         <div className="grid sm:grid-cols-3 gap-4">
           {SEMEN_ENTRY_FIELDS.map((f) => (
             <div key={f.key}>

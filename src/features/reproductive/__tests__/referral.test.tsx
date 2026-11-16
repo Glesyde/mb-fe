@@ -66,7 +66,7 @@ describe("Referral summary dialog with the HIS", () => {
     referrals: [{ id: "35", doctor: "Test Doctor", specialty: "Andrology & Reproductive Endocrinology Specialist", createdAt: "2026-11-12 23:01:21", reason: "Earlier reason", status: "active" }],
   } as unknown as MappedTrajectory;
 
-  it("pre-fills specialty and reason, lets the clinician edit them, then sends and keeps a local summary", async () => {
+  it("pre-fills specialty and reason, lets the clinician edit them, then sends it to the HIS only", async () => {
     const { repo, ctx } = await context();
     const api = { load: vi.fn(), confirmConsent: vi.fn(), setConsent: vi.fn(), orderDiagnostics: vi.fn(), createReferral: vi.fn(async () => {}), resolveRedFlag: vi.fn(), saveSection: vi.fn(), submitSymptoms: vi.fn(), partner: vi.fn() };
     const onChanged = vi.fn();
@@ -84,7 +84,9 @@ describe("Referral summary dialog with the HIS", () => {
     fireEvent.click(screen.getByRole("button", { name: "Send referral to the HIS" }));
     await waitFor(() => expect(onChanged).toHaveBeenCalledWith("Referral sent to the HIS"));
     expect(api.createReferral).toHaveBeenCalledWith("DEMO-6", clinician, "Reproductive Medicine Specialist", "Edited by the clinician.");
-    expect((await repo.getRecord("DEMO-6"))?.serviceRequests).toHaveLength(1);
+    expect((await repo.getRecord("DEMO-6"))?.serviceRequests).toHaveLength(0);
+    expect(screen.getByText(/Not available yet, waiting for the HIS/)).toBeTruthy();
+    expect(screen.queryByRole("button", { name: "Record counselling today" })).toBeNull();
   });
 
   it("keeps nothing locally when the HIS refuses the referral", async () => {

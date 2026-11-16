@@ -27,7 +27,10 @@ export const SYMPTOM_LABEL: Record<SymptomIndicator, string> = {
 export const EmergencyPanel: React.FC<{
   events: RedFlagEvent[];
   onResolve: (eventId: string, resolution: "ACKNOWLEDGED_REFERRED" | "DISMISSED") => Promise<void>;
-}> = ({ events, onResolve }) => {
+  /** The HIS's own wording and number. Falls back to the tab's reviewed wording and 998. */
+  urgent?: { en: string; ar: string; ambulance: string } | null;
+}> = ({ events, onResolve, urgent }) => {
+  const ambulance = urgent?.ambulance || "998";
   const [busy, setBusy] = useState<string | null>(null);
   const act = async (id: string, resolution: "ACKNOWLEDGED_REFERRED" | "DISMISSED") => {
     setBusy(id);
@@ -43,12 +46,12 @@ export const EmergencyPanel: React.FC<{
         <h3 className="text-lg md:text-xl font-black flex items-center gap-2">
           <Siren size={24} /> Urgent: red-flag symptoms
         </h3>
-        <p className="text-base font-bold">{t("en", "common.emergency")}</p>
+        <p className="text-base font-bold">{urgent?.en || t("en", "common.emergency")}</p>
         <p className="text-base font-bold" {...AR_TEXT_ATTRS}>
-          {t("ar", "common.emergency")}
+          {urgent?.ar || t("ar", "common.emergency")}
         </p>
-        <a href="tel:998" className="inline-flex items-center gap-2 bg-white text-red-700 font-black px-4 py-2 rounded-xl text-lg focus:outline-none focus-visible:ring-4 focus-visible:ring-white/60">
-          <PhoneCall size={20} /> Ambulance: 998
+        <a href={`tel:${ambulance}`} className="inline-flex items-center gap-2 bg-white text-red-700 font-black px-4 py-2 rounded-xl text-lg focus:outline-none focus-visible:ring-4 focus-visible:ring-white/60">
+          <PhoneCall size={20} /> Ambulance: {ambulance}
         </a>
       </div>
       <div className="bg-red-700/60 p-4 md:p-5 space-y-3">

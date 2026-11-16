@@ -304,7 +304,7 @@ describe("entered sections from the HIS", () => {
     expect(m.activity.map((a) => [a.action, a.detail])).toEqual([
       ["PARTNER_LINK_ENDED", "Partner link ended"],
       ["RED_FLAG_RESOLVED", "Red flag marked not present"],
-      ["RED_FLAG_RAISED", "Red flag raised: Symptom freeText discarded per privacy rule"],
+      ["RED_FLAG_RAISED", "Red flag raised (symptom text not stored)"],
       ["HISTORY_UPDATED", "History updated"],
     ]);
   });

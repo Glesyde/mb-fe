@@ -67,10 +67,14 @@ export interface MappedTrajectory {
   activity: ActivityEntry[];
   /** The HIS flagged this patient for an emergency stop. */
   emergencyHalt: boolean;
+  /** The HIS's own urgent message and ambulance number for the red panel; null when not sent. */
+  urgent: { en: string; ar: string; ambulance: string } | null;
   /** Needed to place orders. Null when the HIS sent none. */
   encounterId: number | null;
   /** Orders not finished yet, so the same test is not ordered twice. */
   pendingOrders: HisOrder[];
+  /** Finished orders from `diagnostic_orders_history` (open ones are in pendingOrders). */
+  pastOrders: HisOrder[];
   /** Tests the HIS itself suggests (`recommended_diagnostics`), if any. */
   recommended: { testName: string; loinc: string; source: string; reason: string }[];
   /** Referrals already sent to the HIS, newest first. */
@@ -331,11 +335,12 @@ function mapConsent(data: Record<string, any>, today: string): MappedTrajectory[
 /** Non-consent events the HIS writes into the same log, with the tab's wording. */
 const OTHER_EVENTS: { pattern: RegExp; action: ActivityAction; text: string }[] = [
   { pattern: /^REPRO_PARTNER_LINK_REQUESTED$/, action: "PARTNER_LINK_REQUESTED", text: "Partner link requested" },
+  { pattern: /^REPRO_PARTNER_LINK_INVITED$/, action: "PARTNER_LINK_REQUESTED", text: "Partner invited to link" },
   { pattern: /^REPRO_PARTNER_LINK_ACCEPTED$/, action: "PARTNER_LINK_ACCEPTED", text: "Partner link accepted" },
   { pattern: /^REPRO_PARTNER_LINK_DECLINED$/, action: "PARTNER_LINK_DECLINED", text: "Partner link declined" },
   { pattern: /^REPRO_PARTNER_LINK_(REVOKED|CANCELLED|CANCELED|ENDED)$/, action: "PARTNER_LINK_ENDED", text: "Partner link ended" },
   { pattern: /^REPRO_PARTNER_SHARING/, action: "PARTNER_SHARING_CHANGED", text: "Partner sharing changed" },
-  { pattern: /^REPRO_RED_FLAG_TRIGGERED$/, action: "RED_FLAG_RAISED", text: "Red flag raised" },
+  { pattern: /^REPRO_RED_FLAG_TRIGGERED$/, action: "RED_FLAG_RAISED", text: "Red flag raised (symptom text not stored)" },
   { pattern: /^REPRO_RED_FLAG_DISMISSED$/, action: "RED_FLAG_RESOLVED", text: "Red flag marked not present" },
   { pattern: /^REPRO_RED_FLAG_/, action: "RED_FLAG_RESOLVED", text: "Red flag acknowledged and referred" },
   { pattern: /^REPRO_HISTORY_/, action: "HISTORY_UPDATED", text: "History updated" },
@@ -343,7 +348,7 @@ const OTHER_EVENTS: { pattern: RegExp; action: ActivityAction; text: string }[] 
   { pattern: /^REPRO_PLANS_/, action: "PLANS_UPDATED", text: "Plans and questions updated" },
 ];
 /** Generic reasons the HIS writes that add nothing for the reader. */
-const GENERIC_REASON = /^updated in patient chart$/i;
+const GENERIC_REASON = /^updated in patient chart$|^symptom freetext discarded per privacy rule$/i;
 
 function mapActivity(data: Record<string, any>): ActivityEntry[] {
   const log: any[] = Array.isArray(data.consent_activity_log) ? data.consent_activity_log : [];
@@ -469,6 +474,15 @@ function mapCycles(data: Record<string, any>): CycleRecord[] | null {
   });
 }
 
+function mapUrgent(data: Record<string, any>): MappedTrajectory["urgent"] {
+  const open: any[] = Array.isArray(data.red_flags?.open) ? data.red_flags.open : Array.isArray(data.open_red_flags) ? data.open_red_flags : [];
+  const first = open.find(isObj) ?? {};
+  const en = str(data.urgent_message) || str(first.message_en);
+  const ar = str(data.urgent_message_ar) || str(first.message_ar);
+  const ambulance = str(first.ambulance);
+  return en || ar || ambulance ? { en, ar, ambulance } : null;
+}
+
 function mapRedFlags(data: Record<string, any>): RedFlagEvent[] | null {
   const r = data.red_flags;
   if (!isObj(r)) return null;
@@ -496,6 +510,13 @@ function mapOrders(data: Record<string, any>): HisOrder[] {
   return list
     .filter((o) => isObj(o) && (str(o.service_name) || str(o.service_code)))
     .map((o) => ({ id: String(o.id ?? ""), name: str(o.service_name), code: str(o.service_code), status: str(o.order_status), orderedAt: str(o.ordered_at) }));
+}
+
+function mapPastOrders(data: Record<string, any>): HisOrder[] {
+  const list: any[] = Array.isArray(data.diagnostic_orders_history) ? data.diagnostic_orders_history : [];
+  return list
+    .filter((o) => isObj(o) && (str(o.service_name) || str(o.service_code)) && str(o.order_status).toUpperCase() === "COMPLETED")
+    .map((o) => ({ id: String(o.id ?? ""), name: str(o.service_name), code: str(o.service_code), status: str(o.order_status), orderedAt: str(o.completed_at) || str(o.ordered_at) }));
 }
 
 function mapRecommended(data: Record<string, any>): MappedTrajectory["recommended"] {
@@ -534,8 +555,10 @@ export function mapTrajectory(response: unknown, today: string): MappedTrajector
     consent: mapConsent(data, today),
     activity: mapActivity(data),
     emergencyHalt: data.emergency_halt === true,
+    urgent: mapUrgent(data),
     encounterId: num(data.encounter_id),
     pendingOrders: mapOrders(data),
+    pastOrders: mapPastOrders(data),
     recommended: mapRecommended(data),
     referrals: mapReferrals(data),
     lifestyle: mapLifestyle(data),

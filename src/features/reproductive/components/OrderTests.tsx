@@ -100,6 +100,20 @@ export const OrderTests: React.FC<{
         </>
       )}
 
+      {(his.pastOrders ?? []).length > 0 && (
+        <>
+          <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2">Completed orders in the HIS</h3>
+          <ul className="space-y-1 text-xs mb-4 max-h-40 overflow-y-auto">
+            {his.pastOrders.map((o) => (
+              <li key={o.id || o.name + o.orderedAt} className="flex gap-2">
+                <span className="font-mono text-slate-500 shrink-0">{o.orderedAt ? formatTimestamp(o.orderedAt.replace(" ", "T")) : "—"}</span>
+                <span className="text-slate-700">{o.name || o.code}</span>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+
       <p className="text-[11px] text-slate-500 mb-3">
         Ordered as {actor.name} (user {actor.id}){his.encounterId !== null ? ` on encounter ${his.encounterId}` : ""}.
       </p>

@@ -46,9 +46,16 @@ PARTNER_SHARING consent on) are used; never their symptoms or red flags. The HIS
 are never used. Each open red flag's `triggered_indicators` (the symptom boxes that raised it) is
 shown on the red panel and pre-ticks the Symptoms tab; unticking does not close the flag.
 
-Still kept in this browser until the HIS has endpoints for them: saving cycles, lab results typed in
-by hand, counselling, "mark referral completed", changing partner sharing after linking, and a
-local copy of each referral (for the PDF/JSON summary and population measures).
+Nothing is kept in the browser. The red panel uses the HIS `urgent_message`, `urgent_message_ar` and
+`ambulance`; the order dialog also lists completed orders from `diagnostic_orders_history`.
+
+Not available until the HIS has endpoints for them (the chart shows "Not available yet, waiting for
+the HIS"): adding cycles (`POST /clinical/trajectory-cycles`), lab and semen results typed in by
+hand (`POST /clinical/trajectory-labs`), counselling (`POST /clinical/trajectory-counselling`),
+"mark referral completed" (`POST /clinical/trajectory-referral-complete`), changing partner sharing
+after linking (`UPDATE_SHARING` on `/clinical/trajectory-partner`), the PDF/JSON referral summary,
+the specialty list (`GET /clinical/specialties`) and population figures
+(`GET /clinical/trajectory-population`). The endpoint names are proposals.
 
 ## Proposed endpoints (not built yet)
 

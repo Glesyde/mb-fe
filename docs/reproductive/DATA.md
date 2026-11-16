@@ -78,9 +78,12 @@ vitals is not used because the vitals form records no unit.
 
 ## 4. Where it is kept
 
-- With `VITE_REPRO_BACKEND=true`, consent, test orders and referrals are saved in the HIS. The
-  browser keeps the rest, and a local copy of consent that the HIS always overrides.
-- Everything entered in the feature (consent, cycles, results, history, plans, partner links,
+- With `VITE_REPRO_BACKEND=true`, the chart tab keeps **nothing in the browser**. Everything is
+  read from and saved to the HIS; a working copy lives in memory only and is rebuilt from the HIS on
+  every load. Actions the HIS has no endpoint for yet (adding cycles, typing in lab or semen results,
+  counselling, marking a referral completed, the PDF/JSON referral summary, changing partner sharing
+  after linking) show "Not available yet, waiting for the HIS" instead of saving locally.
+- Without it, and always in `/repro-demo`, everything entered in the feature (consent, cycles, results, history, plans, partner links,
   referrals, counselling, red flags) and all demo data live in **this browser's localStorage** under
   one versioned key, `medbookie.repro.demo`. If storage is unavailable, data is kept in memory for
   the session only.

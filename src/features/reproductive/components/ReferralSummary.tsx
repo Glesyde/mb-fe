@@ -41,8 +41,8 @@ export const ReferralSummary: React.FC<{
   }, [step, record.profile.sex, ctx.subject.sex]);
 
   const create = async () => {
-    if (his) await his.api.createReferral(record.patientId, actor, specialty, reason);
-    // Kept in this browser too, for the PDF/JSON summary and the population measures.
+    // With the HIS, the referral lives only in the HIS. Nothing is kept in the browser.
+    if (his) return his.api.createReferral(record.patientId, actor, specialty, reason);
     await repo.createReferral(record.patientId, step!.pathway, step!.items.map((i) => i.ruleId), actor);
   };
 
@@ -143,10 +143,14 @@ export const ReferralSummary: React.FC<{
           </section>
         )}
 
+        {his ? (
+          <p className="text-[11px] text-slate-500 border-t border-slate-100 pt-3">
+            Not available yet, waiting for the HIS: the PDF/JSON referral summary, "Mark completed" and "Record counselling".
+          </p>
+        ) : (
+        <>
         <section>
-          <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2">
-            {his ? "Referral summaries saved in this browser" : "Referral summaries for this patient"}
-          </h3>
+          <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2">Referral summaries for this patient</h3>
           {record.serviceRequests.length === 0 && <p className="text-xs text-slate-500">None yet.</p>}
           <ul className="divide-y divide-slate-100 border border-slate-100 rounded-xl">
             {[...record.serviceRequests].reverse().map((sr) => (
@@ -186,6 +190,8 @@ export const ReferralSummary: React.FC<{
             Record counselling today
           </Button>
         </section>
+        </>
+        )}
       </div>
     </Modal>
   );

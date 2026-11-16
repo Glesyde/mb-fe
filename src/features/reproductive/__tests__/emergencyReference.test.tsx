@@ -163,3 +163,56 @@ describe("ticked symptoms from the HIS", () => {
     expect(screen.getByText("Ticked: Severe, sudden one-sided pelvic pain, Missed period")).toBeTruthy();
   });
 });
+
+describe("chart with the HIS saves nothing in the browser", () => {
+  it("shows a notice instead of the cycle, lab and semen forms, and still lists what is recorded", async () => {
+    const r = repo();
+    await r.createRecord("TEST-H", { sex: "female", language: "en" }, doctor, ["PROFILE"]);
+    render(
+      <DataEntryForms
+        hisOnly
+        repo={r}
+        record={(await r.getRecord("TEST-H"))!}
+        sex="female"
+        asOf="2026-11-15"
+        actor={doctor}
+        previous={{ cycles: [{ startDate: "2026-10-01", lengthDays: 28, source: "HIS" }], observations: [], redFlags: [] }}
+        onSaved={() => {}}
+        onClose={() => {}}
+      />,
+    );
+    expect(screen.getByText(/Adding cycle records here is not available yet/)).toBeTruthy();
+    expect(screen.queryByRole("button", { name: "Save cycle" })).toBeNull();
+    expect(screen.getByText(/Cycle started, 28 days/)).toBeTruthy();
+    fireEvent.click(screen.getByRole("tab", { name: "Lab results" }));
+    expect(screen.queryByRole("button", { name: "Save result" })).toBeNull();
+    fireEvent.click(screen.getByRole("tab", { name: "Semen analysis" }));
+    expect(screen.queryByRole("button", { name: "Save semen analysis" })).toBeNull();
+  });
+
+  it("uses the HIS urgent message and ambulance number, and reads completed orders", async () => {
+    const his = mapTrajectory(
+      {
+        status: "success",
+        data: {
+          consent_confirmed: true,
+          consented_categories: ["PROFILE"],
+          urgent_message: "Go to the emergency department now.",
+          urgent_message_ar: "AR",
+          red_flags: { halted: true, open: [{ id: 2, rule_id: "R35", status: "OPEN", created_at: "2026-11-15 13:01:03", ambulance: "999" }], log: [] },
+          diagnostic_orders_history: [
+            { id: 1, service_name: "Full Blood Count (FBC)", order_status: "COMPLETED", ordered_at: "2026-10-30 10:05:46", completed_at: "2026-10-31 21:43:27" },
+            { id: 2, service_name: "Lab", order_status: "PAID", ordered_at: "2026-09-07 15:52:18" },
+          ],
+        },
+      },
+      "2026-11-15",
+    );
+    expect(his.urgent).toEqual({ en: "Go to the emergency department now.", ar: "AR", ambulance: "999" });
+    expect(his.pastOrders.map((o) => o.name)).toEqual(["Full Blood Count (FBC)"]);
+    const { EmergencyPanel } = await import("../components/EmergencyPanel");
+    render(<EmergencyPanel events={his.redFlags!} urgent={his.urgent} onResolve={async () => {}} />);
+    expect(screen.getByText("Go to the emergency department now.")).toBeTruthy();
+    expect(screen.getByRole("link").getAttribute("href")).toBe("tel:999");
+  });
+});

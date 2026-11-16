@@ -5,7 +5,7 @@ import { NAV_PERMISSION_RULES } from "../../../services/constants";
 import { emrService } from "../../../services/emr.service";
 import { patientService } from "../../../services/patient.service";
 import type { ConsentCategory, CycleRecord, Language, Observation, VectorId } from "../engine/types";
-import { demoRepository } from "../data/demoRepository";
+import { createDemoRepository, demoRepository } from "../data/demoRepository";
 import { mapPatientProfile } from "../data/mappers";
 import type { ActivityEntry, Actor, ReproRecord, ReproRepository } from "../data/repository";
 import { SCENARIOS } from "../data/synthetic/scenarios";
@@ -288,6 +288,7 @@ export const ReproductiveView: React.FC<ReproductiveViewProps> = ({ repo, patien
         <>
           <EmergencyPanel
             events={openFlags}
+            urgent={his?.urgent}
             onResolve={async (id, resolution) => {
               const hisId = hisRedFlagId(id);
               const note = resolution === "DISMISSED" ? "Not present (dismissed) in the Reproductive Health tab" : "Acknowledged and referred in the Reproductive Health tab";
@@ -402,6 +403,7 @@ export const ReproductiveView: React.FC<ReproductiveViewProps> = ({ repo, patien
 
       {modal === "add" && (
         <DataEntryForms
+          hisOnly={!!his}
           repo={his && backend ? hisRepo(repo, backend, his, record) : repo}
           record={record}
           sex={subject.sex}
@@ -441,6 +443,7 @@ export const ReproductiveView: React.FC<ReproductiveViewProps> = ({ repo, patien
       {why && <EvidenceDrawer v={why} onClose={() => setModal(null)} />}
       {modal === "partner" && (
         <PartnerLink
+          canChangeSharing={!his}
           repo={his && backend ? hisRepo(repo, backend, his, record) : repo}
           record={record}
           partner={outcome.partner}
@@ -564,6 +567,10 @@ const ReproductiveTab: React.FC<ReproductiveTabProps> = ({ patient, history, vit
   const { user, roles, hasAnyPermission } = useAuth();
   const emr = useMemo<EmrSource>(() => ({ patient, vitals: vitals ?? [], history: history ?? [] }), [patient, vitals, history]);
   const access = canAccessReproductive(roles, hasAnyPermission(NAV_PERMISSION_RULES.emr));
+  const backendOn = reproBackendEnabled();
+  // With the HIS, nothing is kept in the browser: a working copy in memory only, rebuilt from the
+  // HIS on every load and dropped when the patient changes or the page reloads.
+  const sessionRepo = useMemo(() => createDemoRepository({ storage: null }), [patient?.mrn]);
 
   if (!access.allowed) {
     return <Card className="p-6 text-sm text-slate-600">Reproductive health data is not available for this account.</Card>;
@@ -573,12 +580,12 @@ const ReproductiveTab: React.FC<ReproductiveTabProps> = ({ patient, history, vit
   const actor: Actor = { id: String(user?.id ?? "unknown"), name: user?.full_name || user?.name || "Clinician" };
   return (
     <ReproductiveView
-      repo={demoRepository}
+      repo={backendOn ? sessionRepo : demoRepository}
       patientId={patient.mrn}
       emr={emr}
       actor={actor}
       loadPartnerEmr={loadPartnerEmr}
-      backend={reproBackendEnabled() ? trajectoryApi : undefined}
+      backend={backendOn ? trajectoryApi : undefined}
     />
   );
 };

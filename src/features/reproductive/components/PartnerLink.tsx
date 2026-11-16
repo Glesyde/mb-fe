@@ -40,7 +40,9 @@ export const PartnerLink: React.FC<{
   actor: Actor;
   onChanged: (message: string) => void;
   onClose: () => void;
-}> = ({ repo, record, partner, actor, onChanged, onClose }) => {
+  /** False in the chart: the HIS cannot change sharing after linking yet. */
+  canChangeSharing?: boolean;
+}> = ({ repo, record, partner, actor, onChanged, onClose, canChangeSharing = true }) => {
   const [mrn, setMrn] = useState("");
   const [share, setShare] = useState<ConsentCategory[]>(partner?.youShare ?? ["PROFILE"]);
   const [agree, setAgree] = useState(isPermitted(record, "PARTNER_SHARING"));
@@ -149,12 +151,20 @@ export const PartnerLink: React.FC<{
                 ))}
               </ul>
             </section>
-            <ShareBoxes record={record} value={share} onChange={setShare} />
+            {canChangeSharing ? (
+              <ShareBoxes record={record} value={share} onChange={setShare} />
+            ) : (
+              <p className="text-[11px] text-slate-500">
+                Changing what this patient shares after linking is not available yet, waiting for the HIS. To change it, end the link and send a new request.
+              </p>
+            )}
             <FieldError message={error} />
             <div className="flex gap-2">
-              <Button variant="primary" disabled={busy} onClick={() => run(() => repo.setPartnerSharing(id, share, actor), "Sharing updated")}>
-                Save what this patient shares
-              </Button>
+              {canChangeSharing && (
+                <Button variant="primary" disabled={busy} onClick={() => run(() => repo.setPartnerSharing(id, share, actor), "Sharing updated")}>
+                  Save what this patient shares
+                </Button>
+              )}
               <Button icon={<Unlink size={14} />} disabled={busy} onClick={() => run(() => repo.unlinkPartner(id, actor), "Partner link ended")}>
                 End link
               </Button>
