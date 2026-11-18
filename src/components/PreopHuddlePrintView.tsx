@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { i18n } from "../i18n";
 
 interface PreopHuddlePrintViewProps {
   huddleData: any;
@@ -20,7 +21,7 @@ const PreopHuddlePrintView: React.FC<PreopHuddlePrintViewProps> = ({
   const handleDirectPrint = () => {
     const printWindow = window.open("", "_blank", "width=850,height=1100");
     if (!printWindow) {
-      alert("Please allow popups for printing");
+      alert(i18n.t("Please allow popups for printing"));
       onClose();
       return;
     }

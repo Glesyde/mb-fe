@@ -10,6 +10,7 @@ import {
   ReportShell,
   Pagination,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const IpdDischargeTatReport: React.FC = () => {
   const [records, setRecords] = useState<any[]>([]);
@@ -74,8 +75,8 @@ const IpdDischargeTatReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Discharge Turnaround Time"
-      subtitle="Time elapsed from discharge decision to actual patient exit."
+      title={i18n.t("Discharge Turnaround Time")}
+      subtitle={i18n.t("Time elapsed from discharge decision to actual patient exit.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -93,20 +94,20 @@ const IpdDischargeTatReport: React.FC = () => {
       filters={
         <>
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input
               type="text"
-              placeholder="Search..."
+              placeholder={i18n.t("Search...")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               disabled={isLoading}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
+              className="w-full ps-10 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
             />
           </div>
           <div>
             <input
               type="text"
-              placeholder="MRN"
+              placeholder={i18n.t("MRN")}
               value={mrn}
               onChange={(e) => setMrn(e.target.value)}
               disabled={isLoading}
@@ -116,7 +117,7 @@ const IpdDischargeTatReport: React.FC = () => {
           <div>
             <input
               type="text"
-              placeholder="Patient name"
+              placeholder={i18n.t("Patient name")}
               value={patientName}
               onChange={(e) => setPatientName(e.target.value)}
               disabled={isLoading}
@@ -130,7 +131,7 @@ const IpdDischargeTatReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="">All Doctors</option>
+              <option value="">{i18n.t("All Doctors")}</option>
               {doctors.map((d) => (
                 <option key={d.doctor_id} value={`${d.first_name} ${d.last_name}`}>{d.first_name} {d.last_name}</option>
               ))}
@@ -144,37 +145,37 @@ const IpdDischargeTatReport: React.FC = () => {
       }
     >
       <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 flex-1 min-h-[300px]">
-        <table className="w-full text-left text-sm whitespace-nowrap">
+        <table className="w-full text-start text-sm whitespace-nowrap">
           <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
             <tr>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Admission #</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Patient</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Doctor</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Admitted</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Decision Time</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Actual Exit</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Discharge TAT (mins)</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Admission #")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Patient")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Doctor")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Admitted")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Decision Time")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Actual Exit")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Discharge TAT (mins)")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {records.length > 0 ? (
               records.map((row, i) => (
                 <tr key={`${row.admission_number}-${i}`} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="px-4 py-3.5 font-mono text-xs text-slate-500 border-r border-slate-50">{renderValue(row.admission_number)}</td>
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 font-mono text-xs text-slate-500 border-e border-slate-50">{renderValue(row.admission_number)}</td>
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <div className="font-semibold text-slate-700">{renderValue(row.patient_name)}</div>
-                    <div className="text-[11px] text-slate-400 font-mono">MRN: {renderValue(row.mrn)}</div>
+                    <div className="text-[11px] text-slate-400 font-mono">{i18n.t("MRN:")}{" "}{renderValue(row.mrn)}</div>
                   </td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.doctor_name)}</td>
-                  <td className="px-4 py-3.5 text-slate-500 border-r border-slate-50">{renderValue(row.admission_date)}</td>
-                  <td className="px-4 py-3.5 text-slate-500 border-r border-slate-50">{renderValue(row.decision_time)}</td>
-                  <td className="px-4 py-3.5 text-slate-500 border-r border-slate-50">{renderValue(row.actual_exit_time)}</td>
-                  <td className="px-4 py-3.5 font-bold text-slate-800 text-right">{renderValue(row.total_discharge_tat_mins)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.doctor_name)}</td>
+                  <td className="px-4 py-3.5 text-slate-500 border-e border-slate-50">{renderValue(row.admission_date)}</td>
+                  <td className="px-4 py-3.5 text-slate-500 border-e border-slate-50">{renderValue(row.decision_time)}</td>
+                  <td className="px-4 py-3.5 text-slate-500 border-e border-slate-50">{renderValue(row.actual_exit_time)}</td>
+                  <td className="px-4 py-3.5 font-bold text-slate-800 text-end">{renderValue(row.total_discharge_tat_mins)}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={7} className="px-4 py-12 text-center text-slate-400 italic">No discharge TAT records found.</td>
+                <td colSpan={7} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No discharge TAT records found.")}</td>
               </tr>
             )}
           </tbody>

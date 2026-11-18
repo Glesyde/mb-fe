@@ -19,6 +19,7 @@ import {
 import { useNotification } from "../context/NotificationContext";
 import { auditService } from "../services/audit.service";
 import { AuditLog } from "../types";
+import { i18n } from "../i18n";
 
 interface FilterState {
   action: string;
@@ -157,22 +158,13 @@ const SecurityAudit: React.FC = () => {
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-10">
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full border border-white/10 text-[10px] font-black uppercase tracking-widest">
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />{" "}
-                Live Forensic Feed
-              </div>
-              <h2 className="text-4xl font-black tracking-tight leading-none">
-                Security Monitoring
-              </h2>
-              <p className="text-slate-400 font-medium max-w-md">
-                Immutable logging of all sensitive clinical and financial
-                transactions across the Medbookie HIS network.
-              </p>
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />{" "}{i18n.t("Live Forensic Feed")}</div>
+              <h2 className="text-4xl font-black tracking-tight leading-none">{i18n.t("Security Monitoring")}</h2>
+              <p className="text-slate-400 font-medium max-w-md">{i18n.t("Immutable logging of all sensitive clinical and financial transactions across the Medbookie HIS network.")}</p>
             </div>
             <div className="flex items-center gap-10">
               <div className="text-center">
-                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">
-                  Anomalies
-                </p>
+                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">{i18n.t("Anomalies")}</p>
                 <p className="text-3xl font-black text-rose-500">0</p>
               </div>
               <div className="p-6 bg-white/5 rounded-[32px] border border-white/10 backdrop-blur-sm">
@@ -180,19 +172,16 @@ const SecurityAudit: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-brand-primary/10 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700" />
+          <div className="absolute -bottom-24 -start-24 w-96 h-96 bg-brand-primary/10 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700" />
         </div>
 
         <div className="bg-white border border-slate-200 rounded-[44px] p-10 shadow-sm flex flex-col justify-between">
           <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-            <Activity size={18} className="text-brand-primary" /> System Integrity
-          </h3>
+            <Activity size={18} className="text-brand-primary" />{" "}{i18n.t("System Integrity")}</h3>
           <div className="space-y-4 py-6">
             <div className="flex justify-between items-center text-sm">
-              <span className="font-bold text-slate-500">Active Sessions</span>
-              <span className="font-black text-slate-800">
-                12 Terminal Nodes
-              </span>
+              <span className="font-bold text-slate-500">{i18n.t("Active Sessions")}</span>
+              <span className="font-black text-slate-800">{i18n.t("12 Terminal Nodes")}</span>
             </div>
             <div className="h-1.5 w-full bg-slate-50 rounded-full overflow-hidden">
               <div
@@ -211,7 +200,7 @@ const SecurityAudit: React.FC = () => {
             ) : (
               <Download size={16} />
             )}
-            {exporting ? "Compiling Vault..." : "Export Governance Vault"}
+            {exporting ? i18n.t("Compiling Vault...") : i18n.t("Export Governance Vault")}
           </button>
         </div>
       </div>
@@ -219,11 +208,11 @@ const SecurityAudit: React.FC = () => {
       <div className="bg-white border border-slate-200 rounded-[44px] shadow-sm overflow-hidden">
         <div className="p-8 border-b border-slate-100 bg-slate-50/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="relative flex-1 max-w-md group">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 group-focus-within:text-brand-primary transition-colors" />
+            <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 group-focus-within:text-brand-primary transition-colors" />
             <input
               type="text"
-              placeholder="Search user, action or IP..."
-              className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:ring-8 focus:ring-brand-active0/5 focus:border-brand-active0 transition-all"
+              placeholder={i18n.t("Search user, action or IP...")}
+              className="w-full ps-11 pe-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:ring-8 focus:ring-brand-active0/5 focus:border-brand-active0 transition-all"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -234,7 +223,7 @@ const SecurityAudit: React.FC = () => {
               onChange={(e) => handleFilterChange("action", e.target.value)}
               className="px-5 py-3 bg-white border border-slate-200 rounded-2xl text-xs font-black uppercase tracking-widest text-slate-500 hover:bg-slate-50 transition-all cursor-pointer"
             >
-              <option value="">All Actions</option>
+              <option value="">{i18n.t("All Actions")}</option>
               {auditService.getAvailableActions().map((action) => (
                 <option key={action} value={action}>
                   {getActionLabel(action)}
@@ -267,30 +256,28 @@ const SecurityAudit: React.FC = () => {
           <div className="flex items-center justify-center py-16">
             <div className="flex flex-col items-center gap-4">
               <Loader2 size={40} className="text-brand-primary animate-spin" />
-              <p className="text-slate-500 font-bold">Loading audit logs...</p>
+              <p className="text-slate-500 font-bold">{i18n.t("Loading audit logs...")}</p>
             </div>
           </div>
         ) : filteredLogs.length === 0 ? (
           <div className="flex items-center justify-center py-16">
             <div className="flex flex-col items-center gap-4 text-center">
               <ShieldAlert size={40} className="text-slate-300" />
-              <p className="text-slate-500 font-bold">No audit logs found</p>
-              <p className="text-slate-400 text-sm">
-                Try adjusting your filters or search criteria
-              </p>
+              <p className="text-slate-500 font-bold">{i18n.t("No audit logs found")}</p>
+              <p className="text-slate-400 text-sm">{i18n.t("Try adjusting your filters or search criteria")}</p>
             </div>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left">
+            <table className="w-full text-start">
               <thead>
                 <tr className="bg-white border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
-                  <th className="px-8 py-5">Event Timestamp</th>
-                  <th className="px-8 py-5">Authenticated User</th>
-                  <th className="px-8 py-5">Transaction Details</th>
-                  <th className="px-8 py-5">Source IP</th>
-                  <th className="px-8 py-5 text-center">Impact</th>
-                  <th className="px-8 py-5 text-right">User Agent</th>
+                  <th className="px-8 py-5">{i18n.t("Event Timestamp")}</th>
+                  <th className="px-8 py-5">{i18n.t("Authenticated User")}</th>
+                  <th className="px-8 py-5">{i18n.t("Transaction Details")}</th>
+                  <th className="px-8 py-5">{i18n.t("Source IP")}</th>
+                  <th className="px-8 py-5 text-center">{i18n.t("Impact")}</th>
+                  <th className="px-8 py-5 text-end">{i18n.t("User Agent")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
@@ -311,7 +298,7 @@ const SecurityAudit: React.FC = () => {
                           {(log.performed_by || "Y").split(" ").slice(-1)[0]?.charAt(0)}
                         </div>
                         <p className="text-sm font-black text-slate-800">
-                          {log.performed_by || "System Event"}
+                          {log.performed_by || i18n.t("System Event")}
                         </p>
                       </div>
                     </td>
@@ -348,7 +335,7 @@ const SecurityAudit: React.FC = () => {
                         {getImpactLevel(log.action)}
                       </span>
                     </td>
-                    <td className="px-8 py-6 text-right">
+                    <td className="px-8 py-6 text-end">
                       <p className="text-[10px] font-bold text-slate-500 max-w-[200px] truncate">
                         {log.user_agent}
                       </p>

@@ -5,6 +5,7 @@
 
 import React, { useState } from "react";
 import { X, AlertCircle } from "lucide-react";
+import { i18n } from "../i18n";
 
 interface AnesthetistFormData {
   airway_risk?: string;
@@ -65,30 +66,26 @@ const PreopHuddleAnaesthetist: React.FC<StageFormProps> = ({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-teal-50 border-l-4 border-teal-500 p-4 rounded">
-        <h3 className="font-bold text-teal-900">ANAESTHETIST</h3>
-        <p className="text-sm text-teal-700">
-          Step 2: Assess airway risk, allergies, and anaesthetic plan
-        </p>
+      <div className="bg-teal-50 border-s-4 border-teal-500 p-4 rounded">
+        <h3 className="font-bold text-teal-900">{i18n.t("ANAESTHETIST")}</h3>
+        <p className="text-sm text-teal-700">{i18n.t("Step 2: Assess airway risk, allergies, and anaesthetic plan")}</p>
       </div>
 
       {/* Airway Risk Assessment */}
       <div className="space-y-3 border rounded-lg p-4 bg-orange-50">
-        <h4 className="font-bold text-gray-900 mb-3">Airway Assessment</h4>
+        <h4 className="font-bold text-gray-900 mb-3">{i18n.t("Airway Assessment")}</h4>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Is there a difficult airway or aspiration risk?
-          </label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">{i18n.t("Is there a difficult airway or aspiration risk?")}</label>
           <select
             value={formData.airway_risk || ""}
             onChange={(e) => onChange("airway_risk", e.target.value)}
             disabled={disabled}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none disabled:bg-gray-100"
           >
-            <option value="">-- Select --</option>
-            <option value="YES">Yes</option>
-            <option value="NO">No</option>
+            <option value="">{i18n.t("-- Select --")}</option>
+            <option value="YES">{i18n.t("Yes")}</option>
+            <option value="NO">{i18n.t("No")}</option>
           </select>
         </div>
 
@@ -102,15 +99,13 @@ const PreopHuddleAnaesthetist: React.FC<StageFormProps> = ({
             disabled={disabled}
             className="w-5 h-5 rounded text-orange-600"
           />
-          <span className="text-gray-900 font-medium">
-            Equipment/assistance available
-          </span>
+          <span className="text-gray-900 font-medium">{i18n.t("Equipment/assistance available")}</span>
         </label>
       </div>
 
       {/* Allergies */}
       <div className="border rounded-lg p-4 bg-red-50">
-        <h4 className="font-bold text-gray-900 mb-3">Allergies</h4>
+        <h4 className="font-bold text-gray-900 mb-3">{i18n.t("Allergies")}</h4>
 
         <label className="flex items-center gap-3 cursor-pointer mb-4">
           <input
@@ -120,9 +115,7 @@ const PreopHuddleAnaesthetist: React.FC<StageFormProps> = ({
             disabled={disabled}
             className="w-5 h-5 rounded text-red-600"
           />
-          <span className="text-gray-900 font-medium">
-            Patient has known allergies
-          </span>
+          <span className="text-gray-900 font-medium">{i18n.t("Patient has known allergies")}</span>
         </label>
 
         {formData.has_allergy && (
@@ -134,7 +127,7 @@ const PreopHuddleAnaesthetist: React.FC<StageFormProps> = ({
                 value={newAllergy}
                 onChange={(e) => setNewAllergy(e.target.value)}
                 disabled={disabled}
-                placeholder="Allergy name (e.g., Penicillin)"
+                placeholder={i18n.t("Allergy name (e.g., Penicillin)")}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none disabled:bg-gray-100 text-sm"
               />
               <input
@@ -142,16 +135,14 @@ const PreopHuddleAnaesthetist: React.FC<StageFormProps> = ({
                 value={newReaction}
                 onChange={(e) => setNewReaction(e.target.value)}
                 disabled={disabled}
-                placeholder="Reaction (e.g., Rash)"
+                placeholder={i18n.t("Reaction (e.g., Rash)")}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none disabled:bg-gray-100 text-sm"
               />
               <button
                 onClick={addAllergy}
                 disabled={disabled || !newAllergy.trim()}
                 className="w-full bg-red-600 text-white py-1 rounded text-sm font-medium hover:bg-red-700 disabled:bg-gray-300"
-              >
-                Add Allergy
-              </button>
+              >{i18n.t("Add Allergy")}</button>
             </div>
 
             {/* Allergies List */}
@@ -165,7 +156,7 @@ const PreopHuddleAnaesthetist: React.FC<StageFormProps> = ({
                     <div>
                       <span className="font-semibold">{allergy.allergy}</span>
                       {allergy.reaction && (
-                        <span className="text-gray-600 ml-2">
+                        <span className="text-gray-600 ms-2">
                           → {allergy.reaction}
                         </span>
                       )}
@@ -187,28 +178,22 @@ const PreopHuddleAnaesthetist: React.FC<StageFormProps> = ({
 
       {/* Pre-operative Risk Scores */}
       <div className="space-y-3 border rounded-lg p-4 bg-yellow-50">
-        <h4 className="font-bold text-gray-900 mb-3">
-          Pre-operative Risk Assessment
-        </h4>
+        <h4 className="font-bold text-gray-900 mb-3">{i18n.t("Pre-operative Risk Assessment")}</h4>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            ASA Grade
-          </label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">{i18n.t("ASA Grade")}</label>
           <select
             value={formData.asa_grade || ""}
             onChange={(e) => onChange("asa_grade", e.target.value)}
             disabled={disabled}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 outline-none disabled:bg-gray-100"
           >
-            <option value="">-- Select ASA Grade --</option>
-            <option value="ASA I">ASA I - Normal healthy patient</option>
-            <option value="ASA II">ASA II - Mild systemic disease</option>
-            <option value="ASA III">ASA III - Severe systemic disease</option>
-            <option value="ASA IV">
-              ASA IV - Severe systemic disease (constant threat)
-            </option>
-            <option value="ASA V">ASA V - Moribund patient</option>
+            <option value="">{i18n.t("-- Select ASA Grade --")}</option>
+            <option value="ASA I">{i18n.t("ASA I - Normal healthy patient")}</option>
+            <option value="ASA II">{i18n.t("ASA II - Mild systemic disease")}</option>
+            <option value="ASA III">{i18n.t("ASA III - Severe systemic disease")}</option>
+            <option value="ASA IV">{i18n.t("ASA IV - Severe systemic disease (constant threat)")}</option>
+            <option value="ASA V">{i18n.t("ASA V - Moribund patient")}</option>
           </select>
           {errors.asa_grade && (
             <div className="flex items-center gap-2 mt-1 text-red-600 text-sm">
@@ -219,31 +204,27 @@ const PreopHuddleAnaesthetist: React.FC<StageFormProps> = ({
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Risk Score
-          </label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">{i18n.t("Risk Score")}</label>
           <select
             value={formData.risk_score || ""}
             onChange={(e) => onChange("risk_score", e.target.value)}
             disabled={disabled}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 outline-none disabled:bg-gray-100"
           >
-            <option value="">-- Select Risk Level --</option>
-            <option value="LOW">Low</option>
-            <option value="MODERATE">Moderate</option>
-            <option value="HIGH">High</option>
+            <option value="">{i18n.t("-- Select Risk Level --")}</option>
+            <option value="LOW">{i18n.t("Low")}</option>
+            <option value="MODERATE">{i18n.t("Moderate")}</option>
+            <option value="HIGH">{i18n.t("High")}</option>
           </select>
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Monitoring Plan
-          </label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">{i18n.t("Monitoring Plan")}</label>
           <textarea
             value={formData.monitoring_plan || ""}
             onChange={(e) => onChange("monitoring_plan", e.target.value)}
             disabled={disabled}
-            placeholder="e.g., ECG, SpO2, BP, CVP monitoring..."
+            placeholder={i18n.t("e.g., ECG, SpO2, BP, CVP monitoring...")}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 outline-none disabled:bg-gray-100 resize-none"
             rows={2}
           />
@@ -252,26 +233,22 @@ const PreopHuddleAnaesthetist: React.FC<StageFormProps> = ({
 
       {/* Anaesthetist Details */}
       <div className="space-y-3 border rounded-lg p-4 bg-teal-50">
-        <h4 className="font-bold text-gray-900 mb-3">Anaesthetist Details</h4>
+        <h4 className="font-bold text-gray-900 mb-3">{i18n.t("Anaesthetist Details")}</h4>
 
         <div>
-          <label className="block text-xs font-bold text-slate-500 mb-1">
-            Anaesthetist Name
-          </label>
+          <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Anaesthetist Name")}</label>
           <input
             type="text"
             value={formData.anaesthetist_name || ""}
             onChange={(e) => onChange("anaesthetist_name", e.target.value)}
             disabled={disabled}
-            placeholder="e.g., Dr. Jane Anaesthesia"
+            placeholder={i18n.t("e.g., Dr. Jane Anaesthesia")}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none disabled:bg-gray-100"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-bold text-slate-500 mb-1">
-            Designation
-          </label>
+          <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Designation")}</label>
           <input
             type="text"
             value={formData.anaesthetist_designation || ""}
@@ -279,7 +256,7 @@ const PreopHuddleAnaesthetist: React.FC<StageFormProps> = ({
               onChange("anaesthetist_designation", e.target.value)
             }
             disabled={disabled}
-            placeholder="e.g., Consultant Anaesthetist"
+            placeholder={i18n.t("e.g., Consultant Anaesthetist")}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none disabled:bg-gray-100"
           />
         </div>

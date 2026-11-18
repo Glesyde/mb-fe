@@ -4,6 +4,7 @@ import { useNotification } from '../../context/NotificationContext';
 import { useAuth } from '../../context/AuthContext';
 import apiClient from '../../api/client';
 import LoadingAnimation from '../animations/LoadingAnimation';
+import { i18n } from "../../i18n";
 
 const parseDateString = (dateStr?: string | null) => {
   if (!dateStr) return '';
@@ -260,39 +261,36 @@ const AssetMaster: React.FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
         <div>
-          <h2 className="text-2xl font-bold text-slate-800">Asset Master</h2>
-          <p className="text-slate-500">Manage all facility assets and equipment</p>
+          <h2 className="text-2xl font-bold text-slate-800">{i18n.t("Asset Master")}</h2>
+          <p className="text-slate-500">{i18n.t("Manage all facility assets and equipment")}</p>
         </div>
         <button 
           onClick={() => handleOpenModal()}
           className="bg-brand-primary text-white px-6 py-2.5 rounded-xl font-bold hover:bg-brand-secondary transition-colors flex items-center gap-2"
         >
-          <Plus size={20} />
-          New Asset
-        </button>
+          <Plus size={20} />{i18n.t("New Asset")}</button>
       </div>
 
       <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mt-6">
         <div className="p-6 border-b border-slate-100 flex flex-col gap-6 bg-white">
           <div className="flex justify-between items-center gap-4">
             <div className="relative w-full max-w-2xl">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+              <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
               <input
                 type="text"
-                placeholder="Search assets by name or ID..."
+                placeholder={i18n.t("Search assets by name or ID...")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary outline-none transition-all text-sm"
+                className="w-full ps-10 pe-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary outline-none transition-all text-sm"
               />
             </div>
             <div className="flex items-center gap-3">
-              <div className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-600 flex-shrink-0">
-                Total: {filteredAssets.length}
+              <div className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-600 flex-shrink-0">{i18n.t("Total:")}{" "}{filteredAssets.length}
               </div>
               <button 
                 onClick={fetchAssets}
                 className="p-2.5 text-slate-500 bg-white border border-slate-200 hover:text-brand-primary hover:bg-brand-50 rounded-xl transition-colors flex-shrink-0"
-                title="Refresh"
+                title={i18n.t("Refresh")}
               >
                 <RefreshCw size={18} className={loading ? 'animate-spin' : ''} />
               </button>
@@ -301,37 +299,37 @@ const AssetMaster: React.FC = () => {
           
           <div className="flex items-center gap-4 overflow-x-auto pb-2 hide-scrollbar">
             <div className="flex flex-col gap-1.5 min-w-[160px]">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Asset Category</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{i18n.t("Asset Category")}</label>
               <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
                 className="px-3 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 outline-none focus:border-brand-primary transition-colors cursor-pointer"
               >
-                <option value="">All Categories</option>
+                <option value="">{i18n.t("All Categories")}</option>
                 {lookups?.categories.map(c => <option key={c.id} value={c.id.toString()}>{c.name}</option>)}
               </select>
             </div>
             
             <div className="flex flex-col gap-1.5 min-w-[160px]">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Status</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{i18n.t("Status")}</label>
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
                 className="px-3 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 outline-none focus:border-brand-primary transition-colors cursor-pointer"
               >
-                <option value="">All Statuses</option>
+                <option value="">{i18n.t("All Statuses")}</option>
                 {lookups?.statuses.map(c => <option key={c.id} value={c.id.toString()}>{c.name}</option>)}
               </select>
             </div>
 
             <div className="flex flex-col gap-1.5 min-w-[160px]">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Condition</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{i18n.t("Condition")}</label>
               <select
                 value={conditionFilter}
                 onChange={(e) => setConditionFilter(e.target.value)}
                 className="px-3 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 outline-none focus:border-brand-primary transition-colors cursor-pointer"
               >
-                <option value="">All Conditions</option>
+                <option value="">{i18n.t("All Conditions")}</option>
                 {lookups?.conditions.map(c => <option key={c.id} value={c.id.toString()}>{c.name}</option>)}
               </select>
             </div>
@@ -339,15 +337,15 @@ const AssetMaster: React.FC = () => {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-start border-collapse">
             <thead>
               <tr className="bg-slate-50/50 border-b border-slate-100">
-                <th className="p-4 font-black text-[11px] text-slate-500 uppercase tracking-wider">Asset Details</th>
-                <th className="p-4 font-black text-[11px] text-slate-500 uppercase tracking-wider">Location</th>
-                <th className="p-4 font-black text-[11px] text-slate-500 uppercase tracking-wider">Financials & Dates</th>
-                <th className="p-4 font-black text-[11px] text-slate-500 uppercase tracking-wider">Maintenance</th>
-                <th className="p-4 font-black text-[11px] text-slate-500 uppercase tracking-wider">Status & Cond.</th>
-                <th className="p-4 font-black text-[11px] text-slate-500 uppercase tracking-wider text-right">Actions</th>
+                <th className="p-4 font-black text-[11px] text-slate-500 uppercase tracking-wider">{i18n.t("Asset Details")}</th>
+                <th className="p-4 font-black text-[11px] text-slate-500 uppercase tracking-wider">{i18n.t("Location")}</th>
+                <th className="p-4 font-black text-[11px] text-slate-500 uppercase tracking-wider">{i18n.t("Financials & Dates")}</th>
+                <th className="p-4 font-black text-[11px] text-slate-500 uppercase tracking-wider">{i18n.t("Maintenance")}</th>
+                <th className="p-4 font-black text-[11px] text-slate-500 uppercase tracking-wider">{i18n.t("Status & Cond.")}</th>
+                <th className="p-4 font-black text-[11px] text-slate-500 uppercase tracking-wider text-end">{i18n.t("Actions")}</th>
               </tr>
             </thead>
             <tbody>
@@ -360,9 +358,7 @@ const AssetMaster: React.FC = () => {
               ) : paginatedAssets.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="p-8 text-center text-slate-500 flex flex-col items-center">
-                    <AlertCircle size={32} className="text-slate-300 mb-2" />
-                    No assets found matching your criteria.
-                  </td>
+                    <AlertCircle size={32} className="text-slate-300 mb-2" />{i18n.t("No assets found matching your criteria.")}</td>
                 </tr>
               ) : (
                 paginatedAssets.map(asset => (
@@ -371,7 +367,7 @@ const AssetMaster: React.FC = () => {
                     <td className="p-4 align-top">
                       <p className="text-sm font-black text-slate-800">{asset.asset_name}</p>
                       <div className="flex items-center gap-2 mt-1">
-                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-500 uppercase tracking-tight">ID: {asset.unique_id}</span>
+                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-500 uppercase tracking-tight">{i18n.t("ID:")}{" "}{asset.unique_id}</span>
                         <span className="text-[10px] text-slate-400 font-mono">{asset.category?.name || '-'}</span>
                       </div>
                       {(asset.make || asset.model) && <p className="text-[10px] text-slate-400 mt-1 font-medium">{asset.make || ''} {asset.model || ''} {asset.serial_number ? `(SN: ${asset.serial_number})` : ''}</p>}
@@ -387,8 +383,8 @@ const AssetMaster: React.FC = () => {
                     <td className="p-4 align-top">
                       <p className="text-xs font-black text-slate-700">{asset.purchase_cost?.formatted || '-'}</p>
                       <div className="flex flex-col gap-0.5 mt-1">
-                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Purchased: <span className="text-slate-600">{asset.purchase_date || '-'}</span></span>
-                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Warranty: <span className="text-slate-600">{asset.warranty_expiry || '-'}</span></span>
+                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">{i18n.t("Purchased:")}{" "}<span className="text-slate-600">{asset.purchase_date || '-'}</span></span>
+                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">{i18n.t("Warranty:")}{" "}<span className="text-slate-600">{asset.warranty_expiry || '-'}</span></span>
                       </div>
                     </td>
 
@@ -396,8 +392,8 @@ const AssetMaster: React.FC = () => {
                     <td className="p-4 align-top">
                       <p className="text-xs font-bold text-slate-700">{asset.service_interval?.name || '-'}</p>
                       <div className="flex flex-col gap-0.5 mt-1">
-                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Last Svc: <span className="text-slate-600">{asset.last_service_date || '-'}</span></span>
-                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Next Svc: <span className="text-slate-600">{asset.next_service_due || '-'}</span></span>
+                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">{i18n.t("Last Svc:")}{" "}<span className="text-slate-600">{asset.last_service_date || '-'}</span></span>
+                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">{i18n.t("Next Svc:")}{" "}<span className="text-slate-600">{asset.next_service_due || '-'}</span></span>
                       </div>
                     </td>
 
@@ -414,12 +410,12 @@ const AssetMaster: React.FC = () => {
                     </td>
 
                     {/* Actions */}
-                    <td className="p-4 align-top text-right">
+                    <td className="p-4 align-top text-end">
                       <div className="flex justify-end">
                          <button 
                            onClick={() => { setActiveActionAsset(asset); setIsActionModalOpen(true); }}
                            className="p-1.5 text-slate-400 hover:text-brand-primary rounded-lg transition-colors"
-                           title="Actions"
+                           title={i18n.t("Actions")}
                          >
                            <MoreVertical size={18} />
                          </button>
@@ -435,24 +431,22 @@ const AssetMaster: React.FC = () => {
         {/* Pagination Footer */}
         {totalPages > 1 && (
           <div className="p-4 border-t border-slate-100 flex items-center justify-between bg-slate-50/50">
-            <span className="text-sm font-medium text-slate-500">
-              Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, filteredAssets.length)} of {filteredAssets.length} entries
-            </span>
+            <span className="text-sm font-medium text-slate-500">{i18n.t("Showing")}{" "}{(currentPage - 1) * itemsPerPage + 1}{" "}{i18n.t("to")}{" "}{Math.min(currentPage * itemsPerPage, filteredAssets.length)}{" "}{i18n.t("of")}{" "}{filteredAssets.length}{" "}{i18n.t("entries")}</span>
             <div className="flex items-center gap-1">
               <button 
                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
                 className="p-1.5 text-slate-400 hover:text-brand-primary disabled:opacity-50 disabled:hover:text-slate-400 rounded-lg transition-colors"
               >
-                <ChevronLeft size={18} />
+                <ChevronLeft className="rtl:-scale-x-100" size={18} />
               </button>
-              <span className="text-sm font-bold text-slate-700 px-3">Page {currentPage} of {totalPages}</span>
+              <span className="text-sm font-bold text-slate-700 px-3">{i18n.t("Page")}{" "}{currentPage}{" "}{i18n.t("of")}{" "}{totalPages}</span>
               <button 
                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
                 className="p-1.5 text-slate-400 hover:text-brand-primary disabled:opacity-50 disabled:hover:text-slate-400 rounded-lg transition-colors"
               >
-                <ChevronRight size={18} />
+                <ChevronRight className="rtl:-scale-x-100" size={18} />
               </button>
             </div>
           </div>
@@ -471,11 +465,11 @@ const AssetMaster: React.FC = () => {
                     onClick={() => { setIsModalOpen(false); setIsActionModalOpen(true); }}
                     className="p-1.5 text-slate-400 hover:text-brand-primary hover:bg-brand-50 rounded-lg transition-colors"
                   >
-                    <ArrowLeft size={20} />
+                    <ArrowLeft className="rtl:-scale-x-100" size={20} />
                   </button>
                 )}
                 <h3 className="text-xl font-bold text-slate-800">
-                  {editingAsset ? 'Edit Asset' : 'Register New Asset'}
+                  {editingAsset ? i18n.t("Edit Asset") : i18n.t("Register New Asset")}
                 </h3>
               </div>
               <button 
@@ -491,22 +485,22 @@ const AssetMaster: React.FC = () => {
                 
                 {/* Basic Info */}
                 <div className="space-y-4 md:col-span-2">
-                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">Basic Details</h4>
+                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">{i18n.t("Basic Details")}</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-1">Asset Name</label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-1">{i18n.t("Asset Name")}</label>
                       <input 
                         type="text"
                         name="asset_name"
                         value={formData.asset_name}
                         onChange={handleInputChange}
                         required
-                        placeholder="e.g. Ultrasound Scanner"
+                        placeholder={i18n.t("e.g. Ultrasound Scanner")}
                         className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary focus:bg-white outline-none transition-all"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-1">Category</label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-1">{i18n.t("Category")}</label>
                       <select
                         name="category_id"
                         value={formData.category_id}
@@ -515,7 +509,7 @@ const AssetMaster: React.FC = () => {
                         disabled={!!editingAsset}
                         className={`w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary focus:bg-white outline-none transition-all ${editingAsset ? 'opacity-60 cursor-not-allowed' : ''}`}
                       >
-                        <option value="">Select Category</option>
+                        <option value="">{i18n.t("Select Category")}</option>
                         {lookups.categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                       </select>
                     </div>
@@ -524,38 +518,38 @@ const AssetMaster: React.FC = () => {
 
                 {/* Equipment Specifications */}
                 <div className="space-y-4 md:col-span-2">
-                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">Equipment Specifications</h4>
+                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">{i18n.t("Equipment Specifications")}</h4>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-1">Make / Manufacturer</label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-1">{i18n.t("Make / Manufacturer")}</label>
                       <input 
                         type="text"
                         name="make"
                         value={formData.make}
                         onChange={handleInputChange}
-                        placeholder="e.g. Philips"
+                        placeholder={i18n.t("e.g. Philips")}
                         className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary focus:bg-white outline-none transition-all"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-1">Model</label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-1">{i18n.t("Model")}</label>
                       <input 
                         type="text"
                         name="model"
                         value={formData.model}
                         onChange={handleInputChange}
-                        placeholder="e.g. Lumify"
+                        placeholder={i18n.t("e.g. Lumify")}
                         className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary focus:bg-white outline-none transition-all"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-1">Serial Number</label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-1">{i18n.t("Serial Number")}</label>
                       <input 
                         type="text"
                         name="serial_number"
                         value={formData.serial_number}
                         onChange={handleInputChange}
-                        placeholder="e.g. PHL-US-9921"
+                        placeholder={i18n.t("e.g. PHL-US-9921")}
                         className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary focus:bg-white outline-none transition-all"
                       />
                     </div>
@@ -564,9 +558,9 @@ const AssetMaster: React.FC = () => {
 
                 {/* Location & Tracking */}
                 <div className="space-y-4">
-                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">Location</h4>
+                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">{i18n.t("Location")}</h4>
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1">Wing</label>
+                    <label className="block text-sm font-semibold text-slate-700 mb-1">{i18n.t("Wing")}</label>
                     <select
                       name="wing_id"
                       value={formData.wing_id}
@@ -574,12 +568,12 @@ const AssetMaster: React.FC = () => {
                       required
                       className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary focus:bg-white outline-none transition-all"
                     >
-                      <option value="">Select Wing</option>
+                      <option value="">{i18n.t("Select Wing")}</option>
                       {lookups.wings?.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1">Location</label>
+                    <label className="block text-sm font-semibold text-slate-700 mb-1">{i18n.t("Location")}</label>
                     <select
                       name="location_id"
                       value={formData.location_id}
@@ -587,7 +581,7 @@ const AssetMaster: React.FC = () => {
                       required
                       className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary focus:bg-white outline-none transition-all"
                     >
-                      <option value="">Select Location</option>
+                      <option value="">{i18n.t("Select Location")}</option>
                       {lookups.locations?.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                     </select>
                   </div>
@@ -595,9 +589,9 @@ const AssetMaster: React.FC = () => {
 
                 {/* Status & Condition */}
                 <div className="space-y-4">
-                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">Status & Condition</h4>
+                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">{i18n.t("Status & Condition")}</h4>
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1">Condition</label>
+                    <label className="block text-sm font-semibold text-slate-700 mb-1">{i18n.t("Condition")}</label>
                     <select
                       name="condition_id"
                       value={formData.condition_id}
@@ -605,12 +599,12 @@ const AssetMaster: React.FC = () => {
                       required
                       className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary focus:bg-white outline-none transition-all"
                     >
-                      <option value="">Select Condition</option>
+                      <option value="">{i18n.t("Select Condition")}</option>
                       {lookups.conditions.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1">Status</label>
+                    <label className="block text-sm font-semibold text-slate-700 mb-1">{i18n.t("Status")}</label>
                     <select
                       name="status_id"
                       value={formData.status_id}
@@ -618,7 +612,7 @@ const AssetMaster: React.FC = () => {
                       required
                       className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary focus:bg-white outline-none transition-all"
                     >
-                      <option value="">Select Status</option>
+                      <option value="">{i18n.t("Select Status")}</option>
                       {lookups.statuses.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                     </select>
                   </div>
@@ -626,10 +620,10 @@ const AssetMaster: React.FC = () => {
 
                 {/* Maintenance & Purchase */}
                 <div className="space-y-4 md:col-span-2">
-                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">Maintenance & Financials</h4>
+                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">{i18n.t("Maintenance & Financials")}</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-1">Service Interval</label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-1">{i18n.t("Service Interval")}</label>
                       <select
                         name="service_interval_id"
                         value={formData.service_interval_id}
@@ -637,24 +631,24 @@ const AssetMaster: React.FC = () => {
                         required
                         className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary focus:bg-white outline-none transition-all"
                       >
-                        <option value="">Select Interval</option>
+                        <option value="">{i18n.t("Select Interval")}</option>
                         {lookups.intervals.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-1">Purchase Cost</label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-1">{i18n.t("Purchase Cost")}</label>
                       <input 
                         type="number"
                         step="0.01"
                         name="purchase_cost"
                         value={formData.purchase_cost}
                         onChange={handleInputChange}
-                        placeholder="e.g. 150000.00"
+                        placeholder={i18n.t("e.g. 150000.00")}
                         className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary focus:bg-white outline-none transition-all"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-1">Purchase Date</label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-1">{i18n.t("Purchase Date")}</label>
                       <input 
                         type="date"
                         name="purchase_date"
@@ -664,7 +658,7 @@ const AssetMaster: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-1">Warranty Expiry</label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-1">{i18n.t("Warranty Expiry")}</label>
                       <input 
                         type="date"
                         name="warranty_expiry"
@@ -674,13 +668,13 @@ const AssetMaster: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-1">Supplier / Vendor</label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-1">{i18n.t("Supplier / Vendor")}</label>
                       <input 
                         type="text"
                         name="supplier_vendor"
                         value={formData.supplier_vendor}
                         onChange={handleInputChange}
-                        placeholder="e.g. MedEquip Nigeria Ltd"
+                        placeholder={i18n.t("e.g. MedEquip Nigeria Ltd")}
                         className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary focus:bg-white outline-none transition-all"
                       />
                     </div>
@@ -689,10 +683,10 @@ const AssetMaster: React.FC = () => {
 
                 {/* Maintenance Tracking */}
                 <div className="space-y-4 md:col-span-2">
-                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">Maintenance Tracking</h4>
+                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">{i18n.t("Maintenance Tracking")}</h4>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-1">Last Service Date</label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-1">{i18n.t("Last Service Date")}</label>
                       <input 
                         type="date"
                         name="last_service_date"
@@ -702,7 +696,7 @@ const AssetMaster: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-1">Next Service Due</label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-1">{i18n.t("Next Service Due")}</label>
                       <input 
                         type="date"
                         name="next_service_due"
@@ -712,16 +706,16 @@ const AssetMaster: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-1">Service Status</label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-1">{i18n.t("Service Status")}</label>
                       <select
                         name="service_status"
                         value={formData.service_status}
                         onChange={handleInputChange}
                         className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary focus:bg-white outline-none transition-all"
                       >
-                        <option value="OK">OK</option>
-                        <option value="DUE">DUE</option>
-                        <option value="OVERDUE">OVERDUE</option>
+                        <option value="OK">{i18n.t("OK")}</option>
+                        <option value="DUE">{i18n.t("DUE")}</option>
+                        <option value="OVERDUE">{i18n.t("OVERDUE")}</option>
                       </select>
                     </div>
                   </div>
@@ -729,15 +723,15 @@ const AssetMaster: React.FC = () => {
 
                 {/* Remarks */}
                 <div className="space-y-4 md:col-span-2">
-                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">Additional Remarks</h4>
+                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 border-b border-slate-100 pb-2">{i18n.t("Additional Remarks")}</h4>
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1">Remarks / Notes</label>
+                    <label className="block text-sm font-semibold text-slate-700 mb-1">{i18n.t("Remarks / Notes")}</label>
                     <input 
                       type="text"
                       name="remarks"
                       value={formData.remarks}
                       onChange={handleInputChange}
-                      placeholder="e.g. Assigned to Radiology Dept"
+                      placeholder={i18n.t("e.g. Assigned to Radiology Dept")}
                       className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary focus:bg-white outline-none transition-all"
                     />
                   </div>
@@ -750,16 +744,14 @@ const AssetMaster: React.FC = () => {
                   type="button"
                   onClick={handleCloseModal}
                   className="px-6 py-2.5 rounded-xl font-bold text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition-colors"
-                >
-                  Cancel
-                </button>
+                >{i18n.t("Cancel")}</button>
                 <button 
                   type="submit"
                   disabled={isSubmitting}
                   className="px-6 py-2.5 rounded-xl font-bold text-white bg-brand-primary hover:bg-brand-secondary transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   {isSubmitting && <RefreshCw size={18} className="animate-spin" />}
-                  {isSubmitting ? 'Saving...' : editingAsset ? 'Save Changes' : 'Create Asset'}
+                  {isSubmitting ? i18n.t("Saving...") : editingAsset ? i18n.t("Save Changes") : i18n.t("Create Asset")}
                 </button>
               </div>
             </form>
@@ -772,10 +764,10 @@ const AssetMaster: React.FC = () => {
           <div className="bg-white rounded-[1.5rem] shadow-xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200">
             <div className="px-6 py-5 border-b border-slate-100 flex justify-between items-start bg-white">
               <div>
-                <h3 className="text-xl font-bold text-slate-900">Asset Actions</h3>
+                <h3 className="text-xl font-bold text-slate-900">{i18n.t("Asset Actions")}</h3>
                 <div className="flex items-center gap-2 mt-2">
                   <span className="text-xs font-bold px-2 py-0.5 rounded border border-slate-200 text-slate-700 bg-white">{activeActionAsset.unique_id}</span>
-                  <span className="text-sm font-semibold text-slate-500">{activeActionAsset.asset_name} &bull; {activeActionAsset.category?.name || 'Uncategorized'}</span>
+                  <span className="text-sm font-semibold text-slate-500">{activeActionAsset.asset_name} &bull; {activeActionAsset.category?.name || i18n.t("Uncategorized")}</span>
                 </div>
               </div>
               <button 
@@ -796,7 +788,7 @@ const AssetMaster: React.FC = () => {
                 <div className="w-14 h-14 flex items-center justify-center bg-slate-50 rounded-[1rem] group-hover:bg-brand-50 transition-colors">
                   <Eye size={24} className="text-slate-500 group-hover:text-brand-primary" />
                 </div>
-                <span className="font-bold text-sm text-slate-700 group-hover:text-brand-primary">View Details</span>
+                <span className="font-bold text-sm text-slate-700 group-hover:text-brand-primary">{i18n.t("View Details")}</span>
               </button>
               
               <button
@@ -809,7 +801,7 @@ const AssetMaster: React.FC = () => {
                 <div className="w-14 h-14 flex items-center justify-center bg-slate-50 rounded-[1rem] group-hover:bg-emerald-50 transition-colors">
                   <Edit2 size={24} className="text-slate-500 group-hover:text-emerald-600" />
                 </div>
-                <span className="font-bold text-sm text-slate-700 group-hover:text-emerald-600">Edit Asset</span>
+                <span className="font-bold text-sm text-slate-700 group-hover:text-emerald-600">{i18n.t("Edit Asset")}</span>
               </button>
             </div>
           </div>
@@ -826,13 +818,11 @@ const AssetMaster: React.FC = () => {
                   onClick={() => { setIsViewModalOpen(false); setIsActionModalOpen(true); }}
                   className="p-1.5 text-slate-400 hover:text-brand-primary hover:bg-brand-50 rounded-lg transition-colors"
                 >
-                  <ArrowLeft size={20} />
+                  <ArrowLeft className="rtl:-scale-x-100" size={20} />
                 </button>
                 <div>
                   <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-                    <FileText size={20} className="text-brand-primary" />
-                    Asset Details
-                  </h3>
+                    <FileText size={20} className="text-brand-primary" />{i18n.t("Asset Details")}</h3>
                 </div>
               </div>
               <button 
@@ -848,9 +838,9 @@ const AssetMaster: React.FC = () => {
                 <div className="flex items-start justify-between border-b border-slate-100 pb-6 mb-6">
                   <div>
                     <h2 className="text-2xl font-black text-slate-800">{activeActionAsset.asset_name}</h2>
-                    <p className="text-sm font-medium text-slate-500 mt-1">{activeActionAsset.category?.name || 'No Category'}</p>
+                    <p className="text-sm font-medium text-slate-500 mt-1">{activeActionAsset.category?.name || i18n.t("No Category")}</p>
                   </div>
-                  <div className="text-right">
+                  <div className="text-end">
                     <span className="inline-block px-3 py-1 rounded-full text-xs font-black tracking-tight bg-slate-100 text-slate-600 uppercase mb-2">
                       {activeActionAsset.unique_id}
                     </span>
@@ -869,24 +859,22 @@ const AssetMaster: React.FC = () => {
                   {/* Equipment Details */}
                   <div className="bg-slate-50/50 p-4 rounded-xl border border-slate-100">
                     <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
-                      Equipment Specs
-                    </h4>
+                      <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>{i18n.t("Equipment Specs")}</h4>
                     <div className="space-y-3">
                       <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase">Make</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Make")}</p>
                         <p className="text-sm font-semibold text-slate-800 mt-0.5">{activeActionAsset.make || '-'}</p>
                       </div>
                       <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase">Model</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Model")}</p>
                         <p className="text-sm font-semibold text-slate-800 mt-0.5">{activeActionAsset.model || '-'}</p>
                       </div>
                       <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase">Serial Number</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Serial Number")}</p>
                         <p className="text-sm font-mono text-slate-600 mt-0.5">{activeActionAsset.serial_number || '-'}</p>
                       </div>
                       <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase">Supplier / Vendor</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Supplier / Vendor")}</p>
                         <p className="text-sm font-semibold text-slate-800 mt-0.5">{activeActionAsset.supplier_vendor || '-'}</p>
                       </div>
                     </div>
@@ -895,20 +883,18 @@ const AssetMaster: React.FC = () => {
                   {/* Location Details */}
                   <div className="bg-slate-50/50 p-4 rounded-xl border border-slate-100">
                     <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                      Location Info
-                    </h4>
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>{i18n.t("Location Info")}</h4>
                     <div className="space-y-3">
                       <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase">Wing / Department</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Wing / Department")}</p>
                         <p className="text-sm font-semibold text-slate-800 mt-0.5">{activeActionAsset.wing?.name || '-'}</p>
                       </div>
                       <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase">Specific Location</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Specific Location")}</p>
                         <p className="text-sm font-semibold text-slate-800 mt-0.5">{activeActionAsset.location?.name || '-'}</p>
                       </div>
                       <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase">Responsible Officer</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Responsible Officer")}</p>
                         <p className="text-sm font-semibold text-slate-800 mt-0.5">{activeActionAsset.responsible_officer?.name || '-'}</p>
                       </div>
                     </div>
@@ -917,26 +903,24 @@ const AssetMaster: React.FC = () => {
                   {/* Financial Details */}
                   <div className="bg-slate-50/50 p-4 rounded-xl border border-slate-100">
                     <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
-                      Financial Details
-                    </h4>
+                      <span className="w-1.5 h-1.5 rounded-full bg-purple-400"></span>{i18n.t("Financial Details")}</h4>
                     <div className="space-y-3">
                       <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase">Purchase Cost</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Purchase Cost")}</p>
                         <p className="text-sm font-black text-emerald-600 mt-0.5">{activeActionAsset.purchase_cost?.formatted || '-'}</p>
                       </div>
                       <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase">Purchase Date</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Purchase Date")}</p>
                         <p className="text-sm font-semibold text-slate-800 mt-0.5">{activeActionAsset.purchase_date || '-'}</p>
                       </div>
                       <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase">Warranty Expiry</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Warranty Expiry")}</p>
                         <p className="text-sm font-semibold text-slate-800 mt-0.5">{activeActionAsset.warranty_expiry || '-'}</p>
                       </div>
                       <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase">Warranty Status</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Warranty Status")}</p>
                         <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-black uppercase mt-1 ${activeActionAsset.warranty_status === 'Active' ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}`}>
-                          {activeActionAsset.warranty_status || '-'}
+                          {i18n.tv(activeActionAsset.warranty_status) || '-'}
                         </span>
                       </div>
                     </div>
@@ -945,26 +929,24 @@ const AssetMaster: React.FC = () => {
                   {/* Maintenance Log */}
                   <div className="bg-slate-50/50 p-4 rounded-xl border border-slate-100">
                     <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                      Maintenance Log
-                    </h4>
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>{i18n.t("Maintenance Log")}</h4>
                     <div className="space-y-3">
                       <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase">Service Interval</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Service Interval")}</p>
                         <p className="text-sm font-semibold text-slate-800 mt-0.5">{activeActionAsset.service_interval?.name || '-'}</p>
                       </div>
                       <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase">Last Service</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Last Service")}</p>
                         <p className="text-sm font-semibold text-slate-800 mt-0.5">{activeActionAsset.last_service_date || '-'}</p>
                       </div>
                       <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase">Next Service Due</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Next Service Due")}</p>
                         <p className="text-sm font-semibold text-slate-800 mt-0.5">{activeActionAsset.next_service_due || '-'}</p>
                       </div>
                       <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase">Service Status</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Service Status")}</p>
                         <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-black uppercase mt-1 ${activeActionAsset.service_status === 'OK' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}`}>
-                          {activeActionAsset.service_status || '-'}
+                          {i18n.tv(activeActionAsset.service_status) || '-'}
                         </span>
                       </div>
                     </div>
@@ -974,7 +956,7 @@ const AssetMaster: React.FC = () => {
                 {/* Additional Remarks */}
                 {activeActionAsset.remarks && (
                   <div className="mt-6 bg-slate-50/30 p-4 rounded-xl border border-slate-100">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Remarks / Notes</p>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">{i18n.t("Remarks / Notes")}</p>
                     <p className="text-sm text-slate-700 font-medium">{activeActionAsset.remarks}</p>
                   </div>
                 )}
@@ -982,19 +964,19 @@ const AssetMaster: React.FC = () => {
                 {/* System Audit Trails */}
                 <div className="mt-6 pt-6 border-t border-slate-100 grid grid-cols-2 md:grid-cols-4 gap-4 text-slate-500">
                   <div>
-                    <p className="text-[9px] font-bold text-slate-400 uppercase">Created By</p>
+                    <p className="text-[9px] font-bold text-slate-400 uppercase">{i18n.t("Created By")}</p>
                     <p className="text-xs font-semibold mt-0.5">{activeActionAsset.created_by?.name || '-'}</p>
                   </div>
                   <div>
-                    <p className="text-[9px] font-bold text-slate-400 uppercase">Created At</p>
+                    <p className="text-[9px] font-bold text-slate-400 uppercase">{i18n.t("Created At")}</p>
                     <p className="text-xs font-semibold mt-0.5">{activeActionAsset.created_at || '-'}</p>
                   </div>
                   <div>
-                    <p className="text-[9px] font-bold text-slate-400 uppercase">Updated By</p>
+                    <p className="text-[9px] font-bold text-slate-400 uppercase">{i18n.t("Updated By")}</p>
                     <p className="text-xs font-semibold mt-0.5">{activeActionAsset.updated_by?.name || '-'}</p>
                   </div>
                   <div>
-                    <p className="text-[9px] font-bold text-slate-400 uppercase">Updated At</p>
+                    <p className="text-[9px] font-bold text-slate-400 uppercase">{i18n.t("Updated At")}</p>
                     <p className="text-xs font-semibold mt-0.5">{activeActionAsset.updated_at || '-'}</p>
                   </div>
                 </div>

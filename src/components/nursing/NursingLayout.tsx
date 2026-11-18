@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { Outlet, NavLink } from "react-router-dom";
 import { Stethoscope, ClipboardList, ArrowRightLeft, Package } from "lucide-react";
+import { i18n } from "../../i18n";
 
 const NursingLayout: React.FC = () => {
   const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
@@ -25,11 +26,9 @@ const NursingLayout: React.FC = () => {
             <div className="p-2 bg-brand-active text-brand-primary rounded-xl shrink-0">
               <Stethoscope size={24} className="md:w-7 md:h-7" />
             </div>
-            <span className="truncate">Nursing</span>
+            <span className="truncate">{i18n.t("Nursing")}</span>
           </h1>
-          <p className="text-slate-500 font-medium text-sm md:text-base mt-1">
-            Manage labour, observations, and nursing tasks.
-          </p>
+          <p className="text-slate-500 font-medium text-sm md:text-base mt-1">{i18n.t("Manage labour, observations, and nursing tasks.")}</p>
         </div>
       </div>
 
@@ -48,7 +47,7 @@ const NursingLayout: React.FC = () => {
               `}
             >
               <tab.icon size={16} />
-              {tab.label}
+              {i18n.tx(tab.label)}
             </NavLink>
           ))}
         </div>,

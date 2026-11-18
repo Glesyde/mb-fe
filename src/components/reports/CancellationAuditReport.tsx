@@ -12,6 +12,7 @@ import {
   Pagination,
   KpiCard,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const CancellationAuditReport: React.FC = () => {
   const [records, setRecords] = useState<any[]>([]);
@@ -75,8 +76,8 @@ const CancellationAuditReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Cancellation & Reversal Audit"
-      subtitle="Security audit of invoice cancellations and financial reversals."
+      title={i18n.t("Cancellation & Reversal Audit")}
+      subtitle={i18n.t("Security audit of invoice cancellations and financial reversals.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.report_period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -91,14 +92,14 @@ const CancellationAuditReport: React.FC = () => {
       filters={
         <>
           <div className="relative lg:col-span-2">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input
               type="text"
-              placeholder="Search patient, MRN, reference..."
+              placeholder={i18n.t("Search patient, MRN, reference...")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               disabled={isLoading}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
+              className="w-full ps-10 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
             />
           </div>
           <TimeframeSelect value={timeframe} onChange={setTimeframe} disabled={isLoading} />
@@ -109,44 +110,44 @@ const CancellationAuditReport: React.FC = () => {
       }
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <KpiCard icon={ShieldAlert} label="Total Security Events" value={summary?.total_security_events ?? 0} colorClass="bg-red-50 border-red-100 text-red-900" />
-        <KpiCard icon={Banknote} label="Financial Value Impacted" value={formatCurrency(summary?.total_financial_value_impacted)} colorClass="bg-amber-50 border-amber-100 text-amber-900" />
+        <KpiCard icon={ShieldAlert} label={i18n.t("Total Security Events")} value={summary?.total_security_events ?? 0} colorClass="bg-red-50 border-red-100 text-red-900" />
+        <KpiCard icon={Banknote} label={i18n.t("Financial Value Impacted")} value={formatCurrency(summary?.total_financial_value_impacted)} colorClass="bg-amber-50 border-amber-100 text-amber-900" />
       </div>
 
       <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 flex-1 min-h-[300px] mt-6">
-        <table className="w-full text-left text-sm whitespace-nowrap">
+        <table className="w-full text-start text-sm whitespace-nowrap">
           <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
             <tr>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Event</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Reference</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Date</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Patient</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Acted By</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Value Impact</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Event")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Reference")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Date")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Patient")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Acted By")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Value Impact")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {currentItems.length > 0 ? (
               currentItems.map((row, i) => (
                 <tr key={`${row.reference}-${i}`} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border uppercase tracking-wider ${badgeClass(row.audit_event)}`}>
                       {renderValue(row.audit_event)?.toString().replace(/_/g, " ")}
                     </span>
                   </td>
-                  <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50">{renderValue(row.reference)}</td>
-                  <td className="px-4 py-3.5 text-slate-500 border-r border-slate-50">{renderValue(row.event_date)}</td>
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50">{renderValue(row.reference)}</td>
+                  <td className="px-4 py-3.5 text-slate-500 border-e border-slate-50">{renderValue(row.event_date)}</td>
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <div className="font-semibold text-slate-700">{renderValue(row.patient_name)}</div>
-                    <div className="text-[11px] text-slate-400 font-mono">MRN: {renderValue(row.mrn)}</div>
+                    <div className="text-[11px] text-slate-400 font-mono">{i18n.t("MRN:")}{" "}{renderValue(row.mrn)}</div>
                   </td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.acted_by)}</td>
-                  <td className="px-4 py-3.5 font-bold text-red-600 text-right">{formatCurrency(row.value_impact)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.acted_by)}</td>
+                  <td className="px-4 py-3.5 font-bold text-red-600 text-end">{formatCurrency(row.value_impact)}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="px-4 py-12 text-center text-slate-400 italic">No cancellation or reversal events found.</td>
+                <td colSpan={6} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No cancellation or reversal events found.")}</td>
               </tr>
             )}
           </tbody>

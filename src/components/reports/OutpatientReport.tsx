@@ -6,6 +6,7 @@ import {
   Activity, UserCheck, Users, ClipboardList, Thermometer
 } from "lucide-react";
 import apiClient from "../../api/client";
+import { i18n } from "../../i18n";
 
 const renderValue = (val: any) => {
   if (val === null || val === undefined || val === "") return "—";
@@ -220,8 +221,8 @@ const OutpatientReport: React.FC = () => {
       {/* HEADER & ACTIONS */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
         <div>
-          <h2 className="text-xl font-bold text-slate-800">Outpatient Report (OPD)</h2>
-          <p className="text-sm text-slate-500">View and export outpatient encounters, NHMIS demographics, and revenue.</p>
+          <h2 className="text-xl font-bold text-slate-800">{i18n.t("Outpatient Report (OPD)")}</h2>
+          <p className="text-sm text-slate-500">{i18n.t("View and export outpatient encounters, NHMIS demographics, and revenue.")}</p>
         </div>
         
         <div className="flex items-center gap-3">
@@ -231,7 +232,7 @@ const OutpatientReport: React.FC = () => {
             className="flex items-center gap-2 px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 disabled:opacity-50 rounded-xl text-sm font-bold transition-colors"
           >
             <FilterX size={18} />
-            <span className="hidden sm:inline">Clear</span>
+            <span className="hidden sm:inline">{i18n.t("Clear")}</span>
           </button>
           
           <button
@@ -240,7 +241,7 @@ const OutpatientReport: React.FC = () => {
             className="flex items-center gap-2 px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 disabled:opacity-50 rounded-xl text-sm font-bold transition-colors"
           >
             <RefreshCw size={18} className={isLoading ? "animate-spin" : ""} />
-            <span className="hidden sm:inline">Refresh</span>
+            <span className="hidden sm:inline">{i18n.t("Refresh")}</span>
           </button>
 
           <div className="relative" ref={dropdownRef}>
@@ -249,25 +250,17 @@ const OutpatientReport: React.FC = () => {
               disabled={isLoading || isExporting || data.length === 0}
               className="flex items-center gap-2 px-5 py-2.5 bg-brand-primary text-white hover:bg-brand-primary/90 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl text-sm font-bold transition-all shadow-md shadow-brand-primary/20"
             >
-              {isExporting ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}
-              Export
-              <ChevronDown size={16} className={`transition-transform duration-200 ${isExportOpen ? "rotate-180" : ""}`} />
+              {isExporting ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}{i18n.t("Export")}<ChevronDown size={16} className={`transition-transform duration-200 ${isExportOpen ? "rotate-180" : ""}`} />
             </button>
 
             {isExportOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 py-2 animate-in fade-in zoom-in-95 duration-200">
+              <div className="absolute end-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 py-2 animate-in fade-in zoom-in-95 duration-200">
                 <button onClick={() => handleServerExport('csv', 'csv')} className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors">
-                  <div className="p-1.5 bg-slate-50 text-slate-600 rounded-lg"><FileText size={16} /></div>
-                  Export CSV
-                </button>
+                  <div className="p-1.5 bg-slate-50 text-slate-600 rounded-lg"><FileText size={16} /></div>{i18n.t("Export CSV")}</button>
                 <button onClick={() => handleServerExport('excel', 'xlsx')} className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors">
-                  <div className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg"><FileSpreadsheet size={16} /></div>
-                  Export Excel
-                </button>
+                  <div className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg"><FileSpreadsheet size={16} /></div>{i18n.t("Export Excel")}</button>
                 <button onClick={() => handleServerExport('pdf', 'pdf')} className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors">
-                  <div className="p-1.5 bg-red-50 text-red-600 rounded-lg"><FilePdf size={16} /></div>
-                  Export PDF
-                </button>
+                  <div className="p-1.5 bg-red-50 text-red-600 rounded-lg"><FilePdf size={16} /></div>{i18n.t("Export PDF")}</button>
               </div>
             )}
           </div>
@@ -280,15 +273,15 @@ const OutpatientReport: React.FC = () => {
         {/* ROW 1: Search & Dates */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
             <input
               type="text"
-              placeholder="Search MRN, Name, Invoice..."
+              placeholder={i18n.t("Search MRN, Name, Invoice...")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && fetchReportData()}
               disabled={isLoading || isExporting}
-              className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
+              className="w-full ps-9 pe-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
             />
           </div>
 
@@ -299,18 +292,18 @@ const OutpatientReport: React.FC = () => {
               disabled={isLoading || isExporting}
               className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
             >
-              <option value="today">Today</option>
-              <option value="yesterday">Yesterday</option>
-              <option value="this_week">This Week</option>
-              <option value="last_week">Last Week</option>
-              <option value="last_7_days">Last 7 Days</option>
-              <option value="this_month">This Month</option>
-              <option value="last_month">Last Month</option>
-              <option value="last_30_days">Last 30 Days</option>
-              <option value="last_90_days">Last 90 Days</option>
-              <option value="this_year">This Year (YTD)</option>
-              <option value="all_time">All Time</option>
-              <option value="custom">Custom Range</option>
+              <option value="today">{i18n.t("Today")}</option>
+              <option value="yesterday">{i18n.t("Yesterday")}</option>
+              <option value="this_week">{i18n.t("This Week")}</option>
+              <option value="last_week">{i18n.t("Last Week")}</option>
+              <option value="last_7_days">{i18n.t("Last 7 Days")}</option>
+              <option value="this_month">{i18n.t("This Month")}</option>
+              <option value="last_month">{i18n.t("Last Month")}</option>
+              <option value="last_30_days">{i18n.t("Last 30 Days")}</option>
+              <option value="last_90_days">{i18n.t("Last 90 Days")}</option>
+              <option value="this_year">{i18n.t("This Year (YTD)")}</option>
+              <option value="all_time">{i18n.t("All Time")}</option>
+              <option value="custom">{i18n.t("Custom Range")}</option>
             </select>
           </div>
 
@@ -338,41 +331,41 @@ const OutpatientReport: React.FC = () => {
         {/* ROW 2: Base Classifications */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="relative">
-            <ClipboardList className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+            <ClipboardList className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
             <select
               value={encounterStatus}
               onChange={(e) => { setEncounterStatus(e.target.value); setCurrentPage(1); }}
-              className="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
+              className="w-full ps-9 pe-3 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
             >
-              <option value="">All Encounter Statuses</option>
-              <option value="COMPLETED">Completed</option>
-              <option value="IN_PROGRESS">In Progress</option>
-              <option value="QUEUED">Queued / Waiting</option>
+              <option value="">{i18n.t("All Encounter Statuses")}</option>
+              <option value="COMPLETED">{i18n.t("Completed")}</option>
+              <option value="IN_PROGRESS">{i18n.t("In Progress")}</option>
+              <option value="QUEUED">{i18n.t("Queued / Waiting")}</option>
             </select>
           </div>
 
           <div className="relative">
-            <Stethoscope className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+            <Stethoscope className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
             <select
               value={doctorFilter}
               onChange={(e) => { setDoctorFilter(e.target.value); setCurrentPage(1); }}
-              className="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
+              className="w-full ps-9 pe-3 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
             >
-              <option value="">All Doctors</option>
+              <option value="">{i18n.t("All Doctors")}</option>
               {doctors.map(d => (
-                <option key={d.doctor_id} value={d.doctor_id}>Dr. {d.first_name} {d.last_name}</option>
+                <option key={d.doctor_id} value={d.doctor_id}>{i18n.t("Dr.")}{" "}{d.first_name} {d.last_name}</option>
               ))}
             </select>
           </div>
 
           <div className="relative">
-            <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+            <Building2 className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
             <select
               value={specializationFilter}
               onChange={(e) => { setSpecializationFilter(e.target.value); setCurrentPage(1); }}
-              className="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
+              className="w-full ps-9 pe-3 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
             >
-              <option value="">All Specializations</option>
+              <option value="">{i18n.t("All Specializations")}</option>
               {specializations.map(s => (
                 <option key={s.id} value={s.id}>{s.name}</option>
               ))}
@@ -380,13 +373,13 @@ const OutpatientReport: React.FC = () => {
           </div>
 
           <div className="relative">
-            <Wallet className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+            <Wallet className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
             <select
               value={payerFilter}
               onChange={(e) => { setPayerFilter(e.target.value); setCurrentPage(1); }}
-              className="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
+              className="w-full ps-9 pe-3 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
             >
-              <option value="">All Payers (Leadway, etc)</option>
+              <option value="">{i18n.t("All Payers (Leadway, etc)")}</option>
               {payers.map(p => (
                 <option key={p.id} value={p.id}>{p.name}</option>
               ))}
@@ -397,13 +390,13 @@ const OutpatientReport: React.FC = () => {
         {/* ROW 3: Clinical Items & Reason */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="relative">
-            <Activity className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+            <Activity className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
             <select
               value={serviceFilter}
               onChange={(e) => { setServiceFilter(e.target.value); setCurrentPage(1); }}
-              className="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
+              className="w-full ps-9 pe-3 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
             >
-              <option value="">Filter by Specific Service</option>
+              <option value="">{i18n.t("Filter by Specific Service")}</option>
               {services.map(s => (
                 <option key={s.id} value={s.id}>{s.name}</option>
               ))}
@@ -411,13 +404,13 @@ const OutpatientReport: React.FC = () => {
           </div>
 
           <div className="relative">
-            <Thermometer className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+            <Thermometer className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
             <select
               value={procedureFilter}
               onChange={(e) => { setProcedureFilter(e.target.value); setCurrentPage(1); }}
-              className="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
+              className="w-full ps-9 pe-3 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
             >
-              <option value="">Filter by Specific Procedure</option>
+              <option value="">{i18n.t("Filter by Specific Procedure")}</option>
               {procedures.map(p => (
                 <option key={p.id} value={p.id}>{p.name}</option>
               ))}
@@ -425,15 +418,15 @@ const OutpatientReport: React.FC = () => {
           </div>
 
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+            <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
             <input
               type="text"
-              placeholder="Search specific Visit Reason..."
+              placeholder={i18n.t("Search specific Visit Reason...")}
               value={visitReason}
               onChange={(e) => setVisitReason(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && fetchReportData()}
               disabled={isLoading || isExporting}
-              className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
+              className="w-full ps-9 pe-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
             />
           </div>
         </div>
@@ -448,7 +441,7 @@ const OutpatientReport: React.FC = () => {
               <Activity size={24} />
             </div>
             <div>
-              <p className="text-sm text-slate-500 font-medium">Total Encounters</p>
+              <p className="text-sm text-slate-500 font-medium">{i18n.t("Total Encounters")}</p>
               <h3 className="text-2xl font-bold text-slate-800">{aggregates.total_encounters || 0}</h3>
             </div>
           </div>
@@ -458,7 +451,7 @@ const OutpatientReport: React.FC = () => {
               <UserCheck size={24} />
             </div>
             <div>
-              <p className="text-sm text-slate-500 font-medium">Unique Patients</p>
+              <p className="text-sm text-slate-500 font-medium">{i18n.t("Unique Patients")}</p>
               <h3 className="text-2xl font-bold text-slate-800">{aggregates.unique_patients || 0}</h3>
             </div>
           </div>
@@ -468,7 +461,7 @@ const OutpatientReport: React.FC = () => {
               <Wallet size={24} />
             </div>
             <div>
-              <p className="text-sm text-emerald-700 font-medium">Total Net Revenue</p>
+              <p className="text-sm text-emerald-700 font-medium">{i18n.t("Total Net Revenue")}</p>
               <h3 className="text-xl font-bold text-emerald-800">
                 {formatCurrency(aggregates.total_revenue || 0)}
               </h3>
@@ -480,14 +473,14 @@ const OutpatientReport: React.FC = () => {
               <Users size={24} />
             </div>
             <div className="w-full">
-              <p className="text-sm text-slate-500 font-medium">Gender Split</p>
+              <p className="text-sm text-slate-500 font-medium">{i18n.t("Gender Split")}</p>
               <div className="flex justify-between items-end w-full mt-1">
                 <div>
-                  <span className="text-sm text-slate-400">M: </span>
+                  <span className="text-sm text-slate-400">{i18n.t("M:")}{" "}</span>
                   <span className="font-bold text-slate-700">{aggregates.gender_summary?.total_male || 0}</span>
                 </div>
                 <div>
-                  <span className="text-sm text-slate-400">F: </span>
+                  <span className="text-sm text-slate-400">{i18n.t("F:")}{" "}</span>
                   <span className="font-bold text-slate-700">{aggregates.gender_summary?.total_female || 0}</span>
                 </div>
               </div>
@@ -500,25 +493,25 @@ const OutpatientReport: React.FC = () => {
       {!isLoading && aggregates?.nhmis_summary && (
         <div className="mb-6 rounded-xl border border-slate-200 overflow-hidden bg-white shadow-sm">
           <div className="bg-slate-50 px-4 py-2 border-b border-slate-200">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-600">NHMIS Health Facility Monthly Summary</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-600">{i18n.t("NHMIS Health Facility Monthly Summary")}</h3>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm whitespace-nowrap">
+            <table className="w-full text-start text-sm whitespace-nowrap">
               <thead className="bg-slate-50 border-b border-slate-100">
                 <tr>
-                  <th className="px-4 py-2 font-bold text-slate-600 text-[11px] uppercase w-32 border-r border-slate-100">Gender</th>
-                  <th className="px-4 py-2 font-bold text-slate-600 text-[11px] uppercase text-center">0-28 Days</th>
-                  <th className="px-4 py-2 font-bold text-slate-600 text-[11px] uppercase text-center">29d-11 Mths</th>
-                  <th className="px-4 py-2 font-bold text-slate-600 text-[11px] uppercase text-center">12-59 Mths</th>
-                  <th className="px-4 py-2 font-bold text-slate-600 text-[11px] uppercase text-center">5-9 Yrs</th>
-                  <th className="px-4 py-2 font-bold text-slate-600 text-[11px] uppercase text-center">10-19 Yrs</th>
-                  <th className="px-4 py-2 font-bold text-slate-600 text-[11px] uppercase text-center">≥20 Yrs</th>
-                  <th className="px-4 py-2 font-bold text-brand-primary text-[11px] uppercase text-center bg-brand-primary/5">Total</th>
+                  <th className="px-4 py-2 font-bold text-slate-600 text-[11px] uppercase w-32 border-e border-slate-100">{i18n.t("Gender")}</th>
+                  <th className="px-4 py-2 font-bold text-slate-600 text-[11px] uppercase text-center">{i18n.t("0-28 Days")}</th>
+                  <th className="px-4 py-2 font-bold text-slate-600 text-[11px] uppercase text-center">{i18n.t("29d-11 Mths")}</th>
+                  <th className="px-4 py-2 font-bold text-slate-600 text-[11px] uppercase text-center">{i18n.t("12-59 Mths")}</th>
+                  <th className="px-4 py-2 font-bold text-slate-600 text-[11px] uppercase text-center">{i18n.t("5-9 Yrs")}</th>
+                  <th className="px-4 py-2 font-bold text-slate-600 text-[11px] uppercase text-center">{i18n.t("10-19 Yrs")}</th>
+                  <th className="px-4 py-2 font-bold text-slate-600 text-[11px] uppercase text-center">{i18n.t("≥20 Yrs")}</th>
+                  <th className="px-4 py-2 font-bold text-brand-primary text-[11px] uppercase text-center bg-brand-primary/5">{i18n.t("Total")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 <tr>
-                  <td className="px-4 py-2 font-bold text-slate-700 border-r border-slate-100 bg-slate-50">Male</td>
+                  <td className="px-4 py-2 font-bold text-slate-700 border-e border-slate-100 bg-slate-50">{i18n.t("Male")}</td>
                   <td className="px-4 py-2 text-center text-slate-600">{aggregates.nhmis_summary.male?.['0_28_days'] || 0}</td>
                   <td className="px-4 py-2 text-center text-slate-600">{aggregates.nhmis_summary.male?.['29d_11mths'] || 0}</td>
                   <td className="px-4 py-2 text-center text-slate-600">{aggregates.nhmis_summary.male?.['12_59_mths'] || 0}</td>
@@ -528,7 +521,7 @@ const OutpatientReport: React.FC = () => {
                   <td className="px-4 py-2 text-center font-bold text-brand-primary bg-brand-primary/5">{aggregates.gender_summary?.total_male || 0}</td>
                 </tr>
                 <tr>
-                  <td className="px-4 py-2 font-bold text-slate-700 border-r border-slate-100 bg-slate-50">Female</td>
+                  <td className="px-4 py-2 font-bold text-slate-700 border-e border-slate-100 bg-slate-50">{i18n.t("Female")}</td>
                   <td className="px-4 py-2 text-center text-slate-600">{aggregates.nhmis_summary.female?.['0_28_days'] || 0}</td>
                   <td className="px-4 py-2 text-center text-slate-600">{aggregates.nhmis_summary.female?.['29d_11mths'] || 0}</td>
                   <td className="px-4 py-2 text-center text-slate-600">{aggregates.nhmis_summary.female?.['12_59_mths'] || 0}</td>
@@ -550,12 +543,12 @@ const OutpatientReport: React.FC = () => {
             <Loader2 className="w-8 h-8 animate-spin text-brand-primary" />
           </div>
         ) : (
-          <table className="w-full text-left text-sm whitespace-nowrap">
+          <table className="w-full text-start text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
               <tr>
                 {displayHeaders.map(header => (
-                  <th key={header.key} className={`px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] ${header.align === 'right' ? 'text-right' : 'text-left'}`}>
-                    {header.label}
+                  <th key={header.key} className={`px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] ${header.align === 'right' ? "text-end" : "text-start"}`}>
+                    {i18n.tx(header.label)}
                   </th>
                 ))}
               </tr>
@@ -597,16 +590,14 @@ const OutpatientReport: React.FC = () => {
                         {row.invoice_number && <span className="text-[10px] font-mono text-slate-500">{row.invoice_number}</span>}
                       </div>
                     </td>
-                    <td className="px-4 py-3.5 text-slate-800 text-right font-bold font-mono bg-slate-50/50">
+                    <td className="px-4 py-3.5 text-slate-800 text-end font-bold font-mono bg-slate-50/50">
                       {formatCurrency(row.net_amount)}
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={displayHeaders.length} className="px-4 py-12 text-center text-slate-400 italic">
-                    No outpatient records found for the selected filters.
-                  </td>
+                  <td colSpan={displayHeaders.length} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No outpatient records found for the selected filters.")}</td>
                 </tr>
               )}
             </tbody>
@@ -618,12 +609,12 @@ const OutpatientReport: React.FC = () => {
       {!isLoading && data.length > 0 && !searchTerm && (
         <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
           <div className="text-sm text-slate-500 font-medium">
-            <span className="text-slate-900 font-bold text-xs uppercase mr-2 tracking-wider">Page {currentPage}</span>
+            <span className="text-slate-900 font-bold text-xs uppercase me-2 tracking-wider">{i18n.t("Page")}{" "}{currentPage}</span>
           </div>
           
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1 mr-4">
-              <span className="text-xs text-slate-400 font-bold uppercase mr-2">Show</span>
+            <div className="flex items-center gap-1 me-4">
+              <span className="text-xs text-slate-400 font-bold uppercase me-2">{i18n.t("Show")}</span>
               <select 
                 value={itemsPerPage}
                 onChange={(e) => { setItemsPerPage(Number(e.target.value)); setCurrentPage(1); }}
@@ -641,7 +632,7 @@ const OutpatientReport: React.FC = () => {
                 disabled={currentPage === 1}
                 className="p-2 rounded-lg border border-slate-200 bg-white text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors shadow-sm"
               >
-                <ChevronLeft size={16} />
+                <ChevronLeft className="rtl:-scale-x-100" size={16} />
               </button>
 
               <button
@@ -649,7 +640,7 @@ const OutpatientReport: React.FC = () => {
                 disabled={currentItems.length < itemsPerPage}
                 className="p-2 rounded-lg border border-slate-200 bg-white text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors shadow-sm"
               >
-                <ChevronRight size={16} />
+                <ChevronRight className="rtl:-scale-x-100" size={16} />
               </button>
             </div>
           </div>

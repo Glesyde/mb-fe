@@ -9,6 +9,7 @@ import {
   Clock,
   Activity,
 } from 'lucide-react';
+import { i18n } from "../../../i18n";
 
 /* ─── Helpers ──────────────────────────────────────── */
 const fmt = (v: string | number | null | undefined) => (v !== null && v !== undefined && v !== '' ? v : '—');
@@ -39,7 +40,7 @@ const BRAND = '#2A157c';
 const InfoRow = ({ label, value }: { label: string; value?: string | number | null }) => (
   <div className="flex justify-between py-1 border-b border-slate-100 last:border-0 break-inside-avoid">
     <span className="text-xs text-slate-500 font-medium">{label}</span>
-    <span className="text-xs font-semibold text-slate-900 text-right">{fmt(value)}</span>
+    <span className="text-xs font-semibold text-slate-900 text-end">{fmt(value)}</span>
   </div>
 );
 
@@ -71,7 +72,7 @@ const LabReportPrintTemplate: React.FC = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50">
         <Loader2 size={40} className="animate-spin mb-4" style={{ color: BRAND }} />
-        <p className="text-sm font-medium text-slate-600 animate-pulse">Preparing official report...</p>
+        <p className="text-sm font-medium text-slate-600 animate-pulse">{i18n.t("Preparing official report...")}</p>
       </div>
     );
   }
@@ -81,7 +82,7 @@ const LabReportPrintTemplate: React.FC = () => {
       <div className="flex items-center justify-center min-h-screen bg-slate-50 p-6">
         <div className="bg-white p-8 rounded-2xl shadow-xl text-center max-w-sm w-full border border-red-100">
           <AlertCircle size={40} className="text-red-500 mx-auto mb-4" />
-          <h3 className="text-lg font-bold text-slate-800 mb-2">Report Unavailable</h3>
+          <h3 className="text-lg font-bold text-slate-800 mb-2">{i18n.t("Report Unavailable")}</h3>
           <p className="text-sm text-slate-500">{error}</p>
         </div>
       </div>
@@ -98,25 +99,15 @@ const LabReportPrintTemplate: React.FC = () => {
       
       {/* ── CSS Override to remove browser URLs and force background colors ── */}
       <style>
-        {`
-          @media print {
-            @page {
-              margin: 0; /* Removes default browser headers/footers (URL, dates) */
-            }
-            body {
-              -webkit-print-color-adjust: exact;
-              print-color-adjust: exact;
-            }
-          }
-        `}
+        {"@media print { @page { margin: 0; /* Removes default browser headers/footers (URL, dates) */ } body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }"}
       </style>
 
       {/* ── Screen Preview Toolbar (Hidden on Print) ── */}
-      <div className="fixed top-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-6 md:px-12 print:hidden z-50 shadow-sm">
+      <div className="fixed top-0 start-0 end-0 h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-6 md:px-12 print:hidden z-50 shadow-sm">
         <div className="flex items-center gap-3">
           <Activity size={20} style={{ color: BRAND }} />
           <div>
-            <h2 className="font-bold text-slate-800 text-sm leading-tight">Report Preview</h2>
+            <h2 className="font-bold text-slate-800 text-sm leading-tight">{i18n.t("Report Preview")}</h2>
             <p className="text-[11px] text-slate-500 font-mono">{data.reference_no}</p>
           </div>
         </div>
@@ -125,8 +116,7 @@ const LabReportPrintTemplate: React.FC = () => {
           className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold text-white transition-all shadow-md hover:shadow-lg active:scale-95"
           style={{ backgroundColor: BRAND }}
         >
-          <Printer size={16} /> Print Report
-        </button>
+          <Printer size={16} />{" "}{i18n.t("Print Report")}</button>
       </div>
 
       {/* ── A4 Print Container ── */}
@@ -134,11 +124,11 @@ const LabReportPrintTemplate: React.FC = () => {
 
         <div className="flex justify-between items-start border-b-2 p-6" style={{ backgroundColor: BRAND }}>
           <div className="flex items-center gap-4">
-            <img src="/assets/logo-nobg.png" alt="Hospital Logo" className="w-[10em] h-auto object-contain" />
+            <img src="/assets/logo-nobg.png" alt={i18n.t("Hospital Logo")} className="w-[10em] h-auto object-contain" />
           </div>
-          <div className="text-right">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-white">Lab Report</h2>
-            <p className="text-xs font-bold text-white mt-1">Ref: <span className="font-mono text-white">{data.reference_no}</span></p>
+          <div className="text-end">
+            <h2 className="text-2xl font-black uppercase tracking-wider text-white">{i18n.t("Lab Report")}</h2>
+            <p className="text-xs font-bold text-white mt-1">{i18n.t("Ref:")}{" "}<span className="font-mono text-white">{data.reference_no}</span></p>
             <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-[10px] font-bold text-slate-700 uppercase">
               {isCompleted ? <CheckCircle2 size={12} className="text-emerald-500" /> : <Clock size={12} className="text-amber-500" />}
               {wfStatus.replace('_', ' ')}
@@ -150,48 +140,46 @@ const LabReportPrintTemplate: React.FC = () => {
           {/* ── Patient & Order Information Grid ── */}
           <div className="grid grid-cols-2 gap-6 mb-8">
             <div className="border border-slate-200 rounded-lg p-4 bg-slate-50/50 break-inside-avoid">
-              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Patient Details</h3>
+              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{i18n.t("Patient Details")}</h3>
               <div className="space-y-1">
-                <InfoRow label="Patient Name" value={data.patient_name} />
-                <InfoRow label="MRN (File No.)" value={data.mrn} />
-                <InfoRow label="Age / Gender" value={`${fmt(data.patient_age)} / ${fmt(data.gender)}`} />
-                <InfoRow label="Date of Birth" value={fmtDateOnly(data.date_of_birth)} />
-                <InfoRow label="Contact Phone" value={data.phone} />
+                <InfoRow label={i18n.t("Patient Name")} value={data.patient_name} />
+                <InfoRow label={i18n.t("MRN (File No.)")} value={data.mrn} />
+                <InfoRow label={i18n.t("Age / Gender")} value={`${fmt(data.patient_age)} / ${fmt(data.gender)}`} />
+                <InfoRow label={i18n.t("Date of Birth")} value={fmtDateOnly(data.date_of_birth)} />
+                <InfoRow label={i18n.t("Contact Phone")} value={data.phone} />
               </div>
             </div>
 
             <div className="border border-slate-200 rounded-lg p-4 bg-slate-50/50 break-inside-avoid">
-              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Investigation Details</h3>
+              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{i18n.t("Investigation Details")}</h3>
               <div className="space-y-1">
-                <InfoRow label="Test Requested" value={data.service_name} />
-                <InfoRow label="Requesting Doctor" value={doctorName} />
-                <InfoRow label="Visit Reason" value={data.visit_reason} />
-                <InfoRow label="Date Requested" value={fmtDate(data.ordered_at)} />
-                <InfoRow label="Date Reported" value={fmtDate(data.completed_at || new Date().toISOString())} />
+                <InfoRow label={i18n.t("Test Requested")} value={data.service_name} />
+                <InfoRow label={i18n.t("Requesting Doctor")} value={doctorName} />
+                <InfoRow label={i18n.t("Visit Reason")} value={data.visit_reason} />
+                <InfoRow label={i18n.t("Date Requested")} value={fmtDate(data.ordered_at)} />
+                <InfoRow label={i18n.t("Date Reported")} value={fmtDate(data.completed_at || new Date().toISOString())} />
               </div>
             </div>
           </div>
 
           {/* ── Results Table ── */}
           <div className="mb-8">
-            <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Test Results</h3>
+            <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">{i18n.t("Test Results")}</h3>
             <div className="border border-slate-200 rounded-lg overflow-hidden">
-              <table className="w-full text-left text-xs">
+              <table className="w-full text-start text-xs">
                 <thead>
                   <tr style={{ backgroundColor: BRAND }} className="text-white">
-                    <th className="py-2.5 px-4 font-semibold w-1/3">Parameter</th>
-                    <th className="py-2.5 px-4 font-semibold">Result</th>
-                    <th className="py-2.5 px-4 font-semibold">Flag</th>
-                    <th className="py-2.5 px-4 font-semibold">Unit</th>
-                    <th className="py-2.5 px-4 font-semibold">Reference Range</th>
+                    <th className="py-2.5 px-4 font-semibold w-1/3">{i18n.t("Parameter")}</th>
+                    <th className="py-2.5 px-4 font-semibold">{i18n.t("Result")}</th>
+                    <th className="py-2.5 px-4 font-semibold">{i18n.t("Flag")}</th>
+                    <th className="py-2.5 px-4 font-semibold">{i18n.t("Unit")}</th>
+                    <th className="py-2.5 px-4 font-semibold">{i18n.t("Reference Range")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {results.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="py-8 text-center text-slate-400 italic bg-slate-50">
-                        No result parameters found for this investigation.
-                      </td>
+                      <td colSpan={5} className="py-8 text-center text-slate-400 italic bg-slate-50">{i18n.t("No result parameters found for this investigation.")}</td>
                     </tr>
                   ) : (
                     results.map((res: any, i: number) => {
@@ -241,7 +229,7 @@ const LabReportPrintTemplate: React.FC = () => {
                   <span className="text-sm font-bold text-slate-800">{fmt(signer.name)}</span>
                 </div>
                 <div className="border-t border-slate-300 pt-1">
-                  <p className="text-[9px] font-semibold text-slate-500 uppercase">{signer.role}</p>
+                  <p className="text-[9px] font-semibold text-slate-500 uppercase">{i18n.tv(signer.role)}</p>
                 </div>
               </div>
             ))}
@@ -249,22 +237,16 @@ const LabReportPrintTemplate: React.FC = () => {
 
           {/* Hospital Address and Document Meta */}
           <div className="border-t-2 border-slate-200 pt-4 text-center">
-            <h4 className="font-bold text-slate-800 text-[11px] uppercase tracking-widest mb-1">Medbookie Limited</h4>
-            <p className="text-[10px] text-slate-500">
-              Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos
-            </p>
-            <p className="text-[10px] text-slate-500 mt-0.5">
-              +234 705 648 2776 &nbsp;|&nbsp; info@Medbookiehospital.com
-            </p>
+            <h4 className="font-bold text-slate-800 text-[11px] uppercase tracking-widest mb-1">{i18n.t("Medbookie Limited")}</h4>
+            <p className="text-[10px] text-slate-500">{i18n.t("Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos")}</p>
+            <p className="text-[10px] text-slate-500 mt-0.5">{i18n.t("+234 705 648 2776  |  info@Medbookiehospital.com")}</p>
             
             <div className="flex justify-between items-center text-[9px] text-slate-400 mt-4 px-4">
-              <p>Generated electronically on {new Date().toLocaleString('en-GB')}</p>
-              <p className="font-mono font-bold text-slate-500">ID: {data.reference_no}</p>
+              <p>{i18n.t("Generated electronically on")}{" "}{new Date().toLocaleString('en-GB')}</p>
+              <p className="font-mono font-bold text-slate-500">{i18n.t("ID:")}{" "}{data.reference_no}</p>
             </div>
             
-            <p className="text-[8px] text-slate-300 text-center mt-2 uppercase tracking-widest">
-              This report is computer-generated and electronically validated. Valid without physical signature.
-            </p>
+            <p className="text-[8px] text-slate-300 text-center mt-2 uppercase tracking-widest">{i18n.t("This report is computer-generated and electronically validated. Valid without physical signature.")}</p>
           </div>
         </div>
         

@@ -9,6 +9,7 @@ import { StageFormProps } from "../types/ot-checklist.types";
 import { AlertCircle } from "lucide-react";
 import SearchableDoctorSelect from "./shared/SearchableDoctorSelect";
 import SearchableUserSelect from "./shared/SearchableUserSelect";
+import { i18n } from "../i18n";
 
 interface SignOutFormData {
   procedure_recorded?: number;
@@ -37,11 +38,9 @@ const OTChecklistSignOut: React.FC<StageFormProps> = ({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-violet-50 border-l-4 border-violet-500 p-4 rounded">
-        <h3 className="font-bold text-violet-900">SIGN OUT</h3>
-        <p className="text-sm text-violet-700">
-          Before any member of the team leaves the operating room
-        </p>
+      <div className="bg-violet-50 border-s-4 border-violet-500 p-4 rounded">
+        <h3 className="font-bold text-violet-900">{i18n.t("SIGN OUT")}</h3>
+        <p className="text-sm text-violet-700">{i18n.t("Before any member of the team leaves the operating room")}</p>
       </div>
 
       {/* Main Checklist Items */}
@@ -59,10 +58,7 @@ const OTChecklistSignOut: React.FC<StageFormProps> = ({
               className="w-5 h-5 rounded text-violet-600 mt-0.5"
             />
             <div className="flex-1">
-              <span className="font-semibold text-gray-900">
-                Registrar verifies with nurse that the name of the procedure has
-                been recorded
-              </span>
+              <span className="font-semibold text-gray-900">{i18n.t("Registrar verifies with nurse that the name of the procedure has been recorded")}</span>
               {errors.procedure_recorded && (
                 <div className="flex items-center gap-2 mt-2 text-red-600 text-sm">
                   <AlertCircle size={16} />
@@ -86,10 +82,7 @@ const OTChecklistSignOut: React.FC<StageFormProps> = ({
               className="w-5 h-5 rounded text-violet-600 mt-0.5"
             />
             <div className="flex-1">
-              <span className="font-semibold text-gray-900">
-                Sponge, sharp and instrument counts confirmed complete (all
-                accounts given)
-              </span>
+              <span className="font-semibold text-gray-900">{i18n.t("Sponge, sharp and instrument counts confirmed complete (all accounts given)")}</span>
               {errors.counts_complete && (
                 <div className="flex items-center gap-2 mt-2 text-red-600 text-sm">
                   <AlertCircle size={16} />
@@ -113,10 +106,7 @@ const OTChecklistSignOut: React.FC<StageFormProps> = ({
               className="w-5 h-5 rounded text-violet-600 mt-0.5"
             />
             <div className="flex-1">
-              <span className="font-semibold text-gray-900">
-                Specimen(s) labelled correctly (including name, DOB and hospital
-                number)
-              </span>
+              <span className="font-semibold text-gray-900">{i18n.t("Specimen(s) labelled correctly (including name, DOB and hospital number)")}</span>
               {errors.specimen_labelled && (
                 <div className="flex items-center gap-2 mt-2 text-red-600 text-sm">
                   <AlertCircle size={16} />
@@ -137,40 +127,34 @@ const OTChecklistSignOut: React.FC<StageFormProps> = ({
               disabled={disabled}
               className="w-5 h-5 rounded text-violet-600"
             />
-            <span className="font-semibold text-gray-900">
-              Essential imaging displayed: Yes / Not applicable
-            </span>
+            <span className="font-semibold text-gray-900">{i18n.t("Essential imaging displayed: Yes / Not applicable")}</span>
           </label>
         </div>
       </div>
 
       {/* Issues & Concerns */}
       <div className="border rounded-lg p-4 bg-red-50">
-        <h4 className="font-bold text-gray-900 mb-3">Issues & Concerns</h4>
+        <h4 className="font-bold text-gray-900 mb-3">{i18n.t("Issues & Concerns")}</h4>
         <div className="space-y-3">
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Equipment Problems to be Addressed
-            </label>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">{i18n.t("Equipment Problems to be Addressed")}</label>
             <textarea
               value={formData.equipment_issues || ""}
               onChange={(e) => onChange("equipment_issues", e.target.value)}
               disabled={disabled}
-              placeholder="e.g., None, or list equipment issues identified..."
+              placeholder={i18n.t("e.g., None, or list equipment issues identified...")}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none disabled:bg-gray-100 resize-none"
               rows={3}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Key Concerns for Recovery and Management of this Patient
-            </label>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">{i18n.t("Key Concerns for Recovery and Management of this Patient")}</label>
             <textarea
               value={formData.recovery_concerns || ""}
               onChange={(e) => onChange("recovery_concerns", e.target.value)}
               disabled={disabled}
-              placeholder="e.g., Monitor BP post-op, manage pain carefully..."
+              placeholder={i18n.t("e.g., Monitor BP post-op, manage pain carefully...")}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none disabled:bg-gray-100 resize-none"
               rows={3}
             />
@@ -180,14 +164,12 @@ const OTChecklistSignOut: React.FC<StageFormProps> = ({
 
       {/* Sign-off Section */}
       <div className="border-t-2 border-gray-200 pt-6 relative z-50">
-        <h4 className="font-bold text-gray-900 mb-4">Team Signed-off By:</h4>
+        <h4 className="font-bold text-gray-900 mb-4">{i18n.t("Team Signed-off By:")}</h4>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Surgeon */}
           <div className="border rounded-lg p-4 bg-brand-active">
-            <label className="block text-sm font-bold text-gray-700 mb-3">
-              Surgeon ID
-            </label>
+            <label className="block text-sm font-bold text-gray-700 mb-3">{i18n.t("Surgeon ID")}</label>
             {disabled ? (
               <input
                 type="text"
@@ -201,7 +183,7 @@ const OTChecklistSignOut: React.FC<StageFormProps> = ({
                 onChange={(val) =>
                   onChange("surgeon_id", val ? Number(val) : null)
                 }
-                placeholder="Search Surgeon..."
+                placeholder={i18n.t("Search Surgeon...")}
               />
             )}
             {errors.surgeon_id && (
@@ -214,9 +196,7 @@ const OTChecklistSignOut: React.FC<StageFormProps> = ({
 
           {/* Anaesthetist */}
           <div className="border rounded-lg p-4 bg-teal-50">
-            <label className="block text-sm font-bold text-gray-700 mb-3">
-              Anaesthetist ID
-            </label>
+            <label className="block text-sm font-bold text-gray-700 mb-3">{i18n.t("Anaesthetist ID")}</label>
             {disabled ? (
               <input
                 type="text"
@@ -230,7 +210,7 @@ const OTChecklistSignOut: React.FC<StageFormProps> = ({
                 onChange={(val) =>
                   onChange("anaesthetist_id", val ? Number(val) : null)
                 }
-                placeholder="Search Anaesthetist..."
+                placeholder={i18n.t("Search Anaesthetist...")}
               />
             )}
             {errors.anaesthetist_id && (
@@ -243,9 +223,7 @@ const OTChecklistSignOut: React.FC<StageFormProps> = ({
 
           {/* Nurse */}
           <div className="border rounded-lg p-4 bg-orange-50">
-            <label className="block text-sm font-bold text-gray-700 mb-3">
-              Nurse/ODP ID
-            </label>
+            <label className="block text-sm font-bold text-gray-700 mb-3">{i18n.t("Nurse/ODP ID")}</label>
             {disabled ? (
               <input
                 type="text"
@@ -259,7 +237,7 @@ const OTChecklistSignOut: React.FC<StageFormProps> = ({
                 onChange={(val) =>
                   onChange("nurse_id", val ? Number(val) : null)
                 }
-                placeholder="Search Nurse..."
+                placeholder={i18n.t("Search Nurse...")}
                 roleFilter="nurse"
               />
             )}

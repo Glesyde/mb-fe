@@ -6,6 +6,7 @@ import {
 import { otService, OTSurgery } from "../services/ot.service";
 import { useNotification } from "../context/NotificationContext";
 import SignaturePad from "./SignaturePad";
+import { i18n } from "../i18n";
 
 interface AnaesthesiaMonitoringModalProps {
   isOpen: boolean;
@@ -594,7 +595,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
   };
 
   const clearGrid = () => {
-    if (window.confirm("Are you sure you want to clear all monitoring data?")) {
+    if (window.confirm(i18n.t("Are you sure you want to clear all monitoring data?"))) {
       setGridData({});
     }
   };
@@ -617,16 +618,13 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
         <div className="bg-[#1e1b4b] px-6 py-3 border-b border-[#312e81] flex justify-between items-center shrink-0">
           <div className="flex items-center gap-4">
             <div className="relative w-[150px] h-[140px] flex items-center px-2">
-               <img src="/assets/logo-nobg.png" alt="Logo" width={200} height={200} className="object-contain w-full h-full" />
+               <img src="/assets/logo-nobg.png" alt={i18n.t("Logo")} width={200} height={200} className="object-contain w-full h-full" />
             </div>
-            <div className="border-l border-indigo-800 pl-4">
-              <h2 className="text-white font-bold text-lg flex items-center gap-2 tracking-wide">
-                Anaesthesia & Perioperative Record
-                {loading && <Loader2 size={16} className="animate-spin text-brand-primary" />}
+            <div className="border-s border-indigo-800 ps-4">
+              <h2 className="text-white font-bold text-lg flex items-center gap-2 tracking-wide">{i18n.t("Anaesthesia & Perioperative Record")}{loading && <Loader2 size={16} className="animate-spin text-brand-primary" />}
               </h2>
 
-                <p className="text-indigo-200 text-xs mt-0.5">
-                  MRN: {surgery.mrn} | FULLNAME: {surgery.first_name} {surgery.last_name} | GENDER: {surgery.gender} | AGE: {surgery.age} | {surgery.surgery_name} | WEIGHT: {(surgery as any)?.weight || "—"} | HEIGHT: {(surgery as any)?.height || "—"} | BMI: {(surgery as any)?.bmi || "—"} | ALLERGIES: {(surgery as any)?.known_allergies || "None"}
+                <p className="text-indigo-200 text-xs mt-0.5">{i18n.t("MRN:")}{" "}{surgery.mrn}{" "}{i18n.t("| FULLNAME:")}{" "}{surgery.first_name} {surgery.last_name}{" "}{i18n.t("| GENDER:")}{" "}{i18n.tv(surgery.gender)}{" "}{i18n.t("| AGE:")}{" "}{surgery.age} | {surgery.surgery_name}{" "}{i18n.t("| WEIGHT:")}{" "}{(surgery as any)?.weight || "—"}{" "}{i18n.t("| HEIGHT:")}{" "}{(surgery as any)?.height || "—"}{" "}{i18n.t("| BMI:")}{" "}{(surgery as any)?.bmi || "—"}{" "}{i18n.t("| ALLERGIES:")}{" "}{(surgery as any)?.known_allergies || i18n.t("None")}
                 </p>
 
               {/* <p className="text-indigo-200 text-xs mt-0.5">
@@ -636,8 +634,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
           </div>
           <div className="flex items-center gap-3">
             <button onClick={handleSave} disabled={saving} className="bg-brand-primary hover:bg-brand-active0 text-white px-6 py-2 rounded flex items-center gap-2 text-sm font-bold disabled:opacity-50 transition-colors shadow-lg">
-              {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />} Save Full Record
-            </button>
+              {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}{" "}{i18n.t("Save Full Record")}</button>
             <div className="h-8 w-px bg-indigo-800 mx-2"></div>
             <button onClick={toggleFullscreen} className="p-2 text-indigo-200 hover:text-white hover:bg-white/10 rounded transition-colors">
               {isFullscreen ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
@@ -655,57 +652,42 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
           {loading && (
             <div className="absolute inset-0 z-[100] flex flex-col items-center justify-center bg-white/70 backdrop-blur-sm transition-all">
               <Loader2 size={64} className="animate-spin text-[#1e1b4b] mb-4" />
-              <h3 className="text-2xl font-black text-[#1e1b4b] tracking-tight animate-pulse">
-                Loading Clinical Record...
-              </h3>
-              <p className="text-slate-600 font-medium mt-2">
-                Retrieving patient data and timelines, please wait.
-              </p>
+              <h3 className="text-2xl font-black text-[#1e1b4b] tracking-tight animate-pulse">{i18n.t("Loading Clinical Record...")}</h3>
+              <p className="text-slate-600 font-medium mt-2">{i18n.t("Retrieving patient data and timelines, please wait.")}</p>
             </div>
           )}
           
           {/* Sidebar Navigation */}
-          <div className="w-64 bg-slate-50 border-r border-slate-200 flex flex-col shadow-sm z-10 overflow-y-auto">
+          <div className="w-64 bg-slate-50 border-e border-slate-200 flex flex-col shadow-sm z-10 overflow-y-auto">
             <nav className="p-4 space-y-2">
               <button onClick={() => setActiveTab("preop")} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${activeTab === "preop" ? "bg-[#1e1b4b] text-white shadow-md" : "text-slate-600 hover:bg-slate-200"}`}>
-                <FileText size={18} /> Pre-Op Assessment
-              </button>
+                <FileText size={18} />{" "}{i18n.t("Pre-Op Assessment")}</button>
                 <button onClick={() => setActiveTab("anaestheticAirwayTehniqueManagement")} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${activeTab === "anaestheticAirwayTehniqueManagement" ? "bg-[#1e1b4b] text-white shadow-md" : "text-slate-600 hover:bg-slate-200"}`}>
-                <FileText size={18} /> Airway & Technique
-              </button>
+                <FileText size={18} />{" "}{i18n.t("Airway & Technique")}</button>
 
               <button onClick={() => setActiveTab("cardiac_cpb")} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all border border-transparent ${activeTab === "cardiac_cpb" ? "bg-red-50 text-red-700 shadow-md border-red-200" : "text-slate-600 hover:bg-red-50 hover:text-red-700 hover:border-red-100"}`}>
-                <HeartPulse size={18} /> Cardiac & CPB Module
-              </button>
+                <HeartPulse size={18} />{" "}{i18n.t("Cardiac & CPB Module")}</button>
 
               <button onClick={() => setActiveTab("monitoring")} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${activeTab === "monitoring" ? "bg-[#1e1b4b] text-white shadow-md" : "text-slate-600 hover:bg-slate-200"}`}>
-                <Monitor size={18} /> Lines & Monitoring
-              </button>
+                <Monitor size={18} />{" "}{i18n.t("Lines & Monitoring")}</button>
 
               <button onClick={() => setActiveTab("ABG")} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${activeTab === "ABG" ? "bg-[#1e1b4b] text-white shadow-md" : "text-slate-600 hover:bg-slate-200"}`}>
-                <Syringe size={18} /> Arterial Blood Gas Log
-              </button>
+                <Syringe size={18} />{" "}{i18n.t("Arterial Blood Gas Log")}</button>
               <button onClick={() => setActiveTab("grid")} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${activeTab === "grid" ? "bg-[#1e1b4b] text-white shadow-md" : "text-slate-600 hover:bg-slate-200"}`}>
-                <Activity size={18} /> Monitoring Chart
-              </button>
+                <Activity size={18} />{" "}{i18n.t("Monitoring Chart")}</button>
               <button onClick={() => setActiveTab("drugs")} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${activeTab === "drugs" ? "bg-[#1e1b4b] text-white shadow-md" : "text-slate-600 hover:bg-slate-200"}`}>
-                <Syringe size={18} /> Drugs & Events
-              </button>
+                <Syringe size={18} />{" "}{i18n.t("Drugs & Events")}</button>
               
               <button onClick={() => setActiveTab("INTRAOPERATIVE")} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${activeTab === "INTRAOPERATIVE" ? "bg-[#1e1b4b] text-white shadow-md" : "text-slate-600 hover:bg-slate-200"}`}>
-                <Syringe size={18} /> Incidents & Timeline
-              </button>
+                <Syringe size={18} />{" "}{i18n.t("Incidents & Timeline")}</button>
 
               <button onClick={() => setActiveTab("recovery")} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${activeTab === "recovery" ? "bg-[#1e1b4b] text-white shadow-md" : "text-slate-600 hover:bg-slate-200"}`}>
-                <BedDouble size={18} /> Recovery & PACU
-              </button>
+                <BedDouble size={18} />{" "}{i18n.t("Recovery & PACU")}</button>
               <button onClick={() => setActiveTab("paeds")} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${activeTab === "paeds" ? "bg-[#1e1b4b] text-white shadow-md" : "text-slate-600 hover:bg-slate-200"}`}>
-                <Baby size={18} /> Paediatric Panel
-              </button>
+                <Baby size={18} />{" "}{i18n.t("Paediatric Panel")}</button>
               <div className="h-px bg-slate-200 my-4"></div>
               <button onClick={() => setActiveTab("signoff")} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${activeTab === "signoff" ? "bg-emerald-600 text-white shadow-md" : "text-emerald-700 hover:bg-emerald-50 border border-emerald-100"}`}>
-                <ShieldCheck size={18} /> Certification
-              </button>
+                <ShieldCheck size={18} />{" "}{i18n.t("Certification")}</button>
             </nav>
           </div>
 
@@ -721,23 +703,18 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                 <div className="bg-gradient-to-r from-amber-600 to-amber-700 text-white p-6 rounded-2xl shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
                   <div>
                     <h3 className="text-2xl font-black flex items-center gap-3 tracking-tight">
-                      <Baby size={28} /> PAEDIATRIC EMERGENCY-DOSE QUICK-REFERENCE (PART K)
-                    </h3>
-                    <p className="text-amber-100 text-xs font-medium mt-1">
-                      Weight-based quick reference for children (neonate / infant / child). Confirm all weight-based doses independently.
-                    </p>
+                      <Baby size={28} />{" "}{i18n.t("PAEDIATRIC EMERGENCY-DOSE QUICK-REFERENCE (PART K)")}</h3>
+                    <p className="text-amber-100 text-xs font-medium mt-1">{i18n.t("Weight-based quick reference for children (neonate / infant / child). Confirm all weight-based doses independently.")}</p>
                   </div>
                   <div className="flex items-center gap-2 bg-amber-800/40 p-2 rounded-xl border border-amber-400/30 text-xs font-bold text-amber-100">
-                    <AlertTriangle size={16} className="text-amber-300" /> Confirm patient identity & double-check doses with second practitioner
-                  </div>
+                    <AlertTriangle size={16} className="text-amber-300" />{" "}{i18n.t("Confirm patient identity & double-check doses with second practitioner")}</div>
                 </div>
 
                 {/* Patient Parameters Controls */}
                 <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
                   <div className="flex flex-wrap items-center justify-between gap-4 border-b pb-4">
                     <span className="text-xs font-black text-slate-500 uppercase tracking-wider flex items-center gap-2">
-                      <Calculator size={16} /> Patient Measurements & Age Classification
-                    </span>
+                      <Calculator size={16} />{" "}{i18n.t("Patient Measurements & Age Classification")}</span>
                     <button
                       type="button"
                       onClick={() => {
@@ -749,14 +726,12 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                       }}
                       className="text-xs font-bold px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors flex items-center gap-1.5"
                     >
-                      <RefreshCw size={14} /> Pull from Pre-Op Record
-                    </button>
+                      <RefreshCw size={14} />{" "}{i18n.t("Pull from Pre-Op Record")}</button>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
                     <div>
-                      <label className="block text-xs font-black text-slate-700 mb-1">
-                        WEIGHT (KG) <span className="text-red-500">*</span>
+                      <label className="block text-xs font-black text-slate-700 mb-1">{i18n.t("WEIGHT (KG)")}{" "}<span className="text-red-500">*</span>
                       </label>
                       <input
                         type="number"
@@ -769,9 +744,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                     </div>
 
                     <div>
-                      <label className="block text-xs font-black text-slate-700 mb-1">
-                        AGE (YEARS)
-                      </label>
+                      <label className="block text-xs font-black text-slate-700 mb-1">{i18n.t("AGE (YEARS)")}</label>
                       <input
                         type="number"
                         min="0"
@@ -789,14 +762,12 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                           checked={isNeonate}
                           onChange={(e) => setIsNeonate(e.target.checked)}
                           className="w-4 h-4 accent-amber-600 rounded"
-                        />
-                        Neonate (&lt; 28 days) / Cardiac Case
-                      </label>
+                        />{i18n.t("Neonate (< 28 days) / Cardiac Case")}</label>
                     </div>
 
                     {/* Weight Quick Buttons */}
                     <div>
-                      <span className="block text-[11px] font-bold text-slate-400 mb-1">QUICK WEIGHT PRESETS</span>
+                      <span className="block text-[11px] font-bold text-slate-400 mb-1">{i18n.t("QUICK WEIGHT PRESETS")}</span>
                       <div className="flex flex-wrap gap-1">
                         {[3, 5, 10, 15, 20, 30].map(w => (
                           <button
@@ -809,8 +780,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                                 : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                             }`}
                           >
-                            {w}kg
-                          </button>
+                            {w}{i18n.t("kg")}</button>
                         ))}
                       </div>
                     </div>
@@ -824,26 +794,26 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                   <div className="bg-white p-5 rounded-2xl border border-blue-200 shadow-sm space-y-4">
                     <div className="flex items-center gap-2 border-b border-blue-100 pb-2">
                       <div className="p-1.5 bg-blue-100 text-blue-700 rounded-lg"><Monitor size={16} /></div>
-                      <h4 className="font-black text-xs uppercase tracking-wider text-blue-900">Airway & Tube Sizing</h4>
+                      <h4 className="font-black text-xs uppercase tracking-wider text-blue-900">{i18n.t("Airway & Tube Sizing")}</h4>
                     </div>
 
                     <div className="space-y-3">
                       <div className="p-2.5 bg-blue-50/60 rounded-xl">
-                        <span className="text-[10px] font-bold text-blue-700 block uppercase">ETT INTERNAL DIAM. (UNCUFFED)</span>
-                        <div className="text-xl font-black text-blue-950 mt-0.5">{paedsCalculations.ettUncuffed} mm</div>
-                        <span className="text-[9px] text-slate-400 italic">age/4 + 4</span>
+                        <span className="text-[10px] font-bold text-blue-700 block uppercase">{i18n.t("ETT INTERNAL DIAM. (UNCUFFED)")}</span>
+                        <div className="text-xl font-black text-blue-950 mt-0.5">{paedsCalculations.ettUncuffed}{" "}{i18n.t("mm")}</div>
+                        <span className="text-[9px] text-slate-400 italic">{i18n.t("age/4 + 4")}</span>
                       </div>
 
                       <div className="p-2.5 bg-blue-50/60 rounded-xl">
-                        <span className="text-[10px] font-bold text-blue-700 block uppercase">ETT INTERNAL DIAM. (CUFFED)</span>
-                        <div className="text-xl font-black text-blue-950 mt-0.5">{paedsCalculations.ettCuffed} mm</div>
-                        <span className="text-[9px] text-slate-400 italic">uncuffed − 0.5 mm</span>
+                        <span className="text-[10px] font-bold text-blue-700 block uppercase">{i18n.t("ETT INTERNAL DIAM. (CUFFED)")}</span>
+                        <div className="text-xl font-black text-blue-950 mt-0.5">{paedsCalculations.ettCuffed}{" "}{i18n.t("mm")}</div>
+                        <span className="text-[9px] text-slate-400 italic">{i18n.t("uncuffed − 0.5 mm")}</span>
                       </div>
 
                       <div className="p-2.5 bg-blue-50/60 rounded-xl">
-                        <span className="text-[10px] font-bold text-blue-700 block uppercase">ETT LENGTH ORAL (DEPTH AT LIPS)</span>
-                        <div className="text-xl font-black text-blue-950 mt-0.5">{paedsCalculations.oralDepth} cm</div>
-                        <span className="text-[9px] text-slate-400 italic">age/2 + 12</span>
+                        <span className="text-[10px] font-bold text-blue-700 block uppercase">{i18n.t("ETT LENGTH ORAL (DEPTH AT LIPS)")}</span>
+                        <div className="text-xl font-black text-blue-950 mt-0.5">{paedsCalculations.oralDepth}{" "}{i18n.t("cm")}</div>
+                        <span className="text-[9px] text-slate-400 italic">{i18n.t("age/2 + 12")}</span>
                       </div>
                     </div>
                   </div>
@@ -852,26 +822,26 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                   <div className="bg-white p-5 rounded-2xl border border-red-200 shadow-sm space-y-4">
                     <div className="flex items-center gap-2 border-b border-red-100 pb-2">
                       <div className="p-1.5 bg-red-100 text-red-700 rounded-lg"><Zap size={16} /></div>
-                      <h4 className="font-black text-xs uppercase tracking-wider text-red-900">Resuscitation (Part K)</h4>
+                      <h4 className="font-black text-xs uppercase tracking-wider text-red-900">{i18n.t("Resuscitation (Part K)")}</h4>
                     </div>
 
                     <div className="space-y-3">
                       <div className="p-2.5 bg-red-50/60 rounded-xl">
-                        <span className="text-[10px] font-bold text-red-700 block uppercase">ADRENALINE 1:10,000 (10 MCG/KG)</span>
-                        <div className="text-xl font-black text-red-950 mt-0.5">{paedsCalculations.adrenalineVolMl} mL</div>
-                        <span className="text-[10px] font-bold text-red-600">= {paedsCalculations.adrenalineMcg} mcg (0.1 mL/kg)</span>
+                        <span className="text-[10px] font-bold text-red-700 block uppercase">{i18n.t("ADRENALINE 1:10,000 (10 MCG/KG)")}</span>
+                        <div className="text-xl font-black text-red-950 mt-0.5">{paedsCalculations.adrenalineVolMl}{" "}{i18n.t("mL")}</div>
+                        <span className="text-[10px] font-bold text-red-600">= {paedsCalculations.adrenalineMcg}{" "}{i18n.t("mcg (0.1 mL/kg)")}</span>
                       </div>
 
                       <div className="p-2.5 bg-red-50/60 rounded-xl">
-                        <span className="text-[10px] font-bold text-red-700 block uppercase">ATROPINE (20 MCG/KG)</span>
-                        <div className="text-xl font-black text-red-950 mt-0.5">{paedsCalculations.atropineMcg} mcg</div>
-                        <span className="text-[9px] text-slate-400 italic">minimum dose 100 mcg</span>
+                        <span className="text-[10px] font-bold text-red-700 block uppercase">{i18n.t("ATROPINE (20 MCG/KG)")}</span>
+                        <div className="text-xl font-black text-red-950 mt-0.5">{paedsCalculations.atropineMcg}{" "}{i18n.t("mcg")}</div>
+                        <span className="text-[9px] text-slate-400 italic">{i18n.t("minimum dose 100 mcg")}</span>
                       </div>
 
                       <div className="p-2.5 bg-red-50/60 rounded-xl">
-                        <span className="text-[10px] font-bold text-red-700 block uppercase">DEFIBRILLATION (4 J/KG)</span>
-                        <div className="text-xl font-black text-red-950 mt-0.5">{paedsCalculations.defibJoules} Joules</div>
-                        <span className="text-[9px] text-slate-400 italic">synchronised or non-synch</span>
+                        <span className="text-[10px] font-bold text-red-700 block uppercase">{i18n.t("DEFIBRILLATION (4 J/KG)")}</span>
+                        <div className="text-xl font-black text-red-950 mt-0.5">{paedsCalculations.defibJoules}{" "}{i18n.t("Joules")}</div>
+                        <span className="text-[9px] text-slate-400 italic">{i18n.t("synchronised or non-synch")}</span>
                       </div>
                     </div>
                   </div>
@@ -880,28 +850,28 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                   <div className="bg-white p-5 rounded-2xl border border-indigo-200 shadow-sm space-y-4">
                     <div className="flex items-center gap-2 border-b border-indigo-100 pb-2">
                       <div className="p-1.5 bg-indigo-100 text-indigo-700 rounded-lg"><Syringe size={16} /></div>
-                      <h4 className="font-black text-xs uppercase tracking-wider text-indigo-900">Emergency Drugs</h4>
+                      <h4 className="font-black text-xs uppercase tracking-wider text-indigo-900">{i18n.t("Emergency Drugs")}</h4>
                     </div>
 
                     <div className="space-y-3">
                       <div className="p-2.5 bg-indigo-50/60 rounded-xl">
-                        <span className="text-[10px] font-bold text-indigo-700 block uppercase">SUXAMETHONIUM (1–2 MG/KG)</span>
+                        <span className="text-[10px] font-bold text-indigo-700 block uppercase">{i18n.t("SUXAMETHONIUM (1–2 MG/KG)")}</span>
                         <div className="text-xl font-black text-indigo-950 mt-0.5">
                           {paedsCalculations.suxMin === paedsCalculations.suxMax ? `${paedsCalculations.suxMin} mg` : `${paedsCalculations.suxMin} – ${paedsCalculations.suxMax} mg`}
                         </div>
-                        <span className="text-[9px] text-slate-400 italic">neonate dose 2 mg/kg</span>
+                        <span className="text-[9px] text-slate-400 italic">{i18n.t("neonate dose 2 mg/kg")}</span>
                       </div>
 
                       <div className="p-2.5 bg-indigo-50/60 rounded-xl">
-                        <span className="text-[10px] font-bold text-indigo-700 block uppercase">NEOSTIGMINE (50 MCG/KG)</span>
-                        <div className="text-xl font-black text-indigo-950 mt-0.5">{paedsCalculations.neostigmineMcg} mcg</div>
-                        <span className="text-[9px] text-slate-400 italic">+ Glycopyrronium / Atropine</span>
+                        <span className="text-[10px] font-bold text-indigo-700 block uppercase">{i18n.t("NEOSTIGMINE (50 MCG/KG)")}</span>
+                        <div className="text-xl font-black text-indigo-950 mt-0.5">{paedsCalculations.neostigmineMcg}{" "}{i18n.t("mcg")}</div>
+                        <span className="text-[9px] text-slate-400 italic">{i18n.t("+ Glycopyrronium / Atropine")}</span>
                       </div>
 
                       <div className="p-2.5 bg-indigo-50/60 rounded-xl">
-                        <span className="text-[10px] font-bold text-indigo-700 block uppercase">SUGAMMADEX (2–16 MG/KG)</span>
-                        <div className="text-xl font-black text-indigo-950 mt-0.5">{paedsCalculations.sugammadexMin} – {paedsCalculations.sugammadexMax} mg</div>
-                        <span className="text-[9px] text-slate-400 italic">2 mg routine, 16 mg rescue</span>
+                        <span className="text-[10px] font-bold text-indigo-700 block uppercase">{i18n.t("SUGAMMADEX (2–16 MG/KG)")}</span>
+                        <div className="text-xl font-black text-indigo-950 mt-0.5">{paedsCalculations.sugammadexMin} – {paedsCalculations.sugammadexMax}{" "}{i18n.t("mg")}</div>
+                        <span className="text-[9px] text-slate-400 italic">{i18n.t("2 mg routine, 16 mg rescue")}</span>
                       </div>
                     </div>
                   </div>
@@ -910,34 +880,34 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                   <div className="bg-white p-5 rounded-2xl border border-emerald-200 shadow-sm space-y-4">
                     <div className="flex items-center gap-2 border-b border-emerald-100 pb-2">
                       <div className="p-1.5 bg-emerald-100 text-emerald-700 rounded-lg"><Activity size={16} /></div>
-                      <h4 className="font-black text-xs uppercase tracking-wider text-emerald-900">Fluids & Glucose</h4>
+                      <h4 className="font-black text-xs uppercase tracking-wider text-emerald-900">{i18n.t("Fluids & Glucose")}</h4>
                     </div>
 
                     <div className="space-y-3">
                       <div className="p-2.5 bg-emerald-50/60 rounded-xl">
-                        <span className="text-[10px] font-bold text-emerald-700 block uppercase">MAINTENANCE (4/2/1 RULE)</span>
-                        <div className="text-xl font-black text-emerald-950 mt-0.5">{paedsCalculations.maintenanceMlHr} mL/hr</div>
-                        <span className="text-[9px] text-slate-400 italic">4 mL/kg 1st 10kg, 2 2nd 10kg, 1 rest</span>
+                        <span className="text-[10px] font-bold text-emerald-700 block uppercase">{i18n.t("MAINTENANCE (4/2/1 RULE)")}</span>
+                        <div className="text-xl font-black text-emerald-950 mt-0.5">{paedsCalculations.maintenanceMlHr}{" "}{i18n.t("mL/hr")}</div>
+                        <span className="text-[9px] text-slate-400 italic">{i18n.t("4 mL/kg 1st 10kg, 2 2nd 10kg, 1 rest")}</span>
                       </div>
 
                       <div className="p-2.5 bg-emerald-50/60 rounded-xl">
-                        <span className="text-[10px] font-bold text-emerald-700 block uppercase">FLUID BOLUS (10–20 ML/KG)</span>
+                        <span className="text-[10px] font-bold text-emerald-700 block uppercase">{i18n.t("FLUID BOLUS (10–20 ML/KG)")}</span>
                         <div className="text-xl font-black text-emerald-950 mt-0.5">
                           {paedsCalculations.fluidBolusMin === paedsCalculations.fluidBolusMax ? `${paedsCalculations.fluidBolusMin} mL` : `${paedsCalculations.fluidBolusMin} – ${paedsCalculations.fluidBolusMax} mL`}
                         </div>
-                        <span className="text-[9px] text-slate-400 italic">10 mL/kg neonate/cardiac</span>
+                        <span className="text-[9px] text-slate-400 italic">{i18n.t("10 mL/kg neonate/cardiac")}</span>
                       </div>
 
                       <div className="p-2.5 bg-emerald-50/60 rounded-xl">
-                        <span className="text-[10px] font-bold text-emerald-700 block uppercase">GLUCOSE 10% (2 ML/KG)</span>
-                        <div className="text-xl font-black text-emerald-950 mt-0.5">{paedsCalculations.glucose10Ml} mL</div>
-                        <span className="text-[9px] text-slate-400 italic">for acute hypoglycaemia</span>
+                        <span className="text-[10px] font-bold text-emerald-700 block uppercase">{i18n.t("GLUCOSE 10% (2 ML/KG)")}</span>
+                        <div className="text-xl font-black text-emerald-950 mt-0.5">{paedsCalculations.glucose10Ml}{" "}{i18n.t("mL")}</div>
+                        <span className="text-[9px] text-slate-400 italic">{i18n.t("for acute hypoglycaemia")}</span>
                       </div>
 
                       <div className="p-2.5 bg-emerald-50/60 rounded-xl">
-                        <span className="text-[10px] font-bold text-emerald-700 block uppercase">BLOOD TRANSFUSION (10–15 ML/KG)</span>
-                        <div className="text-xl font-black text-emerald-950 mt-0.5">{paedsCalculations.bloodMin} – {paedsCalculations.bloodMax} mL</div>
-                        <span className="text-[9px] text-slate-400 italic">packed red blood cells</span>
+                        <span className="text-[10px] font-bold text-emerald-700 block uppercase">{i18n.t("BLOOD TRANSFUSION (10–15 ML/KG)")}</span>
+                        <div className="text-xl font-black text-emerald-950 mt-0.5">{paedsCalculations.bloodMin} – {paedsCalculations.bloodMax}{" "}{i18n.t("mL")}</div>
+                        <span className="text-[9px] text-slate-400 italic">{i18n.t("packed red blood cells")}</span>
                       </div>
                     </div>
                   </div>
@@ -947,12 +917,12 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                 {/* CLINICAL PROTOCOLS CALLOUT */}
                 <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                   <div className="p-3 bg-white rounded-xl border border-slate-200">
-                    <span className="font-bold text-slate-800 uppercase block mb-1">Tranexamic Acid (TXA) Protocol</span>
-                    <p className="text-slate-600 font-medium">Loading dose: 10–30 mg/kg over 15 mins, followed by maintenance infusion (5–10 mg/kg/hr) as per theatre protocol.</p>
+                    <span className="font-bold text-slate-800 uppercase block mb-1">{i18n.t("Tranexamic Acid (TXA) Protocol")}</span>
+                    <p className="text-slate-600 font-medium">{i18n.t("Loading dose: 10–30 mg/kg over 15 mins, followed by maintenance infusion (5–10 mg/kg/hr) as per theatre protocol.")}</p>
                   </div>
                   <div className="p-3 bg-white rounded-xl border border-slate-200">
-                    <span className="font-bold text-slate-800 uppercase block mb-1">Temperature Management Protocol</span>
-                    <p className="text-slate-600 font-medium">Active warming required: Underbody Bair Hugger, fluid warmer, ambient theatre temperature 24°C+, plastic wrap for neonates.</p>
+                    <span className="font-bold text-slate-800 uppercase block mb-1">{i18n.t("Temperature Management Protocol")}</span>
+                    <p className="text-slate-600 font-medium">{i18n.t("Active warming required: Underbody Bair Hugger, fluid warmer, ambient theatre temperature 24°C+, plastic wrap for neonates.")}</p>
                   </div>
                 </div>
 
@@ -961,16 +931,13 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b pb-4">
                     <div>
                       <h4 className="font-black text-slate-800 text-lg flex items-center gap-2">
-                        <CheckCircle2 className="text-emerald-600" /> Paediatric Recovery – Steward Score (Part H)
-                      </h4>
-                      <p className="text-xs text-slate-500 font-medium mt-0.5">
-                        Post-anaesthetic assessment score for children. Discharge readiness requires Total ≥ 5 & Airway Safe.
-                      </p>
+                        <CheckCircle2 className="text-emerald-600" />{" "}{i18n.t("Paediatric Recovery – Steward Score (Part H)")}</h4>
+                      <p className="text-xs text-slate-500 font-medium mt-0.5">{i18n.t("Post-anaesthetic assessment score for children. Discharge readiness requires Total ≥ 5 & Airway Safe.")}</p>
                     </div>
 
                     <div className="flex items-center gap-3">
-                      <div className="text-right">
-                        <span className="text-[10px] font-bold text-slate-400 uppercase block">Total Score</span>
+                      <div className="text-end">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase block">{i18n.t("Total Score")}</span>
                         <span className={`text-2xl font-black ${
                           stewardScore.consciousness + stewardScore.airway + stewardScore.movement >= 5
                             ? "text-emerald-600"
@@ -985,8 +952,8 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                           : "bg-amber-100 text-amber-800 border border-amber-300"
                       }`}>
                         {stewardScore.consciousness + stewardScore.airway + stewardScore.movement >= 5 && stewardScore.airway >= 1
-                          ? "Discharge Criteria Met"
-                          : "Observation Required"}
+                          ? i18n.t("Discharge Criteria Met")
+                          : i18n.t("Observation Required")}
                       </span>
                     </div>
                   </div>
@@ -994,7 +961,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {/* Consciousness */}
                     <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
-                      <span className="text-xs font-bold text-slate-700 uppercase block">1. Consciousness (0–2)</span>
+                      <span className="text-xs font-bold text-slate-700 uppercase block">{i18n.t("1. Consciousness (0–2)")}</span>
                       <div className="space-y-1.5">
                         {[
                           { val: 2, label: "Awake (2)" },
@@ -1005,13 +972,13 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                             key={item.val}
                             type="button"
                             onClick={() => setStewardScore(prev => ({ ...prev, consciousness: item.val }))}
-                            className={`w-full text-left px-3 py-2 text-xs font-bold rounded-lg transition-all ${
+                            className={`w-full text-start px-3 py-2 text-xs font-bold rounded-lg transition-all ${
                               stewardScore.consciousness === item.val
                                 ? "bg-amber-600 text-white shadow-sm"
                                 : "bg-white text-slate-600 hover:bg-slate-200 border border-slate-200"
                             }`}
                           >
-                            {item.label}
+                            {i18n.tx(item.label)}
                           </button>
                         ))}
                       </div>
@@ -1019,7 +986,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
 
                     {/* Airway */}
                     <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
-                      <span className="text-xs font-bold text-slate-700 uppercase block">2. Airway (0–2)</span>
+                      <span className="text-xs font-bold text-slate-700 uppercase block">{i18n.t("2. Airway (0–2)")}</span>
                       <div className="space-y-1.5">
                         {[
                           { val: 2, label: "Coughing on command / crying (2)" },
@@ -1030,13 +997,13 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                             key={item.val}
                             type="button"
                             onClick={() => setStewardScore(prev => ({ ...prev, airway: item.val }))}
-                            className={`w-full text-left px-3 py-2 text-xs font-bold rounded-lg transition-all ${
+                            className={`w-full text-start px-3 py-2 text-xs font-bold rounded-lg transition-all ${
                               stewardScore.airway === item.val
                                 ? "bg-amber-600 text-white shadow-sm"
                                 : "bg-white text-slate-600 hover:bg-slate-200 border border-slate-200"
                             }`}
                           >
-                            {item.label}
+                            {i18n.tx(item.label)}
                           </button>
                         ))}
                       </div>
@@ -1044,7 +1011,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
 
                     {/* Movement */}
                     <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
-                      <span className="text-xs font-bold text-slate-700 uppercase block">3. Movement (0–2)</span>
+                      <span className="text-xs font-bold text-slate-700 uppercase block">{i18n.t("3. Movement (0–2)")}</span>
                       <div className="space-y-1.5">
                         {[
                           { val: 2, label: "Purposeful movement (2)" },
@@ -1055,13 +1022,13 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                             key={item.val}
                             type="button"
                             onClick={() => setStewardScore(prev => ({ ...prev, movement: item.val }))}
-                            className={`w-full text-left px-3 py-2 text-xs font-bold rounded-lg transition-all ${
+                            className={`w-full text-start px-3 py-2 text-xs font-bold rounded-lg transition-all ${
                               stewardScore.movement === item.val
                                 ? "bg-amber-600 text-white shadow-sm"
                                 : "bg-white text-slate-600 hover:bg-slate-200 border border-slate-200"
                             }`}
                           >
-                            {item.label}
+                            {i18n.tx(item.label)}
                           </button>
                         ))}
                       </div>
@@ -1081,8 +1048,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                       }}
                       className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-sm transition-colors flex items-center gap-2"
                     >
-                      <Save size={16} /> Save Steward Score to Recovery Record
-                    </button>
+                      <Save size={16} />{" "}{i18n.t("Save Steward Score to Recovery Record")}</button>
                   </div>
                 </div>
 
@@ -1096,84 +1062,84 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                 <div className="flex items-center gap-3 border-b border-slate-200 pb-4">
                   <div className="p-3 bg-[#1e1b4b] text-white rounded-lg"><FileText size={24}/></div>
                   <div>
-                    <h3 className="text-2xl font-black text-slate-800 tracking-tight">Pre-Operative Assessment</h3>
-                    <p className="text-slate-500 font-medium">Parts A, A2, B & Regional Block Details</p>
+                    <h3 className="text-2xl font-black text-slate-800 tracking-tight">{i18n.t("Pre-Operative Assessment")}</h3>
+                    <p className="text-slate-500 font-medium">{i18n.t("Parts A, A2, B & Regional Block Details")}</p>
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                   {/* AIRWAY ASSESSMENT */}
                   <div className="lg:col-span-1 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                    <h4 className="font-bold text-brand-primary uppercase tracking-wider text-sm border-b pb-2">Airway Assessment</h4>
+                    <h4 className="font-bold text-brand-primary uppercase tracking-wider text-sm border-b pb-2">{i18n.t("Airway Assessment")}</h4>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Mallampati</label>
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Mallampati")}</label>
                         <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 font-medium"
                           value={masterData?.pre_op_assessment?.airway_assessment?.mallampati || ""}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "airway_assessment", "mallampati", e.target.value)}>
-                          <option value="">Select...</option><option>I</option><option>II</option><option>III</option><option>IV</option>
+                          <option value="">{i18n.t("Select...")}</option><option>{i18n.t("I")}</option><option>{i18n.t("II")}</option><option>{i18n.t("III")}</option><option>{i18n.t("IV")}</option>
                         </select>
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Thyromental (cm)</label>
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Thyromental (cm)")}</label>
                         <input type="number" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.pre_op_assessment?.airway_assessment?.thyromental_cm || ""}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "airway_assessment", "thyromental_cm", e.target.value)} />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Mouth Open (cm)</label>
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Mouth Open (cm)")}</label>
                         <input type="number" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.pre_op_assessment?.airway_assessment?.mouth_opening_cm || ""}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "airway_assessment", "mouth_opening_cm", e.target.value)} />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Interincisor (cm)</label>
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Interincisor (cm)")}</label>
                         <input type="number" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.pre_op_assessment?.airway_assessment?.interincisor_gap_cm || ""}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "airway_assessment", "interincisor_gap_cm", e.target.value)} />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Neck Extension</label>
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Neck Extension")}</label>
                         <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 font-medium"
                           value={masterData?.pre_op_assessment?.airway_assessment?.neck_extension || ""}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "airway_assessment", "neck_extension", e.target.value)}>
-                          <option value="">Select...</option><option>Full</option><option>Limited</option><option>Fixed</option>
+                          <option value="">{i18n.t("Select...")}</option><option>{i18n.t("Full")}</option><option>{i18n.t("Limited")}</option><option>{i18n.t("Fixed")}</option>
                         </select>
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">C-Spine</label>
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("C-Spine")}</label>
                         <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 font-medium"
                           value={masterData?.pre_op_assessment?.airway_assessment?.c_spine_mobility || ""}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "airway_assessment", "c_spine_mobility", e.target.value)}>
-                          <option value="">Select...</option><option>Normal</option><option>Restricted</option>
+                          <option value="">{i18n.t("Select...")}</option><option>{i18n.t("Normal")}</option><option>{i18n.t("Restricted")}</option>
                         </select>
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Jaw Protrusion</label>
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Jaw Protrusion")}</label>
                         <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 font-medium"
                           value={masterData?.pre_op_assessment?.airway_assessment?.jaw_protrusion || ""}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "airway_assessment", "jaw_protrusion", e.target.value)}>
-                          <option value="">Select...</option><option>A</option><option>B</option><option>C</option>
+                          <option value="">{i18n.t("Select...")}</option><option>{i18n.t("A")}</option><option>{i18n.t("B")}</option><option>{i18n.t("C")}</option>
                         </select>
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Wilson Score</label>
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Wilson Score")}</label>
                         <input type="text" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.pre_op_assessment?.airway_assessment?.wilson_score || ""}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "airway_assessment", "wilson_score", e.target.value)} />
                       </div>
                       <div className="col-span-2">
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Dentition / Prostheses</label>
-                        <input type="text" placeholder="Intact/Crowns/Loose" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Dentition / Prostheses")}</label>
+                        <input type="text" placeholder={i18n.t("Intact/Crowns/Loose")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.pre_op_assessment?.airway_assessment?.dentition || ""}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "airway_assessment", "dentition", e.target.value)} />
                       </div>
                       <div className="col-span-2">
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Predicted Difficult?</label>
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Predicted Difficult?")}</label>
                         <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 font-bold text-red-600"
                           value={masterData?.pre_op_assessment?.airway_assessment?.predicted_difficult_airway || "No"}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "airway_assessment", "predicted_difficult_airway", e.target.value)}>
-                          <option>No</option><option>Yes - Plan Part B</option>
+                          <option>{i18n.t("No")}</option><option>{i18n.t("Yes - Plan Part B")}</option>
                         </select>
                       </div>
                     </div>
@@ -1181,53 +1147,53 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
 
                   {/* FASTING & HISTORY */}
                   <div className="lg:col-span-1 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                    <h4 className="font-bold text-brand-primary uppercase tracking-wider text-sm border-b pb-2">History & Fasting</h4>
+                    <h4 className="font-bold text-brand-primary uppercase tracking-wider text-sm border-b pb-2">{i18n.t("History & Fasting")}</h4>
                     <div className="grid grid-cols-1 gap-4">
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Last Solids <span className="text-red-500">*</span></label>
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Last Solids")}{" "}<span className="text-red-500">*</span></label>
                         <input type="datetime-local" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.pre_op_assessment?.fasting?.last_solids ? new Date(masterData.pre_op_assessment.fasting.last_solids).toISOString().slice(0,16) : ""}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "fasting", "last_solids", e.target.value)} />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Last Clear Fluids <span className="text-red-500">*</span></label>
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Last Clear Fluids")}{" "}<span className="text-red-500">*</span></label>
                         <input type="datetime-local" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.pre_op_assessment?.fasting?.last_clear_fluids ? new Date(masterData.pre_op_assessment.fasting.last_clear_fluids).toISOString().slice(0,16) : ""}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "fasting", "last_clear_fluids", e.target.value)} />
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-xs font-bold text-slate-500 mb-1">Fasting Status</label>
+                          <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Fasting Status")}</label>
                           <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 font-medium"
                             value={masterData?.pre_op_assessment?.fasting?.fasting_status || ""}
                             onChange={(e) => updateNestedMasterData("pre_op_assessment", "fasting", "fasting_status", e.target.value)}>
-                            <option value="">Select...</option><option>Adequate</option><option>Inadequate</option><option>Emergency</option>
+                            <option value="">{i18n.t("Select...")}</option><option>{i18n.t("Adequate")}</option><option>{i18n.t("Inadequate")}</option><option>{i18n.t("Emergency")}</option>
                           </select>
                         </div>
                         <div>
-                          <label className="block text-xs font-bold text-slate-500 mb-1">RSI Risk?</label>
+                          <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("RSI Risk?")}</label>
                           <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 font-bold"
                             value={masterData?.pre_op_assessment?.fasting?.aspiration_risk_rsi || "No"}
                             onChange={(e) => updateNestedMasterData("pre_op_assessment", "fasting", "aspiration_risk_rsi", e.target.value)}>
-                            <option>No</option><option>Yes</option><option>Consider</option>
+                            <option>{i18n.t("No")}</option><option>{i18n.t("Yes")}</option><option>{i18n.t("Consider")}</option>
                           </select>
                         </div>
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Previous Anaesthetic Problems</label>
-                        <input type="text" placeholder="PONV / difficult airway..." className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Previous Anaesthetic Problems")}</label>
+                        <input type="text" placeholder={i18n.t("PONV / difficult airway...")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.pre_op_assessment?.relevant_history?.previous_anaesthetic_problems || ""}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "relevant_history", "previous_anaesthetic_problems", e.target.value)} />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Cardiac History</label>
-                        <textarea rows={1} placeholder="IHD / CCF / HTN" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Cardiac History")}</label>
+                        <textarea rows={1} placeholder={i18n.t("IHD / CCF / HTN")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.pre_op_assessment?.relevant_history?.cardiac || ""}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "relevant_history", "cardiac", e.target.value)} />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Respiratory History</label>
-                        <textarea rows={1} placeholder="asthma / COPD / OSA" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Respiratory History")}</label>
+                        <textarea rows={1} placeholder={i18n.t("asthma / COPD / OSA")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.pre_op_assessment?.relevant_history?.respiratory || ""}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "relevant_history", "respiratory", e.target.value)} />
                       </div>
@@ -1236,40 +1202,40 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
 
                   {/* INVESTIGATIONS & BASELINE VITALS */}
                   <div className="lg:col-span-1 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                    <h4 className="font-bold text-brand-primary uppercase tracking-wider text-sm border-b pb-2">Investigations & Vitals</h4>
+                    <h4 className="font-bold text-brand-primary uppercase tracking-wider text-sm border-b pb-2">{i18n.t("Investigations & Vitals")}</h4>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">HB / PCV</label>
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("HB / PCV")}</label>
                         <input type="text" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.pre_op_assessment?.investigations?.hb_pcv || ""}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "investigations", "hb_pcv", e.target.value)} />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Platelets</label>
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Platelets")}</label>
                         <input type="text" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.pre_op_assessment?.investigations?.platelets || ""}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "investigations", "platelets", e.target.value)} />
                       </div>
                       <div className="col-span-2">
-                        <label className="block text-xs font-bold text-slate-500 mb-1">U&E / Creatinine</label>
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("U&E / Creatinine")}</label>
                         <input type="text" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.pre_op_assessment?.investigations?.ue_creatinine || ""}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "investigations", "ue_creatinine", e.target.value)} />
                       </div>
                     </div>
                     {/* Baseline Vitals Sub-section */}
-                    <h5 className="font-bold text-slate-700 text-xs mt-4">Baseline Pre-Op Vitals</h5>
+                    <h5 className="font-bold text-slate-700 text-xs mt-4">{i18n.t("Baseline Pre-Op Vitals")}</h5>
                     <div className="grid grid-cols-2 gap-2">
-                      <input type="text" placeholder="BP (mmHg)" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm" 
+                      <input type="text" placeholder={i18n.t("BP (mmHg)")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm" 
                         value={masterData?.pre_op_assessment?.baseline_vitals?.bp || ""}
                         onChange={(e) => updateNestedMasterData("pre_op_assessment", "baseline_vitals", "bp", e.target.value)} />
-                      <input type="text" placeholder="HR (bpm)" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm" 
+                      <input type="text" placeholder={i18n.t("HR (bpm)")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm" 
                         value={masterData?.pre_op_assessment?.baseline_vitals?.hr || ""}
                         onChange={(e) => updateNestedMasterData("pre_op_assessment", "baseline_vitals", "hr", e.target.value)} />
-                      <input type="text" placeholder="SpO2 (%)" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm" 
+                      <input type="text" placeholder={i18n.t("SpO2 (%)")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm" 
                         value={masterData?.pre_op_assessment?.baseline_vitals?.spo2 || ""}
                         onChange={(e) => updateNestedMasterData("pre_op_assessment", "baseline_vitals", "spo2", e.target.value)} />
-                      <input type="text" placeholder="Temp (°C)" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm" 
+                      <input type="text" placeholder={i18n.t("Temp (°C)")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm" 
                         value={masterData?.pre_op_assessment?.baseline_vitals?.temp || ""}
                         onChange={(e) => updateNestedMasterData("pre_op_assessment", "baseline_vitals", "temp", e.target.value)} />
                     </div>
@@ -1277,43 +1243,43 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
 
                   {/* PART A2: RISK ASSESSMENT */}
                   <div className="lg:col-span-3 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                    <h4 className="font-bold text-brand-primary uppercase tracking-wider text-sm border-b pb-2">Part A2: Risk Assessment & Discussion</h4>
+                    <h4 className="font-bold text-brand-primary uppercase tracking-wider text-sm border-b pb-2">{i18n.t("Part A2: Risk Assessment & Discussion")}</h4>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">ASA Status <span className="text-red-500">*</span></label>
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("ASA Status")}{" "}<span className="text-red-500">*</span></label>
                         <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 font-bold text-slate-800"
                           value={masterData?.asa_grade || ""}
                           onChange={(e) => setMasterData({ ...masterData, asa_grade: e.target.value })}>
-                          <option>ASA I</option><option>ASA II</option><option>ASA III</option><option>ASA IV</option><option>ASA V</option><option>ASA VI</option>
+                          <option>{i18n.t("ASA I")}</option><option>{i18n.t("ASA II")}</option><option>{i18n.t("ASA III")}</option><option>{i18n.t("ASA IV")}</option><option>{i18n.t("ASA V")}</option><option>{i18n.t("ASA VI")}</option>
                         </select>
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">P-POSSUM (Morbidity %)</label>
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("P-POSSUM (Morbidity %)")}</label>
                         <input type="number" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.pre_op_assessment?.risk_assessment?.p_possum_morbidity || ""}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "risk_assessment", "p_possum_morbidity", parseFloat(e.target.value))} />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Functional Capacity (METS)</label>
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Functional Capacity (METS)")}</label>
                         <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 font-medium"
                           value={masterData?.pre_op_assessment?.risk_assessment?.functional_capacity_mets || ""}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "risk_assessment", "functional_capacity_mets", e.target.value)}>
-                          <option value="">Select...</option><option>&lt; 4</option><option>&gt;= 4</option>
+                          <option value="">{i18n.t("Select...")}</option><option>&lt; 4</option><option>&gt;= 4</option>
                         </select>
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Frailty Score</label>
-                        <input type="text" placeholder="CFS if elderly" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Frailty Score")}</label>
+                        <input type="text" placeholder={i18n.t("CFS if elderly")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.pre_op_assessment?.risk_assessment?.frailty_score || ""}
                           onChange={(e) => updateNestedMasterData("pre_op_assessment", "risk_assessment", "frailty_score", e.target.value)} />
                       </div>
                       <div className="col-span-4">
-                        <label className="block text-xs font-bold text-slate-500 mb-2">High-Risk Discussion Topics Covered</label>
+                        <label className="block text-xs font-bold text-slate-500 mb-2">{i18n.t("High-Risk Discussion Topics Covered")}</label>
                         <div className="flex flex-wrap gap-6 text-sm text-slate-700">
-                          <label className="flex items-center gap-2"><input type="checkbox" className="w-4 h-4 text-brand-primary" checked={masterData?.pre_op_assessment?.high_risk_discussion?.overall_risk_explained || false} onChange={(e) => updateNestedMasterData("pre_op_assessment", "high_risk_discussion", "overall_risk_explained", e.target.checked)} /> Overall risk & mortality</label>
-                          <label className="flex items-center gap-2"><input type="checkbox" className="w-4 h-4 text-brand-primary" checked={masterData?.pre_op_assessment?.high_risk_discussion?.specific_organ_risks || false} onChange={(e) => updateNestedMasterData("pre_op_assessment", "high_risk_discussion", "specific_organ_risks", e.target.checked)} /> Specific organ risks</label>
-                          <label className="flex items-center gap-2"><input type="checkbox" className="w-4 h-4 text-brand-primary" checked={masterData?.pre_op_assessment?.high_risk_discussion?.post_op_icu_likely || false} onChange={(e) => updateNestedMasterData("pre_op_assessment", "high_risk_discussion", "post_op_icu_likely", e.target.checked)} /> Post-op ICU/HDU likely</label>
-                          <label className="flex items-center gap-2"><input type="checkbox" className="w-4 h-4 text-brand-primary" checked={masterData?.pre_op_assessment?.high_risk_discussion?.blood_transfusion || false} onChange={(e) => updateNestedMasterData("pre_op_assessment", "high_risk_discussion", "blood_transfusion", e.target.checked)} /> Blood transfusion</label>
+                          <label className="flex items-center gap-2"><input type="checkbox" className="w-4 h-4 text-brand-primary" checked={masterData?.pre_op_assessment?.high_risk_discussion?.overall_risk_explained || false} onChange={(e) => updateNestedMasterData("pre_op_assessment", "high_risk_discussion", "overall_risk_explained", e.target.checked)} />{" "}{i18n.t("Overall risk & mortality")}</label>
+                          <label className="flex items-center gap-2"><input type="checkbox" className="w-4 h-4 text-brand-primary" checked={masterData?.pre_op_assessment?.high_risk_discussion?.specific_organ_risks || false} onChange={(e) => updateNestedMasterData("pre_op_assessment", "high_risk_discussion", "specific_organ_risks", e.target.checked)} />{" "}{i18n.t("Specific organ risks")}</label>
+                          <label className="flex items-center gap-2"><input type="checkbox" className="w-4 h-4 text-brand-primary" checked={masterData?.pre_op_assessment?.high_risk_discussion?.post_op_icu_likely || false} onChange={(e) => updateNestedMasterData("pre_op_assessment", "high_risk_discussion", "post_op_icu_likely", e.target.checked)} />{" "}{i18n.t("Post-op ICU/HDU likely")}</label>
+                          <label className="flex items-center gap-2"><input type="checkbox" className="w-4 h-4 text-brand-primary" checked={masterData?.pre_op_assessment?.high_risk_discussion?.blood_transfusion || false} onChange={(e) => updateNestedMasterData("pre_op_assessment", "high_risk_discussion", "blood_transfusion", e.target.checked)} />{" "}{i18n.t("Blood transfusion")}</label>
                         </div>
                       </div>
                     </div>
@@ -1321,72 +1287,72 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
 
                   {/* REGIONAL BLOCK */}
                   <div className="lg:col-span-3 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
-                    <h4 className="font-bold text-brand-primary uppercase tracking-wider text-sm border-b pb-2">Regional / Neuraxial / Block Details</h4>
+                    <h4 className="font-bold text-brand-primary uppercase tracking-wider text-sm border-b pb-2">{i18n.t("Regional / Neuraxial / Block Details")}</h4>
                     
                     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Block Type</label>
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Block Type")}</label>
                         <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 font-medium"
                           value={masterData?.regional_block?.block_type || ""}
                           onChange={(e) => updateMasterData("regional_block", "block_type", e.target.value)}>
-                          <option value="">None</option><option>Spinal</option><option>Epidural</option><option>CSE</option><option>Plexus</option><option>TAP</option><option>Fascial</option>
+                          <option value="">{i18n.t("None")}</option><option>{i18n.t("Spinal")}</option><option>{i18n.t("Epidural")}</option><option>{i18n.t("CSE")}</option><option>{i18n.t("Plexus")}</option><option>{i18n.t("TAP")}</option><option>{i18n.t("Fascial")}</option>
                         </select>
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Level / Site</label>
-                        <input type="text" placeholder="e.g. L3/4, interscalene" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Level / Site")}</label>
+                        <input type="text" placeholder={i18n.t("e.g. L3/4, interscalene")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.regional_block?.level_site || ""}
                           onChange={(e) => updateMasterData("regional_block", "level_site", e.target.value)} />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Needle Type & Gauge</label>
-                        <input type="text" placeholder="Quincke / Tuohy" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Needle Type & Gauge")}</label>
+                        <input type="text" placeholder={i18n.t("Quincke / Tuohy")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.regional_block?.needle_type_gauge || ""}
                           onChange={(e) => updateMasterData("regional_block", "needle_type_gauge", e.target.value)} />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Approach / Guidance</label>
-                        <input type="text" placeholder="LM / PM / US / stimulator" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Approach / Guidance")}</label>
+                        <input type="text" placeholder={i18n.t("LM / PM / US / stimulator")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.regional_block?.approach_guidance || ""}
                           onChange={(e) => updateMasterData("regional_block", "approach_guidance", e.target.value)} />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">LOR To</label>
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("LOR To")}</label>
                         <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 font-medium"
                           value={masterData?.regional_block?.lor_to || ""}
                           onChange={(e) => updateMasterData("regional_block", "lor_to", e.target.value)}>
-                          <option value="">Select...</option><option>Air</option><option>Saline</option>
+                          <option value="">{i18n.t("Select...")}</option><option>{i18n.t("Air")}</option><option>{i18n.t("Saline")}</option>
                         </select>
                       </div>
 
                       <div className="md:col-span-2 lg:col-span-3">
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Local Anaesthetic & Dose <span className="text-red-500">*</span></label>
-                        <input type="text" placeholder="drug, %, mL & mg" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Local Anaesthetic & Dose")}{" "}<span className="text-red-500">*</span></label>
+                        <input type="text" placeholder={i18n.t("drug, %, mL & mg")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.regional_block?.local_anaesthetic_dose || ""}
                           onChange={(e) => updateMasterData("regional_block", "local_anaesthetic_dose", e.target.value)} />
                       </div>
                       <div className="md:col-span-2 lg:col-span-2">
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Opioid Adjuvant</label>
-                        <input type="text" placeholder="fentanyl / morphine - dose" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Opioid Adjuvant")}</label>
+                        <input type="text" placeholder={i18n.t("fentanyl / morphine - dose")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.regional_block?.opioid_adjuvant || ""}
                           onChange={(e) => updateMasterData("regional_block", "opioid_adjuvant", e.target.value)} />
                       </div>
 
                       <div className="md:col-span-2">
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Other Adjuvant</label>
-                        <input type="text" placeholder="clonidine / dexamethasone" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Other Adjuvant")}</label>
+                        <input type="text" placeholder={i18n.t("clonidine / dexamethasone")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.regional_block?.other_adjuvant || ""}
                           onChange={(e) => updateMasterData("regional_block", "other_adjuvant", e.target.value)} />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Catheter Depth (cm)</label>
-                        <input type="number" placeholder="if epidural" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Catheter Depth (cm)")}</label>
+                        <input type="number" placeholder={i18n.t("if epidural")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.regional_block?.catheter_depth_cm || ""}
                           onChange={(e) => updateMasterData("regional_block", "catheter_depth_cm", e.target.value)} />
                       </div>
                       <div className="md:col-span-2">
-                        <label className="block text-xs font-bold text-slate-500 mb-1">Sedation During Block</label>
-                        <input type="text" placeholder="drug / level" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
+                        <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Sedation During Block")}</label>
+                        <input type="text" placeholder={i18n.t("drug / level")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                           value={masterData?.regional_block?.sedation_during_block || ""}
                           onChange={(e) => updateMasterData("regional_block", "sedation_during_block", e.target.value)} />
                       </div>
@@ -1394,60 +1360,48 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
 
                     <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <h5 className="font-bold text-slate-700 text-xs mb-3 uppercase">LA Toxicity (LAST)</h5>
+                        <h5 className="font-bold text-slate-700 text-xs mb-3 uppercase">{i18n.t("LA Toxicity (LAST)")}</h5>
                         <div className="space-y-2 text-sm text-slate-700 font-medium">
                           <label className="flex items-center gap-3 cursor-pointer">
                             <input type="checkbox" className="w-4 h-4 text-brand-primary border-slate-300 rounded" 
                               checked={masterData?.regional_block?.safety_checks?.max_safe_dose_calculated || false}
-                              onChange={(e) => updateNestedMasterData("regional_block", "safety_checks", "max_safe_dose_calculated", e.target.checked)} />
-                            Max safe dose calculated & not exceeded
-                          </label>
+                              onChange={(e) => updateNestedMasterData("regional_block", "safety_checks", "max_safe_dose_calculated", e.target.checked)} />{i18n.t("Max safe dose calculated & not exceeded")}</label>
                           <label className="flex items-center gap-3 cursor-pointer">
                             <input type="checkbox" className="w-4 h-4 text-brand-primary border-slate-300 rounded" 
                               checked={masterData?.regional_block?.safety_checks?.intralipid_location_known || false}
-                              onChange={(e) => updateNestedMasterData("regional_block", "safety_checks", "intralipid_location_known", e.target.checked)} />
-                            Intralipid 20% location known
-                          </label>
+                              onChange={(e) => updateNestedMasterData("regional_block", "safety_checks", "intralipid_location_known", e.target.checked)} />{i18n.t("Intralipid 20% location known")}</label>
                           <label className="flex items-center gap-3 cursor-pointer">
                             <input type="checkbox" className="w-4 h-4 text-brand-primary border-slate-300 rounded" 
                               checked={masterData?.regional_block?.safety_checks?.resuscitation_available || false}
-                              onChange={(e) => updateNestedMasterData("regional_block", "safety_checks", "resuscitation_available", e.target.checked)} />
-                            Resuscitation available
-                          </label>
+                              onChange={(e) => updateNestedMasterData("regional_block", "safety_checks", "resuscitation_available", e.target.checked)} />{i18n.t("Resuscitation available")}</label>
                         </div>
                       </div>
 
                       <div>
-                        <h5 className="font-bold text-slate-700 text-xs mb-3 uppercase">Block Confirmation</h5>
+                        <h5 className="font-bold text-slate-700 text-xs mb-3 uppercase">{i18n.t("Block Confirmation")}</h5>
                         <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-sm text-slate-700 font-medium mb-3">
                           <label className="flex items-center gap-3 cursor-pointer">
                             <input type="checkbox" className="w-4 h-4 text-brand-primary border-slate-300 rounded" 
                               checked={masterData?.regional_block?.safety_checks?.aspiration_clear || false}
-                              onChange={(e) => updateNestedMasterData("regional_block", "safety_checks", "aspiration_clear", e.target.checked)} />
-                            Aspiration clear
-                          </label>
+                              onChange={(e) => updateNestedMasterData("regional_block", "safety_checks", "aspiration_clear", e.target.checked)} />{i18n.t("Aspiration clear")}</label>
                           <label className="flex items-center gap-3 cursor-pointer">
                             <input type="checkbox" className="w-4 h-4 text-brand-primary border-slate-300 rounded" 
                               checked={masterData?.regional_block?.safety_checks?.test_dose || false}
-                              onChange={(e) => updateNestedMasterData("regional_block", "safety_checks", "test_dose", e.target.checked)} />
-                            Test dose
-                          </label>
+                              onChange={(e) => updateNestedMasterData("regional_block", "safety_checks", "test_dose", e.target.checked)} />{i18n.t("Test dose")}</label>
                           <label className="flex items-center gap-3 cursor-pointer">
                             <input type="checkbox" className="w-4 h-4 text-brand-primary border-slate-300 rounded" 
                               checked={masterData?.regional_block?.safety_checks?.lor_confirmed || false}
-                              onChange={(e) => updateNestedMasterData("regional_block", "safety_checks", "lor_confirmed", e.target.checked)} />
-                            LOR confirmed
-                          </label>
+                              onChange={(e) => updateNestedMasterData("regional_block", "safety_checks", "lor_confirmed", e.target.checked)} />{i18n.t("LOR confirmed")}</label>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                            <label className="block text-[11px] font-bold text-slate-500 mb-1 uppercase">Block Height</label>
+                            <label className="block text-[11px] font-bold text-slate-500 mb-1 uppercase">{i18n.t("Block Height")}</label>
                             <input type="text" className="w-full p-2 border border-slate-200 rounded-lg bg-white" 
                               value={masterData?.regional_block?.safety_checks?.block_height || ""}
                               onChange={(e) => updateNestedMasterData("regional_block", "safety_checks", "block_height", e.target.value)} />
                           </div>
                           <div>
-                            <label className="block text-[11px] font-bold text-slate-500 mb-1 uppercase">Motor (Bromage)</label>
+                            <label className="block text-[11px] font-bold text-slate-500 mb-1 uppercase">{i18n.t("Motor (Bromage)")}</label>
                             <input type="text" className="w-full p-2 border border-slate-200 rounded-lg bg-white" 
                               value={masterData?.regional_block?.safety_checks?.bromage_score || ""}
                               onChange={(e) => updateNestedMasterData("regional_block", "safety_checks", "bromage_score", e.target.value)} />
@@ -1468,16 +1422,16 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                 <div className="flex items-center gap-3 border-b border-slate-200 pb-4">
                   <div className="p-3 bg-[#1e1b4b] text-white rounded-lg"><FileText size={24}/></div>
                   <div>
-                    <h3 className="text-2xl font-black text-slate-800 tracking-tight">ANAESTHETIC TECHNIQUE & AIRWAY MANAGEMENT</h3>
+                    <h3 className="text-2xl font-black text-slate-800 tracking-tight">{i18n.t("ANAESTHETIC TECHNIQUE & AIRWAY MANAGEMENT")}</h3>
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                   <div className="lg:col-span-3 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6 mt-2">
-                    <h4 className="font-bold text-brand-primary uppercase tracking-wider text-sm border-b pb-2">Part B: Anaesthetic Technique & Airway Management</h4>
+                    <h4 className="font-bold text-brand-primary uppercase tracking-wider text-sm border-b pb-2">{i18n.t("Part B: Anaesthetic Technique & Airway Management")}</h4>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-500 mb-3">Type of Anaesthesia (Tick all that apply)</label>
+                      <label className="block text-xs font-bold text-slate-500 mb-3">{i18n.t("Type of Anaesthesia (Tick all that apply)")}</label>
                       <div className="flex flex-wrap gap-3">
                         {ANAESTHESIA_TYPES.map(type => (
                           <label key={type} className="flex items-center gap-2 text-sm font-medium text-slate-700 bg-slate-50 px-4 py-2 rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer shadow-sm transition-colors">
@@ -1496,92 +1450,92 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4 border-t border-slate-100">
                       
                       <div className="space-y-4">
-                         <h5 className="font-bold text-slate-800 text-xs uppercase bg-slate-100 py-1.5 px-3 rounded">Airway Device</h5>
+                         <h5 className="font-bold text-slate-800 text-xs uppercase bg-slate-100 py-1.5 px-3 rounded">{i18n.t("Airway Device")}</h5>
                          <div className="grid grid-cols-2 gap-4">
                             <div className="col-span-2">
-                               <label className="block text-xs font-bold text-slate-500 mb-1">Device Type</label>
+                               <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Device Type")}</label>
                                <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                                 value={masterData?.airway_management?.device || ""}
                                 onChange={(e) => updateMasterData("airway_management", "device", e.target.value)}>
-                                 <option value="">Select...</option><option>LMA</option><option>i-gel</option><option>ETT oral</option><option>ETT nasal</option><option>DLT</option><option>Trache</option><option>Mask</option><option>None</option>
+                                 <option value="">{i18n.t("Select...")}</option><option>{i18n.t("LMA")}</option><option>{i18n.t("i-gel")}</option><option>{i18n.t("ETT oral")}</option><option>{i18n.t("ETT nasal")}</option><option>{i18n.t("DLT")}</option><option>{i18n.t("Trache")}</option><option>{i18n.t("Mask")}</option><option>{i18n.t("None")}</option>
                                </select>
                             </div>
                             <div>
-                              <label className="block text-xs font-bold text-slate-500 mb-1">Size / Type</label>
+                              <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Size / Type")}</label>
                               <input type="text" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50" value={masterData?.airway_management?.size || ""} onChange={(e) => updateMasterData("airway_management", "size", e.target.value)}/>
                             </div>
                             <div>
-                              <label className="block text-xs font-bold text-slate-500 mb-1">Cuff (cmH₂O)</label>
+                              <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Cuff (cmH₂O)")}</label>
                               <input type="text" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50" value={masterData?.airway_management?.cuff_pressure || ""} onChange={(e) => updateMasterData("airway_management", "cuff_pressure", e.target.value)}/>
                             </div>
                             <div>
-                              <label className="block text-xs font-bold text-slate-500 mb-1">Cormack-Lehane</label>
+                              <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Cormack-Lehane")}</label>
                               <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50" value={masterData?.airway_management?.cormack_lehane || ""} onChange={(e) => updateMasterData("airway_management", "cormack_lehane", e.target.value)}>
-                                <option value="">Select...</option><option>I</option><option>II</option><option>III</option><option>IV</option><option>N/A</option>
+                                <option value="">{i18n.t("Select...")}</option><option>{i18n.t("I")}</option><option>{i18n.t("II")}</option><option>{i18n.t("III")}</option><option>{i18n.t("IV")}</option><option>{i18n.t("N/A")}</option>
                               </select>
                             </div>
                             <div>
-                              <label className="block text-xs font-bold text-slate-500 mb-1">Attempts</label>
+                              <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Attempts")}</label>
                               <input type="number" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50" value={masterData?.airway_management?.attempts || ""} onChange={(e) => updateMasterData("airway_management", "attempts", e.target.value)}/>
                             </div>
                             <div className="col-span-2">
-                              <label className="block text-xs font-bold text-slate-500 mb-1">Video-laryngoscope Used?</label>
+                              <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Video-laryngoscope Used?")}</label>
                               <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 font-bold" value={masterData?.airway_management?.video_laryngoscope || "No"} onChange={(e) => updateMasterData("airway_management", "video_laryngoscope", e.target.value)}>
-                                <option>No</option><option>Yes</option>
+                                <option>{i18n.t("No")}</option><option>{i18n.t("Yes")}</option>
                               </select>
                             </div>
                          </div>
                       </div>
 
                       <div className="space-y-4">
-                         <h5 className="font-bold text-slate-800 text-xs uppercase bg-slate-100 py-1.5 px-3 rounded">Difficult Airway / Rescue (DAS)</h5>
+                         <h5 className="font-bold text-slate-800 text-xs uppercase bg-slate-100 py-1.5 px-3 rounded">{i18n.t("Difficult Airway / Rescue (DAS)")}</h5>
                          <div className="space-y-4">
                             <div>
-                              <label className="block text-xs font-bold text-slate-500 mb-1">DAS PLAN A/B/C/D</label>
-                              <textarea rows={3} placeholder="Airway plan & rescue..." className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50" value={masterData?.airway_management?.das_plan || ""} onChange={(e) => updateMasterData("airway_management", "das_plan", e.target.value)}/>
+                              <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("DAS PLAN A/B/C/D")}</label>
+                              <textarea rows={3} placeholder={i18n.t("Airway plan & rescue...")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50" value={masterData?.airway_management?.das_plan || ""} onChange={(e) => updateMasterData("airway_management", "das_plan", e.target.value)}/>
                             </div>
                             <div>
-                              <label className="block text-xs font-bold text-slate-500 mb-1">Difficult Airway Trolley Used?</label>
+                              <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Difficult Airway Trolley Used?")}</label>
                               <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50" value={masterData?.airway_management?.difficult_airway_trolley_used || "No"} onChange={(e) => updateMasterData("airway_management", "difficult_airway_trolley_used", e.target.value)}>
-                                <option>No</option><option>Yes</option>
+                                <option>{i18n.t("No")}</option><option>{i18n.t("Yes")}</option>
                               </select>
                             </div>
                             <div>
-                              <label className="block text-xs font-bold text-slate-500 mb-1">Front-of-Neck Access (FONA)?</label>
-                              <input type="text" placeholder="No / Yes - detail" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50" value={masterData?.airway_management?.fona || ""} onChange={(e) => updateMasterData("airway_management", "fona", e.target.value)} />
+                              <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Front-of-Neck Access (FONA)?")}</label>
+                              <input type="text" placeholder={i18n.t("No / Yes - detail")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50" value={masterData?.airway_management?.fona || ""} onChange={(e) => updateMasterData("airway_management", "fona", e.target.value)} />
                             </div>
                          </div>
                       </div>
 
                       <div className="space-y-4">
-                         <h5 className="font-bold text-slate-800 text-xs uppercase bg-slate-100 py-1.5 px-3 rounded">Ventilation & Circuit</h5>
+                         <h5 className="font-bold text-slate-800 text-xs uppercase bg-slate-100 py-1.5 px-3 rounded">{i18n.t("Ventilation & Circuit")}</h5>
                          <div className="grid grid-cols-2 gap-4">
                             <div className="col-span-2">
-                              <label className="block text-xs font-bold text-slate-500 mb-1">Ventilation Mode</label>
+                              <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Ventilation Mode")}</label>
                               <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50" value={masterData?.airway_management?.ventilation?.mode || ""} onChange={(e) => updateNestedMasterData("airway_management", "ventilation", "mode", e.target.value)}>
-                                <option value="">Select...</option><option>Spont</option><option>IPPV</option><option>PCV</option><option>VCV</option><option>PSV</option>
+                                <option value="">{i18n.t("Select...")}</option><option>{i18n.t("Spont")}</option><option>{i18n.t("IPPV")}</option><option>{i18n.t("PCV")}</option><option>{i18n.t("VCV")}</option><option>{i18n.t("PSV")}</option>
                               </select>
                             </div>
                             <div>
-                              <label className="block text-xs font-bold text-slate-500 mb-1">Tidal Vol (mL)</label>
+                              <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Tidal Vol (mL)")}</label>
                               <input type="number" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50" value={masterData?.airway_management?.ventilation?.tidal_volume_ml || ""} onChange={(e) => updateNestedMasterData("airway_management", "ventilation", "tidal_volume_ml", e.target.value)} />
                             </div>
                             <div>
-                              <label className="block text-xs font-bold text-slate-500 mb-1">Resp Rate (set)</label>
+                              <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Resp Rate (set)")}</label>
                               <input type="number" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50" value={masterData?.airway_management?.ventilation?.resp_rate_set || ""} onChange={(e) => updateNestedMasterData("airway_management", "ventilation", "resp_rate_set", e.target.value)} />
                             </div>
                             <div>
-                              <label className="block text-xs font-bold text-slate-500 mb-1">PEEP (cmH₂O)</label>
+                              <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("PEEP (cmH₂O)")}</label>
                               <input type="number" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50" value={masterData?.airway_management?.ventilation?.peep || ""} onChange={(e) => updateNestedMasterData("airway_management", "ventilation", "peep", e.target.value)} />
                             </div>
                             <div>
-                              <label className="block text-xs font-bold text-slate-500 mb-1">Peak Airway P.</label>
+                              <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Peak Airway P.")}</label>
                               <input type="number" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50" value={masterData?.airway_management?.ventilation?.peak_airway_pressure || ""} onChange={(e) => updateNestedMasterData("airway_management", "ventilation", "peak_airway_pressure", e.target.value)} />
                             </div>
                             <div className="col-span-2">
-                              <label className="block text-xs font-bold text-slate-500 mb-1">Circuit</label>
+                              <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Circuit")}</label>
                               <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50" value={masterData?.airway_management?.ventilation?.circuit || ""} onChange={(e) => updateNestedMasterData("airway_management", "ventilation", "circuit", e.target.value)}>
-                                <option value="">Select...</option><option>Circle</option><option>Bain</option><option>T-piece</option>
+                                <option value="">{i18n.t("Select...")}</option><option>{i18n.t("Circle")}</option><option>{i18n.t("Bain")}</option><option>{i18n.t("T-piece")}</option>
                               </select>
                             </div>
                          </div>
@@ -1596,23 +1550,15 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
             {/* ── NEW TAB: CARDIAC & CPB ── */}
             {activeTab === "cardiac_cpb" && (
               <div className="flex h-full bg-white">
-                <div className="w-56 bg-slate-50 border-r border-slate-200 flex flex-col shrink-0">
+                <div className="w-56 bg-slate-50 border-e border-slate-200 flex flex-col shrink-0">
                   <div className="p-5 border-b border-slate-200">
-                    <h3 className="font-black text-red-700 tracking-tight text-lg flex items-center gap-2"><HeartPulse/> Cardiac / CPB</h3>
+                    <h3 className="font-black text-red-700 tracking-tight text-lg flex items-center gap-2"><HeartPulse/>{" "}{i18n.t("Cardiac / CPB")}</h3>
                   </div>
                   <nav className="p-3 space-y-1">
-                    <button onClick={() => setCardiacSubTab("pre_bypass")} className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${cardiacSubTab === "pre_bypass" ? "bg-red-50 text-red-700 shadow-sm border border-red-200" : "text-slate-600 hover:bg-slate-100"}`}>
-                      Pre-Bypass & Access
-                    </button>
-                    <button onClick={() => setCardiacSubTab("cardioplegia")} className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${cardiacSubTab === "cardioplegia" ? "bg-red-50 text-red-700 shadow-sm border border-red-200" : "text-slate-600 hover:bg-slate-100"}`}>
-                      Cardioplegia & Cooling
-                    </button>
-                    <button onClick={() => setCardiacSubTab("separation")} className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${cardiacSubTab === "separation" ? "bg-red-50 text-red-700 shadow-sm border border-red-200" : "text-slate-600 hover:bg-slate-100"}`}>
-                      Separation & Protamine
-                    </button>
-                    <button onClick={() => setCardiacSubTab("timeline")} className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${cardiacSubTab === "timeline" ? "bg-red-50 text-red-700 shadow-sm border border-red-200" : "text-slate-600 hover:bg-slate-100"}`}>
-                      CPB Timeline & Recon.
-                    </button>
+                    <button onClick={() => setCardiacSubTab("pre_bypass")} className={`w-full text-start px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${cardiacSubTab === "pre_bypass" ? "bg-red-50 text-red-700 shadow-sm border border-red-200" : "text-slate-600 hover:bg-slate-100"}`}>{i18n.t("Pre-Bypass & Access")}</button>
+                    <button onClick={() => setCardiacSubTab("cardioplegia")} className={`w-full text-start px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${cardiacSubTab === "cardioplegia" ? "bg-red-50 text-red-700 shadow-sm border border-red-200" : "text-slate-600 hover:bg-slate-100"}`}>{i18n.t("Cardioplegia & Cooling")}</button>
+                    <button onClick={() => setCardiacSubTab("separation")} className={`w-full text-start px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${cardiacSubTab === "separation" ? "bg-red-50 text-red-700 shadow-sm border border-red-200" : "text-slate-600 hover:bg-slate-100"}`}>{i18n.t("Separation & Protamine")}</button>
+                    <button onClick={() => setCardiacSubTab("timeline")} className={`w-full text-start px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${cardiacSubTab === "timeline" ? "bg-red-50 text-red-700 shadow-sm border border-red-200" : "text-slate-600 hover:bg-slate-100"}`}>{i18n.t("CPB Timeline & Recon.")}</button>
                   </nav>
                 </div>
 
@@ -1622,80 +1568,77 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                   {cardiacSubTab === "pre_bypass" && (
                     <div className="max-w-4xl bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
                       <h4 className="font-black text-slate-800 text-xl border-b pb-4 flex items-center gap-3">
-                        <Activity className="text-red-600" /> Pre-Bypass Preparation & Access (Part D1)
-                      </h4>
+                        <Activity className="text-red-600" />{" "}{i18n.t("Pre-Bypass Preparation & Access (Part D1)")}</h4>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <div>
-                          <label className="block text-xs font-bold text-slate-500 mb-1">CVC (Site / Lumens)</label>
+                          <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("CVC (Site / Lumens)")}</label>
                           <input type="text" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                             value={masterData?.cpb_pre_bypass?.cvc || ""} onChange={(e) => updateMasterData("cpb_pre_bypass", "cvc", e.target.value)} />
                         </div>
                         <div>
-                          <label className="block text-xs font-bold text-slate-500 mb-1">PA Catheter / PiCCO</label>
+                          <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("PA Catheter / PiCCO")}</label>
                           <input type="text" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                             value={masterData?.cpb_pre_bypass?.pa_catheter || ""} onChange={(e) => updateMasterData("cpb_pre_bypass", "pa_catheter", e.target.value)} />
                         </div>
                         <div>
-                          <label className="block text-xs font-bold text-slate-500 mb-1">TOE Probe</label>
+                          <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("TOE Probe")}</label>
                           <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 font-bold"
                             value={masterData?.cpb_pre_bypass?.toe_probe || ""} onChange={(e) => updateMasterData("cpb_pre_bypass", "toe_probe", e.target.value)}>
-                            <option value="">Select...</option><option>Inserted</option><option>N/A</option>
+                            <option value="">{i18n.t("Select...")}</option><option>{i18n.t("Inserted")}</option><option>{i18n.t("N/A")}</option>
                           </select>
                         </div>
                         <div>
-                          <label className="block text-xs font-bold text-slate-500 mb-1">External Defib Pads On?</label>
+                          <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("External Defib Pads On?")}</label>
                           <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 font-bold text-red-600"
                             value={masterData?.cpb_pre_bypass?.defib_pads || "Yes"} onChange={(e) => updateMasterData("cpb_pre_bypass", "defib_pads", e.target.value)}>
-                            <option>Yes</option><option>No</option>
+                            <option>{i18n.t("Yes")}</option><option>{i18n.t("No")}</option>
                           </select>
                         </div>
                         <div>
-                          <label className="block text-xs font-bold text-slate-500 mb-1">Cerebral Oximetry (NIRS) L/R</label>
-                          <input type="text" placeholder="Baseline" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
+                          <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Cerebral Oximetry (NIRS) L/R")}</label>
+                          <input type="text" placeholder={i18n.t("Baseline")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                             value={masterData?.cpb_pre_bypass?.nirs_baseline || ""} onChange={(e) => updateMasterData("cpb_pre_bypass", "nirs_baseline", e.target.value)} />
                         </div>
                         <div>
-                          <label className="block text-xs font-bold text-slate-500 mb-1">Tranexamic Acid</label>
-                          <input type="text" placeholder="Dose/Regimen" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
+                          <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Tranexamic Acid")}</label>
+                          <input type="text" placeholder={i18n.t("Dose/Regimen")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                             value={masterData?.cpb_pre_bypass?.tranexamic_acid || ""} onChange={(e) => updateMasterData("cpb_pre_bypass", "tranexamic_acid", e.target.value)} />
                         </div>
                       </div>
 
                       <div className="bg-red-50 p-6 rounded-xl border border-red-100 space-y-4 mt-4">
-                        <h5 className="font-bold text-red-800 uppercase text-xs mb-2">Heparinisation (Shared with Perfusion)</h5>
+                        <h5 className="font-bold text-red-800 uppercase text-xs mb-2">{i18n.t("Heparinisation (Shared with Perfusion)")}</h5>
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                           <div>
-                            <label className="block text-xs font-bold text-red-700 mb-1">Baseline ACT (s)</label>
+                            <label className="block text-xs font-bold text-red-700 mb-1">{i18n.t("Baseline ACT (s)")}</label>
                             <input type="number" className="w-full p-2.5 border border-red-200 rounded-lg bg-white font-bold"
                               value={masterData?.cpb_pre_bypass?.baseline_act || ""} onChange={(e) => updateMasterData("cpb_pre_bypass", "baseline_act", e.target.value)} />
                           </div>
                           <div>
-                            <label className="block text-xs font-bold text-red-700 mb-1">Heparin Dose (u/kg)</label>
-                            <input type="number" placeholder="e.g. 300-400" className="w-full p-2.5 border border-red-200 rounded-lg bg-white"
+                            <label className="block text-xs font-bold text-red-700 mb-1">{i18n.t("Heparin Dose (u/kg)")}</label>
+                            <input type="number" placeholder={i18n.t("e.g. 300-400")} className="w-full p-2.5 border border-red-200 rounded-lg bg-white"
                               value={masterData?.cpb_pre_bypass?.heparin_dose || ""} onChange={(e) => updateMasterData("cpb_pre_bypass", "heparin_dose", e.target.value)} />
                           </div>
                           <div>
-                            <label className="block text-xs font-bold text-red-700 mb-1">Heparin Total (u)</label>
+                            <label className="block text-xs font-bold text-red-700 mb-1">{i18n.t("Heparin Total (u)")}</label>
                             <input type="number" className="w-full p-2.5 border border-red-200 rounded-lg bg-white font-bold text-red-600"
                               value={masterData?.cpb_pre_bypass?.heparin_total || ""} onChange={(e) => updateMasterData("cpb_pre_bypass", "heparin_total", e.target.value)} />
                           </div>
                           <div>
-                            <label className="block text-xs font-bold text-red-700 mb-1">Time Given</label>
+                            <label className="block text-xs font-bold text-red-700 mb-1">{i18n.t("Time Given")}</label>
                             <input type="time" className="w-full p-2.5 border border-red-200 rounded-lg bg-white"
                               value={masterData?.cpb_pre_bypass?.time_given || ""} onChange={(e) => updateMasterData("cpb_pre_bypass", "time_given", e.target.value)} />
                           </div>
                           <div>
-                            <label className="block text-xs font-bold text-red-700 mb-1">Post-Heparin ACT (s)</label>
-                            <input type="number" placeholder="target > 400s" className="w-full p-2.5 border border-red-200 rounded-lg bg-white font-black"
+                            <label className="block text-xs font-bold text-red-700 mb-1">{i18n.t("Post-Heparin ACT (s)")}</label>
+                            <input type="number" placeholder={i18n.t("target > 400s")} className="w-full p-2.5 border border-red-200 rounded-lg bg-white font-black"
                               value={masterData?.cpb_pre_bypass?.act_post_heparin || ""} onChange={(e) => updateMasterData("cpb_pre_bypass", "act_post_heparin", e.target.value)} />
                           </div>
                           <div className="flex flex-col justify-end">
                             <label className="flex items-center gap-2 font-bold text-red-800 bg-white px-4 py-2.5 rounded-lg border border-red-200 cursor-pointer">
                               <input type="checkbox" className="w-5 h-5 accent-red-600"
                                 checked={masterData?.cpb_pre_bypass?.act_adequate || false}
-                                onChange={(e) => updateMasterData("cpb_pre_bypass", "act_adequate", e.target.checked)} />
-                              ACT Adequate?
-                            </label>
+                                onChange={(e) => updateMasterData("cpb_pre_bypass", "act_adequate", e.target.checked)} />{i18n.t("ACT Adequate?")}</label>
                           </div>
                         </div>
                       </div>
@@ -1707,43 +1650,42 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                     <div className="space-y-6">
                       <div className="max-w-4xl bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
                         <h4 className="font-black text-slate-800 text-xl border-b pb-4 mb-4 flex items-center gap-3">
-                          <HeartPulse className="text-red-600" /> Cardioplegia & Myocardial Protection (Part D3)
-                        </h4>
+                          <HeartPulse className="text-red-600" />{" "}{i18n.t("Cardioplegia & Myocardial Protection (Part D3)")}</h4>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                           <div>
-                            <label className="block text-xs font-bold text-slate-500 mb-1">Type</label>
-                            <input type="text" placeholder="Blood / del Nido" className="w-full p-2 border border-slate-200 rounded bg-slate-50"
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Type")}</label>
+                            <input type="text" placeholder={i18n.t("Blood / del Nido")} className="w-full p-2 border border-slate-200 rounded bg-slate-50"
                               value={masterData?.cardioplegia_cooling?.type || ""} onChange={(e) => updateMasterData("cardioplegia_cooling", "type", e.target.value)} />
                           </div>
                           <div>
-                            <label className="block text-xs font-bold text-slate-500 mb-1">Route</label>
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Route")}</label>
                             <select className="w-full p-2 border border-slate-200 rounded bg-slate-50"
                               value={masterData?.cardioplegia_cooling?.route || ""} onChange={(e) => updateMasterData("cardioplegia_cooling", "route", e.target.value)}>
-                              <option value="">Select...</option><option>Antegrade</option><option>Retrograde</option><option>Both</option><option>Ostial</option>
+                              <option value="">{i18n.t("Select...")}</option><option>{i18n.t("Antegrade")}</option><option>{i18n.t("Retrograde")}</option><option>{i18n.t("Both")}</option><option>{i18n.t("Ostial")}</option>
                             </select>
                           </div>
                           <div>
-                            <label className="block text-xs font-bold text-slate-500 mb-1">Temperature</label>
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Temperature")}</label>
                             <select className="w-full p-2 border border-slate-200 rounded bg-slate-50"
                               value={masterData?.cardioplegia_cooling?.temperature || ""} onChange={(e) => updateMasterData("cardioplegia_cooling", "temperature", e.target.value)}>
-                              <option value="">Select...</option><option>Cold</option><option>Warm</option>
+                              <option value="">{i18n.t("Select...")}</option><option>{i18n.t("Cold")}</option><option>{i18n.t("Warm")}</option>
                             </select>
                           </div>
                           <div>
-                            <label className="block text-xs font-bold text-slate-500 mb-1">Ratio (Blood:Cryst)</label>
-                            <input type="text" placeholder="e.g. 4:1" className="w-full p-2 border border-slate-200 rounded bg-slate-50"
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Ratio (Blood:Cryst)")}</label>
+                            <input type="text" placeholder={i18n.t("e.g. 4:1")} className="w-full p-2 border border-slate-200 rounded bg-slate-50"
                               value={masterData?.cardioplegia_cooling?.ratio || ""} onChange={(e) => updateMasterData("cardioplegia_cooling", "ratio", e.target.value)} />
                           </div>
                         </div>
 
                         <div className="border border-slate-200 rounded-lg overflow-hidden">
                           <div className="bg-slate-100 p-3 border-b border-slate-200 flex justify-between items-center">
-                            <span className="font-bold text-sm text-slate-700">Dosing Log</span>
-                            <button onClick={addCardioplegiaDose} className="text-xs bg-white border border-slate-300 px-3 py-1 rounded hover:bg-slate-50 font-bold flex items-center gap-1"><Plus size={14}/> Add Dose</button>
+                            <span className="font-bold text-sm text-slate-700">{i18n.t("Dosing Log")}</span>
+                            <button onClick={addCardioplegiaDose} className="text-xs bg-white border border-slate-300 px-3 py-1 rounded hover:bg-slate-50 font-bold flex items-center gap-1"><Plus size={14}/>{" "}{i18n.t("Add Dose")}</button>
                           </div>
-                          <table className="w-full text-sm text-left">
+                          <table className="w-full text-sm text-start">
                             <thead className="bg-slate-50 border-b border-slate-200">
-                              <tr><th className="p-2">Dose #</th><th className="p-2">Time</th><th className="p-2">Vol (mL)</th><th className="p-2">Route</th><th className="p-2">Temp</th><th className="p-2">K⁺ conc.</th></tr>
+                              <tr><th className="p-2">{i18n.t("Dose #")}</th><th className="p-2">{i18n.t("Time")}</th><th className="p-2">{i18n.t("Vol (mL)")}</th><th className="p-2">{i18n.t("Route")}</th><th className="p-2">{i18n.t("Temp")}</th><th className="p-2">{i18n.t("K⁺ conc.")}</th></tr>
                             </thead>
                             <tbody>
                               {Array.isArray(masterData.cardioplegia_log) && masterData.cardioplegia_log.map((log: any, idx: number) => (
@@ -1757,7 +1699,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                                 </tr>
                               ))}
                               {(!Array.isArray(masterData.cardioplegia_log) || masterData.cardioplegia_log.length === 0) && (
-                                <tr><td colSpan={6} className="p-4 text-center text-slate-400">No doses logged.</td></tr>
+                                <tr><td colSpan={6} className="p-4 text-center text-slate-400">{i18n.t("No doses logged.")}</td></tr>
                               )}
                             </tbody>
                           </table>
@@ -1765,37 +1707,37 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                       </div>
 
                       <div className="max-w-4xl bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-                        <h4 className="font-black text-slate-800 text-xl border-b pb-4 mb-4">Cooling, Rewarming & DHCA (Part D4)</h4>
+                        <h4 className="font-black text-slate-800 text-xl border-b pb-4 mb-4">{i18n.t("Cooling, Rewarming & DHCA (Part D4)")}</h4>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                           <div>
-                            <label className="block text-xs font-bold text-slate-500 mb-1">Target Temp On Bypass</label>
-                            <input type="text" placeholder="°C" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Target Temp On Bypass")}</label>
+                            <input type="text" placeholder={i18n.t("°C")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                               value={masterData?.cardioplegia_cooling?.target_temp_on_bypass || ""} onChange={(e) => updateMasterData("cardioplegia_cooling", "target_temp_on_bypass", e.target.value)} />
                           </div>
                           <div>
-                            <label className="block text-xs font-bold text-slate-500 mb-1">Lowest Temp Reached</label>
-                            <input type="text" placeholder="°C" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 font-bold text-blue-600"
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Lowest Temp Reached")}</label>
+                            <input type="text" placeholder={i18n.t("°C")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 font-bold text-blue-600"
                               value={masterData?.cardioplegia_cooling?.lowest_temp || ""} onChange={(e) => updateMasterData("cardioplegia_cooling", "lowest_temp", e.target.value)} />
                           </div>
                           <div>
-                            <label className="block text-xs font-bold text-slate-500 mb-1">DHCA Used?</label>
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("DHCA Used?")}</label>
                             <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 font-bold"
                               value={masterData?.cardioplegia_cooling?.dhca_used || "No"} onChange={(e) => updateMasterData("cardioplegia_cooling", "dhca_used", e.target.value)}>
-                              <option>No</option><option>Yes</option>
+                              <option>{i18n.t("No")}</option><option>{i18n.t("Yes")}</option>
                             </select>
                           </div>
                           <div>
-                            <label className="block text-xs font-bold text-slate-500 mb-1">DHCA Duration (min)</label>
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("DHCA Duration (min)")}</label>
                             <input type="number" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                               value={masterData?.cardioplegia_cooling?.dhca_duration || ""} onChange={(e) => updateMasterData("cardioplegia_cooling", "dhca_duration", e.target.value)} />
                           </div>
                           <div className="col-span-2">
-                            <label className="block text-xs font-bold text-slate-500 mb-1">Cerebral Protection (ACP / RCP)</label>
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Cerebral Protection (ACP / RCP)")}</label>
                             <input type="text" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50"
                               value={masterData?.cardioplegia_cooling?.cerebral_protection || ""} onChange={(e) => updateMasterData("cardioplegia_cooling", "cerebral_protection", e.target.value)} />
                           </div>
                           <div>
-                            <label className="block text-xs font-bold text-slate-500 mb-1">Temp Off Bypass (°C)</label>
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Temp Off Bypass (°C)")}</label>
                             <input type="text" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 font-bold text-red-600"
                               value={masterData?.cardioplegia_cooling?.temp_off_bypass || ""} onChange={(e) => updateMasterData("cardioplegia_cooling", "temp_off_bypass", e.target.value)} />
                           </div>
@@ -1816,25 +1758,21 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                             <Activity size={24} />
                           </div>
                           <div>
-                            <h4 className="font-black text-slate-800 text-lg">Separation from Bypass & Post-CPB Haemostasis</h4>
-                            <p className="text-xs text-slate-500 font-medium">Part D5: Weaning, Inotropes, Mechanical Support & Protamine Reversal</p>
+                            <h4 className="font-black text-slate-800 text-lg">{i18n.t("Separation from Bypass & Post-CPB Haemostasis")}</h4>
+                            <p className="text-xs text-slate-500 font-medium">{i18n.t("Part D5: Weaning, Inotropes, Mechanical Support & Protamine Reversal")}</p>
                           </div>
                         </div>
-                        <span className="px-3 py-1 bg-red-50 text-red-700 border border-red-200 text-xs font-bold rounded-full">
-                          Phase: Weaning & Decannulation
-                        </span>
+                        <span className="px-3 py-1 bg-red-50 text-red-700 border border-red-200 text-xs font-bold rounded-full">{i18n.t("Phase: Weaning & Decannulation")}</span>
                       </div>
 
                       {/* Section 1: Rhythm, Pacing & Mechanical Support */}
                       <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
-                        <h5 className="text-xs font-black text-slate-400 uppercase tracking-wider border-b pb-2">
-                          1. Cardiac Rhythm & Haemodynamic Support
-                        </h5>
+                        <h5 className="text-xs font-black text-slate-400 uppercase tracking-wider border-b pb-2">{i18n.t("1. Cardiac Rhythm & Haemodynamic Support")}</h5>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                           {/* Rhythm on Separation (Quick-Pill Selection) */}
                           <div>
-                            <label className="block text-xs font-bold text-slate-600 mb-2">Rhythm on Separation</label>
+                            <label className="block text-xs font-bold text-slate-600 mb-2">{i18n.t("Rhythm on Separation")}</label>
                             <div className="grid grid-cols-4 gap-1.5 p-1 bg-slate-100 rounded-xl">
                               {["SR", "Paced", "AF", "VF/VT"].map((rhythm) => (
                                 <button
@@ -1855,23 +1793,23 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
 
                           {/* Pacing Mode & Rate */}
                           <div>
-                            <label className="block text-xs font-bold text-slate-600 mb-2">Pacing Mode / Rate</label>
+                            <label className="block text-xs font-bold text-slate-600 mb-2">{i18n.t("Pacing Mode / Rate")}</label>
                             <div className="flex gap-2">
                               <select
                                 value={masterData?.cpb_separation?.pacing || ""}
                                 onChange={(e) => updateMasterData("cpb_separation", "pacing", e.target.value)}
                                 className="w-1/2 p-2.5 border border-slate-200 rounded-xl bg-slate-50 font-bold text-xs outline-none focus:ring-2 focus:ring-red-400"
                               >
-                                <option value="">Mode...</option>
-                                <option value="None">None</option>
-                                <option value="DDD">DDD</option>
-                                <option value="AOO/AAI">AOO / AAI</option>
-                                <option value="VOO/VVI">VOO / VVI</option>
-                                <option value="AV">AV Paced</option>
+                                <option value="">{i18n.t("Mode...")}</option>
+                                <option value="None">{i18n.t("None")}</option>
+                                <option value="DDD">{i18n.t("DDD")}</option>
+                                <option value="AOO/AAI">{i18n.t("AOO / AAI")}</option>
+                                <option value="VOO/VVI">{i18n.t("VOO / VVI")}</option>
+                                <option value="AV">{i18n.t("AV Paced")}</option>
                               </select>
                               <input
                                 type="text"
-                                placeholder="e.g. 90 bpm, 5mA"
+                                placeholder={i18n.t("e.g. 90 bpm, 5mA")}
                                 value={masterData?.cpb_separation?.pacing_details || ""}
                                 onChange={(e) => updateMasterData("cpb_separation", "pacing_details", e.target.value)}
                                 className="w-1/2 p-2.5 border border-slate-200 rounded-xl bg-slate-50 text-xs font-medium outline-none focus:ring-2 focus:ring-red-400"
@@ -1881,7 +1819,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
 
                           {/* Mechanical Assist Devices */}
                           <div>
-                            <label className="block text-xs font-bold text-slate-600 mb-2">IABP / VAD / ECMO</label>
+                            <label className="block text-xs font-bold text-slate-600 mb-2">{i18n.t("IABP / VAD / ECMO")}</label>
                             <div className="grid grid-cols-4 gap-1.5 p-1 bg-slate-100 rounded-xl">
                               {["None", "IABP", "ECMO", "VAD"].map((device) => {
                                 const activeVal = masterData?.cpb_separation?.iabp_vad_ecmo || "None";
@@ -1908,12 +1846,11 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
 
                           {/* Inotropes */}
                           <div className="md:col-span-2 lg:col-span-3">
-                            <label className="block text-xs font-bold text-slate-600 mb-1">
-                              Inotropes & Vasoactive Support <span className="text-slate-400 font-normal">(Infusions, mcg/kg/min or mL/hr)</span>
+                            <label className="block text-xs font-bold text-slate-600 mb-1">{i18n.t("Inotropes & Vasoactive Support")}{" "}<span className="text-slate-400 font-normal">{i18n.t("(Infusions, mcg/kg/min or mL/hr)")}</span>
                             </label>
                             <textarea
                               rows={2}
-                              placeholder="e.g. Adrenaline 0.05 mcg/kg/min, Noradrenaline 0.08 mcg/kg/min, Milrinone 0.375 mcg/kg/min"
+                              placeholder={i18n.t("e.g. Adrenaline 0.05 mcg/kg/min, Noradrenaline 0.08 mcg/kg/min, Milrinone 0.375 mcg/kg/min")}
                               value={masterData?.cpb_separation?.inotropes || ""}
                               onChange={(e) => updateMasterData("cpb_separation", "inotropes", e.target.value)}
                               className="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 text-sm font-medium outline-none focus:ring-2 focus:ring-red-400 focus:bg-white transition-all"
@@ -1924,32 +1861,30 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
 
                       {/* Section 2: Post-CPB TOE & Surgical Verification */}
                       <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
-                        <h5 className="text-xs font-black text-slate-400 uppercase tracking-wider border-b pb-2">
-                          2. Post-Bypass TOE Evaluation & Surgical Inspection
-                        </h5>
+                        <h5 className="text-xs font-black text-slate-400 uppercase tracking-wider border-b pb-2">{i18n.t("2. Post-Bypass TOE Evaluation & Surgical Inspection")}</h5>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                           <div>
-                            <label className="block text-xs font-bold text-slate-600 mb-1">Ventricular Function</label>
+                            <label className="block text-xs font-bold text-slate-600 mb-1">{i18n.t("Ventricular Function")}</label>
                             <select
                               value={masterData?.cpb_separation?.ventricular_function || ""}
                               onChange={(e) => updateMasterData("cpb_separation", "ventricular_function", e.target.value)}
                               className="w-full p-2.5 border border-slate-200 rounded-xl bg-slate-50 font-bold text-xs outline-none focus:ring-2 focus:ring-red-400"
                             >
-                              <option value="">Select Function...</option>
-                              <option value="Normal / Preserved">Normal / Preserved</option>
-                              <option value="Mild Impairment">Mild Impairment</option>
-                              <option value="Moderate Impairment">Moderate Impairment</option>
-                              <option value="Severe Impairment">Severe Impairment</option>
-                              <option value="Right Ventricular Failure">RV Failure / Dysfunctional</option>
+                              <option value="">{i18n.t("Select Function...")}</option>
+                              <option value="Normal / Preserved">{i18n.t("Normal / Preserved")}</option>
+                              <option value="Mild Impairment">{i18n.t("Mild Impairment")}</option>
+                              <option value="Moderate Impairment">{i18n.t("Moderate Impairment")}</option>
+                              <option value="Severe Impairment">{i18n.t("Severe Impairment")}</option>
+                              <option value="Right Ventricular Failure">{i18n.t("RV Failure / Dysfunctional")}</option>
                             </select>
                           </div>
 
                           <div>
-                            <label className="block text-xs font-bold text-slate-600 mb-1">Repair Adequacy</label>
+                            <label className="block text-xs font-bold text-slate-600 mb-1">{i18n.t("Repair Adequacy")}</label>
                             <input
                               type="text"
-                              placeholder="e.g. Trivial AI / Gradient 3mmHg"
+                              placeholder={i18n.t("e.g. Trivial AI / Gradient 3mmHg")}
                               value={masterData?.cpb_separation?.repair_adequacy || ""}
                               onChange={(e) => updateMasterData("cpb_separation", "repair_adequacy", e.target.value)}
                               className="w-full p-2.5 border border-slate-200 rounded-xl bg-slate-50 text-xs font-medium outline-none focus:ring-2 focus:ring-red-400"
@@ -1957,31 +1892,31 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                           </div>
 
                           <div>
-                            <label className="block text-xs font-bold text-slate-600 mb-1">De-Airing Verification</label>
+                            <label className="block text-xs font-bold text-slate-600 mb-1">{i18n.t("De-Airing Verification")}</label>
                             <select
                               value={masterData?.cpb_separation?.de_airing || ""}
                               onChange={(e) => updateMasterData("cpb_separation", "de_airing", e.target.value)}
                               className="w-full p-2.5 border border-slate-200 rounded-xl bg-slate-50 font-bold text-xs outline-none focus:ring-2 focus:ring-red-400"
                             >
-                              <option value="">Select...</option>
-                              <option value="Complete / No Residual Air">Complete (TOE Clear)</option>
-                              <option value="Minimal Residual Bubbles">Minimal Bubbles (Venting)</option>
-                              <option value="Significant Bubbles Seen">Residual Detected (Aspiration)</option>
+                              <option value="">{i18n.t("Select...")}</option>
+                              <option value="Complete / No Residual Air">{i18n.t("Complete (TOE Clear)")}</option>
+                              <option value="Minimal Residual Bubbles">{i18n.t("Minimal Bubbles (Venting)")}</option>
+                              <option value="Significant Bubbles Seen">{i18n.t("Residual Detected (Aspiration)")}</option>
                             </select>
                           </div>
 
                           <div>
-                            <label className="block text-xs font-bold text-slate-600 mb-1">Surgical Haemostasis</label>
+                            <label className="block text-xs font-bold text-slate-600 mb-1">{i18n.t("Surgical Haemostasis")}</label>
                             <select
                               value={masterData?.cpb_separation?.haemostasis || ""}
                               onChange={(e) => updateMasterData("cpb_separation", "haemostasis", e.target.value)}
                               className="w-full p-2.5 border border-slate-200 rounded-xl bg-slate-50 font-bold text-xs outline-none focus:ring-2 focus:ring-red-400"
                             >
-                              <option value="">Select...</option>
-                              <option value="Satisfactory">Satisfactory</option>
-                              <option value="Diffusely Oozing">Diffusely Oozing</option>
-                              <option value="Surgical Suture Required">Surgical Bleeding</option>
-                              <option value="Chest Open / Packed">Chest Packed</option>
+                              <option value="">{i18n.t("Select...")}</option>
+                              <option value="Satisfactory">{i18n.t("Satisfactory")}</option>
+                              <option value="Diffusely Oozing">{i18n.t("Diffusely Oozing")}</option>
+                              <option value="Surgical Suture Required">{i18n.t("Surgical Bleeding")}</option>
+                              <option value="Chest Open / Packed">{i18n.t("Chest Packed")}</option>
                             </select>
                           </div>
                         </div>
@@ -1990,20 +1925,16 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                       {/* Section 3: Protamine Reversal & Transfusion Products */}
                       <div className="bg-gradient-to-br from-indigo-50/80 to-slate-50 p-6 rounded-2xl border border-indigo-200 shadow-sm space-y-6">
                         <div className="flex justify-between items-center border-b border-indigo-200/60 pb-3">
-                          <h5 className="text-xs font-black text-indigo-900 uppercase tracking-wider">
-                            3. Protamine Sulfate & Coagulation Reversal
-                          </h5>
-                          <span className="text-[11px] text-indigo-700 font-bold bg-indigo-100/60 px-3 py-1 rounded-full">
-                            Dose Ratio: Typically 1 mg per 100 units initial Heparin
-                          </span>
+                          <h5 className="text-xs font-black text-indigo-900 uppercase tracking-wider">{i18n.t("3. Protamine Sulfate & Coagulation Reversal")}</h5>
+                          <span className="text-[11px] text-indigo-700 font-bold bg-indigo-100/60 px-3 py-1 rounded-full">{i18n.t("Dose Ratio: Typically 1 mg per 100 units initial Heparin")}</span>
                         </div>
 
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
                           <div>
-                            <label className="block text-xs font-bold text-indigo-900 mb-1">Protamine Dose (mg)</label>
+                            <label className="block text-xs font-bold text-indigo-900 mb-1">{i18n.t("Protamine Dose (mg)")}</label>
                             <input
                               type="number"
-                              placeholder="e.g. 250"
+                              placeholder={i18n.t("e.g. 250")}
                               value={masterData?.cpb_separation?.protamine_dose || ""}
                               onChange={(e) => updateMasterData("cpb_separation", "protamine_dose", e.target.value)}
                               className="w-full p-2.5 border border-indigo-200 rounded-xl bg-white font-black text-indigo-950 text-base outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm"
@@ -2011,7 +1942,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                           </div>
 
                           <div>
-                            <label className="block text-xs font-bold text-indigo-900 mb-1">Time Given</label>
+                            <label className="block text-xs font-bold text-indigo-900 mb-1">{i18n.t("Time Given")}</label>
                             <div className="flex gap-2">
                               <input
                                 type="time"
@@ -2026,17 +1957,15 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                                   updateMasterData("cpb_separation", "time_given", now);
                                 }}
                                 className="px-2.5 py-1 text-[11px] font-bold bg-indigo-200/80 hover:bg-indigo-300 text-indigo-900 rounded-xl transition-colors"
-                              >
-                                Now
-                              </button>
+                              >{i18n.t("Now")}</button>
                             </div>
                           </div>
 
                           <div>
-                            <label className="block text-xs font-bold text-indigo-900 mb-1">Post-Protamine ACT (s)</label>
+                            <label className="block text-xs font-bold text-indigo-900 mb-1">{i18n.t("Post-Protamine ACT (s)")}</label>
                             <input
                               type="number"
-                              placeholder="Target ≤ baseline"
+                              placeholder={i18n.t("Target ≤ baseline")}
                               value={masterData?.cpb_separation?.act_post_protamine || ""}
                               onChange={(e) => updateMasterData("cpb_separation", "act_post_protamine", e.target.value)}
                               className={`w-full p-2.5 border rounded-xl bg-white font-black text-base outline-none focus:ring-2 shadow-sm ${
@@ -2048,7 +1977,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                           </div>
 
                           <div>
-                            <label className="block text-xs font-bold text-indigo-900 mb-1">Protamine Adverse Reaction?</label>
+                            <label className="block text-xs font-bold text-indigo-900 mb-1">{i18n.t("Protamine Adverse Reaction?")}</label>
                             <div className="grid grid-cols-2 gap-2">
                               <button
                                 type="button"
@@ -2058,9 +1987,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                                     ? "bg-white text-indigo-900 border-indigo-300 shadow-sm"
                                     : "bg-indigo-100/40 text-indigo-700 border-transparent hover:bg-indigo-100"
                                 }`}
-                              >
-                                No Reaction
-                              </button>
+                              >{i18n.t("No Reaction")}</button>
                               <button
                                 type="button"
                                 onClick={() => updateMasterData("cpb_separation", "reaction_to_protamine", "Yes")}
@@ -2069,32 +1996,25 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                                     ? "bg-red-600 text-white border-red-700 shadow-md animate-pulse"
                                     : "bg-red-100/40 text-red-700 border-transparent hover:bg-red-100"
                                 }`}
-                              >
-                                Reaction (Yes)
-                              </button>
+                              >{i18n.t("Reaction (Yes)")}</button>
                             </div>
                           </div>
 
                           {/* Warning Callout if Protamine Reaction Detected */}
                           {masterData?.cpb_separation?.reaction_to_protamine === "Yes" && (
                             <div className="col-span-2 md:col-span-4 p-3 bg-red-100 border border-red-300 rounded-xl text-red-800 text-xs flex items-center justify-between">
-                              <span className="font-bold flex items-center gap-2">
-                                ⚠️ Warning: Protamine reaction flagged (pulmonary hypertension, systemic vasodilation, or anaphylactoid).
-                              </span>
-                              <span className="text-[11px] underline cursor-pointer" onClick={() => setActiveTab("INTRAOPERATIVE")}>
-                                Document under Critical Incidents →
-                              </span>
+                              <span className="font-bold flex items-center gap-2">{i18n.t("⚠️ Warning: Protamine reaction flagged (pulmonary hypertension, systemic vasodilation, or anaphylactoid).")}</span>
+                              <span className="text-[11px] underline cursor-pointer" onClick={() => setActiveTab("INTRAOPERATIVE")}>{i18n.t("Document under Critical Incidents →")}</span>
                             </div>
                           )}
 
                           {/* Blood Products Given Post-Separation */}
                           <div className="col-span-2 md:col-span-4">
-                            <label className="block text-xs font-bold text-indigo-900 mb-1">
-                              Blood Products & Hemostatics Transfused <span className="text-slate-400 font-normal">(PRBC, FFP, Platelets, Cryo, Beriplex, Fibrinogen)</span>
+                            <label className="block text-xs font-bold text-indigo-900 mb-1">{i18n.t("Blood Products & Hemostatics Transfused")}{" "}<span className="text-slate-400 font-normal">{i18n.t("(PRBC, FFP, Platelets, Cryo, Beriplex, Fibrinogen)")}</span>
                             </label>
                             <input
                               type="text"
-                              placeholder="e.g. 2u PRBC, 2 pools Cryo, 1g Fibrinogen concentrate"
+                              placeholder={i18n.t("e.g. 2u PRBC, 2 pools Cryo, 1g Fibrinogen concentrate")}
                               value={masterData?.cpb_separation?.blood_products || ""}
                               onChange={(e) => updateMasterData("cpb_separation", "blood_products", e.target.value)}
                               className="w-full p-3 border border-indigo-200 rounded-xl bg-white text-xs font-medium outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm"
@@ -2117,15 +2037,10 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
                           <div>
                             <h4 className="font-black text-slate-800 text-lg flex items-center gap-2">
-                              <Activity className="text-red-600" size={22} /> CPB Event Timeline (Part D2)
-                            </h4>
-                            <p className="text-xs text-slate-500 font-bold uppercase tracking-wider mt-0.5">
-                              Single Source of Truth — Synchronised with Perfusionist
-                            </p>
+                              <Activity className="text-red-600" size={22} />{" "}{i18n.t("CPB Event Timeline (Part D2)")}</h4>
+                            <p className="text-xs text-slate-500 font-bold uppercase tracking-wider mt-0.5">{i18n.t("Single Source of Truth — Synchronised with Perfusionist")}</p>
                           </div>
-                          <span className="text-[11px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-3 py-1 rounded-full w-fit">
-                            Times in 24-hr format (HH:mm)
-                          </span>
+                          <span className="text-[11px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-3 py-1 rounded-full w-fit">{i18n.t("Times in 24-hr format (HH:mm)")}</span>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -2143,7 +2058,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                             <div key={item.key} className="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-2 hover:border-slate-300 transition-colors">
                               <div className="flex justify-between items-center">
                                 <span className={`text-xs font-black uppercase tracking-wide ${item.color}`}>
-                                  {item.label}
+                                  {i18n.tx(item.label)}
                                 </span>
                                 <button
                                   type="button"
@@ -2152,9 +2067,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                                     updateMasterData("cpb_timeline", item.key, now);
                                   }}
                                   className="text-[10px] font-bold px-2 py-0.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded transition-colors"
-                                >
-                                  Now
-                                </button>
+                                >{i18n.t("Now")}</button>
                               </div>
                               <input
                                 type="time"
@@ -2172,11 +2085,8 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-red-200 pb-4">
                           <div>
                             <h4 className="font-black text-red-950 text-lg flex items-center gap-2">
-                              <HeartPulse className="text-red-600" size={22} /> End-of-Case Reconciliation (Part D6)
-                            </h4>
-                            <p className="text-xs text-red-700 font-medium mt-0.5">
-                              Verified cumulative times, fluid totals, and coagulation targets
-                            </p>
+                              <HeartPulse className="text-red-600" size={22} />{" "}{i18n.t("End-of-Case Reconciliation (Part D6)")}</h4>
+                            <p className="text-xs text-red-700 font-medium mt-0.5">{i18n.t("Verified cumulative times, fluid totals, and coagulation targets")}</p>
                           </div>
 
                           {/* Quick Helper Actions */}
@@ -2212,9 +2122,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                                 notify("Calculated durations and synced totals from D1 & D5!", "success");
                               }}
                               className="px-3 py-1.5 bg-white border border-red-300 hover:bg-red-100 text-red-800 text-xs font-bold rounded-lg transition-colors shadow-sm"
-                            >
-                              Auto-Calculate from Timeline
-                            </button>
+                            >{i18n.t("Auto-Calculate from Timeline")}</button>
                           </div>
                         </div>
 
@@ -2231,8 +2139,8 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                           ].map((item) => (
                             <div key={item.key} className="flex justify-between items-center bg-white p-3.5 rounded-xl border border-red-200 shadow-sm">
                               <div>
-                                <span className="text-xs font-bold text-slate-800 block">{item.label}</span>
-                                <span className="text-[10px] text-slate-400 font-medium">Unit: {item.unit}</span>
+                                <span className="text-xs font-bold text-slate-800 block">{i18n.tx(item.label)}</span>
+                                <span className="text-[10px] text-slate-400 font-medium">{i18n.t("Unit:")}{" "}{item.unit}</span>
                               </div>
                               <div className="flex items-center gap-2">
                                 <input
@@ -2261,20 +2169,14 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
             {/* ── NEW TAB: LINES & MONITORING SETUP WITH NESTED SIDEBAR ── */}
             {activeTab === "monitoring" && (
               <div className="flex h-full bg-white">
-                <div className="w-56 bg-slate-50 border-r border-slate-200 flex flex-col shrink-0">
+                <div className="w-56 bg-slate-50 border-e border-slate-200 flex flex-col shrink-0">
                   <div className="p-5 border-b border-slate-200">
-                    <h3 className="font-black text-slate-800 tracking-tight text-lg">Monitoring Setup</h3>
+                    <h3 className="font-black text-slate-800 tracking-tight text-lg">{i18n.t("Monitoring Setup")}</h3>
                   </div>
                   <nav className="p-3 space-y-1">
-                    <button onClick={() => setMonitoringSubTab("aagbi")} className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${monitoringSubTab === "aagbi" ? "bg-brand-active text-brand-primary shadow-sm border border-brand-active0/20" : "text-slate-600 hover:bg-slate-100"}`}>
-                      AAGBI Checklist
-                    </button>
-                    <button onClick={() => setMonitoringSubTab("arterial")} className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${monitoringSubTab === "arterial" ? "bg-brand-active text-brand-primary shadow-sm border border-brand-active0/20" : "text-slate-600 hover:bg-slate-100"}`}>
-                      Invasive Arterial
-                    </button>
-                    <button onClick={() => setMonitoringSubTab("co")} className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${monitoringSubTab === "co" ? "bg-brand-active text-brand-primary shadow-sm border border-brand-active0/20" : "text-slate-600 hover:bg-slate-100"}`}>
-                      Cardiac Output
-                    </button>
+                    <button onClick={() => setMonitoringSubTab("aagbi")} className={`w-full text-start px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${monitoringSubTab === "aagbi" ? "bg-brand-active text-brand-primary shadow-sm border border-brand-active0/20" : "text-slate-600 hover:bg-slate-100"}`}>{i18n.t("AAGBI Checklist")}</button>
+                    <button onClick={() => setMonitoringSubTab("arterial")} className={`w-full text-start px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${monitoringSubTab === "arterial" ? "bg-brand-active text-brand-primary shadow-sm border border-brand-active0/20" : "text-slate-600 hover:bg-slate-100"}`}>{i18n.t("Invasive Arterial")}</button>
+                    <button onClick={() => setMonitoringSubTab("co")} className={`w-full text-start px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${monitoringSubTab === "co" ? "bg-brand-active text-brand-primary shadow-sm border border-brand-active0/20" : "text-slate-600 hover:bg-slate-100"}`}>{i18n.t("Cardiac Output")}</button>
                   </nav>
                 </div>
 
@@ -2283,11 +2185,8 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                   {monitoringSubTab === "aagbi" && (
                     <div className="max-w-2xl bg-white p-8 rounded-2xl border border-slate-200 shadow-sm animate-in fade-in duration-300">
                       <h4 className="font-black text-slate-800 text-xl border-b pb-4 mb-6 flex items-center gap-3">
-                        <Monitor className="text-brand-primary" /> AAGBI 2021 Minimum Monitoring
-                      </h4>
-                      <p className="text-sm text-slate-500 mb-6 font-medium bg-slate-50 p-4 rounded-xl border border-slate-100">
-                        Monitoring attached & alarms set before induction: SpO₂, ECG, NIBP (≤5-min), capnography, agent analyser, airway pressure. Add temperature, quantitative NMT (TOF) whenever a non-depolarising blocker is used, and depth-of-anaesthesia monitoring when TIVA + NMB.
-                      </p>
+                        <Monitor className="text-brand-primary" />{" "}{i18n.t("AAGBI 2021 Minimum Monitoring")}</h4>
+                      <p className="text-sm text-slate-500 mb-6 font-medium bg-slate-50 p-4 rounded-xl border border-slate-100">{i18n.t("Monitoring attached & alarms set before induction: SpO₂, ECG, NIBP (≤5-min), capnography, agent analyser, airway pressure. Add temperature, quantitative NMT (TOF) whenever a non-depolarising blocker is used, and depth-of-anaesthesia monitoring when TIVA + NMB.")}</p>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6 text-sm text-slate-800 font-bold">
                         {[
                           { key: "spo2", label: "SpO₂" },
@@ -2307,7 +2206,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                             <input type="checkbox" className="w-5 h-5 text-brand-primary border-slate-300 rounded focus:ring-brand-active"
                               checked={masterData?.monitoring_setup?.aagbi_checklist?.[item.key] || false}
                               onChange={(e) => updateNestedMasterData("monitoring_setup", "aagbi_checklist", item.key, e.target.checked)} />
-                            {item.label}
+                            {i18n.tx(item.label)}
                           </label>
                         ))}
                       </div>
@@ -2317,55 +2216,54 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                   {monitoringSubTab === "arterial" && (
                     <div className="max-w-3xl bg-white p-8 rounded-2xl border border-slate-200 shadow-sm animate-in fade-in duration-300 space-y-6">
                       <h4 className="font-black text-slate-800 text-xl border-b pb-4 flex items-center gap-3">
-                        <Activity className="text-brand-primary" /> Invasive Arterial Monitoring
-                      </h4>
+                        <Activity className="text-brand-primary" />{" "}{i18n.t("Invasive Arterial Monitoring")}</h4>
                       <div className="grid grid-cols-2 gap-6">
                         <div>
-                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Arterial Line Site</label>
+                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">{i18n.t("Arterial Line Site")}</label>
                           <select className="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 font-bold text-slate-700"
                             value={masterData?.monitoring_setup?.invasive_arterial?.site || ""}
                             onChange={(e) => updateNestedMasterData("monitoring_setup", "invasive_arterial", "site", e.target.value)}>
-                            <option value="">None</option><option>Radial</option><option>Brachial</option><option>Femoral</option><option>Dorsalis</option>
+                            <option value="">{i18n.t("None")}</option><option>{i18n.t("Radial")}</option><option>{i18n.t("Brachial")}</option><option>{i18n.t("Femoral")}</option><option>{i18n.t("Dorsalis")}</option>
                           </select>
                         </div>
                         <div>
-                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Side (L/R)</label>
+                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">{i18n.t("Side (L/R)")}</label>
                           <select className="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 font-bold text-slate-700"
                             value={masterData?.monitoring_setup?.invasive_arterial?.side || ""}
                             onChange={(e) => updateNestedMasterData("monitoring_setup", "invasive_arterial", "side", e.target.value)}>
-                            <option value="">Select...</option><option>Left</option><option>Right</option>
+                            <option value="">{i18n.t("Select...")}</option><option>{i18n.t("Left")}</option><option>{i18n.t("Right")}</option>
                           </select>
                         </div>
                         <div>
-                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Cannula Gauge</label>
+                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">{i18n.t("Cannula Gauge")}</label>
                           <select className="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 font-bold text-slate-700"
                             value={masterData?.monitoring_setup?.invasive_arterial?.gauge || ""}
                             onChange={(e) => updateNestedMasterData("monitoring_setup", "invasive_arterial", "gauge", e.target.value)}>
-                            <option value="">Select...</option><option>20G</option><option>22G</option><option>Paed</option>
+                            <option value="">{i18n.t("Select...")}</option><option>{i18n.t("20G")}</option><option>{i18n.t("22G")}</option><option>{i18n.t("Paed")}</option>
                           </select>
                         </div>
                         <div>
-                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Allen's / Collateral Test</label>
+                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">{i18n.t("Allen's / Collateral Test")}</label>
                           <select className="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 font-bold text-slate-700"
                             value={masterData?.monitoring_setup?.invasive_arterial?.allens_test || ""}
                             onChange={(e) => updateNestedMasterData("monitoring_setup", "invasive_arterial", "allens_test", e.target.value)}>
-                            <option value="">Select...</option><option>Positive</option><option>Negative</option><option>N/A</option>
+                            <option value="">{i18n.t("Select...")}</option><option>{i18n.t("Positive")}</option><option>{i18n.t("Negative")}</option><option>{i18n.t("N/A")}</option>
                           </select>
                         </div>
                         <div>
-                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Transducer Zeroed & Levelled? <span className="text-red-500">*</span></label>
+                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">{i18n.t("Transducer Zeroed & Levelled?")}{" "}<span className="text-red-500">*</span></label>
                           <select className="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 font-black text-brand-primary"
                             value={masterData?.monitoring_setup?.invasive_arterial?.transducer_zeroed || ""}
                             onChange={(e) => updateNestedMasterData("monitoring_setup", "invasive_arterial", "transducer_zeroed", e.target.value)}>
-                            <option value="">Select...</option><option>Yes (Phlebostatic axis)</option><option>No</option>
+                            <option value="">{i18n.t("Select...")}</option><option>{i18n.t("Yes (Phlebostatic axis)")}</option><option>{i18n.t("No")}</option>
                           </select>
                         </div>
                         <div>
-                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Waveform Quality</label>
+                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">{i18n.t("Waveform Quality")}</label>
                           <select className="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 font-bold text-slate-700"
                             value={masterData?.monitoring_setup?.invasive_arterial?.waveform_quality || ""}
                             onChange={(e) => updateNestedMasterData("monitoring_setup", "invasive_arterial", "waveform_quality", e.target.value)}>
-                            <option value="">Select...</option><option>Normal</option><option>Damped</option><option>Resonant</option>
+                            <option value="">{i18n.t("Select...")}</option><option>{i18n.t("Normal")}</option><option>{i18n.t("Damped")}</option><option>{i18n.t("Resonant")}</option>
                           </select>
                         </div>
                       </div>
@@ -2375,38 +2273,37 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                   {monitoringSubTab === "co" && (
                     <div className="max-w-3xl bg-white p-8 rounded-2xl border border-slate-200 shadow-sm animate-in fade-in duration-300 space-y-6">
                       <h4 className="font-black text-slate-800 text-xl border-b pb-4 flex items-center gap-3">
-                        <HeartPulse className="text-brand-primary" /> Cardiac Output Monitor
-                      </h4>
+                        <HeartPulse className="text-brand-primary" />{" "}{i18n.t("Cardiac Output Monitor")}</h4>
                       <div className="grid grid-cols-2 gap-6">
                         <div className="col-span-2">
-                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Monitor Type</label>
+                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">{i18n.t("Monitor Type")}</label>
                           <select className="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 font-bold text-slate-700"
                             value={masterData?.monitoring_setup?.cardiac_output?.monitor_type || ""}
                             onChange={(e) => updateNestedMasterData("monitoring_setup", "cardiac_output", "monitor_type", e.target.value)}>
-                            <option value="">None</option><option>FloTrac</option><option>PiCCO</option><option>LiDCO</option><option>PA Cath</option>
+                            <option value="">{i18n.t("None")}</option><option>{i18n.t("FloTrac")}</option><option>{i18n.t("PiCCO")}</option><option>{i18n.t("LiDCO")}</option><option>{i18n.t("PA Cath")}</option>
                           </select>
                         </div>
                         <div>
-                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Baseline CO / CI</label>
-                          <input type="text" placeholder="L/min / L/min/m²" className="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 font-bold text-slate-800"
+                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">{i18n.t("Baseline CO / CI")}</label>
+                          <input type="text" placeholder={i18n.t("L/min / L/min/m²")} className="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 font-bold text-slate-800"
                             value={masterData?.monitoring_setup?.cardiac_output?.baseline_co_ci || ""}
                             onChange={(e) => updateNestedMasterData("monitoring_setup", "cardiac_output", "baseline_co_ci", e.target.value)} />
                         </div>
                         <div>
-                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Baseline SVV / PPV (%)</label>
-                          <input type="text" placeholder="% (fluid responsiveness)" className="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 font-bold text-slate-800"
+                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">{i18n.t("Baseline SVV / PPV (%)")}</label>
+                          <input type="text" placeholder={i18n.t("% (fluid responsiveness)")} className="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 font-bold text-slate-800"
                             value={masterData?.monitoring_setup?.cardiac_output?.baseline_svv_ppv || ""}
                             onChange={(e) => updateNestedMasterData("monitoring_setup", "cardiac_output", "baseline_svv_ppv", e.target.value)} />
                         </div>
                         <div>
-                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Baseline SVR / SVRI</label>
+                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">{i18n.t("Baseline SVR / SVRI")}</label>
                           <input type="text" className="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 font-bold text-slate-800"
                             value={masterData?.monitoring_setup?.cardiac_output?.baseline_svr_svri || ""}
                             onChange={(e) => updateNestedMasterData("monitoring_setup", "cardiac_output", "baseline_svr_svri", e.target.value)} />
                         </div>
                         <div>
-                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Goal-Directed Therapy Target</label>
-                          <input type="text" placeholder="e.g. SVV < 13% / CI > 2.5" className="w-full p-3 border border-brand-active0 border-dashed rounded-xl bg-brand-active/20 font-black text-brand-primary"
+                          <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">{i18n.t("Goal-Directed Therapy Target")}</label>
+                          <input type="text" placeholder={i18n.t("e.g. SVV < 13% / CI > 2.5")} className="w-full p-3 border border-brand-active0 border-dashed rounded-xl bg-brand-active/20 font-black text-brand-primary"
                             value={masterData?.monitoring_setup?.cardiac_output?.goal_directed_target || ""}
                             onChange={(e) => updateNestedMasterData("monitoring_setup", "cardiac_output", "goal_directed_target", e.target.value)} />
                         </div>
@@ -2423,23 +2320,23 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
               <div className="flex flex-col h-full bg-slate-50">
                 {/* Image-Accurate Toolbar */}
                 <div className="bg-white px-6 py-3 border-b border-slate-200 flex flex-wrap items-center gap-6 shrink-0 shadow-sm z-10">
-                  <div className="flex items-center gap-2 border-r border-slate-200 pr-4">
-                    <span className="text-sm font-bold text-slate-600">Age band:</span>
+                  <div className="flex items-center gap-2 border-e border-slate-200 pe-4">
+                    <span className="text-sm font-bold text-slate-600">{i18n.t("Age band:")}</span>
                     <select 
                       value={ageBand}
                       onChange={(e) => setAgeBand(e.target.value)}
                       className="px-3 py-1.5 text-sm font-bold bg-slate-100 border border-slate-300 rounded-lg text-slate-700 outline-none focus:ring-2 focus:ring-brand-active"
                     >
-                      <option>Adult (&gt;12 y)</option>
-                      <option>Child (1-12 y)</option>
-                      <option>Infant (&lt;1 y)</option>
+                      <option>{i18n.t("Adult (>12 y)")}</option>
+                      <option>{i18n.t("Child (1-12 y)")}</option>
+                      <option>{i18n.t("Infant (<1 y)")}</option>
                     </select>
                   </div>
 
                   <div className="flex items-center gap-0 border border-slate-300 rounded-lg overflow-hidden">
-                    <span className="text-sm font-bold text-slate-600 px-4 py-2 bg-slate-100 border-r border-slate-300">BP entry source:</span>
-                    <button onClick={() => setBpSource("Arterial")} className={`px-6 py-2 text-sm font-bold transition-colors ${bpSource === "Arterial" ? "bg-teal-600 text-white" : "bg-white text-slate-600 hover:bg-slate-50"}`}>Arterial</button>
-                    <button onClick={() => setBpSource("NIBP")} className={`px-6 py-2 text-sm font-bold transition-colors border-l border-slate-300 ${bpSource === "NIBP" ? "bg-slate-800 text-white" : "bg-white text-slate-600 hover:bg-slate-50"}`}>NIBP</button>
+                    <span className="text-sm font-bold text-slate-600 px-4 py-2 bg-slate-100 border-e border-slate-300">{i18n.t("BP entry source:")}</span>
+                    <button onClick={() => setBpSource("Arterial")} className={`px-6 py-2 text-sm font-bold transition-colors ${bpSource === "Arterial" ? "bg-teal-600 text-white" : "bg-white text-slate-600 hover:bg-slate-50"}`}>{i18n.t("Arterial")}</button>
+                    <button onClick={() => setBpSource("NIBP")} className={`px-6 py-2 text-sm font-bold transition-colors border-s border-slate-300 ${bpSource === "NIBP" ? "bg-slate-800 text-white" : "bg-white text-slate-600 hover:bg-slate-50"}`}>{i18n.t("NIBP")}</button>
                   </div>
                   
                   <button onClick={() => {
@@ -2447,20 +2344,20 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                       setTimeColumns([...timeColumns, `t${nextIdx}`]);
                       const lastTime = gridTimes[gridTimes.length - 1];
                       setGridTimes([...gridTimes, lastTime ? addMinutes(lastTime, 5) : ""]);
-                  }} className="px-4 py-2 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 text-sm font-bold flex items-center gap-2 text-slate-700 transition-colors shadow-sm"><Plus size={16}/> Add time column</button>
-                  <button className="px-4 py-2 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 text-sm font-bold flex items-center gap-2 text-slate-700 transition-colors shadow-sm"><RefreshCw size={16}/> Load demo data</button>
-                  <button onClick={clearGrid} className="px-4 py-2 bg-white border border-slate-300 rounded-lg hover:bg-red-50 hover:text-red-600 hover:border-red-200 text-sm font-bold flex items-center gap-2 text-slate-700 transition-colors shadow-sm"><Trash2 size={16}/> Clear</button>
+                  }} className="px-4 py-2 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 text-sm font-bold flex items-center gap-2 text-slate-700 transition-colors shadow-sm"><Plus size={16}/>{" "}{i18n.t("Add time column")}</button>
+                  <button className="px-4 py-2 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 text-sm font-bold flex items-center gap-2 text-slate-700 transition-colors shadow-sm"><RefreshCw size={16}/>{" "}{i18n.t("Load demo data")}</button>
+                  <button onClick={clearGrid} className="px-4 py-2 bg-white border border-slate-300 rounded-lg hover:bg-red-50 hover:text-red-600 hover:border-red-200 text-sm font-bold flex items-center gap-2 text-slate-700 transition-colors shadow-sm"><Trash2 size={16}/>{" "}{i18n.t("Clear")}</button>
                   
-                  <button className="px-5 py-2 bg-[#1e1b4b] text-white rounded-lg hover:bg-indigo-900 text-sm font-bold flex items-center gap-2 ml-auto shadow-md transition-all"><Download size={16}/> Export case (JSON)</button>
+                  <button className="px-5 py-2 bg-[#1e1b4b] text-white rounded-lg hover:bg-indigo-900 text-sm font-bold flex items-center gap-2 ms-auto shadow-md transition-all"><Download size={16}/>{" "}{i18n.t("Export case (JSON)")}</button>
                 </div>
                 
                 {/* Image-Accurate Legend */}
                 <div className="bg-white px-6 py-2 border-b border-slate-200 flex items-center gap-6 text-[13px] shrink-0">
-                  <div className="flex items-center gap-2"><div className="w-5 h-3 rounded-sm border border-slate-300 bg-white" /><span className="font-bold text-blue-700">Blue text = Arterial</span></div>
-                  <div className="flex items-center gap-2"><div className="w-5 h-3 rounded-sm border border-slate-800 bg-white" /><span className="font-bold text-black">Black text = NIBP</span></div>
-                  <div className="flex items-center gap-2"><div className="w-5 h-3 rounded-sm border border-amber-300 bg-amber-100" /><span className="text-slate-700 font-medium">Amber cell = caution</span></div>
-                  <div className="flex items-center gap-2"><div className="w-5 h-3 rounded-sm border border-red-300 bg-red-100" /><span className="text-slate-700 font-medium">Red cell = critical</span></div>
-                  <span className="text-slate-500 italic ml-2">(danger = cell background; source = text colour — two separate channels)</span>
+                  <div className="flex items-center gap-2"><div className="w-5 h-3 rounded-sm border border-slate-300 bg-white" /><span className="font-bold text-blue-700">{i18n.t("Blue text = Arterial")}</span></div>
+                  <div className="flex items-center gap-2"><div className="w-5 h-3 rounded-sm border border-slate-800 bg-white" /><span className="font-bold text-black">{i18n.t("Black text = NIBP")}</span></div>
+                  <div className="flex items-center gap-2"><div className="w-5 h-3 rounded-sm border border-amber-300 bg-amber-100" /><span className="text-slate-700 font-medium">{i18n.t("Amber cell = caution")}</span></div>
+                  <div className="flex items-center gap-2"><div className="w-5 h-3 rounded-sm border border-red-300 bg-red-100" /><span className="text-slate-700 font-medium">{i18n.t("Red cell = critical")}</span></div>
+                  <span className="text-slate-500 italic ms-2">{i18n.t("(danger = cell background; source = text colour — two separate channels)")}</span>
                 </div>
 
                 <div className="flex-1 overflow-auto p-4">
@@ -2468,11 +2365,10 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                     <table className="w-full border-collapse min-w-max">
                       <thead>
                         <tr>
-                          <th className="bg-[#1e1b4b] text-white text-center px-4 py-2 border-b border-r border-[#312e81] text-sm font-bold w-[280px] sticky left-0 z-20 shadow-md">
-                            PARAMETER ↓ TIME → <span className="font-normal opacity-70 text-xs ml-2">(tap name to graph)</span>
+                          <th className="bg-[#1e1b4b] text-white text-center px-4 py-2 border-b border-e border-[#312e81] text-sm font-bold w-[280px] sticky start-0 z-20 shadow-md">{i18n.t("PARAMETER ↓ TIME →")}{" "}<span className="font-normal opacity-70 text-xs ms-2">{i18n.t("(tap name to graph)")}</span>
                           </th>
                           {timeColumns.map((tKey, index) => (
-                              <th key={tKey} className="bg-[#1e1b4b] border-b border-r border-[#312e81] text-xs font-bold min-w-[70px] p-0">
+                              <th key={tKey} className="bg-[#1e1b4b] border-b border-e border-[#312e81] text-xs font-bold min-w-[70px] p-0">
                                 <input
                                   type="time"
                                   value={gridTimes[index] || ""}
@@ -2486,12 +2382,12 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                       <tbody>
                         {PARAMETERS.map((param) => (
                           <tr key={param.id} className="border-b border-slate-200 hover:bg-indigo-50/50 group transition-colors">
-                            <td className="px-4 py-1.5 border-r border-slate-200 bg-white sticky left-0 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)] text-center group-hover:bg-indigo-50/50">
-                              <div className="font-black text-[#1e1b4b] text-[13px] tracking-wide cursor-pointer hover:underline decoration-dotted">{param.label} <span className="font-medium text-slate-400 ml-0.5">({param.unit})</span></div>
+                            <td className="px-4 py-1.5 border-e border-slate-200 bg-white sticky start-0 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)] text-center group-hover:bg-indigo-50/50">
+                              <div className="font-black text-[#1e1b4b] text-[13px] tracking-wide cursor-pointer hover:underline decoration-dotted">{i18n.tx(param.label)} <span className="font-medium text-slate-400 ms-0.5">({param.unit})</span></div>
                               {param.expect && <div className="text-[10px] text-slate-400 font-bold tracking-wider">{param.expect}</div>}
                             </td>
                             {timeColumns.map((tKey) => (
-                              <td key={`${param.id}-${tKey}`} className="border-r border-slate-200 p-0 relative">
+                              <td key={`${param.id}-${tKey}`} className="border-e border-slate-200 p-0 relative">
                                 <input type="text" value={gridData[tKey]?.[param.id] || ""} onChange={(e) => handleCellChange(tKey, param.id, e.target.value)} className={`w-full h-full min-h-[44px] text-center text-sm font-bold outline-none focus:ring-2 focus:ring-brand-active focus:z-10 inset-0 absolute transition-colors ${getCellStyles(tKey, param)}`} />
                               </td>
                             ))}
@@ -2500,9 +2396,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                       </tbody>
                     </table>
                   </div>
-                  <div className="mt-4 text-center text-xs text-slate-500 font-medium pb-8">
-                    Tap/click any parameter name (left column) to open its trend graph. In the graph you can switch to an <strong>Overlay</strong> view to plot several parameters together. Thresholds are from GSH-THEATRE-REF-026 (draft — requires clinical sign-off).
-                  </div>
+                  <div className="mt-4 text-center text-xs text-slate-500 font-medium pb-8">{i18n.t("Tap/click any parameter name (left column) to open its trend graph. In the graph you can switch to an")}{" "}<strong>{i18n.t("Overlay")}</strong>{" "}{i18n.t("view to plot several parameters together. Thresholds are from GSH-THEATRE-REF-026 (draft — requires clinical sign-off).")}</div>
                 </div>
               </div>
             )}
@@ -2518,38 +2412,37 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                     <div className="flex items-center gap-3">
                       <div className="p-3 bg-[#e6e6f2] text-[#000066] rounded-lg border border-[#9999cc]"><Activity size={24}/></div>
                       <div>
-                        <h3 className="text-xl font-black text-[#000066] tracking-tight">Arterial Blood Gas (ABG) Log</h3>
-                        <p className="text-slate-500 font-medium">Metabolic and blood gas tracking</p>
+                        <h3 className="text-xl font-black text-[#000066] tracking-tight">{i18n.t("Arterial Blood Gas (ABG) Log")}</h3>
+                        <p className="text-slate-500 font-medium">{i18n.t("Metabolic and blood gas tracking")}</p>
                       </div>
                     </div>
                     <button 
                       onClick={addNewABGEvent} 
                       className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 border border-slate-300 transition-colors"
                     >
-                      <Plus size={18}/> Log ABG Sample
-                    </button>
+                      <Plus size={18}/>{" "}{i18n.t("Log ABG Sample")}</button>
                   </div>
                   
                   <div className="bg-white rounded-lg border border-[#9999cc] shadow-sm overflow-hidden flex flex-col">
                     <div className="overflow-x-auto overflow-y-auto">
-                      <table className="w-full text-left min-w-max border-collapse">
+                      <table className="w-full text-start min-w-max border-collapse">
                         <thead className="bg-[#e6e6f2] sticky top-0 shadow-sm border-b border-[#9999cc]">
                           <tr>
-                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-r border-[#9999cc] w-36">Time</th>
-                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-r border-[#9999cc] w-20">pH</th>
-                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-r border-[#9999cc] w-24">pCO₂</th>
-                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-r border-[#9999cc] w-24">pO₂</th>
-                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-r border-[#9999cc] w-24">HCO₃ / BE</th>
-                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-r border-[#9999cc] w-24">Na⁺ / K⁺</th>
-                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-r border-[#9999cc] w-24">Ca²⁺ / Glu</th>
-                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-r border-[#9999cc] w-24">Hb / Hct</th>
-                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-r border-[#9999cc] w-20">Lactate</th>
-                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center w-64">Action taken</th>
+                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-e border-[#9999cc] w-36">{i18n.t("Time")}</th>
+                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-e border-[#9999cc] w-20">{i18n.t("pH")}</th>
+                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-e border-[#9999cc] w-24">{i18n.t("pCO₂")}</th>
+                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-e border-[#9999cc] w-24">{i18n.t("pO₂")}</th>
+                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-e border-[#9999cc] w-24">{i18n.t("HCO₃ / BE")}</th>
+                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-e border-[#9999cc] w-24">{i18n.t("Na⁺ / K⁺")}</th>
+                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-e border-[#9999cc] w-24">{i18n.t("Ca²⁺ / Glu")}</th>
+                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-e border-[#9999cc] w-24">{i18n.t("Hb / Hct")}</th>
+                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-e border-[#9999cc] w-20">{i18n.t("Lactate")}</th>
+                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center w-64">{i18n.t("Action taken")}</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-[#9999cc]">
                           {eventLog.filter(e => e.event_type === 'ABG').length === 0 ? (
-                            <tr><td colSpan={10} className="p-8 text-center text-slate-400 font-medium">No ABG samples logged. Click "Log ABG Sample" above.</td></tr>
+                            <tr><td colSpan={10} className="p-8 text-center text-slate-400 font-medium">{i18n.t("No ABG samples logged. Click \"Log ABG Sample\" above.")}</td></tr>
                           ) : (
                             eventLog.map((evt, i) => {
                               if (evt.event_type !== 'ABG') return null;
@@ -2562,7 +2455,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
 
                               return (
                                 <tr key={i} className="hover:bg-[#f7f7fc] transition-colors bg-white">
-                                  <td className="px-2 py-1.5 border-r border-[#9999cc]">
+                                  <td className="px-2 py-1.5 border-e border-[#9999cc]">
 
                                     <input 
                                       type="time" 
@@ -2578,14 +2471,14 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
 
                                     {/* <input type="time" value={evt.event_time?.split('T')[1]?.substring(0,5) || ""} onChange={(e) => { const d = new Date(); const [h,m] = e.target.value.split(':'); d.setHours(parseInt(h), parseInt(m)); updateEvent(i, "event_time", d.toISOString()); }} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active text-center" /> */}
                                   </td>
-                                  <td className="px-2 py-1.5 border-r border-[#9999cc]"><input type="text" value={evt.details?.ph || ""} onChange={(e) => updateABG("ph", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active text-center" /></td>
-                                  <td className="px-2 py-1.5 border-r border-[#9999cc]"><input type="text" value={evt.details?.pco2 || ""} onChange={(e) => updateABG("pco2", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active text-center" /></td>
-                                  <td className="px-2 py-1.5 border-r border-[#9999cc]"><input type="text" value={evt.details?.po2 || ""} onChange={(e) => updateABG("po2", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active text-center" /></td>
-                                  <td className="px-2 py-1.5 border-r border-[#9999cc]"><input type="text" value={evt.details?.hco3 || ""} onChange={(e) => updateABG("hco3", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active text-center" /></td>
-                                  <td className="px-2 py-1.5 border-r border-[#9999cc]"><input type="text" value={evt.details?.na_k || ""} onChange={(e) => updateABG("na_k", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active text-center" /></td>
-                                  <td className="px-2 py-1.5 border-r border-[#9999cc]"><input type="text" value={evt.details?.ca_glu || ""} onChange={(e) => updateABG("ca_glu", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active text-center" /></td>
-                                  <td className="px-2 py-1.5 border-r border-[#9999cc]"><input type="text" value={evt.details?.hb_hct || ""} onChange={(e) => updateABG("hb_hct", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active text-center" /></td>
-                                  <td className="px-2 py-1.5 border-r border-[#9999cc]"><input type="text" value={evt.details?.lactate || ""} onChange={(e) => updateABG("lactate", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active text-center font-bold text-red-600" /></td>
+                                  <td className="px-2 py-1.5 border-e border-[#9999cc]"><input type="text" value={evt.details?.ph || ""} onChange={(e) => updateABG("ph", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active text-center" /></td>
+                                  <td className="px-2 py-1.5 border-e border-[#9999cc]"><input type="text" value={evt.details?.pco2 || ""} onChange={(e) => updateABG("pco2", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active text-center" /></td>
+                                  <td className="px-2 py-1.5 border-e border-[#9999cc]"><input type="text" value={evt.details?.po2 || ""} onChange={(e) => updateABG("po2", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active text-center" /></td>
+                                  <td className="px-2 py-1.5 border-e border-[#9999cc]"><input type="text" value={evt.details?.hco3 || ""} onChange={(e) => updateABG("hco3", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active text-center" /></td>
+                                  <td className="px-2 py-1.5 border-e border-[#9999cc]"><input type="text" value={evt.details?.na_k || ""} onChange={(e) => updateABG("na_k", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active text-center" /></td>
+                                  <td className="px-2 py-1.5 border-e border-[#9999cc]"><input type="text" value={evt.details?.ca_glu || ""} onChange={(e) => updateABG("ca_glu", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active text-center" /></td>
+                                  <td className="px-2 py-1.5 border-e border-[#9999cc]"><input type="text" value={evt.details?.hb_hct || ""} onChange={(e) => updateABG("hb_hct", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active text-center" /></td>
+                                  <td className="px-2 py-1.5 border-e border-[#9999cc]"><input type="text" value={evt.details?.lactate || ""} onChange={(e) => updateABG("lactate", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active text-center font-bold text-red-600" /></td>
                                   <td className="px-2 py-1.5"><input type="text" value={evt.details?.action_taken || ""} onChange={(e) => updateABG("action_taken", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active" /></td>
                                 </tr>
                               );
@@ -2595,8 +2488,8 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                       </table>
                     </div>
                     <div className="flex justify-between text-[10px] text-slate-500 px-4 py-2 bg-slate-50 border-t border-slate-200">
-                      <span>GSH-THEATRE-ANA-018-v3 • Permanent clinical record – retain in patient notes • Corrections struck through, signed & dated – no correction fluid</span>
-                      <span>Page 2 / 6</span>
+                      <span>{i18n.t("GSH-THEATRE-ANA-018-v3 • Permanent clinical record – retain in patient notes • Corrections struck through, signed & dated – no correction fluid")}</span>
+                      <span>{i18n.t("Page 2 / 6")}</span>
                     </div>
                   </div>
                 </div>
@@ -2611,40 +2504,40 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                   <div className="flex items-center gap-3">
                     <div className="p-3 bg-[#1e1b4b] text-white rounded-lg"><Syringe size={24}/></div>
                     <div>
-                      <h3 className="text-2xl font-black text-slate-800 tracking-tight">Drugs & Interventions</h3>
-                      <p className="text-slate-500 font-medium">Parts C (Induction), E (Fluids), F (Timeline)</p>
+                      <h3 className="text-2xl font-black text-slate-800 tracking-tight">{i18n.t("Drugs & Interventions")}</h3>
+                      <p className="text-slate-500 font-medium">{i18n.t("Parts C (Induction), E (Fluids), F (Timeline)")}</p>
                     </div>
                   </div>
-                  <button onClick={addNewEvent} className="bg-brand-primary hover:bg-brand-active0 text-white px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 shadow-lg transition-colors"><Plus size={18}/> Log New Event</button>
+                  <button onClick={addNewEvent} className="bg-brand-primary hover:bg-brand-active0 text-white px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 shadow-lg transition-colors"><Plus size={18}/>{" "}{i18n.t("Log New Event")}</button>
                 </div>
                 
                 <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-[500px]">
                   <div className="overflow-y-auto">
-                    <table className="w-full text-left">
+                    <table className="w-full text-start">
                       <thead className="bg-slate-50 sticky top-0 border-b border-slate-200 shadow-sm">
                         <tr>
-                          <th className="px-5 py-4 text-xs font-black text-slate-500 uppercase tracking-wider w-48">Time</th>
-                          <th className="px-5 py-4 text-xs font-black text-slate-500 uppercase tracking-wider w-48">Event Type</th>
-                          <th className="px-5 py-4 text-xs font-black text-slate-500 uppercase tracking-wider">Drug / Intervention</th>
-                          <th className="px-5 py-4 text-xs font-black text-slate-500 uppercase tracking-wider w-32">Dose / Vol</th>
-                          <th className="px-5 py-4 text-xs font-black text-slate-500 uppercase tracking-wider w-32">Route</th>
+                          <th className="px-5 py-4 text-xs font-black text-slate-500 uppercase tracking-wider w-48">{i18n.t("Time")}</th>
+                          <th className="px-5 py-4 text-xs font-black text-slate-500 uppercase tracking-wider w-48">{i18n.t("Event Type")}</th>
+                          <th className="px-5 py-4 text-xs font-black text-slate-500 uppercase tracking-wider">{i18n.t("Drug / Intervention")}</th>
+                          <th className="px-5 py-4 text-xs font-black text-slate-500 uppercase tracking-wider w-32">{i18n.t("Dose / Vol")}</th>
+                          <th className="px-5 py-4 text-xs font-black text-slate-500 uppercase tracking-wider w-32">{i18n.t("Route")}</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100">
                         {eventLog.length === 0 ? (
-                          <tr><td colSpan={5} className="p-12 text-center text-slate-400 font-medium">No events logged during this case. Click "Log New Event" above.</td></tr>
+                          <tr><td colSpan={5} className="p-12 text-center text-slate-400 font-medium">{i18n.t("No events logged during this case. Click \"Log New Event\" above.")}</td></tr>
                         ) : (
                           eventLog.map((evt, i) => (
                             <tr key={i} className="hover:bg-slate-50 transition-colors">
                               <td className="px-5 py-3"><input type="datetime-local" value={evt.event_time} onChange={(e) => updateEvent(i, "event_time", e.target.value)} className="w-full p-2 border border-slate-200 rounded-lg text-sm bg-white" /></td>
                               <td className="px-5 py-3">
                                 <select value={evt.event_type} onChange={(e) => updateEvent(i, "event_type", e.target.value)} className="w-full p-2 border border-slate-200 rounded-lg text-sm font-bold text-brand-primary bg-white">
-                                  <option value="PREMED">Premed</option><option value="INDUCTION">Induction</option><option value="MAINTENANCE">Maintenance</option><option value="FLUID">Fluid/Blood</option><option value="CRITICAL_INCIDENT">Critical Incident</option>
+                                  <option value="PREMED">{i18n.t("Premed")}</option><option value="INDUCTION">{i18n.t("Induction")}</option><option value="MAINTENANCE">{i18n.t("Maintenance")}</option><option value="FLUID">{i18n.t("Fluid/Blood")}</option><option value="CRITICAL_INCIDENT">{i18n.t("Critical Incident")}</option>
                                 </select>
                               </td>
-                              <td className="px-5 py-3"><input type="text" placeholder="e.g. Propofol" value={evt.item_name} onChange={(e) => updateEvent(i, "item_name", e.target.value)} className="w-full p-2 border border-slate-200 rounded-lg text-sm font-medium bg-white" /></td>
-                              <td className="px-5 py-3"><input type="text" placeholder="e.g. 150mg" value={evt.dose_volume} onChange={(e) => updateEvent(i, "dose_volume", e.target.value)} className="w-full p-2 border border-slate-200 rounded-lg text-sm bg-white" /></td>
-                              <td className="px-5 py-3"><input type="text" placeholder="e.g. IV" value={evt.route} onChange={(e) => updateEvent(i, "route", e.target.value)} className="w-full p-2 border border-slate-200 rounded-lg text-sm bg-white" /></td>
+                              <td className="px-5 py-3"><input type="text" placeholder={i18n.t("e.g. Propofol")} value={evt.item_name} onChange={(e) => updateEvent(i, "item_name", e.target.value)} className="w-full p-2 border border-slate-200 rounded-lg text-sm font-medium bg-white" /></td>
+                              <td className="px-5 py-3"><input type="text" placeholder={i18n.t("e.g. 150mg")} value={evt.dose_volume} onChange={(e) => updateEvent(i, "dose_volume", e.target.value)} className="w-full p-2 border border-slate-200 rounded-lg text-sm bg-white" /></td>
+                              <td className="px-5 py-3"><input type="text" placeholder={i18n.t("e.g. IV")} value={evt.route} onChange={(e) => updateEvent(i, "route", e.target.value)} className="w-full p-2 border border-slate-200 rounded-lg text-sm bg-white" /></td>
                             </tr>
                           ))
                         )}
@@ -2661,17 +2554,17 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                     
                     {/* Document Header Bar */}
                     <div className="flex items-center gap-3 bg-[#2e1065] text-white p-2 rounded-t-lg shadow-sm">
-                    <div className="bg-white/20 px-3 py-1 font-bold rounded">F</div>
-                    <h3 className="font-bold uppercase tracking-wider text-sm">INTRAOPERATIVE EVENTS, CRITICAL INCIDENTS & TIMELINE</h3>
+                    <div className="bg-white/20 px-3 py-1 font-bold rounded">{i18n.t("F")}</div>
+                    <h3 className="font-bold uppercase tracking-wider text-sm">{i18n.t("INTRAOPERATIVE EVENTS, CRITICAL INCIDENTS & TIMELINE")}</h3>
                     </div>
 
                     {/* Key Time Points Grid */}
                       <div className="border border-[#9999cc] bg-white rounded-b-lg shadow-sm overflow-hidden mb-6">
                         <div className="p-3 bg-white">
-                          <h4 className="font-bold text-[#2e1065] text-xs uppercase tracking-wider mb-2">Key Time Points</h4>
+                          <h4 className="font-bold text-[#2e1065] text-xs uppercase tracking-wider mb-2">{i18n.t("Key Time Points")}</h4>
                         </div>
                         
-                        <div className="grid grid-cols-7 border-t border-[#9999cc] bg-slate-50 divide-x divide-[#9999cc]">
+                        <div className="grid grid-cols-7 border-t border-[#9999cc] bg-slate-50 divide-x divide-[#9999cc] rtl:divide-x-reverse">
                           {["Anaesthesia Start", "Induction", "Airway Secured", "Surgery Start / Incision", "Surgery End", "Extubation", "Left Theatre"].map((label, idx) => {
                             const stateKeys = ["anaesthesia_start", "induction", "airway_secured", "surgery_start", "surgery_end", "extubation", "left_theatre"];
                             const stateKey = stateKeys[idx];
@@ -2699,27 +2592,26 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
 
                     {/* Critical Incidents Table */}
                     <div className="flex justify-between items-center mt-4 mb-2">
-                        <h4 className="font-bold text-[#2e1065] text-sm uppercase tracking-wider">Critical Incidents Log</h4>
+                        <h4 className="font-bold text-[#2e1065] text-sm uppercase tracking-wider">{i18n.t("Critical Incidents Log")}</h4>
                         <button onClick={addNewIncidentEvent} className="bg-[#2e1065] hover:bg-[#1e1b4b] text-white px-5 py-2 rounded-lg font-bold flex items-center gap-2 shadow-sm transition-colors text-sm">
-                            <Plus size={16}/> Add Event Row
-                        </button>
+                            <Plus size={16}/>{" "}{i18n.t("Add Event Row")}</button>
                     </div>
 
                     <div className="bg-white rounded-lg border border-[#9999cc] shadow-sm overflow-hidden flex flex-col">
                     <div className="overflow-x-auto overflow-y-auto">
-                        <table className="w-full text-left min-w-max border-collapse">
+                        <table className="w-full text-start min-w-max border-collapse">
                         <thead className="bg-[#e6e6f2] sticky top-0 shadow-sm border-b border-[#9999cc]">
                             <tr>
-                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-r border-[#9999cc] w-36">Time</th>
-                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-r border-[#9999cc] w-1/3">Event / critical incident</th>
-                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-r border-[#9999cc] w-1/4">Action taken</th>
-                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-r border-[#9999cc] w-1/4">Response / outcome</th>
-                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center w-32">Signature</th>
+                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-e border-[#9999cc] w-36">{i18n.t("Time")}</th>
+                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-e border-[#9999cc] w-1/3">{i18n.t("Event / critical incident")}</th>
+                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-e border-[#9999cc] w-1/4">{i18n.t("Action taken")}</th>
+                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center border-e border-[#9999cc] w-1/4">{i18n.t("Response / outcome")}</th>
+                            <th className="px-3 py-3 text-xs font-bold text-[#000066] text-center w-32">{i18n.t("Signature")}</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-[#9999cc]">
                             {eventLog.filter(e => e.event_type === 'CRITICAL_INCIDENT').length === 0 ? (
-                            <tr><td colSpan={5} className="p-8 text-center text-slate-400 font-medium bg-[#f7f7fc]">No incidents recorded.</td></tr>
+                            <tr><td colSpan={5} className="p-8 text-center text-slate-400 font-medium bg-[#f7f7fc]">{i18n.t("No incidents recorded.")}</td></tr>
                             ) : (
                             eventLog.map((evt, i) => {
                                 if (evt.event_type !== 'CRITICAL_INCIDENT') return null;
@@ -2732,7 +2624,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
 
                                 return (
                                 <tr key={i} className="hover:bg-[#f7f7fc] transition-colors bg-white">
-                                    <td className="px-2 py-1.5 border-r border-[#9999cc]">
+                                    <td className="px-2 py-1.5 border-e border-[#9999cc]">
                                       <input 
                                         type="time" 
                                         value={formatTimeInput(evt.event_time)} 
@@ -2746,10 +2638,10 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                                       />
                                     {/* <input type="time" value={evt.event_time?.split('T')[1]?.substring(0,5) || ""} onChange={(e) => { const d = new Date(); const [h,m] = e.target.value.split(':'); d.setHours(parseInt(h), parseInt(m)); updateEvent(i, "event_time", d.toISOString()); }} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active text-center" /> */}
                                     </td>
-                                    <td className="px-2 py-1.5 border-r border-[#9999cc]"><input type="text" placeholder="Describe event..." value={evt.item_name || ""} onChange={(e) => updateEvent(i, "item_name", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active" /></td>
-                                    <td className="px-2 py-1.5 border-r border-[#9999cc]"><input type="text" value={evt.details?.action_taken || ""} onChange={(e) => updateIncident("action_taken", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active" /></td>
-                                    <td className="px-2 py-1.5 border-r border-[#9999cc]"><input type="text" value={evt.details?.response_outcome || ""} onChange={(e) => updateIncident("response_outcome", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active" /></td>
-                                    <td className="px-2 py-1.5"><input type="text" placeholder="Initials" value={evt.details?.signature || ""} onChange={(e) => updateIncident("signature", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active text-center font-bold" /></td>
+                                    <td className="px-2 py-1.5 border-e border-[#9999cc]"><input type="text" placeholder={i18n.t("Describe event...")} value={evt.item_name || ""} onChange={(e) => updateEvent(i, "item_name", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active" /></td>
+                                    <td className="px-2 py-1.5 border-e border-[#9999cc]"><input type="text" value={evt.details?.action_taken || ""} onChange={(e) => updateIncident("action_taken", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active" /></td>
+                                    <td className="px-2 py-1.5 border-e border-[#9999cc]"><input type="text" value={evt.details?.response_outcome || ""} onChange={(e) => updateIncident("response_outcome", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active" /></td>
+                                    <td className="px-2 py-1.5"><input type="text" placeholder={i18n.t("Initials")} value={evt.details?.signature || ""} onChange={(e) => updateIncident("signature", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active text-center font-bold" /></td>
                                 </tr>
                                 );
                             })
@@ -2768,20 +2660,14 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
               <div className="flex h-full bg-white">
                 
                 {/* Nested Sub-Sidebar */}
-                <div className="w-56 bg-slate-50 border-r border-slate-200 flex flex-col shrink-0">
+                <div className="w-56 bg-slate-50 border-e border-slate-200 flex flex-col shrink-0">
                   <div className="p-5 border-b border-slate-200">
-                    <h3 className="font-black text-slate-800 tracking-tight text-lg">Recovery & PACU</h3>
+                    <h3 className="font-black text-slate-800 tracking-tight text-lg">{i18n.t("Recovery & PACU")}</h3>
                   </div>
                   <nav className="p-3 space-y-1">
-                    <button onClick={() => setRecoverySubTab("emergence")} className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${recoverySubTab === "emergence" ? "bg-brand-active text-brand-primary shadow-sm border border-brand-active0/20" : "text-slate-600 hover:bg-slate-100"}`}>
-                      Emergence & Transfer
-                    </button>
-                    <button onClick={() => setRecoverySubTab("recovery_obs")} className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${recoverySubTab === "recovery_obs" ? "bg-brand-active text-brand-primary shadow-sm border border-brand-active0/20" : "text-slate-600 hover:bg-slate-100"}`}>
-                      Recovery Obs & Score
-                    </button>
-                    <button onClick={() => setRecoverySubTab("care_plan")} className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${recoverySubTab === "care_plan" ? "bg-brand-active text-brand-primary shadow-sm border border-brand-active0/20" : "text-slate-600 hover:bg-slate-100"}`}>
-                      Care Plan & Contingency
-                    </button>
+                    <button onClick={() => setRecoverySubTab("emergence")} className={`w-full text-start px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${recoverySubTab === "emergence" ? "bg-brand-active text-brand-primary shadow-sm border border-brand-active0/20" : "text-slate-600 hover:bg-slate-100"}`}>{i18n.t("Emergence & Transfer")}</button>
+                    <button onClick={() => setRecoverySubTab("recovery_obs")} className={`w-full text-start px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${recoverySubTab === "recovery_obs" ? "bg-brand-active text-brand-primary shadow-sm border border-brand-active0/20" : "text-slate-600 hover:bg-slate-100"}`}>{i18n.t("Recovery Obs & Score")}</button>
+                    <button onClick={() => setRecoverySubTab("care_plan")} className={`w-full text-start px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${recoverySubTab === "care_plan" ? "bg-brand-active text-brand-primary shadow-sm border border-brand-active0/20" : "text-slate-600 hover:bg-slate-100"}`}>{i18n.t("Care Plan & Contingency")}</button>
                   </nav>
                 </div>
 
@@ -2794,19 +2680,19 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                       
                       {/* Document Header Bar */}
                       <div className="flex items-center gap-3 bg-[#2e1065] text-white p-2 rounded-t-lg shadow-sm">
-                        <div className="bg-white/20 px-3 py-1 font-bold rounded">G</div>
-                        <h3 className="font-bold uppercase tracking-wider text-sm">EMERGENCE, EXTUBATION & TRANSFER</h3>
+                        <div className="bg-white/20 px-3 py-1 font-bold rounded">{i18n.t("G")}</div>
+                        <h3 className="font-bold uppercase tracking-wider text-sm">{i18n.t("EMERGENCE, EXTUBATION & TRANSFER")}</h3>
                       </div>
 
                       {/* Emergence Grid */}
                       <div className="border border-[#9999cc] bg-white rounded-b-lg shadow-sm overflow-hidden -mt-6">
                         
                         {/* Row 1 */}
-                        <div className="grid grid-cols-5 border-b border-[#9999cc] bg-slate-50 divide-x divide-[#9999cc]">
+                        <div className="grid grid-cols-5 border-b border-[#9999cc] bg-slate-50 divide-x divide-[#9999cc] rtl:divide-x-reverse">
                           <div className="p-2 flex flex-col justify-between">
                             <div>
-                              <label className="block text-[10px] font-bold text-slate-700 uppercase">EMERGENCE</label>
-                              <span className="text-[9px] text-slate-400 italic mb-1 block">smooth / laryngospasm / cough</span>
+                              <label className="block text-[10px] font-bold text-slate-700 uppercase">{i18n.t("EMERGENCE")}</label>
+                              <span className="text-[9px] text-slate-400 italic mb-1 block">{i18n.t("smooth / laryngospasm / cough")}</span>
                             </div>
                             <input type="text" className="w-full p-1.5 border border-slate-200 rounded text-xs bg-white outline-none focus:ring-1 focus:ring-brand-active" 
                               value={masterData?.emergence_transfer?.emergence_quality || ""}
@@ -2815,8 +2701,8 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                           
                           <div className="p-2 flex flex-col justify-between">
                             <div>
-                              <label className="block text-[10px] font-bold text-slate-700 uppercase">EXTUBATION</label>
-                              <span className="text-[9px] text-slate-400 italic mb-1 block">awake / deep / LMA removed</span>
+                              <label className="block text-[10px] font-bold text-slate-700 uppercase">{i18n.t("EXTUBATION")}</label>
+                              <span className="text-[9px] text-slate-400 italic mb-1 block">{i18n.t("awake / deep / LMA removed")}</span>
                             </div>
                             <input type="text" className="w-full p-1.5 border border-slate-200 rounded text-xs bg-white outline-none focus:ring-1 focus:ring-brand-active" 
                               value={masterData?.emergence_transfer?.extubation_status || ""}
@@ -2825,8 +2711,8 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                           
                           <div className="p-2 flex flex-col justify-between">
                             <div>
-                              <label className="block text-[10px] font-bold text-slate-700 uppercase">AIRWAY PATENT ON TRANSFER?</label>
-                              <span className="text-[9px] text-slate-400 italic mb-1 block">Yes / adjunct</span>
+                              <label className="block text-[10px] font-bold text-slate-700 uppercase">{i18n.t("AIRWAY PATENT ON TRANSFER?")}</label>
+                              <span className="text-[9px] text-slate-400 italic mb-1 block">{i18n.t("Yes / adjunct")}</span>
                             </div>
                             <input type="text" className="w-full p-1.5 border border-slate-200 rounded text-xs bg-white outline-none focus:ring-1 focus:ring-brand-active" 
                               value={masterData?.emergence_transfer?.airway_patent_on_transfer || ""}
@@ -2835,8 +2721,8 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                           
                           <div className="p-2 flex flex-col justify-between">
                             <div>
-                              <label className="block text-[10px] font-bold text-slate-700 uppercase">O₂ ON TRANSFER <span className="text-red-500">*</span></label>
-                              <span className="text-[9px] text-slate-400 italic mb-1 block">device & FiO₂</span>
+                              <label className="block text-[10px] font-bold text-slate-700 uppercase">{i18n.t("O₂ ON TRANSFER")}{" "}<span className="text-red-500">*</span></label>
+                              <span className="text-[9px] text-slate-400 italic mb-1 block">{i18n.t("device & FiO₂")}</span>
                             </div>
                             <input type="text" className="w-full p-1.5 border border-slate-200 rounded text-xs bg-white outline-none focus:ring-1 focus:ring-brand-active" 
                               value={masterData?.emergence_transfer?.o2_on_transfer || ""}
@@ -2845,8 +2731,8 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                           
                           <div className="p-2 flex flex-col justify-between">
                             <div>
-                              <label className="block text-[10px] font-bold text-slate-700 uppercase">TRANSFER MONITORING</label>
-                              <span className="text-[9px] text-slate-400 italic mb-1 block">SpO₂ ± EtCO₂ ± ECG</span>
+                              <label className="block text-[10px] font-bold text-slate-700 uppercase">{i18n.t("TRANSFER MONITORING")}</label>
+                              <span className="text-[9px] text-slate-400 italic mb-1 block">{i18n.t("SpO₂ ± EtCO₂ ± ECG")}</span>
                             </div>
                             <input type="text" className="w-full p-1.5 border border-slate-200 rounded text-xs bg-white outline-none focus:ring-1 focus:ring-brand-active" 
                               value={masterData?.emergence_transfer?.transfer_monitoring || ""}
@@ -2855,11 +2741,11 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                         </div>
 
                         {/* Row 2 */}
-                        <div className="grid grid-cols-5 bg-slate-50 divide-x divide-[#9999cc]">
+                        <div className="grid grid-cols-5 bg-slate-50 divide-x divide-[#9999cc] rtl:divide-x-reverse">
                           <div className="p-2 flex flex-col justify-between">
                             <div>
-                              <label className="block text-[10px] font-bold text-slate-700 uppercase">NEUROMUSCULAR FULLY REVERSED?</label>
-                              <span className="text-[9px] text-slate-400 italic mb-1 block">TOF &gt; 0.9</span>
+                              <label className="block text-[10px] font-bold text-slate-700 uppercase">{i18n.t("NEUROMUSCULAR FULLY REVERSED?")}</label>
+                              <span className="text-[9px] text-slate-400 italic mb-1 block">{i18n.t("TOF > 0.9")}</span>
                             </div>
                             <input type="text" className="w-full p-1.5 border border-slate-200 rounded text-xs bg-white outline-none focus:ring-1 focus:ring-brand-active" 
                               value={masterData?.emergence_transfer?.neuromuscular_fully_reversed || ""}
@@ -2868,7 +2754,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                           
                           <div className="p-2 flex flex-col justify-between">
                             <div>
-                              <label className="block text-[10px] font-bold text-slate-700 uppercase">TEMPERATURE ON TRANSFER</label>
+                              <label className="block text-[10px] font-bold text-slate-700 uppercase">{i18n.t("TEMPERATURE ON TRANSFER")}</label>
                               <span className="text-[9px] text-transparent italic mb-1 block">-</span>
                             </div>
                             <input type="text" className="w-full p-1.5 border border-slate-200 rounded text-xs bg-white outline-none focus:ring-1 focus:ring-brand-active" 
@@ -2878,8 +2764,8 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                           
                           <div className="p-2 flex flex-col justify-between">
                             <div>
-                              <label className="block text-[10px] font-bold text-slate-700 uppercase">HAEMODYNAMICALLY STABLE?</label>
-                              <span className="text-[9px] text-slate-400 italic mb-1 block">Yes / support</span>
+                              <label className="block text-[10px] font-bold text-slate-700 uppercase">{i18n.t("HAEMODYNAMICALLY STABLE?")}</label>
+                              <span className="text-[9px] text-slate-400 italic mb-1 block">{i18n.t("Yes / support")}</span>
                             </div>
                             <input type="text" className="w-full p-1.5 border border-slate-200 rounded text-xs bg-white outline-none focus:ring-1 focus:ring-brand-active" 
                               value={masterData?.emergence_transfer?.haemodynamically_stable || ""}
@@ -2888,8 +2774,8 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                           
                           <div className="p-2 flex flex-col justify-between">
                             <div>
-                              <label className="block text-[10px] font-bold text-slate-700 uppercase">DESTINATION <span className="text-red-500">*</span></label>
-                              <span className="text-[9px] text-slate-400 italic mb-1 block">Recovery / ICU / HDU</span>
+                              <label className="block text-[10px] font-bold text-slate-700 uppercase">{i18n.t("DESTINATION")}{" "}<span className="text-red-500">*</span></label>
+                              <span className="text-[9px] text-slate-400 italic mb-1 block">{i18n.t("Recovery / ICU / HDU")}</span>
                             </div>
                             <input type="text" className="w-full p-1.5 border border-slate-200 rounded text-xs bg-white outline-none focus:ring-1 focus:ring-brand-active" 
                               value={masterData?.emergence_transfer?.destination || ""}
@@ -2898,7 +2784,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                           
                           <div className="p-2 flex flex-col justify-between">
                             <div>
-                              <label className="block text-[10px] font-bold text-slate-700 uppercase">HANDOVER TO (NAME/ROLE) <span className="text-red-500">*</span></label>
+                              <label className="block text-[10px] font-bold text-slate-700 uppercase">{i18n.t("HANDOVER TO (NAME/ROLE)")}{" "}<span className="text-red-500">*</span></label>
                               <span className="text-[9px] text-transparent italic mb-1 block">-</span>
                             </div>
                             <input type="text" className="w-full p-1.5 border border-slate-200 rounded text-xs bg-white outline-none focus:ring-1 focus:ring-brand-active" 
@@ -2909,8 +2795,8 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                       </div>
 
                       <div className="flex justify-between text-[10px] text-slate-500 px-4 py-2 border-t border-slate-200 mt-8">
-                        <span>GSH-THEATRE-ANA-018-v3 • Permanent clinical record – retain in patient notes • Corrections struck through, signed & dated – no correction fluid</span>
-                        <span>Page 4 / 6</span>
+                        <span>{i18n.t("GSH-THEATRE-ANA-018-v3 • Permanent clinical record – retain in patient notes • Corrections struck through, signed & dated – no correction fluid")}</span>
+                        <span>{i18n.t("Page 4 / 6")}</span>
                       </div>
                     </div>
                   )}
@@ -2919,13 +2805,13 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                   {recoverySubTab === "recovery_obs" && (
                     <div className="space-y-6 animate-in fade-in duration-300">
                       <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                        <h4 className="font-bold text-brand-primary uppercase tracking-wider text-sm border-b pb-2">Modified Aldrete Score</h4>
-                        <table className="w-full text-left text-sm">
+                        <h4 className="font-bold text-brand-primary uppercase tracking-wider text-sm border-b pb-2">{i18n.t("Modified Aldrete Score")}</h4>
+                        <table className="w-full text-start text-sm">
                           <thead>
                             <tr className="text-slate-400">
-                              <th className="py-2 font-bold uppercase text-xs">Criterion</th>
-                              <th className="py-2 text-center font-bold uppercase text-xs">Arrival (0-2)</th>
-                              <th className="py-2 text-center font-bold uppercase text-xs">Discharge (0-2)</th>
+                              <th className="py-2 font-bold uppercase text-xs">{i18n.t("Criterion")}</th>
+                              <th className="py-2 text-center font-bold uppercase text-xs">{i18n.t("Arrival (0-2)")}</th>
+                              <th className="py-2 text-center font-bold uppercase text-xs">{i18n.t("Discharge (0-2)")}</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
@@ -2956,26 +2842,26 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                       
                       {/* Document Header Bar */}
                       <div className="flex items-center gap-3 bg-[#2e1065] text-white p-2 rounded-t-lg shadow-sm">
-                        <div className="bg-white/20 px-3 py-1 font-bold rounded">I</div>
-                        <h3 className="font-bold uppercase tracking-wider text-sm">POST-ANAESTHESIA CARE PLAN, CONTINGENCIES & RECOMMENDATIONS</h3>
+                        <div className="bg-white/20 px-3 py-1 font-bold rounded">{i18n.t("I")}</div>
+                        <h3 className="font-bold uppercase tracking-wider text-sm">{i18n.t("POST-ANAESTHESIA CARE PLAN, CONTINGENCIES & RECOMMENDATIONS")}</h3>
                       </div>
 
                       {/* Care Plan Inputs */}
                       <div className="bg-white p-6 rounded-b-lg border border-[#9999cc] shadow-sm space-y-6 -mt-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                           <div>
-                            <label className="block text-xs font-bold text-slate-500 mb-1">PLANNED DESTINATION <span className="text-red-500">*</span></label>
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("PLANNED DESTINATION")}{" "}<span className="text-red-500">*</span></label>
                             <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 font-bold text-slate-800 outline-none focus:ring-1 focus:ring-[#2e1065]"
                               value={masterData?.post_op_care_plan?.planned_destination || ""}
                               onChange={(e) => updateMasterData("post_op_care_plan", "planned_destination", e.target.value)}>
-                              <option value="">Recovery → ward / HDU / ICU</option>
-                              <option>Recovery → Ward</option>
-                              <option>HDU</option>
-                              <option>ICU</option>
+                              <option value="">{i18n.t("Recovery → ward / HDU / ICU")}</option>
+                              <option>{i18n.t("Recovery → Ward")}</option>
+                              <option>{i18n.t("HDU")}</option>
+                              <option>{i18n.t("ICU")}</option>
                             </select>
                           </div>
                           <div>
-                            <label className="block text-xs font-bold text-slate-500 mb-1">LEVEL OF CARE</label>
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("LEVEL OF CARE")}</label>
                             <select className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 font-bold text-slate-800 outline-none focus:ring-1 focus:ring-[#2e1065]"
                               value={masterData?.post_op_care_plan?.level_of_care || ""}
                               onChange={(e) => updateMasterData("post_op_care_plan", "level_of_care", e.target.value)}>
@@ -2984,56 +2870,56 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                             </select>
                           </div>
                           <div>
-                            <label className="block text-xs font-bold text-slate-500 mb-1">ANALGESIA PLAN</label>
-                            <input type="text" placeholder="multimodal / PCA / regional / epidural" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm outline-none focus:ring-1 focus:ring-[#2e1065]"
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("ANALGESIA PLAN")}</label>
+                            <input type="text" placeholder={i18n.t("multimodal / PCA / regional / epidural")} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm outline-none focus:ring-1 focus:ring-[#2e1065]"
                               value={masterData?.post_op_care_plan?.analgesia_plan || ""}
                               onChange={(e) => updateMasterData("post_op_care_plan", "analgesia_plan", e.target.value)} />
                           </div>
                           <div>
-                            <label className="block text-xs font-bold text-slate-500 mb-1">ANTIEMESIS PLAN</label>
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("ANTIEMESIS PLAN")}</label>
                             <input type="text" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm outline-none focus:ring-1 focus:ring-[#2e1065]"
                               value={masterData?.post_op_care_plan?.antiemesis_plan || ""}
                               onChange={(e) => updateMasterData("post_op_care_plan", "antiemesis_plan", e.target.value)} />
                           </div>
                           <div>
-                            <label className="block text-xs font-bold text-slate-500 mb-1">O₂ THERAPY / RESP. SUPPORT</label>
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("O₂ THERAPY / RESP. SUPPORT")}</label>
                             <input type="text" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm outline-none focus:ring-1 focus:ring-[#2e1065]"
                               value={masterData?.post_op_care_plan?.o2_therapy || ""}
                               onChange={(e) => updateMasterData("post_op_care_plan", "o2_therapy", e.target.value)} />
                           </div>
                           <div>
-                            <label className="block text-xs font-bold text-slate-500 mb-1">FLUIDS / ELECTROLYTES</label>
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("FLUIDS / ELECTROLYTES")}</label>
                             <input type="text" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm outline-none focus:ring-1 focus:ring-[#2e1065]"
                               value={masterData?.post_op_care_plan?.fluids_electrolytes || ""}
                               onChange={(e) => updateMasterData("post_op_care_plan", "fluids_electrolytes", e.target.value)} />
                           </div>
                           <div>
-                            <label className="block text-xs font-bold text-slate-500 mb-1">GLUCOSE / INSULIN <span className="text-slate-400 font-normal normal-case">(if diabetic)</span></label>
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("GLUCOSE / INSULIN")}{" "}<span className="text-slate-400 font-normal normal-case">{i18n.t("(if diabetic)")}</span></label>
                             <input type="text" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm outline-none focus:ring-1 focus:ring-[#2e1065]"
                               value={masterData?.post_op_care_plan?.glucose_insulin || ""}
                               onChange={(e) => updateMasterData("post_op_care_plan", "glucose_insulin", e.target.value)} />
                           </div>
                           <div>
-                            <label className="block text-xs font-bold text-slate-500 mb-1">ANTICOAGULATION / VTE</label>
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("ANTICOAGULATION / VTE")}</label>
                             <input type="text" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm outline-none focus:ring-1 focus:ring-[#2e1065]"
                               value={masterData?.post_op_care_plan?.anticoagulation_vte || ""}
                               onChange={(e) => updateMasterData("post_op_care_plan", "anticoagulation_vte", e.target.value)} />
                           </div>
                           <div>
-                            <label className="block text-xs font-bold text-slate-500 mb-1">LINES / DRAINS / CATHETER</label>
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("LINES / DRAINS / CATHETER")}</label>
                             <input type="text" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm outline-none focus:ring-1 focus:ring-[#2e1065]"
                               value={masterData?.post_op_care_plan?.lines_drains_catheter || ""}
                               onChange={(e) => updateMasterData("post_op_care_plan", "lines_drains_catheter", e.target.value)} />
                           </div>
                           <div className="lg:col-span-3">
-                            <label className="block text-xs font-bold text-slate-500 mb-1">BLOODS / MONITORING PLAN <span className="text-slate-400 font-normal normal-case">(Hb, gases, U&E timing)</span></label>
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("BLOODS / MONITORING PLAN")}{" "}<span className="text-slate-400 font-normal normal-case">{i18n.t("(Hb, gases, U&E timing)")}</span></label>
                             <input type="text" className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm outline-none focus:ring-1 focus:ring-[#2e1065]"
                               value={masterData?.post_op_care_plan?.bloods_monitoring_plan || ""}
                               onChange={(e) => updateMasterData("post_op_care_plan", "bloods_monitoring_plan", e.target.value)} />
                           </div>
                           <div className="lg:col-span-3">
-                            <label className="block text-xs font-bold text-slate-500 mb-1">Specific post-operative instructions & recovery goals</label>
-                            <p className="text-[10px] text-slate-400 mb-1">(targets for BP, urine output, extubation criteria, transfusion triggers, escalation thresholds)</p>
+                            <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Specific post-operative instructions & recovery goals")}</label>
+                            <p className="text-[10px] text-slate-400 mb-1">{i18n.t("(targets for BP, urine output, extubation criteria, transfusion triggers, escalation thresholds)")}</p>
                             <textarea rows={3} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm outline-none focus:ring-1 focus:ring-[#2e1065]"
                               value={masterData?.post_op_care_plan?.specific_instructions || ""}
                               onChange={(e) => updateMasterData("post_op_care_plan", "specific_instructions", e.target.value)} />
@@ -3044,16 +2930,16 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                       {/* Contingency Plans Table */}
                       <div className="bg-white rounded-lg border border-[#9999cc] shadow-sm overflow-hidden flex flex-col">
                         <div className="p-4 bg-white border-b border-[#9999cc]">
-                          <h4 className="font-bold text-[#2e1065] text-sm uppercase tracking-wider">Contingency / ‘In the event of…’ Plans</h4>
-                          <p className="text-[10px] text-slate-500">(anaesthetist to specify management for anticipated problems)</p>
+                          <h4 className="font-bold text-[#2e1065] text-sm uppercase tracking-wider">{i18n.t("Contingency / ‘In the event of…’ Plans")}</h4>
+                          <p className="text-[10px] text-slate-500">{i18n.t("(anaesthetist to specify management for anticipated problems)")}</p>
                         </div>
                         <div className="overflow-x-auto">
-                          <table className="w-full text-left min-w-max border-collapse">
+                          <table className="w-full text-start min-w-max border-collapse">
                             <thead className="bg-[#e6e6f2] shadow-sm border-b border-[#9999cc]">
                               <tr>
-                                <th className="px-4 py-3 text-xs font-bold text-[#000066] border-r border-[#9999cc] w-1/3">Anticipated event</th>
-                                <th className="px-4 py-3 text-xs font-bold text-[#000066] border-r border-[#9999cc] w-1/3">Plan / management</th>
-                                <th className="px-4 py-3 text-xs font-bold text-[#000066]">Who to call / escalate</th>
+                                <th className="px-4 py-3 text-xs font-bold text-[#000066] border-e border-[#9999cc] w-1/3">{i18n.t("Anticipated event")}</th>
+                                <th className="px-4 py-3 text-xs font-bold text-[#000066] border-e border-[#9999cc] w-1/3">{i18n.t("Plan / management")}</th>
+                                <th className="px-4 py-3 text-xs font-bold text-[#000066]">{i18n.t("Who to call / escalate")}</th>
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-[#9999cc]">
@@ -3077,14 +2963,14 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
 
                                 return (
                                   <tr key={idx} className="hover:bg-[#f7f7fc] transition-colors bg-white">
-                                    <td className="px-2 py-1.5 border-r border-[#9999cc]">
+                                    <td className="px-2 py-1.5 border-e border-[#9999cc]">
                                       {defaultLabel ? (
                                         <span className="text-sm font-bold text-slate-700 px-2">{defaultLabel}</span>
                                       ) : (
-                                        <input type="text" placeholder="Custom event..." value={currentPlan.anticipated_event} onChange={(e) => handleContingencyChange("anticipated_event", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active" />
+                                        <input type="text" placeholder={i18n.t("Custom event...")} value={currentPlan.anticipated_event} onChange={(e) => handleContingencyChange("anticipated_event", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active" />
                                       )}
                                     </td>
-                                    <td className="px-2 py-1.5 border-r border-[#9999cc]">
+                                    <td className="px-2 py-1.5 border-e border-[#9999cc]">
                                       <input type="text" value={currentPlan.plan_management} onChange={(e) => handleContingencyChange("plan_management", e.target.value)} className="w-full p-2 border border-slate-200 rounded text-sm bg-transparent outline-none focus:ring-1 focus:ring-brand-active" />
                                     </td>
                                     <td className="px-2 py-1.5">
@@ -3100,8 +2986,8 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
 
                       {/* Recommendations */}
                       <div className="bg-white p-6 rounded-xl border border-[#9999cc] shadow-sm space-y-2">
-                        <label className="block text-xs font-bold text-slate-500 mb-1 uppercase">Recommendations for ongoing / further treatment</label>
-                        <p className="text-[10px] text-slate-400 mb-2">(specialist referral, planned re-operation, follow-up investigations, family communication):</p>
+                        <label className="block text-xs font-bold text-slate-500 mb-1 uppercase">{i18n.t("Recommendations for ongoing / further treatment")}</label>
+                        <p className="text-[10px] text-slate-400 mb-2">{i18n.t("(specialist referral, planned re-operation, follow-up investigations, family communication):")}</p>
                         <textarea rows={3} className="w-full p-2.5 border border-slate-200 rounded-lg bg-slate-50 text-sm outline-none focus:ring-1 focus:ring-[#2e1065]"
                           value={masterData?.post_op_care_plan?.recommendations || ""}
                           onChange={(e) => updateMasterData("post_op_care_plan", "recommendations", e.target.value)} />
@@ -3128,29 +3014,25 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                 
                 {/* Document Header Bar */}
                 <div className="flex items-center gap-3 bg-[#2e1065] text-white p-2 rounded-t-lg shadow-sm">
-                  <div className="bg-white/20 px-3 py-1 font-bold rounded">L</div>
-                  <h3 className="font-bold uppercase tracking-wider text-sm">ANAESTHETIST CERTIFICATION</h3>
+                  <div className="bg-white/20 px-3 py-1 font-bold rounded">{i18n.t("L")}</div>
+                  <h3 className="font-bold uppercase tracking-wider text-sm">{i18n.t("ANAESTHETIST CERTIFICATION")}</h3>
                 </div>
 
                 <div className="bg-white p-8 rounded-b-xl shadow-sm border border-[#9999cc] -mt-6">
-                  <p className="text-sm font-bold text-brand-primary mb-8 bg-brand-active/10 p-4 rounded-lg border border-brand-active0/20">
-                    I confirm anaesthesia was conducted and monitored to AAGBI 2021 standards and I was present throughout, or delegated to a named, appropriately supervised practitioner.
-                  </p>
+                  <p className="text-sm font-bold text-brand-primary mb-8 bg-brand-active/10 p-4 rounded-lg border border-brand-active0/20">{i18n.t("I confirm anaesthesia was conducted and monitored to AAGBI 2021 standards and I was present throughout, or delegated to a named, appropriately supervised practitioner.")}</p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     
                     {/* Consultant / Responsible Anaesthetist */}
                     <div className="bg-slate-50 rounded-2xl p-6 border border-[#9999cc] flex flex-col h-[450px]">
-                      <h4 className="font-black text-slate-800 uppercase tracking-wider text-xs mb-4 pb-2 border-b border-[#9999cc]">
-                        Consultant / Responsible Anaesthetist
-                      </h4>
+                      <h4 className="font-black text-slate-800 uppercase tracking-wider text-xs mb-4 pb-2 border-b border-[#9999cc]">{i18n.t("Consultant / Responsible Anaesthetist")}</h4>
                       
                       {/* Consultant Signature Pad Area */}
                       <div className="flex-1 border-2 border-dashed border-[#9999cc] rounded-xl overflow-hidden bg-white mb-4 relative">
                         {masterData?.certification?.anaesthetist?.signature ? (
                           <div className="relative w-full h-full p-2 bg-slate-50">
-                            <img src={masterData.certification.anaesthetist.signature} alt="Signature" className="max-h-full max-w-full object-contain mx-auto" />
-                            <button onClick={() => updateNestedMasterData("certification", "anaesthetist", "signature", null)} className="absolute top-2 right-2 p-1.5 bg-red-100 hover:bg-red-200 text-red-600 rounded transition-colors"><Trash2 size={16}/></button>
+                            <img src={masterData.certification.anaesthetist.signature} alt={i18n.t("Signature")} className="max-h-full max-w-full object-contain mx-auto" />
+                            <button onClick={() => updateNestedMasterData("certification", "anaesthetist", "signature", null)} className="absolute top-2 end-2 p-1.5 bg-red-100 hover:bg-red-200 text-red-600 rounded transition-colors"><Trash2 size={16}/></button>
                           </div>
                         ) : (
                           <>
@@ -3159,9 +3041,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                               onClear={() => updateNestedMasterData("certification", "anaesthetist", "signature", null)}
                               className="h-full w-full"
                             />
-                            <span className="absolute inset-0 flex items-center justify-center text-slate-300 font-bold uppercase tracking-widest pointer-events-none">
-                              Sign Here
-                            </span>
+                            <span className="absolute inset-0 flex items-center justify-center text-slate-300 font-bold uppercase tracking-widest pointer-events-none">{i18n.t("Sign Here")}</span>
                           </>
                         )}
                       </div>
@@ -3169,27 +3049,27 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                       {/* Details Fields */}
                       <div className="space-y-3">
                         <div>
-                          <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Name (print)</label>
+                          <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">{i18n.t("Name (print)")}</label>
                           <input type="text" className="w-full p-2 border border-slate-300 rounded text-xs outline-none focus:ring-1 focus:ring-brand-active" 
                             value={masterData?.certification?.anaesthetist?.name || ""}
                             onChange={(e) => updateNestedMasterData("certification", "anaesthetist", "name", e.target.value)} />
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">MDCN No.</label>
+                            <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">{i18n.t("MDCN No.")}</label>
                             <input type="text" className="w-full p-2 border border-slate-300 rounded text-xs outline-none focus:ring-1 focus:ring-brand-active" 
                               value={masterData?.certification?.anaesthetist?.mdcn || ""}
                               onChange={(e) => updateNestedMasterData("certification", "anaesthetist", "mdcn", e.target.value)} />
                           </div>
                           <div className="flex gap-2">
                             <div className="flex-1">
-                              <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Date</label>
+                              <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">{i18n.t("Date")}</label>
                               <input type="date" className="w-full p-2 border border-slate-300 rounded text-xs outline-none focus:ring-1 focus:ring-brand-active" 
                                 value={masterData?.certification?.anaesthetist?.date || ""}
                                 onChange={(e) => updateNestedMasterData("certification", "anaesthetist", "date", e.target.value)} />
                             </div>
                             <div className="flex-1">
-                              <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Time</label>
+                              <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">{i18n.t("Time")}</label>
                               <input type="time" className="w-full p-2 border border-slate-300 rounded text-xs outline-none focus:ring-1 focus:ring-brand-active" 
                                 value={masterData?.certification?.anaesthetist?.time || ""}
                                 onChange={(e) => updateNestedMasterData("certification", "anaesthetist", "time", e.target.value)} />
@@ -3201,16 +3081,14 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
 
                     {/* Anaesthetic Assistant / ODP / Recovery Nurse */}
                     <div className="bg-slate-50 rounded-2xl p-6 border border-[#9999cc] flex flex-col h-[450px]">
-                      <h4 className="font-black text-slate-800 uppercase tracking-wider text-xs mb-4 pb-2 border-b border-[#9999cc]">
-                        Anaesthetic Assistant / ODP / Recovery Nurse
-                      </h4>
+                      <h4 className="font-black text-slate-800 uppercase tracking-wider text-xs mb-4 pb-2 border-b border-[#9999cc]">{i18n.t("Anaesthetic Assistant / ODP / Recovery Nurse")}</h4>
                       
                       {/* Assistant Signature Pad Area */}
                       <div className="flex-1 border-2 border-dashed border-[#9999cc] rounded-xl overflow-hidden bg-white mb-4 relative">
                         {masterData?.certification?.assistant?.signature ? (
                           <div className="relative w-full h-full p-2 bg-slate-50">
-                            <img src={masterData.certification.assistant.signature} alt="Signature" className="max-h-full max-w-full object-contain mx-auto" />
-                            <button onClick={() => updateNestedMasterData("certification", "assistant", "signature", null)} className="absolute top-2 right-2 p-1.5 bg-red-100 hover:bg-red-200 text-red-600 rounded transition-colors"><Trash2 size={16}/></button>
+                            <img src={masterData.certification.assistant.signature} alt={i18n.t("Signature")} className="max-h-full max-w-full object-contain mx-auto" />
+                            <button onClick={() => updateNestedMasterData("certification", "assistant", "signature", null)} className="absolute top-2 end-2 p-1.5 bg-red-100 hover:bg-red-200 text-red-600 rounded transition-colors"><Trash2 size={16}/></button>
                           </div>
                         ) : (
                           <>
@@ -3219,9 +3097,7 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                               onClear={() => updateNestedMasterData("certification", "assistant", "signature", null)}
                               className="h-full w-full"
                             />
-                            <span className="absolute inset-0 flex items-center justify-center text-slate-300 font-bold uppercase tracking-widest pointer-events-none">
-                              Sign Here
-                            </span>
+                            <span className="absolute inset-0 flex items-center justify-center text-slate-300 font-bold uppercase tracking-widest pointer-events-none">{i18n.t("Sign Here")}</span>
                           </>
                         )}
                       </div>
@@ -3229,27 +3105,27 @@ export const OTCardiacAnaesthesiaMonitoringModal: React.FC<AnaesthesiaMonitoring
                       {/* Details Fields */}
                       <div className="space-y-3">
                         <div>
-                          <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Name (print)</label>
+                          <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">{i18n.t("Name (print)")}</label>
                           <input type="text" className="w-full p-2 border border-slate-300 rounded text-xs outline-none focus:ring-1 focus:ring-brand-active" 
                             value={masterData?.certification?.assistant?.name || ""}
                             onChange={(e) => updateNestedMasterData("certification", "assistant", "name", e.target.value)} />
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">NMCN No.</label>
+                            <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">{i18n.t("NMCN No.")}</label>
                             <input type="text" className="w-full p-2 border border-slate-300 rounded text-xs outline-none focus:ring-1 focus:ring-brand-active" 
                               value={masterData?.certification?.assistant?.nmcn || ""}
                               onChange={(e) => updateNestedMasterData("certification", "assistant", "nmcn", e.target.value)} />
                           </div>
                           <div className="flex gap-2">
                             <div className="flex-1">
-                              <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Date</label>
+                              <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">{i18n.t("Date")}</label>
                               <input type="date" className="w-full p-2 border border-slate-300 rounded text-xs outline-none focus:ring-1 focus:ring-brand-active" 
                                 value={masterData?.certification?.assistant?.date || ""}
                                 onChange={(e) => updateNestedMasterData("certification", "assistant", "date", e.target.value)} />
                             </div>
                             <div className="flex-1">
-                              <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Time</label>
+                              <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">{i18n.t("Time")}</label>
                               <input type="time" className="w-full p-2 border border-slate-300 rounded text-xs outline-none focus:ring-1 focus:ring-brand-active" 
                                 value={masterData?.certification?.assistant?.time || ""}
                                 onChange={(e) => updateNestedMasterData("certification", "assistant", "time", e.target.value)} />

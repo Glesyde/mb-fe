@@ -34,6 +34,7 @@ import { inventoryService, MarkupType } from "../services/inventory.service";
 import { billingService } from "../services/billing.service";
 import { MARKUP_TYPES } from "../constants";
 import { useNotification } from "../context/NotificationContext";
+import { i18n } from "../i18n";
 
 interface PayerMarkupRule {
   id: string;
@@ -684,12 +685,12 @@ const InventoryStockMaster: React.FC = () => {
       {/* Top Control Bar */}
       <div className="bg-white p-4 rounded-[32px] border border-slate-200 flex flex-col xl:flex-row gap-4 items-center shadow-sm">
         <div className="relative flex-1 w-full group">
-          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-900 transition-colors" size={22} />
+          <Search className="absolute start-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-900 transition-colors" size={22} />
 
           <input
             type="text"
-            placeholder="Search items by name, brand, ID, or batch no..."
-            className="w-full pl-14 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white focus:ring-4 focus:ring-slate-900/5 outline-none transition-all"
+            placeholder={i18n.t("Search items by name, brand, ID, or batch no...")}
+            className="w-full ps-14 pe-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white focus:ring-4 focus:ring-slate-900/5 outline-none transition-all"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -736,7 +737,7 @@ const InventoryStockMaster: React.FC = () => {
                           <AlertTriangle size={16} className="animate-pulse" />
                         {/* </div> */}
                         <div>
-                          <p className="font-black text-rose-800">{lowStockCount} Low Stocks!</p>
+                          <p className="font-black text-rose-800">{lowStockCount}{" "}{i18n.t("Low Stocks!")}</p>
                           {/* <p className="text-xs font-bold text-rose-600 uppercase tracking-widest mt-0.5">Click here to view items needing immediate restock</p> */}
                         </div>
                       </div>
@@ -758,30 +759,29 @@ const InventoryStockMaster: React.FC = () => {
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
           >
-            <option value="ALL">All Categories</option>
-            <option value="DRUG">Drugs</option>
-            <option value="CONSUMABLE">Consumables</option>
-            <option value="DEVICE">Devices</option>
+            <option value="ALL">{i18n.t("All Categories")}</option>
+            <option value="DRUG">{i18n.t("Drugs")}</option>
+            <option value="CONSUMABLE">{i18n.t("Consumables")}</option>
+            <option value="DEVICE">{i18n.t("Devices")}</option>
           </select>
 
 
           <div className="w-px h-10 bg-slate-200 mx-1 hidden sm:block"></div>
 
-          <button onClick={handleExportCSV} className="p-4 bg-white border border-slate-200 text-slate-600 hover:text-emerald-600 rounded-2xl transition-all shadow-sm flex items-center gap-2" title="Export CSV">
-            <Download size={18} /> <span className="text-xs font-bold hidden sm:inline">Export</span>
+          <button onClick={handleExportCSV} className="p-4 bg-white border border-slate-200 text-slate-600 hover:text-emerald-600 rounded-2xl transition-all shadow-sm flex items-center gap-2" title={i18n.t("Export CSV")}>
+            <Download size={18} /> <span className="text-xs font-bold hidden sm:inline">{i18n.t("Export")}</span>
           </button>
           
-          <button onClick={() => setShowBulkPricingModal(true)} className="p-4 bg-white border border-slate-200 text-slate-600 hover:text-indigo-600 rounded-2xl transition-all shadow-sm flex items-center gap-2" title="Bulk Payer Pricing">
-            <Settings size={18} /> <span className="text-xs font-bold hidden sm:inline">Bulk Pricing</span>
+          <button onClick={() => setShowBulkPricingModal(true)} className="p-4 bg-white border border-slate-200 text-slate-600 hover:text-indigo-600 rounded-2xl transition-all shadow-sm flex items-center gap-2" title={i18n.t("Bulk Payer Pricing")}>
+            <Settings size={18} /> <span className="text-xs font-bold hidden sm:inline">{i18n.t("Bulk Pricing")}</span>
           </button>
           
-          <button onClick={() => setShowBulkImportModal(true)} className="p-4 bg-white border border-slate-200 text-slate-600 hover:text-blue-600 rounded-2xl transition-all shadow-sm flex items-center gap-2" title="Bulk Import">
+          <button onClick={() => setShowBulkImportModal(true)} className="p-4 bg-white border border-slate-200 text-slate-600 hover:text-blue-600 rounded-2xl transition-all shadow-sm flex items-center gap-2" title={i18n.t("Bulk Import")}>
             <Upload size={18} />
           </button>
           
           <button onClick={handleOpenCreate} className="bg-slate-900 text-white px-6 py-4 rounded-[20px] font-black uppercase text-xs tracking-widest shadow-xl active:scale-95 transition-all flex items-center gap-2 whitespace-nowrap">
-            <Plus size={18} /> Register Item
-          </button>
+            <Plus size={18} />{" "}{i18n.t("Register Item")}</button>
         </div>
       </div>
 
@@ -790,16 +790,16 @@ const InventoryStockMaster: React.FC = () => {
       {/* Main Table View */}
       <div className="bg-white border border-slate-200 rounded-[44px] overflow-hidden shadow-sm min-h-[400px]">
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="w-full text-start">
             <thead>
               <tr className="bg-slate-50/50 border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                <th className="px-8 py-6">Item Identity</th>
-                <th className="px-8 py-6">Brand</th>
-                <th className="px-8 py-6">Classification</th>
-                <th className="px-8 py-6">Strength</th>
-                <th className="px-8 py-6 text-center">Unit / UOM</th>
-                <th className="px-8 py-6 text-center">Status</th>
-                <th className="px-8 py-6 text-right">Actions</th>
+                <th className="px-8 py-6">{i18n.t("Item Identity")}</th>
+                <th className="px-8 py-6">{i18n.t("Brand")}</th>
+                <th className="px-8 py-6">{i18n.t("Classification")}</th>
+                <th className="px-8 py-6">{i18n.t("Strength")}</th>
+                <th className="px-8 py-6 text-center">{i18n.t("Unit / UOM")}</th>
+                <th className="px-8 py-6 text-center">{i18n.t("Status")}</th>
+                <th className="px-8 py-6 text-end">{i18n.t("Actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50 font-medium">
@@ -807,7 +807,7 @@ const InventoryStockMaster: React.FC = () => {
                 <tr>
                   <td colSpan={7} className="py-20 text-center">
                     <Loader2 size={40} className="animate-spin mx-auto text-brand-primary mb-4" />
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Querying Inventory database...</p>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Querying Inventory database...")}</p>
                   </td>
                 </tr>
               ) : paginatedItems.length > 0 ? (
@@ -822,25 +822,25 @@ const InventoryStockMaster: React.FC = () => {
                           <p className="text-sm font-black text-slate-800">{item.name}</p>
                           <p className="text-[10px] font-mono font-black text-brand-primary uppercase tracking-tighter mt-0.5">{item.items_uhid}</p>
                           {item.is_low_stock === 1 && (
-                            <span className="inline-block mt-1 text-[8px] font-black uppercase tracking-widest text-rose-600 bg-rose-100 px-2 py-0.5 rounded-md border border-rose-200">Low Stock (≤ {item.reorder_level})</span>
+                            <span className="inline-block mt-1 text-[8px] font-black uppercase tracking-widest text-rose-600 bg-rose-100 px-2 py-0.5 rounded-md border border-rose-200">{i18n.t("Low Stock (≤")}{" "}{item.reorder_level})</span>
                           )}
                         </div>
                       </div>
                     </td>
-                    <td className="px-8 py-6 text-sm text-slate-600 font-bold">{item.brand || "N/A"}</td>
+                    <td className="px-8 py-6 text-sm text-slate-600 font-bold">{item.brand || i18n.t("N/A")}</td>
                     <td className="px-8 py-6"><span className="text-[10px] font-black text-slate-500 bg-slate-100 px-3 py-1 rounded-lg uppercase tracking-wider border border-slate-200">{item.item_type}</span></td>
-                    <td className="px-8 py-6 text-sm text-slate-600 font-bold">{item.strength || "N/A"}</td>
+                    <td className="px-8 py-6 text-sm text-slate-600 font-bold">{item.strength || i18n.t("N/A")}</td>
                     <td className="px-8 py-6 text-sm text-slate-600 font-bold text-center">{item.unit_name}</td>
                     <td className="px-8 py-6">
                       <div className={`mx-auto flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border w-fit ${item.is_active ? "bg-emerald-50 text-emerald-600 border-emerald-100" : "bg-slate-100 text-slate-400 border-slate-200"}`}>
                         {item.is_active ? <CheckCircle2 size={12} /> : <X size={12} />}
-                        {item.is_active ? "Active" : "Inactive"}
+                        {item.is_active ? i18n.t("Active") : i18n.t("Inactive")}
                       </div>
                     </td>
-                    <td className="px-8 py-6 text-right">
+                    <td className="px-8 py-6 text-end">
                       <div className="flex items-center justify-end gap-2">
-                        <button onClick={() => setShowPrintOptionsModal(item)} className="p-2.5 text-slate-300 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all shadow-sm bg-white border border-slate-100" title="Print Item"><Printer size={16} /></button>
-                        <button onClick={() => handleOpenBatches(item)} className="p-2.5 text-slate-300 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all shadow-sm bg-white border border-slate-100" title="View Batches"><History size={16} /></button>
+                        <button onClick={() => setShowPrintOptionsModal(item)} className="p-2.5 text-slate-300 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all shadow-sm bg-white border border-slate-100" title={i18n.t("Print Item")}><Printer size={16} /></button>
+                        <button onClick={() => handleOpenBatches(item)} className="p-2.5 text-slate-300 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all shadow-sm bg-white border border-slate-100" title={i18n.t("View Batches")}><History size={16} /></button>
                         <button onClick={() => handleOpenEdit(item)} className="p-2.5 text-slate-300 hover:text-brand-primary hover:bg-brand-active rounded-xl transition-all shadow-sm bg-white border border-slate-100"><Edit2 size={16} /></button>
                         <button onClick={() => setShowDeleteConfirm(item.id)} className="p-2.5 text-slate-300 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all shadow-sm bg-white border border-slate-100"><Trash2 size={16} /></button>
                       </div>
@@ -851,7 +851,7 @@ const InventoryStockMaster: React.FC = () => {
                 <tr>
                   <td colSpan={7} className="py-32 text-center">
                     <Layers className="mx-auto text-slate-200 mb-4" size={48} />
-                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest">No matching items in master registry</p>
+                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("No matching items in master registry")}</p>
                   </td>
                 </tr>
               )}
@@ -862,12 +862,10 @@ const InventoryStockMaster: React.FC = () => {
         {/* Pagination */}
         {filtered.length > 0 && (
           <div className="px-8 py-6 bg-slate-50/50 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-              Showing <span className="text-slate-800">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="text-slate-800">{Math.min(currentPage * itemsPerPage, filtered.length)}</span> of <span className="text-slate-800">{filtered.length}</span> Master Items
-            </p>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Showing")}{" "}<span className="text-slate-800">{(currentPage - 1) * itemsPerPage + 1}</span>{" "}{i18n.t("to")}{" "}<span className="text-slate-800">{Math.min(currentPage * itemsPerPage, filtered.length)}</span>{" "}{i18n.t("of")}{" "}<span className="text-slate-800">{filtered.length}</span>{" "}{i18n.t("Master Items")}</p>
             <div className="flex items-center gap-2">
               <button onClick={() => setCurrentPage((p) => Math.max(1, p - 1))} disabled={currentPage === 1} className="p-3 rounded-xl border border-slate-200 bg-white text-slate-500 hover:text-brand-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm">
-                <ChevronLeft size={18} />
+                <ChevronLeft className="rtl:-scale-x-100" size={18} />
               </button>
               <div className="flex items-center gap-1">
                 {Array.from({ length: totalPages > 5 ? 5 : totalPages }).map((_, i) => (
@@ -877,7 +875,7 @@ const InventoryStockMaster: React.FC = () => {
                 ))}
               </div>
               <button onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className="p-3 rounded-xl border border-slate-200 bg-white text-slate-500 hover:text-brand-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm">
-                <ChevronRight size={18} />
+                <ChevronRight className="rtl:-scale-x-100" size={18} />
               </button>
             </div>
           </div>
@@ -896,11 +894,9 @@ const InventoryStockMaster: React.FC = () => {
                 </div>
                 <div>
                   <h2 className="text-xl font-black text-slate-800 tracking-tight">
-                    {modalMode === "create" ? "Register New Item" : "Modify Item Parameters"}
+                    {modalMode === "create" ? i18n.t("Register New Item") : i18n.t("Modify Item Parameters")}
                   </h2>
-                  <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">
-                    Registry Governance
-                  </p>
+                  <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">{i18n.t("Registry Governance")}</p>
                 </div>
               </div>
               <button type="button" onClick={() => setShowAddModal(false)} disabled={isSubmitting} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400">
@@ -910,43 +906,43 @@ const InventoryStockMaster: React.FC = () => {
 
             <div className="p-10 space-y-6 flex-1 overflow-y-auto no-scrollbar">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Official Name / Description *</label>
-                <input required type="text" className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white focus:ring-8 focus:ring-slate-900/5 transition-all outline-none" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} placeholder="e.g. Paracetamol 500mg Tablet" />
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Official Name / Description *")}</label>
+                <input required type="text" className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white focus:ring-8 focus:ring-slate-900/5 transition-all outline-none" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} placeholder={i18n.t("e.g. Paracetamol 500mg Tablet")} />
               </div>
               
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Item Category Type</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Item Category Type")}</label>
                   <select className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none cursor-pointer" value={formData.item_type} onChange={(e) => setFormData({ ...formData, item_type: e.target.value as any })}>
-                    <option value="DRUG">DRUG</option>
-                    <option value="CONSUMABLE">CONSUMABLE</option>
-                    <option value="DEVICE">DEVICE</option>
+                    <option value="DRUG">{i18n.t("DRUG")}</option>
+                    <option value="CONSUMABLE">{i18n.t("CONSUMABLE")}</option>
+                    <option value="DEVICE">{i18n.t("DEVICE")}</option>
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Department Code</label>
-                  <input type="text" className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none" value={formData.category_code} onChange={(e) => setFormData({ ...formData, category_code: e.target.value })} placeholder="e.g. PHARMACY" />
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Department Code")}</label>
+                  <input type="text" className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none" value={formData.category_code} onChange={(e) => setFormData({ ...formData, category_code: e.target.value })} placeholder={i18n.t("e.g. PHARMACY")} />
                 </div>
               </div>
               
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2 relative">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Unit of Measure (UOM) *</label>
-                  <button type="button" onClick={() => setShowUnitDropdown(!showUnitDropdown)} className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none text-left flex items-center justify-between hover:border-brand-primary">
-                    <span className={!formData.unit_id ? "text-slate-400" : ""}>{units.find((u) => u.id === formData.unit_id)?.name || "Select a unit..."}</span>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Unit of Measure (UOM) *")}</label>
+                  <button type="button" onClick={() => setShowUnitDropdown(!showUnitDropdown)} className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none text-start flex items-center justify-between hover:border-brand-primary">
+                    <span className={!formData.unit_id ? "text-slate-400" : ""}>{units.find((u) => u.id === formData.unit_id)?.name || i18n.t("Select a unit...")}</span>
                     <ChevronDown size={16} className="text-slate-400" />
                   </button>
                   {showUnitDropdown && (
-                    <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-lg z-[130]">
+                    <div className="absolute top-full start-0 end-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-lg z-[130]">
                       <div className="p-3 border-b border-slate-100">
-                        <input type="text" placeholder="Search unit..." className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0" value={unitSearchTerm} onChange={(e) => setUnitSearchTerm(e.target.value)} autoFocus />
+                        <input type="text" placeholder={i18n.t("Search unit...")} className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0" value={unitSearchTerm} onChange={(e) => setUnitSearchTerm(e.target.value)} autoFocus />
                       </div>
                       <div className="max-h-64 overflow-y-auto">
                         {loadingDependencies ? (
                           <div className="p-4 text-center"><Loader2 size={16} className="animate-spin mx-auto text-brand-primary" /></div>
                         ) : (
                           units.filter((unit) => unit.name.toLowerCase().includes(unitSearchTerm.toLowerCase())).map((unit) => (
-                            <button key={unit.id} type="button" onClick={() => { setFormData({ ...formData, unit_id: unit.id }); setShowUnitDropdown(false); setUnitSearchTerm(""); }} className="w-full text-left px-5 py-3 hover:bg-brand-active border-b border-slate-50 transition-colors last:border-b-0">
+                            <button key={unit.id} type="button" onClick={() => { setFormData({ ...formData, unit_id: unit.id }); setShowUnitDropdown(false); setUnitSearchTerm(""); }} className="w-full text-start px-5 py-3 hover:bg-brand-active border-b border-slate-50 transition-colors last:border-b-0">
                               <p className="text-sm font-black text-slate-800">{unit.name}</p>
                             </button>
                           ))
@@ -956,33 +952,33 @@ const InventoryStockMaster: React.FC = () => {
                   )}
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-1"><AlertTriangle size={10} className="text-amber-500" /> Reorder Level Threshold</label>
-                  <input type="number" required min="0" className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none" value={formData.reorder_level} onChange={(e) => setFormData({ ...formData, reorder_level: parseInt(e.target.value) || 0 })} placeholder="e.g. 50" />
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1 flex items-center gap-1"><AlertTriangle size={10} className="text-amber-500" />{" "}{i18n.t("Reorder Level Threshold")}</label>
+                  <input type="number" required min="0" className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none" value={formData.reorder_level} onChange={(e) => setFormData({ ...formData, reorder_level: parseInt(e.target.value) || 0 })} placeholder={i18n.t("e.g. 50")} />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Brand Name</label>
-                  <input type="text" placeholder="e.g. Panadol, Aspirin Plus" className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:bg-white transition-all" value={formData.brand} onChange={(e) => setFormData({ ...formData, brand: e.target.value })} />
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Brand Name")}</label>
+                  <input type="text" placeholder={i18n.t("e.g. Panadol, Aspirin Plus")} className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:bg-white transition-all" value={formData.brand} onChange={(e) => setFormData({ ...formData, brand: e.target.value })} />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Strength / Dosage</label>
-                  <input type="text" placeholder="e.g. 500mg, 1g, 2.5%" className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:bg-white transition-all" value={formData.strength} onChange={(e) => setFormData({ ...formData, strength: e.target.value })} />
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Strength / Dosage")}</label>
+                  <input type="text" placeholder={i18n.t("e.g. 500mg, 1g, 2.5%")} className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:bg-white transition-all" value={formData.strength} onChange={(e) => setFormData({ ...formData, strength: e.target.value })} />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Formulation Type</label>
-                <input type="text" placeholder="e.g. Tablet, Capsule, Injection, Syrup" className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:bg-white transition-all" value={formData.formulation} onChange={(e) => setFormData({ ...formData, formulation: e.target.value })} />
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Formulation Type")}</label>
+                <input type="text" placeholder={i18n.t("e.g. Tablet, Capsule, Injection, Syrup")} className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:bg-white transition-all" value={formData.formulation} onChange={(e) => setFormData({ ...formData, formulation: e.target.value })} />
               </div>
             </div>
 
             <div className="flex-shrink-0 px-10 py-8 bg-slate-50 border-t border-slate-100 flex justify-end gap-3">
-              <button type="button" onClick={() => setShowAddModal(false)} disabled={isSubmitting} className="px-6 py-3 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-slate-700">Cancel</button>
+              <button type="button" onClick={() => setShowAddModal(false)} disabled={isSubmitting} className="px-6 py-3 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-slate-700">{i18n.t("Cancel")}</button>
               <button type="submit" disabled={isSubmitting} className="bg-slate-900 text-white px-10 py-4 rounded-[20px] font-black uppercase text-xs tracking-widest shadow-xl active:scale-95 transition-all flex items-center gap-2">
                 {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
-                {isSubmitting ? "Syncing..." : modalMode === "create" ? "Register Item" : "Commit Changes"}
+                {isSubmitting ? i18n.t("Syncing...") : modalMode === "create" ? i18n.t("Register Item") : i18n.t("Commit Changes")}
               </button>
             </div>
           </form>
@@ -997,12 +993,8 @@ const InventoryStockMaster: React.FC = () => {
             <div className="flex-shrink-0 p-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
               <div>
                 <h2 className="text-lg font-black text-slate-800 tracking-tight flex items-center gap-2">
-                  <Settings size={20} className="text-indigo-600" />
-                  Bulk Payer Pricing
-                </h2>
-                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">
-                  Apply markup rule to ALL active batches
-                </p>
+                  <Settings size={20} className="text-indigo-600" />{i18n.t("Bulk Payer Pricing")}</h2>
+                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">{i18n.t("Apply markup rule to ALL active batches")}</p>
               </div>
               <button type="button" onClick={() => setShowBulkPricingModal(false)} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400">
                 <X size={20} />
@@ -1012,23 +1004,21 @@ const InventoryStockMaster: React.FC = () => {
             <div className="flex-1 overflow-y-auto no-scrollbar p-8 space-y-6">
               <div className="p-4 bg-indigo-50 border border-indigo-100 rounded-2xl flex gap-3">
                 <AlertCircle size={20} className="text-indigo-600 shrink-0" />
-                <p className="text-[10px] font-bold text-indigo-800 leading-relaxed uppercase">
-                  Warning: This action overrides existing pricing rules for the selected payer across all active inventory batches instantly.
-                </p>
+                <p className="text-[10px] font-bold text-indigo-800 leading-relaxed uppercase">{i18n.t("Warning: This action overrides existing pricing rules for the selected payer across all active inventory batches instantly.")}</p>
               </div>
 
               <div className="space-y-2 relative">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Target Payer (Cash/HMO/Corporate) *</label>
-                <button type="button" onClick={() => setShowPayerDropdown(!showPayerDropdown)} className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none text-left flex items-center justify-between hover:border-brand-primary">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Target Payer (Cash/HMO/Corporate) *")}</label>
+                <button type="button" onClick={() => setShowPayerDropdown(!showPayerDropdown)} className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none text-start flex items-center justify-between hover:border-brand-primary">
                   <span className={!bulkPricingForm.payer_id ? "text-slate-400" : ""}>
-                    {payers.find((p) => p.id.toString() === bulkPricingForm.payer_id)?.name || "Select a Payer..."}
+                    {payers.find((p) => p.id.toString() === bulkPricingForm.payer_id)?.name || i18n.t("Select a Payer...")}
                   </span>
                   <ChevronDown size={16} className="text-slate-400" />
                 </button>
                 {showPayerDropdown && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-lg z-[170]">
+                  <div className="absolute top-full start-0 end-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-lg z-[170]">
                     <div className="p-3 border-b border-slate-100">
-                      <input type="text" placeholder="Search payer..." className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0" value={payerSearchTerm} onChange={(e) => setPayerSearchTerm(e.target.value)} autoFocus />
+                      <input type="text" placeholder={i18n.t("Search payer...")} className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0" value={payerSearchTerm} onChange={(e) => setPayerSearchTerm(e.target.value)} autoFocus />
                     </div>
                     <div className="max-h-64 overflow-y-auto">
                       {loadingDependencies ? (
@@ -1036,7 +1026,7 @@ const InventoryStockMaster: React.FC = () => {
                       ) : (
                           payers.filter(p => p.name.toLowerCase().includes(payerSearchTerm.toLowerCase())).map((payer) => (
                         // payers.filter(p => p.name !== "Cash Payment" && p.name.toLowerCase().includes(payerSearchTerm.toLowerCase())).map((payer) => (
-                          <button key={payer.id} type="button" onClick={() => { setBulkPricingForm({ ...bulkPricingForm, payer_id: payer.id.toString() }); setShowPayerDropdown(false); setPayerSearchTerm(""); }} className="w-full text-left px-5 py-3 hover:bg-brand-active border-b border-slate-50 transition-colors last:border-b-0">
+                          <button key={payer.id} type="button" onClick={() => { setBulkPricingForm({ ...bulkPricingForm, payer_id: payer.id.toString() }); setShowPayerDropdown(false); setPayerSearchTerm(""); }} className="w-full text-start px-5 py-3 hover:bg-brand-active border-b border-slate-50 transition-colors last:border-b-0">
                             <p className="text-sm font-black text-slate-800">{payer.name}</p>
                           </button>
                         ))
@@ -1048,28 +1038,26 @@ const InventoryStockMaster: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Markup Type</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Markup Type")}</label>
                   <select className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none cursor-pointer" value={bulkPricingForm.markup_type} onChange={(e) => setBulkPricingForm({ ...bulkPricingForm, markup_type: e.target.value as MarkupType })}>
                     {MARKUP_TYPES.map((type) => ( <option key={type} value={type}>{type}</option> ))}
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Markup Value</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Markup Value")}</label>
                   <div className="relative">
-                    <input required type="number" className="w-full pl-10 pr-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none" value={bulkPricingForm.markup_value} onChange={(e) => setBulkPricingForm({ ...bulkPricingForm, markup_value: parseFloat(e.target.value) || 0 })} />
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-black text-slate-400"> {bulkPricingForm.markup_type === "PERCENTAGE" ? "%" : "₦"} </span>
+                    <input required type="number" className="w-full ps-10 pe-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none" value={bulkPricingForm.markup_value} onChange={(e) => setBulkPricingForm({ ...bulkPricingForm, markup_value: parseFloat(e.target.value) || 0 })} />
+                    <span className="absolute start-4 top-1/2 -translate-y-1/2 text-sm font-black text-slate-400"> {bulkPricingForm.markup_type === "PERCENTAGE" ? "%" : "₦"} </span>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="flex-shrink-0 p-8 pt-0 flex gap-3">
-              <button type="button" onClick={() => setShowBulkPricingModal(false)} className="flex-1 py-4 rounded-2xl border-2 border-slate-100 font-black text-xs uppercase tracking-widest text-slate-500 hover:bg-slate-50 transition-all">
-                Cancel
-              </button>
+              <button type="button" onClick={() => setShowBulkPricingModal(false)} className="flex-1 py-4 rounded-2xl border-2 border-slate-100 font-black text-xs uppercase tracking-widest text-slate-500 hover:bg-slate-50 transition-all">{i18n.t("Cancel")}</button>
               <button type="submit" disabled={isSubmitting} className="flex-1 py-4 rounded-2xl bg-indigo-600 text-white font-black text-xs uppercase tracking-widest shadow-xl active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-2">
                 {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Settings size={16} />}
-                {isSubmitting ? "Processing..." : "Apply to All"}
+                {isSubmitting ? i18n.t("Processing...") : i18n.t("Apply to All")}
               </button>
             </div>
           </form>
@@ -1083,18 +1071,15 @@ const InventoryStockMaster: React.FC = () => {
           <div className="relative bg-white h-full w-full max-w-5xl shadow-2xl animate-in slide-in-from-right duration-300 flex flex-col">
             <div className="p-10 border-b border-slate-100 flex items-center justify-between">
               <div>
-                <h3 className="text-2xl font-black text-slate-800 tracking-tight uppercase tracking-widest">
-                  Batch Inventory
-                </h3>
+                <h3 className="text-2xl font-black text-slate-800 tracking-tight uppercase tracking-widest">{i18n.t("Batch Inventory")}</h3>
                 <p className="text-sm font-bold text-brand-primary uppercase tracking-widest mt-1">
                   {showBatchModal.name}
                 </p>
               </div>
               <div className="flex items-center gap-3">
                 <button onClick={() => setShowAddBatchModal(true)} className="px-6 py-3 bg-brand-primary text-white rounded-[20px] font-black uppercase text-[10px] tracking-widest hover:bg-brand-primary/90 transition-all flex items-center gap-2">
-                  <Plus size={16} /> Add Batch
-                </button>
-                <button onClick={() => window.open(`/print/inventory/batches/${showBatchModal.id}`, "_blank")} className="p-3 hover:bg-slate-100 rounded-full transition-colors text-slate-400" title="Print Batches">
+                  <Plus size={16} />{" "}{i18n.t("Add Batch")}</button>
+                <button onClick={() => window.open(`/print/inventory/batches/${showBatchModal.id}`, "_blank")} className="p-3 hover:bg-slate-100 rounded-full transition-colors text-slate-400" title={i18n.t("Print Batches")}>
                   <Printer size={24} />
                 </button>
                 <button onClick={() => setShowBatchModal(null)} className="p-3 hover:bg-slate-100 rounded-full transition-colors text-slate-400">
@@ -1107,7 +1092,7 @@ const InventoryStockMaster: React.FC = () => {
               {loadingBatches ? (
                 <div className="py-20 text-center">
                   <Loader2 size={40} className="animate-spin mx-auto text-brand-primary mb-4" />
-                  <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Retrieving Batch Records...</p>
+                  <p className="text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("Retrieving Batch Records...")}</p>
                 </div>
               ) : batches.length > 0 ? (
                 <div className="space-y-4">
@@ -1115,18 +1100,18 @@ const InventoryStockMaster: React.FC = () => {
                     <div key={batch.id} className="p-6 rounded-[32px] border-2 border-slate-100 hover:border-brand-active transition-all group bg-white shadow-sm">
                       <div className="flex items-start justify-between mb-6">
                         <div className="space-y-1">
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sys Ref: {batch.batch_number}</p>
-                          <p className="text-sm font-black text-slate-800 font-mono">Mfg: {batch.mfg_batch_no || "N/A"}</p>
+                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Sys Ref:")}{" "}{batch.batch_number}</p>
+                          <p className="text-sm font-black text-slate-800 font-mono">{i18n.t("Mfg:")}{" "}{batch.mfg_batch_no || i18n.t("N/A")}</p>
                           <p className="text-[10px] font-bold text-brand-primary uppercase tracking-tighter">{batch.item_name} - {batch.brand}</p>
                         </div>
                         <div className="flex gap-10">
-                          <div className="text-right">
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Purchase Price</p>
+                          <div className="text-end">
+                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Purchase Price")}</p>
                             <p className="text-sm font-black text-slate-700">₦{parseFloat(batch.purchase_price || 0).toLocaleString()}</p>
                           </div>
-                          <div className="text-right">
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Expiry Date</p>
-                            <p className={`text-sm font-black ${batch.expiry_date ? "text-slate-800" : "text-slate-300 italic"}`}>{batch.expiry_date || "No Expiry Set"}</p>
+                          <div className="text-end">
+                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Expiry Date")}</p>
+                            <p className={`text-sm font-black ${batch.expiry_date ? "text-slate-800" : "text-slate-300 italic"}`}>{batch.expiry_date || i18n.t("No Expiry Set")}</p>
                           </div>
                         </div>
                       </div>
@@ -1135,7 +1120,7 @@ const InventoryStockMaster: React.FC = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
                         {/* Cash Rule (Default) */}
                         <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl">
-                          <p className="text-[9px] font-black text-slate-400 uppercase mb-1">Cash / Default Selling Price</p>
+                          <p className="text-[9px] font-black text-slate-400 uppercase mb-1">{i18n.t("Cash / Default Selling Price")}</p>
                           <div className="flex items-end justify-between">
                             <span className="text-base font-black text-emerald-600">₦{parseFloat(batch.selling_price || 0).toLocaleString()}</span>
                             <span className="text-[10px] font-bold text-slate-500">{batch.markup_type} {batch.markup_value}%</span>
@@ -1152,8 +1137,8 @@ const InventoryStockMaster: React.FC = () => {
 
                           return (
                             <div key={i} className="p-3 bg-indigo-50/50 border border-indigo-100 rounded-xl flex flex-col justify-between">
-                              <p className="text-[9px] font-black text-indigo-400 uppercase truncate" title={payers.find(p => p.id === parseInt(rule.payer_id))?.name || "Unknown Payer"}>
-                                {payers.find(p => p.id === parseInt(rule.payer_id))?.name || "Unknown Payer"}
+                              <p className="text-[9px] font-black text-indigo-400 uppercase truncate" title={payers.find(p => p.id === parseInt(rule.payer_id))?.name || i18n.t("Unknown Payer")}>
+                                {payers.find(p => p.id === parseInt(rule.payer_id))?.name || i18n.t("Unknown Payer")}
                               </p>
                               <div className="flex items-end justify-between mt-1">
                                 <span className="text-base font-black text-indigo-700">₦{price.toLocaleString()}</span>
@@ -1167,23 +1152,23 @@ const InventoryStockMaster: React.FC = () => {
                       <div className="pt-6 border-t border-slate-100 flex items-center justify-between">
                         <div className="flex items-center gap-6">
                           <div>
-                            <p className="text-[9px] font-black text-slate-400 uppercase">Total Stock</p>
+                            <p className="text-[9px] font-black text-slate-400 uppercase">{i18n.t("Total Stock")}</p>
                             <p className="text-lg font-black text-purple-600 leading-none">
-                              {stockEntries.filter((s) => s.batch_id === batch.id).reduce((total, s) => total + parseFloat(s.quantity || 0), 0).toLocaleString()} <span className="text-[10px] font-bold text-slate-400">units</span>
+                              {stockEntries.filter((s) => s.batch_id === batch.id).reduce((total, s) => total + parseFloat(s.quantity || 0), 0).toLocaleString()} <span className="text-[10px] font-bold text-slate-400">{i18n.t("units")}</span>
                             </p>
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
-                          <button onClick={() => handleOpenStockIn(batch)} className="p-2 bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white rounded-xl transition-all shadow-sm border border-emerald-100 flex items-center gap-2" title="Stock In to this Batch">
-                            <ArrowDownToLine size={16} /> <span className="text-[10px] font-bold pr-1 hidden sm:inline">Stock In</span>
+                          <button onClick={() => handleOpenStockIn(batch)} className="p-2 bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white rounded-xl transition-all shadow-sm border border-emerald-100 flex items-center gap-2" title={i18n.t("Stock In to this Batch")}>
+                            <ArrowDownToLine size={16} /> <span className="text-[10px] font-bold pe-1 hidden sm:inline">{i18n.t("Stock In")}</span>
                           </button>
-                          <button onClick={() => handleOpenStockIssue(batch)} className="p-2 bg-amber-50 text-amber-600 hover:bg-amber-600 hover:text-white rounded-xl transition-all shadow-sm border border-amber-100 flex items-center gap-2" title="Issue Stock from this Batch">
-                            <ArrowUpRight size={16} /> <span className="text-[10px] font-bold pr-1 hidden sm:inline">Issue</span>
+                          <button onClick={() => handleOpenStockIssue(batch)} className="p-2 bg-amber-50 text-amber-600 hover:bg-amber-600 hover:text-white rounded-xl transition-all shadow-sm border border-amber-100 flex items-center gap-2" title={i18n.t("Issue Stock from this Batch")}>
+                            <ArrowUpRight size={16} /> <span className="text-[10px] font-bold pe-1 hidden sm:inline">{i18n.t("Issue")}</span>
                           </button>
-                          <button onClick={() => handleOpenEditBatch(batch)} className="p-2 text-slate-400 hover:text-brand-primary hover:bg-brand-active border border-slate-100 hover:border-transparent rounded-xl transition-all shadow-sm" title="Edit Batch">
+                          <button onClick={() => handleOpenEditBatch(batch)} className="p-2 text-slate-400 hover:text-brand-primary hover:bg-brand-active border border-slate-100 hover:border-transparent rounded-xl transition-all shadow-sm" title={i18n.t("Edit Batch")}>
                             <Edit2 size={16} />
                           </button>
-                          <button onClick={() => setShowDeleteBatchConfirm(batch.id)} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 border border-slate-100 hover:border-transparent rounded-xl transition-all shadow-sm" title="Delete Batch">
+                          <button onClick={() => setShowDeleteBatchConfirm(batch.id)} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 border border-slate-100 hover:border-transparent rounded-xl transition-all shadow-sm" title={i18n.t("Delete Batch")}>
                             <Trash2 size={16} />
                           </button>
                         </div>
@@ -1194,31 +1179,31 @@ const InventoryStockMaster: React.FC = () => {
 
          {/* Stock Entries Details */}
                       <div className="mt-6 pt-4 border-t border-slate-50 space-y-2">
-                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Stock Distribution by Location</p>
+                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">{i18n.t("Stock Distribution by Location")}</p>
                         
                         {loadingStockEntries ? (
                           <div className="flex items-center gap-2 py-2">
                             <Loader2 size={12} className="animate-spin text-brand-primary" />
-                            <span className="text-[10px] text-slate-400 font-bold uppercase">Syncing...</span>
+                            <span className="text-[10px] text-slate-400 font-bold uppercase">{i18n.t("Syncing...")}</span>
                           </div>
                         ) : stockEntries.filter((s) => s.batch_id === batch.id).length > 0 ? (
                           <div className="bg-slate-50/50 rounded-2xl border border-slate-100 overflow-hidden">
                             <div className="overflow-x-auto w-full">
-                              <table className="w-full text-left border-collapse">
+                              <table className="w-full text-start border-collapse">
                                 <thead>
                                   <tr className="bg-slate-100/50 border-b border-slate-100 text-[9px] font-black text-slate-400 uppercase tracking-widest">
-                                    <th className="py-3 pl-4 pr-2">Location</th>
-                                    <th className="py-3 px-2 text-right">Quantity</th>
-                                    <th className="py-3 px-2 text-center">Unit</th>
-                                    <th className="py-3 px-2">Created Info</th>
-                                    <th className="py-3 px-2">Last Updated</th>
+                                    <th className="py-3 ps-4 pe-2">{i18n.t("Location")}</th>
+                                    <th className="py-3 px-2 text-end">{i18n.t("Quantity")}</th>
+                                    <th className="py-3 px-2 text-center">{i18n.t("Unit")}</th>
+                                    <th className="py-3 px-2">{i18n.t("Created Info")}</th>
+                                    <th className="py-3 px-2">{i18n.t("Last Updated")}</th>
                                   </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-100">
                                   {stockEntries.filter((s) => s.batch_id === batch.id).map((stock) => (
                                     <tr key={stock.id} className="hover:bg-white transition-colors group">
                                       {/* Location */}
-                                      <td className="py-3 pl-4 pr-2">
+                                      <td className="py-3 ps-4 pe-2">
                                         <div className="flex items-center gap-3">
                                           <div className="p-1.5 bg-white text-slate-400 rounded-lg shadow-sm border border-slate-200 group-hover:bg-slate-900 group-hover:text-white transition-all">
                                             <Building2 size={12} />
@@ -1230,7 +1215,7 @@ const InventoryStockMaster: React.FC = () => {
                                       </td>
                                       
                                       {/* Quantity */}
-                                      <td className="py-3 px-2 text-right">
+                                      <td className="py-3 px-2 text-end">
                                         <span className="text-sm font-black text-brand-primary">
                                           {parseFloat(stock.quantity).toLocaleString()}
                                         </span>
@@ -1247,10 +1232,9 @@ const InventoryStockMaster: React.FC = () => {
                                       <td className="py-3 px-2">
                                         <div className="flex flex-col">
                                           <span className="text-[11px] font-bold text-slate-600">
-                                            {stock.created_at || "N/A"}
+                                            {stock.created_at || i18n.t("N/A")}
                                           </span>
-                                          <span className="text-[9px] font-bold text-slate-400 uppercase mt-0.5">
-                                            By: <span className="text-brand-primary">{stock.created_by_name || "System"}</span>
+                                          <span className="text-[9px] font-bold text-slate-400 uppercase mt-0.5">{i18n.t("By:")}{" "}<span className="text-brand-primary">{stock.created_by_name || i18n.t("System")}</span>
                                           </span>
                                         </div>
                                       </td>
@@ -1259,10 +1243,9 @@ const InventoryStockMaster: React.FC = () => {
                                       <td className="py-3 px-2">
                                         <div className="flex flex-col">
                                           <span className="text-[11px] font-bold text-slate-600">
-                                            {stock.updated_at || "N/A"}
+                                            {stock.updated_at || i18n.t("N/A")}
                                           </span>
-                                          <span className="text-[9px] font-bold text-slate-400 uppercase mt-0.5">
-                                            By: <span className="text-brand-primary">{stock.updated_by_name || "-"}</span>
+                                          <span className="text-[9px] font-bold text-slate-400 uppercase mt-0.5">{i18n.t("By:")}{" "}<span className="text-brand-primary">{stock.updated_by_name || "-"}</span>
                                           </span>
                                         </div>
                                       </td>
@@ -1274,7 +1257,7 @@ const InventoryStockMaster: React.FC = () => {
                           </div>
                         ) : (
                           <div className="flex flex-col items-center py-6 border-2 border-dashed border-slate-100 rounded-2xl bg-white">
-                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">No stock records found for this batch.</p>
+                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{i18n.t("No stock records found for this batch.")}</p>
                           </div>
                         )}
                       </div>
@@ -1284,7 +1267,7 @@ const InventoryStockMaster: React.FC = () => {
               ) : (
                 <div className="py-20 text-center border-2 border-dashed border-slate-200 rounded-[40px]">
                   <History size={48} className="mx-auto text-slate-200 mb-4" />
-                  <p className="text-sm font-black text-slate-400 uppercase tracking-widest">No batches found for this item</p>
+                  <p className="text-sm font-black text-slate-400 uppercase tracking-widest">{i18n.t("No batches found for this item")}</p>
                 </div>
               )}
             </div>
@@ -1303,8 +1286,8 @@ const InventoryStockMaster: React.FC = () => {
                   <Plus size={24} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-black text-slate-800 tracking-tight">Add New Batch</h2>
-                  <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">For {showBatchModal?.name}</p>
+                  <h2 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Add New Batch")}</h2>
+                  <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">{i18n.t("For")}{" "}{showBatchModal?.name}</p>
                 </div>
               </div>
               <button type="button" onClick={() => setShowAddBatchModal(false)} disabled={isSubmitting} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400">
@@ -1312,39 +1295,39 @@ const InventoryStockMaster: React.FC = () => {
               </button>
             </div>
 
-            <div className="p-10 space-y-6 text-left flex-1 overflow-y-auto no-scrollbar">
+            <div className="p-10 space-y-6 text-start flex-1 overflow-y-auto no-scrollbar">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Product Batch No *</label>
-                  <input required type="text" placeholder="e.g. BATCH-001" className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none" value={addBatchForm.mfg_batch_no} onChange={(e) => setAddBatchForm({ ...addBatchForm, mfg_batch_no: e.target.value })} />
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Product Batch No *")}</label>
+                  <input required type="text" placeholder={i18n.t("e.g. BATCH-001")} className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none" value={addBatchForm.mfg_batch_no} onChange={(e) => setAddBatchForm({ ...addBatchForm, mfg_batch_no: e.target.value })} />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Expiry Date *</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Expiry Date *")}</label>
                   <input required type="date" className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none" value={addBatchForm.expiry_date} onChange={(e) => setAddBatchForm({ ...addBatchForm, expiry_date: e.target.value })} />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Cost Price (₦) *</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Cost Price (₦) *")}</label>
                   <input required min="0.01" step="any" type="number" className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none" value={addBatchForm.purchase_price || ""} onChange={(e) => setAddBatchForm({ ...addBatchForm, purchase_price: parseFloat(e.target.value) || 0 })} />
                 </div>
               </div>
 
               <div className="space-y-1.5 relative">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Vendor / Supplier</label>
-                <button type="button" onClick={() => setShowVendorDropdown(!showVendorDropdown)} className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none text-left flex items-center justify-between hover:border-brand-primary">
-                  <span>{vendors.find((v) => v.vendor_uhid === addBatchForm.vendor_uhid)?.name || "Select vendor..."}</span>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Vendor / Supplier")}</label>
+                <button type="button" onClick={() => setShowVendorDropdown(!showVendorDropdown)} className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none text-start flex items-center justify-between hover:border-brand-primary">
+                  <span>{vendors.find((v) => v.vendor_uhid === addBatchForm.vendor_uhid)?.name || i18n.t("Select vendor...")}</span>
                   <ChevronDown size={16} className="text-slate-400" />
                 </button>
                 {showVendorDropdown && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-lg z-[170]">
+                  <div className="absolute top-full start-0 end-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-lg z-[170]">
                     <div className="p-3 border-b border-slate-100">
-                      <input type="text" placeholder="Search vendor..." className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0" value={vendorSearchTerm} onChange={(e) => setVendorSearchTerm(e.target.value)} autoFocus />
+                      <input type="text" placeholder={i18n.t("Search vendor...")} className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0" value={vendorSearchTerm} onChange={(e) => setVendorSearchTerm(e.target.value)} autoFocus />
                     </div>
                     <div className="max-h-64 overflow-y-auto">
                       {loadingDependencies ? (
                         <div className="p-4 text-center"><Loader2 size={16} className="animate-spin mx-auto text-brand-primary" /></div>
                       ) : (
                         vendors.filter((v) => v.name.toLowerCase().includes(vendorSearchTerm.toLowerCase()) || v.vendor_uhid.toLowerCase().includes(vendorSearchTerm.toLowerCase())).map((vendor) => (
-                            <button key={vendor.vendor_uhid} type="button" onClick={() => { setAddBatchForm({ ...addBatchForm, vendor_uhid: vendor.vendor_uhid }); setShowVendorDropdown(false); setVendorSearchTerm(""); }} className="w-full text-left px-5 py-3 hover:bg-brand-active border-b border-slate-50 transition-colors last:border-b-0">
+                            <button key={vendor.vendor_uhid} type="button" onClick={() => { setAddBatchForm({ ...addBatchForm, vendor_uhid: vendor.vendor_uhid }); setShowVendorDropdown(false); setVendorSearchTerm(""); }} className="w-full text-start px-5 py-3 hover:bg-brand-active border-b border-slate-50 transition-colors last:border-b-0">
                               <p className="text-sm font-black text-slate-800">{vendor.name}</p>
                               <p className="text-[10px] font-bold text-slate-500 mt-0.5">{vendor.vendor_uhid} • {vendor.contact_person}</p>
                             </button>
@@ -1357,13 +1340,13 @@ const InventoryStockMaster: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Default Cash Markup Type</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Default Cash Markup Type")}</label>
                   <select className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none" value={addBatchForm.markup_type} onChange={(e) => setAddBatchForm({ ...addBatchForm, markup_type: e.target.value as MarkupType })}>
                     {MARKUP_TYPES.map((type) => ( <option key={type} value={type}>{type}</option> ))}
                   </select>
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Default Cash Markup Value *</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Default Cash Markup Value *")}</label>
                   <input required type="number" min="0.01" step="any" className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none" value={addBatchForm.markup_value || ""} onChange={(e) => setAddBatchForm({ ...addBatchForm, markup_value: parseFloat(e.target.value) || 0 })} />
                 </div>
               </div>
@@ -1371,14 +1354,13 @@ const InventoryStockMaster: React.FC = () => {
               {/* Dynamic Payer Markups */}
               <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 shadow-sm">
                 <div className="flex items-center justify-between mb-4">
-                  <h4 className="text-xs font-black text-slate-800 tracking-wider">HMO / Corporate Pricing Rules</h4>
+                  <h4 className="text-xs font-black text-slate-800 tracking-wider">{i18n.t("HMO / Corporate Pricing Rules")}</h4>
                   <button type="button" onClick={() => setAddBatchForm({ ...addBatchForm, payer_markups: [...addBatchForm.payer_markups, { id: Date.now().toString(), markup_type: "PERCENTAGE", markup_value: 0, payer_ids: [] }] })} className="text-[9px] font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg hover:bg-indigo-100 transition-colors uppercase tracking-widest flex items-center gap-1">
-                    <Plus size={12} /> Add Rule
-                  </button>
+                    <Plus size={12} />{" "}{i18n.t("Add Rule")}</button>
                 </div>
                 {addBatchForm.payer_markups.map((rule) => (
-                  <div key={rule.id} className="mb-4 p-4 bg-white rounded-xl border border-indigo-100 shadow-sm relative pr-12">
-                    <button type="button" onClick={() => setAddBatchForm({ ...addBatchForm, payer_markups: addBatchForm.payer_markups.filter(r => r.id !== rule.id) })} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-red-500 bg-slate-50 hover:bg-red-50 p-2 rounded-lg transition-colors"><Trash2 size={16} /></button>
+                  <div key={rule.id} className="mb-4 p-4 bg-white rounded-xl border border-indigo-100 shadow-sm relative pe-12">
+                    <button type="button" onClick={() => setAddBatchForm({ ...addBatchForm, payer_markups: addBatchForm.payer_markups.filter(r => r.id !== rule.id) })} className="absolute end-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-red-500 bg-slate-50 hover:bg-red-50 p-2 rounded-lg transition-colors"><Trash2 size={16} /></button>
                     <div className="flex flex-col gap-3">
                       <div className="flex items-center gap-4">
                         <div className="w-32">
@@ -1387,12 +1369,12 @@ const InventoryStockMaster: React.FC = () => {
                           </select>
                         </div>
                         <div className="w-32 relative">
-                          <input type="number" className="w-full px-3 py-2 border border-indigo-100 rounded-lg text-xs font-bold pl-8 text-indigo-900 bg-white" value={rule.markup_value || ""} onChange={(e) => setAddBatchForm({ ...addBatchForm, payer_markups: addBatchForm.payer_markups.map(r => r.id === rule.id ? { ...r, markup_value: parseFloat(e.target.value) || 0 } : r) })} />
-                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-black text-indigo-400">{rule.markup_type === "PERCENTAGE" ? "%" : "₦"}</span>
+                          <input type="number" className="w-full px-3 py-2 border border-indigo-100 rounded-lg text-xs font-bold ps-8 text-indigo-900 bg-white" value={rule.markup_value || ""} onChange={(e) => setAddBatchForm({ ...addBatchForm, payer_markups: addBatchForm.payer_markups.map(r => r.id === rule.id ? { ...r, markup_value: parseFloat(e.target.value) || 0 } : r) })} />
+                          <span className="absolute start-3 top-1/2 -translate-y-1/2 text-xs font-black text-indigo-400">{rule.markup_type === "PERCENTAGE" ? "%" : "₦"}</span>
                         </div>
                       </div>
                       <div className="pt-3 border-t border-indigo-50">
-                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-2 flex items-center gap-1"><Users size={12} /> Applies To Payer(s):</span>
+                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-2 flex items-center gap-1"><Users size={12} />{" "}{i18n.t("Applies To Payer(s):")}</span>
                         <div className="flex flex-wrap gap-2">
                           {payers.map((payer) => {
                             const currentlyAllocatedIds = addBatchForm.payer_markups.flatMap(r => r.payer_ids);
@@ -1409,20 +1391,19 @@ const InventoryStockMaster: React.FC = () => {
                     </div>
                   </div>
                 ))}
-                {addBatchForm.payer_markups.length === 0 && <p className="text-xs text-slate-400 italic text-center py-2">No HMO exceptions defined. Default Cash markup will apply to all.</p>}
+                {addBatchForm.payer_markups.length === 0 && <p className="text-xs text-slate-400 italic text-center py-2">{i18n.t("No HMO exceptions defined. Default Cash markup will apply to all.")}</p>}
               </div>
 
             </div>
             <div className="flex-shrink-0 px-10 py-8 bg-slate-50 border-t border-slate-100 flex justify-end gap-3">
-              <button type="button" onClick={() => setShowAddBatchModal(false)} disabled={isSubmitting} className="px-6 py-3 text-xs font-black text-slate-400 uppercase tracking-widest">Cancel</button>
+              <button type="button" onClick={() => setShowAddBatchModal(false)} disabled={isSubmitting} className="px-6 py-3 text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("Cancel")}</button>
               
               <button 
                 type="submit" 
                 disabled={isSubmitting || !addBatchForm.mfg_batch_no.trim() || !addBatchForm.expiry_date || addBatchForm.purchase_price <= 0 || addBatchForm.markup_value <= 0} 
                 className="bg-green-600 text-white px-8 py-3 rounded-[20px] font-black uppercase text-xs tracking-widest shadow-xl active:scale-95 transition-all disabled:opacity-50 flex items-center gap-2"
               >
-                {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Plus size={16} />} Create Batch
-              </button>
+                {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Plus size={16} />}{" "}{i18n.t("Create Batch")}</button>
             </div>
           </form>
         </div>
@@ -1439,8 +1420,8 @@ const InventoryStockMaster: React.FC = () => {
                   <Edit2 size={24} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-black text-slate-800 tracking-tight">Modify Batch</h2>
-                  <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Ref: {showEditBatchModal.batch_number}</p>
+                  <h2 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Modify Batch")}</h2>
+                  <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">{i18n.t("Ref:")}{" "}{showEditBatchModal.batch_number}</p>
                 </div>
               </div>
               <button type="button" onClick={() => setShowEditBatchModal(null)} disabled={isSubmitting} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400">
@@ -1448,40 +1429,40 @@ const InventoryStockMaster: React.FC = () => {
               </button>
             </div>
 
-            <div className="p-10 space-y-6 text-left flex-1 overflow-y-auto no-scrollbar">
+            <div className="p-10 space-y-6 text-start flex-1 overflow-y-auto no-scrollbar">
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Product Batch No *</label>
-                  <input required type="text" placeholder="e.g. BATCH-001" className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none" value={editBatchForm.mfg_batch_no} onChange={(e) => setEditBatchForm({ ...editBatchForm, mfg_batch_no: e.target.value })} />
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Product Batch No *")}</label>
+                  <input required type="text" placeholder={i18n.t("e.g. BATCH-001")} className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none" value={editBatchForm.mfg_batch_no} onChange={(e) => setEditBatchForm({ ...editBatchForm, mfg_batch_no: e.target.value })} />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Expiry Date *</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Expiry Date *")}</label>
                   <input required type="date" className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none" value={editBatchForm.expiry_date} onChange={(e) => setEditBatchForm({ ...editBatchForm, expiry_date: e.target.value })} />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Cost Price (₦) *</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Cost Price (₦) *")}</label>
                   <input required min="0.01" step="any" type="number" className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none" value={editBatchForm.purchase_price || ""} onChange={(e) => setEditBatchForm({ ...editBatchForm, purchase_price: parseFloat(e.target.value) || 0 })} />
                 </div>
               </div>
 
               <div className="space-y-1.5 relative">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Vendor / Supplier</label>
-                <button type="button" onClick={() => setShowVendorDropdown(!showVendorDropdown)} className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none text-left flex items-center justify-between hover:border-brand-primary">
-                  <span>{vendors.find((v) => v.vendor_uhid === editBatchForm.vendor_uhid)?.name || "Select vendor..."}</span>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Vendor / Supplier")}</label>
+                <button type="button" onClick={() => setShowVendorDropdown(!showVendorDropdown)} className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none text-start flex items-center justify-between hover:border-brand-primary">
+                  <span>{vendors.find((v) => v.vendor_uhid === editBatchForm.vendor_uhid)?.name || i18n.t("Select vendor...")}</span>
                   <ChevronDown size={16} className="text-slate-400" />
                 </button>
                 {showVendorDropdown && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-lg z-[170]">
+                  <div className="absolute top-full start-0 end-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-lg z-[170]">
                     <div className="p-3 border-b border-slate-100">
-                      <input type="text" placeholder="Search vendor..." className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0" value={vendorSearchTerm} onChange={(e) => setVendorSearchTerm(e.target.value)} autoFocus />
+                      <input type="text" placeholder={i18n.t("Search vendor...")} className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0" value={vendorSearchTerm} onChange={(e) => setVendorSearchTerm(e.target.value)} autoFocus />
                     </div>
                     <div className="max-h-64 overflow-y-auto">
                       {loadingDependencies ? (
                         <div className="p-4 text-center"><Loader2 size={16} className="animate-spin mx-auto text-brand-primary" /></div>
                       ) : (
                         vendors.filter((v) => v.name.toLowerCase().includes(vendorSearchTerm.toLowerCase()) || v.vendor_uhid.toLowerCase().includes(vendorSearchTerm.toLowerCase())).map((vendor) => (
-                            <button key={vendor.vendor_uhid} type="button" onClick={() => { setEditBatchForm({ ...editBatchForm, vendor_uhid: vendor.vendor_uhid }); setShowVendorDropdown(false); setVendorSearchTerm(""); }} className="w-full text-left px-5 py-3 hover:bg-brand-active border-b border-slate-50 transition-colors last:border-b-0">
+                            <button key={vendor.vendor_uhid} type="button" onClick={() => { setEditBatchForm({ ...editBatchForm, vendor_uhid: vendor.vendor_uhid }); setShowVendorDropdown(false); setVendorSearchTerm(""); }} className="w-full text-start px-5 py-3 hover:bg-brand-active border-b border-slate-50 transition-colors last:border-b-0">
                               <p className="text-sm font-black text-slate-800">{vendor.name}</p>
                               <p className="text-[10px] font-bold text-slate-500 mt-0.5">{vendor.vendor_uhid} • {vendor.contact_person}</p>
                             </button>
@@ -1494,13 +1475,13 @@ const InventoryStockMaster: React.FC = () => {
               
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Default Cash Markup Type</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Default Cash Markup Type")}</label>
                   <select className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none" value={editBatchForm.markup_type} onChange={(e) => setEditBatchForm({ ...editBatchForm, markup_type: e.target.value as MarkupType })}>
                     {MARKUP_TYPES.map((type) => (<option key={type} value={type}>{type}</option>))}
                   </select>
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Default Cash Markup Value *</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Default Cash Markup Value *")}</label>
                   <input required type="number" min="0.01" step="any" className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white transition-all outline-none" value={editBatchForm.markup_value || ""} onChange={(e) => setEditBatchForm({ ...editBatchForm, markup_value: parseFloat(e.target.value) || 0 })} />
                 </div>
               </div>
@@ -1508,14 +1489,13 @@ const InventoryStockMaster: React.FC = () => {
               {/* Dynamic Payer Markups */}
               <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 shadow-sm">
                 <div className="flex items-center justify-between mb-4">
-                  <h4 className="text-xs font-black text-slate-800 tracking-wider">HMO / Corporate Pricing Rules</h4>
+                  <h4 className="text-xs font-black text-slate-800 tracking-wider">{i18n.t("HMO / Corporate Pricing Rules")}</h4>
                   <button type="button" onClick={() => setEditBatchForm({ ...editBatchForm, payer_markups: [...editBatchForm.payer_markups, { id: Date.now().toString(), markup_type: "PERCENTAGE", markup_value: 0, payer_ids: [] }] })} className="text-[9px] font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg hover:bg-indigo-100 transition-colors uppercase tracking-widest flex items-center gap-1">
-                    <Plus size={12} /> Add Rule
-                  </button>
+                    <Plus size={12} />{" "}{i18n.t("Add Rule")}</button>
                 </div>
                 {editBatchForm.payer_markups.map((rule) => (
-                  <div key={rule.id} className="mb-4 p-4 bg-white rounded-xl border border-indigo-100 shadow-sm relative pr-12">
-                    <button type="button" onClick={() => setEditBatchForm({ ...editBatchForm, payer_markups: editBatchForm.payer_markups.filter(r => r.id !== rule.id) })} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-red-50 bg-slate-50 hover:bg-red-50 p-2 rounded-lg transition-colors"><Trash2 size={16} /></button>
+                  <div key={rule.id} className="mb-4 p-4 bg-white rounded-xl border border-indigo-100 shadow-sm relative pe-12">
+                    <button type="button" onClick={() => setEditBatchForm({ ...editBatchForm, payer_markups: editBatchForm.payer_markups.filter(r => r.id !== rule.id) })} className="absolute end-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-red-50 bg-slate-50 hover:bg-red-50 p-2 rounded-lg transition-colors"><Trash2 size={16} /></button>
                     <div className="flex flex-col gap-3">
                       <div className="flex items-center gap-4">
                         <div className="w-32">
@@ -1524,12 +1504,12 @@ const InventoryStockMaster: React.FC = () => {
                           </select>
                         </div>
                         <div className="w-32 relative">
-                          <input type="number" className="w-full px-3 py-2 border border-indigo-100 rounded-lg text-xs font-bold pl-8 text-indigo-900 bg-white" value={rule.markup_value || ""} onChange={(e) => setEditBatchForm({ ...editBatchForm, payer_markups: editBatchForm.payer_markups.map(r => r.id === rule.id ? { ...r, markup_value: parseFloat(e.target.value) || 0 } : r) })} />
-                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-black text-indigo-400">{rule.markup_type === "PERCENTAGE" ? "%" : "₦"}</span>
+                          <input type="number" className="w-full px-3 py-2 border border-indigo-100 rounded-lg text-xs font-bold ps-8 text-indigo-900 bg-white" value={rule.markup_value || ""} onChange={(e) => setEditBatchForm({ ...editBatchForm, payer_markups: editBatchForm.payer_markups.map(r => r.id === rule.id ? { ...r, markup_value: parseFloat(e.target.value) || 0 } : r) })} />
+                          <span className="absolute start-3 top-1/2 -translate-y-1/2 text-xs font-black text-indigo-400">{rule.markup_type === "PERCENTAGE" ? "%" : "₦"}</span>
                         </div>
                       </div>
                       <div className="pt-3 border-t border-indigo-50">
-                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-2 flex items-center gap-1"><Users size={12} /> Applies To Payer(s):</span>
+                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-2 flex items-center gap-1"><Users size={12} />{" "}{i18n.t("Applies To Payer(s):")}</span>
                         <div className="flex flex-wrap gap-2">
                           {payers.map((payer) => {
                             const currentlyAllocatedIds = editBatchForm.payer_markups.flatMap(r => r.payer_ids);
@@ -1546,19 +1526,18 @@ const InventoryStockMaster: React.FC = () => {
                     </div>
                   </div>
                 ))}
-                {editBatchForm.payer_markups.length === 0 && <p className="text-xs text-slate-400 italic text-center py-2">No HMO exceptions defined. Default Cash markup will apply to all.</p>}
+                {editBatchForm.payer_markups.length === 0 && <p className="text-xs text-slate-400 italic text-center py-2">{i18n.t("No HMO exceptions defined. Default Cash markup will apply to all.")}</p>}
               </div>
 
             </div>
             <div className="flex-shrink-0 px-10 py-8 bg-slate-50 border-t border-slate-100 flex justify-end gap-3">
-              <button type="button" onClick={() => setShowEditBatchModal(null)} disabled={isSubmitting} className="px-6 py-3 text-xs font-black text-slate-400 uppercase tracking-widest">Cancel</button>
+              <button type="button" onClick={() => setShowEditBatchModal(null)} disabled={isSubmitting} className="px-6 py-3 text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("Cancel")}</button>
               <button 
                 type="submit" 
                 disabled={isSubmitting || !editBatchForm.mfg_batch_no.trim() || !editBatchForm.expiry_date || editBatchForm.purchase_price <= 0 || editBatchForm.markup_value <= 0} 
                 className="bg-brand-primary text-white px-8 py-3 rounded-[20px] font-black uppercase text-xs tracking-widest shadow-xl active:scale-95 transition-all disabled:opacity-50 flex items-center gap-2"
               >
-                {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />} Save Changes
-              </button>
+                {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}{" "}{i18n.t("Save Changes")}</button>
             </div>
           </form>
         </div>
@@ -1572,31 +1551,29 @@ const InventoryStockMaster: React.FC = () => {
             <div className="p-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
               <div>
                 <h2 className="text-lg font-black text-slate-800 tracking-tight flex items-center gap-2">
-                  <Upload size={20} className="text-brand-primary" />
-                  Bulk Import Items
-                </h2>
-                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Download, fill, and upload a template</p>
+                  <Upload size={20} className="text-brand-primary" />{i18n.t("Bulk Import Items")}</h2>
+                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">{i18n.t("Download, fill, and upload a template")}</p>
               </div>
               <button onClick={() => { setShowBulkImportModal(false); setBulkImportFile(null); }} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400"><X size={20} /></button>
             </div>
 
             <div className="p-8 space-y-6">
               <div>
-                <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">Step 1 — Download Template</p>
+                <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">{i18n.t("Step 1 — Download Template")}</p>
                 <div className="grid grid-cols-2 gap-3">
                   <button onClick={() => handleDownloadTemplate("csv")} disabled={isDownloadingTemplate !== null} className="p-4 rounded-2xl border-2 border-slate-100 hover:border-brand-primary hover:bg-brand-active transition-all flex flex-col items-center gap-2 disabled:opacity-50">
                     {isDownloadingTemplate === "csv" ? <Loader2 size={20} className="animate-spin text-brand-primary" /> : <Download size={20} className="text-slate-400" />}
-                    <span className="text-xs font-black text-slate-700">CSV</span>
+                    <span className="text-xs font-black text-slate-700">{i18n.t("CSV")}</span>
                   </button>
                   <button onClick={() => handleDownloadTemplate("xlsx")} disabled={isDownloadingTemplate !== null} className="p-4 rounded-2xl border-2 border-slate-100 hover:border-brand-primary hover:bg-brand-active transition-all flex flex-col items-center gap-2 disabled:opacity-50">
                     {isDownloadingTemplate === "xlsx" ? <Loader2 size={20} className="animate-spin text-brand-primary" /> : <Download size={20} className="text-slate-400" />}
-                    <span className="text-xs font-black text-slate-700">XLSX</span>
+                    <span className="text-xs font-black text-slate-700">{i18n.t("XLSX")}</span>
                   </button>
                 </div>
               </div>
 
               <div>
-                <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">Step 2 — Upload Filled Template</p>
+                <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">{i18n.t("Step 2 — Upload Filled Template")}</p>
                 <label
                   onDragOver={(e) => { e.preventDefault(); setIsDraggingImportFile(true); }}
                   onDragLeave={(e) => { e.preventDefault(); setIsDraggingImportFile(false); }}
@@ -1605,15 +1582,15 @@ const InventoryStockMaster: React.FC = () => {
                 >
                   <input type="file" accept=".csv,.xlsx,.xls" className="hidden" onChange={(e) => acceptImportFile(e.target.files?.[0])} />
                   <UploadCloud size={24} className="text-slate-400" />
-                  <span className="text-xs font-bold text-slate-600 text-center">{bulkImportFile ? bulkImportFile.name : "Drag & drop a file here, or click to browse"}</span>
+                  <span className="text-xs font-bold text-slate-600 text-center">{bulkImportFile ? bulkImportFile.name : i18n.t("Drag & drop a file here, or click to browse")}</span>
                 </label>
               </div>
             </div>
 
             <div className="p-8 pt-0 flex gap-3">
-              <button onClick={() => { setShowBulkImportModal(false); setBulkImportFile(null); }} className="flex-1 py-4 rounded-2xl border-2 border-slate-100 font-black text-xs uppercase tracking-widest text-slate-500 hover:bg-slate-50 transition-all">Cancel</button>
+              <button onClick={() => { setShowBulkImportModal(false); setBulkImportFile(null); }} className="flex-1 py-4 rounded-2xl border-2 border-slate-100 font-black text-xs uppercase tracking-widest text-slate-500 hover:bg-slate-50 transition-all">{i18n.t("Cancel")}</button>
               <button onClick={handleBulkImportSubmit} disabled={!bulkImportFile || isUploadingBulkImport} className="flex-1 py-4 rounded-2xl bg-slate-900 text-white font-black text-xs uppercase tracking-widest shadow-xl active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-2">
-                {isUploadingBulkImport ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />} {isUploadingBulkImport ? "Uploading..." : "Upload"}
+                {isUploadingBulkImport ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />} {isUploadingBulkImport ? i18n.t("Uploading...") : i18n.t("Upload")}
               </button>
             </div>
           </div>
@@ -1628,13 +1605,12 @@ const InventoryStockMaster: React.FC = () => {
             <div className="w-20 h-20 bg-red-50 text-red-600 rounded-[32px] flex items-center justify-center mx-auto mb-6 border border-red-100 shadow-inner">
               <AlertTriangle size={40} />
             </div>
-            <h3 className="text-xl font-black text-slate-800 tracking-tight uppercase">Confirm Removal</h3>
-            <p className="text-sm text-slate-500 font-medium mt-2 leading-relaxed px-4">Remove this item from the hospital inventory registry? This action cannot be reversed.</p>
+            <h3 className="text-xl font-black text-slate-800 tracking-tight uppercase">{i18n.t("Confirm Removal")}</h3>
+            <p className="text-sm text-slate-500 font-medium mt-2 leading-relaxed px-4">{i18n.t("Remove this item from the hospital inventory registry? This action cannot be reversed.")}</p>
             <div className="mt-10 flex gap-3">
-              <button onClick={() => setShowDeleteConfirm(null)} disabled={isSubmitting} className="flex-1 px-6 py-4 rounded-[24px] font-black uppercase text-[10px] tracking-widest text-slate-400 hover:text-slate-800 transition-all">Cancel</button>
+              <button onClick={() => setShowDeleteConfirm(null)} disabled={isSubmitting} className="flex-1 px-6 py-4 rounded-[24px] font-black uppercase text-[10px] tracking-widest text-slate-400 hover:text-slate-800 transition-all">{i18n.t("Cancel")}</button>
               <button onClick={handleDelete} disabled={isSubmitting} className="flex-1 bg-red-600 text-white px-6 py-4 rounded-[24px] font-black uppercase text-[10px] tracking-widest shadow-xl shadow-red-200 hover:bg-red-700 active:scale-95 transition-all flex items-center justify-center gap-2">
-                {isSubmitting ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />} Delete
-              </button>
+                {isSubmitting ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}{" "}{i18n.t("Delete")}</button>
             </div>
           </div>
         </div>
@@ -1648,13 +1624,12 @@ const InventoryStockMaster: React.FC = () => {
             <div className="w-20 h-20 bg-red-50 text-red-600 rounded-[32px] flex items-center justify-center mx-auto mb-6 border border-red-100 shadow-inner">
               <AlertTriangle size={40} />
             </div>
-            <h3 className="text-xl font-black text-slate-800 tracking-tight uppercase">Delete Batch</h3>
-            <p className="text-sm text-slate-500 font-medium mt-2 leading-relaxed px-4">Are you sure you want to delete this batch? This action cannot be undone and will fail if stock movements exist.</p>
+            <h3 className="text-xl font-black text-slate-800 tracking-tight uppercase">{i18n.t("Delete Batch")}</h3>
+            <p className="text-sm text-slate-500 font-medium mt-2 leading-relaxed px-4">{i18n.t("Are you sure you want to delete this batch? This action cannot be undone and will fail if stock movements exist.")}</p>
             <div className="mt-10 flex gap-3">
-              <button onClick={() => setShowDeleteBatchConfirm(null)} disabled={isSubmitting} className="flex-1 px-6 py-4 rounded-[24px] font-black uppercase text-[10px] tracking-widest text-slate-400 hover:text-slate-800 transition-all">Cancel</button>
+              <button onClick={() => setShowDeleteBatchConfirm(null)} disabled={isSubmitting} className="flex-1 px-6 py-4 rounded-[24px] font-black uppercase text-[10px] tracking-widest text-slate-400 hover:text-slate-800 transition-all">{i18n.t("Cancel")}</button>
               <button onClick={handleDeleteBatch} disabled={isSubmitting} className="flex-1 bg-red-600 text-white px-6 py-4 rounded-[24px] font-black uppercase text-[10px] tracking-widest shadow-xl shadow-red-200 hover:bg-red-700 active:scale-95 transition-all flex items-center justify-center gap-2">
-                {isSubmitting ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />} Delete
-              </button>
+                {isSubmitting ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}{" "}{i18n.t("Delete")}</button>
             </div>
           </div>
         </div>
@@ -1669,19 +1644,18 @@ const InventoryStockMaster: React.FC = () => {
               <div className="w-20 h-20 bg-emerald-50 text-emerald-600 rounded-[32px] flex items-center justify-center mx-auto mb-6 border border-emerald-100">
                 <Box size={40} />
               </div>
-              <h3 className="text-xl font-black text-slate-800 tracking-tight uppercase">Update Stock Levels</h3>
-              <p className="text-[10px] text-slate-400 font-bold uppercase mt-1 tracking-widest">Ref: {showStockInModal.batch_number || "UNKNOWN"}</p>
+              <h3 className="text-xl font-black text-slate-800 tracking-tight uppercase">{i18n.t("Update Stock Levels")}</h3>
+              <p className="text-[10px] text-slate-400 font-bold uppercase mt-1 tracking-widest">{i18n.t("Ref:")}{" "}{showStockInModal.batch_number || i18n.t("UNKNOWN")}</p>
               <div className="mt-8 space-y-4">
-                <div className="space-y-1.5 text-left">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Additional Quantity</label>
+                <div className="space-y-1.5 text-start">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Additional Quantity")}</label>
                   <input required autoFocus type="number" className="w-full px-5 py-5 bg-slate-50 border-2 border-slate-100 rounded-3xl text-3xl font-black text-slate-900 outline-none focus:border-emerald-500 focus:ring-8 focus:ring-emerald-500/5 transition-all text-center" value={stockInForm.quantity || ""} onChange={(e) => setStockInForm({ quantity: parseInt(e.target.value) || 0 })} />
                 </div>
               </div>
               <div className="mt-10 flex gap-3">
-                <button type="button" onClick={() => setShowStockInModal(null)} disabled={isSubmitting} className="flex-1 px-6 py-4 rounded-[24px] font-black uppercase text-[10px] tracking-widest text-slate-400 hover:text-slate-800 transition-all">Cancel</button>
+                <button type="button" onClick={() => setShowStockInModal(null)} disabled={isSubmitting} className="flex-1 px-6 py-4 rounded-[24px] font-black uppercase text-[10px] tracking-widest text-slate-400 hover:text-slate-800 transition-all">{i18n.t("Cancel")}</button>
                 <button type="submit" disabled={isSubmitting || stockInForm.quantity <= 0} className="flex-1 bg-emerald-600 text-white px-6 py-4 rounded-[24px] font-black uppercase text-[10px] tracking-widest shadow-xl shadow-emerald-100 hover:bg-emerald-700 active:scale-95 transition-all flex items-center justify-center gap-2">
-                  {isSubmitting ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />} Commit IN
-                </button>
+                  {isSubmitting ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}{" "}{i18n.t("Commit IN")}</button>
               </div>
             </div>
           </form>
@@ -1696,31 +1670,30 @@ const InventoryStockMaster: React.FC = () => {
               <div className="w-20 h-20 bg-amber-50 text-amber-600 rounded-[32px] flex items-center justify-center mx-auto mb-6 border border-amber-100">
                 <ArrowUpRight size={40} />
               </div>
-              <h3 className="text-xl font-black text-slate-800 tracking-tight uppercase">Issue Stock</h3>
-              <p className="text-[10px] text-slate-400 font-bold uppercase mt-1 tracking-widest">Ref: {showStockIssueModal.batch_number || "UNKNOWN"}</p>
+              <h3 className="text-xl font-black text-slate-800 tracking-tight uppercase">{i18n.t("Issue Stock")}</h3>
+              <p className="text-[10px] text-slate-400 font-bold uppercase mt-1 tracking-widest">{i18n.t("Ref:")}{" "}{showStockIssueModal.batch_number || i18n.t("UNKNOWN")}</p>
               <div className="mt-8 space-y-4">
-                <div className="space-y-1.5 text-left">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Issue Quantity</label>
+                <div className="space-y-1.5 text-start">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Issue Quantity")}</label>
                   <input required autoFocus type="number" className="w-full px-5 py-5 bg-slate-50 border-2 border-slate-100 rounded-3xl text-3xl font-black text-slate-900 outline-none focus:border-amber-500 focus:ring-8 focus:ring-amber-500/5 transition-all text-center" value={stockIssueForm.quantity || ""} onChange={(e) => setStockIssueForm({ ...stockIssueForm, quantity: parseInt(e.target.value) || 0 })} />
                 </div>
-                <div className="space-y-1.5 text-left">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Destination</label>
+                <div className="space-y-1.5 text-start">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Destination")}</label>
                   <select required className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-sm font-bold outline-none focus:border-amber-500 focus:ring-8 focus:ring-amber-500/5 transition-all cursor-pointer" value={stockIssueForm.destination} onChange={(e) => setStockIssueForm({ ...stockIssueForm, destination: e.target.value })}>
-                    <option value="WARD">Ward</option>
-                    <option value="PHARMACY">Pharmacy</option>
-                    <option value="THEATRE">Theatre</option>
-                    <option value="ICU">ICU</option>
-                    <option value="OUTPATIENT">Outpatient</option>
-                    <option value="EMERGENCY">Emergency</option>
-                    <option value="OTHER">Other Department</option>
+                    <option value="WARD">{i18n.t("Ward")}</option>
+                    <option value="PHARMACY">{i18n.t("Pharmacy")}</option>
+                    <option value="THEATRE">{i18n.t("Theatre")}</option>
+                    <option value="ICU">{i18n.t("ICU")}</option>
+                    <option value="OUTPATIENT">{i18n.t("Outpatient")}</option>
+                    <option value="EMERGENCY">{i18n.t("Emergency")}</option>
+                    <option value="OTHER">{i18n.t("Other Department")}</option>
                   </select>
                 </div>
               </div>
               <div className="mt-10 flex gap-3">
-                <button type="button" onClick={() => setShowStockIssueModal(null)} disabled={isSubmitting} className="flex-1 px-6 py-4 rounded-[24px] font-black uppercase text-[10px] tracking-widest text-slate-400 hover:text-slate-800 transition-all">Cancel</button>
+                <button type="button" onClick={() => setShowStockIssueModal(null)} disabled={isSubmitting} className="flex-1 px-6 py-4 rounded-[24px] font-black uppercase text-[10px] tracking-widest text-slate-400 hover:text-slate-800 transition-all">{i18n.t("Cancel")}</button>
                 <button type="submit" disabled={isSubmitting || stockIssueForm.quantity <= 0} className="flex-1 bg-amber-600 text-white px-6 py-4 rounded-[24px] font-black uppercase text-[10px] tracking-widest shadow-xl shadow-amber-100 hover:bg-amber-700 active:scale-95 transition-all flex items-center justify-center gap-2">
-                  {isSubmitting ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />} Confirm Issue
-                </button>
+                  {isSubmitting ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}{" "}{i18n.t("Confirm Issue")}</button>
               </div>
             </div>
           </form>

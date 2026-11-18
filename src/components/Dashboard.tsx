@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useLanguage } from "../i18n";
 import { NAV_PERMISSION_RULES } from "../services/constants";
 import {
   Users,
@@ -52,6 +53,7 @@ const greetingHour = () => {
 
 const Dashboard: React.FC = () => {
   const { user, hasPermission, hasAnyPermission } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const now = new Date();
@@ -73,7 +75,7 @@ const Dashboard: React.FC = () => {
       {/* Footer tagline */}
       <div className="mt-auto pt-12 text-center">
         <p className="text-xs text-slate-300 font-medium uppercase tracking-widest">
-          Medbookie Information System · Secure · Real-time · HL7 Ready copyright 2026
+          {t("Medbookie Information System · Secure · Real-time · HL7 Ready copyright 2026")}
         </p>
       </div>
     </div>

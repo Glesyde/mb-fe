@@ -24,6 +24,7 @@ import {
 import { labService } from '../services/lab.service';
 import { useNotification } from '../context/NotificationContext';
 import { createPortal } from 'react-dom';
+import { i18n } from "../i18n";
 
 const printReferenceLabel = (order: any) => {
   localStorage.setItem('printLabOrder', JSON.stringify(order));
@@ -251,8 +252,7 @@ const LabWorklist: React.FC = () => {
                   : 'text-slate-500 hover:text-slate-800'
               }`}
             >
-              <span className="text-xl font-black text-slate-800">{orders.length}</span> Pending Lab Investigations
-            </button>
+              <span className="text-xl font-black text-slate-800">{orders.length}</span>{" "}{i18n.t("Pending Lab Investigations")}</button>
             <button
               onClick={() => setActiveTab('print_reference')}
               className={`px-5 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-widest transition-all whitespace-nowrap ${
@@ -260,18 +260,16 @@ const LabWorklist: React.FC = () => {
                   ? 'bg-white text-emerald-600 shadow-sm'
                   : 'text-slate-500 hover:text-slate-800'
               }`}
-            >
-              Print Reference
-            </button>
+            >{i18n.t("Print Reference")}</button>
           </div>
 
-          <div className="flex items-center gap-3 ml-auto">
+          <div className="flex items-center gap-3 ms-auto">
             <div className="relative w-72">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
+              <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
               <input
                 type="text"
-                placeholder={activeTab === 'pending' ? 'Search by Patient Name, Test or Encounter...' : 'Search patient, ref no, MRN...'}
-                className="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-400 transition-all font-medium"
+                placeholder={activeTab === 'pending' ? i18n.t("Search by Patient Name, Test or Encounter...") : i18n.t("Search patient, ref no, MRN...")}
+                className="w-full ps-11 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-purple-500/10 focus:border-purple-400 transition-all font-medium"
                 value={activeTab === 'pending' ? searchOrders : searchPrint}
                 onChange={(e) => activeTab === 'pending' ? setSearchOrders(e.target.value) : setSearchPrint(e.target.value)}
               />
@@ -280,8 +278,7 @@ const LabWorklist: React.FC = () => {
               onClick={() => activeTab === 'pending' ? fetchOrders() : fetchPendingSamples()}
               className="flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-slate-600 bg-slate-50 border border-slate-200 rounded-2xl hover:bg-slate-100 transition-all"
             >
-              <RefreshCw size={15} className={(ordersLoading || samplesLoading) ? 'animate-spin' : ''} /> Refresh
-            </button>
+              <RefreshCw size={15} className={(ordersLoading || samplesLoading) ? 'animate-spin' : ''} />{" "}{i18n.t("Refresh")}</button>
           </div>
         </div>
 
@@ -289,20 +286,19 @@ const LabWorklist: React.FC = () => {
           <>
             <div className="px-8 py-4 border-b border-slate-100 bg-slate-50/30">
               <h3 className="text-xs font-black text-purple-600 uppercase tracking-widest flex items-center gap-2">
-                <ClipboardList size={14} /> Pending Lab Investigations
-              </h3>
+                <ClipboardList size={14} />{" "}{i18n.t("Pending Lab Investigations")}</h3>
             </div>
 
             <div className="overflow-x-auto pb-24">
-              <table className="w-full text-left">
+              <table className="w-full text-start">
                 <thead>
                   <tr className="border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-widest">
                     <th className="px-6 py-4">#</th>
-                    <th className="px-6 py-4">Patient Details</th>
-                    <th className="px-6 py-4">Location</th>
-                    <th className="px-6 py-4">Investigation / Ordered By</th>
-                    <th className="px-6 py-4">Status</th>
-                    <th className="px-6 py-4 text-right">Actions</th>
+                    <th className="px-6 py-4">{i18n.t("Patient Details")}</th>
+                    <th className="px-6 py-4">{i18n.t("Location")}</th>
+                    <th className="px-6 py-4">{i18n.t("Investigation / Ordered By")}</th>
+                    <th className="px-6 py-4">{i18n.t("Status")}</th>
+                    <th className="px-6 py-4 text-end">{i18n.t("Actions")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
@@ -310,14 +306,14 @@ const LabWorklist: React.FC = () => {
                     <tr>
                       <td colSpan={6} className="py-20 text-center">
                         <Loader2 size={36} className="animate-spin mx-auto text-purple-600 mb-3" />
-                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Loading Orders...</p>
+                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Loading Orders...")}</p>
                       </td>
                     </tr>
                   ) : paginatedOrders.length === 0 ? (
                     <tr>
                       <td colSpan={6} className="py-20 text-center">
                         <ClipboardList size={40} className="mx-auto text-slate-300 mb-4" />
-                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">No pending investigations</p>
+                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{i18n.t("No pending investigations")}</p>
                       </td>
                     </tr>
                   ) : paginatedOrders.map((order) => {
@@ -333,7 +329,7 @@ const LabWorklist: React.FC = () => {
                               order.encounter_type === 'IPD' ? 'bg-brand-active text-brand-primary border-brand-active' :
                               'bg-emerald-50 text-emerald-600 border-emerald-100'
                             }`}>
-                              {order.encounter_type || 'OPD'}
+                              {order.encounter_type || i18n.t("OPD")}
                             </span>
                             <div className="text-[10px] font-bold text-slate-400 leading-tight font-mono">
                               <div>{order.ordered_at?.split(' ')[0]}</div>
@@ -351,7 +347,7 @@ const LabWorklist: React.FC = () => {
                               <p className="text-sm font-black text-slate-800">{order.first_name} {order.last_name}</p>
                               <div className="flex flex-col gap-0.5 mt-0.5">
                                 <div className="flex items-center gap-2">
-                                  <span className="text-[10px] font-mono font-bold text-brand-primary">MRN: {order.mrn}</span>
+                                  <span className="text-[10px] font-mono font-bold text-brand-primary">{i18n.t("MRN:")}{" "}{order.mrn}</span>
                                   <span className="text-[10px] text-slate-400 font-medium">
                                     {order.display_age || (order.age_years ? `${order.age_years}y` : '')}
                                     {order.gender ? ` · ${order.gender}` : ''}
@@ -372,10 +368,10 @@ const LabWorklist: React.FC = () => {
                           <div className="flex flex-col gap-1">
                             <div className="flex items-center gap-1.5 text-sm font-bold text-slate-600">
                               <MapPin size={13} className="text-slate-400" />
-                              {order.ward || 'Outpatient'}
+                              {order.ward || i18n.t("Outpatient")}
                             </div>
                             {order.room_number && (
-                              <p className="text-[10px] text-slate-400 font-medium ml-4.5">{order.room_number} · {order.bed_number}</p>
+                              <p className="text-[10px] text-slate-400 font-medium ms-4.5">{order.room_number} · {order.bed_number}</p>
                             )}
                           </div>
                         </td>
@@ -399,17 +395,16 @@ const LabWorklist: React.FC = () => {
                           <div className="flex flex-col gap-1.5 items-start">
                             {locked ? (
                               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-widest bg-slate-800 text-white shadow-sm border border-slate-700">
-                                <Lock size={12} className="text-amber-400" /> Unpaid (Locked)
-                              </span>
+                                <Lock size={12} className="text-amber-400" />{" "}{i18n.t("Unpaid (Locked)")}</span>
                             ) : (
                               <span className="inline-flex px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest border bg-emerald-50 text-emerald-700 border-emerald-200 w-fit">
-                                {order.processing_status || order.order_status || 'PENDING'}
+                                {i18n.tv(order.processing_status) || i18n.tv(order.order_status) || i18n.t("PENDING")}
                               </span>
                             )}
                           </div>
                         </td>
 
-                        <td className="px-6 py-4 text-right relative">
+                        <td className="px-6 py-4 text-end relative">
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
@@ -421,17 +416,16 @@ const LabWorklist: React.FC = () => {
                           </button>
 
                           {activeMenu === uniqueId && (
-                            <div className="absolute right-8 top-10 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-10 animate-in fade-in slide-in-from-top-2">
+                            <div className="absolute end-8 top-10 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-10 animate-in fade-in slide-in-from-top-2">
                               <button
                                 onClick={() => { setSelectedOrder(order); setActiveMenu(null); }}
-                                className="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 hover:text-purple-600 flex items-center gap-2"
+                                className="w-full text-start px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 hover:text-purple-600 flex items-center gap-2"
                               >
-                                <Eye size={14} /> View Details
-                              </button>
+                                <Eye size={14} />{" "}{i18n.t("View Details")}</button>
                               <button
                                 onClick={() => openCollectModal(order)}
                                 disabled={processingId === uniqueId || locked}
-                                className={`w-full text-left px-4 py-2.5 text-xs font-bold flex items-center gap-2 border-t border-slate-50 transition-colors ${
+                                className={`w-full text-start px-4 py-2.5 text-xs font-bold flex items-center gap-2 border-t border-slate-50 transition-colors ${
                                   locked
                                     ? 'text-slate-400 bg-slate-50 cursor-not-allowed'
                                     : 'text-slate-700 hover:bg-slate-50 hover:text-emerald-600'
@@ -444,7 +438,7 @@ const LabWorklist: React.FC = () => {
                                 ) : (
                                   <CheckCircle2 size={14} className="text-emerald-600" />
                                 )}
-                                {locked ? 'Awaiting Payment' : 'Collect Sample'}
+                                {locked ? i18n.t("Awaiting Payment") : i18n.t("Collect Sample")}
                               </button>
                             </div>
                           )}
@@ -458,8 +452,7 @@ const LabWorklist: React.FC = () => {
 
             {totalPagesPending > 1 && (
               <div className="px-8 py-4 border-t border-slate-100 flex items-center justify-between bg-slate-50/50">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-                  Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, filteredOrders.length)} of {filteredOrders.length}
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{i18n.t("Showing")}{" "}{(currentPage - 1) * itemsPerPage + 1}{" "}{i18n.t("to")}{" "}{Math.min(currentPage * itemsPerPage, filteredOrders.length)}{" "}{i18n.t("of")}{" "}{filteredOrders.length}
                 </span>
                 <div className="flex items-center gap-1">
                   <button 
@@ -467,15 +460,15 @@ const LabWorklist: React.FC = () => {
                     disabled={currentPage === 1}
                     className="p-1.5 text-slate-400 hover:text-purple-600 disabled:opacity-50 disabled:hover:text-slate-400 rounded-lg transition-colors"
                   >
-                    <ChevronLeft size={16} />
+                    <ChevronLeft className="rtl:-scale-x-100" size={16} />
                   </button>
-                  <span className="text-xs font-black text-slate-700 px-3">Page {currentPage} of {totalPagesPending}</span>
+                  <span className="text-xs font-black text-slate-700 px-3">{i18n.t("Page")}{" "}{currentPage}{" "}{i18n.t("of")}{" "}{totalPagesPending}</span>
                   <button 
                     onClick={() => setCurrentPage(p => Math.min(totalPagesPending, p + 1))}
                     disabled={currentPage === totalPagesPending}
                     className="p-1.5 text-slate-400 hover:text-purple-600 disabled:opacity-50 disabled:hover:text-slate-400 rounded-lg transition-colors"
                   >
-                    <ChevronRight size={16} />
+                    <ChevronRight className="rtl:-scale-x-100" size={16} />
                   </button>
                 </div>
               </div>
@@ -487,19 +480,18 @@ const LabWorklist: React.FC = () => {
           <>
             <div className="px-8 py-4 border-b border-slate-100 bg-slate-50/30">
               <h3 className="text-xs font-black text-emerald-600 uppercase tracking-widest flex items-center gap-2">
-                <Tag size={14} /> Pending Samples — Print Reference Labels
-              </h3>
+                <Tag size={14} />{" "}{i18n.t("Pending Samples — Print Reference Labels")}</h3>
             </div>
 
             <div className="overflow-x-auto pb-24">
-              <table className="w-full text-left">
+              <table className="w-full text-start">
                 <thead>
                   <tr className="border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                    <th className="px-6 py-4">Ordered At</th>
-                    <th className="px-6 py-4">Patient</th>
-                    <th className="px-6 py-4">Investigation</th>
-                    <th className="px-6 py-4">Reference No.</th>
-                    <th className="px-6 py-4 text-right">Actions</th>
+                    <th className="px-6 py-4">{i18n.t("Ordered At")}</th>
+                    <th className="px-6 py-4">{i18n.t("Patient")}</th>
+                    <th className="px-6 py-4">{i18n.t("Investigation")}</th>
+                    <th className="px-6 py-4">{i18n.t("Reference No.")}</th>
+                    <th className="px-6 py-4 text-end">{i18n.t("Actions")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
@@ -507,14 +499,14 @@ const LabWorklist: React.FC = () => {
                     <tr>
                       <td colSpan={5} className="py-20 text-center">
                         <Loader2 size={36} className="animate-spin mx-auto text-emerald-600 mb-3" />
-                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Loading Samples...</p>
+                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Loading Samples...")}</p>
                       </td>
                     </tr>
                   ) : paginatedPrint.length === 0 ? (
                     <tr>
                       <td colSpan={5} className="py-20 text-center">
                         <Tag size={40} className="mx-auto text-slate-300 mb-4" />
-                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">No pending samples found</p>
+                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{i18n.t("No pending samples found")}</p>
                       </td>
                     </tr>
                   ) : paginatedPrint.map((sample) => (
@@ -522,13 +514,13 @@ const LabWorklist: React.FC = () => {
                       <td className="px-6 py-4">
                         <div className="text-[10px] font-bold text-slate-500 leading-tight font-mono">
                           <div className="flex items-center gap-1"><Clock size={10}/> {sample.ordered_at?.split(' ')[0]}</div>
-                          <div className="ml-3.5 text-slate-400">{sample.ordered_at?.split(' ')[1]}</div>
+                          <div className="ms-3.5 text-slate-400">{sample.ordered_at?.split(' ')[1]}</div>
                         </div>
                       </td>
 
                       <td className="px-6 py-4">
                         <p className="text-sm font-black text-slate-800">{sample.patient_name}</p>
-                        <p className="text-[10px] font-mono font-bold text-brand-primary mt-0.5">MRN: {sample.mrn}</p>
+                        <p className="text-[10px] font-mono font-bold text-brand-primary mt-0.5">{i18n.t("MRN:")}{" "}{sample.mrn}</p>
                       </td>
 
                       <td className="px-6 py-4">
@@ -542,11 +534,11 @@ const LabWorklist: React.FC = () => {
                             {sample.reference_no}
                           </span>
                         ) : (
-                          <span className="text-[10px] text-slate-400 italic">Not assigned</span>
+                          <span className="text-[10px] text-slate-400 italic">{i18n.t("Not assigned")}</span>
                         )}
                       </td>
 
-                      <td className="px-6 py-4 text-right relative">
+                      <td className="px-6 py-4 text-end relative">
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
@@ -558,20 +550,18 @@ const LabWorklist: React.FC = () => {
                         </button>
 
                         {activeMenu === sample.id && (
-                          <div className="absolute right-8 top-10 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-10 animate-in fade-in slide-in-from-top-2">
+                          <div className="absolute end-8 top-10 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-10 animate-in fade-in slide-in-from-top-2">
                             <button
                               onClick={() => { setSelectedOrder(sample); setActiveMenu(null); }}
-                              className="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 hover:text-purple-600 flex items-center gap-2"
+                              className="w-full text-start px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 hover:text-purple-600 flex items-center gap-2"
                             >
-                              <Eye size={14} /> View Details
-                            </button>
+                              <Eye size={14} />{" "}{i18n.t("View Details")}</button>
                             {sample.reference_no && (
                               <button
                                 onClick={() => { setPrintOrder(sample); setIsPrintModalOpen(true); setActiveMenu(null); }}
-                                className="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 hover:text-emerald-600 flex items-center gap-2"
+                                className="w-full text-start px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 hover:text-emerald-600 flex items-center gap-2"
                               >
-                                <Printer size={14} /> Print Label
-                              </button>
+                                <Printer size={14} />{" "}{i18n.t("Print Label")}</button>
                             )}
                           </div>
                         )}
@@ -584,8 +574,7 @@ const LabWorklist: React.FC = () => {
 
             {totalPagesPrint > 1 && (
               <div className="px-8 py-4 border-t border-slate-100 flex items-center justify-between bg-slate-50/50">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-                  Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, filteredPrint.length)} of {filteredPrint.length}
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{i18n.t("Showing")}{" "}{(currentPage - 1) * itemsPerPage + 1}{" "}{i18n.t("to")}{" "}{Math.min(currentPage * itemsPerPage, filteredPrint.length)}{" "}{i18n.t("of")}{" "}{filteredPrint.length}
                 </span>
                 <div className="flex items-center gap-1">
                   <button 
@@ -593,15 +582,15 @@ const LabWorklist: React.FC = () => {
                     disabled={currentPage === 1}
                     className="p-1.5 text-slate-400 hover:text-emerald-600 disabled:opacity-50 disabled:hover:text-slate-400 rounded-lg transition-colors"
                   >
-                    <ChevronLeft size={16} />
+                    <ChevronLeft className="rtl:-scale-x-100" size={16} />
                   </button>
-                  <span className="text-xs font-black text-slate-700 px-3">Page {currentPage} of {totalPagesPrint}</span>
+                  <span className="text-xs font-black text-slate-700 px-3">{i18n.t("Page")}{" "}{currentPage}{" "}{i18n.t("of")}{" "}{totalPagesPrint}</span>
                   <button 
                     onClick={() => setCurrentPage(p => Math.min(totalPagesPrint, p + 1))}
                     disabled={currentPage === totalPagesPrint}
                     className="p-1.5 text-slate-400 hover:text-emerald-600 disabled:opacity-50 disabled:hover:text-slate-400 rounded-lg transition-colors"
                   >
-                    <ChevronRight size={16} />
+                    <ChevronRight className="rtl:-scale-x-100" size={16} />
                   </button>
                 </div>
               </div>
@@ -616,7 +605,7 @@ const LabWorklist: React.FC = () => {
           <div className="bg-white rounded-[32px] shadow-2xl w-full max-w-xl overflow-hidden flex flex-col max-h-[88vh]">
             <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50">
               <div>
-                <h3 className="text-lg font-black text-slate-800">Order Details</h3>
+                <h3 className="text-lg font-black text-slate-800">{i18n.t("Order Details")}</h3>
                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">
                   {selectedOrder.service_name} · {selectedOrder.encounter_number}
                 </p>
@@ -631,10 +620,8 @@ const LabWorklist: React.FC = () => {
                 <div className="bg-amber-50 border border-amber-200 text-amber-900 p-4 rounded-2xl flex items-start gap-3">
                   <AlertTriangle className="text-amber-600 shrink-0 mt-0.5" size={18} />
                   <div>
-                    <h4 className="font-black text-xs uppercase tracking-widest">Locked — Awaiting Billing Payment</h4>
-                    <p className="text-xs mt-1 font-medium text-amber-800">
-                      This order cannot be collected until the patient completes payment at the billing counter.
-                    </p>
+                    <h4 className="font-black text-xs uppercase tracking-widest">{i18n.t("Locked — Awaiting Billing Payment")}</h4>
+                    <p className="text-xs mt-1 font-medium text-amber-800">{i18n.t("This order cannot be collected until the patient completes payment at the billing counter.")}</p>
                   </div>
                 </div>
               )}
@@ -657,7 +644,7 @@ const LabWorklist: React.FC = () => {
 
               {selectedOrder.diagnosis && (
                 <div className="bg-brand-active/50 p-4 rounded-2xl border border-brand-active">
-                  <p className="text-[10px] font-bold text-brand-primary uppercase mb-1">Diagnosis</p>
+                  <p className="text-[10px] font-bold text-brand-primary uppercase mb-1">{i18n.t("Diagnosis")}</p>
                   <p className="text-sm font-bold text-brand-primary">
                     {selectedOrder.icd10_code ? `[${selectedOrder.icd10_code}] ` : ''}{selectedOrder.diagnosis}
                   </p>
@@ -666,7 +653,7 @@ const LabWorklist: React.FC = () => {
 
               {selectedOrder.clinical_note && (
                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase mb-2">Clinical Notes</p>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase mb-2">{i18n.t("Clinical Notes")}</p>
                   <div className="text-sm font-medium text-slate-700 space-y-1">
                     {selectedOrder.clinical_note.split('|').map((note: string, i: number) => (
                       <p key={i}>{note.trim()}</p>
@@ -677,14 +664,11 @@ const LabWorklist: React.FC = () => {
             </div>
 
             <div className="px-8 py-5 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
-              <button onClick={() => setSelectedOrder(null)} className="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-200 transition-colors">
-                Close
-              </button>
+              <button onClick={() => setSelectedOrder(null)} className="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-200 transition-colors">{i18n.t("Close")}</button>
               
               {isOrderLocked(selectedOrder) ? (
                 <div className="px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest text-slate-400 bg-slate-200/70 border border-slate-300 cursor-not-allowed flex items-center gap-2">
-                  <Lock size={14} /> Locked (Unpaid)
-                </div>
+                  <Lock size={14} />{" "}{i18n.t("Locked (Unpaid)")}</div>
               ) : (
                 <button
                   onClick={() => { openCollectModal(selectedOrder); setSelectedOrder(null); }}
@@ -695,9 +679,7 @@ const LabWorklist: React.FC = () => {
                     <Loader2 size={16} className="animate-spin" />
                   ) : (
                     <Droplets size={16} />
-                  )}
-                  Collect Sample
-                </button>
+                  )}{i18n.t("Collect Sample")}</button>
               )}
             </div>
           </div>
@@ -715,8 +697,8 @@ const LabWorklist: React.FC = () => {
                   <Printer size={22} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-black text-slate-800">Reference Label</h3>
-                  <p className="text-xs text-slate-500 font-bold">50mm × 25mm thermal</p>
+                  <h3 className="text-lg font-black text-slate-800">{i18n.t("Reference Label")}</h3>
+                  <p className="text-xs text-slate-500 font-bold">{i18n.t("50mm × 25mm thermal")}</p>
                 </div>
               </div>
               <button onClick={() => setIsPrintModalOpen(false)} className="p-2 text-slate-400 hover:bg-slate-100 rounded-full transition-all">
@@ -728,34 +710,31 @@ const LabWorklist: React.FC = () => {
               <div className="border-2 border-dashed border-slate-200 rounded-xl p-4 bg-white font-mono space-y-2">
                 <p className="text-xs font-black text-slate-800 tracking-tight">{printOrder.reference_no}</p>
                 <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[10px]">
-                  <div><span className="text-[9px] text-slate-400 font-bold uppercase">Patient: </span><span className="font-bold text-slate-700">{printOrder.patient_name}</span></div>
-                  <div><span className="text-[9px] text-slate-400 font-bold uppercase">MRN: </span><span className="font-bold text-slate-700">{printOrder.mrn}</span></div>
-                  <div><span className="text-[9px] text-slate-400 font-bold uppercase">Test: </span><span className="font-bold text-slate-700">{printOrder.sample_name || printOrder.service_name}</span></div>
-                  <div><span className="text-[9px] text-slate-400 font-bold uppercase">Enc: </span><span className="font-bold text-slate-700 text-[9px]">{printOrder.encounter_number}</span></div>
+                  <div><span className="text-[9px] text-slate-400 font-bold uppercase">{i18n.t("Patient:")}{" "}</span><span className="font-bold text-slate-700">{printOrder.patient_name}</span></div>
+                  <div><span className="text-[9px] text-slate-400 font-bold uppercase">{i18n.t("MRN:")}{" "}</span><span className="font-bold text-slate-700">{printOrder.mrn}</span></div>
+                  <div><span className="text-[9px] text-slate-400 font-bold uppercase">{i18n.t("Test:")}{" "}</span><span className="font-bold text-slate-700">{printOrder.sample_name || printOrder.service_name}</span></div>
+                  <div><span className="text-[9px] text-slate-400 font-bold uppercase">{i18n.t("Enc:")}{" "}</span><span className="font-bold text-slate-700 text-[9px]">{printOrder.encounter_number}</span></div>
                 </div>
                 <div className="flex items-center justify-between mt-2 pt-2">
                   {printOrder.barcode_path && (
-                    <img src={`${(import.meta as any).env?.VITE_API_BASE_URL || ''}${printOrder.barcode_path}`} alt="Barcode" className="h-6 w-auto max-w-[80%]" />
+                    <img src={`${(import.meta as any).env?.VITE_API_BASE_URL || ''}${printOrder.barcode_path}`} alt={i18n.t("Barcode")} className="h-6 w-auto max-w-[80%]" />
                   )}
                   {printOrder.qr_code_path && (
-                    <img src={`${(import.meta as any).env?.VITE_API_BASE_URL || ''}${printOrder.qr_code_path}`} alt="QR Code" className="h-8 w-8 ml-2" />
+                    <img src={`${(import.meta as any).env?.VITE_API_BASE_URL || ''}${printOrder.qr_code_path}`} alt={i18n.t("QR Code")} className="h-8 w-8 ms-2" />
                   )}
                 </div>
-                <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest text-center mt-2">Medbookiehospitals · lab</p>
+                <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest text-center mt-2">{i18n.t("Medbookiehospitals · lab")}</p>
               </div>
-              <p className="text-[10px] text-slate-400 text-center mt-3">Preview · Prints at 50mm × 25mm</p>
+              <p className="text-[10px] text-slate-400 text-center mt-3">{i18n.t("Preview · Prints at 50mm × 25mm")}</p>
             </div>
 
             <div className="p-5 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
-              <button onClick={() => setIsPrintModalOpen(false)} className="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">
-                Cancel
-              </button>
+              <button onClick={() => setIsPrintModalOpen(false)} className="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">{i18n.t("Cancel")}</button>
               <button
                 onClick={() => { printReferenceLabel(printOrder); setIsPrintModalOpen(false); }}
                 className="px-5 py-2.5 text-sm font-bold text-white bg-emerald-600 rounded-xl hover:bg-emerald-700 shadow-lg shadow-emerald-100 transition-all flex items-center gap-1.5"
               >
-                <Printer size={16} /> Print Now
-              </button>
+                <Printer size={16} />{" "}{i18n.t("Print Now")}</button>
             </div>
           </div>
         </div>,
@@ -768,7 +747,7 @@ const LabWorklist: React.FC = () => {
           <div className="bg-white rounded-3xl shadow-xl w-full max-w-md overflow-hidden flex flex-col">
             <div className="p-6 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-black text-slate-800">Process Sample</h3>
+                <h3 className="text-lg font-black text-slate-800">{i18n.t("Process Sample")}</h3>
                 <p className="text-xs font-bold text-slate-500 mt-1">{orderToCollect.service_name}</p>
               </div>
               <button onClick={() => setIsCollectModalOpen(false)} className="p-2 text-slate-400 hover:bg-slate-200 rounded-full">
@@ -778,50 +757,47 @@ const LabWorklist: React.FC = () => {
 
             <div className="p-6 space-y-6">
               <div>
-                <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">Collection Destination</p>
+                <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">{i18n.t("Collection Destination")}</p>
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     onClick={() => setCollectionType('IN_HOUSE')}
-                    className={`p-4 rounded-2xl border-2 text-left transition-all flex flex-col items-start gap-2 ${
+                    className={`p-4 rounded-2xl border-2 text-start transition-all flex flex-col items-start gap-2 ${
                       collectionType === 'IN_HOUSE' 
                         ? 'border-purple-600 bg-purple-50 text-purple-700' 
                         : 'border-slate-100 hover:border-slate-200 text-slate-500'
                     }`}
                   >
                     <Activity size={24} className={collectionType === 'IN_HOUSE' ? 'text-purple-600' : 'text-slate-400'} />
-                    <span className="font-bold text-sm">In-House</span>
+                    <span className="font-bold text-sm">{i18n.t("In-House")}</span>
                   </button>
 
                   <button
                     onClick={() => setCollectionType('OUTSOURCE')}
-                    className={`p-4 rounded-2xl border-2 text-left transition-all flex flex-col items-start gap-2 ${
+                    className={`p-4 rounded-2xl border-2 text-start transition-all flex flex-col items-start gap-2 ${
                       collectionType === 'OUTSOURCE' 
                         ? 'border-blue-600 bg-blue-50 text-blue-700' 
                         : 'border-slate-100 hover:border-slate-200 text-slate-500'
                     }`}
                   >
                     <MapPin size={24} className={collectionType === 'OUTSOURCE' ? 'text-blue-600' : 'text-slate-400'} />
-                    <span className="font-bold text-sm">Outsource</span>
+                    <span className="font-bold text-sm">{i18n.t("Outsource")}</span>
                   </button>
                 </div>
               </div>
 
               {collectionType === 'OUTSOURCE' && (
                 <div className="animate-in slide-in-from-top-2 fade-in">
-                  <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-2 block">
-                    Select Partner Laboratory
-                  </label>
+                  <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-2 block">{i18n.t("Select Partner Laboratory")}</label>
                   {centersLoading ? (
                     <div className="flex items-center gap-2 text-sm text-slate-500 p-3 bg-slate-50 rounded-xl">
-                      <Loader2 size={16} className="animate-spin" /> Loading centers...
-                    </div>
+                      <Loader2 size={16} className="animate-spin" />{" "}{i18n.t("Loading centers...")}</div>
                   ) : (
                     <select
                       value={selectedCenterId}
                       onChange={(e) => setSelectedCenterId(e.target.value)}
                       className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                     >
-                      <option value="" disabled>Select a diagnostic center...</option>
+                      <option value="" disabled>{i18n.t("Select a diagnostic center...")}</option>
                       {outsourceCenters.map((center) => (
                         <option key={center.id} value={center.id}>
                           {center.name}
@@ -834,9 +810,7 @@ const LabWorklist: React.FC = () => {
             </div>
 
             <div className="p-5 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
-              <button onClick={() => setIsCollectModalOpen(false)} className="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-100">
-                Cancel
-              </button>
+              <button onClick={() => setIsCollectModalOpen(false)} className="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-100">{i18n.t("Cancel")}</button>
               <button
                 onClick={confirmCollection}
                 disabled={collectionType === 'OUTSOURCE' && !selectedCenterId}
@@ -846,8 +820,7 @@ const LabWorklist: React.FC = () => {
                     : 'bg-blue-600 hover:bg-blue-700 shadow-blue-200'
                 } disabled:opacity-50 disabled:cursor-not-allowed`}
               >
-                <Droplets size={16} /> Confirm Collection
-              </button>
+                <Droplets size={16} />{" "}{i18n.t("Confirm Collection")}</button>
             </div>
           </div>
         </div>,

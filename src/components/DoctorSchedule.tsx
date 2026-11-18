@@ -30,6 +30,7 @@ import { appointmentService } from '../services/appointment.service';
 import { patientService } from '../services/patient.service';
 import { useNotification } from '../context/NotificationContext';
 import LoadingAnimation from './animations/LoadingAnimation';
+import { i18n } from "../i18n";
 
 const API_DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
@@ -200,7 +201,7 @@ const DoctorSchedule: React.FC = () => {
   };
 
   const handleDeleteSchedule = async (id: number) => {
-    if (!window.confirm('Remove this availability block?')) return;
+    if (!window.confirm(i18n.t("Remove this availability block?"))) return;
     try {
       await appointmentService.deleteSchedule(id);
       notify('Schedule removed', 'success');
@@ -373,7 +374,7 @@ const DoctorSchedule: React.FC = () => {
   };
 
   const handleDeleteAppointment = async () => {
-    if (!selectedAppointment || !window.confirm('Cancel this appointment?')) return;
+    if (!selectedAppointment || !window.confirm(i18n.t("Cancel this appointment?"))) return;
     
     try {
       await appointmentService.deleteAppointment(selectedAppointment.id);
@@ -473,10 +474,8 @@ const DoctorSchedule: React.FC = () => {
           <h1 className="text-2xl font-black text-slate-800 tracking-tight flex items-center gap-3">
              <div className="p-2 bg-brand-active text-brand-primary rounded-xl">
               <CalendarIcon size={24} />
-            </div>
-            Clinic Scheduling & Availability
-          </h1>
-          <p className="text-slate-500 font-medium">Coordinate specialist calendars and managed patient booking slots.</p>
+            </div>{i18n.t("Clinic Scheduling & Availability")}</h1>
+          <p className="text-slate-500 font-medium">{i18n.t("Coordinate specialist calendars and managed patient booking slots.")}</p>
         </div>
         <div className="flex items-center gap-3">
           {selectedDoctorId && (
@@ -484,8 +483,7 @@ const DoctorSchedule: React.FC = () => {
               onClick={() => setShowRotaModal(true)}
               className="flex items-center gap-2 bg-white border border-slate-200 text-slate-600 px-5 py-2.5 rounded-2xl font-bold hover:bg-slate-50 transition-all shadow-sm active:scale-95"
             >
-              <Settings size={18} /> Schedule
-            </button>
+              <Settings size={18} />{" "}{i18n.t("Schedule")}</button>
           )}
         </div>
       </div>
@@ -494,13 +492,13 @@ const DoctorSchedule: React.FC = () => {
       <div className="bg-white border border-slate-200 rounded-[32px] p-4 flex flex-col md:flex-row items-center justify-between shadow-sm gap-4">
         <div className="flex items-center gap-4">
           <div className="flex items-center border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
-            <button onClick={handlePrevWeek} className="p-2.5 hover:bg-slate-50 border-r border-slate-200 text-slate-400 group/nav"><ChevronLeft size={16} className="group-hover/nav:-translate-x-0.5 transition-transform" /></button>
-            <button onClick={handleToday} className="px-4 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors">Today</button>
+            <button onClick={handlePrevWeek} className="p-2.5 hover:bg-slate-50 border-e border-slate-200 text-slate-400 group/nav"><ChevronLeft size={16} className="group-hover/nav:-translate-x-0.5 transition-transform rtl:-scale-x-100" /></button>
+            <button onClick={handleToday} className="px-4 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors">{i18n.t("Today")}</button>
             <div className="relative border-x border-slate-200 group/date">
-              <CalendarIcon size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+              <CalendarIcon size={14} className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
               <input 
                 type="date" 
-                className="pl-9 pr-3 py-2.5 text-xs font-bold text-slate-600 outline-none cursor-pointer bg-transparent hover:bg-slate-50 transition-colors appearance-none"
+                className="ps-9 pe-3 py-2.5 text-xs font-bold text-slate-600 outline-none cursor-pointer bg-transparent hover:bg-slate-50 transition-colors appearance-none"
                 value={formatDate(currentDate)}
                 onChange={(e) => {
                   if (e.target.value) {
@@ -510,7 +508,7 @@ const DoctorSchedule: React.FC = () => {
                 }}
               />
             </div>
-            <button onClick={handleNextWeek} className="p-2.5 hover:bg-slate-50 text-slate-400 group/nav"><ChevronRight size={16} className="group-hover/nav:translate-x-0.5 transition-transform" /></button>
+            <button onClick={handleNextWeek} className="p-2.5 hover:bg-slate-50 text-slate-400 group/nav"><ChevronRight size={16} className="group-hover/nav:translate-x-0.5 transition-transform rtl:-scale-x-100" /></button>
           </div>
           <div className="h-6 w-px bg-slate-200" />
           <h2 className="text-lg font-black text-slate-800">
@@ -521,13 +519,13 @@ const DoctorSchedule: React.FC = () => {
         <div className="flex items-center gap-2">
           {/* Specialization Filter */}
           <div className="relative">
-            <Stethoscope className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+            <Stethoscope className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
             <select 
-              className="pl-9 pr-4 py-2 text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-xl outline-none appearance-none hover:bg-slate-50 transition-all cursor-pointer"
+              className="ps-9 pe-4 py-2 text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-xl outline-none appearance-none hover:bg-slate-50 transition-all cursor-pointer"
               value={selectedSpecId}
               onChange={(e) => setSelectedSpecId(e.target.value)}
             >
-              <option value="">All Specialties</option>
+              <option value="">{i18n.t("All Specialties")}</option>
               {specializations.map(s => (
                 <option key={s.id} value={s.id}>{s.name}</option>
               ))}
@@ -536,21 +534,21 @@ const DoctorSchedule: React.FC = () => {
 
           {/* Specialist Filter */}
           <div className="relative">
-            <UserIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+            <UserIcon className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
             <select 
-              className="pl-9 pr-8 py-2 text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-xl outline-none appearance-none hover:bg-slate-50 transition-all cursor-pointer min-w-[180px]"
+              className="ps-9 pe-8 py-2 text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-xl outline-none appearance-none hover:bg-slate-50 transition-all cursor-pointer min-w-[180px]"
               value={selectedDoctorId}
               onChange={(e) => setSelectedDoctorId(e.target.value)}
             >
-              <option value="">Select Specialist</option>
+              <option value="">{i18n.t("Select Specialist")}</option>
               {filteredDoctors.map(d => (
                 <option key={d.doctor_id} value={d.doctor_id}>
                   {d.first_name} {d.last_name}
                 </option>
               ))}
             </select>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-              <ChevronRight size={12} className="rotate-90" />
+            <div className="absolute end-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+              <ChevronRight size={12} className="rotate-90 rtl:-scale-x-100" />
             </div>
           </div>
         </div>
@@ -567,19 +565,19 @@ const DoctorSchedule: React.FC = () => {
         {schedules.length === 0 && !loading && (
           <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-slate-50/50 backdrop-blur-[1px]">
             <AlertCircle size={48} className="text-slate-300 mb-4" />
-            <h3 className="text-lg font-black text-slate-400 uppercase tracking-widest">No Schedule Configured</h3>
-            <p className="text-slate-400 text-sm mt-1">Please use 'Schedule' to set availability for this doctor.</p>
+            <h3 className="text-lg font-black text-slate-400 uppercase tracking-widest">{i18n.t("No Schedule Configured")}</h3>
+            <p className="text-slate-400 text-sm mt-1">{i18n.t("Please use 'Schedule' to set availability for this doctor.")}</p>
           </div>
         )}
 
         <div className="grid grid-cols-8 border-b border-slate-100 bg-slate-50/30">
-          <div className="p-4 border-r border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center justify-center">
+          <div className="p-4 border-e border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center justify-center">
             <Clock size={14} />
           </div>
           {weekDays.map((date, idx) => {
             const isToday = formatDate(date) === formatDate(new Date());
             return (
-              <div key={idx} className={`p-5 text-center border-r border-slate-100 last:border-r-0 ${isToday ? 'bg-brand-active/50' : ''}`}>
+              <div key={idx} className={`p-5 text-center border-e border-slate-100 last:border-e-0 ${isToday ? 'bg-brand-active/50' : ''}`}>
                 <p className={`text-[10px] font-black uppercase tracking-widest ${isToday ? 'text-brand-primary' : 'text-slate-400'}`}>
                   {date.toLocaleDateString('en-US', { weekday: 'short' })}
                 </p>
@@ -594,7 +592,7 @@ const DoctorSchedule: React.FC = () => {
         <div className="max-h-[calc(100vh-280px)] overflow-y-auto no-scrollbar scroll-smooth calendar-grid-container">
           {TIME_SLOTS.map((time) => (
             <div key={time} className="grid grid-cols-8 border-b border-slate-50 last:border-0 hover:bg-slate-50/20 transition-colors group">
-              <div className="p-3 border-r border-slate-100 text-xs font-bold text-slate-400 flex items-center justify-center bg-slate-50/20 grid-row-time">
+              <div className="p-3 border-e border-slate-100 text-xs font-bold text-slate-400 flex items-center justify-center bg-slate-50/20 grid-row-time">
                 {time}
               </div>
               {weekDays.map((dateObj, dayIndex) => {
@@ -611,7 +609,7 @@ const DoctorSchedule: React.FC = () => {
                   <div 
                     key={matrixKey} 
                     onClick={() => isAvailable && !isBreak && handleSlotClick(dateStr, time, isAvailable, slotData)}
-                    className={`p-1.5 border-r border-slate-100 min-h-[140px] transition-all flex flex-col justify-start last:border-r-0 relative
+                    className={`p-1.5 border-e border-slate-100 min-h-[140px] transition-all flex flex-col justify-start last:border-e-0 relative
                       ${!isAvailable ? 'bg-slate-50/50 cursor-not-allowed' : 'bg-white cursor-pointer hover:bg-brand-active/10 group/slot'}
                     `}
                   >
@@ -623,24 +621,24 @@ const DoctorSchedule: React.FC = () => {
 
                     {isBooked ? (
                        isStart ? (
-                        <div className={`p-3 rounded-2xl w-full h-full shadow-sm flex flex-col text-left animate-in zoom-in-95 duration-300 z-10 cursor-pointer border-2 hover:shadow-md transition-all relative overflow-hidden ${getStatusColor(appointment.status, true)}`}>
+                        <div className={`p-3 rounded-2xl w-full h-full shadow-sm flex flex-col text-start animate-in zoom-in-95 duration-300 z-10 cursor-pointer border-2 hover:shadow-md transition-all relative overflow-hidden ${getStatusColor(appointment.status, true)}`}>
                            {/* Status Indicator Bar */}
-                           <div className={`absolute top-0 left-0 w-1.5 h-full ${getStatusColor(appointment.status)}`}></div>
+                           <div className={`absolute top-0 start-0 w-1.5 h-full ${getStatusColor(appointment.status)}`}></div>
                            
-                           <div className="pl-2 flex justify-between items-start">
-                              <span className={`text-[9px] font-black uppercase tracking-wider ${getStatusText(appointment.status)}`}>{appointment.status}</span>
-                              {appointment.duration > 30 && <span className="text-[9px] font-bold text-slate-400 bg-white/50 px-1.5 rounded">{appointment.duration}m</span>}
+                           <div className="ps-2 flex justify-between items-start">
+                              <span className={`text-[9px] font-black uppercase tracking-wider ${getStatusText(appointment.status)}`}>{i18n.tv(appointment.status)}</span>
+                              {appointment.duration > 30 && <span className="text-[9px] font-bold text-slate-400 bg-white/50 px-1.5 rounded">{appointment.duration}{i18n.t("m")}</span>}
                            </div>
 
-                           <div className="pl-2 mt-2 flex-1">
+                           <div className="ps-2 mt-2 flex-1">
                              <p className="text-[11px] font-black text-slate-800 leading-tight line-clamp-2">
                                {appointment.patient_first} {appointment.patient_last}
                              </p>
                              <p className="text-[9px] font-mono font-bold text-slate-500 mt-1">{appointment.mrn}</p>
                            </div>
 
-                           <div className="pl-2 mt-auto pt-2 border-t border-black/5 flex justify-between items-center">
-                              <span className="text-[9px] font-bold text-slate-400">{appointment.booking_type === 'WALK_IN' ? 'WALK-IN' : 'BOOKED'}</span>
+                           <div className="ps-2 mt-auto pt-2 border-t border-black/5 flex justify-between items-center">
+                              <span className="text-[9px] font-bold text-slate-400">{appointment.booking_type === 'WALK_IN' ? i18n.t("WALK-IN") : i18n.t("BOOKED")}</span>
                               <UserCheck size={12} className={getStatusText(appointment.status)}/>
                            </div>
                         </div>
@@ -652,13 +650,11 @@ const DoctorSchedule: React.FC = () => {
                        )
                     ) : isBreak ? (
                       <div className="w-full h-full flex items-center justify-center bg-slate-50 rounded-2xl">
-                        <span className="text-[9px] font-bold text-slate-300 uppercase tracking-widest">Break</span>
+                        <span className="text-[9px] font-bold text-slate-300 uppercase tracking-widest">{i18n.t("Break")}</span>
                       </div>
                     ) : isAvailable ? (
                       <div className="opacity-0 group-hover/slot:opacity-100 bg-brand-active text-brand-primary h-full rounded-2xl flex flex-col items-center justify-center text-[9px] font-black uppercase tracking-widest shadow-inner transition-all scale-95 group-hover/slot:scale-100 border border-brand-active">
-                        <Plus size={16} className="mb-1" />
-                        Book
-                      </div>
+                        <Plus size={16} className="mb-1" />{i18n.t("Book")}</div>
                     ) : null}
                   </div>
                 );
@@ -679,10 +675,9 @@ const DoctorSchedule: React.FC = () => {
                   <Settings size={20} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-black text-slate-800 tracking-tight">Availability Rota</h2>
+                  <h2 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Availability Rota")}</h2>
                   <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-0.5">
-                    {doctors.find(d => d.doctor_id == selectedDoctorId)?.first_name}'s Schedule
-                  </p>
+                    {doctors.find(d => d.doctor_id == selectedDoctorId)?.first_name}{i18n.t("'s Schedule")}</p>
                 </div>
               </div>
               <button onClick={() => setShowRotaModal(false)} className="p-2 hover:bg-slate-200 rounded-full text-slate-400">
@@ -693,10 +688,10 @@ const DoctorSchedule: React.FC = () => {
             <div className="flex-1 overflow-y-auto p-8 space-y-8">
               {/* Existing Schedules List */}
               <div className="space-y-4">
-                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Active Time Blocks</h3>
+                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Active Time Blocks")}</h3>
                 {schedules.length === 0 ? (
                   <div className="p-8 border-2 border-dashed border-slate-200 rounded-3xl text-center text-slate-400">
-                    <p className="text-xs font-bold uppercase">No schedules defined</p>
+                    <p className="text-xs font-bold uppercase">{i18n.t("No schedules defined")}</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -705,7 +700,7 @@ const DoctorSchedule: React.FC = () => {
                         <div>
                           <div className="flex items-center gap-2 mb-1">
                             <span className="px-2 py-0.5 bg-slate-100 rounded text-[9px] font-black text-slate-600 uppercase tracking-widest">{sch.day_of_week}</span>
-                            <span className="text-[10px] font-bold text-slate-400">{sch.slot_duration} min slots</span>
+                            <span className="text-[10px] font-bold text-slate-400">{sch.slot_duration}{" "}{i18n.t("min slots")}</span>
                           </div>
                           <p className="text-sm font-black text-slate-800">
                             {sch.start_time.substring(0,5)} - {sch.end_time.substring(0,5)}
@@ -727,13 +722,13 @@ const DoctorSchedule: React.FC = () => {
               <div className="p-6 bg-slate-50 border border-slate-100 rounded-[32px] space-y-6">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-brand-primary" />
-                  <h3 className="text-xs font-black text-slate-800 uppercase tracking-widest">Add New Availability</h3>
+                  <h3 className="text-xs font-black text-slate-800 uppercase tracking-widest">{i18n.t("Add New Availability")}</h3>
                 </div>
                 
                 <form onSubmit={handleAddSchedule} className="space-y-6">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-[9px] font-bold text-slate-400 uppercase tracking-wider ml-1">Day of Week</label>
+                      <label className="text-[9px] font-bold text-slate-400 uppercase tracking-wider ms-1">{i18n.t("Day of Week")}</label>
                       <select 
                         className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none"
                         value={newSchedule.day_of_week}
@@ -743,20 +738,20 @@ const DoctorSchedule: React.FC = () => {
                       </select>
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[9px] font-bold text-slate-400 uppercase tracking-wider ml-1">Slot Duration (Min)</label>
+                      <label className="text-[9px] font-bold text-slate-400 uppercase tracking-wider ms-1">{i18n.t("Slot Duration (Min)")}</label>
                       <select 
                         className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none appearance-none"
                         value={newSchedule.slot_duration}
                         onChange={e => setNewSchedule({...newSchedule, slot_duration: Number(e.target.value)})}
                       >
-                        <option value={30}>30 Minutes</option>
+                        <option value={30}>{i18n.t("30 Minutes")}</option>
                       </select>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-[9px] font-bold text-slate-400 uppercase tracking-wider ml-1">Start Time</label>
+                      <label className="text-[9px] font-bold text-slate-400 uppercase tracking-wider ms-1">{i18n.t("Start Time")}</label>
                       <input 
                         type="time" 
                         required
@@ -766,7 +761,7 @@ const DoctorSchedule: React.FC = () => {
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[9px] font-bold text-slate-400 uppercase tracking-wider ml-1">End Time</label>
+                      <label className="text-[9px] font-bold text-slate-400 uppercase tracking-wider ms-1">{i18n.t("End Time")}</label>
                       <input 
                         type="time" 
                         required
@@ -782,9 +777,7 @@ const DoctorSchedule: React.FC = () => {
                     disabled={isSavingRota}
                     className="w-full py-3.5 bg-slate-900 text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-slate-800 transition-all flex items-center justify-center gap-2 shadow-lg active:scale-95 disabled:opacity-70"
                   >
-                    {isSavingRota ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
-                    Save Schedule Block
-                  </button>
+                    {isSavingRota ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}{i18n.t("Save Schedule Block")}</button>
                 </form>
               </div>
             </div>
@@ -803,9 +796,9 @@ const DoctorSchedule: React.FC = () => {
                   <CalendarIcon size={20} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-black text-slate-800 tracking-tight">New Appointment</h2>
+                  <h2 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("New Appointment")}</h2>
                   <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-0.5">
-                    {selectedSlot.date} at {selectedSlot.time}
+                    {selectedSlot.date}{" "}{i18n.t("at")}{" "}{selectedSlot.time}
                   </p>
                 </div>
               </div>
@@ -816,15 +809,15 @@ const DoctorSchedule: React.FC = () => {
 
             <div className="p-8 space-y-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Patient MRN</label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Patient MRN")}</label>
                 <div className="flex gap-2">
                    <div className="relative flex-1">
-                      <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                      <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
                       <input 
                         required
                         type="text"
-                        placeholder="e.g. GSH-2026-000001"
-                        className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none transition-all"
+                        placeholder={i18n.t("e.g. GSH-2026-000001")}
+                        className="w-full ps-10 pe-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none transition-all"
                         value={bookingForm.mrn}
                         onChange={e => {
                           setBookingForm({...bookingForm, mrn: e.target.value});
@@ -854,23 +847,23 @@ const DoctorSchedule: React.FC = () => {
                        {patientPreview.demographics.first_name} {patientPreview.demographics.last_name}
                      </h4>
                      <div className="flex items-center gap-3 mt-1">
-                        <span className="text-[10px] font-bold text-slate-500 uppercase">{patientPreview.demographics.gender}</span>
+                        <span className="text-[10px] font-bold text-slate-500 uppercase">{i18n.tv(patientPreview.demographics.gender)}</span>
                         <span className="text-[10px] font-bold text-slate-500 uppercase">{patientPreview.demographics.date_of_birth}</span>
                         <span className="text-[10px] font-bold text-brand-primary uppercase tracking-tight">{patientPreview.demographics.phone}</span>
                      </div>
                    </div>
-                   <div className="ml-auto text-emerald-500">
+                   <div className="ms-auto text-emerald-500">
                      <UserCheck size={20} />
                    </div>
                 </div>
               )}
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Reason for Visit</label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Reason for Visit")}</label>
                 <textarea 
                   required
                   rows={2}
-                  placeholder="Clinical notes..."
+                  placeholder={i18n.t("Clinical notes...")}
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none resize-none"
                   value={bookingForm.reason_for_visit}
                   onChange={e => setBookingForm({...bookingForm, reason_for_visit: e.target.value})}
@@ -879,41 +872,39 @@ const DoctorSchedule: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-4">
                  <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Booking Type</label>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Booking Type")}</label>
                     <select 
                       className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none"
                       value={bookingForm.booking_type}
                       onChange={e => setBookingForm({...bookingForm, booking_type: e.target.value})}
                     >
-                      <option value="PRE_BOOKED">Pre-Booked</option>
-                      <option value="WALK_IN">Walk-In</option>
+                      <option value="PRE_BOOKED">{i18n.t("Pre-Booked")}</option>
+                      <option value="WALK_IN">{i18n.t("Walk-In")}</option>
                     </select>
                  </div>
                  <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Duration</label>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Duration")}</label>
                     <select 
                       className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none"
                       value={bookingForm.duration}
                       onChange={e => setBookingForm({...bookingForm, duration: Number(e.target.value)})}
                     >
-                      <option value={30}>30 Minutes</option>
-                      <option value={60}>60 Minutes</option>
-                      <option value={90}>90 Minutes</option>
+                      <option value={30}>{i18n.t("30 Minutes")}</option>
+                      <option value={60}>{i18n.t("60 Minutes")}</option>
+                      <option value={90}>{i18n.t("90 Minutes")}</option>
                     </select>
                  </div>
               </div>
             </div>
 
             <div className="px-8 py-6 bg-slate-50 border-t border-slate-100 flex justify-end gap-3">
-              <button type="button" onClick={() => setShowBookingModal(false)} className="px-6 py-3 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-slate-800">Cancel</button>
+              <button type="button" onClick={() => setShowBookingModal(false)} className="px-6 py-3 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-slate-800">{i18n.t("Cancel")}</button>
               <button 
                 type="submit" 
                 disabled={isSubmittingAppt || !patientPreview}
                 className="bg-brand-primary text-white px-10 py-3 rounded-xl font-black uppercase text-xs tracking-widest hover:bg-brand-primary transition-all flex items-center gap-2 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isSubmittingAppt ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
-                Confirm Booking
-              </button>
+                {isSubmittingAppt ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}{i18n.t("Confirm Booking")}</button>
             </div>
           </form>
         </div>
@@ -930,10 +921,10 @@ const DoctorSchedule: React.FC = () => {
                   <FileText size={20} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-black text-slate-800 tracking-tight">Appointment Details</h2>
+                  <h2 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Appointment Details")}</h2>
                   <div className="flex items-center gap-2 mt-0.5">
                      <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase border tracking-wider ${getStatusColor(selectedAppointment.status)}`}>
-                        {selectedAppointment.status}
+                        {i18n.tv(selectedAppointment.status)}
                      </span>
                      <p className="text-xs text-slate-500 font-bold uppercase tracking-widest">
                         {selectedAppointment.appointment_code}
@@ -949,19 +940,19 @@ const DoctorSchedule: React.FC = () => {
             <div className="p-8 space-y-6">
               <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
                  <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase">Patient</p>
+                    <p className="text-[10px] font-black text-slate-400 uppercase">{i18n.t("Patient")}</p>
                     <p className="text-sm font-black text-slate-800">{selectedAppointment.patient_first} {selectedAppointment.patient_last}</p>
                     <p className="text-[10px] font-mono font-bold text-brand-primary uppercase mt-0.5">{selectedAppointment.mrn}</p>
                  </div>
-                 <div className="text-right">
-                    <p className="text-[10px] font-black text-slate-400 uppercase">Duration</p>
-                    <p className="text-sm font-black text-slate-800">{selectedAppointment.duration || 30} mins</p>
+                 <div className="text-end">
+                    <p className="text-[10px] font-black text-slate-400 uppercase">{i18n.t("Duration")}</p>
+                    <p className="text-sm font-black text-slate-800">{selectedAppointment.duration || 30}{" "}{i18n.t("mins")}</p>
                     <p className="text-[10px] text-slate-500 font-bold">{selectedAppointment.appointment_time}</p>
                  </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Reason for Visit</label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Reason for Visit")}</label>
                 <textarea 
                   rows={2}
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none resize-none"
@@ -972,31 +963,31 @@ const DoctorSchedule: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-4">
                  <div className="space-y-2">
-                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Update Status</label>
+                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Update Status")}</label>
                    <select 
                      className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none"
                      onChange={(e) => handleStatusChange(e.target.value)}
                      value={selectedAppointment.status}
                      disabled={selectedAppointment.status === 'CHECKED_IN' || selectedAppointment.status === 'BILLING_CLEARANCE'}
                    >
-                     <option value="SCHEDULED">Scheduled</option>
-                     <option value="CONFIRMED">Confirmed</option>
-                     <option value="CHECKED_IN">Checked In</option>
-                     <option value="COMPLETED">Completed</option>
-                     <option value="NO_SHOW">No Show</option>
-                     <option value="CANCELLED">Cancelled</option>
+                     <option value="SCHEDULED">{i18n.t("Scheduled")}</option>
+                     <option value="CONFIRMED">{i18n.t("Confirmed")}</option>
+                     <option value="CHECKED_IN">{i18n.t("Checked In")}</option>
+                     <option value="COMPLETED">{i18n.t("Completed")}</option>
+                     <option value="NO_SHOW">{i18n.t("No Show")}</option>
+                     <option value="CANCELLED">{i18n.t("Cancelled")}</option>
                    </select>
                  </div>
                  <div className="space-y-2">
-                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Modify Duration</label>
+                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Modify Duration")}</label>
                    <select 
                      className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none"
                      value={bookingForm.duration}
                      onChange={(e) => setBookingForm({...bookingForm, duration: Number(e.target.value)})}
                    >
-                     <option value={30}>30 Minutes</option>
-                     <option value={60}>60 Minutes</option>
-                     <option value={90}>90 Minutes</option>
+                     <option value={30}>{i18n.t("30 Minutes")}</option>
+                     <option value={60}>{i18n.t("60 Minutes")}</option>
+                     <option value={90}>{i18n.t("90 Minutes")}</option>
                    </select>
                  </div>
               </div>
@@ -1011,9 +1002,7 @@ const DoctorSchedule: React.FC = () => {
                      disabled={isProcessingBilling}
                      className="w-full bg-brand-primary text-white px-4 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-brand-primary shadow-md transition-all flex items-center justify-center gap-2"
                    >
-                      {isProcessingBilling ? <Loader2 size={16} className="animate-spin" /> : <CreditCard size={16} />}
-                      Proceed to Billing Clearance
-                   </button>
+                      {isProcessingBilling ? <Loader2 size={16} className="animate-spin" /> : <CreditCard size={16} />}{i18n.t("Proceed to Billing Clearance")}</button>
                  </div>
                )}
                
@@ -1024,17 +1013,13 @@ const DoctorSchedule: React.FC = () => {
                        onClick={() => handleStatusChange('CONFIRMED')}
                        disabled={isSubmittingAppt}
                        className="bg-emerald-600 text-white px-4 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-emerald-700 shadow-md transition-all"
-                    >
-                       Confirm Attendance
-                    </button>
+                    >{i18n.t("Confirm Attendance")}</button>
                     <button 
                        type="button"
                        onClick={() => handleStatusChange('CANCELLED')}
                        disabled={isSubmittingAppt}
                        className="bg-red-50 text-red-600 border border-red-100 px-4 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-red-100 transition-all"
-                    >
-                       Cancel Appointment
-                    </button>
+                    >{i18n.t("Cancel Appointment")}</button>
                  </div>
                )}
 
@@ -1046,16 +1031,14 @@ const DoctorSchedule: React.FC = () => {
                        disabled={isSubmittingAppt}
                        className="bg-brand-primary text-white px-4 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-brand-primary shadow-md transition-all flex items-center justify-center gap-2"
                     >
-                       <MapPin size={14} /> Check In (Arrived)
-                    </button>
+                       <MapPin size={14} />{" "}{i18n.t("Check In (Arrived)")}</button>
                     <button 
                        type="button"
                        onClick={() => handleStatusChange('NO_SHOW')}
                        disabled={isSubmittingAppt}
                        className="bg-slate-200 text-slate-600 px-4 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-300 transition-all flex items-center justify-center gap-2"
                     >
-                       <UserX size={14} /> Mark No-Show
-                    </button>
+                       <UserX size={14} />{" "}{i18n.t("Mark No-Show")}</button>
                   </div>
                )}
 
@@ -1066,18 +1049,15 @@ const DoctorSchedule: React.FC = () => {
                    disabled={isSubmittingAppt}
                    className="text-slate-400 hover:text-red-500 text-[10px] font-black uppercase tracking-widest flex items-center gap-1 transition-colors"
                  >
-                   <Trash2 size={14} /> Remove
-                 </button>
+                   <Trash2 size={14} />{" "}{i18n.t("Remove")}</button>
                  <div className="flex gap-2">
-                   <button type="button" onClick={() => setShowEditModal(false)} className="px-6 py-3 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-slate-800">Close</button>
+                   <button type="button" onClick={() => setShowEditModal(false)} className="px-6 py-3 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-slate-800">{i18n.t("Close")}</button>
                    <button 
                      type="submit" 
                      disabled={isSubmittingAppt}
                      className="bg-slate-900 text-white px-8 py-3 rounded-xl font-black uppercase text-xs tracking-widest hover:bg-slate-800 transition-all flex items-center gap-2 shadow-lg disabled:opacity-50"
                    >
-                     {isSubmittingAppt ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
-                     Update
-                   </button>
+                     {isSubmittingAppt ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}{i18n.t("Update")}</button>
                  </div>
               </div>
             </div>

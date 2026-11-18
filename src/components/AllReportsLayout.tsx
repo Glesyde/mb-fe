@@ -19,6 +19,7 @@ import {
   Stethoscope
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { i18n } from "../i18n";
 
 interface ReportSubItem {
   to: string;
@@ -377,10 +378,10 @@ const DropdownTab = ({ tab, location }: { tab: ReportTab; location: ReturnType<t
         `}
       >
         <Icon size={14} className="shrink-0" />
-        <span>{tab.label}</span>
+        <span>{i18n.tx(tab.label)}</span>
         <ChevronDown
           size={12}
-          className={`ml-0.5 opacity-70 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+          className={`ms-0.5 opacity-70 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
         />
       </button>
 
@@ -408,7 +409,7 @@ const DropdownTab = ({ tab, location }: { tab: ReportTab; location: ReturnType<t
                     }
                   `}
                 >
-                  {item.label}
+                  {i18n.tx(item.label)}
                 </NavLink>
               );
             })}
@@ -505,15 +506,15 @@ const AllReportsLayout: React.FC = () => {
           type="button"
           onClick={() => handleScroll("left")}
           className="py-3 px-1.5 bg-white/10 hover:bg-white/20 active:scale-95 text-white/90 border border-white/15 backdrop-blur-md shadow-sm transition-all shrink-0"
-          title="Scroll tabs left"
+          title={i18n.t("Scroll tabs left")}
         >
-          <ChevronLeft size={14} />
+          <ChevronLeft className="rtl:-scale-x-100" size={14} />
         </button>
       )}
 
       <nav
         ref={scrollContainerRef}
-        aria-label="Reports Categories"
+        aria-label={i18n.t("Reports Categories")}
         className="bg-white/10 backdrop-blur-md border border-white/15 p-1 flex items-center gap-1 overflow-x-auto scrollbar-hide shadow-inner scroll-smooth min-w-0"
       >
         {visibleTabs.length > 0 ? (
@@ -521,9 +522,7 @@ const AllReportsLayout: React.FC = () => {
             <DropdownTab key={tab.id} tab={tab} location={location} />
           ))
         ) : (
-          <span className="text-xs text-white/60 px-3 py-1 font-medium">
-            No report categories assigned to this role.
-          </span>
+          <span className="text-xs text-white/60 px-3 py-1 font-medium">{i18n.t("No report categories assigned to this role.")}</span>
         )}
       </nav>
 
@@ -532,9 +531,9 @@ const AllReportsLayout: React.FC = () => {
           type="button"
           onClick={() => handleScroll("right")}
           className="py-3 px-1.5 bg-white/10 hover:bg-white/20 active:scale-95 text-white/90 border border-white/15 backdrop-blur-md shadow-sm transition-all shrink-0"
-          title="Scroll tabs right"
+          title={i18n.t("Scroll tabs right")}
         >
-          <ChevronRight size={14} />
+          <ChevronRight className="rtl:-scale-x-100" size={14} />
         </button>
       )}
     </div>
@@ -548,11 +547,9 @@ const AllReportsLayout: React.FC = () => {
             <div className="p-2 bg-emerald-600 text-white rounded-xl shadow-md shrink-0">
               <FileSpreadsheet size={22} />
             </div>
-            <span>Module Reports Hub</span>
+            <span>{i18n.t("Module Reports Hub")}</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
-            Exportable tabular reports for all hospital modules.
-          </p>
+          <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">{i18n.t("Exportable tabular reports for all hospital modules.")}</p>
         </div>
       </div>
 

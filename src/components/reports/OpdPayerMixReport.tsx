@@ -11,6 +11,7 @@ import {
   Pagination,
   KpiCard,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const OpdPayerMixReport: React.FC = () => {
   const [records, setRecords] = useState<any[]>([]);
@@ -62,8 +63,8 @@ const OpdPayerMixReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="OPD Payer Mix Analytics"
-      subtitle="Gross, net, and outstanding billing breakdown by payer for outpatient visits."
+      title={i18n.t("OPD Payer Mix Analytics")}
+      subtitle={i18n.t("Gross, net, and outstanding billing breakdown by payer for outpatient visits.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -84,40 +85,40 @@ const OpdPayerMixReport: React.FC = () => {
       }
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <KpiCard icon={Wallet} label="Total Gross Billed" value={formatCurrency(aggregates?.total_gross_billed)} colorClass="bg-blue-50 border-blue-100 text-blue-900" />
-        <KpiCard icon={Banknote} label="Total Net Billed" value={formatCurrency(aggregates?.total_net_billed)} colorClass="bg-emerald-50 border-emerald-100 text-emerald-900" />
-        <KpiCard icon={AlertTriangle} label="Total Outstanding" value={formatCurrency(aggregates?.total_outstanding)} colorClass="bg-red-50 border-red-100 text-red-900" />
+        <KpiCard icon={Wallet} label={i18n.t("Total Gross Billed")} value={formatCurrency(aggregates?.total_gross_billed)} colorClass="bg-blue-50 border-blue-100 text-blue-900" />
+        <KpiCard icon={Banknote} label={i18n.t("Total Net Billed")} value={formatCurrency(aggregates?.total_net_billed)} colorClass="bg-emerald-50 border-emerald-100 text-emerald-900" />
+        <KpiCard icon={AlertTriangle} label={i18n.t("Total Outstanding")} value={formatCurrency(aggregates?.total_outstanding)} colorClass="bg-red-50 border-red-100 text-red-900" />
       </div>
 
       <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 flex-1 min-h-[300px] mt-6">
-        <table className="w-full text-left text-sm whitespace-nowrap">
+        <table className="w-full text-start text-sm whitespace-nowrap">
           <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
             <tr>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Payer</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Payer Type</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Invoices Generated</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Gross Billed</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Total Discounts</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Net Billed</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Outstanding Balance</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Payer")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Payer Type")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Invoices Generated")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Gross Billed")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Total Discounts")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Net Billed")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Outstanding Balance")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {records.length > 0 ? (
               records.map((row, i) => (
                 <tr key={`${row.payer_name}-${i}`} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50">{renderValue(row.payer_name)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.payer_type)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.invoices_generated)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{formatCurrency(row.gross_billed)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{formatCurrency(row.total_discounts)}</td>
-                  <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50 text-right">{formatCurrency(row.net_billed)}</td>
-                  <td className="px-4 py-3.5 font-bold text-red-600 text-right">{formatCurrency(row.outstanding_balance)}</td>
+                  <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50">{renderValue(row.payer_name)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.payer_type)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.invoices_generated)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{formatCurrency(row.gross_billed)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{formatCurrency(row.total_discounts)}</td>
+                  <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50 text-end">{formatCurrency(row.net_billed)}</td>
+                  <td className="px-4 py-3.5 font-bold text-red-600 text-end">{formatCurrency(row.outstanding_balance)}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={7} className="px-4 py-12 text-center text-slate-400 italic">No payer mix records found.</td>
+                <td colSpan={7} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No payer mix records found.")}</td>
               </tr>
             )}
           </tbody>

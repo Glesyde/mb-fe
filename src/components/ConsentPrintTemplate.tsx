@@ -1,4 +1,5 @@
 import React from "react";
+import { i18n } from "../i18n";
 
 interface ConsentPrintTemplateProps {
   title: string;
@@ -48,43 +49,32 @@ const ConsentPrintTemplate: React.FC<ConsentPrintTemplateProps> = ({
           <h1 className="text-3xl font-black text-slate-900 uppercase tracking-wider mb-2">
             {title}
           </h1>
-          <p className="text-xs font-bold text-slate-600 uppercase tracking-wide">
-            CONSENT DOCUMENT - PATIENT: {patientName.toUpperCase()}
+          <p className="text-xs font-bold text-slate-600 uppercase tracking-wide">{i18n.t("CONSENT DOCUMENT - PATIENT:")}{" "}{patientName.toUpperCase()}
           </p>
         </div>
 
         {/* Patient Information Section */}
         <div className="mb-8 p-6 bg-brand-active rounded-lg border border-brand-active">
-          <h3 className="text-xs font-bold text-brand-primary uppercase mb-4 tracking-wide">
-            Patient Information
-          </h3>
+          <h3 className="text-xs font-bold text-brand-primary uppercase mb-4 tracking-wide">{i18n.t("Patient Information")}</h3>
           <div className="grid grid-cols-2 gap-8">
             <div>
-              <p className="text-[10px] font-bold text-slate-500 uppercase mb-2 tracking-wide">
-                Patient Name
-              </p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase mb-2 tracking-wide">{i18n.t("Patient Name")}</p>
               <p className="text-sm font-bold text-slate-800">{patientName}</p>
             </div>
             <div>
-              <p className="text-[10px] font-bold text-slate-500 uppercase mb-2 tracking-wide">
-                Medical Record Number
-              </p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase mb-2 tracking-wide">{i18n.t("Medical Record Number")}</p>
               <p className="text-sm font-bold text-slate-800">{mrn}</p>
             </div>
             <div>
-              <p className="text-[10px] font-bold text-slate-500 uppercase mb-2 tracking-wide">
-                Encounter Number
-              </p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase mb-2 tracking-wide">{i18n.t("Encounter Number")}</p>
               <p className="text-sm font-bold text-slate-800">
                 {encounterNumber}
               </p>
             </div>
             <div>
-              <p className="text-[10px] font-bold text-slate-500 uppercase mb-2 tracking-wide">
-                Service/Procedure
-              </p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase mb-2 tracking-wide">{i18n.t("Service/Procedure")}</p>
               <p className="text-sm font-bold text-slate-800">
-                {serviceName || "N/A"}
+                {serviceName || i18n.t("N/A")}
               </p>
             </div>
           </div>
@@ -92,9 +82,7 @@ const ConsentPrintTemplate: React.FC<ConsentPrintTemplateProps> = ({
 
         {/* Consent Declaration */}
         <div className="mb-8 p-6 bg-slate-50 rounded-lg border border-slate-200">
-          <h3 className="text-xs font-bold text-slate-900 uppercase mb-4 tracking-wide">
-            Consent Declaration
-          </h3>
+          <h3 className="text-xs font-bold text-slate-900 uppercase mb-4 tracking-wide">{i18n.t("Consent Declaration")}</h3>
           <p className="text-sm leading-relaxed text-slate-800 text-justify">
             {consentDeclaration}
           </p>
@@ -111,38 +99,30 @@ const ConsentPrintTemplate: React.FC<ConsentPrintTemplateProps> = ({
               {signatureImageUrl ? (
                 <img
                   src={signatureImageUrl}
-                  alt="Patient Signature"
+                  alt={i18n.t("Patient Signature")}
                   className="max-h-28 max-w-full object-contain"
                 />
               ) : (
-                <p className="text-xs text-slate-400">[Signature Image]</p>
+                <p className="text-xs text-slate-400">{i18n.t("[Signature Image]")}</p>
               )}
             </div>
-            <p className="text-[10px] text-slate-600 mt-2 font-medium text-center">
-              I hereby consent to the procedure
-            </p>
+            <p className="text-[10px] text-slate-600 mt-2 font-medium text-center">{i18n.t("I hereby consent to the procedure")}</p>
           </div>
 
           {/* Witness Information */}
           <div>
-            <p className="text-sm font-bold text-slate-700 mb-4">
-              Witness Information
-            </p>
+            <p className="text-sm font-bold text-slate-700 mb-4">{i18n.t("Witness Information")}</p>
             <div className="border border-slate-300 rounded bg-slate-50 p-6 space-y-4 h-32 flex flex-col justify-center">
               <div>
-                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-1">
-                  Witness Name
-                </p>
+                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-1">{i18n.t("Witness Name")}</p>
                 <p className="text-sm font-bold text-slate-800">
-                  {witnessName || "Hospital Staff"}
+                  {witnessName || i18n.t("Hospital Staff")}
                 </p>
               </div>
               <div>
-                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-1">
-                  Staff ID / Witness ID
-                </p>
+                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-1">{i18n.t("Staff ID / Witness ID")}</p>
                 <p className="text-sm font-bold text-slate-800">
-                  {witnessUserId || "N/A"}
+                  {witnessUserId || i18n.t("N/A")}
                 </p>
               </div>
             </div>
@@ -159,9 +139,7 @@ const ConsentPrintTemplate: React.FC<ConsentPrintTemplateProps> = ({
         >
           <div className="grid grid-cols-3 gap-6">
             <div>
-              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-2">
-                Date Signed
-              </p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-2">{i18n.t("Date Signed")}</p>
               <p className="text-sm font-bold text-slate-800">
                 {new Date(dateSigned).toLocaleDateString("en-US", {
                   year: "numeric",
@@ -171,17 +149,13 @@ const ConsentPrintTemplate: React.FC<ConsentPrintTemplateProps> = ({
               </p>
             </div>
             <div>
-              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-2">
-                Status
-              </p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-2">{i18n.t("Status")}</p>
               <p className="text-sm font-bold" style={{ color: statusColor }}>
                 {status}
               </p>
             </div>
             <div>
-              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-2">
-                Document ID
-              </p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-2">{i18n.t("Document ID")}</p>
               <p className="text-sm font-mono text-slate-800">#{consentId}</p>
             </div>
           </div>
@@ -189,9 +163,8 @@ const ConsentPrintTemplate: React.FC<ConsentPrintTemplateProps> = ({
 
         {/* Document Footer */}
         <div className="mt-12 pt-6 border-t border-slate-200 text-center text-[9px] text-slate-500 space-y-1">
-          <p>This is an official medical consent document.</p>
-          <p>
-            Printed on{" "}
+          <p>{i18n.t("This is an official medical consent document.")}</p>
+          <p>{i18n.t("Printed on")}{" "}
             {new Date().toLocaleDateString("en-US", {
               year: "numeric",
               month: "long",

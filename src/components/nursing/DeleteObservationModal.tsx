@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { X, Trash2, Loader2 } from "lucide-react";
 import { nursingService } from "../../services/nursingService";
 import { useNotification } from "../../context/NotificationContext";
+import { i18n } from "../../i18n";
 
 interface DeleteObservationModalProps {
   observationId: number;
@@ -50,8 +51,7 @@ const DeleteObservationModal: React.FC<DeleteObservationModalProps> = ({
       <div className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         <div className="flex items-center justify-between px-6 py-4 border-b border-red-100 bg-red-50/50">
           <h2 className="text-lg font-bold text-red-600 flex items-center gap-2">
-            <Trash2 className="w-5 h-5" /> Delete Observation
-          </h2>
+            <Trash2 className="w-5 h-5" />{" "}{i18n.t("Delete Observation")}</h2>
           <button
             onClick={onClose}
             className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors"
@@ -62,17 +62,14 @@ const DeleteObservationModal: React.FC<DeleteObservationModalProps> = ({
 
         <div className="p-6">
           <form id="delete-obs-form" onSubmit={handleSubmit}>
-            <p className="text-sm text-slate-600 mb-4">
-              Are you sure you want to delete this partogram observation? This action requires a reason for audit purposes.
-            </p>
-            <label className="block text-xs font-bold text-slate-700 mb-2">
-              Reason for Deletion <span className="text-red-500">*</span>
+            <p className="text-sm text-slate-600 mb-4">{i18n.t("Are you sure you want to delete this partogram observation? This action requires a reason for audit purposes.")}</p>
+            <label className="block text-xs font-bold text-slate-700 mb-2">{i18n.t("Reason for Deletion")}{" "}<span className="text-red-500">*</span>
             </label>
             <textarea
               required
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-              placeholder="e.g. Entry error identified during clinician audit."
+              placeholder={i18n.t("e.g. Entry error identified during clinician audit.")}
               className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 resize-none h-24"
             />
           </form>
@@ -83,9 +80,7 @@ const DeleteObservationModal: React.FC<DeleteObservationModalProps> = ({
             type="button"
             onClick={onClose}
             className="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all"
-          >
-            Cancel
-          </button>
+          >{i18n.t("Cancel")}</button>
           <button
             type="submit"
             form="delete-obs-form"
@@ -96,9 +91,7 @@ const DeleteObservationModal: React.FC<DeleteObservationModalProps> = ({
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
               <Trash2 className="w-4 h-4" />
-            )}
-            Confirm Deletion
-          </button>
+            )}{i18n.t("Confirm Deletion")}</button>
         </div>
       </div>
     </div>

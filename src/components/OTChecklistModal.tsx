@@ -40,6 +40,7 @@ import OTChecklistSignIn from "./OTChecklistSignIn";
 import OTChecklistTimeOut from "./OTChecklistTimeOut";
 import OTChecklistSignOut from "./OTChecklistSignOut";
 import OTChecklistPrintView from "./OTChecklistPrintView";
+import { i18n } from "../i18n";
 
 const STAGES = [
   { id: 0, name: "Ward Check 1", shortName: "WC1", color: "bg-blue-600", border: "border-blue-200" },
@@ -390,25 +391,24 @@ const OTChecklistModal: React.FC<OTChecklistModalProps> = ({
           <div className="bg-[#2A157c] px-6 py-3 border-b border-[#312e81] flex justify-between items-center shrink-0">
             <div className="flex items-center gap-4">
               {onBackToActions && (
-                <button onClick={onBackToActions} className="p-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors" title="Back to Actions">
-                  <ArrowLeft size={20} />
+                <button onClick={onBackToActions} className="p-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors" title={i18n.t("Back to Actions")}>
+                  <ArrowLeft className="rtl:-scale-x-100" size={20} />
                 </button>
               )}
               {/* Refined Info Block Using Mapped Variables */}
-              <div className="border-l border-indigo-800 pl-4">
+              <div className="border-s border-indigo-800 ps-4">
                 <h2 className="text-white font-bold text-lg flex items-center gap-2 tracking-wide">
-                  <ShieldCheck size={20} className="text-emerald-400" /> WHO Surgical Safety Checklist (T1)
-                </h2>
+                  <ShieldCheck size={20} className="text-emerald-400" />{" "}{i18n.t("WHO Surgical Safety Checklist (T1)")}</h2>
                 <div className="text-indigo-200 text-xs mt-0.5 flex flex-wrap gap-x-3 gap-y-1">
-                  <span><strong className="text-indigo-100">MRN:</strong> {patientMRN}</span>|
-                  <span><strong className="text-indigo-100">PATIENT:</strong> {patientName}</span>|
-                  <span><strong className="text-indigo-100">GENDER:</strong> {patientGender}</span>|
-                  <span><strong className="text-indigo-100">AGE:</strong> {patientAge}</span>|
-                  <span><strong className="text-indigo-100">SURGERY:</strong> {procedureName}</span>|
-                  <span><strong className="text-indigo-100">SCHEDULE DATE:</strong> {scheduleDate}</span>|
-                  <span><strong className="text-indigo-100">SCHEDULE TIME:</strong> {scheduleTime}</span>|
-                  <span><strong className="text-indigo-100">ROOM:</strong> {roomName}</span>|
-                  <span><strong className="text-indigo-100">CASE NO:</strong> {displayCaseNumber}</span>
+                  <span><strong className="text-indigo-100">{i18n.t("MRN:")}</strong> {patientMRN}</span>|
+                  <span><strong className="text-indigo-100">{i18n.t("PATIENT:")}</strong> {patientName}</span>|
+                  <span><strong className="text-indigo-100">{i18n.t("GENDER:")}</strong> {patientGender}</span>|
+                  <span><strong className="text-indigo-100">{i18n.t("AGE:")}</strong> {patientAge}</span>|
+                  <span><strong className="text-indigo-100">{i18n.t("SURGERY:")}</strong> {procedureName}</span>|
+                  <span><strong className="text-indigo-100">{i18n.t("SCHEDULE DATE:")}</strong> {scheduleDate}</span>|
+                  <span><strong className="text-indigo-100">{i18n.t("SCHEDULE TIME:")}</strong> {scheduleTime}</span>|
+                  <span><strong className="text-indigo-100">{i18n.t("ROOM:")}</strong> {roomName}</span>|
+                  <span><strong className="text-indigo-100">{i18n.t("CASE NO:")}</strong> {displayCaseNumber}</span>
                 </div>
               </div>
             </div>
@@ -416,8 +416,7 @@ const OTChecklistModal: React.FC<OTChecklistModalProps> = ({
             <div className="flex items-center gap-3">
               {checklistData && (
                 <button onClick={() => setShowPrintView(true)} disabled={isSaving} className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded flex items-center gap-2 text-sm font-bold transition-colors">
-                  <Printer size={16} /> Print
-                </button>
+                  <Printer size={16} />{" "}{i18n.t("Print")}</button>
               )}
               <div className="h-8 w-px bg-indigo-800 mx-2"></div>
               <button onClick={toggleFullscreen} className="p-2 text-indigo-200 hover:text-white hover:bg-white/10 rounded transition-colors">
@@ -433,16 +432,16 @@ const OTChecklistModal: React.FC<OTChecklistModalProps> = ({
             {isLoading && (
               <div className="absolute inset-0 z-[100] flex flex-col items-center justify-center bg-white/70 backdrop-blur-sm transition-all">
                 <Loader2 size={64} className="animate-spin text-[#2A157c] mb-4" />
-                <h3 className="text-2xl font-black text-[#2A157c] tracking-tight animate-pulse">Loading Checklist...</h3>
-                <p className="text-slate-600 font-medium mt-2">Retrieving patient safety records, please wait.</p>
+                <h3 className="text-2xl font-black text-[#2A157c] tracking-tight animate-pulse">{i18n.t("Loading Checklist...")}</h3>
+                <p className="text-slate-600 font-medium mt-2">{i18n.t("Retrieving patient safety records, please wait.")}</p>
               </div>
             )}
 
             {/* Sidebar Navigation */}
-            <div className="w-64 bg-slate-50 border-r border-slate-200 flex flex-col shrink-0 overflow-y-auto">
+            <div className="w-64 bg-slate-50 border-e border-slate-200 flex flex-col shrink-0 overflow-y-auto">
               <div className="p-5 border-b border-slate-200 bg-slate-100 text-slate-800">
-                <h3 className="font-black tracking-tight text-lg flex items-center gap-2">Surgical Safety Stages</h3>
-                <p className="text-xs text-slate-500 mt-1">Complete in sequential order</p>
+                <h3 className="font-black tracking-tight text-lg flex items-center gap-2">{i18n.t("Surgical Safety Stages")}</h3>
+                <p className="text-xs text-slate-500 mt-1">{i18n.t("Complete in sequential order")}</p>
               </div>
               <nav className="p-3 space-y-2">
                 {STAGES.map((stage, idx) => {
@@ -456,7 +455,7 @@ const OTChecklistModal: React.FC<OTChecklistModalProps> = ({
                       key={stage.id}
                       onClick={() => navigateToStage(idx)}
                       disabled={isLocked}
-                      className={`w-full text-left px-4 py-3 rounded-lg text-sm font-bold transition-all flex items-center gap-3 border ${
+                      className={`w-full text-start px-4 py-3 rounded-lg text-sm font-bold transition-all flex items-center gap-3 border ${
                         isActive
                           ? "bg-white shadow-md border-indigo-200 text-indigo-800"
                           : isLocked
@@ -472,7 +471,7 @@ const OTChecklistModal: React.FC<OTChecklistModalProps> = ({
                       
                       <div className="flex-1">
                         <div className="leading-tight">{stage.name}</div>
-                        {isActive && <div className="text-[10px] font-normal text-indigo-500 mt-0.5">Currently Active</div>}
+                        {isActive && <div className="text-[10px] font-normal text-indigo-500 mt-0.5">{i18n.t("Currently Active")}</div>}
                       </div>
                     </button>
                   );
@@ -481,7 +480,7 @@ const OTChecklistModal: React.FC<OTChecklistModalProps> = ({
 
               <div className="mt-auto p-4 border-t border-slate-200 bg-slate-100/50">
                   <div className="flex items-center justify-between text-xs font-bold text-slate-500 mb-2">
-                      <span>Completion</span>
+                      <span>{i18n.t("Completion")}</span>
                       <span>{completedStages.filter(Boolean).length} / 5</span>
                   </div>
                   <div className="w-full bg-slate-200 rounded-full h-1.5">
@@ -498,8 +497,7 @@ const OTChecklistModal: React.FC<OTChecklistModalProps> = ({
               {/* Stage Title Bar */}
               <div className={`px-8 py-4 border-b border-slate-200 flex items-center justify-between bg-white shrink-0`}>
                   <div className="flex items-center gap-3">
-                      <div className={`${STAGES[currentStage].color} text-white px-3 py-1 rounded font-black text-sm shadow-sm`}>
-                          Stage {currentStage + 1}
+                      <div className={`${STAGES[currentStage].color} text-white px-3 py-1 rounded font-black text-sm shadow-sm`}>{i18n.t("Stage")}{" "}{currentStage + 1}
                       </div>
                       <h3 className="font-bold text-xl text-slate-800">{STAGES[currentStage].name}</h3>
                   </div>
@@ -512,20 +510,14 @@ const OTChecklistModal: React.FC<OTChecklistModalProps> = ({
                     <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-start gap-3 shadow-sm">
                       <CheckCircle2 className="text-emerald-600 mt-0.5 flex-shrink-0" size={20} />
                       <div className="flex-1">
-                        <p className="font-bold text-emerald-800">Stage Completed Successfully</p>
-                        <p className="text-sm text-emerald-700 mt-1">
-                          This stage has been signed off and is locked.
-                          {!forceEditMode ? " Click edit to make modifications." : " You are now in edit mode."}
+                        <p className="font-bold text-emerald-800">{i18n.t("Stage Completed Successfully")}</p>
+                        <p className="text-sm text-emerald-700 mt-1">{i18n.t("This stage has been signed off and is locked.")}{!forceEditMode ? i18n.t("Click edit to make modifications.") : i18n.t("You are now in edit mode.")}
                         </p>
                       </div>
                       {!forceEditMode ? (
-                        <button onClick={() => setForceEditMode(true)} className="px-4 py-1.5 bg-white border border-emerald-300 text-emerald-700 text-sm font-bold rounded shadow-sm hover:bg-emerald-100 transition-colors">
-                          Edit
-                        </button>
+                        <button onClick={() => setForceEditMode(true)} className="px-4 py-1.5 bg-white border border-emerald-300 text-emerald-700 text-sm font-bold rounded shadow-sm hover:bg-emerald-100 transition-colors">{i18n.t("Edit")}</button>
                       ) : (
-                        <button onClick={() => setForceEditMode(false)} className="px-4 py-1.5 bg-slate-500 text-white text-sm font-bold rounded shadow-sm hover:bg-slate-600 transition-colors">
-                          Lock Form
-                        </button>
+                        <button onClick={() => setForceEditMode(false)} className="px-4 py-1.5 bg-slate-500 text-white text-sm font-bold rounded shadow-sm hover:bg-slate-600 transition-colors">{i18n.t("Lock Form")}</button>
                       )}
                     </div>
                   )}
@@ -548,8 +540,7 @@ const OTChecklistModal: React.FC<OTChecklistModalProps> = ({
                   disabled={currentStage === 0 || isSaving}
                   className="flex items-center gap-2 px-6 py-2.5 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed font-bold transition-colors"
                 >
-                  <ChevronLeft size={18} /> Previous Stage
-                </button>
+                  <ChevronLeft className="rtl:-scale-x-100" size={18} />{" "}{i18n.t("Previous Stage")}</button>
 
                 <div className="flex gap-3">
                   {currentStage === 4 ? (
@@ -559,9 +550,9 @@ const OTChecklistModal: React.FC<OTChecklistModalProps> = ({
                       className="flex items-center gap-2 px-8 py-2.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:opacity-50 font-bold shadow-md transition-all"
                     >
                       {isSaving ? (
-                        <><Loader2 size={18} className="animate-spin" /> Finalizing...</>
+                        <><Loader2 size={18} className="animate-spin" />{" "}{i18n.t("Finalizing...")}</>
                       ) : (
-                        <><Check size={18} /> Complete Checklist</>
+                        <><Check size={18} />{" "}{i18n.t("Complete Checklist")}</>
                       )}
                     </button>
                   ) : (
@@ -571,9 +562,9 @@ const OTChecklistModal: React.FC<OTChecklistModalProps> = ({
                       className="flex items-center gap-2 px-8 py-2.5 bg-[#2A157c] text-white rounded-lg hover:bg-[#201060] disabled:opacity-50 font-bold shadow-md transition-all"
                     >
                       {isSaving ? (
-                        <><Loader2 size={18} className="animate-spin" /> Saving...</>
+                        <><Loader2 size={18} className="animate-spin" />{" "}{i18n.t("Saving...")}</>
                       ) : (
-                        <><Save size={18} /> Save & Next <ChevronRight size={18} /></>
+                        <><Save size={18} />{" "}{i18n.t("Save & Next")}{" "}<ChevronRight className="rtl:-scale-x-100" size={18} /></>
                       )}
                     </button>
                   )}

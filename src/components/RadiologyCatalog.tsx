@@ -11,6 +11,7 @@ import {
   Trash2,
   Scan
 } from 'lucide-react';
+import { i18n } from "../i18n";
 
 interface ImagingService {
   id: string;
@@ -41,22 +42,20 @@ const RadiologyCatalog: React.FC = () => {
     <div className="space-y-6 animate-in fade-in duration-500">
       <div className="bg-white p-4 rounded-3xl border border-slate-200 flex flex-col md:flex-row gap-4 items-center shadow-sm">
         <div className="relative flex-1 w-full group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-slate-700 transition-colors" />
+          <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-slate-700 transition-colors" />
           <input 
             type="text" 
-            placeholder="Search imaging catalog by name or code..."
-            className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:bg-white focus:ring-4 focus:ring-slate-400/10 outline-none transition-all font-bold"
+            placeholder={i18n.t("Search imaging catalog by name or code...")}
+            className="w-full ps-12 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:bg-white focus:ring-4 focus:ring-slate-400/10 outline-none transition-all font-bold"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
         <div className="flex items-center gap-2">
           <button className="flex items-center gap-2 px-5 py-3 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 transition-all">
-            <Filter size={16} /> All Modalities
-          </button>
+            <Filter size={16} />{" "}{i18n.t("All Modalities")}</button>
           <button className="bg-slate-900 text-white px-6 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-slate-800 transition-all shadow-lg active:scale-95 text-xs uppercase tracking-widest">
-            <Plus size={18} /> New Service
-          </button>
+            <Plus size={18} />{" "}{i18n.t("New Service")}</button>
         </div>
       </div>
 
@@ -64,9 +63,8 @@ const RadiologyCatalog: React.FC = () => {
         <div className="p-8 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
            <div>
              <h3 className="text-xl font-black text-slate-800 tracking-tight flex items-center gap-3">
-               <DollarSign size={20} className="text-slate-700" /> Imaging Tariff Schedule
-             </h3>
-             <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">Standard Master Price List for RIS</p>
+               <DollarSign size={20} className="text-slate-700" />{" "}{i18n.t("Imaging Tariff Schedule")}</h3>
+             <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">{i18n.t("Standard Master Price List for RIS")}</p>
            </div>
            <button className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-slate-600 transition-all shadow-sm">
               <Settings2 size={18} />
@@ -74,15 +72,15 @@ const RadiologyCatalog: React.FC = () => {
         </div>
         
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="w-full text-start">
             <thead>
               <tr className="bg-white border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                <th className="px-8 py-5">Service Code</th>
-                <th className="px-8 py-5">Investigation Description</th>
-                <th className="px-8 py-5">Modality</th>
-                <th className="px-8 py-5 text-center">Avg. Session</th>
-                <th className="px-8 py-5 text-right">Standard Fee</th>
-                <th className="px-8 py-5 text-right">Action</th>
+                <th className="px-8 py-5">{i18n.t("Service Code")}</th>
+                <th className="px-8 py-5">{i18n.t("Investigation Description")}</th>
+                <th className="px-8 py-5">{i18n.t("Modality")}</th>
+                <th className="px-8 py-5 text-center">{i18n.t("Avg. Session")}</th>
+                <th className="px-8 py-5 text-end">{i18n.t("Standard Fee")}</th>
+                <th className="px-8 py-5 text-end">{i18n.t("Action")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -107,10 +105,10 @@ const RadiologyCatalog: React.FC = () => {
                       {item.avgTime}
                     </div>
                   </td>
-                  <td className="px-8 py-6 text-right">
+                  <td className="px-8 py-6 text-end">
                     <p className="text-sm font-black text-slate-900">₦{item.price.toLocaleString()}</p>
                   </td>
-                  <td className="px-8 py-6 text-right">
+                  <td className="px-8 py-6 text-end">
                     <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                       <button className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-brand-primary transition-all shadow-sm">
                         <Edit2 size={16} />

@@ -8,6 +8,7 @@ import { BASE_URL } from "../../api/client";
 import apiClient from "../../api/client";
 import { patientService } from "../../services/patient.service";
 import { formDraftService } from "../../services/session-restore.service";
+import { i18n } from "../../i18n";
 
 export interface AtrialMyxomaConsentFormProps {
   orderId: number;
@@ -249,7 +250,7 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
             {formData[id] ? (
               <img src={getSigUrl(formData[id])} alt={label} className="max-h-full max-w-full object-contain" />
             ) : (
-              <span className="text-slate-300 font-bold uppercase text-xs">No Signature</span>
+              <span className="text-slate-300 font-bold uppercase text-xs">{i18n.t("No Signature")}</span>
             )}
           </div>
         ) : (
@@ -267,24 +268,24 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
     <div className="bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[95vh] flex flex-col max-w-5xl mx-auto w-full">
       {/* Header */}
       <div className="bg-[#1e40af] text-white p-8 flex justify-between items-center relative overflow-hidden shrink-0">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[#1e40af]/30 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+        <div className="absolute top-0 end-0 w-64 h-64 bg-[#1e40af]/30 rounded-full -me-32 -mt-32 blur-3xl"></div>
         <div className="z-10">
           <div className="flex items-center gap-4 mb-2">
             <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center p-1">
-              <img src="/assets/login-bg.jpeg" alt="GSH Logo" className="w-full h-full object-contain" />
+              <img src="/assets/login-bg.jpeg" alt={i18n.t("GSH Logo")} className="w-full h-full object-contain" />
             </div>
             <div>
-              <h1 className="text-2xl font-black tracking-tighter">Procedure Consent Form</h1>
-              <p className="text-[#93c5fd] font-bold text-sm uppercase">Atrial Myxoma Excision</p>
+              <h1 className="text-2xl font-black tracking-tighter">{i18n.t("Procedure Consent Form")}</h1>
+              <p className="text-[#93c5fd] font-bold text-sm uppercase">{i18n.t("Atrial Myxoma Excision")}</p>
             </div>
           </div>
-          <p className="text-xs text-[#93c5fd]/80 font-medium">Policy Ref: GSH-T6</p>
+          <p className="text-xs text-[#93c5fd]/80 font-medium">{i18n.t("Policy Ref: GSH-T6")}</p>
         </div>
         <button
           onClick={onPrint}
           className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border border-white/20 transition-all z-10"
         >
-          <Printer size={14} /> {readOnly ? "Print Record" : "Print Blank Form"}
+          <Printer size={14} /> {readOnly ? i18n.t("Print Record") : i18n.t("Print Blank Form")}
         </button>
       </div>
 
@@ -293,35 +294,31 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
         
         {/* Intro */}
         <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden shadow-sm">
-          <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">Patient Rights</div>
-          <p className="text-xs text-amber-900 font-medium leading-relaxed italic mb-4">
-            You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6).
-          </p>
-          <h4 className="font-black text-amber-900 uppercase text-xs mb-1">About this operation</h4>
-          <p className="text-xs text-amber-900 font-medium leading-relaxed italic">
-            Surgical removal of a myxoma — a non-cancerous (benign) tumour growing inside an upper chamber of the heart (an atrium) — using open-heart surgery with the heart–lung (cardiopulmonary bypass) machine. A myxoma can shed fragments that travel in the blood (embolism) and can obstruct a heart valve; removal is the recommended treatment.
-          </p>
+          <div className="absolute top-0 end-0 bg-amber-200/50 px-4 py-1 rounded-es-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">{i18n.t("Patient Rights")}</div>
+          <p className="text-xs text-amber-900 font-medium leading-relaxed italic mb-4">{i18n.t("You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6).")}</p>
+          <h4 className="font-black text-amber-900 uppercase text-xs mb-1">{i18n.t("About this operation")}</h4>
+          <p className="text-xs text-amber-900 font-medium leading-relaxed italic">{i18n.t("Surgical removal of a myxoma — a non-cancerous (benign) tumour growing inside an upper chamber of the heart (an atrium) — using open-heart surgery with the heart–lung (cardiopulmonary bypass) machine. A myxoma can shed fragments that travel in the blood (embolism) and can obstruct a heart valve; removal is the recommended treatment.")}</p>
         </div>
 
         {/* Site of Tumour */}
         <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
-          <div className="bg-slate-700 text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest -mt-10 ml-4">SITE OF TUMOUR</div>
+          <div className="bg-slate-700 text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest -mt-10 ms-4">{i18n.t("SITE OF TUMOUR")}</div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-4">
             <div className="md:col-span-4 flex flex-wrap gap-4 items-center">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="radio" name="tumour_site" checked={formData.tumour_site === 'LEFT atrium'} onChange={() => handleInputChange('tumour_site', 'LEFT atrium')} disabled={readOnly} className="w-5 h-5 text-[#1e40af]" />
-                <span className="text-xs font-bold text-slate-700">LEFT atrium</span>
+                <span className="text-xs font-bold text-slate-700">{i18n.t("LEFT atrium")}</span>
               </label>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="radio" name="tumour_site" checked={formData.tumour_site === 'RIGHT atrium'} onChange={() => handleInputChange('tumour_site', 'RIGHT atrium')} disabled={readOnly} className="w-5 h-5 text-[#1e40af]" />
-                <span className="text-xs font-bold text-slate-700">RIGHT atrium</span>
+                <span className="text-xs font-bold text-slate-700">{i18n.t("RIGHT atrium")}</span>
               </label>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="radio" name="tumour_site" checked={formData.tumour_site === 'Other'} onChange={() => handleInputChange('tumour_site', 'Other')} disabled={readOnly} className="w-5 h-5 text-[#1e40af]" />
-                <span className="text-xs font-bold text-slate-700">Other</span>
+                <span className="text-xs font-bold text-slate-700">{i18n.t("Other")}</span>
               </label>
               {formData.tumour_site === 'Other' && (
-                <input type="text" value={formData.tumour_site_other || ""} onChange={(e) => handleInputChange('tumour_site_other', e.target.value)} disabled={readOnly} className="border-b-2 border-slate-300 outline-none bg-transparent px-2 text-sm font-bold text-slate-800" placeholder="Specify..." />
+                <input type="text" value={formData.tumour_site_other || ""} onChange={(e) => handleInputChange('tumour_site_other', e.target.value)} disabled={readOnly} className="border-b-2 border-slate-300 outline-none bg-transparent px-2 text-sm font-bold text-slate-800" placeholder={i18n.t("Specify...")} />
               )}
             </div>
             {renderTextInput("attachment_site", "Attachment site (e.g. atrial septum, valve, wall)", "md:col-span-2")}
@@ -332,8 +329,8 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
         {/* PART A */}
         <div className="bg-white rounded-3xl p-6 shadow-sm border border-[#1e40af] border-t-8">
           <div className="flex items-center gap-2 mb-4">
-            <span className="w-6 h-6 rounded-full bg-[#1e40af] text-white flex items-center justify-center text-xs font-black">A</span>
-            <h4 className="font-black text-slate-800 uppercase tracking-widest text-[11px]">Patient Identification</h4>
+            <span className="w-6 h-6 rounded-full bg-[#1e40af] text-white flex items-center justify-center text-xs font-black">{i18n.t("A")}</span>
+            <h4 className="font-black text-slate-800 uppercase tracking-widest text-[11px]">{i18n.t("Patient Identification")}</h4>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {renderTextInput("patient_full_name", "Patient Full Name", "md:col-span-2", true)}
@@ -352,20 +349,20 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-white rounded-3xl p-6 shadow-sm border-t-8 border-slate-700">
             <div className="flex items-center gap-2 mb-4">
-              <span className="w-6 h-6 rounded-full bg-slate-700 text-white flex items-center justify-center text-xs font-black">B</span>
-              <h4 className="font-black text-slate-800 uppercase tracking-widest text-[11px]">Description of Procedure</h4>
+              <span className="w-6 h-6 rounded-full bg-slate-700 text-white flex items-center justify-center text-xs font-black">{i18n.t("B")}</span>
+              <h4 className="font-black text-slate-800 uppercase tracking-widest text-[11px]">{i18n.t("Description of Procedure")}</h4>
             </div>
-            <p className="text-xs text-slate-600 mb-3"><strong className="text-slate-800">What it involves:</strong> The myxoma is removed through open-heart surgery. A left atrial tumour is usually reached through the right atrium and the atrial septum. The tumour is removed whole with its stalk/base to reduce recurrence.</p>
-            <p className="text-xs text-slate-600 mb-6"><strong className="text-slate-800">How it is performed:</strong> General anaesthetic; median sternotomy. The heart is stopped and blood circulated by the cardiopulmonary bypass machine. The atrium is opened, tumour excised, nearby heart valve inspected, and any septal defect closed with a patch.</p>
+            <p className="text-xs text-slate-600 mb-3"><strong className="text-slate-800">{i18n.t("What it involves:")}</strong>{" "}{i18n.t("The myxoma is removed through open-heart surgery. A left atrial tumour is usually reached through the right atrium and the atrial septum. The tumour is removed whole with its stalk/base to reduce recurrence.")}</p>
+            <p className="text-xs text-slate-600 mb-6"><strong className="text-slate-800">{i18n.t("How it is performed:")}</strong>{" "}{i18n.t("General anaesthetic; median sternotomy. The heart is stopped and blood circulated by the cardiopulmonary bypass machine. The atrium is opened, tumour excised, nearby heart valve inspected, and any septal defect closed with a patch.")}</p>
             {renderTextarea("surgeons_notes", "Surgeon's notes on this patient's tumour", "md:col-span-2")}
           </div>
           
           <div className="bg-white rounded-3xl p-6 shadow-sm border-t-8 border-[#1e40af]">
             <div className="flex items-center gap-2 mb-4">
-              <span className="w-6 h-6 rounded-full bg-[#1e40af] text-white flex items-center justify-center text-xs font-black">C</span>
-              <h4 className="font-black text-slate-800 uppercase tracking-widest text-[11px]">Intended Benefits</h4>
+              <span className="w-6 h-6 rounded-full bg-[#1e40af] text-white flex items-center justify-center text-xs font-black">{i18n.t("C")}</span>
+              <h4 className="font-black text-slate-800 uppercase tracking-widest text-[11px]">{i18n.t("Intended Benefits")}</h4>
             </div>
-            <p className="text-xs text-slate-600 mb-6">Removing the myxoma eliminates the source of fragments that can travel to the brain (stroke), limbs or organs, relieves or prevents obstruction of the nearby heart valve, and removes the risk of sudden death from the tumour. It establishes the diagnosis on laboratory examination.</p>
+            <p className="text-xs text-slate-600 mb-6">{i18n.t("Removing the myxoma eliminates the source of fragments that can travel to the brain (stroke), limbs or organs, relieves or prevents obstruction of the nearby heart valve, and removes the risk of sudden death from the tumour. It establishes the diagnosis on laboratory examination.")}</p>
             {renderTextarea("specific_goals", "Specific goals / expected outcome discussed", "md:col-span-2")}
           </div>
         </div>
@@ -373,28 +370,28 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
         {/* PART D - Risks */}
         <div className="bg-white rounded-3xl p-6 shadow-sm border-t-8 border-[#be123c]">
           <div className="flex items-center gap-2 mb-4">
-            <span className="w-6 h-6 rounded-full bg-[#be123c] text-white flex items-center justify-center text-xs font-black">D</span>
-            <h4 className="font-black text-slate-800 uppercase tracking-widest text-[11px]">Risks & Complications</h4>
+            <span className="w-6 h-6 rounded-full bg-[#be123c] text-white flex items-center justify-center text-xs font-black">{i18n.t("D")}</span>
+            <h4 className="font-black text-slate-800 uppercase tracking-widest text-[11px]">{i18n.t("Risks & Complications")}</h4>
           </div>
-          <p className="text-xs text-slate-500 italic mb-4">Montgomery standard: the patient (or parent/guardian) must be told of any risk a reasonable person in their position would consider significant, and any risk significant to this particular patient.</p>
+          <p className="text-xs text-slate-500 italic mb-4">{i18n.t("Montgomery standard: the patient (or parent/guardian) must be told of any risk a reasonable person in their position would consider significant, and any risk significant to this particular patient.")}</p>
           
           <div className="overflow-x-auto mb-6 border-4 border-slate-900 rounded-3xl shadow-sm">
-            <table className="w-full text-left border-collapse bg-white">
+            <table className="w-full text-start border-collapse bg-white">
               <thead className="bg-slate-900 text-white">
                 <tr>
-                  <th className="px-4 py-3 text-[10px] font-black uppercase tracking-widest w-1/4">Frequency</th>
-                  <th className="px-4 py-3 text-[10px] font-black uppercase tracking-widest w-1/3">Complication</th>
-                  <th className="px-4 py-3 text-[10px] font-black uppercase tracking-widest">Management</th>
+                  <th className="px-4 py-3 text-[10px] font-black uppercase tracking-widest w-1/4">{i18n.t("Frequency")}</th>
+                  <th className="px-4 py-3 text-[10px] font-black uppercase tracking-widest w-1/3">{i18n.t("Complication")}</th>
+                  <th className="px-4 py-3 text-[10px] font-black uppercase tracking-widest">{i18n.t("Management")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200">
-                <tr><td className="px-4 py-3 text-xs font-black text-emerald-600">COMMON</td><td className="px-4 py-3 text-xs font-medium text-slate-600">Irregular heartbeat; chest/wound discomfort; pericardial fluid.</td><td className="px-4 py-3 text-xs font-medium text-slate-600">Usually managed with medicine / routine care.</td></tr>
-                <tr className="bg-slate-50"><td className="px-4 py-3 text-xs font-black text-emerald-600">COMMON</td><td className="px-4 py-3 text-xs font-medium text-slate-600">Temporary confusion or poor concentration after bypass.</td><td className="px-4 py-3 text-xs font-medium text-slate-600">Usually settles; occasionally longer-lasting.</td></tr>
-                <tr><td className="px-4 py-3 text-xs font-black text-amber-600">UNCOMMON</td><td className="px-4 py-3 text-xs font-medium text-slate-600">Bleeding needing transfusion or return to theatre.</td><td className="px-4 py-3 text-xs font-medium text-slate-600">Managed by transfusion or re-operation.</td></tr>
-                <tr className="bg-slate-50"><td className="px-4 py-3 text-xs font-black text-amber-600">UNCOMMON</td><td className="px-4 py-3 text-xs font-medium text-slate-600">Heart block needing temporary pacing or permanent pacemaker.</td><td className="px-4 py-3 text-xs font-medium text-slate-600">Pacing wires placed at surgery; pacemaker if persistent.</td></tr>
-                <tr><td className="px-4 py-3 text-xs font-black text-rose-600">RARE</td><td className="px-4 py-3 text-xs font-medium text-slate-600">Stroke or embolism — fragments of tumour or clot to the brain, limbs, kidneys or gut.</td><td className="px-4 py-3 text-xs font-medium text-slate-600">May be permanent; specialist care needed.</td></tr>
-                <tr className="bg-slate-50"><td className="px-4 py-3 text-xs font-black text-rose-600">RARE</td><td className="px-4 py-3 text-xs font-medium text-slate-600">Injury to a nearby heart valve needing repair or replacement.</td><td className="px-4 py-3 text-xs font-medium text-slate-600">Repaired or replaced at surgery.</td></tr>
-                <tr><td className="px-4 py-3 text-xs font-black text-red-700">VERY RARE</td><td className="px-4 py-3 text-xs font-medium text-slate-600">Life-threatening complication or death.</td><td className="px-4 py-3 text-xs font-medium text-slate-600">Mitigated by specialist care.</td></tr>
+                <tr><td className="px-4 py-3 text-xs font-black text-emerald-600">{i18n.t("COMMON")}</td><td className="px-4 py-3 text-xs font-medium text-slate-600">{i18n.t("Irregular heartbeat; chest/wound discomfort; pericardial fluid.")}</td><td className="px-4 py-3 text-xs font-medium text-slate-600">{i18n.t("Usually managed with medicine / routine care.")}</td></tr>
+                <tr className="bg-slate-50"><td className="px-4 py-3 text-xs font-black text-emerald-600">{i18n.t("COMMON")}</td><td className="px-4 py-3 text-xs font-medium text-slate-600">{i18n.t("Temporary confusion or poor concentration after bypass.")}</td><td className="px-4 py-3 text-xs font-medium text-slate-600">{i18n.t("Usually settles; occasionally longer-lasting.")}</td></tr>
+                <tr><td className="px-4 py-3 text-xs font-black text-amber-600">{i18n.t("UNCOMMON")}</td><td className="px-4 py-3 text-xs font-medium text-slate-600">{i18n.t("Bleeding needing transfusion or return to theatre.")}</td><td className="px-4 py-3 text-xs font-medium text-slate-600">{i18n.t("Managed by transfusion or re-operation.")}</td></tr>
+                <tr className="bg-slate-50"><td className="px-4 py-3 text-xs font-black text-amber-600">{i18n.t("UNCOMMON")}</td><td className="px-4 py-3 text-xs font-medium text-slate-600">{i18n.t("Heart block needing temporary pacing or permanent pacemaker.")}</td><td className="px-4 py-3 text-xs font-medium text-slate-600">{i18n.t("Pacing wires placed at surgery; pacemaker if persistent.")}</td></tr>
+                <tr><td className="px-4 py-3 text-xs font-black text-rose-600">{i18n.t("RARE")}</td><td className="px-4 py-3 text-xs font-medium text-slate-600">{i18n.t("Stroke or embolism — fragments of tumour or clot to the brain, limbs, kidneys or gut.")}</td><td className="px-4 py-3 text-xs font-medium text-slate-600">{i18n.t("May be permanent; specialist care needed.")}</td></tr>
+                <tr className="bg-slate-50"><td className="px-4 py-3 text-xs font-black text-rose-600">{i18n.t("RARE")}</td><td className="px-4 py-3 text-xs font-medium text-slate-600">{i18n.t("Injury to a nearby heart valve needing repair or replacement.")}</td><td className="px-4 py-3 text-xs font-medium text-slate-600">{i18n.t("Repaired or replaced at surgery.")}</td></tr>
+                <tr><td className="px-4 py-3 text-xs font-black text-red-700">{i18n.t("VERY RARE")}</td><td className="px-4 py-3 text-xs font-medium text-slate-600">{i18n.t("Life-threatening complication or death.")}</td><td className="px-4 py-3 text-xs font-medium text-slate-600">{i18n.t("Mitigated by specialist care.")}</td></tr>
               </tbody>
             </table>
           </div>
@@ -409,35 +406,35 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-white rounded-3xl p-6 shadow-sm border-t-8 border-[#ea580c]">
             <div className="flex items-center gap-2 mb-4">
-              <span className="w-6 h-6 rounded-full bg-[#ea580c] text-white flex items-center justify-center text-xs font-black">E</span>
-              <h4 className="font-black text-slate-800 uppercase tracking-widest text-[11px]">Alternatives</h4>
+              <span className="w-6 h-6 rounded-full bg-[#ea580c] text-white flex items-center justify-center text-xs font-black">{i18n.t("E")}</span>
+              <h4 className="font-black text-slate-800 uppercase tracking-widest text-[11px]">{i18n.t("Alternatives")}</h4>
             </div>
-            <ul className="text-xs text-slate-600 list-disc pl-4 mb-4 space-y-1">
-              <li><strong>No surgery:</strong> Risks of stroke, heart failure continue.</li>
-              <li><strong>Medical management:</strong> Treats symptoms only.</li>
-              <li><strong>Delay:</strong> Increases risk of embolism/obstruction.</li>
+            <ul className="text-xs text-slate-600 list-disc ps-4 mb-4 space-y-1">
+              <li><strong>{i18n.t("No surgery:")}</strong>{" "}{i18n.t("Risks of stroke, heart failure continue.")}</li>
+              <li><strong>{i18n.t("Medical management:")}</strong>{" "}{i18n.t("Treats symptoms only.")}</li>
+              <li><strong>{i18n.t("Delay:")}</strong>{" "}{i18n.t("Increases risk of embolism/obstruction.")}</li>
             </ul>
             {renderTextarea("alternatives_discussed", "Alternatives discussed with this patient", "md:col-span-2")}
           </div>
 
           <div className="bg-white rounded-3xl p-6 shadow-sm border-t-8 border-slate-700">
             <div className="flex items-center gap-2 mb-4">
-              <span className="w-6 h-6 rounded-full bg-slate-700 text-white flex items-center justify-center text-xs font-black">F</span>
-              <h4 className="font-black text-slate-800 uppercase tracking-widest text-[11px]">Patch to close the heart wall</h4>
+              <span className="w-6 h-6 rounded-full bg-slate-700 text-white flex items-center justify-center text-xs font-black">{i18n.t("F")}</span>
+              <h4 className="font-black text-slate-800 uppercase tracking-widest text-[11px]">{i18n.t("Patch to close the heart wall")}</h4>
             </div>
-            <p className="text-xs text-slate-600 mb-4">Removing the tumour may leave a hole. The surgeon plans to close it with a patch of your own tissue.</p>
+            <p className="text-xs text-slate-600 mb-4">{i18n.t("Removing the tumour may leave a hole. The surgeon plans to close it with a patch of your own tissue.")}</p>
             <div className="space-y-3">
               <label className="flex items-start gap-3 cursor-pointer">
                 <input type="radio" name="patch_consent" checked={formData.patch_consent === PATCH_OPTIONS.A} onChange={() => handleInputChange('patch_consent', PATCH_OPTIONS.A)} disabled={readOnly} className="mt-1 w-5 h-5 text-[#1e40af]" />
-                <span className="text-xs font-bold text-slate-700">A - PERICARDIAL PATCH (planned). A patch cut from your own pericardium.</span>
+                <span className="text-xs font-bold text-slate-700">{i18n.t("A - PERICARDIAL PATCH (planned). A patch cut from your own pericardium.")}</span>
               </label>
               <label className="flex items-start gap-3 cursor-pointer">
                 <input type="radio" name="patch_consent" checked={formData.patch_consent === PATCH_OPTIONS.B} onChange={() => handleInputChange('patch_consent', PATCH_OPTIONS.B)} disabled={readOnly} className="mt-1 w-5 h-5 text-[#1e40af]" />
-                <span className="text-xs font-bold text-slate-700">B - PROSTHETIC PATCH (only if needed). Used if own tissue is unsuitable.</span>
+                <span className="text-xs font-bold text-slate-700">{i18n.t("B - PROSTHETIC PATCH (only if needed). Used if own tissue is unsuitable.")}</span>
               </label>
               <label className="flex items-start gap-3 cursor-pointer">
                 <input type="radio" name="patch_consent" checked={formData.patch_consent === PATCH_OPTIONS.C} onChange={() => handleInputChange('patch_consent', PATCH_OPTIONS.C)} disabled={readOnly} className="mt-1 w-5 h-5 text-[#1e40af]" />
-                <span className="text-xs font-bold text-slate-700">C - I do NOT agree to a prosthetic patch.</span>
+                <span className="text-xs font-bold text-slate-700">{i18n.t("C - I do NOT agree to a prosthetic patch.")}</span>
               </label>
             </div>
           </div>
@@ -447,29 +444,29 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-white rounded-3xl p-6 shadow-sm border-t-8 border-slate-700">
             <div className="flex items-center gap-2 mb-4">
-              <span className="w-6 h-6 rounded-full bg-slate-700 text-white flex items-center justify-center text-xs font-black">G</span>
-              <h4 className="font-black text-slate-800 uppercase tracking-widest text-[11px]">Heart Valve Injury/Repair</h4>
+              <span className="w-6 h-6 rounded-full bg-slate-700 text-white flex items-center justify-center text-xs font-black">{i18n.t("G")}</span>
+              <h4 className="font-black text-slate-800 uppercase tracking-widest text-[11px]">{i18n.t("Heart Valve Injury/Repair")}</h4>
             </div>
-            <p className="text-xs text-slate-600 mb-4">The tumour sits close to a heart valve. Both valves are inspected. If damaged, repair or replacement may be needed.</p>
+            <p className="text-xs text-slate-600 mb-4">{i18n.t("The tumour sits close to a heart valve. Both valves are inspected. If damaged, repair or replacement may be needed.")}</p>
             <div className="space-y-3">
               {renderCheckbox("valve_repair_consent", "D - I consent to REPAIR of the heart valve if damage is found.", "col-span-1")}
               {renderCheckbox("valve_replacement_consent", "E - I consent to valve REPLACEMENT if repair is not possible.", "col-span-1")}
               
               {formData.valve_replacement_consent && (
-                <div className="pl-8 flex flex-col gap-2">
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Intended Valve Type:</span>
+                <div className="ps-8 flex flex-col gap-2">
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Intended Valve Type:")}</span>
                   <div className="flex gap-4">
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input type="radio" name="preferred_valve_type" checked={formData.preferred_valve_type === 'Mechanical'} onChange={() => handleInputChange('preferred_valve_type', 'Mechanical')} disabled={readOnly} />
-                      <span className="text-xs font-bold text-slate-600">Mechanical</span>
+                      <span className="text-xs font-bold text-slate-600">{i18n.t("Mechanical")}</span>
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input type="radio" name="preferred_valve_type" checked={formData.preferred_valve_type === 'Tissue (biological)'} onChange={() => handleInputChange('preferred_valve_type', 'Tissue (biological)')} disabled={readOnly} />
-                      <span className="text-xs font-bold text-slate-600">Tissue</span>
+                      <span className="text-xs font-bold text-slate-600">{i18n.t("Tissue")}</span>
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input type="radio" name="preferred_valve_type" checked={formData.preferred_valve_type === 'Leave to surgeon'} onChange={() => handleInputChange('preferred_valve_type', 'Leave to surgeon')} disabled={readOnly} />
-                      <span className="text-xs font-bold text-slate-600">Leave to surgeon</span>
+                      <span className="text-xs font-bold text-slate-600">{i18n.t("Leave to surgeon")}</span>
                     </label>
                   </div>
                 </div>
@@ -480,10 +477,10 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
 
           <div className="bg-white rounded-3xl p-6 shadow-sm border-t-8 border-slate-700">
             <div className="flex items-center gap-2 mb-4">
-              <span className="w-6 h-6 rounded-full bg-slate-700 text-white flex items-center justify-center text-xs font-black">H</span>
-              <h4 className="font-black text-slate-800 uppercase tracking-widest text-[11px]">Other Necessary Procedures</h4>
+              <span className="w-6 h-6 rounded-full bg-slate-700 text-white flex items-center justify-center text-xs font-black">{i18n.t("H")}</span>
+              <h4 className="font-black text-slate-800 uppercase tracking-widest text-[11px]">{i18n.t("Other Necessary Procedures")}</h4>
             </div>
-            <p className="text-xs text-slate-600 mb-4">The surgeon will do these only if needed to complete the operation safely or to treat a danger to life.</p>
+            <p className="text-xs text-slate-600 mb-4">{i18n.t("The surgeon will do these only if needed to complete the operation safely or to treat a danger to life.")}</p>
             <div className="space-y-3">
               {renderCheckbox("cabg_consent", "G - Coronary artery bypass graft (CABG) if found to need it.", "col-span-1")}
               {renderCheckbox("pacing_wires_consent", "H - Temporary pacing wires / permanent pacemaker.", "col-span-1")}
@@ -496,8 +493,8 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
         {/* PART J */}
         <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
           <div className="flex items-center gap-2 mb-4">
-            <span className="w-6 h-6 rounded-full bg-slate-700 text-white flex items-center justify-center text-xs font-black">J</span>
-            <h4 className="font-black text-slate-800 uppercase tracking-widest text-[11px]">Additional Procedures, Blood & Tissue</h4>
+            <span className="w-6 h-6 rounded-full bg-slate-700 text-white flex items-center justify-center text-xs font-black">{i18n.t("J")}</span>
+            <h4 className="font-black text-slate-800 uppercase tracking-widest text-[11px]">{i18n.t("Additional Procedures, Blood & Tissue")}</h4>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             {renderTextarea("additional_procedures_consented", "Additional procedures consented to if needed", "md:col-span-1")}
@@ -505,26 +502,26 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-3">
-              <span className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Blood Transfusion Consent:</span>
+              <span className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Blood Transfusion Consent:")}</span>
               <div className="flex gap-4">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="radio" name="blood_transfusion" checked={formData.blood_transfusion === 'Consents'} onChange={() => handleInputChange('blood_transfusion', 'Consents')} disabled={readOnly} />
-                  <span className="text-xs font-bold text-slate-600">Consents</span>
+                  <span className="text-xs font-bold text-slate-600">{i18n.t("Consents")}</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="radio" name="blood_transfusion" checked={formData.blood_transfusion === 'Declines'} onChange={() => handleInputChange('blood_transfusion', 'Declines')} disabled={readOnly} />
-                  <span className="text-xs font-bold text-slate-600">Declines</span>
+                  <span className="text-xs font-bold text-slate-600">{i18n.t("Declines")}</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="radio" name="blood_transfusion" checked={formData.blood_transfusion === 'Discuss'} onChange={() => handleInputChange('blood_transfusion', 'Discuss')} disabled={readOnly} />
-                  <span className="text-xs font-bold text-slate-600">Discuss</span>
+                  <span className="text-xs font-bold text-slate-600">{i18n.t("Discuss")}</span>
                 </label>
               </div>
               {renderCheckbox("tissue_specimens_consent", "Consent to tissue/specimens retained for audit/teaching.", "md:col-span-2")}
               {renderTextInput("implants_brand_consent", "Implants (Patch/Valve Brand) - Consents", "md:col-span-2")}
             </div>
             <div className="space-y-3">
-              <span className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Clinical Photography & Video:</span>
+              <span className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Clinical Photography & Video:")}</span>
               <div className="flex flex-col gap-2">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="radio" name="clinical_photography_consent" checked={formData.clinical_photography_consent === PHOTO_OPTIONS.CLINICAL} onChange={() => handleInputChange('clinical_photography_consent', PHOTO_OPTIONS.CLINICAL)} disabled={readOnly} />
@@ -545,23 +542,23 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
 
         {/* SIGNATURE BLOCK SECTION (Dark Box) */}
         <section className="space-y-8 bg-slate-900 p-10 rounded-[3rem] shadow-2xl">
-          <h3 className="text-center text-white font-black uppercase tracking-[0.3em] text-lg mb-6">Final Declarations & Signatures</h3>
+          <h3 className="text-center text-white font-black uppercase tracking-[0.3em] text-lg mb-6">{i18n.t("Final Declarations & Signatures")}</h3>
           
           {/* PART K */}
           <div className="bg-white rounded-3xl p-6 shadow-xl border-t-8 border-emerald-500 relative">
-            <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px] mb-4">PART K — Language & Interpreter</h4>
+            <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px] mb-4">{i18n.t("PART K — Language & Interpreter")}</h4>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               {renderTextInput("discussion_language", "Language of Discussion", "md:col-span-2")}
               <div className="md:col-span-2 space-y-2">
-                <span className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Interpreter Used?</span>
+                <span className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Interpreter Used?")}</span>
                 <div className="flex gap-4">
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input type="radio" name="interpreter_used" checked={formData.interpreter_used === 'Yes'} onChange={() => handleInputChange('interpreter_used', 'Yes')} disabled={readOnly} />
-                    <span className="text-xs font-bold text-slate-600">Yes</span>
+                    <span className="text-xs font-bold text-slate-600">{i18n.t("Yes")}</span>
                   </label>
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input type="radio" name="interpreter_used" checked={formData.interpreter_used === 'No'} onChange={() => handleInputChange('interpreter_used', 'No')} disabled={readOnly} />
-                    <span className="text-xs font-bold text-slate-600">No</span>
+                    <span className="text-xs font-bold text-slate-600">{i18n.t("No")}</span>
                   </label>
                 </div>
               </div>
@@ -576,10 +573,8 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
 
           {/* PART L */}
           <div className="bg-purple-50 rounded-3xl p-8 shadow-xl border-4 border-purple-200 relative">
-            <h4 className="font-black text-purple-900 uppercase tracking-wider text-[10px] mb-4">PART L — DECLARATION OF CONSENTING CLINICIAN</h4>
-            <p className="text-xs text-slate-600 font-bold mb-6 italic border-l-4 border-slate-300 pl-4">
-              I confirm I have explained the procedure and its purpose, the intended benefits, the material risks... and I am satisfied the patient (or parent/guardian) has capacity and consents voluntarily.
-            </p>
+            <h4 className="font-black text-purple-900 uppercase tracking-wider text-[10px] mb-4">{i18n.t("PART L — DECLARATION OF CONSENTING CLINICIAN")}</h4>
+            <p className="text-xs text-slate-600 font-bold mb-6 italic border-s-4 border-slate-300 ps-4">{i18n.t("I confirm I have explained the procedure and its purpose, the intended benefits, the material risks... and I am satisfied the patient (or parent/guardian) has capacity and consents voluntarily.")}</p>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               {renderTextInput("surgeon_name", "Surgeon Full Name", "md:col-span-2")}
               {renderTextInput("surgeon_designation", "Designation", "md:col-span-2")}
@@ -590,7 +585,7 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
 
           {/* PART M */}
           <div className="bg-white rounded-3xl p-6 shadow-xl border-t-8 border-slate-900 relative">
-            <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px] mb-4">PART M — PATIENT CONSENT DECLARATION</h4>
+            <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px] mb-4">{i18n.t("PART M — PATIENT CONSENT DECLARATION")}</h4>
             <div className="space-y-3 mb-6 bg-slate-50 p-4 rounded-2xl border border-slate-200">
               {renderCheckbox("chk_understood", "I have read, or had read to me, and I understand the information in Parts A to L.", "col-span-1", true)}
               {renderCheckbox("chk_risks", "The benefits, risks and alternatives have been explained and I have had the opportunity to ask questions.", "col-span-1", true)}
@@ -600,7 +595,7 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
               {renderCheckbox("chk_withdraw", "I understand no guarantee of a particular result has been given, and I may withdraw consent at any time.", "col-span-1", true)}
               {renderCheckbox("chk_additional", "I consent to additional procedures judged immediately necessary.", "col-span-1", true)}
             </div>
-            <p className="font-black text-[#1e40af] text-sm uppercase text-center mb-6">I GIVE MY INFORMED CONSENT to proceed with excision of atrial myxoma.</p>
+            <p className="font-black text-[#1e40af] text-sm uppercase text-center mb-6">{i18n.t("I GIVE MY INFORMED CONSENT to proceed with excision of atrial myxoma.")}</p>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               {renderTextInput("patient_signature_name", "Patient Full Name", "md:col-span-2")}
               {renderTextInput("patient_signature_date", "Date", "md:col-span-2")}
@@ -611,24 +606,24 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
 
           {/* PART N */}
           <div className="bg-white rounded-3xl p-6 shadow-xl border-t-8 border-purple-600 relative">
-            <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px] mb-4">PART N — CONSENT BY PARENT / GUARDIAN (If lacking capacity)</h4>
+            <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px] mb-4">{i18n.t("PART N — CONSENT BY PARENT / GUARDIAN (If lacking capacity)")}</h4>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
               {renderTextInput("parent_guardian_name", "Name of Parent / Guardian", "md:col-span-2")}
               {renderTextInput("relationship_to_patient", "Relationship to Patient", "md:col-span-2")}
               <div className="md:col-span-4 space-y-2">
-                <span className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Legal Basis</span>
+                <span className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Legal Basis")}</span>
                 <div className="flex gap-4">
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input type="radio" name="legal_basis" checked={formData.legal_basis === 'Parental responsibility'} onChange={() => handleInputChange('legal_basis', 'Parental responsibility')} disabled={readOnly} />
-                    <span className="text-xs font-bold text-slate-600">Parental responsibility</span>
+                    <span className="text-xs font-bold text-slate-600">{i18n.t("Parental responsibility")}</span>
                   </label>
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input type="radio" name="legal_basis" checked={formData.legal_basis === 'Legal guardian'} onChange={() => handleInputChange('legal_basis', 'Legal guardian')} disabled={readOnly} />
-                    <span className="text-xs font-bold text-slate-600">Legal guardian</span>
+                    <span className="text-xs font-bold text-slate-600">{i18n.t("Legal guardian")}</span>
                   </label>
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input type="radio" name="legal_basis" checked={formData.legal_basis === 'Court order'} onChange={() => handleInputChange('legal_basis', 'Court order')} disabled={readOnly} />
-                    <span className="text-xs font-bold text-slate-600">Court order</span>
+                    <span className="text-xs font-bold text-slate-600">{i18n.t("Court order")}</span>
                   </label>
                 </div>
               </div>
@@ -647,7 +642,7 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
           disabled={submitting}
           className="px-8 py-3 rounded-2xl font-black text-slate-500 hover:bg-slate-200 transition-all uppercase tracking-widest text-sm"
         >
-          {readOnly ? "Close" : "Discard Form"}
+          {readOnly ? i18n.t("Close") : i18n.t("Discard Form")}
         </button>
         <div className="flex gap-4">
           {!readOnly && (
@@ -659,7 +654,7 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
                 className="bg-amber-500 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-[0.1em] text-sm shadow-xl hover:bg-amber-600 transition-all flex items-center gap-2 disabled:opacity-50"
               >
                 {submitting ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
-                {submitting ? "Saving..." : "Save Draft"}
+                {submitting ? i18n.t("Saving...") : i18n.t("Save Draft")}
               </button>
 
               <button
@@ -668,7 +663,7 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
                 className="bg-[#1e40af] text-white px-10 py-4 rounded-2xl font-black uppercase tracking-[0.2em] text-sm shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3 disabled:opacity-50 disabled:grayscale disabled:scale-100"
               >
                 {submitting ? <Loader2 className="animate-spin" size={20} /> : <CheckCircle size={20} />}
-                {submitting ? "Finalizing..." : "Submit Consent"}
+                {submitting ? i18n.t("Finalizing...") : i18n.t("Submit Consent")}
               </button>
             </>
           )}
@@ -677,8 +672,7 @@ const AtrialMyxomaConsentForm: React.FC<AtrialMyxomaConsentFormProps> = ({
               onClick={onPrint}
               className="bg-[#1e40af] text-white px-10 py-4 rounded-2xl font-black uppercase tracking-[0.2em] text-sm shadow-2xl transition-all flex items-center gap-3"
             >
-              <Printer size={20} /> View Full PDF
-            </button>
+              <Printer size={20} />{" "}{i18n.t("View Full PDF")}</button>
           )}
         </div>
       </div>

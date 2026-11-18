@@ -11,6 +11,7 @@ import { BASE_URL } from "../../api/client";
 import apiClient from "../../api/client";
 import { patientService } from "../../services/patient.service";
 import { formDraftService } from "../../services/session-restore.service";
+import { i18n } from "../../i18n";
 
 interface GeneralConsentFormProps {
   surgery: OTSurgery;
@@ -129,9 +130,8 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
   const PartWarning = ({ fields }: { fields: string[] }) => {
     if (isPartComplete(fields) || readOnly) return null;
     return (
-      <div className="absolute top-4 right-6 flex items-center gap-1 text-amber-500 bg-amber-50 px-3 py-1 rounded-full text-[10px] font-bold border border-amber-200 shadow-sm animate-pulse">
-        <AlertCircle size={12} /> Incomplete
-      </div>
+      <div className="absolute top-4 end-6 flex items-center gap-1 text-amber-500 bg-amber-50 px-3 py-1 rounded-full text-[10px] font-bold border border-amber-200 shadow-sm animate-pulse">
+        <AlertCircle size={12} />{" "}{i18n.t("Incomplete")}</div>
     );
   };
 
@@ -298,7 +298,7 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
           {hasSignature ? (
             <img src={getSigUrl(formData[id])} alt={label} className="max-h-full max-w-full object-contain" />
           ) : (
-            <span className="text-slate-300 font-bold uppercase text-xs">No Signature</span>
+            <span className="text-slate-300 font-bold uppercase text-xs">{i18n.t("No Signature")}</span>
           )}
         </div>
       );
@@ -310,11 +310,9 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
           <img src={getSigUrl(formData[id])} alt={label} className="max-h-full max-w-full object-contain" />
           <button 
             onClick={() => handleInputChange(id, null)} 
-            className="absolute top-2 right-2 bg-red-100 text-red-600 px-3 py-1 rounded-lg text-[10px] font-black uppercase hover:bg-red-200 transition-colors opacity-0 group-hover:opacity-100 shadow-sm"
-            title="Clear Signature"
-          >
-            Clear
-          </button>
+            className="absolute top-2 end-2 bg-red-100 text-red-600 px-3 py-1 rounded-lg text-[10px] font-black uppercase hover:bg-red-200 transition-colors opacity-0 group-hover:opacity-100 shadow-sm"
+            title={i18n.t("Clear Signature")}
+          >{i18n.t("Clear")}</button>
         </div>
       );
     }
@@ -391,7 +389,7 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
     return (
       <div className="flex flex-col items-center justify-center p-12 bg-white rounded-3xl shadow-xl mx-auto max-w-4xl">
         <Loader2 className="animate-spin text-brand-primary mb-4" size={48} />
-        <p className="text-slate-500 font-bold uppercase tracking-widest animate-pulse">Loading Procedure Template...</p>
+        <p className="text-slate-500 font-bold uppercase tracking-widest animate-pulse">{i18n.t("Loading Procedure Template...")}</p>
       </div>
     );
   }
@@ -401,30 +399,29 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
       <div className="bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[95vh] flex flex-col max-w-6xl mx-auto w-[90vw]">
         {/* Header */}
         <div className="bg-[#1e1b4b] text-white p-10 flex justify-between items-center relative overflow-hidden shrink-0">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-brand-active/10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+          <div className="absolute top-0 end-0 w-64 h-64 bg-brand-active/10 rounded-full -me-32 -mt-32 blur-3xl"></div>
           <div className="z-10">
             <div className="flex items-center gap-4 mb-2">
               <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
-                <img src="/assets/login-bg.jpeg" alt="Logo" className="w-10 h-10 object-contain" />
+                <img src="/assets/login-bg.jpeg" alt={i18n.t("Logo")} className="w-10 h-10 object-contain" />
               </div>
               <div>
-                <h1 className="text-3xl font-black tracking-tighter">Procedure Consent Form</h1>
-                <p className="text-brand-primary font-bold text-sm uppercase tracking-widest">General Surgery & Clinical Intervention</p>
+                <h1 className="text-3xl font-black tracking-tighter">{i18n.t("Procedure Consent Form")}</h1>
+                <p className="text-brand-primary font-bold text-sm uppercase tracking-widest">{i18n.t("General Surgery & Clinical Intervention")}</p>
               </div>
             </div>
-            <p className="text-xs text-brand-active/60 font-medium">Form Ref: GSH-CONSENT-GEN-021 • Policy Ref: GSH-T6 • Version 1.0</p>
+            <p className="text-xs text-brand-active/60 font-medium">{i18n.t("Form Ref: GSH-CONSENT-GEN-021 • Policy Ref: GSH-T6 • Version 1.0")}</p>
           </div>
-          <div className="text-right z-10 flex flex-col items-end gap-3">
-             <div className="hidden md:block text-right">
-                <p className="text-[10px] text-brand-active font-bold leading-tight uppercase tracking-wider">Medbookie</p>
-                <p className="text-[10px] text-brand-active">+234 705 648 2776 • admin@Medbookiehospitals.com</p>
+          <div className="text-end z-10 flex flex-col items-end gap-3">
+             <div className="hidden md:block text-end">
+                <p className="text-[10px] text-brand-active font-bold leading-tight uppercase tracking-wider">{i18n.t("Medbookie")}</p>
+                <p className="text-[10px] text-brand-active">{i18n.t("+234 705 648 2776 • admin@Medbookiehospitals.com")}</p>
              </div>
              <button 
                onClick={() => setIsPrintOpen(true)}
                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border border-white/20 transition-all"
              >
-               <Printer size={14} /> Print Blank Form
-             </button>
+               <Printer size={14} />{" "}{i18n.t("Print Blank Form")}</button>
           </div>
         </div>
 
@@ -433,79 +430,77 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
           
           {/* Patient Rights */}
           <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden">
-            <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">Patient Rights</div>
-            <p className="text-sm text-amber-900 font-medium leading-relaxed italic">
-              "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6)."
-            </p>
+            <div className="absolute top-0 end-0 bg-amber-200/50 px-4 py-1 rounded-es-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">{i18n.t("Patient Rights")}</div>
+            <p className="text-sm text-amber-900 font-medium leading-relaxed italic">{i18n.t("\"You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6).\"")}</p>
           </div>
 
           {/* Part A - Patient Identification */}
           <section>
-            <div className="bg-brand-primary text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ml-4">Part A — Patient Identification</div>
+            <div className="bg-brand-primary text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part A — Patient Identification")}</div>
             <div className="border-4 border-slate-900 rounded-3xl p-8 grid grid-cols-1 md:grid-cols-3 gap-8 shadow-inner bg-slate-50 relative">
               <PartWarning fields={["patient_full_name", "mrn", "procedure_name", "consent_statement"]} />
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Patient Full Name *</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Patient Full Name *")}</label>
                 <input type="text" value={formData.patient_full_name} onChange={(e) => handleInputChange("patient_full_name", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Date of Birth</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Date of Birth")}</label>
                 <input type="date" value={formData.date_of_birth} onChange={(e) => handleInputChange("date_of_birth", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Sex at Birth</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Sex at Birth")}</label>
                 <select value={formData.sex_at_birth} onChange={(e) => handleInputChange("sex_at_birth", e.target.value)} disabled={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`}>
-                  <option value="">Select...</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
+                  <option value="">{i18n.t("Select...")}</option>
+                  <option value="Male">{i18n.t("Male")}</option>
+                  <option value="Female">{i18n.t("Female")}</option>
+                  <option value="Other">{i18n.t("Other")}</option>
                 </select>
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">MRN (Medical Record Number) *</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("MRN (Medical Record Number) *")}</label>
                 <input type="text" value={formData.mrn} className="w-full bg-slate-100 border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-500" readOnly />
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Ward / Unit</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Ward / Unit")}</label>
                 <input type="text" value={formData.ward_unit} onChange={(e) => handleInputChange("ward_unit", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Consultant / Responsible Surgeon</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Consultant / Responsible Surgeon")}</label>
                 <input type="text" value={formData.consultant} onChange={(e) => handleInputChange("consultant", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
               <div className="md:col-span-3 space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Primary Diagnosis / Indication for Procedure</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Primary Diagnosis / Indication for Procedure")}</label>
                 <textarea rows={2} value={formData.primary_diagnosis} onChange={(e) => handleInputChange("primary_diagnosis", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-3 font-bold text-slate-800 transition-all outline-none resize-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
               <div className="md:col-span-2 space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Proposed Procedure Name *</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Proposed Procedure Name *")}</label>
                 <input type="text" value={formData.procedure_name} onChange={(e) => handleInputChange("procedure_name", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Site / Side</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Site / Side")}</label>
                 <select value={formData.procedure_site} onChange={(e) => handleInputChange("procedure_site", e.target.value)} disabled={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`}>
-                  <option value="">Select...</option>
-                  <option value="Left">Left</option>
-                  <option value="Right">Right</option>
-                  <option value="N/A">N/A</option>
+                  <option value="">{i18n.t("Select...")}</option>
+                  <option value="Left">{i18n.t("Left")}</option>
+                  <option value="Right">{i18n.t("Right")}</option>
+                  <option value="N/A">{i18n.t("N/A")}</option>
                 </select>
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Planned Date</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Planned Date")}</label>
                 <input type="date" value={formData.planned_date} onChange={(e) => handleInputChange("planned_date", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Urgency</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Urgency")}</label>
                 <select value={formData.urgency} onChange={(e) => handleInputChange("urgency", e.target.value)} disabled={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`}>
-                  <option value="">Select...</option>
-                  <option value="Elective">Elective</option>
-                  <option value="Urgent">Urgent</option>
-                  <option value="Emergency">Emergency</option>
-                  <option value="Life-saving">Life-saving</option>
+                  <option value="">{i18n.t("Select...")}</option>
+                  <option value="Elective">{i18n.t("Elective")}</option>
+                  <option value="Urgent">{i18n.t("Urgent")}</option>
+                  <option value="Emergency">{i18n.t("Emergency")}</option>
+                  <option value="Life-saving">{i18n.t("Life-saving")}</option>
                 </select>
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Planned Anaesthesia</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Planned Anaesthesia")}</label>
                 <div className="flex gap-4 mt-2">
                   {['General', 'Regional', 'Local', 'Sedation'].map(type => (
                     <label key={type} className="flex items-center gap-2">
@@ -516,7 +511,7 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
                 </div>
               </div>
               <div className="md:col-span-3 space-y-2 mt-4">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Consent Statement / Declaration *</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Consent Statement / Declaration *")}</label>
                 <textarea rows={3} value={formData.consent_statement} onChange={(e) => handleInputChange("consent_statement", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-3 font-bold text-slate-800 transition-all outline-none resize-none leading-relaxed ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
             </div>
@@ -524,26 +519,26 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
 
           {/* Additional Clinical Details */}
           <section>
-            <div className="bg-brand-primary text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ml-4">Part B-J — Clinical Details & Risks</div>
+            <div className="bg-brand-primary text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part B-J — Clinical Details & Risks")}</div>
             <div className="border-4 border-slate-900 rounded-3xl p-8 grid grid-cols-1 md:grid-cols-2 gap-8 shadow-inner bg-slate-50 relative">
               <div className="space-y-2 md:col-span-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Description of the Procedure</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Description of the Procedure")}</label>
                 <textarea rows={3} value={formData.procedure_description} onChange={(e) => handleInputChange("procedure_description", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-3 font-bold text-slate-800 transition-all outline-none resize-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Expected Benefits</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Expected Benefits")}</label>
                 <textarea rows={2} value={formData.expected_benefits} onChange={(e) => handleInputChange("expected_benefits", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-3 font-bold text-slate-800 transition-all outline-none resize-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Risks Discussed</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Risks Discussed")}</label>
                 <textarea rows={2} value={formData.risks_discussed} onChange={(e) => handleInputChange("risks_discussed", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-3 font-bold text-slate-800 transition-all outline-none resize-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Alternatives Discussed</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Alternatives Discussed")}</label>
                 <textarea rows={2} value={formData.alternatives_discussed} onChange={(e) => handleInputChange("alternatives_discussed", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-3 font-bold text-slate-800 transition-all outline-none resize-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Consequences of No Treatment</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Consequences of No Treatment")}</label>
                 <textarea rows={2} value={formData.consequences_no_treatment} onChange={(e) => handleInputChange("consequences_no_treatment", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-3 font-bold text-slate-800 transition-all outline-none resize-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
             </div>
@@ -551,61 +546,61 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
 
           {/* Part F-J */}
           <section>
-            <div className="bg-brand-primary text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ml-4">Part F-J — Anaesthesia & Additional Consents</div>
+            <div className="bg-brand-primary text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part F-J — Anaesthesia & Additional Consents")}</div>
             <div className="border-4 border-slate-900 rounded-3xl p-8 grid grid-cols-1 md:grid-cols-2 gap-8 shadow-inner bg-slate-50 relative">
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Anaesthesia Type</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Anaesthesia Type")}</label>
                 <select value={formData.anaesthesia_type} onChange={(e) => handleInputChange("anaesthesia_type", e.target.value)} disabled={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`}>
-                  <option value="">Select...</option>
-                  <option value="General">General</option>
-                  <option value="Regional">Regional</option>
-                  <option value="Local">Local</option>
-                  <option value="Conscious Sedation">Conscious Sedation</option>
+                  <option value="">{i18n.t("Select...")}</option>
+                  <option value="General">{i18n.t("General")}</option>
+                  <option value="Regional">{i18n.t("Regional")}</option>
+                  <option value="Local">{i18n.t("Local")}</option>
+                  <option value="Conscious Sedation">{i18n.t("Conscious Sedation")}</option>
                 </select>
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Blood Consent</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Blood Consent")}</label>
                 <select value={formData.blood_consent} onChange={(e) => handleInputChange("blood_consent", e.target.value)} disabled={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`}>
-                  <option value="">Select...</option>
-                  <option value="Consents">Consents</option>
-                  <option value="Declines">Declines</option>
-                  <option value="Discuss Further">Discuss Further</option>
+                  <option value="">{i18n.t("Select...")}</option>
+                  <option value="Consents">{i18n.t("Consents")}</option>
+                  <option value="Declines">{i18n.t("Declines")}</option>
+                  <option value="Discuss Further">{i18n.t("Discuss Further")}</option>
                 </select>
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Clinical Photo</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Clinical Photo")}</label>
                 <select value={formData.clinical_photo} onChange={(e) => handleInputChange("clinical_photo", e.target.value)} disabled={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`}>
-                  <option value="">Select...</option>
-                  <option value="Clinical Record">Clinical Record</option>
-                  <option value="Teaching">Teaching</option>
-                  <option value="Declines">Declines</option>
+                  <option value="">{i18n.t("Select...")}</option>
+                  <option value="Clinical Record">{i18n.t("Clinical Record")}</option>
+                  <option value="Teaching">{i18n.t("Teaching")}</option>
+                  <option value="Declines">{i18n.t("Declines")}</option>
                 </select>
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Consent to Tissue Examination</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Consent to Tissue Examination")}</label>
                 <div className="flex items-center gap-3 pt-2">
                   <input type="checkbox" checked={formData.tissue_consent} onChange={(e) => handleInputChange("tissue_consent", e.target.checked)} disabled={readOnly} className="w-5 h-5 text-brand-primary rounded" />
-                  <span className="text-sm font-bold text-slate-700">Yes, I consent</span>
+                  <span className="text-sm font-bold text-slate-700">{i18n.t("Yes, I consent")}</span>
                 </div>
               </div>
               <div className="space-y-2 md:col-span-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Decline Reason</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Decline Reason")}</label>
                 <textarea rows={2} value={formData.decline_reason} onChange={(e) => handleInputChange("decline_reason", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-3 font-bold text-slate-800 transition-all outline-none resize-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
               <div className="space-y-2 md:col-span-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Implant Details</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Implant Details")}</label>
                 <textarea rows={2} value={formData.implant_details} onChange={(e) => handleInputChange("implant_details", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-3 font-bold text-slate-800 transition-all outline-none resize-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Additional Procedures Allowed</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Additional Procedures Allowed")}</label>
                 <textarea rows={2} value={formData.additional_procedures_allowed} onChange={(e) => handleInputChange("additional_procedures_allowed", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-3 font-bold text-slate-800 transition-all outline-none resize-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Procedures Not Allowed</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Procedures Not Allowed")}</label>
                 <textarea rows={2} value={formData.procedures_not_allowed} onChange={(e) => handleInputChange("procedures_not_allowed", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-3 font-bold text-slate-800 transition-all outline-none resize-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
               <div className="space-y-2 md:col-span-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Patient Questions</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Patient Questions")}</label>
                 <textarea rows={2} value={formData.patient_questions} onChange={(e) => handleInputChange("patient_questions", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-3 font-bold text-slate-800 transition-all outline-none resize-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
             </div>
@@ -613,26 +608,26 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
 
           {/* Part I - Language & Capacity */}
           <section>
-            <div className="bg-brand-primary text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ml-4">Part I — Language & Capacity</div>
+            <div className="bg-brand-primary text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part I — Language & Capacity")}</div>
             <div className="border-4 border-slate-900 rounded-3xl p-8 grid grid-cols-1 md:grid-cols-2 gap-8 shadow-inner bg-slate-50 relative">
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Language</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Language")}</label>
                 <input type="text" value={formData.language} onChange={(e) => handleInputChange("language", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
               <div className="space-y-2 flex items-center">
                 <label className="flex items-center gap-3 mt-4">
                   <input type="checkbox" checked={formData.interpreter_used} onChange={(e) => handleInputChange("interpreter_used", e.target.checked)} disabled={readOnly} className="w-5 h-5 text-brand-primary rounded" />
-                  <span className="text-sm font-bold text-slate-700">Interpreter Used</span>
+                  <span className="text-sm font-bold text-slate-700">{i18n.t("Interpreter Used")}</span>
                 </label>
               </div>
               {formData.interpreter_used && (
                 <>
                   <div className="space-y-2">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Interpreter Name</label>
+                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Interpreter Name")}</label>
                     <input type="text" value={formData.interpreter_name} onChange={(e) => handleInputChange("interpreter_name", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
                   </div>
                   <div className="space-y-2">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Interpreter Signature</label>
+                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Interpreter Signature")}</label>
                     <div className="h-32 border-2 border-dashed border-slate-300 rounded-xl bg-white overflow-hidden">
                       {renderSignatureBox("interpreter_signature", "Interpreter Signature")}
                     </div>
@@ -644,15 +639,15 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
 
           {/* Part B - Multiple Signatures Workflow - Exact IVC Replica */}
           <section className="space-y-12 bg-slate-900 p-10 rounded-[3rem] shadow-2xl">
-            <h3 className="text-center text-white font-black uppercase tracking-[0.5em] text-xl mb-12">Final Declarations & Signatures</h3>
+            <h3 className="text-center text-white font-black uppercase tracking-[0.5em] text-xl mb-12">{i18n.t("Final Declarations & Signatures")}</h3>
             
             <div className="grid grid-cols-1 gap-8">
               {/* Clinician Signature */}
               <div className="bg-white rounded-3xl p-6 shadow-xl border-t-8 border-brand-active relative flex flex-col h-full">
                 <PartWarning fields={["clinician_signature", "doctor_name", "clinician_confirm"]} />
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-8 h-8 bg-brand-active/10 rounded-lg flex items-center justify-center text-brand-primary font-black">J</div>
-                  <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px]">Declaration of Clinician</h4>
+                  <div className="w-8 h-8 bg-brand-active/10 rounded-lg flex items-center justify-center text-brand-primary font-black">{i18n.t("J")}</div>
+                  <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px]">{i18n.t("Declaration of Clinician")}</h4>
                 </div>
                 <div className="space-y-4 mb-6">
                   <label className="flex items-start gap-3 p-3 bg-brand-active/5 rounded-xl cursor-pointer">
@@ -663,7 +658,7 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
                       disabled={readOnly}
                       className="mt-1 w-5 h-5 text-brand-primary rounded"
                     />
-                    <span className="text-[10px] font-bold text-brand-primary">I confirm that I have explained the nature, purpose, benefits and risks.</span>
+                    <span className="text-[10px] font-bold text-brand-primary">{i18n.t("I confirm that I have explained the nature, purpose, benefits and risks.")}</span>
                   </label>
                 </div>
                 <div className="space-y-2 flex-grow flex flex-col">
@@ -672,8 +667,8 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
                   </div>
                   <div className="mt-4 space-y-3">
                      <div className="space-y-1">
-                        <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">Clinician Name *</p>
-                        <input type="text" placeholder="Enter Clinician Name" value={formData.doctor_name} onChange={(e) => handleInputChange("doctor_name", e.target.value)} readOnly={readOnly} className={`w-full border border-slate-200 rounded-lg py-2 px-3 text-xs font-bold text-center outline-none transition-all placeholder:text-slate-300 ${readOnly ? "bg-slate-100" : "bg-slate-50 focus:border-brand-active focus:ring-2 focus:ring-brand-active/20"}`} />
+                        <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">{i18n.t("Clinician Name *")}</p>
+                        <input type="text" placeholder={i18n.t("Enter Clinician Name")} value={formData.doctor_name} onChange={(e) => handleInputChange("doctor_name", e.target.value)} readOnly={readOnly} className={`w-full border border-slate-200 rounded-lg py-2 px-3 text-xs font-bold text-center outline-none transition-all placeholder:text-slate-300 ${readOnly ? "bg-slate-100" : "bg-slate-50 focus:border-brand-active focus:ring-2 focus:ring-brand-active/20"}`} />
                      </div>
                      <div className="flex justify-center">
                         <div className="relative">
@@ -688,8 +683,8 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
               <div className="bg-white rounded-3xl p-6 shadow-xl border-t-8 border-emerald-500 relative flex flex-col h-full">
                 <PartWarning fields={["patient_signature", "patient_name", "patient_confirm"]} />
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-600 font-black">K</div>
-                  <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px]">Patient Consent</h4>
+                  <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-600 font-black">{i18n.t("K")}</div>
+                  <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px]">{i18n.t("Patient Consent")}</h4>
                 </div>
                 <div className="space-y-4 mb-6">
                   <label className="flex items-start gap-3 p-3 bg-emerald-50 rounded-xl cursor-pointer">
@@ -700,7 +695,7 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
                       disabled={readOnly}
                       className="mt-1 w-5 h-5 text-emerald-600 rounded"
                     />
-                    <span className="text-[10px] font-bold text-emerald-900">I give my informed consent to proceed with the procedure.</span>
+                    <span className="text-[10px] font-bold text-emerald-900">{i18n.t("I give my informed consent to proceed with the procedure.")}</span>
                   </label>
                 </div>
                 <div className="space-y-2 flex-grow flex flex-col">
@@ -709,8 +704,8 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
                   </div>
                   <div className="mt-4 space-y-3">
                      <div className="space-y-1">
-                        <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">Patient Name (Print) *</p>
-                        <input type="text" placeholder="Enter Patient Name" value={formData.patient_name} onChange={(e) => handleInputChange("patient_name", e.target.value)} readOnly={readOnly} className={`w-full border border-slate-200 rounded-lg py-2 px-3 text-xs font-bold text-center outline-none transition-all placeholder:text-slate-300 ${readOnly ? "bg-slate-100" : "bg-slate-50 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"}`} />
+                        <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">{i18n.t("Patient Name (Print) *")}</p>
+                        <input type="text" placeholder={i18n.t("Enter Patient Name")} value={formData.patient_name} onChange={(e) => handleInputChange("patient_name", e.target.value)} readOnly={readOnly} className={`w-full border border-slate-200 rounded-lg py-2 px-3 text-xs font-bold text-center outline-none transition-all placeholder:text-slate-300 ${readOnly ? "bg-slate-100" : "bg-slate-50 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"}`} />
                      </div>
                      <div className="flex justify-center">
                         <div className="relative">
@@ -725,12 +720,12 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
               <div className="bg-white rounded-3xl p-6 shadow-xl border-t-8 border-purple-500 relative flex flex-col h-full">
                 <PartWarning fields={["nurse_signature", "nurse_name"]} />
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 font-black">N</div>
-                  <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px]">Nurse Verification</h4>
+                  <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 font-black">{i18n.t("N")}</div>
+                  <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px]">{i18n.t("Nurse Verification")}</h4>
                 </div>
                 <div className="space-y-4 mb-6">
                   <div className="p-3 bg-purple-50 rounded-xl">
-                    <p className="text-[10px] font-bold text-purple-900">I verify that the patient identity has been confirmed and the consent has been signed in my presence.</p>
+                    <p className="text-[10px] font-bold text-purple-900">{i18n.t("I verify that the patient identity has been confirmed and the consent has been signed in my presence.")}</p>
                   </div>
                 </div>
                 <div className="space-y-2 flex-grow flex flex-col">
@@ -739,8 +734,8 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
                   </div>
                   <div className="mt-4 space-y-3">
                      <div className="space-y-1">
-                        <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">Nurse Name *</p>
-                        <input type="text" placeholder="Enter Nurse Name" value={formData.nurse_name} onChange={(e) => handleInputChange("nurse_name", e.target.value)} readOnly={readOnly} className={`w-full border border-slate-200 rounded-lg py-2 px-3 text-xs font-bold text-center outline-none transition-all placeholder:text-slate-300 ${readOnly ? "bg-slate-100" : "bg-slate-50 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"}`} />
+                        <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">{i18n.t("Nurse Name *")}</p>
+                        <input type="text" placeholder={i18n.t("Enter Nurse Name")} value={formData.nurse_name} onChange={(e) => handleInputChange("nurse_name", e.target.value)} readOnly={readOnly} className={`w-full border border-slate-200 rounded-lg py-2 px-3 text-xs font-bold text-center outline-none transition-all placeholder:text-slate-300 ${readOnly ? "bg-slate-100" : "bg-slate-50 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"}`} />
                      </div>
                      <div className="flex justify-center">
                         <div className="relative">
@@ -755,27 +750,27 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
 
           {/* Part M - Consent on Behalf of Patient */}
           <section>
-            <div className="bg-brand-primary text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ml-4">Part M — Consent on Behalf of Patient</div>
+            <div className="bg-brand-primary text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part M — Consent on Behalf of Patient")}</div>
             <div className="border-4 border-slate-900 rounded-3xl p-8 grid grid-cols-1 md:grid-cols-2 gap-8 shadow-inner bg-slate-50 relative">
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Representative Name</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Representative Name")}</label>
                 <input type="text" value={formData.representative_name} onChange={(e) => handleInputChange("representative_name", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Relationship</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Relationship")}</label>
                 <input type="text" value={formData.relationship} onChange={(e) => handleInputChange("relationship", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`} />
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Legal Basis</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Legal Basis")}</label>
                 <select value={formData.legal_basis} onChange={(e) => handleInputChange("legal_basis", e.target.value)} disabled={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active"}`}>
-                  <option value="">Select...</option>
-                  <option value="Next of Kin">Next of Kin</option>
-                  <option value="Court-appointed Guardian">Court-appointed Guardian</option>
-                  <option value="Power of Attorney">Power of Attorney</option>
+                  <option value="">{i18n.t("Select...")}</option>
+                  <option value="Next of Kin">{i18n.t("Next of Kin")}</option>
+                  <option value="Court-appointed Guardian">{i18n.t("Court-appointed Guardian")}</option>
+                  <option value="Power of Attorney">{i18n.t("Power of Attorney")}</option>
                 </select>
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Representative Signature</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Representative Signature")}</label>
                 <div className="h-32 border-2 border-dashed border-slate-300 rounded-xl bg-white overflow-hidden">
                   {renderSignatureBox("representative_signature", "Representative Signature")}
                 </div>
@@ -785,20 +780,20 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
 
           {/* Part N - Withdrawal of Consent */}
           <section>
-            <div className="bg-red-600 text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ml-4">Part N — Withdrawal of Consent</div>
+            <div className="bg-red-600 text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part N — Withdrawal of Consent")}</div>
             <div className="border-4 border-red-200 rounded-3xl p-8 grid grid-cols-1 md:grid-cols-2 gap-8 shadow-inner bg-red-50 relative">
               <div className="space-y-2 md:col-span-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Withdrawal Reason</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Withdrawal Reason")}</label>
                 <textarea rows={2} value={formData.withdrawal_reason} onChange={(e) => handleInputChange("withdrawal_reason", e.target.value)} readOnly={readOnly} className={`w-full border-2 border-slate-200 rounded-xl px-4 py-3 font-bold text-slate-800 transition-all outline-none resize-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-red-500"}`} />
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Patient / Representative Signature</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Patient / Representative Signature")}</label>
                 <div className="h-32 border-2 border-dashed border-slate-300 rounded-xl bg-white overflow-hidden">
                   {renderSignatureBox("withdrawal_signature", "Patient / Representative Signature")}
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Clinician Signature</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Clinician Signature")}</label>
                 <div className="h-32 border-2 border-dashed border-slate-300 rounded-xl bg-white overflow-hidden">
                   {renderSignatureBox("clinician_withdrawal_signature", "Clinician Signature")}
                 </div>
@@ -815,7 +810,7 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
             disabled={submitting}
             className="px-8 py-3 rounded-2xl font-black text-slate-500 hover:bg-slate-200 transition-all uppercase tracking-widest text-sm"
           >
-            {readOnly ? "Close" : "Discard Form"}
+            {readOnly ? i18n.t("Close") : i18n.t("Discard Form")}
           </button>
           <div className="flex gap-4">
             {!readOnly && (
@@ -826,7 +821,7 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
                   className="bg-amber-500 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-[0.1em] text-sm shadow-xl hover:bg-amber-600 transition-all flex items-center gap-2 disabled:opacity-50"
                 >
                   {submitting ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
-                  {submitting ? "Saving..." : "Save Draft"}
+                  {submitting ? i18n.t("Saving...") : i18n.t("Save Draft")}
                 </button>
 
                 <button 
@@ -839,7 +834,7 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
                   ) : (
                     <CheckCircle size={20} />
                   )}
-                  {submitting ? "Finalizing..." : "Submit & Print Consent"}
+                  {submitting ? i18n.t("Finalizing...") : i18n.t("Submit & Print Consent")}
                 </button>
               </>
             )}
@@ -848,8 +843,7 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
                 onClick={() => setIsPrintOpen(true)}
                 className="bg-brand-active text-white px-10 py-4 rounded-2xl font-black uppercase tracking-[0.2em] text-sm shadow-2xl transition-all flex items-center gap-3"
               >
-                <Printer size={20} /> View Full PDF
-              </button>
+                <Printer size={20} />{" "}{i18n.t("View Full PDF")}</button>
             )}
           </div>
         </div>
@@ -871,8 +865,8 @@ const GeneralConsentForm: React.FC<GeneralConsentFormProps> = ({
                 <Printer className="text-[#3B309A] animate-pulse" size={24} />
               </div>
             </div>
-            <h2 className="text-2xl font-black text-[#3B309A] tracking-tighter uppercase italic">Generating Document</h2>
-            <p className="text-slate-500 font-bold mt-2 animate-pulse">Preparing for print...</p>
+            <h2 className="text-2xl font-black text-[#3B309A] tracking-tighter uppercase italic">{i18n.t("Generating Document")}</h2>
+            <p className="text-slate-500 font-bold mt-2 animate-pulse">{i18n.t("Preparing for print...")}</p>
          </div>
       )}
     </>

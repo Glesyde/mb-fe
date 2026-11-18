@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { billingService } from '../services/billing.service';
 import { useNotification } from '../context/NotificationContext';
+import { i18n } from "../i18n";
 
 interface DiscountEntry {
   id: string;
@@ -130,30 +131,28 @@ const DiscountManager: React.FC = () => {
           <h1 className="text-3xl font-black text-slate-800 tracking-tight flex items-center gap-3">
              <div className="p-2 bg-indigo-50 text-indigo-600 rounded-xl">
               <Tag size={28} />
-            </div>
-            Discount & Waiver Registry
-          </h1>
-          <p className="text-slate-500 font-medium">Audit and authorize financial concessions on patient bills.</p>
+            </div>{i18n.t("Discount & Waiver Registry")}</h1>
+          <p className="text-slate-500 font-medium">{i18n.t("Audit and authorize financial concessions on patient bills.")}</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="bg-white p-6 rounded-[32px] border border-slate-200 shadow-sm flex flex-col justify-between">
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Pending Approvals</p>
+          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Pending Approvals")}</p>
           <p className="text-3xl font-black text-amber-500 mt-2">{filteredLogs.filter(l => l.status === 'PENDING').length}</p>
         </div>
         <div className="bg-white p-6 rounded-[32px] border border-slate-200 shadow-sm flex flex-col justify-between">
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Approved</p>
+          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Total Approved")}</p>
           <p className="text-3xl font-black text-emerald-500 mt-2">{filteredLogs.filter(l => l.status === 'APPROVED').length}</p>
         </div>
         <div className="bg-white p-6 rounded-[32px] border border-slate-200 shadow-sm flex flex-col justify-between">
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Amt Waived (₦)</p>
+          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Total Amt Waived (₦)")}</p>
           <p className="text-3xl font-black text-rose-500 mt-2">
             {filteredLogs.filter(l => l.status === 'APPROVED').reduce((acc, curr) => acc + curr.discountAmount, 0).toLocaleString()}
           </p>
         </div>
         <div className="bg-white p-6 rounded-[32px] border border-slate-200 shadow-sm flex flex-col justify-between">
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Avg Waiver %</p>
+          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Avg Waiver %")}</p>
           <p className="text-3xl font-black text-slate-800 mt-2">
             {filteredLogs.length > 0 
               ? (filteredLogs.reduce((acc, curr) => acc + (curr.originalAmount > 0 ? (curr.discountAmount / curr.originalAmount) : 0), 0) / filteredLogs.length * 100).toFixed(1) + "%" 
@@ -164,13 +163,13 @@ const DiscountManager: React.FC = () => {
 
       <div className="flex flex-col md:flex-row items-center gap-4 w-full">
          <div className="relative flex-1 w-full">
-             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+             <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
              <input 
                 type="text" 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search user, action or IP..."
-                className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-full outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition-all text-sm font-medium text-slate-700"
+                placeholder={i18n.t("Search user, action or IP...")}
+                className="w-full ps-10 pe-4 py-2.5 bg-white border border-slate-200 rounded-full outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition-all text-sm font-medium text-slate-700"
              />
          </div>
          <div className="flex items-center gap-2">
@@ -179,20 +178,20 @@ const DiscountManager: React.FC = () => {
                onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
                className="px-4 py-2.5 bg-white border border-slate-200 rounded-full outline-none font-bold text-slate-600 text-[11px] uppercase tracking-wider focus:border-indigo-500 transition-colors cursor-pointer"
              >
-               <option value="">All Actions</option>
-               <option value="PENDING">Pending</option>
-               <option value="APPROVED">Approved</option>
-               <option value="REJECTED">Rejected</option>
+               <option value="">{i18n.t("All Actions")}</option>
+               <option value="PENDING">{i18n.t("Pending")}</option>
+               <option value="APPROVED">{i18n.t("Approved")}</option>
+               <option value="REJECTED">{i18n.t("Rejected")}</option>
              </select>
              <select 
                value={filters.discount_type}
                onChange={(e) => setFilters(prev => ({ ...prev, discount_type: e.target.value }))}
                className="px-4 py-2.5 bg-white border border-slate-200 rounded-full outline-none font-bold text-slate-600 text-[11px] uppercase tracking-wider focus:border-indigo-500 transition-colors cursor-pointer"
              >
-               <option value="">All Types</option>
-               <option value="PERCENTAGE">Percentage</option>
-               <option value="FLAT">Flat</option>
-               <option value="WAIVER">Waiver</option>
+               <option value="">{i18n.t("All Types")}</option>
+               <option value="PERCENTAGE">{i18n.t("Percentage")}</option>
+               <option value="FLAT">{i18n.t("Flat")}</option>
+               <option value="WAIVER">{i18n.t("Waiver")}</option>
              </select>
              <input 
                type="date"
@@ -205,17 +204,17 @@ const DiscountManager: React.FC = () => {
 
       <div className="bg-white border border-slate-200 rounded-[40px] shadow-sm overflow-hidden">
         <div className="p-8 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
-           <h3 className="text-lg font-black text-slate-800">Concession Authorization Log</h3>
+           <h3 className="text-lg font-black text-slate-800">{i18n.t("Concession Authorization Log")}</h3>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="w-full text-start">
             <thead>
               <tr className="bg-white border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                <th className="px-8 py-5">Patient & Invoice</th>
-                <th className="px-8 py-5">Reason / Justification</th>
-                <th className="px-8 py-5">Waiver Details</th>
-                <th className="px-8 py-5">Status</th>
-                <th className="px-8 py-5 text-right">Actions</th>
+                <th className="px-8 py-5">{i18n.t("Patient & Invoice")}</th>
+                <th className="px-8 py-5">{i18n.t("Reason / Justification")}</th>
+                <th className="px-8 py-5">{i18n.t("Waiver Details")}</th>
+                <th className="px-8 py-5">{i18n.t("Status")}</th>
+                <th className="px-8 py-5 text-end">{i18n.t("Actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -224,15 +223,13 @@ const DiscountManager: React.FC = () => {
                   <td colSpan={5} className="px-8 py-16 text-center">
                     <div className="flex flex-col items-center justify-center gap-4">
                       <Loader2 className="animate-spin text-indigo-500" size={32} />
-                      <p className="text-sm font-medium text-slate-400">Fetching records...</p>
+                      <p className="text-sm font-medium text-slate-400">{i18n.t("Fetching records...")}</p>
                     </div>
                   </td>
                 </tr>
               ) : filteredLogs.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-8 py-16 text-center text-slate-500 font-medium">
-                    No records found.
-                  </td>
+                  <td colSpan={5} className="px-8 py-16 text-center text-slate-500 font-medium">{i18n.t("No records found.")}</td>
                 </tr>
               ) : (
                 filteredLogs.map(log => (
@@ -243,20 +240,20 @@ const DiscountManager: React.FC = () => {
                   </td>
                   <td className="px-8 py-5">
                     <p className="text-xs font-medium text-slate-600 leading-relaxed max-w-xs">{log.reason}</p>
-                    <p className="text-[9px] text-slate-400 mt-1 uppercase font-bold flex items-center gap-1"><User size={10}/> Req by: {log.requestedBy}</p>
+                    <p className="text-[9px] text-slate-400 mt-1 uppercase font-bold flex items-center gap-1"><User size={10}/>{" "}{i18n.t("Req by:")}{" "}{log.requestedBy}</p>
                   </td>
                   <td className="px-8 py-5">
                     <p className="text-sm font-black text-rose-600">-₦{log.discountAmount.toLocaleString()}</p>
-                    <p className="text-[10px] text-slate-400 font-bold uppercase mt-1">From ₦{log.originalAmount.toLocaleString()}</p>
+                    <p className="text-[10px] text-slate-400 font-bold uppercase mt-1">{i18n.t("From ₦")}{log.originalAmount.toLocaleString()}</p>
                   </td>
                   <td className="px-8 py-5">
                     <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border
                       ${log.status === 'APPROVED' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : log.status === 'REJECTED' ? 'bg-red-50 text-red-600 border-red-100' : 'bg-amber-50 text-amber-600 border-amber-100'}
                     `}>
-                      {log.status}
+                      {i18n.tv(log.status)}
                     </span>
                   </td>
-                  <td className="px-8 py-5 text-right">
+                  <td className="px-8 py-5 text-end">
                     <div className="flex items-center justify-end gap-2">
                        {log.status === 'PENDING' && (
                          <>
@@ -265,17 +262,13 @@ const DiscountManager: React.FC = () => {
                             disabled={isApproving === log.id || isRejecting === log.id}
                             className="px-4 py-1.5 bg-indigo-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-700 shadow-md shadow-indigo-100 disabled:opacity-50 flex items-center gap-2"
                            >
-                             {isApproving === log.id && <Loader2 size={10} className="animate-spin" />}
-                             Authorize
-                           </button>
+                             {isApproving === log.id && <Loader2 size={10} className="animate-spin" />}{i18n.t("Authorize")}</button>
                            <button
                             onClick={() => setRejectModal(log)}
                             disabled={isApproving === log.id || isRejecting === log.id}
                             className="px-4 py-1.5 bg-white text-red-600 border border-red-200 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-50 disabled:opacity-50 flex items-center gap-2"
                            >
-                             {isRejecting === log.id ? <Loader2 size={10} className="animate-spin" /> : <XCircle size={10} />}
-                             Reject
-                           </button>
+                             {isRejecting === log.id ? <Loader2 size={10} className="animate-spin" /> : <XCircle size={10} />}{i18n.t("Reject")}</button>
                          </>
                        )}
                        <button onClick={() => setSelectedLog(log)} className="p-2 text-slate-300 hover:text-slate-600 transition-all"><MoreVertical size={18}/></button>
@@ -293,10 +286,8 @@ const DiscountManager: React.FC = () => {
             <ShieldAlert size={24} />
          </div>
          <div>
-            <h4 className="text-lg font-black text-amber-900 tracking-tight">Override Policy Alert</h4>
-            <p className="text-sm text-amber-700/80 leading-relaxed font-medium mt-1">
-              Discounts exceeding 15% of the total invoice value or absolute amounts over ₦20,000 are flagged for secondary review by the Chief Accountant or Hospital Director.
-            </p>
+            <h4 className="text-lg font-black text-amber-900 tracking-tight">{i18n.t("Override Policy Alert")}</h4>
+            <p className="text-sm text-amber-700/80 leading-relaxed font-medium mt-1">{i18n.t("Discounts exceeding 15% of the total invoice value or absolute amounts over ₦20,000 are flagged for secondary review by the Chief Accountant or Hospital Director.")}</p>
          </div>
       </div>
 
@@ -305,8 +296,8 @@ const DiscountManager: React.FC = () => {
           <div className="w-full max-w-2xl bg-slate-50 h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
             <div className="p-6 bg-white border-b border-slate-200 flex items-center justify-between">
                <div>
-                 <h2 className="text-2xl font-black text-slate-800">Discount Details</h2>
-                 <p className="text-sm text-slate-500 font-medium">Reference: {selectedLog.id} • {selectedLog.invoice}</p>
+                 <h2 className="text-2xl font-black text-slate-800">{i18n.t("Discount Details")}</h2>
+                 <p className="text-sm text-slate-500 font-medium">{i18n.t("Reference:")}{" "}{selectedLog.id} • {selectedLog.invoice}</p>
                </div>
                <button onClick={() => setSelectedLog(null)} className="p-2 bg-slate-100 text-slate-500 hover:text-slate-800 rounded-full transition-colors">
                  <X size={20} />
@@ -317,17 +308,17 @@ const DiscountManager: React.FC = () => {
                {/* Summary Cards */}
                <div className="grid grid-cols-2 gap-4">
                   <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Requested By</p>
-                    <p className="text-sm font-bold text-slate-800">{selectedLog.raw?.requested_by || selectedLog.raw?.created_by_name || 'System'}</p>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{i18n.t("Requested By")}</p>
+                    <p className="text-sm font-bold text-slate-800">{selectedLog.raw?.requested_by || selectedLog.raw?.created_by_name || i18n.t("System")}</p>
                     <p className="text-xs text-slate-500 mt-1">{selectedLog.raw?.created_at}</p>
                   </div>
                   <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Status</p>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{i18n.t("Status")}</p>
                     <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider ${selectedLog.status === 'APPROVED' ? 'bg-emerald-100 text-emerald-700' : selectedLog.status === 'REJECTED' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'}`}>
-                      {selectedLog.status}
+                      {i18n.tv(selectedLog.status)}
                     </span>
                     {selectedLog.raw?.approved_by && (
-                       <p className="text-xs text-slate-500 mt-1">by {selectedLog.raw.approved_by}</p>
+                       <p className="text-xs text-slate-500 mt-1">{i18n.t("by")}{" "}{selectedLog.raw.approved_by}</p>
                     )}
                   </div>
                </div>
@@ -336,23 +327,23 @@ const DiscountManager: React.FC = () => {
                <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
                  <div className="px-5 py-3 border-b border-slate-100 bg-slate-50/50 flex items-center gap-2">
                     <User size={16} className="text-slate-400" />
-                    <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider">Patient Information</h3>
+                    <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider">{i18n.t("Patient Information")}</h3>
                  </div>
                  <div className="p-5 grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-xs text-slate-500 font-medium">Name</p>
+                      <p className="text-xs text-slate-500 font-medium">{i18n.t("Name")}</p>
                       <p className="font-bold text-slate-800">{selectedLog.raw?.patient_name}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-slate-500 font-medium">MRN</p>
+                      <p className="text-xs text-slate-500 font-medium">{i18n.t("MRN")}</p>
                       <p className="font-bold text-slate-800">{selectedLog.raw?.mrn}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-slate-500 font-medium">Gender & DOB</p>
-                      <p className="font-bold text-slate-800">{selectedLog.raw?.gender} • {selectedLog.raw?.date_of_birth}</p>
+                      <p className="text-xs text-slate-500 font-medium">{i18n.t("Gender & DOB")}</p>
+                      <p className="font-bold text-slate-800">{i18n.tv(selectedLog.raw?.gender)} • {selectedLog.raw?.date_of_birth}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-slate-500 font-medium">Phone</p>
+                      <p className="text-xs text-slate-500 font-medium">{i18n.t("Phone")}</p>
                       <p className="font-bold text-slate-800">{selectedLog.raw?.phone}</p>
                     </div>
                  </div>
@@ -362,25 +353,25 @@ const DiscountManager: React.FC = () => {
                <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
                  <div className="px-5 py-3 border-b border-slate-100 bg-slate-50/50 flex items-center gap-2">
                     <CreditCard size={16} className="text-slate-400" />
-                    <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider">Invoice Details</h3>
+                    <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider">{i18n.t("Invoice Details")}</h3>
                  </div>
                  <div className="p-5">
                     <div className="flex justify-between items-center mb-4">
-                       <p className="text-xs text-slate-500 font-bold uppercase">Waiver Applied</p>
+                       <p className="text-xs text-slate-500 font-bold uppercase">{i18n.t("Waiver Applied")}</p>
                        <p className="text-lg font-black text-rose-600">-₦{Number(selectedLog.raw?.discount_amount).toLocaleString()}</p>
                     </div>
                     <div className="space-y-3">
                       <div className="flex justify-between text-sm">
-                         <span className="text-slate-500">Gross Total:</span>
+                         <span className="text-slate-500">{i18n.t("Gross Total:")}</span>
                          <span className="font-bold text-slate-800">₦{Number(selectedLog.raw?.invoice_gross).toLocaleString()}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                         <span className="text-slate-500">Net Total (After Discount):</span>
+                         <span className="text-slate-500">{i18n.t("Net Total (After Discount):")}</span>
                          <span className="font-bold text-slate-800">₦{Number(selectedLog.raw?.invoice_net).toLocaleString()}</span>
                       </div>
                       <div className="flex justify-between text-sm pt-3 border-t border-slate-100">
-                         <span className="text-slate-500 font-medium">Reason for Waiver:</span>
-                         <span className="font-bold text-slate-800 text-right max-w-[60%]">{selectedLog.raw?.reason}</span>
+                         <span className="text-slate-500 font-medium">{i18n.t("Reason for Waiver:")}</span>
+                         <span className="font-bold text-slate-800 text-end max-w-[60%]">{selectedLog.raw?.reason}</span>
                       </div>
                     </div>
                  </div>
@@ -390,19 +381,19 @@ const DiscountManager: React.FC = () => {
                {selectedLog.raw?.invoice_items?.lines?.length > 0 && (
                  <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
                    <div className="px-5 py-3 border-b border-slate-100 bg-slate-50/50">
-                      <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider">Line Items</h3>
+                      <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider">{i18n.t("Line Items")}</h3>
                    </div>
                    <div className="divide-y divide-slate-100">
                       {selectedLog.raw.invoice_items.lines.map((line: any, idx: number) => (
                         <div key={idx} className="p-4 flex justify-between items-center">
                            <div className="flex-1">
-                             <p className="text-sm font-bold text-slate-800">{line.description || line.service_code}</p>
-                             <p className="text-[10px] font-medium text-slate-400 mt-1 uppercase tracking-wider">{line.quantity} x ₦{Number(line.unit_price).toLocaleString()}</p>
+                             <p className="text-sm font-bold text-slate-800">{i18n.tx(line.description) || line.service_code}</p>
+                             <p className="text-[10px] font-medium text-slate-400 mt-1 uppercase tracking-wider">{line.quantity}{" "}{i18n.t("x ₦")}{Number(line.unit_price).toLocaleString()}</p>
                            </div>
-                           <div className="text-right">
+                           <div className="text-end">
                              <p className="text-sm font-black text-slate-800">₦{Number(line.line_total).toLocaleString()}</p>
                              {Number(line.item_discount_amount) > 0 && (
-                               <p className="text-xs text-rose-500 font-bold mt-0.5">-₦{Number(line.item_discount_amount).toLocaleString()} disc</p>
+                               <p className="text-xs text-rose-500 font-bold mt-0.5">-₦{Number(line.item_discount_amount).toLocaleString()}{" "}{i18n.t("disc")}</p>
                              )}
                            </div>
                         </div>
@@ -419,17 +410,13 @@ const DiscountManager: React.FC = () => {
                   disabled={isApproving === selectedLog.id || isRejecting === selectedLog.id}
                   className="flex-1 py-4 bg-indigo-600 text-white rounded-xl text-sm font-black uppercase tracking-widest hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200 disabled:opacity-50 flex items-center justify-center gap-2"
                 >
-                  {isApproving === selectedLog.id && <Loader2 size={16} className="animate-spin" />}
-                  Authorize Concession
-                </button>
+                  {isApproving === selectedLog.id && <Loader2 size={16} className="animate-spin" />}{i18n.t("Authorize Concession")}</button>
                 <button
                   onClick={() => setRejectModal(selectedLog)}
                   disabled={isApproving === selectedLog.id || isRejecting === selectedLog.id}
                   className="flex-1 py-4 bg-white text-red-600 border border-red-200 rounded-xl text-sm font-black uppercase tracking-widest hover:bg-red-50 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
                 >
-                  {isRejecting === selectedLog.id ? <Loader2 size={16} className="animate-spin" /> : <XCircle size={16} />}
-                  Reject
-                </button>
+                  {isRejecting === selectedLog.id ? <Loader2 size={16} className="animate-spin" /> : <XCircle size={16} />}{i18n.t("Reject")}</button>
               </div>
             )}
           </div>
@@ -442,9 +429,7 @@ const DiscountManager: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden">
             <div className="flex justify-between items-center p-4 border-b border-slate-200 bg-slate-50">
               <h3 className="font-black text-slate-800 text-sm flex items-center gap-2">
-                <AlertCircle className="text-amber-500" size={16} />
-                Reject Discount Request
-              </h3>
+                <AlertCircle className="text-amber-500" size={16} />{i18n.t("Reject Discount Request")}</h3>
               <button
                 onClick={() => setRejectModal(null)}
                 className="p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-200 rounded-lg transition-colors"
@@ -453,8 +438,7 @@ const DiscountManager: React.FC = () => {
               </button>
             </div>
             <div className="p-4 space-y-1">
-              <p className="text-sm text-slate-600">
-                This will reject the discount request for <span className="font-semibold text-slate-800">{rejectModal.invoice}</span>
+              <p className="text-sm text-slate-600">{i18n.t("This will reject the discount request for")}{" "}<span className="font-semibold text-slate-800">{rejectModal.invoice}</span>
                 {" "}(-₦{rejectModal.discountAmount.toLocaleString()}).
               </p>
             </div>
@@ -462,15 +446,13 @@ const DiscountManager: React.FC = () => {
               <button
                 onClick={() => setRejectModal(null)}
                 className="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl text-sm font-bold hover:bg-slate-300 transition-colors"
-              >
-                Cancel
-              </button>
+              >{i18n.t("Cancel")}</button>
               <button
                 onClick={() => handleReject(rejectModal.id)}
                 disabled={isRejecting === rejectModal.id}
                 className="px-4 py-2 bg-red-500 text-white rounded-xl text-sm font-black hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isRejecting === rejectModal.id ? "Rejecting..." : "Confirm Reject"}
+                {isRejecting === rejectModal.id ? i18n.t("Rejecting...") : i18n.t("Confirm Reject")}
               </button>
             </div>
           </div>

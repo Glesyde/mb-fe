@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Scissors, Search, FileText, Plus, Clock, User, ChevronRight, Save, History } from 'lucide-react';
+import { i18n } from "../i18n";
 
 interface ProcedureLog {
   id: string;
@@ -26,19 +27,18 @@ const ProcedureNotes: React.FC = () => {
         <div className="bg-white border border-slate-200 rounded-[40px] p-8 shadow-sm flex flex-col h-full">
           <div className="flex items-center justify-between mb-8">
             <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-              <History size={16} className="text-rose-600" /> Operative Logs
-            </h3>
+              <History size={16} className="text-rose-600" />{" "}{i18n.t("Operative Logs")}</h3>
             <button className="p-2 bg-rose-50 text-rose-600 rounded-xl hover:bg-rose-100 transition-all">
               <Plus size={18} />
             </button>
           </div>
 
           <div className="relative mb-6">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input 
               type="text" 
-              placeholder="Search by MRN or Procedure..."
-              className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold outline-none focus:bg-white transition-all"
+              placeholder={i18n.t("Search by MRN or Procedure...")}
+              className="w-full ps-11 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold outline-none focus:bg-white transition-all"
             />
           </div>
 
@@ -58,7 +58,7 @@ const ProcedureNotes: React.FC = () => {
                   </div>
                   <span className={`text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-lg border 
                     ${note.status === 'Finalized' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-amber-50 text-amber-600 border-amber-100'}`}>
-                    {note.status}
+                    {i18n.tv(note.status)}
                   </span>
                 </div>
               </div>
@@ -76,7 +76,7 @@ const ProcedureNotes: React.FC = () => {
                   <FileText size={24} />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-black text-slate-800 tracking-tight">{activeLog.procedure} Note</h2>
+                  <h2 className="text-2xl font-black text-slate-800 tracking-tight">{activeLog.procedure}{" "}{i18n.t("Note")}</h2>
                   <p className="text-sm text-slate-500 font-bold uppercase tracking-widest mt-1">{activeLog.patientName} • {activeLog.mrn}</p>
                 </div>
               </div>
@@ -84,28 +84,27 @@ const ProcedureNotes: React.FC = () => {
             <div className="p-10 space-y-8">
               <div className="grid grid-cols-2 gap-8">
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Surgeon(s) On Duty</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Surgeon(s) On Duty")}</label>
                   <input type="text" defaultValue={activeLog.surgeon} className="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold" />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Procedural Findings</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Procedural Findings")}</label>
                   <select className="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold">
-                    <option>Normal / Unremarkable</option>
-                    <option>Complications Encountered</option>
-                    <option>Revision Required</option>
+                    <option>{i18n.t("Normal / Unremarkable")}</option>
+                    <option>{i18n.t("Complications Encountered")}</option>
+                    <option>{i18n.t("Revision Required")}</option>
                   </select>
                 </div>
               </div>
               <div className="space-y-1.5">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Detailed Operative Findings</label>
-                <textarea rows={8} className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-[32px] text-sm font-medium outline-none focus:bg-white focus:border-rose-500 transition-all resize-none" placeholder="Enter surgical detail..." />
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Detailed Operative Findings")}</label>
+                <textarea rows={8} className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-[32px] text-sm font-medium outline-none focus:bg-white focus:border-rose-500 transition-all resize-none" placeholder={i18n.t("Enter surgical detail...")} />
               </div>
             </div>
             <div className="p-10 bg-slate-50 border-t border-slate-100 flex justify-end gap-3">
-              <button className="px-8 py-3 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-slate-800">Draft Copy</button>
+              <button className="px-8 py-3 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-slate-800">{i18n.t("Draft Copy")}</button>
               <button className="bg-rose-600 text-white px-10 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-rose-700 transition-all shadow-lg shadow-rose-200">
-                <Save size={18} /> Finalize Note
-              </button>
+                <Save size={18} />{" "}{i18n.t("Finalize Note")}</button>
             </div>
           </div>
         ) : (
@@ -113,10 +112,8 @@ const ProcedureNotes: React.FC = () => {
             <div className="w-24 h-24 bg-slate-50 text-slate-300 rounded-[40px] flex items-center justify-center mb-8">
               <Scissors size={48} />
             </div>
-            <h3 className="text-2xl font-black text-slate-800 tracking-tight">Technical Documentation</h3>
-            <p className="text-slate-500 max-w-sm mx-auto mt-2 font-medium leading-relaxed">
-              Select a procedure from the logs or start a new clinical entry for a patient.
-            </p>
+            <h3 className="text-2xl font-black text-slate-800 tracking-tight">{i18n.t("Technical Documentation")}</h3>
+            <p className="text-slate-500 max-w-sm mx-auto mt-2 font-medium leading-relaxed">{i18n.t("Select a procedure from the logs or start a new clinical entry for a patient.")}</p>
           </div>
         )}
       </div>

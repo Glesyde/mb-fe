@@ -11,6 +11,7 @@ import {
   Pagination,
   KpiCard,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const DiscountReport: React.FC = () => {
   const [records, setRecords] = useState<any[]>([]);
@@ -74,8 +75,8 @@ const DiscountReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Discount Audit Report"
-      subtitle="Track discounts granted on invoices and identify revenue leakage."
+      title={i18n.t("Discount Audit Report")}
+      subtitle={i18n.t("Track discounts granted on invoices and identify revenue leakage.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.report_period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -90,14 +91,14 @@ const DiscountReport: React.FC = () => {
       filters={
         <>
           <div className="relative lg:col-span-2">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input
               type="text"
-              placeholder="Search patient, MRN, invoice #..."
+              placeholder={i18n.t("Search patient, MRN, invoice #...")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               disabled={isLoading}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
+              className="w-full ps-10 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
             />
           </div>
           <TimeframeSelect value={timeframe} onChange={setTimeframe} disabled={isLoading} />
@@ -108,46 +109,46 @@ const DiscountReport: React.FC = () => {
       }
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <KpiCard icon={FileWarning} label="Total Discount Leakage" value={formatCurrency(summary?.total_discount_leakage)} colorClass="bg-red-50 border-red-100 text-red-900" />
-        <KpiCard icon={TrendingDown} label="Invoices Discounted" value={summary?.total_invoices_discounted ?? 0} colorClass="bg-amber-50 border-amber-100 text-amber-900" />
-        <KpiCard icon={Percent} label="Average Discount Rate" value={renderValue(summary?.average_discount_rate)} colorClass="bg-purple-50 border-purple-100 text-purple-900" />
+        <KpiCard icon={FileWarning} label={i18n.t("Total Discount Leakage")} value={formatCurrency(summary?.total_discount_leakage)} colorClass="bg-red-50 border-red-100 text-red-900" />
+        <KpiCard icon={TrendingDown} label={i18n.t("Invoices Discounted")} value={summary?.total_invoices_discounted ?? 0} colorClass="bg-amber-50 border-amber-100 text-amber-900" />
+        <KpiCard icon={Percent} label={i18n.t("Average Discount Rate")} value={renderValue(summary?.average_discount_rate)} colorClass="bg-purple-50 border-purple-100 text-purple-900" />
       </div>
 
       <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 flex-1 min-h-[300px] mt-6">
-        <table className="w-full text-left text-sm whitespace-nowrap">
+        <table className="w-full text-start text-sm whitespace-nowrap">
           <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
             <tr>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Invoice #</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Patient</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Gross</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Discount</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Net</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Discount %</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Authorized By</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Invoice #")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Patient")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Gross")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Discount")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Net")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Discount %")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Authorized By")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {currentItems.length > 0 ? (
               currentItems.map((row, i) => (
                 <tr key={`${row.invoice_number}-${i}`} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <div className="font-bold text-slate-800">{renderValue(row.invoice_number)}</div>
                     <div className="text-[11px] text-slate-400">{renderValue(row.invoice_date)}</div>
                   </td>
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <div className="font-semibold text-slate-700">{renderValue(row.patient_name)}</div>
-                    <div className="text-[11px] text-slate-400 font-mono">MRN: {renderValue(row.mrn)}</div>
+                    <div className="text-[11px] text-slate-400 font-mono">{i18n.t("MRN:")}{" "}{renderValue(row.mrn)}</div>
                   </td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{formatCurrency(row.gross_amount)}</td>
-                  <td className="px-4 py-3.5 text-red-600 font-bold border-r border-slate-50 text-right">{formatCurrency(row.discount_amount)}</td>
-                  <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50 text-right">{formatCurrency(row.net_amount)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.discount_percentage)}%</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{formatCurrency(row.gross_amount)}</td>
+                  <td className="px-4 py-3.5 text-red-600 font-bold border-e border-slate-50 text-end">{formatCurrency(row.discount_amount)}</td>
+                  <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50 text-end">{formatCurrency(row.net_amount)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.discount_percentage)}%</td>
                   <td className="px-4 py-3.5 text-slate-700">{renderValue(row.authorized_by)}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={7} className="px-4 py-12 text-center text-slate-400 italic">No discount records found.</td>
+                <td colSpan={7} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No discount records found.")}</td>
               </tr>
             )}
           </tbody>

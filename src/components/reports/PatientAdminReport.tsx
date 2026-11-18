@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { exportToCSV, exportToExcel, exportToPDF } from "../../utils/exportUtils";
 import apiClient from "../../api/client";
+import { i18n } from "../../i18n";
 
 const renderValue = (val: any) => {
   if (val === null || val === undefined || val === "") return "—";
@@ -178,8 +179,8 @@ const PatientAdminReport: React.FC = () => {
     <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 animate-in slide-in-from-bottom-4 duration-500 w-full overflow-hidden flex flex-col">
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
         <div>
-          <h2 className="text-xl font-bold text-slate-800">Patient Registry Report</h2>
-          <p className="text-sm text-slate-500">View and export all patient demographic data details.</p>
+          <h2 className="text-xl font-bold text-slate-800">{i18n.t("Patient Registry Report")}</h2>
+          <p className="text-sm text-slate-500">{i18n.t("View and export all patient demographic data details.")}</p>
         </div>
         
         <div className="flex items-center gap-3">
@@ -196,20 +197,20 @@ const PatientAdminReport: React.FC = () => {
             }}
             disabled={isLoading}
             className="flex items-center gap-2 px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 disabled:opacity-50 rounded-xl text-sm font-bold transition-colors"
-            title="Clear Filters"
+            title={i18n.t("Clear Filters")}
           >
             <FilterX size={18} />
-            <span className="hidden sm:inline">Clear</span>
+            <span className="hidden sm:inline">{i18n.t("Clear")}</span>
           </button>
           
           <button
             onClick={fetchReportData}
             disabled={isLoading}
             className="flex items-center gap-2 px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 disabled:opacity-50 rounded-xl text-sm font-bold transition-colors"
-            title="Refresh Data"
+            title={i18n.t("Refresh Data")}
           >
             <RefreshCw size={18} className={isLoading ? "animate-spin" : ""} />
-            <span className="hidden sm:inline">Refresh</span>
+            <span className="hidden sm:inline">{i18n.t("Refresh")}</span>
           </button>
 
           {/* Export Dropdown */}
@@ -219,40 +220,32 @@ const PatientAdminReport: React.FC = () => {
               disabled={isLoading || data.length === 0}
               className="flex items-center gap-2 px-5 py-2.5 bg-brand-primary text-white hover:bg-brand-primary/90 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl text-sm font-bold transition-all shadow-md shadow-brand-primary/20"
             >
-              <Download size={18} />
-              Export
-              <ChevronDown size={16} className={`transition-transform duration-200 ${isExportOpen ? "rotate-180" : ""}`} />
+              <Download size={18} />{i18n.t("Export")}<ChevronDown size={16} className={`transition-transform duration-200 ${isExportOpen ? "rotate-180" : ""}`} />
             </button>
 
           {isExportOpen && (
-            <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 py-2 animate-in fade-in zoom-in-95 duration-200">
+            <div className="absolute end-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 py-2 animate-in fade-in zoom-in-95 duration-200">
               <button 
                 onClick={handleExportCSV}
                 className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
               >
                 <div className="p-1.5 bg-slate-50 text-slate-600 rounded-lg">
                   <FileText size={16} />
-                </div>
-                Export as CSV
-              </button>
+                </div>{i18n.t("Export as CSV")}</button>
               <button 
                 onClick={handleExportExcel}
                 className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
               >
                 <div className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg">
                   <FileSpreadsheet size={16} />
-                </div>
-                Export as Excel
-              </button>
+                </div>{i18n.t("Export as Excel")}</button>
               <button 
                 onClick={handleExportPDF}
                 className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
               >
                 <div className="p-1.5 bg-red-50 text-red-600 rounded-lg">
                   <FilePdf size={16} />
-                </div>
-                Export as PDF
-              </button>
+                </div>{i18n.t("Export as PDF")}</button>
             </div>
           )}
         </div>
@@ -261,14 +254,14 @@ const PatientAdminReport: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
         <div className="relative lg:col-span-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+          <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
           <input
             type="text"
-            placeholder="Search by name or MRN..."
+            placeholder={i18n.t("Search by name or MRN...")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             disabled={isLoading}
-            className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
+            className="w-full ps-10 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
           />
         </div>
         <div>
@@ -278,37 +271,37 @@ const PatientAdminReport: React.FC = () => {
             disabled={isLoading}
             className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
           >
-            <option value="">All Time</option>
-            <option value="today">Today</option>
-            <option value="this_month">This Month</option>
-            <option value="this_year">This Year</option>
-            <option value="custom">Custom Date Range</option>
+            <option value="">{i18n.t("All Time")}</option>
+            <option value="today">{i18n.t("Today")}</option>
+            <option value="this_month">{i18n.t("This Month")}</option>
+            <option value="this_year">{i18n.t("This Year")}</option>
+            <option value="custom">{i18n.t("Custom Date Range")}</option>
           </select>
         </div>
 
         {timeframeFilter === "custom" && (
           <>
             <div className="relative">
-              <CalendarRange className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={16} />
+              <CalendarRange className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={16} />
               <input
                 type="date"
                 value={dateFrom}
                 onChange={(e) => setDateFrom(e.target.value)}
                 disabled={isLoading}
-                title="Date From"
-                className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
+                title={i18n.t("Date From")}
+                className="w-full ps-9 pe-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
               />
             </div>
             <div className="relative">
-              <CalendarRange className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={16} />
+              <CalendarRange className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={16} />
               <input
                 type="date"
                 value={dateTo}
                 onChange={(e) => setDateTo(e.target.value)}
                 disabled={isLoading}
                 min={dateFrom}
-                title="Date To"
-                className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
+                title={i18n.t("Date To")}
+                className="w-full ps-9 pe-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
               />
             </div>
           </>
@@ -321,9 +314,9 @@ const PatientAdminReport: React.FC = () => {
             disabled={isLoading}
             className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
           >
-            <option value="All">All Genders</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
+            <option value="All">{i18n.t("All Genders")}</option>
+            <option value="Male">{i18n.t("Male")}</option>
+            <option value="Female">{i18n.t("Female")}</option>
           </select>
         </div>
         
@@ -334,7 +327,7 @@ const PatientAdminReport: React.FC = () => {
             disabled={isLoading}
             className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
           >
-            <option value="">All Payers</option>
+            <option value="">{i18n.t("All Payers")}</option>
             {payers.map(p => (
               <option key={p.id} value={p.id}>{p.name}</option>
             ))}
@@ -348,7 +341,7 @@ const PatientAdminReport: React.FC = () => {
             disabled={isLoading}
             className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
           >
-            <option value="">All Staff</option>
+            <option value="">{i18n.t("All Staff")}</option>
             {users.map(u => (
               <option key={u.id} value={u.id}>{u.first_name} {u.last_name}</option>
             ))}
@@ -362,9 +355,9 @@ const PatientAdminReport: React.FC = () => {
             disabled={isLoading}
             className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
           >
-            <option value="">Deceased? (All)</option>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
+            <option value="">{i18n.t("Deceased? (All)")}</option>
+            <option value="1">{i18n.t("Yes")}</option>
+            <option value="0">{i18n.t("No")}</option>
           </select>
         </div>
       </div>
@@ -375,7 +368,7 @@ const PatientAdminReport: React.FC = () => {
             <Loader2 className="w-8 h-8 animate-spin text-brand-primary" />
           </div>
         ) : (
-          <table className="w-full text-left text-sm whitespace-nowrap">
+          <table className="w-full text-start text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
               <tr>
                 {headers.map(header => (
@@ -390,7 +383,7 @@ const PatientAdminReport: React.FC = () => {
                 currentItems.map((row) => (
                   <tr key={row.patient_id} className="hover:bg-slate-50/80 transition-colors">
                     {headers.map(header => (
-                      <td key={header} className="px-4 py-3.5 text-slate-700 border-r border-slate-50 last:border-r-0">
+                      <td key={header} className="px-4 py-3.5 text-slate-700 border-e border-slate-50 last:border-e-0">
                         {renderValue(row[header as keyof typeof row])}
                       </td>
                     ))}
@@ -398,9 +391,7 @@ const PatientAdminReport: React.FC = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={headers.length || 1} className="px-4 py-12 text-center text-slate-400 italic">
-                    No patient records found.
-                  </td>
+                  <td colSpan={headers.length || 1} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No patient records found.")}</td>
                 </tr>
               )}
             </tbody>
@@ -411,17 +402,15 @@ const PatientAdminReport: React.FC = () => {
       {/* Pagination Footer */}
       {!isLoading && data.length > 0 && (
         <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
-          <div className="text-sm text-slate-500 font-medium">
-            Showing <span className="text-slate-900 font-bold">{indexOfFirstItem + 1}</span> to{" "}
+          <div className="text-sm text-slate-500 font-medium">{i18n.t("Showing")}{" "}<span className="text-slate-900 font-bold">{indexOfFirstItem + 1}</span>{" "}{i18n.t("to")}{" "}
             <span className="text-slate-900 font-bold">
               {Math.min(indexOfLastItem, totalItems)}
-            </span> of{" "}
-            <span className="text-slate-900 font-bold">{totalItems}</span> records
-          </div>
+            </span>{" "}{i18n.t("of")}{" "}
+            <span className="text-slate-900 font-bold">{totalItems}</span>{" "}{i18n.t("records")}</div>
           
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1 mr-4">
-              <span className="text-xs text-slate-400 font-bold uppercase mr-2">Show</span>
+            <div className="flex items-center gap-1 me-4">
+              <span className="text-xs text-slate-400 font-bold uppercase me-2">{i18n.t("Show")}</span>
               <select 
                 value={itemsPerPage}
                 onChange={(e) => {
@@ -442,12 +431,12 @@ const PatientAdminReport: React.FC = () => {
                 disabled={currentPage === 1}
                 className="p-2 rounded-lg border border-slate-200 bg-white text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors shadow-sm"
               >
-                <ChevronLeft size={16} />
+                <ChevronLeft className="rtl:-scale-x-100" size={16} />
               </button>
               
               <div className="flex items-center gap-1 px-2">
                 <span className="text-sm font-bold text-slate-900">{currentPage}</span>
-                <span className="text-sm text-slate-400 mx-1">of</span>
+                <span className="text-sm text-slate-400 mx-1">{i18n.t("of")}</span>
                 <span className="text-sm font-bold text-slate-900">{totalPages || 1}</span>
               </div>
 
@@ -456,7 +445,7 @@ const PatientAdminReport: React.FC = () => {
                 disabled={currentPage === totalPages || totalPages === 0}
                 className="p-2 rounded-lg border border-slate-200 bg-white text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors shadow-sm"
               >
-                <ChevronRight size={16} />
+                <ChevronRight className="rtl:-scale-x-100" size={16} />
               </button>
             </div>
           </div>

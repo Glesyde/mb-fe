@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { nursingService } from "../services/nursing.service";
 import { useNotification } from "../context/NotificationContext";
+import { i18n } from "../i18n";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -376,7 +377,7 @@ const AdminForm: React.FC<{
   return (
     <div style={{ margin: "0 0 0", background: isGiven ? rc.bg : "#fef2f2", border: `1px solid ${isGiven ? rc.color : "#ef4444"}30`, borderRadius: "10px", padding: "14px 16px" }}>
       <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "14px", color: isGiven ? rc.color : "#dc2626", fontWeight: 800, fontSize: "14px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-        <Plus size={13} /> Record Administration — <span style={{ opacity: 0.85 }}>{rc.label}</span>
+        <Plus size={13} />{" "}{i18n.t("Record Administration —")}{" "}<span style={{ opacity: 0.85 }}>{i18n.tx(rc.label)}</span>
       </div>
 
       <div style={{ display: "flex", gap: "8px", marginBottom: "16px", flexWrap: "wrap" }}>
@@ -400,11 +401,11 @@ const AdminForm: React.FC<{
       <form onSubmit={handleSubmit}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "10px" }}>
           <div>
-            <label style={lbl}>Dose <span style={{ color: "#e11d48" }}>*</span></label>
-            <input type="text" value={dose} onChange={e => setDose(e.target.value)} style={inpSm(isGiven ? `${rc.color}60` : `#fca5a5`)} placeholder="e.g. 500mg" autoFocus />
+            <label style={lbl}>{i18n.t("Dose")}{" "}<span style={{ color: "#e11d48" }}>*</span></label>
+            <input type="text" value={dose} onChange={e => setDose(e.target.value)} style={inpSm(isGiven ? `${rc.color}60` : `#fca5a5`)} placeholder={i18n.t("e.g. 500mg")} autoFocus />
           </div>
           <div>
-            <label style={lbl}>Event Time <span style={{ color: "#e11d48" }}>*</span></label>
+            <label style={lbl}>{i18n.t("Event Time")}{" "}<span style={{ color: "#e11d48" }}>*</span></label>
             <input type="datetime-local" value={administeredAt} onChange={e => setAdministeredAt(e.target.value)} style={inpSm(isGiven ? `${rc.color}60` : `#fca5a5`)} />
           </div>
         </div>
@@ -413,14 +414,14 @@ const AdminForm: React.FC<{
           <div style={{ display: "grid", gridTemplateColumns: rc.showVolume && rc.showDiluent ? "1fr 1fr" : "1fr", gap: "10px", marginBottom: "10px" }}>
             {rc.showVolume && (
               <div>
-                <label style={lbl}>Volume (ml)</label>
-                <input type="number" step="any" min="0" value={volumeMl} onChange={e => setVolumeMl(e.target.value)} style={inpSm(`${rc.color}60`)} placeholder="e.g. 100" />
+                <label style={lbl}>{i18n.t("Volume (ml)")}</label>
+                <input type="number" step="any" min="0" value={volumeMl} onChange={e => setVolumeMl(e.target.value)} style={inpSm(`${rc.color}60`)} placeholder={i18n.t("e.g. 100")} />
               </div>
             )}
             {rc.showDiluent && (
               <div>
-                <label style={lbl}>Diluent</label>
-                <input type="text" value={diluent} onChange={e => setDiluent(e.target.value)} style={inpSm(`${rc.color}60`)} placeholder="e.g. Normal Saline" />
+                <label style={lbl}>{i18n.t("Diluent")}</label>
+                <input type="text" value={diluent} onChange={e => setDiluent(e.target.value)} style={inpSm(`${rc.color}60`)} placeholder={i18n.t("e.g. Normal Saline")} />
               </div>
             )}
           </div>
@@ -430,14 +431,14 @@ const AdminForm: React.FC<{
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "10px" }}>
             {rc.showRate && (
               <div>
-                <label style={lbl}>Rate (ml/hr)</label>
-                <input type="number" min="1" value={rateMlHr} onChange={e => setRateMlHr(e.target.value)} style={inpSm(`${rc.color}60`)} placeholder="e.g. 50" />
+                <label style={lbl}>{i18n.t("Rate (ml/hr)")}</label>
+                <input type="number" min="1" value={rateMlHr} onChange={e => setRateMlHr(e.target.value)} style={inpSm(`${rc.color}60`)} placeholder={i18n.t("e.g. 50")} />
               </div>
             )}
             {rc.showFlush && (
               <div>
-                <label style={lbl}>Flush (ml)</label>
-                <input type="number" min="0" value={flushMl} onChange={e => setFlushMl(e.target.value)} style={inpSm(`${rc.color}60`)} placeholder="e.g. 10" />
+                <label style={lbl}>{i18n.t("Flush (ml)")}</label>
+                <input type="number" min="0" value={flushMl} onChange={e => setFlushMl(e.target.value)} style={inpSm(`${rc.color}60`)} placeholder={i18n.t("e.g. 10")} />
               </div>
             )}
           </div>
@@ -447,14 +448,14 @@ const AdminForm: React.FC<{
           <div style={{ display: "grid", gridTemplateColumns: rc.showAccessSite && rc.showBatch ? "1fr 1fr" : "1fr", gap: "10px", marginBottom: "10px" }}>
             {rc.showAccessSite && (
               <div>
-                <label style={lbl}>Access Site</label>
-                <input type="text" value={accessSite} onChange={e => setAccessSite(e.target.value)} style={inpSm(`${rc.color}60`)} placeholder="e.g. Right forearm" />
+                <label style={lbl}>{i18n.t("Access Site")}</label>
+                <input type="text" value={accessSite} onChange={e => setAccessSite(e.target.value)} style={inpSm(`${rc.color}60`)} placeholder={i18n.t("e.g. Right forearm")} />
               </div>
             )}
             {rc.showBatch && (
               <div>
-                <label style={lbl}>Batch / Unit Number</label>
-                <input type="text" value={batchNumber} onChange={e => setBatchNumber(e.target.value)} style={inpSm(`${rc.color}60`)} placeholder="e.g. PRBC-20240524" />
+                <label style={lbl}>{i18n.t("Batch / Unit Number")}</label>
+                <input type="text" value={batchNumber} onChange={e => setBatchNumber(e.target.value)} style={inpSm(`${rc.color}60`)} placeholder={i18n.t("e.g. PRBC-20240524")} />
               </div>
             )}
           </div>
@@ -462,21 +463,20 @@ const AdminForm: React.FC<{
 
         {actionType === "wasted" && (
            <div style={{ marginBottom: "10px" }}>
-             <label style={lbl}>Witness Staff ID <span style={{ color: "#e11d48" }}>*</span></label>
-             <input type="text" value={witnessId} onChange={e => setWitnessId(e.target.value)} style={inpSm(`#fca5a5`)} placeholder="Enter Witness ID" />
+             <label style={lbl}>{i18n.t("Witness Staff ID")}{" "}<span style={{ color: "#e11d48" }}>*</span></label>
+             <input type="text" value={witnessId} onChange={e => setWitnessId(e.target.value)} style={inpSm(`#fca5a5`)} placeholder={i18n.t("Enter Witness ID")} />
            </div>
         )}
 
         <div style={{ marginBottom: "12px" }}>
-          <label style={lbl}>Remarks <span style={{ fontWeight: !isGiven ? 800 : 400, color: !isGiven ? "#e11d48" : "#aaa", textTransform: "none", letterSpacing: 0 }}>{!isGiven ? "* (Required)" : "(optional)"}</span></label>
-          <input type="text" value={remarks} onChange={e => setRemarks(e.target.value)} style={inpSm(isGiven ? `${rc.color}40` : `#fca5a5`)} placeholder={!isGiven ? "Enter reason..." : "e.g. Given slowly over 20 minutes"} />
+          <label style={lbl}>{i18n.t("Remarks")}{" "}<span style={{ fontWeight: !isGiven ? 800 : 400, color: !isGiven ? "#e11d48" : "#aaa", textTransform: "none", letterSpacing: 0 }}>{!isGiven ? i18n.t("* (Required)") : i18n.t("(optional)")}</span></label>
+          <input type="text" value={remarks} onChange={e => setRemarks(e.target.value)} style={inpSm(isGiven ? `${rc.color}40` : `#fca5a5`)} placeholder={!isGiven ? i18n.t("Enter reason...") : i18n.t("e.g. Given slowly over 20 minutes")} />
         </div>
 
         <div style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}>
-          <button type="button" style={secBtn} onClick={onCancel}>Cancel</button>
+          <button type="button" style={secBtn} onClick={onCancel}>{i18n.t("Cancel")}</button>
           <button type="submit" disabled={submitting} style={primBtn(isGiven ? rc.color : "#dc2626")}>
-            {submitting ? <Loader2 size={13} style={{ animation: "spin 1s linear infinite" }} /> : <CheckCircle2 size={13} />}
-            Confirm {actionType.charAt(0).toUpperCase() + actionType.slice(1)}
+            {submitting ? <Loader2 size={13} style={{ animation: "spin 1s linear infinite" }} /> : <CheckCircle2 size={13} />}{i18n.t("Confirm")}{" "}{actionType.charAt(0).toUpperCase() + actionType.slice(1)}
           </button>
         </div>
       </form>
@@ -517,16 +517,13 @@ const DueMedCard: React.FC<{
             <RouteBadge route={med.route} />
             
             {isPatientOwn ? (
-              <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", background: "#e0e7ff", color: "#3730a3", fontSize: "11px", fontWeight: 800, padding: "3px 8px", borderRadius: "20px", border: "1px solid #c7d2fe" }}>
-                📦 Patient's Own Stock (Home Med)
-              </span>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", background: "#e0e7ff", color: "#3730a3", fontSize: "11px", fontWeight: 800, padding: "3px 8px", borderRadius: "20px", border: "1px solid #c7d2fe" }}>{i18n.t("📦 Patient's Own Stock (Home Med)")}</span>
             ) : (
               <>
                 <StatusBadge status={med.due_status} size="xs" />
                 {!isDispensed && (
                   <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", background: "#fef9c3", color: "#854d0e", fontSize: "12px", fontWeight: 800, padding: "3px 8px", borderRadius: "20px", border: "1px solid #fde047" }}>
-                    <AlertTriangle size={9} /> Not Yet Dispensed
-                  </span>
+                    <AlertTriangle size={9} />{" "}{i18n.t("Not Yet Dispensed")}</span>
                 )}
               </>
             )}
@@ -543,7 +540,7 @@ const DueMedCard: React.FC<{
               background: isPatientOwn ? "transparent" : "#fef2f2",
               border: isPatientOwn ? "none" : "1px solid #fecaca"
             }}>
-              <span style={{ fontSize: "12px", color: "#991b1b", fontWeight: 800 }}>Dispense Status:</span>
+              <span style={{ fontSize: "12px", color: "#991b1b", fontWeight: 800 }}>{i18n.t("Dispense Status:")}</span>
               <StatusBadge status={isPatientOwn ? "PATIENT_OWN" : med.dispense_status} size="xs" />
             </div>
           </div>
@@ -562,13 +559,13 @@ const DueMedCard: React.FC<{
             ))}
             {med.prescribed_at && (
               <div>
-                <div style={{ fontSize: "12px", color: "#8a94ad", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px" }}>Prescribed On</div>
+                <div style={{ fontSize: "12px", color: "#8a94ad", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px" }}>{i18n.t("Prescribed On")}</div>
                 <div style={{ fontSize: "14px", fontWeight: 700, color: "#1c2b4a" }}>{fmtDt(med.prescribed_at)}</div>
               </div>
             )}
             {med.last_administered_at && (
               <div>
-                <div style={{ fontSize: "12px", color: "#8a94ad", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px" }}>Last Given</div>
+                <div style={{ fontSize: "12px", color: "#8a94ad", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px" }}>{i18n.t("Last Given")}</div>
                 <div style={{ fontSize: "14px", fontWeight: 700, color: "#1c2b4a" }}>{fmtDt(med.last_administered_at)}</div>
               </div>
             )}
@@ -593,16 +590,11 @@ const DueMedCard: React.FC<{
           }}
         >
           <CheckCircle2 size={12} />
-          {showForm ? "Cancel" : "Document"}
+          {showForm ? i18n.t("Cancel") : i18n.t("Document")}
         </button>
       </div>
 
-      <style>{`
-        @keyframes pulseAlert {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.4; transform: scale(0.98); }
-        }
-      `}</style>
+      <style>{"@keyframes pulseAlert { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.98); } }"}</style>
 
       {showForm && (
         <div style={{ padding: "0 14px 14px" }}>
@@ -642,7 +634,7 @@ const HistoryCard: React.FC<{ record: AdminHistory }> = ({ record }) => {
             {" · "}
             <Clock size={9} style={{ display: "inline", verticalAlign: "middle", marginRight: "2px" }} />
             {fmtDt(record.administered_at)}
-            {" · by "}<span style={{ fontWeight: 600, color: "#1c2b4a" }}>{record.administered_by_name}</span>
+            {i18n.t("· by")}<span style={{ fontWeight: 600, color: "#1c2b4a" }}>{record.administered_by_name}</span>
           </div>
         </div>
 
@@ -835,13 +827,12 @@ const MARPanel: React.FC<MARPanelProps> = ({ encounterNumber, onClose }) => {
             <ClipboardList size={16} color="#fff" />
           </div>
           <div>
-            <div style={{ fontWeight: 900, fontSize: "16px", color: "#fff", letterSpacing: "0.3px" }}>Medication Administration Record</div>
-            <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.7)", marginTop: "1px" }}>MAR · {encounterNumber}</div>
+            <div style={{ fontWeight: 900, fontSize: "16px", color: "#fff", letterSpacing: "0.3px" }}>{i18n.t("Medication Administration Record")}</div>
+            <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.7)", marginTop: "1px" }}>{i18n.t("MAR ·")}{" "}{encounterNumber}</div>
           </div>
           {dueMeds.length > 0 && (
             <span style={{ background: "rgba(255,255,255,0.2)", color: "#fff", fontSize: "13px", fontWeight: 800, padding: "3px 10px", borderRadius: "20px", marginLeft: "4px" }}>
-              {dueMeds.length} scheduled
-            </span>
+              {dueMeds.length}{" "}{i18n.t("scheduled")}</span>
           )}
         </div>
         {onClose && (
@@ -854,8 +845,7 @@ const MARPanel: React.FC<MARPanelProps> = ({ encounterNumber, onClose }) => {
       {/* ── Tabs ── */}
       <div style={{ display: "flex", borderBottom: "1px solid #e0e4ef", flexShrink: 0 }}>
         <button style={tabBtn("due")} onClick={() => setActiveTab("due")}>
-          <Pill size={13} /> Scheduled Medications
-          {!loadingDue && dueMeds.length > 0 && (
+          <Pill size={13} />{" "}{i18n.t("Scheduled Medications")}{!loadingDue && dueMeds.length > 0 && (
             <span style={{ background: TEAL, color: "#fff", borderRadius: "20px", fontSize: "12px", fontWeight: 900, padding: "1px 6px", marginLeft: "2px" }}>
               {dueMeds.length}
             </span>
@@ -863,8 +853,7 @@ const MARPanel: React.FC<MARPanelProps> = ({ encounterNumber, onClose }) => {
         </button>
         
         <button style={tabBtn("history")} onClick={() => setActiveTab("history")}>
-          <History size={13} /> Administration History
-          {!loadingHistory && history.length > 0 && (
+          <History size={13} />{" "}{i18n.t("Administration History")}{!loadingHistory && history.length > 0 && (
             <span style={{ background: "#6b7a9a", color: "#fff", borderRadius: "20px", fontSize: "12px", fontWeight: 900, padding: "1px 6px", marginLeft: "2px" }}>
               {history.length}
             </span>
@@ -872,11 +861,9 @@ const MARPanel: React.FC<MARPanelProps> = ({ encounterNumber, onClose }) => {
         </button>
         
         <button style={tabBtn("paperGrid")} onClick={() => setActiveTab("paperGrid")}>
-          <LayoutGrid size={13} /> Monthly MAR 
-        </button>
+          <LayoutGrid size={13} />{" "}{i18n.t("Monthly MAR")}</button>
         <button style={tabBtn("grid")} onClick={() => setActiveTab("grid")}>
-          <LayoutGrid size={13} /> Weekly Chart
-        </button>
+          <LayoutGrid size={13} />{" "}{i18n.t("Weekly Chart")}</button>
       </div>
 
       {/* ── Tab Body ── */}
@@ -887,14 +874,12 @@ const MARPanel: React.FC<MARPanelProps> = ({ encounterNumber, onClose }) => {
           <>
             {loadingDue ? (
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "48px 20px", gap: "8px", color: "#6b7a9a", fontSize: "16px" }}>
-                <Loader2 size={18} style={{ animation: "spin 1s linear infinite", color: TEAL }} />
-                Loading scheduled medications…
-              </div>
+                <Loader2 size={18} style={{ animation: "spin 1s linear infinite", color: TEAL }} />{i18n.t("Loading scheduled medications…")}</div>
             ) : dueMeds.length === 0 ? (
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "48px 20px", gap: "8px", color: "#6b7a9a" }}>
                 <CheckCircle2 size={32} color="#a7f3d0" />
-                <span style={{ fontSize: "16px", fontWeight: 700, color: "#0f766e" }}>No scheduled medications</span>
-                <span style={{ fontSize: "14px", color: "#8a94ad" }}>All scheduled medications have been administered or have expired.</span>
+                <span style={{ fontSize: "16px", fontWeight: 700, color: "#0f766e" }}>{i18n.t("No scheduled medications")}</span>
+                <span style={{ fontSize: "14px", color: "#8a94ad" }}>{i18n.t("All scheduled medications have been administered or have expired.")}</span>
               </div>
             ) : (
               dueMeds.map(med => (
@@ -914,20 +899,17 @@ const MARPanel: React.FC<MARPanelProps> = ({ encounterNumber, onClose }) => {
           <>
             {loadingHistory ? (
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "48px 20px", gap: "8px", color: "#6b7a9a", fontSize: "16px" }}>
-                <Loader2 size={18} style={{ animation: "spin 1s linear infinite", color: TEAL }} />
-                Loading history…
-              </div>
+                <Loader2 size={18} style={{ animation: "spin 1s linear infinite", color: TEAL }} />{i18n.t("Loading history…")}</div>
             ) : history.length === 0 ? (
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "48px 20px", gap: "8px", color: "#6b7a9a" }}>
                 <History size={32} color="#d1d5db" />
-                <span style={{ fontSize: "16px", fontWeight: 700 }}>No administration history</span>
-                <span style={{ fontSize: "14px", color: "#8a94ad" }}>Administered medications will appear here</span>
+                <span style={{ fontSize: "16px", fontWeight: 700 }}>{i18n.t("No administration history")}</span>
+                <span style={{ fontSize: "14px", color: "#8a94ad" }}>{i18n.t("Administered medications will appear here")}</span>
               </div>
             ) : (
               <>
                 <div style={{ fontSize: "13px", fontWeight: 700, color: "#8a94ad", textTransform: "uppercase", letterSpacing: "0.6px", padding: "0 2px 4px" }}>
-                  {history.length} record{history.length !== 1 ? "s" : ""} found
-                </div>
+                  {history.length}{" "}{i18n.t("record")}{history.length !== 1 ? i18n.t("s") : ""}{" "}{i18n.t("found")}</div>
                 {[...history]
                   .sort((a, b) => new Date(b.administered_at.replace(" ", "T")).getTime() - new Date(a.administered_at.replace(" ", "T")).getTime())
                   .map(record => (
@@ -944,13 +926,11 @@ const MARPanel: React.FC<MARPanelProps> = ({ encounterNumber, onClose }) => {
           <>
             {loadingWeeklyGrid ? (
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "48px 20px", gap: "8px", color: "#6b7a9a", fontSize: "16px" }}>
-                <Loader2 size={18} style={{ animation: "spin 1s linear infinite", color: TEAL }} />
-                Loading weekly chart…
-              </div>
+                <Loader2 size={18} style={{ animation: "spin 1s linear infinite", color: TEAL }} />{i18n.t("Loading weekly chart…")}</div>
             ) : weeklyRows.length === 0 ? (
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "48px 20px", gap: "8px", color: "#6b7a9a" }}>
                 <LayoutGrid size={32} color="#d1d5db" />
-                <span style={{ fontSize: "16px", fontWeight: 700 }}>No medications scheduled this week</span>
+                <span style={{ fontSize: "16px", fontWeight: 700 }}>{i18n.t("No medications scheduled this week")}</span>
               </div>
             ) : (
               <div style={{ overflowX: "auto", border: "1px solid #e0e4ef", borderRadius: "10px" }}>
@@ -963,9 +943,7 @@ const MARPanel: React.FC<MARPanelProps> = ({ encounterNumber, onClose }) => {
                         color: "#6b7a9a", textTransform: "uppercase", letterSpacing: "0.5px",
                         borderBottom: "1px solid #e0e4ef", borderRight: "1px solid #e0e4ef",
                         minWidth: "300px", width: "300px"
-                      }}>
-                        Medication Details
-                      </th>
+                      }}>{i18n.t("Medication Details")}</th>
                       {weeklyHeaders.map(h => (
                         <th key={h.date} style={{
                           padding: "10px 12px", fontSize: "13px", fontWeight: 800, color: "#6b7a9a",
@@ -994,19 +972,19 @@ const MARPanel: React.FC<MARPanelProps> = ({ encounterNumber, onClose }) => {
                             </div>
                             <div style={{ fontSize: "11px", color: "#475569", lineHeight: "1.6" }}>
                                 <div style={{display: "grid", gridTemplateColumns: "50px 1fr", gap: "2px"}}>
-                                  <strong style={{color: "#1e293b"}}>Dose:</strong> <span>{row.dosage}</span>
-                                  <strong style={{color: "#1e293b"}}>Freq:</strong> <span>{row.frequency}</span>
-                                  {row.duration && <><strong style={{color: "#1e293b"}}>Dur:</strong> <span>{row.duration} {row.duration_unit || "Days"}</span></>}
-                                  <strong style={{color: "#1e293b"}}>By:</strong> <span style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{row.prescribed_by}</span>
-                                  <strong style={{color: "#1e293b"}}>Date:</strong> <span>{fmtDt(row.start_date || "")}</span>
+                                  <strong style={{color: "#1e293b"}}>{i18n.t("Dose:")}</strong> <span>{row.dosage}</span>
+                                  <strong style={{color: "#1e293b"}}>{i18n.t("Freq:")}</strong> <span>{row.frequency}</span>
+                                  {row.duration && <><strong style={{color: "#1e293b"}}>{i18n.t("Dur:")}</strong> <span>{row.duration} {row.duration_unit || i18n.t("Days")}</span></>}
+                                  <strong style={{color: "#1e293b"}}>{i18n.t("By:")}</strong> <span style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{row.prescribed_by}</span>
+                                  <strong style={{color: "#1e293b"}}>{i18n.t("Date:")}</strong> <span>{fmtDt(row.start_date || "")}</span>
                                 </div>
 
-                                <b>Dispense status: </b>
+                                <b>{i18n.t("Dispense status:")}{" "}</b>
                                 <StatusBadge status={row.dispense_status} size="xs" />
                             </div>
                             {row.instructions && (
                                 <div style={{ marginTop: "8px", fontSize: "10px", color: "#64748b", fontStyle: "italic", background: "#f1f5f9", padding: "6px", borderRadius: "6px", border: "1px solid #e2e8f0" }}>
-                                  <span style={{fontWeight: 800, color: "#475569"}}>Sig:</span> {row.instructions}
+                                  <span style={{fontWeight: 800, color: "#475569"}}>{i18n.t("Sig:")}</span> {row.instructions}
                                 </div>
                             )}
                           </td>
@@ -1023,7 +1001,7 @@ const MARPanel: React.FC<MARPanelProps> = ({ encounterNumber, onClose }) => {
                                   cursor: "pointer"
                                 }}
                                 onClick={() => openNewDoseModal(row, h.date)}
-                                title="Click to document a new administration for this day"
+                                title={i18n.t("Click to document a new administration for this day")}
                               >
                                 {slots.length > 0 && slots.map((slot, i) => (
                                   <SlotChip
@@ -1055,33 +1033,31 @@ const MARPanel: React.FC<MARPanelProps> = ({ encounterNumber, onClose }) => {
             {/* Header controls for Monthly View */}
             <div style={{ marginBottom: "16px", border: "2px solid #1e293b", borderRadius: "8px", overflow: "hidden", flexShrink: 0 }}>
               <div style={{ background: "#f8fafc", padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "2px solid #1e293b" }}>
-                <h2 style={{ margin: 0, fontSize: "16px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "1px" }}>
-                  Personal Medication Administration Record (MAR)
-                </h2>
+                <h2 style={{ margin: 0, fontSize: "16px", fontWeight: 900, textTransform: "uppercase", letterSpacing: "1px" }}>{i18n.t("Personal Medication Administration Record (MAR)")}</h2>
                 <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                  <button onClick={handlePrevMonth} style={{ background: "none", border: "none", cursor: "pointer" }}><ChevronLeft size={20} /></button>
+                  <button onClick={handlePrevMonth} style={{ background: "none", border: "none", cursor: "pointer" }}><ChevronLeft className="rtl:-scale-x-100" size={20} /></button>
                   <span style={{ fontSize: "16px", fontWeight: 800, minWidth: "140px", textAlign: "center" }}>
                     {monthNames[currentMonth - 1]} {currentYear}
                   </span>
-                  <button onClick={handleNextMonth} style={{ background: "none", border: "none", cursor: "pointer" }}><ChevronRight size={20} /></button>
+                  <button onClick={handleNextMonth} style={{ background: "none", border: "none", cursor: "pointer" }}><ChevronRight className="rtl:-scale-x-100" size={20} /></button>
                 </div>
               </div>
               
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", fontSize: "12px", background: "#fff" }}>
                 <div style={{ padding: "8px", borderRight: "1px solid #cbd5e1", borderBottom: "1px solid #cbd5e1" }}>
-                  <strong>PATIENT NAME:</strong> {encounterNumber}
+                  <strong>{i18n.t("PATIENT NAME:")}</strong> {encounterNumber}
                 </div>
                 <div style={{ padding: "8px", borderRight: "1px solid #cbd5e1", borderBottom: "1px solid #cbd5e1" }}>
-                  <strong>D.O.B.:</strong> —
+                  <strong>{i18n.t("D.O.B.:")}</strong> —
                 </div>
                 <div style={{ padding: "8px", borderBottom: "1px solid #cbd5e1" }}>
-                  <strong>ADDRESS:</strong> —
+                  <strong>{i18n.t("ADDRESS:")}</strong> —
                 </div>
                 <div style={{ padding: "8px", borderRight: "1px solid #cbd5e1", gridColumn: "span 1" }}>
-                  <strong>GP NAME:</strong> —
+                  <strong>{i18n.t("GP NAME:")}</strong> —
                 </div>
                 <div style={{ padding: "8px", gridColumn: "span 2" }}>
-                  <strong>KNOWN ALLERGIES:</strong> <span style={{ color: "#ef4444", fontWeight: 800 }}>None Recorded</span>
+                  <strong>{i18n.t("KNOWN ALLERGIES:")}</strong> <span style={{ color: "#ef4444", fontWeight: 800 }}>{i18n.t("None Recorded")}</span>
                 </div>
               </div>
             </div>
@@ -1091,15 +1067,14 @@ const MARPanel: React.FC<MARPanelProps> = ({ encounterNumber, onClose }) => {
                 <Loader2 size={18} style={{ animation: "spin 1s linear infinite", color: TEAL }} />
               </div>
             ) : monthlyRows.length === 0 ? (
-              <div style={{ textAlign: "center", padding: "48px", color: "#6b7a9a", fontWeight: 700 }}>No medications scheduled this month</div>
+              <div style={{ textAlign: "center", padding: "48px", color: "#6b7a9a", fontWeight: 700 }}>{i18n.t("No medications scheduled this month")}</div>
             ) : (
               <div style={{ overflowX: "auto", border: "2px solid #1e293b", flex: 1, borderRadius: "6px" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed", minWidth: `${280 + (monthlyHeaders.length * 40)}px` }}>
                   <thead>
                     <tr>
-                      <th style={{ width: "280px", position: "sticky", left: 0, zIndex: 2, background: "#f8fafc", borderRight: "2px solid #1e293b", borderBottom: "2px solid #1e293b", padding: "12px", textAlign: "left", fontSize: "11px", textTransform: "uppercase" }}>
-                        Medication Details<br/>
-                        <span style={{ fontWeight: 400, color: "#64748b", textTransform: "none" }}>(Name, strength, route, frequency)</span>
+                      <th style={{ width: "280px", position: "sticky", left: 0, zIndex: 2, background: "#f8fafc", borderRight: "2px solid #1e293b", borderBottom: "2px solid #1e293b", padding: "12px", textAlign: "left", fontSize: "11px", textTransform: "uppercase" }}>{i18n.t("Medication Details")}<br/>
+                        <span style={{ fontWeight: 400, color: "#64748b", textTransform: "none" }}>{i18n.t("(Name, strength, route, frequency)")}</span>
                       </th>
                       {monthlyHeaders.map(h => (
                         <th key={h.date} style={{ 
@@ -1130,18 +1105,18 @@ const MARPanel: React.FC<MARPanelProps> = ({ encounterNumber, onClose }) => {
                             </div>
                             <div style={{ fontSize: "11px", color: "#475569", lineHeight: "1.6" }}>
                                 <div style={{display: "grid", gridTemplateColumns: "50px 1fr", gap: "2px"}}>
-                                  <strong style={{color: "#1e293b"}}>Dose:</strong> <span>{row.dosage}</span>
-                                  <strong style={{color: "#1e293b"}}>Freq:</strong> <span>{row.frequency}</span>
-                                  {row.duration && <><strong style={{color: "#1e293b"}}>Dur:</strong> <span>{row.duration} {row.duration_unit || "Days"}</span></>}
-                                  <strong style={{color: "#1e293b"}}>By:</strong> <span style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{row.prescribed_by}</span>
-                                  <strong style={{color: "#1e293b"}}>Date:</strong> <span>{fmtDt(row.start_date || "")}</span>
+                                  <strong style={{color: "#1e293b"}}>{i18n.t("Dose:")}</strong> <span>{row.dosage}</span>
+                                  <strong style={{color: "#1e293b"}}>{i18n.t("Freq:")}</strong> <span>{row.frequency}</span>
+                                  {row.duration && <><strong style={{color: "#1e293b"}}>{i18n.t("Dur:")}</strong> <span>{row.duration} {row.duration_unit || i18n.t("Days")}</span></>}
+                                  <strong style={{color: "#1e293b"}}>{i18n.t("By:")}</strong> <span style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{row.prescribed_by}</span>
+                                  <strong style={{color: "#1e293b"}}>{i18n.t("Date:")}</strong> <span>{fmtDt(row.start_date || "")}</span>
                                 </div>
-                                <b>Dispense status: </b>
+                                <b>{i18n.t("Dispense status:")}{" "}</b>
                                 <StatusBadge status={row.dispense_status} size="xs" />
                             </div>
                             {row.instructions && (
                                 <div style={{ marginTop: "8px", fontSize: "10px", color: "#64748b", fontStyle: "italic", background: "#f8fafc", padding: "6px", borderRadius: "6px", border: "1px solid #e2e8f0" }}>
-                                  <span style={{fontWeight: 800, color: "#475569"}}>Sig:</span> {row.instructions}
+                                  <span style={{fontWeight: 800, color: "#475569"}}>{i18n.t("Sig:")}</span> {row.instructions}
                                 </div>
                             )}
                           </td>
@@ -1159,7 +1134,7 @@ const MARPanel: React.FC<MARPanelProps> = ({ encounterNumber, onClose }) => {
                                   cursor: "pointer"
                                 }}
                                 onClick={() => openNewDoseModal(row, h.date)}
-                                title="Click to document a new administration for this day"
+                                title={i18n.t("Click to document a new administration for this day")}
                               >
                                 {slots.length > 0 && slots.map((slot, i) => (
                                   <CompactSlotChip
@@ -1239,8 +1214,7 @@ const MARPanel: React.FC<MARPanelProps> = ({ encounterNumber, onClose }) => {
               <div style={{ background: rc.color, padding: "14px 18px", display: "flex", alignItems: "center", justifyContent: "space-between", color: "#fff" }}>
                 <div>
                   <div style={{ fontSize: "16px", fontWeight: 800 }}>{viewSlotDetail.row.drug_name}</div>
-                  <div style={{ fontSize: "13px", opacity: 0.85, marginTop: "2px" }}>
-                    Scheduled {viewSlotDetail.slot.scheduled_label} · {fmtDt(viewSlotDetail.date)}
+                  <div style={{ fontSize: "13px", opacity: 0.85, marginTop: "2px" }}>{i18n.t("Scheduled")}{" "}{viewSlotDetail.slot.scheduled_label} · {fmtDt(viewSlotDetail.date)}
                   </div>
                 </div>
                 <button onClick={() => setViewSlotDetail(null)} style={{ background: "rgba(255,255,255,0.15)", border: "none", borderRadius: "6px", width: "26px", height: "26px", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", cursor: "pointer" }}>
@@ -1271,10 +1245,8 @@ const MARPanel: React.FC<MARPanelProps> = ({ encounterNumber, onClose }) => {
                     ))}
                   </div>
                 ) : (
-                  <div style={{ fontSize: "14px", color: "#6b7a9a" }}>
-                    Recorded as <strong>{viewSlotDetail.slot.actual_label || viewSlotDetail.slot.status}</strong>.
-                    {" "}Full administration details aren't available for this entry.
-                  </div>
+                  <div style={{ fontSize: "14px", color: "#6b7a9a" }}>{i18n.t("Recorded as")}{" "}<strong>{viewSlotDetail.slot.actual_label || i18n.tv(viewSlotDetail.slot.status)}</strong>.
+                    {" "}{i18n.t("Full administration details aren't available for this entry.")}</div>
                 )}
 
                 {viewSlotDetail.slot.remarks && (
@@ -1284,7 +1256,7 @@ const MARPanel: React.FC<MARPanelProps> = ({ encounterNumber, onClose }) => {
                 )}
               </div>
               <div style={{ padding: "14px 18px", borderTop: "1px solid #eef1f7", display: "flex", justifyContent: "flex-end" }}>
-                <button onClick={() => setViewSlotDetail(null)} style={secBtn}>Close</button>
+                <button onClick={() => setViewSlotDetail(null)} style={secBtn}>{i18n.t("Close")}</button>
               </div>
             </div>
           </div>

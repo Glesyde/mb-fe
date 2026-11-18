@@ -1,6 +1,7 @@
 import React from "react";
 import { X, Activity, FileText } from "lucide-react";
 import { LabourSession } from "../../types/nursing.types";
+import { i18n } from "../../i18n";
 
 interface ObservationActionModalProps {
   session: LabourSession;
@@ -19,16 +20,13 @@ const ObservationActionModal: React.FC<ObservationActionModalProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between p-6 md:p-8 border-b border-slate-100">
           <div>
-            <h2 className="text-xl md:text-2xl font-black text-slate-800 tracking-tight">
-              Observation Actions
-            </h2>
+            <h2 className="text-xl md:text-2xl font-black text-slate-800 tracking-tight">{i18n.t("Observation Actions")}</h2>
             <div className="mt-2 flex items-center gap-3">
               <span className="px-2.5 py-1 bg-slate-100 text-slate-600 rounded-md text-[10px] font-black tracking-widest uppercase">
                 {session.patient_mrn || session.mrn}
               </span>
               <span className="text-sm font-bold text-slate-500 uppercase">
-                {session.patient_name} • {session.gestational_age_weeks} Weeks
-              </span>
+                {session.patient_name} • {session.gestational_age_weeks}{" "}{i18n.t("Weeks")}</span>
             </div>
           </div>
           <button
@@ -50,12 +48,8 @@ const ObservationActionModal: React.FC<ObservationActionModalProps> = ({
               <FileText className="w-8 h-8" />
             </div>
             <div>
-              <h3 className="font-black text-slate-800 text-lg mb-1">
-                Partogram Observation
-              </h3>
-              <p className="text-xs text-slate-500 font-medium">
-                Record cervical dilation, fetal descent, moulding, and liquor status.
-              </p>
+              <h3 className="font-black text-slate-800 text-lg mb-1">{i18n.t("Partogram Observation")}</h3>
+              <p className="text-xs text-slate-500 font-medium">{i18n.t("Record cervical dilation, fetal descent, moulding, and liquor status.")}</p>
             </div>
           </button>
 
@@ -68,12 +62,8 @@ const ObservationActionModal: React.FC<ObservationActionModalProps> = ({
               <Activity className="w-8 h-8" />
             </div>
             <div>
-              <h3 className="font-black text-slate-800 text-lg mb-1">
-                CTG Observation
-              </h3>
-              <p className="text-xs text-slate-500 font-medium">
-                Record continuous fetal heart rate monitoring and contractions.
-              </p>
+              <h3 className="font-black text-slate-800 text-lg mb-1">{i18n.t("CTG Observation")}</h3>
+              <p className="text-xs text-slate-500 font-medium">{i18n.t("Record continuous fetal heart rate monitoring and contractions.")}</p>
             </div>
           </button>
         </div>

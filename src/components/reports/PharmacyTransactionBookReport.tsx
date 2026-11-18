@@ -10,6 +10,7 @@ import {
   ReportShell,
   Pagination,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const PharmacyTransactionBookReport: React.FC = () => {
   const [records, setRecords] = useState<any[]>([]);
@@ -65,8 +66,8 @@ const PharmacyTransactionBookReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Pharmacy Transaction Book"
-      subtitle="Transactions and item movements across the pharmacy store."
+      title={i18n.t("Pharmacy Transaction Book")}
+      subtitle={i18n.t("Transactions and item movements across the pharmacy store.")}
       isLoading={isLoading}
       onClear={() => {
         setSearchTerm("");
@@ -80,14 +81,14 @@ const PharmacyTransactionBookReport: React.FC = () => {
       filters={
         <>
           <div className="relative lg:col-span-2">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input
               type="text"
-              placeholder="Search item, batch, handled by..."
+              placeholder={i18n.t("Search item, batch, handled by...")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               disabled={isLoading}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
+              className="w-full ps-10 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
             />
           </div>
           <TimeframeSelect value={timeframe} onChange={setTimeframe} disabled={isLoading} />
@@ -98,48 +99,48 @@ const PharmacyTransactionBookReport: React.FC = () => {
       }
     >
       <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 flex-1 min-h-[300px]">
-        <table className="w-full text-left text-sm whitespace-nowrap">
+        <table className="w-full text-start text-sm whitespace-nowrap">
           <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
             <tr>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Date</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Item</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Batch</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Movement</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Reference</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Source</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Destination</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Quantity</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Handled By</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Reason</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Date")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Item")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Batch")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Movement")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Reference")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Source")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Destination")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Quantity")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Handled By")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Reason")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {currentItems.length > 0 ? (
               currentItems.map((row, i) => (
                 <tr key={`${row.batch_number}-${i}`} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="px-4 py-3.5 text-slate-500 border-r border-slate-50">{renderValue(row.transaction_date)}</td>
-                  <td className="px-4 py-3.5 font-semibold text-slate-700 border-r border-slate-50">{renderValue(row.item_name)}</td>
-                  <td className="px-4 py-3.5 text-slate-500 font-mono text-xs border-r border-slate-50">{renderValue(row.batch_number)}</td>
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 text-slate-500 border-e border-slate-50">{renderValue(row.transaction_date)}</td>
+                  <td className="px-4 py-3.5 font-semibold text-slate-700 border-e border-slate-50">{renderValue(row.item_name)}</td>
+                  <td className="px-4 py-3.5 text-slate-500 font-mono text-xs border-e border-slate-50">{renderValue(row.batch_number)}</td>
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border uppercase tracking-wider ${row.movement_type === "OUT" ? "bg-red-50 text-red-600 border-red-100" : "bg-emerald-50 text-emerald-600 border-emerald-100"}`}>
                       {renderValue(row.movement_type)}
                     </span>
                   </td>
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border uppercase tracking-wider ${badgeClass(row.reference_type)}`}>
                       {renderValue(row.reference_type)}
                     </span>
                   </td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.source_location)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.destination_location)}</td>
-                  <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50 text-right">{renderValue(row.quantity)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.handled_by)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.source_location)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.destination_location)}</td>
+                  <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50 text-end">{renderValue(row.quantity)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.handled_by)}</td>
                   <td className="px-4 py-3.5 text-slate-500">{renderValue(row.reason)}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={10} className="px-4 py-12 text-center text-slate-400 italic">No transaction records found.</td>
+                <td colSpan={10} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No transaction records found.")}</td>
               </tr>
             )}
           </tbody>

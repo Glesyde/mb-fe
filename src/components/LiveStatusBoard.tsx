@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { MonitorPlay, AlertTriangle, Wifi, Maximize, Tv2, Loader2 } from 'lucide-react';
 import { otService, OTRoom, OTRequest, OTSurgery } from '../services/ot.service';
 import OTBoardView from './OTBoardView';
+import { i18n } from "../i18n";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface CaseBlock {
@@ -105,11 +106,10 @@ const CaseBlockEl: React.FC<{ block: CaseBlock; rowHeight: number; onOpenBoard: 
           <span>{block.patientSex}</span>
           {block.allergy && (
             <span className="inline-flex items-center gap-0.5 bg-white/25 rounded px-1">
-              <AlertTriangle size={8} /> Allergy
-            </span>
+              <AlertTriangle size={8} />{" "}{i18n.t("Allergy")}</span>
           )}
           {block.delayed && (
-            <span className="ml-auto font-black tracking-wide bg-red-600 rounded px-1">DELAYED</span>
+            <span className="ms-auto font-black tracking-wide bg-red-600 rounded px-1">{i18n.t("DELAYED")}</span>
           )}
         </div>
 
@@ -130,7 +130,7 @@ const CaseBlockEl: React.FC<{ block: CaseBlock; rowHeight: number; onOpenBoard: 
           }}
         >
           <div className="flex items-center justify-between mb-3">
-            <h4 className="font-black text-slate-800 text-xs uppercase tracking-tight">Case Details</h4>
+            <h4 className="font-black text-slate-800 text-xs uppercase tracking-tight">{i18n.t("Case Details")}</h4>
             <button 
               onClick={(e) => { e.stopPropagation(); setIsExpanded(false); }}
               className="text-slate-400 hover:text-slate-600 text-lg"
@@ -139,23 +139,23 @@ const CaseBlockEl: React.FC<{ block: CaseBlock; rowHeight: number; onOpenBoard: 
 
           <div className="space-y-3">
             <div>
-              <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Procedure</div>
+              <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">{i18n.t("Procedure")}</div>
               <div className="text-xs font-bold text-slate-700">{block.procedure}</div>
             </div>
             
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Patient</div>
+                <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">{i18n.t("Patient")}</div>
                 <div className="text-xs font-bold text-slate-700">{block.patientCode} ({block.patientSex})</div>
               </div>
               <div>
-                <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Status</div>
+                <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">{i18n.t("Status")}</div>
                 <div className={`text-[10px] font-bold px-1.5 py-0.5 rounded inline-block text-white ${color}`}>{block.status.toUpperCase()}</div>
               </div>
             </div>
 
             <div>
-              <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Staff</div>
+              <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">{i18n.t("Staff")}</div>
               <div className="text-xs font-medium text-slate-600">{block.names}</div>
             </div>
 
@@ -163,13 +163,13 @@ const CaseBlockEl: React.FC<{ block: CaseBlock; rowHeight: number; onOpenBoard: 
               <div className="grid grid-cols-2 gap-3 border-t border-slate-100 pt-2">
                 {block.priority && (
                   <div>
-                    <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Priority</div>
-                    <div className="text-xs font-black text-rose-600">{block.priority}</div>
+                    <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">{i18n.t("Priority")}</div>
+                    <div className="text-xs font-black text-rose-600">{i18n.tv(block.priority)}</div>
                   </div>
                 )}
                 {block.anesthesia && (
                   <div>
-                    <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Anesthesia</div>
+                    <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">{i18n.t("Anesthesia")}</div>
                     <div className="text-xs text-slate-600">{block.anesthesia}</div>
                   </div>
                 )}
@@ -178,14 +178,14 @@ const CaseBlockEl: React.FC<{ block: CaseBlock; rowHeight: number; onOpenBoard: 
 
             {block.notes && (
               <div className="border-t border-slate-100 pt-2">
-                <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Notes</div>
+                <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">{i18n.t("Notes")}</div>
                 <div className="text-[10px] text-slate-500 italic leading-relaxed">{block.notes}</div>
               </div>
             )}
 
             <div className="border-t border-slate-100 pt-2 flex items-center justify-between text-[9px] font-bold text-slate-400">
               <span>{block.ward} · {block.room}</span>
-              <span>{block.duration} MINS</span>
+              <span>{block.duration}{" "}{i18n.t("MINS")}</span>
             </div>
 
             {/* Open OT Board Button */}
@@ -193,9 +193,7 @@ const CaseBlockEl: React.FC<{ block: CaseBlock; rowHeight: number; onOpenBoard: 
               onClick={(e) => { e.stopPropagation(); setIsExpanded(false); onOpenBoard(block); }}
               className="mt-3 w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-blue-700 text-white text-[11px] font-black uppercase tracking-widest py-2 rounded-lg transition-all border border-slate-700 hover:border-blue-600 active:scale-95"
             >
-              <Tv2 size={13} />
-              Open OT Board
-            </button>
+              <Tv2 size={13} />{i18n.t("Open OT Board")}</button>
           </div>
         </div>
       )}
@@ -420,19 +418,19 @@ const LiveStatusBoard: React.FC = () => {
       <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-slate-200 shrink-0">
         <div className="flex items-center gap-2">
           <MonitorPlay size={18} className="text-rose-600" />
-          <span className="font-black text-slate-800 text-sm tracking-tight">Live Theatre Status Board</span>
-          <span className="ml-2 w-2 h-2 rounded-full bg-green-500 animate-pulse inline-block" />
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Live</span>
+          <span className="font-black text-slate-800 text-sm tracking-tight">{i18n.t("Live Theatre Status Board")}</span>
+          <span className="ms-2 w-2 h-2 rounded-full bg-green-500 animate-pulse inline-block" />
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{i18n.t("Live")}</span>
         </div>
         <div className="flex items-center gap-4 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
           <button
             onClick={toggleFullscreen}
             className="flex items-center gap-1 hover:text-slate-600 transition-colors"
           >
-            <Maximize size={12} /> {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
+            <Maximize size={12} /> {isFullscreen ? i18n.t("Exit Fullscreen") : i18n.t("Fullscreen")}
           </button>
-          <span className="flex items-center gap-1"><Wifi size={11} className="text-green-500" /> Connected</span>
-          <span>Today · {new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+          <span className="flex items-center gap-1"><Wifi size={11} className="text-green-500" />{" "}{i18n.t("Connected")}</span>
+          <span>{i18n.t("Today ·")}{" "}{new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
         </div>
       </div>
 
@@ -467,7 +465,7 @@ const LiveStatusBoard: React.FC = () => {
         {loading ? (
           <div className="flex flex-col items-center justify-center flex-1 h-full min-h-[400px]">
             <Loader2 className="w-8 h-8 animate-spin text-brand-primary" />
-            <p className="mt-4 text-xs font-bold tracking-wider text-slate-500 uppercase">Loading Live Board...</p>
+            <p className="mt-4 text-xs font-bold tracking-wider text-slate-500 uppercase">{i18n.t("Loading Live Board...")}</p>
           </div>
         ) : (
           <div
@@ -483,7 +481,7 @@ const LiveStatusBoard: React.FC = () => {
           <div className="flex sticky top-0 z-30 bg-white border-b border-slate-200 shadow-sm shrink-0">
             {/* Corner spacer */}
             <div
-              className="shrink-0 border-r border-slate-200 bg-white"
+              className="shrink-0 border-e border-slate-200 bg-white"
               style={{ width: LABEL_W }}
             />
             {/* Hour labels */}
@@ -491,7 +489,7 @@ const LiveStatusBoard: React.FC = () => {
               {HOUR_LABELS.map((label, i) => (
                 <div
                   key={label}
-                  className="absolute top-0 bottom-0 flex items-center justify-start pl-1"
+                  className="absolute top-0 bottom-0 flex items-center justify-start ps-1"
                   style={{ left: i * 60 * PX_PER_MIN, width: 60 * PX_PER_MIN }}
                 >
                   <span className="text-[10px] font-black text-slate-400 tracking-wider">{label}</span>
@@ -510,11 +508,11 @@ const LiveStatusBoard: React.FC = () => {
             >
               {/* Left Label */}
               <div
-                className="shrink-0 border-r border-slate-200 flex flex-col items-center justify-center gap-1 bg-slate-50 sticky left-0 z-20"
+                className="shrink-0 border-e border-slate-200 flex flex-col items-center justify-center gap-1 bg-slate-50 sticky start-0 z-20"
                 style={{ width: LABEL_W }}
               >
                 <span className="text-xs font-black text-slate-700">{room.id}</span>
-                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{room.label}</span>
+                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{i18n.tx(room.label)}</span>
               </div>
 
               {/* Timeline Canvas */}
@@ -523,7 +521,7 @@ const LiveStatusBoard: React.FC = () => {
                 {HOUR_LABELS.map((_, i) => (
                   <div
                     key={i}
-                    className="absolute top-0 bottom-0 border-l border-slate-100"
+                    className="absolute top-0 bottom-0 border-s border-slate-100"
                     style={{ left: i * 60 * PX_PER_MIN }}
                   />
                 ))}
@@ -541,14 +539,14 @@ const LiveStatusBoard: React.FC = () => {
 
               {/* Right Room Tab (vertical label) */}
               <div
-                className={`shrink-0 ${room.color} flex items-center justify-center sticky right-0 z-20`}
+                className={`shrink-0 ${room.color} flex items-center justify-center sticky end-0 z-20`}
                 style={{ width: 24 }}
               >
                 <span
                   className="text-white text-[9px] font-black tracking-widest uppercase"
                   style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
                 >
-                  {room.label}
+                  {i18n.tx(room.label)}
                 </span>
               </div>
             </div>
@@ -562,9 +560,7 @@ const LiveStatusBoard: React.FC = () => {
             <div className="w-full h-full bg-red-500 opacity-80" />
             <div
               className="absolute -top-1 left-1/2 -translate-x-1/2 bg-red-500 text-white text-[8px] font-black px-1 rounded whitespace-nowrap"
-            >
-              NOW
-            </div>
+            >{i18n.t("NOW")}</div>
           </div>
 
         </div>
@@ -581,7 +577,7 @@ const LiveStatusBoard: React.FC = () => {
           {displayTickerEvents.map((evt, i) => (
             <div key={i} className="flex items-center shrink-0">
               <span className={`w-2 h-2 rounded-full ${evt.color} mx-3 shrink-0`} />
-              <span className="text-[10px] font-bold text-slate-200 mr-8">{evt.text}</span>
+              <span className="text-[10px] font-bold text-slate-200 me-8">{evt.text}</span>
             </div>
           ))}
         </div>

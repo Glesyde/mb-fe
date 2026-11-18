@@ -15,7 +15,8 @@ import {
 } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { wardService } from '../services/ward.service'; 
-import { useNotification } from '../context/NotificationContext'; // Assuming you have this
+import { useNotification } from '../context/NotificationContext';
+import { i18n } from "../i18n"; // Assuming you have this
 
 const WardMedicationReturns: React.FC = () => {
   const { notify } = useNotification(); // Optional: Replace with your alert system
@@ -81,7 +82,7 @@ const WardMedicationReturns: React.FC = () => {
   const handleSubmitReturn = async (drug: any) => {
     const form = returnForms[drug.dispensing_id];
     if (!form || !form.qty || !form.reason.trim()) {
-      notify?.("Please provide both quantity and reason.", "warning") || alert("Please provide both quantity and reason.");
+      notify?.("Please provide both quantity and reason.", "warning") || alert(i18n.t("Please provide both quantity and reason."));
       return;
     }
 
@@ -90,7 +91,7 @@ const WardMedicationReturns: React.FC = () => {
     const qtyLeft = drug.quantity_dispensed - drug.quantity_already_returned - drug.quantity_pending_return;
     
     if (Number(form.qty) > qtyLeft) {
-      notify?.("Cannot return more than the available unreturned quantity.", "error") || alert("Cannot return more than the available quantity left.");
+      notify?.("Cannot return more than the available unreturned quantity.", "error") || alert(i18n.t("Cannot return more than the available quantity left."));
       return;
     }
 
@@ -116,7 +117,7 @@ const WardMedicationReturns: React.FC = () => {
       setReturnForms(prev => ({ ...prev, [drug.dispensing_id]: { qty: '', reason: '' } }));
 
     } catch (err: any) {
-      notify?.(err.response?.data?.message || "Failed to submit request.", "error") || alert("Failed to submit request.");
+      notify?.(err.response?.data?.message || "Failed to submit request.", "error") || alert(i18n.t("Failed to submit request."));
     } finally {
       setIsSubmitting(null);
     }
@@ -132,19 +133,18 @@ const WardMedicationReturns: React.FC = () => {
       {/* Header Controls */}
       <div className="bg-white p-6 rounded-[40px] border border-slate-200 shadow-sm flex flex-col md:flex-row gap-6 items-center">
         <div className="relative flex-1 w-full group">
-          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-purple-600 transition-colors" size={22} />
+          <Search className="absolute start-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-purple-600 transition-colors" size={22} />
           <input 
             type="text" 
-            placeholder="Search patient to return medications..." 
-            className="w-full pl-14 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-[28px] text-sm font-bold text-slate-800 focus:bg-white focus:ring-4 focus:ring-purple-500/10 transition-all outline-none"
+            placeholder={i18n.t("Search patient to return medications...")} 
+            className="w-full ps-14 pe-4 py-4 bg-slate-50 border border-slate-200 rounded-[28px] text-sm font-bold text-slate-800 focus:bg-white focus:ring-4 focus:ring-purple-500/10 transition-all outline-none"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
         <div className="flex items-center gap-3 w-full md:w-auto">
           <button className="flex items-center gap-2 px-6 py-4 bg-white border border-slate-200 rounded-[24px] text-xs font-black uppercase tracking-widest text-slate-500 hover:text-slate-800 transition-all">
-            <Calendar size={18} /> Date Range
-          </button>
+            <Calendar size={18} />{" "}{i18n.t("Date Range")}</button>
         </div>
       </div>
 
@@ -153,21 +153,20 @@ const WardMedicationReturns: React.FC = () => {
         <div className="p-8 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
            <div>
              <h3 className="text-xl font-black text-slate-800 tracking-tight flex items-center gap-3">
-               <Pill size={24} className="text-purple-600" /> Ward Medication Returns
-             </h3>
-             <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">Select an admitted patient to reconcile unused drugs</p>
+               <Pill size={24} className="text-purple-600" />{" "}{i18n.t("Ward Medication Returns")}</h3>
+             <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">{i18n.t("Select an admitted patient to reconcile unused drugs")}</p>
            </div>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="w-full text-start">
             <thead>
               <tr className="bg-white border-b border-slate-100">
-                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Patient Details</th>
-                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">MRN & Adm #</th>
-                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Location</th>
-                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Attending</th>
-                <th className="px-8 py-6 text-right text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Actions</th>
+                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Patient Details")}</th>
+                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("MRN & Adm #")}</th>
+                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Location")}</th>
+                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Attending")}</th>
+                <th className="px-8 py-6 text-end text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -181,7 +180,7 @@ const WardMedicationReturns: React.FC = () => {
                 <tr>
                   <td colSpan={5} className="py-24 text-center opacity-30">
                     <History size={64} className="mx-auto text-slate-300 mb-4" />
-                    <p className="text-xs font-black uppercase tracking-widest">No admitted patients found</p>
+                    <p className="text-xs font-black uppercase tracking-widest">{i18n.t("No admitted patients found")}</p>
                   </td>
                 </tr>
               ) : (
@@ -194,13 +193,13 @@ const WardMedicationReturns: React.FC = () => {
                         </div>
                         <div>
                           <p className="text-sm font-black text-slate-800">{event.patient_name}</p>
-                          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{event.gender}</p>
+                          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{i18n.tv(event.gender)}</p>
                         </div>
                       </div>
                     </td>
                     <td className="px-8 py-6">
                       <div className="space-y-1">
-                        <p className="text-xs font-black text-purple-600">MRN: {event.mrn}</p>
+                        <p className="text-xs font-black text-purple-600">{i18n.t("MRN:")}{" "}{event.mrn}</p>
                         <p className="text-[10px] font-mono font-bold text-slate-500">{event.admission_number}</p>
                       </div>
                     </td>
@@ -213,16 +212,15 @@ const WardMedicationReturns: React.FC = () => {
                     <td className="px-8 py-6">
                       <div className="flex items-center gap-2 text-[10px] font-bold text-slate-500">
                         <Activity size={14} className="text-slate-400"/>
-                        <span>Dr. {event.doctor_first_name} {event.doctor_last_name}</span>
+                        <span>{i18n.t("Dr.")}{" "}{event.doctor_first_name} {event.doctor_last_name}</span>
                       </div>
                     </td>
-                    <td className="px-8 py-6 text-right">
+                    <td className="px-8 py-6 text-end">
                       <button 
                         onClick={() => handleOpenModal(event)}
                         className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-purple-200 text-purple-600 hover:bg-purple-50 rounded-xl text-xs font-black uppercase tracking-widest transition-all shadow-sm"
                       >
-                        <Undo2 size={16} /> Reconcile Drugs
-                      </button>
+                        <Undo2 size={16} />{" "}{i18n.t("Reconcile Drugs")}</button>
                     </td>
                   </tr>
                 ))
@@ -245,9 +243,7 @@ const WardMedicationReturns: React.FC = () => {
                   <Undo2 size={28} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-black text-slate-800 tracking-tight">
-                     Medication Return Request
-                  </h2>
+                  <h2 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Medication Return Request")}</h2>
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs font-bold text-slate-500 uppercase tracking-widest">
                     <span className="text-purple-600">{selectedPatient.patient_name}</span>
                     <span>•</span>
@@ -267,24 +263,24 @@ const WardMedicationReturns: React.FC = () => {
               {modalLoading ? (
                 <div className="flex flex-col items-center justify-center py-20 text-purple-600">
                   <Loader2 size={32} className="animate-spin mb-4" />
-                  <p className="text-xs font-black uppercase tracking-widest">Fetching Dispense & MAR Records...</p>
+                  <p className="text-xs font-black uppercase tracking-widest">{i18n.t("Fetching Dispense & MAR Records...")}</p>
                 </div>
               ) : dispensedDrugs.length === 0 ? (
                 <div className="text-center py-20">
                   <Pill size={48} className="mx-auto text-slate-200 mb-4" />
-                  <p className="text-lg font-black text-slate-700">No Medications Dispensed</p>
-                  <p className="text-sm text-slate-500 mt-1">There are no active pharmacy dispenses eligible for return.</p>
+                  <p className="text-lg font-black text-slate-700">{i18n.t("No Medications Dispensed")}</p>
+                  <p className="text-sm text-slate-500 mt-1">{i18n.t("There are no active pharmacy dispenses eligible for return.")}</p>
                 </div>
               ) : (
                 <div className="border border-slate-200 rounded-3xl overflow-hidden">
-                  <table className="w-full text-left">
+                  <table className="w-full text-start">
                     <thead className="bg-slate-50 border-b border-slate-200">
                       <tr>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">Drug & Dosage</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest text-center">Dispensed</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-emerald-600 uppercase tracking-widest text-center bg-emerald-50/50">Used (MAR)</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-rose-600 uppercase tracking-widest text-center bg-rose-50/50">Qty Left</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">Return Process</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Drug & Dosage")}</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest text-center">{i18n.t("Dispensed")}</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-emerald-600 uppercase tracking-widest text-center bg-emerald-50/50">{i18n.t("Used (MAR)")}</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-rose-600 uppercase tracking-widest text-center bg-rose-50/50">{i18n.t("Qty Left")}</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Return Process")}</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
@@ -307,11 +303,11 @@ const WardMedicationReturns: React.FC = () => {
                             
                             <td className="px-6 py-4 text-center">
                               <span className="text-sm font-bold text-slate-700">{drug.quantity_dispensed - drug.quantity_already_returned}</span>
-                              <span className="text-[10px] text-slate-400 ml-1">{drug.unit}</span>
+                              <span className="text-[10px] text-slate-400 ms-1">{drug.unit}</span>
                             </td>
 
                             <td className="px-6 py-4 text-center bg-emerald-50/10">
-                              <span className="text-sm font-black text-emerald-600" title="Based on MAR Administrations">{drug.quantity_used}</span>
+                              <span className="text-sm font-black text-emerald-600" title={i18n.t("Based on MAR Administrations")}>{drug.quantity_used}</span>
                             </td>
 
                             <td className="px-6 py-4 text-center bg-rose-50/10">
@@ -323,14 +319,12 @@ const WardMedicationReturns: React.FC = () => {
                             <td className="px-6 py-4 w-[340px]">
                               {isFullyReturned ? (
                                 <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest bg-slate-100 px-3 py-2 rounded-xl">
-                                  <CheckCircle2 size={14} /> Fully Reconciled
-                                </div>
+                                  <CheckCircle2 size={14} />{" "}{i18n.t("Fully Reconciled")}</div>
                               ) : (
                                 <div className="flex flex-col gap-2">
                                   {isPending && (
                                     <div className="flex items-center gap-1.5 text-[10px] font-black text-amber-600 bg-amber-50 border border-amber-100 px-2.5 py-1.5 rounded-lg w-fit uppercase tracking-widest">
-                                      <Loader2 size={12} className="animate-spin" /> {drug.quantity_pending_return} Pending Review
-                                    </div>
+                                      <Loader2 size={12} className="animate-spin" /> {drug.quantity_pending_return}{" "}{i18n.t("Pending Review")}</div>
                                   )}
                                   
                                   {physicalBalance > 0 && (
@@ -339,14 +333,14 @@ const WardMedicationReturns: React.FC = () => {
                                         type="number" 
                                         min="1" 
                                         max={physicalBalance}
-                                        placeholder="Qty"
+                                        placeholder={i18n.t("Qty")}
                                         value={returnForms[drug.dispensing_id]?.qty || ''}
                                         onChange={(e) => handleFormChange(drug.dispensing_id, 'qty', e.target.value)}
                                         className="w-20 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-purple-500 transition-colors"
                                       />
                                       <input 
                                         type="text" 
-                                        placeholder="Reason (e.g., patient discharged)"
+                                        placeholder={i18n.t("Reason (e.g., patient discharged)")}
                                         value={returnForms[drug.dispensing_id]?.reason || ''}
                                         onChange={(e) => handleFormChange(drug.dispensing_id, 'reason', e.target.value)}
                                         className="flex-1 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-purple-500 transition-colors"
@@ -375,11 +369,9 @@ const WardMedicationReturns: React.FC = () => {
             <div className="p-6 border-t border-slate-100 bg-slate-50 flex items-center justify-between shrink-0 rounded-b-[40px]">
               <div className="flex items-center gap-2 text-amber-600 bg-amber-50 px-4 py-2 rounded-xl border border-amber-100">
                 <AlertCircle size={16} />
-                <span className="text-[10px] font-black uppercase tracking-widest">Pharmacy must physically receive and verify before ledger adjusts</span>
+                <span className="text-[10px] font-black uppercase tracking-widest">{i18n.t("Pharmacy must physically receive and verify before ledger adjusts")}</span>
               </div>
-              <button onClick={() => setIsModalOpen(false)} className="px-6 py-3 text-xs font-black uppercase tracking-widest text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">
-                Close Panel
-              </button>
+              <button onClick={() => setIsModalOpen(false)} className="px-6 py-3 text-xs font-black uppercase tracking-widest text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">{i18n.t("Close Panel")}</button>
             </div>
           </div>
         </div>,

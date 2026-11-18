@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserProfile } from '../types';
 import { NAV_ITEMS, ROLE_PERMISSIONS } from '../services/constants';
 import { useAuth } from "../context/AuthContext";
+import { useLanguage, LanguageToggle } from "../i18n";
 import MedBookieLogo from "./MedBookieLogo";
 
 interface HeaderProps {
@@ -31,6 +32,7 @@ const Header: React.FC<HeaderProps> = ({ toggleMobileMenu, user, onLogout }) => 
   const [currentTime, setCurrentTime] = useState(new Date());
 
   const { roles } = useAuth();
+  const { t, tv, locale } = useLanguage();
   const navigate = useNavigate();
 
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -44,20 +46,20 @@ const Header: React.FC<HeaderProps> = ({ toggleMobileMenu, user, onLogout }) => 
   }, []);
 
   const dateStr = useMemo(() => {
-    return currentTime.toLocaleDateString("en-NG", {
+    return currentTime.toLocaleDateString(locale, {
       weekday: "short",
       month: "short",
       day: "numeric",
     });
-  }, [currentTime]);
+  }, [currentTime, locale]);
 
   const timeStr = useMemo(() => {
-    return currentTime.toLocaleTimeString("en-NG", {
+    return currentTime.toLocaleTimeString(locale, {
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
     });
-  }, [currentTime]);
+  }, [currentTime, locale]);
 
   const greetingHour = useMemo(() => {
     const h = currentTime.getHours();
@@ -89,40 +91,45 @@ const Header: React.FC<HeaderProps> = ({ toggleMobileMenu, user, onLogout }) => 
   // Flatten NAV_ITEMS and filter based on user permissions
   const searchItems = useMemo(() => {
     const allowedRootIds = (user?.role && ROLE_PERMISSIONS[user.role]) || [];
-    const items: Array<{ label: string; path: string; icon: React.ComponentType<any>; category: string }> = [];
+    const items: Array<{ label: string; path: string; icon: React.ComponentType<any>; category: string; enLabel: string; enCategory: string }> = [];
 
     NAV_ITEMS.forEach((item) => {
       if (allowedRootIds.length > 0 && !allowedRootIds.includes(item.id)) return;
 
       if (item.path && (!item.subItems || item.subItems.length === 0)) {
         items.push({
-          label: item.label,
+          label: t(item.label),
           path: item.path,
           icon: item.icon,
-          category: 'Main Menu',
+          category: t('Main Menu'),
+          enLabel: item.label,
+          enCategory: 'Main Menu',
         });
       }
 
       if (item.subItems) {
         item.subItems.forEach((sub) => {
           items.push({
-            label: sub.label,
+            label: t(sub.label),
             path: sub.path,
             icon: sub.icon || item.icon,
-            category: item.label,
+            category: t(item.label),
+            enLabel: sub.label,
+            enCategory: item.label,
           });
         });
       }
     });
 
     return items;
-  }, [user?.role]);
+  }, [user?.role, t]);
 
   const filteredItems = useMemo(() => {
     if (!searchQuery.trim()) return [];
     const q = searchQuery.toLowerCase();
     return searchItems.filter(
-      (item) => item.label.toLowerCase().includes(q) || item.category.toLowerCase().includes(q)
+      (item) =>
+        [item.label, item.category, item.enLabel, item.enCategory].some((s) => s.toLowerCase().includes(q))
     );
   }, [searchItems, searchQuery]);
 
@@ -193,7 +200,7 @@ const Header: React.FC<HeaderProps> = ({ toggleMobileMenu, user, onLogout }) => 
         <button 
           onClick={toggleMobileMenu}
           className="md:hidden p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-xl transition-colors border border-white/10"
-          aria-label="Toggle navigation"
+          aria-label={t('Toggle navigation')}
         >
           <Menu className="w-5 h-5" />
         </button>
@@ -257,7 +264,7 @@ const Header: React.FC<HeaderProps> = ({ toggleMobileMenu, user, onLogout }) => 
                 ? 'shadow-inner' 
                 : 'shadow-sm'
             }`}
-            title="Search modules and actions (⌘K / Ctrl+K)"
+            title={t('Search modules and actions (⌘K / Ctrl+K)')}
           >
             <Search className="w-4 h-4 text-white" />
 
@@ -265,13 +272,13 @@ const Header: React.FC<HeaderProps> = ({ toggleMobileMenu, user, onLogout }) => 
 
           {/* Compact Dropdown Popover */}
           {isSearchOpen && (
-            <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-slate-200/90 text-slate-800 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+            <div className="absolute end-0 mt-2 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-slate-200/90 text-slate-800 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-150">
               <div className="p-3 border-b border-slate-100 bg-slate-50/80 flex items-center gap-2">
-                <Search className="w-4 h-4 text-slate-400 shrink-0 ml-1" />
+                <Search className="w-4 h-4 text-slate-400 shrink-0 ms-1" />
                 <input
                   ref={searchInputRef}
                   type="text"
-                  placeholder="Quick search modules, actions..."
+                  placeholder={t('Quick search modules, actions...')}
                   className="w-full bg-transparent text-xs font-semibold text-slate-800 placeholder-slate-400 outline-none"
                   value={searchQuery}
                   onChange={(e) => {
@@ -283,6 +290,7 @@ const Header: React.FC<HeaderProps> = ({ toggleMobileMenu, user, onLogout }) => 
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery('')}
+                    aria-label={t('Clear search')}
                     className="p-1 hover:bg-slate-200/60 rounded-full text-slate-400 hover:text-slate-600 transition-colors"
                   >
                     <X className="w-3.5 h-3.5" />
@@ -299,7 +307,7 @@ const Header: React.FC<HeaderProps> = ({ toggleMobileMenu, user, onLogout }) => 
                   filteredItems.length > 0 ? (
                     <>
                       <div className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                        Results ({filteredItems.length})
+                        {t('Results ({count})', { count: filteredItems.length })}
                       </div>
                       {filteredItems.map((item, idx) => {
                         const Icon = item.icon;
@@ -309,7 +317,7 @@ const Header: React.FC<HeaderProps> = ({ toggleMobileMenu, user, onLogout }) => 
                             key={item.path}
                             onClick={() => handleNavigate(item.path)}
                             onMouseEnter={() => setSelectedIndex(idx)}
-                            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-left transition-all ${
+                            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-start transition-all ${
                               isSelected
                                 ? 'bg-brand-primary text-white font-medium shadow-sm'
                                 : 'text-slate-700 hover:bg-slate-50'
@@ -343,14 +351,14 @@ const Header: React.FC<HeaderProps> = ({ toggleMobileMenu, user, onLogout }) => 
                     </>
                   ) : (
                     <div className="py-6 px-4 text-center">
-                      <p className="text-xs text-slate-500 font-semibold">No matching modules</p>
-                      <p className="text-[10px] text-slate-400 mt-0.5">Try searching Lab, Pharmacy, or EMR</p>
+                      <p className="text-xs text-slate-500 font-semibold">{t('No matching modules')}</p>
+                      <p className="text-[10px] text-slate-400 mt-0.5">{t('Try searching Lab, Pharmacy, or EMR')}</p>
                     </div>
                   )
                 ) : (
                   <div className="p-2">
                     <p className="px-2 pb-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                      Quick Shortcuts
+                      {t('Quick Shortcuts')}
                     </p>
                     <div className="grid grid-cols-2 gap-1">
                       {searchItems.slice(0, 4).map((item) => {
@@ -359,7 +367,7 @@ const Header: React.FC<HeaderProps> = ({ toggleMobileMenu, user, onLogout }) => 
                           <button
                             key={item.path}
                             onClick={() => handleNavigate(item.path)}
-                            className="flex items-center gap-2 p-2 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100 text-left transition-colors"
+                            className="flex items-center gap-2 p-2 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100 text-start transition-colors"
                           >
                             <Icon className="w-3.5 h-3.5 text-brand-primary shrink-0" />
                             <span className="text-xs font-semibold text-slate-700 truncate">
@@ -376,22 +384,26 @@ const Header: React.FC<HeaderProps> = ({ toggleMobileMenu, user, onLogout }) => 
               {/* Popover Footer */}
               <div className="p-2 border-t border-slate-100 bg-slate-50 flex items-center justify-between text-[10px] text-slate-400 font-medium px-3">
                 <div className="flex items-center gap-2">
-                  <span><kbd className="font-semibold text-slate-600">↑↓</kbd> navigate</span>
-                  <span><kbd className="font-semibold text-slate-600">↵</kbd> open</span>
+                  <span><kbd className="font-semibold text-slate-600">↑↓</kbd> {t('navigate')}</span>
+                  <span><kbd className="font-semibold text-slate-600">↵</kbd> {t('open')}</span>
                 </div>
-                <span className="text-brand-primary font-bold">HIS Command</span>
+                <span className="text-brand-primary font-bold">{t('HIS Command')}</span>
               </div>
             </div>
           )}
         </div>
 
+        {/* Language */}
+        <LanguageToggle variant="dark" />
+
         {/* Notifications */}
         <button 
           className="relative p-2 text-white/80 shadow-sm "
-          title="Notifications"
+          title={t('Notifications')}
+          aria-label={t('Notifications')}
         >
           <Bell className="w-4 h-4 text-white" />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-brand-primary" />
+          <span className="absolute top-1.5 end-1.5 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-brand-primary" />
         </button>
 
         {/* <div className="h-6 w-px bg-white/20 mx-1 hidden sm:block" /> */}
@@ -400,24 +412,24 @@ const Header: React.FC<HeaderProps> = ({ toggleMobileMenu, user, onLogout }) => 
         <div className="relative shrink-0 " ref={profileContainerRef}>
           <button 
             onClick={() => setIsProfileOpen(!isProfileOpen)}
-            className="flex items-center gap-2.5 p-1 sm:pl-2 sm:pr-2.5 py-1 transition-all text-white shadow-sm"
+            className="flex items-center gap-2.5 p-1 sm:ps-2 sm:pe-2.5 py-1 transition-all text-white shadow-sm"
           >
             <div className="w-7 h-7 rounded-lg bg-white/20 border border-white/25 flex items-center justify-center font-bold text-xs text-white">
               {user?.name ? user.name.charAt(0).toUpperCase() : <User size={13} />}
             </div>
-            <div className="text-left hidden md:block">
+            <div className="text-start hidden md:block">
               <p className="text-xs font-bold text-white leading-none mb-0.5 max-w-[110px] truncate">
-                {user?.name || "User"}
+                {user?.name || t('User')}
               </p>
               <p className="text-[9px] text-brand-active font-semibold uppercase tracking-wider leading-none">
-                {displayRole}
+                {displayRole === "Staff" ? t("Staff") : tv(displayRole)}
               </p>
             </div>
             <ChevronDown className={`w-3.5 h-3.5 text-white/70 transition-transform duration-200 ${isProfileOpen ? 'rotate-180' : ''}`} />
           </button>
 
           {isProfileOpen && (
-            <div className="absolute right-0 mt-2 w-56 bg-white border border-slate-200/90 rounded-2xl shadow-2xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-150 text-slate-800">
+            <div className="absolute end-0 mt-2 w-56 bg-white border border-slate-200/90 rounded-2xl shadow-2xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-150 text-slate-800">
               {/* <div className="p-3 bg-slate-50 border-b border-slate-100">
                 <p className="text-xs font-bold text-slate-900 truncate">{user?.name || "Staff User"}</p>
                 <p className="text-[10px] font-semibold text-brand-primary uppercase tracking-wider mt-0.5">
@@ -434,25 +446,25 @@ const Header: React.FC<HeaderProps> = ({ toggleMobileMenu, user, onLogout }) => 
                     setIsProfileOpen(false);
                     navigate('/profile');
                   }}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-lg transition-colors text-left"
+                  className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-lg transition-colors text-start"
                 >
-                  <User size={15} /> Profile Settings
+                  <User size={15} /> {t('Profile Settings')}
                 </button>
                 <button 
                   onClick={() => {
                     setIsProfileOpen(false);
                     navigate('/help');
                   }}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-lg transition-colors text-left"
+                  className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-lg transition-colors text-start"
                 >
-                  <HelpCircle size={15} /> Help & Documentation
+                  <HelpCircle size={15} /> {t('Help & Documentation')}
                 </button>
                 <div className="h-px bg-slate-100 my-1" />
                 <button 
                   onClick={onLogout}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 rounded-lg transition-colors text-left"
+                  className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 rounded-lg transition-colors text-start"
                 >
-                  <LogOut size={15} /> Sign Out
+                  <LogOut size={15} /> {t('Sign Out')}
                 </button>
               </div>
             </div>

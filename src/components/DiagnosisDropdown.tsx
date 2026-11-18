@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { ChevronDown, Search, X, AlertCircle } from "lucide-react";
 import { emrService } from "../services/emr.service";
+import { i18n } from "../i18n";
 
 interface DiagnosisOption {
   code: string;
@@ -148,14 +149,14 @@ const DiagnosisDropdown: React.FC<DiagnosisDropdownProps> = ({
                 {selectedDiagnosis.code}
               </span>
               <span className="text-slate-800 font-medium text-sm truncate">
-                {selectedDiagnosis.description}
+                {i18n.tx(selectedDiagnosis.description)}
               </span>
             </div>
           ) : (
             <span className="text-slate-400 text-sm">{placeholder}</span>
           )}
         </div>
-        <div className="flex items-center gap-1 ml-2">
+        <div className="flex items-center gap-1 ms-2">
           {selectedDiagnosis && (
             <button
               onClick={(e) => {
@@ -184,7 +185,7 @@ const DiagnosisDropdown: React.FC<DiagnosisDropdownProps> = ({
               <input
                 ref={searchInputRef}
                 type="text"
-                placeholder="Search by code, name, or category..."
+                placeholder={i18n.t("Search by code, name, or category...")}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="flex-1 bg-slate-50 outline-none text-sm text-slate-900 placeholder:text-slate-400"
@@ -198,9 +199,7 @@ const DiagnosisDropdown: React.FC<DiagnosisDropdownProps> = ({
               <div className="inline-block animate-spin">
                 <div className="w-6 h-6 border-2 border-brand-active0 border-t-transparent rounded-full"></div>
               </div>
-              <p className="text-sm text-slate-500 mt-2">
-                Loading diagnoses...
-              </p>
+              <p className="text-sm text-slate-500 mt-2">{i18n.t("Loading diagnoses...")}</p>
             </div>
           ) : showOthersInput ? (
             /* Custom Diagnosis Input */
@@ -218,12 +217,9 @@ const DiagnosisDropdown: React.FC<DiagnosisDropdownProps> = ({
                       {searchTerm && (
                         <>
                           <AlertCircle size={24} className="text-slate-300" />
-                          <p className="text-sm text-slate-500">
-                            No matches found for "{searchTerm}"
+                          <p className="text-sm text-slate-500">{i18n.t("No matches found for \"")}{searchTerm}"
                           </p>
-                          <p className="text-xs text-slate-400">
-                            Click "Others" to add custom diagnosis
-                          </p>
+                          <p className="text-xs text-slate-400">{i18n.t("Click \"Others\" to add custom diagnosis")}</p>
                         </>
                       )}
                     </div>
@@ -234,7 +230,7 @@ const DiagnosisDropdown: React.FC<DiagnosisDropdownProps> = ({
                       <button
                         key={diagnosis.code}
                         onClick={() => handleSelectDiagnosis(diagnosis)}
-                        className="w-full px-4 py-3 text-left hover:bg-brand-active transition-colors border-b border-slate-100 last:border-0"
+                        className="w-full px-4 py-3 text-start hover:bg-brand-active transition-colors border-b border-slate-100 last:border-0"
                       >
                         <div className="flex items-start gap-3">
                           <span className="font-mono font-bold text-brand-primary bg-brand-active px-2 py-0.5 rounded text-xs whitespace-nowrap mt-0.5">
@@ -242,7 +238,7 @@ const DiagnosisDropdown: React.FC<DiagnosisDropdownProps> = ({
                           </span>
                           <div className="flex-1 min-w-0">
                             <p className="font-medium text-slate-800 text-sm">
-                              {diagnosis.description}
+                              {i18n.tx(diagnosis.description)}
                             </p>
                             <div className="flex gap-2 mt-1">
                               <span className="text-[10px] text-slate-500 uppercase tracking-wider">
@@ -264,10 +260,10 @@ const DiagnosisDropdown: React.FC<DiagnosisDropdownProps> = ({
               <div className="border-t border-slate-200 p-3 bg-slate-50">
                 <button
                   onClick={handleOthersSelect}
-                  className="w-full px-4 py-2 text-left text-sm font-medium text-slate-700 hover:bg-slate-200 rounded-lg transition-colors flex items-center gap-2"
+                  className="w-full px-4 py-2 text-start text-sm font-medium text-slate-700 hover:bg-slate-200 rounded-lg transition-colors flex items-center gap-2"
                 >
                   <Plus size={16} />
-                  <span>Others (Manual Entry)</span>
+                  <span>{i18n.t("Others (Manual Entry)")}</span>
                 </button>
               </div>
             </>
@@ -293,14 +289,12 @@ const OthersInput: React.FC<OthersInputProps> = ({ onSubmit, onCancel }) => {
 
   return (
     <div className="p-4 border-b border-slate-200">
-      <label className="block text-xs font-bold text-slate-500 mb-2 uppercase">
-        Enter Custom Diagnosis
-      </label>
+      <label className="block text-xs font-bold text-slate-500 mb-2 uppercase">{i18n.t("Enter Custom Diagnosis")}</label>
       <textarea
         ref={inputRef}
         value={customDescription}
         onChange={(e) => setCustomDescription(e.target.value)}
-        placeholder="Describe the diagnosis..."
+        placeholder={i18n.t("Describe the diagnosis...")}
         className="w-full p-3 border border-slate-300 rounded-lg text-sm resize-none outline-none focus:border-brand-active0 focus:ring-2 focus:ring-brand-active"
         rows={3}
       />
@@ -309,15 +303,11 @@ const OthersInput: React.FC<OthersInputProps> = ({ onSubmit, onCancel }) => {
           onClick={() => onSubmit(customDescription)}
           disabled={!customDescription.trim()}
           className="flex-1 bg-brand-primary hover:bg-brand-primary disabled:bg-slate-300 text-white px-4 py-2 rounded-lg text-sm font-bold transition-all"
-        >
-          Add Diagnosis
-        </button>
+        >{i18n.t("Add Diagnosis")}</button>
         <button
           onClick={onCancel}
           className="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded-lg text-sm font-bold transition-all"
-        >
-          Cancel
-        </button>
+        >{i18n.t("Cancel")}</button>
       </div>
     </div>
   );

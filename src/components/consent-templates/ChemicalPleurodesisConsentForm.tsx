@@ -8,6 +8,7 @@ import { BASE_URL } from "../../api/client";
 import { patientService } from "../../services/patient.service";
 import { createPortal } from "react-dom";
 import { formDraftService } from "../../services/session-restore.service";
+import { i18n } from "../../i18n";
 
 interface ChemicalPleurodesisConsentFormProps {
   orderId: number;
@@ -81,9 +82,8 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
   const PartWarning = ({ fields }: { fields: string[] }) => {
     if (isPartComplete(fields) || readOnly) return null;
     return (
-      <div className="absolute top-4 right-6 flex items-center gap-1 text-amber-500 bg-amber-50 px-3 py-1 rounded-full text-[10px] font-bold border border-amber-200 shadow-sm animate-pulse">
-        <AlertCircle size={12} /> Incomplete
-      </div>
+      <div className="absolute top-4 end-6 flex items-center gap-1 text-amber-500 bg-amber-50 px-3 py-1 rounded-full text-[10px] font-bold border border-amber-200 shadow-sm animate-pulse">
+        <AlertCircle size={12} />{" "}{i18n.t("Incomplete")}</div>
     );
   };
 
@@ -334,30 +334,29 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
     <div className="bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[95vh] flex flex-col max-w-6xl mx-auto">
       {/* Header */}
       <div className="bg-[#1e40af] text-white p-10 flex justify-between items-center relative overflow-hidden shrink-0">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[#1e40af]/30 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+        <div className="absolute top-0 end-0 w-64 h-64 bg-[#1e40af]/30 rounded-full -me-32 -mt-32 blur-3xl"></div>
         <div className="z-10">
           <div className="flex items-center gap-4 mb-2">
             <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
-              <img src="/assets/login-bg.jpeg" alt="Medbookie" className="w-10 h-10 object-contain" />
+              <img src="/assets/login-bg.jpeg" alt={i18n.t("Medbookie")} className="w-10 h-10 object-contain" />
             </div>
             <div>
-              <h1 className="text-3xl font-black tracking-tighter">Procedure Consent Form</h1>
-              <p className="text-[#93c5fd] font-bold text-sm">Chest-Tube Chemical Pleurodesis</p>
+              <h1 className="text-3xl font-black tracking-tighter">{i18n.t("Procedure Consent Form")}</h1>
+              <p className="text-[#93c5fd] font-bold text-sm">{i18n.t("Chest-Tube Chemical Pleurodesis")}</p>
             </div>
           </div>
-          <p className="text-xs text-[#93c5fd]/80 font-medium">Form Ref: GSH-CONSENT-PLEU-001 • Policy Ref: GSH-T6 • Version 1.0</p>
+          <p className="text-xs text-[#93c5fd]/80 font-medium">{i18n.t("Form Ref: GSH-CONSENT-PLEU-001 • Policy Ref: GSH-T6 • Version 1.0")}</p>
         </div>
-        <div className="text-right z-10 flex flex-col items-end gap-3">
-          <div className="hidden md:block text-right">
-            <p className="text-[10px] text-[#93c5fd] font-bold leading-tight uppercase tracking-wider">Medbookie</p>
-            <p className="text-[10px] text-[#93c5fd]">+234 705 648 2776 • admin@Medbookiehospitals.com</p>
+        <div className="text-end z-10 flex flex-col items-end gap-3">
+          <div className="hidden md:block text-end">
+            <p className="text-[10px] text-[#93c5fd] font-bold leading-tight uppercase tracking-wider">{i18n.t("Medbookie")}</p>
+            <p className="text-[10px] text-[#93c5fd]">{i18n.t("+234 705 648 2776 • admin@Medbookiehospitals.com")}</p>
           </div>
           <button 
             onClick={onPrint}
             className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border border-white/20 transition-all"
           >
-            <Printer size={14} /> Print Blank Form
-          </button>
+            <Printer size={14} />{" "}{i18n.t("Print Blank Form")}</button>
         </div>
       </div>
 
@@ -367,20 +366,18 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
         {/* Patient Rights */}
         <section>
           <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden">
-            <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">Patient Rights</div>
-            <p className="text-sm text-amber-900 font-medium leading-relaxed italic">
-              "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6)."
-            </p>
+            <div className="absolute top-0 end-0 bg-amber-200/50 px-4 py-1 rounded-es-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">{i18n.t("Patient Rights")}</div>
+            <p className="text-sm text-amber-900 font-medium leading-relaxed italic">{i18n.t("\"You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6).\"")}</p>
           </div>
         </section>
 
         {/* Part A - Patient Identification */}
         <section>
-          <div className="bg-[#1e40af] text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ml-4">Part A — Patient Identification</div>
+          <div className="bg-[#1e40af] text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part A — Patient Identification")}</div>
           <div className="border-4 border-slate-900 rounded-3xl p-8 grid grid-cols-1 md:grid-cols-4 gap-8 shadow-inner bg-slate-50 relative">
             <PartWarning fields={["patient_name", "dob", "mrn", "consultant", "ward", "primary_diagnosis"]} />
             <div className="md:col-span-2 space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Patient Full Name *</label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Patient Full Name *")}</label>
               <input 
                 type="text" 
                 value={formData.patient_name} 
@@ -390,7 +387,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Date of Birth *</label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Date of Birth *")}</label>
               <input 
                 type="date" 
                 value={formData.dob} 
@@ -400,7 +397,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">MRN *</label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("MRN *")}</label>
               <input 
                 type="text" 
                 value={formData.mrn} 
@@ -409,7 +406,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Age / Sex</label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Age / Sex")}</label>
               <input 
                 type="text" 
                 value={formData.age_sex} 
@@ -419,7 +416,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Consultant / Responsible Surgeon *</label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Consultant / Responsible Surgeon *")}</label>
               <input 
                 type="text" 
                 value={formData.consultant} 
@@ -429,7 +426,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Ward / Unit *</label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Ward / Unit *")}</label>
               <input 
                 type="text" 
                 value={formData.ward} 
@@ -439,18 +436,18 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
               />
             </div>
             <div className="md:col-span-4 space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Primary Diagnosis / Indication *</label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Primary Diagnosis / Indication *")}</label>
               <textarea 
                 rows={2}
                 value={formData.primary_diagnosis}
                 onChange={(e) => { handleInputChange("primary_diagnosis", e.target.value); setFormErrors(prev => prev.filter(f => f !== "primary_diagnosis")); }}
-                placeholder="e.g. recurrent / malignant pleural effusion; recurrent or persistent pneumothorax; symptomatic re-accumulation despite drainage"
+                placeholder={i18n.t("e.g. recurrent / malignant pleural effusion; recurrent or persistent pneumothorax; symptomatic re-accumulation despite drainage")}
                 readOnly={readOnly}
                 className={getInputClass("primary_diagnosis", true)}
               />
             </div>
             <div className="md:col-span-2 space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Planned Surgical Approach</label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Planned Surgical Approach")}</label>
               <div className="grid grid-cols-1 gap-2 p-3 bg-white border-2 border-slate-200 rounded-xl">
                 {["Via existing chest drain", "Chest drain inserted for the procedure", "Decision at the bedside"].map(type => (
                   <label key={type} className="flex items-center gap-2 cursor-pointer group">
@@ -468,7 +465,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
               </div>
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Site / Side</label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Site / Side")}</label>
               <div className="grid grid-cols-1 gap-2 p-3 bg-white border-2 border-slate-200 rounded-xl">
                 {["Left", "Right", "N/A"].map(type => (
                   <label key={type} className="flex items-center gap-2 cursor-pointer group">
@@ -486,7 +483,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
               </div>
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Planned Date</label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Planned Date")}</label>
               <input 
                 type="date" 
                 value={formData.planned_date} 
@@ -500,28 +497,22 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
 
         {/* Part B */}
         <section>
-          <div className="bg-[#334155] text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ml-4">Part B — Description of the Procedure</div>
+          <div className="bg-[#334155] text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part B — Description of the Procedure")}</div>
           <div className="border-4 border-slate-900 rounded-3xl p-6 bg-slate-50 space-y-4 relative">
-             <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">WHAT THE PROCEDURE INVOLVES</h4>
-             <p className="text-sm text-slate-700 font-medium leading-relaxed">
-               Through a chest drain, local anaesthetic is first instilled into the pleural space to reduce pain, followed by the sclerosing agent mixed with saline. This deliberately irritates and inflames the two layers of the lung lining (pleura) so that they stick together and seal the space, stopping fluid or air from re-accumulating.
-             </p>
-             <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">HOW IT IS PERFORMED AT Medbookie</h4>
-             <p className="text-sm text-slate-700 font-medium leading-relaxed">
-               A chest drain is confirmed to be correctly positioned (or is inserted first), and a chest X-ray confirms the lung has re-expanded. Local anaesthetic (e.g. lidocaine) is instilled through the drain into the pleural space to reduce discomfort. The sclerosing agent mixed with saline is instilled through the drain. The drain is clamped for a period and the patient may be repositioned to spread the agent across the pleural surfaces. The drain is unclamped and left on drainage/suction; it is removed once output is low and a chest X-ray is satisfactory.
-             </p>
+             <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">{i18n.t("WHAT THE PROCEDURE INVOLVES")}</h4>
+             <p className="text-sm text-slate-700 font-medium leading-relaxed">{i18n.t("Through a chest drain, local anaesthetic is first instilled into the pleural space to reduce pain, followed by the sclerosing agent mixed with saline. This deliberately irritates and inflames the two layers of the lung lining (pleura) so that they stick together and seal the space, stopping fluid or air from re-accumulating.")}</p>
+             <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">{i18n.t("HOW IT IS PERFORMED AT Medbookie")}</h4>
+             <p className="text-sm text-slate-700 font-medium leading-relaxed">{i18n.t("A chest drain is confirmed to be correctly positioned (or is inserted first), and a chest X-ray confirms the lung has re-expanded. Local anaesthetic (e.g. lidocaine) is instilled through the drain into the pleural space to reduce discomfort. The sclerosing agent mixed with saline is instilled through the drain. The drain is clamped for a period and the patient may be repositioned to spread the agent across the pleural surfaces. The drain is unclamped and left on drainage/suction; it is removed once output is low and a chest X-ray is satisfactory.")}</p>
           </div>
         </section>
 
         {/* Part C */}
         <section>
-          <div className="bg-[#1e293b] text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ml-4">Part C — Intended Benefits & Goals</div>
+          <div className="bg-[#1e293b] text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part C — Intended Benefits & Goals")}</div>
           <div className="border-4 border-slate-900 rounded-3xl p-6 bg-slate-50 relative">
              <PartWarning fields={["expected_outcomes"]} />
-             <p className="text-sm text-slate-700 font-medium leading-relaxed mb-4">
-               Successful pleurodesis prevents repeated fluid build-up or lung collapse, relieves breathlessness, reduces the need for repeated drainage procedures and hospital admissions, and improves quality of life — particularly important in recurrent or malignant effusions.
-             </p>
-             <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Specific goals / expected outcome discussed with this patient</label>
+             <p className="text-sm text-slate-700 font-medium leading-relaxed mb-4">{i18n.t("Successful pleurodesis prevents repeated fluid build-up or lung collapse, relieves breathlessness, reduces the need for repeated drainage procedures and hospital admissions, and improves quality of life — particularly important in recurrent or malignant effusions.")}</p>
+             <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">{i18n.t("Specific goals / expected outcome discussed with this patient")}</label>
              <textarea 
                rows={3}
                value={formData.expected_outcomes}
@@ -534,14 +525,14 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
 
         {/* Part D */}
         <section>
-          <div className="bg-[#be123c] text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ml-4">Part D — Risks & Complications</div>
+          <div className="bg-[#be123c] text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part D — Risks & Complications")}</div>
           <div className="border-4 border-slate-900 rounded-3xl overflow-hidden shadow-xl mb-4">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-start border-collapse">
               <thead className="bg-slate-900 text-white">
                 <tr>
-                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border-r border-slate-700">Frequency</th>
-                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border-r border-slate-700">Risk / Complication</th>
-                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest">Additional Detail</th>
+                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border-e border-slate-700">{i18n.t("Frequency")}</th>
+                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border-e border-slate-700">{i18n.t("Risk / Complication")}</th>
+                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest">{i18n.t("Additional Detail")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200">
@@ -555,8 +546,8 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                   ["VERY RARE", "Life-threatening complication or death.", "Mitigated by careful technique and monitoring."]
                 ].map((row, idx) => (
                   <tr key={idx} className={idx % 2 === 0 ? "bg-white" : "bg-slate-50"}>
-                    <td className="px-6 py-4 text-xs font-black text-[#be123c] border-r border-slate-200">{row[0]}</td>
-                    <td className="px-6 py-4 text-xs font-bold text-slate-700 border-r border-slate-200">{row[1]}</td>
+                    <td className="px-6 py-4 text-xs font-black text-[#be123c] border-e border-slate-200">{row[0]}</td>
+                    <td className="px-6 py-4 text-xs font-bold text-slate-700 border-e border-slate-200">{row[1]}</td>
                     <td className="px-6 py-4 text-xs font-medium text-slate-500 italic">{row[2]}</td>
                   </tr>
                 ))}
@@ -565,7 +556,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
           </div>
           <div className="border-4 border-slate-900 rounded-3xl p-6 bg-slate-50 relative">
              <PartWarning fields={["individual_risks"]} />
-             <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Risks specific to THIS patient (e.g. comorbidities, age/weight, anticoagulation, sickle-cell status, pregnancy, prior surgery, malignant vs benign effusion, lung re-expansion status, frailty, renal/hepatic function):</label>
+             <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">{i18n.t("Risks specific to THIS patient (e.g. comorbidities, age/weight, anticoagulation, sickle-cell status, pregnancy, prior surgery, malignant vs benign effusion, lung re-expansion status, frailty, renal/hepatic function):")}</label>
              <textarea 
                rows={3}
                value={formData.individual_risks}
@@ -578,14 +569,14 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
 
         {/* Part E */}
         <section>
-          <div className="bg-[#ea580c] text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ml-4">Part E — Alternatives to the Proposed Procedure</div>
+          <div className="bg-[#ea580c] text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part E — Alternatives to the Proposed Procedure")}</div>
           <div className="border-4 border-slate-900 rounded-3xl overflow-hidden shadow-xl mb-4">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-start border-collapse">
               <thead className="bg-slate-900 text-white">
                 <tr>
-                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border-r border-slate-700">Alternative Option</th>
-                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border-r border-slate-700">Description</th>
-                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest">Limitations / Why it may not suit</th>
+                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border-e border-slate-700">{i18n.t("Alternative Option")}</th>
+                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border-e border-slate-700">{i18n.t("Description")}</th>
+                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest">{i18n.t("Limitations / Why it may not suit")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200">
@@ -597,8 +588,8 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                   ["No treatment", "Declining pleurodesis.", "Recurrent effusion / pneumothorax with ongoing breathlessness and repeated procedures."]
                 ].map((row, idx) => (
                   <tr key={idx} className={idx % 2 === 0 ? "bg-white" : "bg-slate-50"}>
-                    <td className="px-6 py-4 text-xs font-black text-[#ea580c] border-r border-slate-200">{row[0]}</td>
-                    <td className="px-6 py-4 text-xs font-bold text-slate-700 border-r border-slate-200">{row[1]}</td>
+                    <td className="px-6 py-4 text-xs font-black text-[#ea580c] border-e border-slate-200">{row[0]}</td>
+                    <td className="px-6 py-4 text-xs font-bold text-slate-700 border-e border-slate-200">{row[1]}</td>
                     <td className="px-6 py-4 text-xs font-medium text-slate-500 italic">{row[2]}</td>
                   </tr>
                 ))}
@@ -607,7 +598,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
           </div>
           <div className="border-4 border-slate-900 rounded-3xl p-6 bg-slate-50 relative">
              <PartWarning fields={["alternatives_discussed"]} />
-             <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Alternatives discussed with this patient and what is likely to happen with no treatment:</label>
+             <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">{i18n.t("Alternatives discussed with this patient and what is likely to happen with no treatment:")}</label>
              <textarea 
                rows={3}
                value={formData.alternatives_discussed}
@@ -620,11 +611,11 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
 
         {/* Part E2 */}
         <section>
-          <div className="bg-[#ea580c] text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ml-4">Part E2 — Sclerosant (Pleurodesis Agent)</div>
+          <div className="bg-[#ea580c] text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part E2 — Sclerosant (Pleurodesis Agent)")}</div>
           <div className="border-4 border-slate-900 rounded-3xl p-8 grid grid-cols-1 md:grid-cols-2 gap-8 shadow-inner bg-slate-50 relative">
              <PartWarning fields={["sclerosant_agent"]} />
              <div className="space-y-2">
-               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Sclerosant / Agent to be used *</label>
+               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Sclerosant / Agent to be used *")}</label>
                <input 
                  type="text" 
                  value={formData.sclerosant_agent} 
@@ -634,7 +625,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                />
              </div>
              <div className="space-y-2">
-               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Dose / Concentration</label>
+               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Dose / Concentration")}</label>
                <input 
                  type="text" 
                  value={formData.dose_concentration} 
@@ -644,7 +635,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                />
              </div>
              <div className="space-y-2">
-               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Diluent & Volume (e.g. saline)</label>
+               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Diluent & Volume (e.g. saline)")}</label>
                <input 
                  type="text" 
                  value={formData.diluent_volume} 
@@ -654,7 +645,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                />
              </div>
              <div className="space-y-2">
-               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Intrapleural Local Anaesthetic (Drug & Dose)</label>
+               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Intrapleural Local Anaesthetic (Drug & Dose)")}</label>
                <input 
                  type="text" 
                  value={formData.intrapleural_anaesthetic_dose} 
@@ -664,7 +655,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                />
              </div>
              <div className="md:col-span-2 space-y-2">
-               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Agent-specific risks discussed with the patient (e.g. talc – higher ARDS risk; bleomycin – systemic effects):</label>
+               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Agent-specific risks discussed with the patient (e.g. talc – higher ARDS risk; bleomycin – systemic effects):")}</label>
                <textarea 
                  rows={2}
                  value={formData.agent_specific_risks}
@@ -678,7 +669,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
 
         {/* Part E3 */}
         <section>
-          <div className="bg-[#ea580c] text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ml-4">Part E3 — Pain Relief & Repeat Pleurodesis</div>
+          <div className="bg-[#ea580c] text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part E3 — Pain Relief & Repeat Pleurodesis")}</div>
           <div className="border-4 border-slate-900 rounded-3xl p-6 bg-slate-50 relative">
              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                {[
@@ -694,12 +685,12 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                      disabled={readOnly}
                      className="mt-1 w-5 h-5 text-[#ea580c] rounded focus:ring-[#ea580c]"
                    />
-                   <span className="text-xs font-bold text-slate-700 leading-tight">{item.label}</span>
+                   <span className="text-xs font-bold text-slate-700 leading-tight">{i18n.tx(item.label)}</span>
                  </label>
                ))}
              </div>
              <div className="space-y-2">
-               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Discussion about agent choice, pain relief and likelihood of success:</label>
+               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">{i18n.t("Discussion about agent choice, pain relief and likelihood of success:")}</label>
                <textarea 
                  rows={3}
                  value={formData.discussion_notes}
@@ -713,10 +704,10 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
 
         {/* Part F */}
         <section>
-           <div className="bg-[#475569] text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ml-4">Part F — Anaesthesia & Sedation</div>
+           <div className="bg-[#475569] text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part F — Anaesthesia & Sedation")}</div>
            <div className="border-4 border-slate-900 rounded-3xl p-6 bg-slate-50 space-y-4 relative">
               <PartWarning fields={["anaesthesia_type"]} />
-              <p className="text-xs font-bold text-slate-500 mb-4">Anaesthesia will be discussed and provided by the anaesthetist. Planned for this procedure:</p>
+              <p className="text-xs font-bold text-slate-500 mb-4">{i18n.t("Anaesthesia will be discussed and provided by the anaesthetist. Planned for this procedure:")}</p>
               <div className="grid grid-cols-1 gap-3">
                 {["Local anaesthesia (intrapleural + drain site)", "Local anaesthesia with sedation", "Systemic analgesia / pre-medication"].map(type => (
                   <label key={type} className="flex items-center gap-3 p-3 bg-white border-2 border-slate-200 rounded-xl cursor-pointer group">
@@ -737,11 +728,11 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
 
         {/* Part G */}
         <section>
-          <div className="bg-[#475569] text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ml-4">Part G — Additional Procedures, Blood & Tissue</div>
+          <div className="bg-[#475569] text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part G — Additional Procedures, Blood & Tissue")}</div>
           <div className="border-4 border-slate-900 rounded-3xl p-8 grid grid-cols-1 md:grid-cols-2 gap-8 shadow-inner bg-slate-50 relative">
-             <p className="text-xs font-bold text-slate-500 col-span-1 md:col-span-2">During the procedure the team may find conditions needing additional or different procedures not foreseen at consent. These will only be done if necessary to save life or prevent serious harm, in the patient's best interests.</p>
+             <p className="text-xs font-bold text-slate-500 col-span-1 md:col-span-2">{i18n.t("During the procedure the team may find conditions needing additional or different procedures not foreseen at consent. These will only be done if necessary to save life or prevent serious harm, in the patient's best interests.")}</p>
              <div className="md:col-span-2 space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Additional procedures consented to if needed (write ‘none’ if not applicable):</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Additional procedures consented to if needed (write ‘none’ if not applicable):")}</label>
                 <textarea 
                   rows={2}
                   value={formData.additional_procedures_consented}
@@ -751,7 +742,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                 />
              </div>
              <div className="md:col-span-2 space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Procedures NOT to be carried out under any circumstances:</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Procedures NOT to be carried out under any circumstances:")}</label>
                 <textarea 
                   rows={2}
                   value={formData.procedures_declined}
@@ -761,7 +752,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                 />
              </div>
              <div className="space-y-2">
-               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Consent to transfusion of blood / blood products if clinically required</label>
+               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Consent to transfusion of blood / blood products if clinically required")}</label>
                <div className="grid grid-cols-1 gap-2 p-3 bg-white border-2 border-slate-200 rounded-xl">
                  {["Consents", "Declines (record reason / advance directive)", "Discuss"].map(type => (
                    <label key={type} className="flex items-center gap-2 cursor-pointer group">
@@ -779,7 +770,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                </div>
              </div>
              <div className="space-y-2">
-               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Clinical photography & video</label>
+               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Clinical photography & video")}</label>
                <div className="grid grid-cols-1 gap-2 p-3 bg-white border-2 border-slate-200 rounded-xl">
                  {["Consents – for clinical record", "Consents – anonymised teaching / training / audit", "Declines"].map(type => (
                    <label key={type} className="flex items-center gap-2 cursor-pointer group">
@@ -805,7 +796,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                     disabled={readOnly}
                     className="mt-1 w-5 h-5 text-[#1e40af] rounded focus:ring-[#1e40af]"
                   />
-                  <span className="text-xs font-bold text-slate-700 leading-tight">Consents to removed tissue handled per policy; device/brand & NAFDAC Reg. No.</span>
+                  <span className="text-xs font-bold text-slate-700 leading-tight">{i18n.t("Consents to removed tissue handled per policy; device/brand & NAFDAC Reg. No.")}</span>
                 </label>
              </div>
           </div>
@@ -813,11 +804,11 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
 
         {/* Part H */}
         <section>
-           <div className="bg-[#475569] text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ml-4">Part H — Language, Interpretation & Capacity</div>
+           <div className="bg-[#475569] text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part H — Language, Interpretation & Capacity")}</div>
            <div className="border-4 border-slate-900 rounded-3xl p-6 bg-slate-50 space-y-4 relative">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                   <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Language of discussion</label>
+                   <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Language of discussion")}</label>
                    <input 
                      type="text" 
                      value={formData.discussion_language} 
@@ -827,7 +818,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                    />
                 </div>
                 <div className="space-y-2">
-                   <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Interpreter used?</label>
+                   <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Interpreter used?")}</label>
                    <div className="flex gap-4 p-3 bg-white border-2 border-slate-200 rounded-xl">
                      {["No", "Yes"].map(type => (
                        <label key={type} className="flex items-center gap-2 cursor-pointer group">
@@ -845,7 +836,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                    </div>
                 </div>
                 <div className="space-y-2">
-                   <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Interpreter Full Name</label>
+                   <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Interpreter Full Name")}</label>
                    <input 
                      type="text" 
                      value={formData.interpreter_name} 
@@ -855,7 +846,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                    />
                 </div>
                 <div className="space-y-2">
-                   <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Designation / Bleep</label>
+                   <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Designation / Bleep")}</label>
                    <input 
                      type="text" 
                      value={formData.interpreter_designation} 
@@ -869,9 +860,9 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                     {readOnly ? (
                       <div className="h-full w-full flex items-center justify-center p-2">
                         {formData.interpreter_signature ? (
-                          <img src={getSigUrl(formData.interpreter_signature)} alt="Interpreter Signature" className="max-h-full max-w-full object-contain" />
+                          <img src={getSigUrl(formData.interpreter_signature)} alt={i18n.t("Interpreter Signature")} className="max-h-full max-w-full object-contain" />
                         ) : (
-                          <span className="text-slate-300 font-bold uppercase text-xs">No Signature</span>
+                          <span className="text-slate-300 font-bold uppercase text-xs">{i18n.t("No Signature")}</span>
                         )}
                       </div>
                     ) : (
@@ -882,10 +873,10 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                       />
                     )}
                   </div>
-                  <p className="text-[10px] text-slate-400 font-bold italic text-center mt-2">Interpreter Signature</p>
+                  <p className="text-[10px] text-slate-400 font-bold italic text-center mt-2">{i18n.t("Interpreter Signature")}</p>
                 </div>
                 <div className="space-y-2">
-                   <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Date / Time</label>
+                   <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Date / Time")}</label>
                    <input 
                      type="datetime-local" 
                      value={formData.interpreter_date} 
@@ -900,20 +891,18 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
 
         {/* Part I & J */}
         <section className="space-y-12 bg-slate-900 p-10 rounded-[3rem] shadow-2xl">
-          <h3 className="text-center text-white font-black uppercase tracking-[0.5em] text-xl mb-12">Final Declarations & Signatures</h3>
+          <h3 className="text-center text-white font-black uppercase tracking-[0.5em] text-xl mb-12">{i18n.t("Final Declarations & Signatures")}</h3>
           
           {/* Clinician Declaration */}
           <div className="bg-white rounded-3xl p-6 shadow-xl border-t-8 border-[#1e40af] relative flex flex-col">
             <PartWarning fields={["clinician_signature", "clinician_name"]} />
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-[#1e40af] font-black">I</div>
-              <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px]">Declaration of Consenting Clinician</h4>
+              <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-[#1e40af] font-black">{i18n.t("I")}</div>
+              <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px]">{i18n.t("Declaration of Consenting Clinician")}</h4>
             </div>
-            <p className="text-xs text-slate-600 font-bold mb-6 italic border-l-4 border-blue-300 pl-4">
-              I confirm I have explained the procedure and its purpose, the intended benefits, the material risks (serious and frequent), the risks specific to this patient, and the reasonable alternatives including no treatment. I have answered questions honestly, provided any relevant leaflet, and I am satisfied the patient (or parent/guardian) has capacity and consents voluntarily. I have appropriate knowledge of this procedure.
-            </p>
+            <p className="text-xs text-slate-600 font-bold mb-6 italic border-s-4 border-blue-300 ps-4">{i18n.t("I confirm I have explained the procedure and its purpose, the intended benefits, the material risks (serious and frequent), the risks specific to this patient, and the reasonable alternatives including no treatment. I have answered questions honestly, provided any relevant leaflet, and I am satisfied the patient (or parent/guardian) has capacity and consents voluntarily. I have appropriate knowledge of this procedure.")}</p>
             <div className="space-y-4 mb-6">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Part J — Additional Clinician Notes</label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Part J — Additional Clinician Notes")}</label>
               <textarea 
                 rows={2}
                 value={formData.additional_clinician_notes}
@@ -929,9 +918,9 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                   {readOnly ? (
                     <div className="h-full w-full flex items-center justify-center p-2">
                       {formData.clinician_signature ? (
-                        <img src={getSigUrl(formData.clinician_signature)} alt="Clinician Signature" className="max-h-full max-w-full object-contain" />
+                        <img src={getSigUrl(formData.clinician_signature)} alt={i18n.t("Clinician Signature")} className="max-h-full max-w-full object-contain" />
                       ) : (
-                        <span className="text-slate-300 font-bold uppercase text-xs">No Signature</span>
+                        <span className="text-slate-300 font-bold uppercase text-xs">{i18n.t("No Signature")}</span>
                       )}
                     </div>
                   ) : (
@@ -944,15 +933,15 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                 </div>
                 <div className="mt-4 space-y-3">
                    <div className="space-y-1">
-                      <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">Consenting Clinician Name *</p>
+                      <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">{i18n.t("Consenting Clinician Name *")}</p>
                       <input type="text" value={formData.clinician_name} onChange={(e) => handleInputChange("clinician_name", e.target.value)} readOnly={readOnly} className={`w-full border border-slate-200 rounded-lg py-2 px-3 text-xs font-bold text-center outline-none transition-all ${readOnly ? "bg-slate-100" : "bg-slate-50 focus:border-[#1e40af]"}`} />
                    </div>
                    <div className="space-y-1">
-                      <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">Designation / Bleep</p>
+                      <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">{i18n.t("Designation / Bleep")}</p>
                       <input type="text" value={formData.clinician_designation} onChange={(e) => handleInputChange("clinician_designation", e.target.value)} readOnly={readOnly} className={`w-full border border-slate-200 rounded-lg py-2 px-3 text-xs font-bold text-center outline-none transition-all ${readOnly ? "bg-slate-100" : "bg-slate-50 focus:border-[#1e40af]"}`} />
                    </div>
                    <div className="space-y-1">
-                      <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">Date / Time</p>
+                      <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">{i18n.t("Date / Time")}</p>
                       <input type="datetime-local" value={formData.clinician_date} onChange={(e) => handleInputChange("clinician_date", e.target.value)} readOnly={readOnly} className={`w-full border border-slate-200 rounded-lg py-2 px-3 text-xs font-bold text-center outline-none transition-all ${readOnly ? "bg-slate-100" : "bg-slate-50 focus:border-[#1e40af]"}`} />
                    </div>
                 </div>
@@ -963,9 +952,9 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                   {readOnly ? (
                     <div className="h-full w-full flex items-center justify-center p-2">
                       {formData.second_clinician_signature ? (
-                        <img src={getSigUrl(formData.second_clinician_signature)} alt="Second Clinician Signature" className="max-h-full max-w-full object-contain" />
+                        <img src={getSigUrl(formData.second_clinician_signature)} alt={i18n.t("Second Clinician Signature")} className="max-h-full max-w-full object-contain" />
                       ) : (
-                        <span className="text-slate-300 font-bold uppercase text-xs">No Signature</span>
+                        <span className="text-slate-300 font-bold uppercase text-xs">{i18n.t("No Signature")}</span>
                       )}
                     </div>
                   ) : (
@@ -978,11 +967,11 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                 </div>
                 <div className="mt-4 space-y-3">
                    <div className="space-y-1">
-                      <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">Second Clinician Name</p>
+                      <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">{i18n.t("Second Clinician Name")}</p>
                       <input type="text" value={formData.second_clinician_name} onChange={(e) => handleInputChange("second_clinician_name", e.target.value)} readOnly={readOnly} className={`w-full border border-slate-200 rounded-lg py-2 px-3 text-xs font-bold text-center outline-none transition-all ${readOnly ? "bg-slate-100" : "bg-slate-50 focus:border-[#1e40af]"}`} />
                    </div>
                    <div className="space-y-1">
-                      <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">Designation / Bleep</p>
+                      <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">{i18n.t("Designation / Bleep")}</p>
                       <input type="text" value={formData.second_clinician_designation} onChange={(e) => handleInputChange("second_clinician_designation", e.target.value)} readOnly={readOnly} className={`w-full border border-slate-200 rounded-lg py-2 px-3 text-xs font-bold text-center outline-none transition-all ${readOnly ? "bg-slate-100" : "bg-slate-50 focus:border-[#1e40af]"}`} />
                    </div>
                 </div>
@@ -994,8 +983,8 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
           <div className="bg-white rounded-3xl p-6 shadow-xl border-t-8 border-emerald-500 relative flex flex-col mt-8">
             <PartWarning fields={["patient_signature", "read_understood", "risks_explained", "individual_risks_accepted", "modify_approach", "anaesthesia_consent", "withdraw_consent_ack", "additional_procedures_ack"]} />
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-600 font-black">K</div>
-              <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px]">Patient Consent Declaration (Adult with capacity)</h4>
+              <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-600 font-black">{i18n.t("K")}</div>
+              <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px]">{i18n.t("Patient Consent Declaration (Adult with capacity)")}</h4>
             </div>
             <div className="space-y-3 mb-6">
                {[
@@ -1015,7 +1004,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                       disabled={readOnly}
                       className="mt-1 w-4 h-4 text-emerald-600 rounded"
                     />
-                    <span className="text-[10px] font-bold text-emerald-900">{item.label}</span>
+                    <span className="text-[10px] font-bold text-emerald-900">{i18n.tx(item.label)}</span>
                  </label>
                ))}
             </div>
@@ -1025,9 +1014,9 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                   {readOnly ? (
                     <div className="h-full w-full flex items-center justify-center p-2">
                       {formData.patient_signature ? (
-                        <img src={getSigUrl(formData.patient_signature)} alt="Patient Signature" className="max-h-full max-w-full object-contain" />
+                        <img src={getSigUrl(formData.patient_signature)} alt={i18n.t("Patient Signature")} className="max-h-full max-w-full object-contain" />
                       ) : (
-                        <span className="text-slate-300 font-bold uppercase text-xs">No Signature</span>
+                        <span className="text-slate-300 font-bold uppercase text-xs">{i18n.t("No Signature")}</span>
                       )}
                     </div>
                   ) : (
@@ -1040,11 +1029,11 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                 </div>
                 <div className="mt-4 space-y-3">
                    <div className="space-y-1">
-                      <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">Patient Name *</p>
+                      <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">{i18n.t("Patient Name *")}</p>
                       <input type="text" value={formData.patient_name} onChange={(e) => handleInputChange("patient_name", e.target.value)} readOnly={readOnly} className={`w-full border border-slate-200 rounded-lg py-2 px-3 text-xs font-bold text-center outline-none transition-all ${readOnly ? "bg-slate-100" : "bg-slate-50 focus:border-emerald-500"}`} />
                    </div>
                    <div className="space-y-1">
-                      <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">Date / Time</p>
+                      <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">{i18n.t("Date / Time")}</p>
                       <input type="datetime-local" value={formData.patient_date} onChange={(e) => handleInputChange("patient_date", e.target.value)} readOnly={readOnly} className={`w-full border border-slate-200 rounded-lg py-2 px-3 text-xs font-bold text-center outline-none transition-all ${readOnly ? "bg-slate-100" : "bg-slate-50 focus:border-emerald-500"}`} />
                    </div>
                 </div>
@@ -1054,9 +1043,9 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                   {readOnly ? (
                     <div className="h-full w-full flex items-center justify-center p-2">
                       {formData.witness_signature ? (
-                        <img src={getSigUrl(formData.witness_signature)} alt="Witness Signature" className="max-h-full max-w-full object-contain" />
+                        <img src={getSigUrl(formData.witness_signature)} alt={i18n.t("Witness Signature")} className="max-h-full max-w-full object-contain" />
                       ) : (
-                        <span className="text-slate-300 font-bold uppercase text-xs">No Signature</span>
+                        <span className="text-slate-300 font-bold uppercase text-xs">{i18n.t("No Signature")}</span>
                       )}
                     </div>
                   ) : (
@@ -1069,7 +1058,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                 </div>
                 <div className="mt-4 space-y-3">
                    <div className="space-y-1">
-                      <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">Witness Name (If unable to sign)</p>
+                      <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">{i18n.t("Witness Name (If unable to sign)")}</p>
                       <input type="text" value={formData.witness_name} onChange={(e) => handleInputChange("witness_name", e.target.value)} readOnly={readOnly} className={`w-full border border-slate-200 rounded-lg py-2 px-3 text-xs font-bold text-center outline-none transition-all ${readOnly ? "bg-slate-100" : "bg-slate-50 focus:border-emerald-500"}`} />
                    </div>
                 </div>
@@ -1080,14 +1069,14 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
           {/* Part L - Parent / Guardian */}
           <div className="bg-purple-50 border-4 border-purple-200 p-8 rounded-3xl relative mt-8">
              <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 bg-purple-200 rounded-lg flex items-center justify-center text-purple-700 font-black">L</div>
-                <h4 className="font-black text-purple-900 uppercase tracking-widest text-[10px]">Consent by Parent / Guardian</h4>
+                <div className="w-8 h-8 bg-purple-200 rounded-lg flex items-center justify-center text-purple-700 font-black">{i18n.t("L")}</div>
+                <h4 className="font-black text-purple-900 uppercase tracking-widest text-[10px]">{i18n.t("Consent by Parent / Guardian")}</h4>
              </div>
-             <p className="text-xs text-purple-700 font-medium mb-6">Complete for a patient under 18, or who otherwise cannot consent for themselves. Consent is given by a person with parental responsibility or legal guardian, in the patient's best interests.</p>
+             <p className="text-xs text-purple-700 font-medium mb-6">{i18n.t("Complete for a patient under 18, or who otherwise cannot consent for themselves. Consent is given by a person with parental responsibility or legal guardian, in the patient's best interests.")}</p>
              
              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                <div className="space-y-2">
-                  <label className="block text-[10px] font-black text-purple-400 uppercase tracking-widest">Name of Parent / Guardian</label>
+                  <label className="block text-[10px] font-black text-purple-400 uppercase tracking-widest">{i18n.t("Name of Parent / Guardian")}</label>
                   <input 
                     type="text" 
                     value={formData.parent_guardian_name} 
@@ -1098,7 +1087,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                </div>
                
                <div className="space-y-2">
-                  <label className="block text-[10px] font-black text-purple-400 uppercase tracking-widest">Relationship to Patient</label>
+                  <label className="block text-[10px] font-black text-purple-400 uppercase tracking-widest">{i18n.t("Relationship to Patient")}</label>
                   <input 
                     type="text" 
                     value={formData.relationship} 
@@ -1109,7 +1098,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                </div>
 
                <div className="space-y-2 md:col-span-2">
-                 <label className="block text-[10px] font-black text-purple-400 uppercase tracking-widest">Legal Basis (If not a parent)</label>
+                 <label className="block text-[10px] font-black text-purple-400 uppercase tracking-widest">{i18n.t("Legal Basis (If not a parent)")}</label>
                  <div className="flex gap-4 p-3 bg-white border-2 border-purple-200 rounded-xl">
                    {["Parental responsibility", "Legal guardian", "Court order"].map(type => (
                      <label key={type} className="flex items-center gap-2 cursor-pointer group">
@@ -1132,9 +1121,9 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                    {readOnly ? (
                      <div className="h-full w-full flex items-center justify-center p-2">
                        {formData.parent_signature ? (
-                         <img src={getSigUrl(formData.parent_signature)} alt="Signature" className="max-h-full max-w-full object-contain" />
+                         <img src={getSigUrl(formData.parent_signature)} alt={i18n.t("Signature")} className="max-h-full max-w-full object-contain" />
                        ) : (
-                         <span className="text-purple-300 font-bold uppercase text-xs">No Signature</span>
+                         <span className="text-purple-300 font-bold uppercase text-xs">{i18n.t("No Signature")}</span>
                        )}
                      </div>
                    ) : (
@@ -1145,7 +1134,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                      />
                    )}
                  </div>
-                 <p className="text-[10px] text-purple-400 font-bold italic text-center mt-2">Parent / Guardian Signature</p>
+                 <p className="text-[10px] text-purple-400 font-bold italic text-center mt-2">{i18n.t("Parent / Guardian Signature")}</p>
                  <input type="datetime-local" value={formData.parent_date} onChange={(e) => handleInputChange("parent_date", e.target.value)} readOnly={readOnly} className={`w-full border border-purple-200 rounded-lg py-2 px-3 text-xs font-bold text-center outline-none transition-all ${readOnly ? "bg-purple-100" : "bg-white focus:border-purple-400"}`} />
                </div>
 
@@ -1154,9 +1143,9 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                    {readOnly ? (
                      <div className="h-full w-full flex items-center justify-center p-2">
                        {formData.clinician_confirming_signature ? (
-                         <img src={getSigUrl(formData.clinician_confirming_signature)} alt="Signature" className="max-h-full max-w-full object-contain" />
+                         <img src={getSigUrl(formData.clinician_confirming_signature)} alt={i18n.t("Signature")} className="max-h-full max-w-full object-contain" />
                        ) : (
-                         <span className="text-purple-300 font-bold uppercase text-xs">No Signature</span>
+                         <span className="text-purple-300 font-bold uppercase text-xs">{i18n.t("No Signature")}</span>
                        )}
                      </div>
                    ) : (
@@ -1167,7 +1156,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                      />
                    )}
                  </div>
-                 <p className="text-[10px] text-purple-400 font-bold italic text-center mt-2">Consenting Clinician (Confirming best interests)</p>
+                 <p className="text-[10px] text-purple-400 font-bold italic text-center mt-2">{i18n.t("Consenting Clinician (Confirming best interests)")}</p>
                </div>
              </div>
           </div>
@@ -1175,20 +1164,20 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
           {/* Part M - Confirmation & Withdrawal */}
           <div className="bg-slate-800 border-4 border-slate-700 p-8 rounded-3xl relative mt-8">
              <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 bg-slate-700 rounded-lg flex items-center justify-center text-white font-black">M</div>
-                <h4 className="font-black text-white uppercase tracking-widest text-[10px]">Confirmation & Withdrawal of Consent</h4>
+                <div className="w-8 h-8 bg-slate-700 rounded-lg flex items-center justify-center text-white font-black">{i18n.t("M")}</div>
+                <h4 className="font-black text-white uppercase tracking-widest text-[10px]">{i18n.t("Confirmation & Withdrawal of Consent")}</h4>
              </div>
              
              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2 flex-grow flex flex-col">
-                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Confirmation immediately before the procedure</label>
+                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">{i18n.t("Confirmation immediately before the procedure")}</label>
                   <div className="flex-grow min-h-[250px] border-4 border-dashed border-slate-300 rounded-2xl overflow-hidden bg-slate-50">
                     {readOnly ? (
                       <div className="h-full w-full flex items-center justify-center p-2">
                         {formData.confirming_clinician_signature ? (
-                          <img src={getSigUrl(formData.confirming_clinician_signature)} alt="Signature" className="max-h-full max-w-full object-contain" />
+                          <img src={getSigUrl(formData.confirming_clinician_signature)} alt={i18n.t("Signature")} className="max-h-full max-w-full object-contain" />
                         ) : (
-                          <span className="text-slate-500 font-bold uppercase text-xs">No Signature</span>
+                          <span className="text-slate-500 font-bold uppercase text-xs">{i18n.t("No Signature")}</span>
                         )}
                       </div>
                     ) : (
@@ -1199,18 +1188,18 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                       />
                     )}
                   </div>
-                  <input type="text" placeholder="Confirming Clinician Name" value={formData.confirming_clinician_name} onChange={(e) => handleInputChange("confirming_clinician_name", e.target.value)} readOnly={readOnly} className={`w-full border border-slate-600 rounded-lg py-2 px-3 text-xs font-bold text-center text-white outline-none transition-all ${readOnly ? "bg-slate-700" : "bg-slate-800 focus:border-slate-400"}`} />
+                  <input type="text" placeholder={i18n.t("Confirming Clinician Name")} value={formData.confirming_clinician_name} onChange={(e) => handleInputChange("confirming_clinician_name", e.target.value)} readOnly={readOnly} className={`w-full border border-slate-600 rounded-lg py-2 px-3 text-xs font-bold text-center text-white outline-none transition-all ${readOnly ? "bg-slate-700" : "bg-slate-800 focus:border-slate-400"}`} />
                 </div>
                 
                 <div className="space-y-2 flex-grow flex flex-col">
-                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Withdrawal of Consent</label>
+                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">{i18n.t("Withdrawal of Consent")}</label>
                   <div className="flex-grow min-h-[250px] border-4 border-dashed border-slate-300 rounded-2xl overflow-hidden bg-slate-50">
                     {readOnly ? (
                       <div className="h-full w-full flex items-center justify-center p-2">
                         {formData.withdrawal_patient_signature ? (
-                          <img src={getSigUrl(formData.withdrawal_patient_signature)} alt="Signature" className="max-h-full max-w-full object-contain" />
+                          <img src={getSigUrl(formData.withdrawal_patient_signature)} alt={i18n.t("Signature")} className="max-h-full max-w-full object-contain" />
                         ) : (
-                          <span className="text-slate-500 font-bold uppercase text-xs">No Signature</span>
+                          <span className="text-slate-500 font-bold uppercase text-xs">{i18n.t("No Signature")}</span>
                         )}
                       </div>
                     ) : (
@@ -1221,7 +1210,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                       />
                     )}
                   </div>
-                  <input type="text" placeholder="Patient / Parent Name" value={formData.withdrawal_patient_name} onChange={(e) => handleInputChange("withdrawal_patient_name", e.target.value)} readOnly={readOnly} className={`w-full border border-slate-600 rounded-lg py-2 px-3 text-xs font-bold text-center text-white outline-none transition-all ${readOnly ? "bg-slate-700" : "bg-slate-800 focus:border-slate-400"}`} />
+                  <input type="text" placeholder={i18n.t("Patient / Parent Name")} value={formData.withdrawal_patient_name} onChange={(e) => handleInputChange("withdrawal_patient_name", e.target.value)} readOnly={readOnly} className={`w-full border border-slate-600 rounded-lg py-2 px-3 text-xs font-bold text-center text-white outline-none transition-all ${readOnly ? "bg-slate-700" : "bg-slate-800 focus:border-slate-400"}`} />
                 </div>
              </div>
           </div>
@@ -1236,7 +1225,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
           disabled={submitting}
           className="px-8 py-3 rounded-2xl font-black text-slate-500 hover:bg-slate-200 transition-all uppercase tracking-widest text-sm"
         >
-          {readOnly ? "Close" : "Discard Form"}
+          {readOnly ? i18n.t("Close") : i18n.t("Discard Form")}
         </button>
         <div className="flex gap-4">
           {!readOnly && (
@@ -1248,7 +1237,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                 className="bg-amber-500 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-[0.1em] text-sm shadow-xl hover:bg-amber-600 transition-all flex items-center gap-2 disabled:opacity-50"
               >
                 {submitting ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
-                {submitting ? "Saving..." : "Save Draft"}
+                {submitting ? i18n.t("Saving...") : i18n.t("Save Draft")}
               </button>
 
               <button 
@@ -1261,7 +1250,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
                 ) : (
                   <CheckCircle size={20} />
                 )}
-                {submitting ? "Finalizing..." : "Submit & Print Consent"}
+                {submitting ? i18n.t("Finalizing...") : i18n.t("Submit & Print Consent")}
               </button>
             </>
           )}
@@ -1270,8 +1259,7 @@ const ChemicalPleurodesisConsentForm: React.FC<ChemicalPleurodesisConsentFormPro
               onClick={onPrint}
               className="bg-[#1e40af] text-white px-10 py-4 rounded-2xl font-black uppercase tracking-[0.2em] text-sm shadow-2xl transition-all flex items-center gap-3"
             >
-              <Printer size={20} /> View Full PDF
-            </button>
+              <Printer size={20} />{" "}{i18n.t("View Full PDF")}</button>
           )}
         </div>
       </div>

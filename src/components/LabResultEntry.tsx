@@ -25,6 +25,7 @@ import { labService } from "../services/lab.service";
 import { useNotification } from "../context/NotificationContext";
 import { createPortal } from "react-dom";
 import { getFlagBadgeClass, getFlagLabel } from "../utils/flagColors";
+import { i18n } from "../i18n";
 
 interface ResultParameter {
   id?: number;
@@ -443,12 +444,8 @@ const LabResultEntry: React.FC = () => {
     <div className="space-y-6 animate-in fade-in duration-500">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-black text-slate-800 tracking-tight">
-            Lab Results
-          </h2>
-          <p className="text-sm text-slate-500 font-medium mt-1">
-            Manage and enter laboratory test results
-          </p>
+          <h2 className="text-2xl font-black text-slate-800 tracking-tight">{i18n.t("Lab Results")}</h2>
+          <p className="text-sm text-slate-500 font-medium mt-1">{i18n.t("Manage and enter laboratory test results")}</p>
         </div>
       </div>
 
@@ -456,87 +453,86 @@ const LabResultEntry: React.FC = () => {
         <div className="p-6 border-b border-slate-100 bg-slate-50/50 space-y-4">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="relative max-w-md w-full">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+              <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
               <input
                 type="text"
-                placeholder="Search by Patient, MRN, Service, Encounter, Order No..."
-                className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm font-medium outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 transition-all"
+                placeholder={i18n.t("Search by Patient, MRN, Service, Encounter, Order No...")}
+                className="w-full ps-11 pe-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm font-medium outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 transition-all"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <div className="flex items-center gap-3">
-              <span className="text-xs font-bold text-slate-500 bg-white px-3 py-1.5 rounded-lg border border-slate-200">
-                Total: {totalRecords}
+              <span className="text-xs font-bold text-slate-500 bg-white px-3 py-1.5 rounded-lg border border-slate-200">{i18n.t("Total:")}{" "}{totalRecords}
               </span>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 pt-2">
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-1">Workflow Status</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ms-1">{i18n.t("Workflow Status")}</label>
               <select
                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all"
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
               >
-                <option value="ALL">All Statuses</option>
-                <option value="COLLECTED">Ready for Entry</option>
-                <option value="PROCESSING">Processing / Drafts</option>
-                <option value="TECH_REVIEW">Tech Review</option>
-                <option value="VERIFIED">Verified</option>
-                <option value="RELEASED">Released/Dispatched</option>
-                <option value="REOPENED">Reopened</option>
+                <option value="ALL">{i18n.t("All Statuses")}</option>
+                <option value="COLLECTED">{i18n.t("Ready for Entry")}</option>
+                <option value="PROCESSING">{i18n.t("Processing / Drafts")}</option>
+                <option value="TECH_REVIEW">{i18n.t("Tech Review")}</option>
+                <option value="VERIFIED">{i18n.t("Verified")}</option>
+                <option value="RELEASED">{i18n.t("Released/Dispatched")}</option>
+                <option value="REOPENED">{i18n.t("Reopened")}</option>
               </select>
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-1">Urgency</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ms-1">{i18n.t("Urgency")}</label>
               <select
                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all"
                 value={priorityFilter}
                 onChange={(e) => setPriorityFilter(e.target.value)}
               >
-                <option value="ALL">All Priorities</option>
-                <option value="Stat">Stat (Urgent)</option>
-                <option value="Routine">Routine</option>
+                <option value="ALL">{i18n.t("All Priorities")}</option>
+                <option value="Stat">{i18n.t("Stat (Urgent)")}</option>
+                <option value="Routine">{i18n.t("Routine")}</option>
               </select>
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-1">Date Type</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ms-1">{i18n.t("Date Type")}</label>
               <select
                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all"
                 value={dateTypeFilter}
                 onChange={(e) => setDateTypeFilter(e.target.value as "collected_at" | "ordered_at")}
               >
-                <option value="collected_at">Collected At</option>
-                <option value="ordered_at">Ordered At</option>
+                <option value="collected_at">{i18n.t("Collected At")}</option>
+                <option value="ordered_at">{i18n.t("Ordered At")}</option>
               </select>
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-1">Order Date</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ms-1">{i18n.t("Order Date")}</label>
               <select
                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all"
                 value={dateFilter}
                 onChange={(e) => setDateFilter(e.target.value)}
               >
-                <option value="ALL">All Dates</option>
-                <option value="TODAY">Today</option>
-                <option value="YESTERDAY">Yesterday</option>
-                <option value="WEEK">Last 7 Days</option>
+                <option value="ALL">{i18n.t("All Dates")}</option>
+                <option value="TODAY">{i18n.t("Today")}</option>
+                <option value="YESTERDAY">{i18n.t("Yesterday")}</option>
+                <option value="WEEK">{i18n.t("Last 7 Days")}</option>
               </select>
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-1">Service / Panel</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ms-1">{i18n.t("Service / Panel")}</label>
               <select
                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all"
                 value={serviceFilter}
                 onChange={(e) => setServiceFilter(e.target.value)}
               >
-                <option value="ALL">All Panels</option>
+                <option value="ALL">{i18n.t("All Panels")}</option>
                 {Array.from(new Set(samples.map(s => s.sample_name))).filter(Boolean).map((srv: any, idx) => (
                   <option key={idx} value={srv}>{srv}</option>
                 ))}
@@ -546,16 +542,16 @@ const LabResultEntry: React.FC = () => {
         </div>
 
         <div className="overflow-x-auto pb-24">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-start border-collapse">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-100">
-                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Order / Ref No</th>
-                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Patient Details</th>
-                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Service</th>
-                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Encounter</th>
-                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Ordered / Collected</th>
-                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Status</th>
-                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap text-right">Actions</th>
+                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">{i18n.t("Order / Ref No")}</th>
+                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">{i18n.t("Patient Details")}</th>
+                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">{i18n.t("Service")}</th>
+                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">{i18n.t("Encounter")}</th>
+                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">{i18n.t("Ordered / Collected")}</th>
+                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">{i18n.t("Status")}</th>
+                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap text-end">{i18n.t("Actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -563,15 +559,15 @@ const LabResultEntry: React.FC = () => {
                 <tr>
                   <td colSpan={7} className="p-8 text-center">
                     <Loader2 className="animate-spin mx-auto text-purple-600 mb-2" size={24} />
-                    <p className="text-sm text-slate-500 font-medium">Loading lab samples...</p>
+                    <p className="text-sm text-slate-500 font-medium">{i18n.t("Loading lab samples...")}</p>
                   </td>
                 </tr>
               ) : validSamples.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="p-12 text-center">
                     <Microscope size={48} className="mx-auto text-slate-300 mb-4" />
-                    <p className="text-lg font-bold text-slate-700">No samples found</p>
-                    <p className="text-sm text-slate-500 mt-1">Try adjusting your search criteria</p>
+                    <p className="text-lg font-bold text-slate-700">{i18n.t("No samples found")}</p>
+                    <p className="text-sm text-slate-500 mt-1">{i18n.t("Try adjusting your search criteria")}</p>
                   </td>
                 </tr>
               ) : (
@@ -580,14 +576,14 @@ const LabResultEntry: React.FC = () => {
                     <td className="p-4">
                       <div className="flex flex-col">
                         <span className="text-sm font-bold text-slate-800">{sample.reference_no || "-"}</span>
-                        <span className="text-[10px] font-mono text-slate-500 mt-0.5">ID: {sample.id}</span>
+                        <span className="text-[10px] font-mono text-slate-500 mt-0.5">{i18n.t("ID:")}{" "}{sample.id}</span>
                       </div>
                     </td>
                     <td className="p-4">
                       <div className="flex flex-col">
                         <span className="text-sm font-bold text-slate-800">{sample.patient_name}</span>
                         <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-[10px] font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">MRN: {sample.mrn}</span>
+                          <span className="text-[10px] font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">{i18n.t("MRN:")}{" "}{sample.mrn}</span>
                           <span className="text-[10px] text-slate-500">{sample.contact}</span>
                         </div>
                       </div>
@@ -610,13 +606,13 @@ const LabResultEntry: React.FC = () => {
                       <div className="flex flex-col gap-1">
                         {sample.ordered_at && (
                           <div className="text-xs text-slate-600 font-medium">
-                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">Ordered</span>
+                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">{i18n.t("Ordered")}</span>
                             {new Date(sample.ordered_at).toLocaleString()}
                           </div>
                         )}
                         {sample.collected_at && (
                           <div className="text-xs text-slate-600 font-medium mt-1">
-                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">Collected</span>
+                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">{i18n.t("Collected")}</span>
                             {new Date(sample.collected_at).toLocaleString()}
                           </div>
                         )}
@@ -632,10 +628,10 @@ const LabResultEntry: React.FC = () => {
                                   : sample.workflow_status === "COLLECTED" ? "bg-indigo-50 text-indigo-700 border-indigo-200"
                                   : "bg-amber-50 text-amber-700 border-amber-200"
                       }`}>
-                        {sample.workflow_status === "TECH_REVIEW" ? "Tech Review" : (sample.workflow_status || "PENDING")}
+                        {sample.workflow_status === "TECH_REVIEW" ? i18n.t("Tech Review") : (i18n.tv(sample.workflow_status) || i18n.t("PENDING"))}
                       </span>
                     </td>
-                    <td className="p-4 text-right relative">
+                    <td className="p-4 text-end relative">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -649,55 +645,49 @@ const LabResultEntry: React.FC = () => {
 
                       {/* Dropdown Menu - matches exactly against the unique reference_no */}
                       {activeMenu === sample.reference_no && (
-                        <div className="absolute right-8 top-10 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-10 animate-in fade-in slide-in-from-top-2">
+                        <div className="absolute end-8 top-10 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-10 animate-in fade-in slide-in-from-top-2">
                           
                           {sample.workflow_status === "COLLECTED" && (
                             <button
                               onClick={() => handleOpenModal(sample, "enter")}
-                              className="w-full text-left px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-purple-600 flex items-center gap-2"
+                              className="w-full text-start px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-purple-600 flex items-center gap-2"
                             >
-                              <Edit3 size={16} /> Enter Result
-                            </button>
+                              <Edit3 size={16} />{" "}{i18n.t("Enter Result")}</button>
                           )}
 
                           {(sample.workflow_status === "PROCESSING" || sample.workflow_status === "REOPENED") && (
                             <button
                               onClick={() => handleOpenModal(sample, "update")}
-                              className="w-full text-left px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-purple-600 flex items-center gap-2"
+                              className="w-full text-start px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-purple-600 flex items-center gap-2"
                             >
-                              <Edit3 size={16} /> Update Result
-                            </button>
+                              <Edit3 size={16} />{" "}{i18n.t("Update Result")}</button>
                           )}
                           
                          {(sample.workflow_status === "PROCESSING"  || sample.workflow_status === "REOPENED") && (
                             <button
                               onClick={() => handleOpenReviewModal(sample)}
-                              className="w-full text-left px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-amber-600 flex items-center gap-2"
+                              className="w-full text-start px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-amber-600 flex items-center gap-2"
                             >
-                              <Send size={16} /> Review Result
-                            </button>
+                              <Send size={16} />{" "}{i18n.t("Review Result")}</button>
                           )}
 
                           <button
                             onClick={() => handleOpenModal(sample, "view")}
-                            className="w-full text-left px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-brand-primary flex items-center gap-2"
+                            className="w-full text-start px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-brand-primary flex items-center gap-2"
                           >
-                            <Eye size={16} /> View Entries
-                          </button>
+                            <Eye size={16} />{" "}{i18n.t("View Entries")}</button>
 
                           {sample.workflow_status && !["COLLECTED", "PROCESSING"].includes(sample.workflow_status) && (
                             <button
                               onClick={() => handlePrintPreview(sample)}
-                              className="w-full text-left px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-emerald-600 flex items-center gap-2"
+                              className="w-full text-start px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-emerald-600 flex items-center gap-2"
                             >
-                              <Printer size={16} /> Preview Report
-                            </button>
+                              <Printer size={16} />{" "}{i18n.t("Preview Report")}</button>
                           )}
 
                           {sample.workflow_status && sample.workflow_status !== "PENDING" && (
-                            <button onClick={() => handleOpenReverseModal(sample)} className="w-full text-left px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-rose-600 flex items-center gap-2">
-                              <RotateCcw size={16} /> Reverse
-                            </button>
+                            <button onClick={() => handleOpenReverseModal(sample)} className="w-full text-start px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-rose-600 flex items-center gap-2">
+                              <RotateCcw size={16} />{" "}{i18n.t("Reverse")}</button>
                           )}
                         </div>
                       )}
@@ -712,28 +702,25 @@ const LabResultEntry: React.FC = () => {
         {/* Pagination */}
         {!loading && totalRecords > 0 && (
           <div className="p-4 border-t border-slate-100 bg-slate-50 flex items-center justify-between">
-            <span className="text-xs font-medium text-slate-500">
-              Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
-              {Math.min(currentPage * itemsPerPage, totalRecords)} of{" "}
-              {totalRecords} entries
-            </span>
+            <span className="text-xs font-medium text-slate-500">{i18n.t("Showing")}{" "}{(currentPage - 1) * itemsPerPage + 1}{" "}{i18n.t("to")}{" "}
+              {Math.min(currentPage * itemsPerPage, totalRecords)}{" "}{i18n.t("of")}{" "}
+              {totalRecords}{" "}{i18n.t("entries")}</span>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
                 className="p-1.5 rounded-lg border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
-                <ChevronLeft size={16} />
+                <ChevronLeft className="rtl:-scale-x-100" size={16} />
               </button>
-              <span className="text-xs font-bold text-slate-700 px-2">
-                Page {currentPage} of {totalPages}
+              <span className="text-xs font-bold text-slate-700 px-2">{i18n.t("Page")}{" "}{currentPage}{" "}{i18n.t("of")}{" "}{totalPages}
               </span>
               <button
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
                 className="p-1.5 rounded-lg border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
-                <ChevronRight size={16} />
+                <ChevronRight className="rtl:-scale-x-100" size={16} />
               </button>
             </div>
           </div>
@@ -753,7 +740,7 @@ const LabResultEntry: React.FC = () => {
                   </div>
                   <div>
                     <h2 className="text-xl font-black text-slate-800 tracking-tight">
-                       {modalMode === "enter" ? "Enter Lab Results" : modalMode === "update" ? "Update Lab Results" : "View Lab Results"}
+                       {modalMode === "enter" ? i18n.t("Enter Lab Results") : modalMode === "update" ? i18n.t("Update Lab Results") : i18n.t("View Lab Results")}
                      </h2>
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 text-sm font-medium text-slate-500">
                       <span className="font-bold text-slate-700">{selectedSample.service_name || selectedSample.sample_name}</span>
@@ -775,7 +762,7 @@ const LabResultEntry: React.FC = () => {
                   <div className="flex items-center justify-center py-16">
                     <div className="text-center space-y-3">
                       <Loader2 size={32} className="animate-spin mx-auto text-purple-600" />
-                      <p className="text-sm font-bold text-slate-500">Loading result details...</p>
+                      <p className="text-sm font-bold text-slate-500">{i18n.t("Loading result details...")}</p>
                     </div>
                   </div>
                 )}
@@ -783,26 +770,25 @@ const LabResultEntry: React.FC = () => {
                   <div>
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
                       <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                        <FileText size={14} /> Recorded Parameters
-                      </h4>
+                        <FileText size={14} />{" "}{i18n.t("Recorded Parameters")}</h4>
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-[9px] font-black uppercase tracking-tight px-2 py-0.5 rounded-md bg-red-100 text-red-600 border border-red-200">Critical</span>
-                        <span className="text-[9px] font-black uppercase tracking-tight px-2 py-0.5 rounded-md bg-amber-100 text-amber-600 border border-amber-200">High</span>
-                        <span className="text-[9px] font-black uppercase tracking-tight px-2 py-0.5 rounded-md bg-brand-active text-brand-primary border border-brand-active">Low</span>
-                        <span className="text-[9px] font-black uppercase tracking-tight px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-600 border border-emerald-200">Normal</span>
+                        <span className="text-[9px] font-black uppercase tracking-tight px-2 py-0.5 rounded-md bg-red-100 text-red-600 border border-red-200">{i18n.t("Critical")}</span>
+                        <span className="text-[9px] font-black uppercase tracking-tight px-2 py-0.5 rounded-md bg-amber-100 text-amber-600 border border-amber-200">{i18n.t("High")}</span>
+                        <span className="text-[9px] font-black uppercase tracking-tight px-2 py-0.5 rounded-md bg-brand-active text-brand-primary border border-brand-active">{i18n.t("Low")}</span>
+                        <span className="text-[9px] font-black uppercase tracking-tight px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-600 border border-emerald-200">{i18n.t("Normal")}</span>
                       </div>
                     </div>
                     <div className="border border-slate-200 rounded-2xl overflow-hidden">
-                      <table className="w-full text-left">
+                      <table className="w-full text-start">
                         <thead className="bg-slate-50 border-b border-slate-200">
                           <tr>
-                            <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Parameter</th>
-                            <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Result</th>
-                            <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Unit</th>
-                            <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Ref Range</th>
-                            <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Flag</th>
+                            <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Parameter")}</th>
+                            <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Result")}</th>
+                            <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Unit")}</th>
+                            <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Ref Range")}</th>
+                            <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Flag")}</th>
                             {(modalMode === "enter" || modalMode === "update") && (
-                              <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">Action</th>
+                              <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-end">{i18n.t("Action")}</th>
                             )}
                           </tr>
                         </thead>
@@ -817,15 +803,15 @@ const LabResultEntry: React.FC = () => {
                                 {baseParam && (
                                   <div className="mt-1 flex flex-col gap-0.5">
                                     {(!isFemale && (baseParam.ref_low || baseParam.ref_high)) && (
-                                      <div className="text-[10px] text-slate-500"><span className="font-semibold text-slate-600">Male Ref:</span> {baseParam.ref_low || '-'} to {baseParam.ref_high || '-'}</div>
+                                      <div className="text-[10px] text-slate-500"><span className="font-semibold text-slate-600">{i18n.t("Male Ref:")}</span> {baseParam.ref_low || '-'}{" "}{i18n.t("to")}{" "}{baseParam.ref_high || '-'}</div>
                                     )}
                                     {(isFemale && (baseParam.ref_low_female || baseParam.ref_high_female)) ? (
-                                      <div className="text-[10px] text-slate-500"><span className="font-semibold text-pink-600">Female Ref:</span> {baseParam.ref_low_female || '-'} to {baseParam.ref_high_female || '-'}</div>
+                                      <div className="text-[10px] text-slate-500"><span className="font-semibold text-pink-600">{i18n.t("Female Ref:")}</span> {baseParam.ref_low_female || '-'}{" "}{i18n.t("to")}{" "}{baseParam.ref_high_female || '-'}</div>
                                     ) : (isFemale && (baseParam.ref_low || baseParam.ref_high)) ? (
-                                      <div className="text-[10px] text-slate-500"><span className="font-semibold text-slate-600">Gen Ref:</span> {baseParam.ref_low || '-'} to {baseParam.ref_high || '-'}</div>
+                                      <div className="text-[10px] text-slate-500"><span className="font-semibold text-slate-600">{i18n.t("Gen Ref:")}</span> {baseParam.ref_low || '-'}{" "}{i18n.t("to")}{" "}{baseParam.ref_high || '-'}</div>
                                     ) : null}
                                     {(baseParam.critical_low || baseParam.critical_high) && (
-                                      <div className="text-[10px] text-red-500"><span className="font-semibold text-red-600">Critical:</span> &lt;{baseParam.critical_low || '-'} or &gt;{baseParam.critical_high || '-'}</div>
+                                      <div className="text-[10px] text-red-500"><span className="font-semibold text-red-600">{i18n.t("Critical:")}</span> &lt;{baseParam.critical_low || '-'}{" "}{i18n.t("or >")}{baseParam.critical_high || '-'}</div>
                                     )}
                                   </div>
                                 )}
@@ -835,21 +821,21 @@ const LabResultEntry: React.FC = () => {
                                   <div className="space-y-1">
                                     {baseParam?.value_type === "SELECT" ? (
                                       <select value={res.result_value} onChange={(e) => handleUpdateResultValue(i, e.target.value, baseParam)} className="w-full px-3 py-1.5 bg-white border border-purple-200 rounded-lg text-sm font-bold outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all">
-                                        <option value="">Select Option...</option>
+                                        <option value="">{i18n.t("Select Option...")}</option>
                                         {baseParam.options?.map((opt: any, idx: number) => (<option key={idx} value={opt.option_value}>{opt.option_label}</option>))}
                                       </select>
                                     ) : baseParam?.value_type === "BOOLEAN" ? (
                                       <select value={res.result_value} onChange={(e) => handleUpdateResultValue(i, e.target.value, baseParam)} className="w-full px-3 py-1.5 bg-white border border-purple-200 rounded-lg text-sm font-bold outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all">
-                                        <option value="">Select...</option>
-                                        <option value="1">True / Positive</option>
-                                        <option value="0">False / Negative</option>
+                                        <option value="">{i18n.t("Select...")}</option>
+                                        <option value="1">{i18n.t("True / Positive")}</option>
+                                        <option value="0">{i18n.t("False / Negative")}</option>
                                       </select>
                                     ) : baseParam?.value_type === "NARRATIVE" ? (
-                                      <textarea value={res.result_value} onChange={(e) => handleUpdateResultValue(i, e.target.value, baseParam)} rows={2} className="w-full px-3 py-1.5 bg-white border border-purple-200 rounded-lg text-sm font-medium outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all resize-y" placeholder="Enter narrative result..." />
+                                      <textarea value={res.result_value} onChange={(e) => handleUpdateResultValue(i, e.target.value, baseParam)} rows={2} className="w-full px-3 py-1.5 bg-white border border-purple-200 rounded-lg text-sm font-medium outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all resize-y" placeholder={i18n.t("Enter narrative result...")} />
                                     ) : baseParam?.value_type === "NUMERIC" ? (
-                                      <input type="number" step="any" value={res.result_value} onChange={(e) => handleUpdateResultValue(i, e.target.value, baseParam)} className="w-full px-3 py-1.5 bg-white border border-purple-200 rounded-lg text-sm font-bold outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all" placeholder="Enter numeric value..." />
+                                      <input type="number" step="any" value={res.result_value} onChange={(e) => handleUpdateResultValue(i, e.target.value, baseParam)} className="w-full px-3 py-1.5 bg-white border border-purple-200 rounded-lg text-sm font-bold outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all" placeholder={i18n.t("Enter numeric value...")} />
                                     ) : (
-                                      <input type="text" value={res.result_value} onChange={(e) => handleUpdateResultValue(i, e.target.value, baseParam)} className="w-full px-3 py-1.5 bg-white border border-purple-200 rounded-lg text-sm font-bold outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all" placeholder="Enter text result..." />
+                                      <input type="text" value={res.result_value} onChange={(e) => handleUpdateResultValue(i, e.target.value, baseParam)} className="w-full px-3 py-1.5 bg-white border border-purple-200 rounded-lg text-sm font-bold outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all" placeholder={i18n.t("Enter text result...")} />
                                     )}
                                   </div>
                                 ) : (
@@ -864,7 +850,7 @@ const LabResultEntry: React.FC = () => {
                                 </span>
                               </td>
                               {(modalMode === "enter" || modalMode === "update") && (
-                                <td className="px-4 py-3 text-right align-middle">
+                                <td className="px-4 py-3 text-end align-middle">
                                   <button onClick={() => handleRemoveParam(i)} className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors">
                                     <Trash2 size={16} />
                                   </button>
@@ -879,7 +865,7 @@ const LabResultEntry: React.FC = () => {
                     {modalMode === "view" && detailLoading && (
                       <div className="py-6 text-center">
                         <Loader2 size={24} className="animate-spin text-purple-600 mx-auto mb-2" />
-                        <p className="text-xs text-slate-400 font-bold">Fetching latest auditing data...</p>
+                        <p className="text-xs text-slate-400 font-bold">{i18n.t("Fetching latest auditing data...")}</p>
                       </div>
                     )}
                     {modalMode === "view" && !detailLoading && detailedResult && (
@@ -887,24 +873,22 @@ const LabResultEntry: React.FC = () => {
                         {detailedResult.results?.[0]?.review_comment && (
                           <div className="bg-emerald-50/50 border border-emerald-100 rounded-2xl p-5 space-y-2">
                             <h5 className="text-[10px] font-black text-emerald-600 uppercase tracking-widest flex items-center gap-1.5">
-                              <CheckCircle2 size={12} /> Technician / Doctor Review
-                            </h5>
+                              <CheckCircle2 size={12} />{" "}{i18n.t("Technician / Doctor Review")}</h5>
                             <p className="text-sm font-semibold text-slate-700 leading-relaxed">"{detailedResult.results[0].review_comment}"</p>
                             <div className="flex items-center gap-4 text-[10px] text-slate-400 font-bold">
-                              <span>Reviewed By: {detailedResult.results[0].reviewed_by_name || "Staff"}</span>
-                              {detailedResult.results[0].reviewed_at && <span>Date: {new Date(detailedResult.results[0].reviewed_at).toLocaleString()}</span>}
+                              <span>{i18n.t("Reviewed By:")}{" "}{detailedResult.results[0].reviewed_by_name || i18n.t("Staff")}</span>
+                              {detailedResult.results[0].reviewed_at && <span>{i18n.t("Date:")}{" "}{new Date(detailedResult.results[0].reviewed_at).toLocaleString()}</span>}
                             </div>
                           </div>
                         )}
                         {detailedResult.results?.[0]?.verification_comment && (
                           <div className="bg-purple-50/50 border border-purple-100 rounded-2xl p-5 space-y-2">
                             <h5 className="text-[10px] font-black text-purple-600 uppercase tracking-widest flex items-center gap-1.5">
-                              <ShieldCheck size={12} /> Pathologist Verification
-                            </h5>
+                              <ShieldCheck size={12} />{" "}{i18n.t("Pathologist Verification")}</h5>
                             <p className="text-sm font-semibold text-slate-700 leading-relaxed">"{detailedResult.results[0].verification_comment}"</p>
                             <div className="flex items-center gap-4 text-[10px] text-slate-400 font-bold">
-                              <span>Verified By: {detailedResult.results[0].verified_by_name || "Pathologist"}</span>
-                              {detailedResult.results[0].verified_at && <span>Date: {new Date(detailedResult.results[0].verified_at).toLocaleString()}</span>}
+                              <span>{i18n.t("Verified By:")}{" "}{detailedResult.results[0].verified_by_name || i18n.t("Pathologist")}</span>
+                              {detailedResult.results[0].verified_at && <span>{i18n.t("Date:")}{" "}{new Date(detailedResult.results[0].verified_at).toLocaleString()}</span>}
                             </div>
                           </div>
                         )}
@@ -913,13 +897,13 @@ const LabResultEntry: React.FC = () => {
                   </div>
                 ) : (!detailLoading && (
                   <div className="text-center py-8 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
-                    <p className="text-sm font-medium text-slate-500">No parameters recorded yet.</p>
+                    <p className="text-sm font-medium text-slate-500">{i18n.t("No parameters recorded yet.")}</p>
                   </div>
                 ))}
                 {modalMode === "update" && !detailLoading && (
                   <div className="flex items-center gap-2 text-purple-700 bg-purple-50 px-4 py-3 rounded-xl border border-purple-100">
                     <Edit3 size={14} />
-                    <span className="text-xs font-bold">Edit the result values directly in the table above, then save.</span>
+                    <span className="text-xs font-bold">{i18n.t("Edit the result values directly in the table above, then save.")}</span>
                   </div>
                 )}
               </div>
@@ -929,29 +913,28 @@ const LabResultEntry: React.FC = () => {
                 <div className="px-6 sm:px-8 py-6 bg-white border-t border-slate-100 shrink-0 relative z-10">
                   <div className="bg-purple-50/50 p-6 rounded-[24px] border border-purple-100">
                     <h4 className="text-xs font-black text-purple-600 uppercase tracking-widest mb-4 flex items-center gap-2">
-                      <Plus size={14} /> Add New Parameter
-                    </h4>
+                      <Plus size={14} />{" "}{i18n.t("Add New Parameter")}</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
                       <div className="space-y-1.5 lg:col-span-2 relative" ref={paramDropdownRef}>
-                        <label className="text-[10px] font-bold text-slate-500 uppercase ml-1">Select Parameter</label>
+                        <label className="text-[10px] font-bold text-slate-500 uppercase ms-1">{i18n.t("Select Parameter")}</label>
                         <div className="relative">
-                          <button type="button" onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="w-full px-4 py-2.5 bg-white border border-purple-100 rounded-xl text-sm font-medium outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all text-left flex items-center justify-between">
-                            <span className={newParam.parameter_id ? "text-slate-800" : "text-slate-400 truncate pr-4"}>
-                              {newParam.parameter_id ? availableParameters.find(p => p.id === newParam.parameter_id)?.parameter_name : "-- Choose Parameter --"}
+                          <button type="button" onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="w-full px-4 py-2.5 bg-white border border-purple-100 rounded-xl text-sm font-medium outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all text-start flex items-center justify-between">
+                            <span className={newParam.parameter_id ? "text-slate-800" : "text-slate-400 truncate pe-4"}>
+                              {newParam.parameter_id ? availableParameters.find(p => p.id === newParam.parameter_id)?.parameter_name : i18n.t("-- Choose Parameter --")}
                             </span>
                             <ChevronDown size={16} className={`text-slate-400 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`} />
                           </button>
                           {isDropdownOpen && (
-                            <div className="absolute bottom-full mb-2 left-0 right-0 bg-white border border-slate-200 rounded-xl shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.15)] z-[200] overflow-hidden flex flex-col animate-in slide-in-from-bottom-2 duration-200">
+                            <div className="absolute bottom-full mb-2 start-0 end-0 bg-white border border-slate-200 rounded-xl shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.15)] z-[200] overflow-hidden flex flex-col animate-in slide-in-from-bottom-2 duration-200">
                               <div className="p-2 border-b border-slate-100 bg-slate-50/50">
                                 <div className="relative">
-                                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
-                                  <input type="text" placeholder="Search parameter..." className="w-full pl-8 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-medium outline-none focus:border-purple-400 transition-all" value={paramSearchTerm} onChange={(e) => setParamSearchTerm(e.target.value)} autoFocus />
+                                  <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                                  <input type="text" placeholder={i18n.t("Search parameter...")} className="w-full ps-8 pe-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-medium outline-none focus:border-purple-400 transition-all" value={paramSearchTerm} onChange={(e) => setParamSearchTerm(e.target.value)} autoFocus />
                                 </div>
                               </div>
                               <div className="max-h-64 overflow-y-auto bg-white">
                                 {availableParameters.filter((p) => p.parameter_name.toLowerCase().includes(paramSearchTerm.toLowerCase()) || p.category_name.toLowerCase().includes(paramSearchTerm.toLowerCase())).map((p) => (
-                                    <button key={p.id} type="button" onClick={() => { setNewParam({ ...newParam, parameter_id: p.id }); setIsDropdownOpen(false); setParamSearchTerm(""); }} className="w-full text-left px-4 py-3 hover:bg-purple-50 border-b border-slate-50 transition-colors last:border-b-0 flex items-center justify-between group">
+                                    <button key={p.id} type="button" onClick={() => { setNewParam({ ...newParam, parameter_id: p.id }); setIsDropdownOpen(false); setParamSearchTerm(""); }} className="w-full text-start px-4 py-3 hover:bg-purple-50 border-b border-slate-50 transition-colors last:border-b-0 flex items-center justify-between group">
                                       <div>
                                         <p className="text-sm font-bold text-slate-800 group-hover:text-purple-700 transition-colors">{p.parameter_name}</p>
                                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">{p.category_name}</p>
@@ -959,7 +942,7 @@ const LabResultEntry: React.FC = () => {
                                     </button>
                                   ))}
                                 {availableParameters.filter((p) => p.parameter_name.toLowerCase().includes(paramSearchTerm.toLowerCase()) || p.category_name.toLowerCase().includes(paramSearchTerm.toLowerCase())).length === 0 && (
-                                  <div className="p-4 text-center text-xs text-slate-500 font-medium">No parameters found.</div>
+                                  <div className="p-4 text-center text-xs text-slate-500 font-medium">{i18n.t("No parameters found.")}</div>
                                 )}
                               </div>
                             </div>
@@ -967,13 +950,13 @@ const LabResultEntry: React.FC = () => {
                         </div>
                       </div>
                       <div className="space-y-1.5 lg:col-span-2">
-                        <label className="text-[10px] font-bold text-slate-500 uppercase ml-1">Result Value</label>
+                        <label className="text-[10px] font-bold text-slate-500 uppercase ms-1">{i18n.t("Result Value")}</label>
                         {(() => {
                           const selectedBaseParam = availableParameters.find((p) => p.id === Number(newParam.parameter_id));
                           if (selectedBaseParam?.value_type === "SELECT") {
                             return (
                               <select className="w-full px-4 py-2.5 bg-white border border-purple-100 rounded-xl text-sm font-medium outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all" value={newParam.result_value} onChange={(e) => setNewParam({ ...newParam, result_value: e.target.value })}>
-                                <option value="">Select Option...</option>
+                                <option value="">{i18n.t("Select Option...")}</option>
                                 {selectedBaseParam.options?.map((opt: any, idx: number) => (<option key={idx} value={opt.option_value}>{opt.option_label}</option>))}
                               </select>
                             );
@@ -981,23 +964,23 @@ const LabResultEntry: React.FC = () => {
                           if (selectedBaseParam?.value_type === "BOOLEAN") {
                             return (
                               <select className="w-full px-4 py-2.5 bg-white border border-purple-100 rounded-xl text-sm font-medium outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all" value={newParam.result_value} onChange={(e) => setNewParam({ ...newParam, result_value: e.target.value })}>
-                                <option value="">Select...</option>
-                                <option value="1">True / Positive</option>
-                                <option value="0">False / Negative</option>
+                                <option value="">{i18n.t("Select...")}</option>
+                                <option value="1">{i18n.t("True / Positive")}</option>
+                                <option value="0">{i18n.t("False / Negative")}</option>
                               </select>
                             );
                           }
                           if (selectedBaseParam?.value_type === "NARRATIVE") {
-                            return <textarea className="w-full px-4 py-2.5 bg-white border border-purple-100 rounded-xl text-sm font-medium outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all resize-y" rows={1} placeholder="Enter narrative..." value={newParam.result_value} onChange={(e) => setNewParam({ ...newParam, result_value: e.target.value })} />;
+                            return <textarea className="w-full px-4 py-2.5 bg-white border border-purple-100 rounded-xl text-sm font-medium outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all resize-y" rows={1} placeholder={i18n.t("Enter narrative...")} value={newParam.result_value} onChange={(e) => setNewParam({ ...newParam, result_value: e.target.value })} />;
                           }
                           if (selectedBaseParam?.value_type === "NUMERIC") {
-                            return <input type="number" step="any" className="w-full px-4 py-2.5 bg-white border border-purple-100 rounded-xl text-sm font-medium outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all" placeholder="e.g. 12.5" value={newParam.result_value} onChange={(e) => setNewParam({ ...newParam, result_value: e.target.value })} />;
+                            return <input type="number" step="any" className="w-full px-4 py-2.5 bg-white border border-purple-100 rounded-xl text-sm font-medium outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all" placeholder={i18n.t("e.g. 12.5")} value={newParam.result_value} onChange={(e) => setNewParam({ ...newParam, result_value: e.target.value })} />;
                           }
-                          return <input className="w-full px-4 py-2.5 bg-white border border-purple-100 rounded-xl text-sm font-medium outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all" placeholder="e.g. Normal" value={newParam.result_value} onChange={(e) => setNewParam({ ...newParam, result_value: e.target.value })} />;
+                          return <input className="w-full px-4 py-2.5 bg-white border border-purple-100 rounded-xl text-sm font-medium outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all" placeholder={i18n.t("e.g. Normal")} value={newParam.result_value} onChange={(e) => setNewParam({ ...newParam, result_value: e.target.value })} />;
                         })()}
                       </div>
                       <div className="lg:col-span-1">
-                        <button onClick={handleAddParam} className="w-full py-2.5 bg-purple-600 text-white rounded-xl text-sm font-bold hover:bg-purple-700 transition-colors flex items-center justify-center gap-2"><Plus size={16} /> Add</button>
+                        <button onClick={handleAddParam} className="w-full py-2.5 bg-purple-600 text-white rounded-xl text-sm font-bold hover:bg-purple-700 transition-colors flex items-center justify-center gap-2"><Plus size={16} />{" "}{i18n.t("Add")}</button>
                       </div>
                     </div>
                   </div>
@@ -1009,20 +992,18 @@ const LabResultEntry: React.FC = () => {
                   <>
                     <div className="flex items-center gap-2 text-amber-600 bg-amber-50 px-4 py-2 rounded-xl border border-amber-100">
                       <AlertCircle size={16} />
-                      <span className="text-xs font-bold">Verify all values before finalizing</span>
+                      <span className="text-xs font-bold">{i18n.t("Verify all values before finalizing")}</span>
                     </div>
                     <div className="flex items-center gap-3 w-full sm:w-auto">
                       <button onClick={() => handleSave(false)} disabled={isSubmitting} className="flex-1 sm:flex-none px-6 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
-                        {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : null} Save Draft
-                      </button>
+                        {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : null}{" "}{i18n.t("Save Draft")}</button>
                       <button onClick={() => handleSave(true)} disabled={isSubmitting} className="flex-1 sm:flex-none px-6 py-2.5 text-sm font-bold text-white bg-purple-600 rounded-xl hover:bg-purple-700 shadow-lg shadow-purple-200 transition-all flex items-center justify-center gap-2 disabled:opacity-50">
-                        {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />} Finalize & Publish
-                      </button>
+                        {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />}{" "}{i18n.t("Finalize & Publish")}</button>
                     </div>
                   </>
                 ) : (
                   <div className="w-full flex justify-end">
-                    <button onClick={handleCloseModal} className="px-6 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">Close</button>
+                    <button onClick={handleCloseModal} className="px-6 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">{i18n.t("Close")}</button>
                   </div>
                 )}
               </div>
@@ -1040,7 +1021,7 @@ const LabResultEntry: React.FC = () => {
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center"><RotateCcw size={22} /></div>
                 <div>
-                  <h3 className="text-lg font-black text-slate-800">Reverse to Pending</h3>
+                  <h3 className="text-lg font-black text-slate-800">{i18n.t("Reverse to Pending")}</h3>
                   <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">{selectedSample.reference_no}</p>
                 </div>
               </div>
@@ -1049,20 +1030,17 @@ const LabResultEntry: React.FC = () => {
             <div className="p-6 space-y-4">
               <div className="p-4 bg-rose-50 border border-rose-100 rounded-2xl flex items-start gap-3">
                 <AlertCircle className="text-rose-600 shrink-0 mt-0.5" size={18} />
-                <p className="text-xs text-rose-800 font-semibold leading-relaxed">
-                  Reversing will completely reset the workflow status back to <strong>PENDING</strong>. The result values will be retained, but the sample will need to be re-processed from the beginning.
-                </p>
+                <p className="text-xs text-rose-800 font-semibold leading-relaxed">{i18n.t("Reversing will completely reset the workflow status back to")}{" "}<strong>{i18n.t("PENDING")}</strong>{i18n.t(". The result values will be retained, but the sample will need to be re-processed from the beginning.")}</p>
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-black text-slate-500 uppercase tracking-widest">Reversal Reason</label>
-                <textarea rows={3} placeholder="Provide reasoning for reversal..." className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold outline-none focus:border-rose-500 focus:bg-white focus:ring-4 focus:ring-rose-500/10 transition-all" value={reverseReason} onChange={(e) => setReverseReason(e.target.value)} />
+                <label className="text-xs font-black text-slate-500 uppercase tracking-widest">{i18n.t("Reversal Reason")}</label>
+                <textarea rows={3} placeholder={i18n.t("Provide reasoning for reversal...")} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold outline-none focus:border-rose-500 focus:bg-white focus:ring-4 focus:ring-rose-500/10 transition-all" value={reverseReason} onChange={(e) => setReverseReason(e.target.value)} />
               </div>
             </div>
             <div className="p-5 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
-              <button onClick={() => setIsReverseModalOpen(false)} className="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">Cancel</button>
+              <button onClick={() => setIsReverseModalOpen(false)} className="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">{i18n.t("Cancel")}</button>
               <button onClick={handleReverse} disabled={isActionSubmitting} className="px-5 py-2.5 text-sm font-bold text-white bg-rose-600 rounded-xl hover:bg-rose-700 shadow-lg shadow-rose-100 transition-all flex items-center gap-1.5 disabled:opacity-50">
-                {isActionSubmitting ? <Loader2 size={16} className="animate-spin" /> : <RotateCcw size={16} />} Confirm Reversal
-              </button>
+                {isActionSubmitting ? <Loader2 size={16} className="animate-spin" /> : <RotateCcw size={16} />}{" "}{i18n.t("Confirm Reversal")}</button>
             </div>
           </div>
         </div>, document.body
@@ -1077,7 +1055,7 @@ const LabResultEntry: React.FC = () => {
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center"><Send size={22} /></div>
                   <div>
-                    <h3 className="text-lg font-black text-slate-800">Review Lab Result</h3>
+                    <h3 className="text-lg font-black text-slate-800">{i18n.t("Review Lab Result")}</h3>
                     <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">{selectedSample.reference_no}</p>
                   </div>
                 </div>
@@ -1086,16 +1064,15 @@ const LabResultEntry: React.FC = () => {
 
               <div className="p-6 space-y-4">
                 <div className="space-y-2">
-                  <label className="text-xs font-black text-slate-500 uppercase tracking-widest">Review Comment</label>
-                  <textarea rows={4} placeholder="Enter review comment (e.g. Reviewed and acceptable)..." className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/10 transition-all" value={reviewComment} onChange={(e) => setReviewComment(e.target.value)} />
+                  <label className="text-xs font-black text-slate-500 uppercase tracking-widest">{i18n.t("Review Comment")}</label>
+                  <textarea rows={4} placeholder={i18n.t("Enter review comment (e.g. Reviewed and acceptable)...")} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/10 transition-all" value={reviewComment} onChange={(e) => setReviewComment(e.target.value)} />
                 </div>
               </div>
 
               <div className="p-5 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
-                <button onClick={() => setIsReviewModalOpen(false)} className="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">Cancel</button>
+                <button onClick={() => setIsReviewModalOpen(false)} className="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">{i18n.t("Cancel")}</button>
                 <button onClick={handleReviewSubmit} disabled={isReviewSubmitting} className="px-5 py-2.5 text-sm font-bold text-white bg-amber-600 rounded-xl hover:bg-amber-700 shadow-lg shadow-amber-100 transition-all flex items-center gap-1.5 disabled:opacity-50">
-                  {isReviewSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />} Submit Review
-                </button>
+                  {isReviewSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}{" "}{i18n.t("Submit Review")}</button>
               </div>
             </div>
           </div>,

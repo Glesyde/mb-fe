@@ -15,11 +15,13 @@ import {
   ServerCrash
 } from 'lucide-react';
 import LoadingAnimation from './animations/LoadingAnimation';
+import { useLanguage, LanguageToggle } from '../i18n';
 import MedBookieLogo from './MedBookieLogo';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { t } = useLanguage();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -63,14 +65,14 @@ const Login: React.FC = () => {
 
   const handlePasskeyLogin = () => {
     // Implement biometric or security key verification
-    alert('Requesting Passkey / Bio-Authentication via system credentials...');
+    alert(t('Requesting Passkey / Bio-Authentication via system credentials...'));
   };
 
   return (
     <div className="min-h-screen w-full bg-white flex flex-col justify-between relative overflow-x-hidden">
       
       {/* Top Utility Nav */}
-      <header className=" w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between z-10">
+      <header className="relative w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between z-10">
 
         <div
           className=" mx-auto"
@@ -79,6 +81,8 @@ const Login: React.FC = () => {
           <MedBookieLogo />
         
         </div>
+
+        <LanguageToggle variant="light" className="absolute top-6 end-6" />
 
         {/* Workspace indicator generalized for multi-tenant SaaS */}
         {/* <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200/60 text-slate-600 text-[11px] font-semibold uppercase tracking-wider">
@@ -94,15 +98,15 @@ const Login: React.FC = () => {
           {/* Welcome Message */}
           <div className="mb-8">
             <h1 className="text-[26px] font-bold text-slate-900 tracking-tight leading-tight">
-              Powering Global Health.
+              {t('Powering Global Health.')}
             </h1>
             <p className="text-slate-700 mt-1.5">
-              Welcome back
+              {t('Welcome back')}
             </p>
           </div>
 
           {/* Form Card */}
-          <div className="bg-white/95 rounded-2xl border border-slate-200/80 shadow-[0_8px_40px_-10px_rgba(15,23,42,0.06)] p-6 sm:p-8 text-left">
+          <div className="bg-white/95 rounded-2xl border border-slate-200/80 shadow-[0_8px_40px_-10px_rgba(15,23,42,0.06)] p-6 sm:p-8 text-start">
             
             {/* Action Card Header: Enterprise Passkey Option */}
             <button
@@ -111,13 +115,13 @@ const Login: React.FC = () => {
               className="w-full py-2.5 px-4 bg-white border border-slate-300 hover:border-slate-400 hover:bg-slate-50 rounded-xl text-slate-700 font-semibold text-xs tracking-wide flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm"
             >
               <KeyRound className="w-4 h-4 text-[#F28C0F]" />
-              Sign in with passkey
+              {t('Sign in with passkey')}
             </button>
 
             <div className="relative flex py-4 items-center">
               <div className="flex-grow border-t border-slate-200" />
               <span className="flex-shrink mx-3 text-[10px] text-slate-400 font-black tracking-widest uppercase">
-                OR
+                {t('OR')}
               </span>
               <div className="flex-grow border-t border-slate-200" />
             </div>
@@ -126,7 +130,7 @@ const Login: React.FC = () => {
             {error && (
               <div className="mb-4 p-3 bg-red-50 border border-red-200/80 rounded-xl flex gap-2.5 items-start text-red-700 animate-in fade-in zoom-in-95 duration-150">
                 <AlertCircle className="w-4.5 h-4.5 text-red-600 flex-shrink-0 mt-0.5" />
-                <p className="text-[11px] font-medium leading-relaxed">{error}</p>
+                <p className="text-[11px] font-medium leading-relaxed">{t(error)}</p>
               </div>
             )}
 
@@ -135,17 +139,17 @@ const Login: React.FC = () => {
               {/* Username Input */}
               <div className="space-y-1">
                 <label htmlFor="username" className="text-xs font-semibold text-slate-700">
-                  Staff ID / Email address
+                  {t('Staff ID / Email address')}
                 </label>
                 <div className="relative group">
-                  <UserIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-[#F28C0F] transition-colors pointer-events-none" />
+                  <UserIcon className="absolute start-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-[#F28C0F] transition-colors pointer-events-none" />
                   <input
                     id="username"
                     type="text"
                     required
                     autoFocus
-                    placeholder="e.g. nurse_jane or id@medbookie.com"
-                    className="w-full pl-10 pr-4 py-2.5 bg-slate-50/50 border border-slate-300 rounded-xl text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#F28C0F] focus:ring-4 focus:ring-[#F28C0F]/8 outline-none transition-all"
+                    placeholder={t('e.g. nurse_jane or id@medbookie.com')}
+                    className="w-full ps-10 pe-4 py-2.5 bg-slate-50/50 border border-slate-300 rounded-xl text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#F28C0F] focus:ring-4 focus:ring-[#F28C0F]/8 outline-none transition-all"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                   />
@@ -156,30 +160,31 @@ const Login: React.FC = () => {
               <div className="space-y-1">
                 <div className="flex justify-between items-center">
                   <label htmlFor="password" className="text-xs font-semibold text-slate-700">
-                    Password
+                    {t('Password')}
                   </label>
                   <button
                     type="button"
                     className="text-xs font-semibold text-[#F28C0F] hover:text-[#D97706]"
                   >
-                    Forgot password?
+                    {t('Forgot password?')}
                   </button>
                 </div>
                 <div className="relative group">
-                  <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-[#F28C0F] transition-colors pointer-events-none" />
+                  <Lock className="absolute start-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-[#F28C0F] transition-colors pointer-events-none" />
                   <input
                     id="password"
                     type={showPassword ? 'text' : 'password'}
                     required
                     placeholder="••••••••••••"
-                    className="w-full pl-10 pr-11 py-2.5 bg-slate-50/50 border border-slate-300 rounded-xl text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#F28C0F] focus:ring-4 focus:ring-[#F28C0F]/8 outline-none transition-all"
+                    className="w-full ps-10 pe-11 py-2.5 bg-slate-50/50 border border-slate-300 rounded-xl text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#F28C0F] focus:ring-4 focus:ring-[#F28C0F]/8 outline-none transition-all"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
+                    aria-label={showPassword ? t('Hide password') : t('Show password')}
+                    className="absolute end-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
                   >
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
@@ -210,12 +215,12 @@ const Login: React.FC = () => {
                 {isLoading ? (
                   <>
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    <span>Processing Secure Link...</span>
+                    <span>{t('Processing Secure Link...')}</span>
                   </>
                 ) : (
                   <>
-                    <span>Continue to portal</span>
-                    <ArrowRight size={14} />
+                    <span>{t('Continue to portal')}</span>
+                    <ArrowRight size={14} className="rtl:rotate-180" />
                   </>
                 )}
               </button>
@@ -255,18 +260,18 @@ const Login: React.FC = () => {
         {/* Global Compliance overlay bar */}
         <div className="w-full bg-slate-50 border-t border-slate-100 py-4 px-6">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-[11px] text-slate-400 font-medium">
-            <span>© {new Date().getFullYear()} MedBookie (HIS). All rights reserved.</span>
+            <span>{t('© {year} MedBookie (HIS). All rights reserved.', { year: new Date().getFullYear() })}</span>
             <div className="flex items-center gap-4 text-slate-400">
               <span className="flex items-center gap-1">
                 <svg className="w-3.5 h-3.5 text-emerald-600 fill-current" viewBox="0 0 24 24">
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
                 </svg>
-                HIPAA, NDPR & ISO 27001 Compliant Network
+                {t('HIPAA, NDPR & ISO 27001 Compliant Network')}
               </span>
               <span>•</span>
-              <a href="#terms" className="hover:text-slate-600 transition-colors">Terms</a>
+              <a href="#terms" className="hover:text-slate-600 transition-colors">{t('Terms')}</a>
               <span>•</span>
-              <a href="#privacy" className="hover:text-slate-600 transition-colors">Privacy Policy</a>
+              <a href="#privacy" className="hover:text-slate-600 transition-colors">{t('Privacy Policy')}</a>
             </div>
           </div>
         </div>

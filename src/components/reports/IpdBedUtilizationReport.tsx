@@ -10,6 +10,7 @@ import {
   ReportShell,
   Pagination,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const IpdBedUtilizationReport: React.FC = () => {
   const [records, setRecords] = useState<any[]>([]);
@@ -68,8 +69,8 @@ const IpdBedUtilizationReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Bed Utilization & Ward Occupancy"
-      subtitle="Live bed inventory, occupancy rate, and status across all wards and rooms."
+      title={i18n.t("Bed Utilization & Ward Occupancy")}
+      subtitle={i18n.t("Live bed inventory, occupancy rate, and status across all wards and rooms.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -87,20 +88,20 @@ const IpdBedUtilizationReport: React.FC = () => {
       filters={
         <>
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input
               type="text"
-              placeholder="Search..."
+              placeholder={i18n.t("Search...")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               disabled={isLoading}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
+              className="w-full ps-10 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
             />
           </div>
           <div>
             <input
               type="text"
-              placeholder="Bed number (e.g. NICU)"
+              placeholder={i18n.t("Bed number (e.g. NICU)")}
               value={bedNumber}
               onChange={(e) => setBedNumber(e.target.value)}
               disabled={isLoading}
@@ -110,7 +111,7 @@ const IpdBedUtilizationReport: React.FC = () => {
           <div>
             <input
               type="text"
-              placeholder="Room name"
+              placeholder={i18n.t("Room name")}
               value={roomName}
               onChange={(e) => setRoomName(e.target.value)}
               disabled={isLoading}
@@ -120,7 +121,7 @@ const IpdBedUtilizationReport: React.FC = () => {
           <div>
             <input
               type="text"
-              placeholder="Bed status"
+              placeholder={i18n.t("Bed status")}
               value={bedStatus}
               onChange={(e) => setBedStatus(e.target.value)}
               disabled={isLoading}
@@ -135,38 +136,38 @@ const IpdBedUtilizationReport: React.FC = () => {
       }
     >
       <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 flex-1 min-h-[300px]">
-        <table className="w-full text-left text-sm whitespace-nowrap">
+        <table className="w-full text-start text-sm whitespace-nowrap">
           <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
             <tr>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Ward</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Room</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Bed Number</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Status</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Total Beds</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Occupied Beds</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Occupancy %</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Ward")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Room")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Bed Number")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Status")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Total Beds")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Occupied Beds")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Occupancy %")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {records.length > 0 ? (
               records.map((row, i) => (
                 <tr key={`${row.ward_id}-${row.bed_number}-${i}`} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50">{renderValue(row.ward_name)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.room_name)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.bed_number)}</td>
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50">{renderValue(row.ward_name)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.room_name)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.bed_number)}</td>
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border uppercase tracking-wider ${badgeClass(row.bed_status)}`}>
                       {renderValue(row.bed_status)}
                     </span>
                   </td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.total_beds)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.occupied_beds)}</td>
-                  <td className="px-4 py-3.5 font-bold text-slate-800 text-right">{renderValue(row.occupancy_percentage)}%</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.total_beds)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.occupied_beds)}</td>
+                  <td className="px-4 py-3.5 font-bold text-slate-800 text-end">{renderValue(row.occupancy_percentage)}%</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={7} className="px-4 py-12 text-center text-slate-400 italic">No bed utilization records found.</td>
+                <td colSpan={7} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No bed utilization records found.")}</td>
               </tr>
             )}
           </tbody>

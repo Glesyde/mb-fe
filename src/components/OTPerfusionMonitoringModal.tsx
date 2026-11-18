@@ -6,6 +6,7 @@ import {
 import { otService, OTSurgery } from "../services/ot.service";
 import { useNotification } from "../context/NotificationContext";
 import SignaturePad from "./SignaturePad";
+import { i18n } from "../i18n";
 
 interface AnaesthesiaMonitoringModalProps {
   isOpen: boolean;
@@ -294,7 +295,7 @@ export const OTPerfusionMonitoringModal: React.FC<AnaesthesiaMonitoringModalProp
     return `${bgColor} ${textColor}`;
   };
 
-  const clearGrid = () => { if (window.confirm("Are you sure you want to clear all monitoring data?")) setGridData({}); };
+  const clearGrid = () => { if (window.confirm(i18n.t("Are you sure you want to clear all monitoring data?"))) setGridData({}); };
 
   const handleSave = async () => {
     setSaving(true);
@@ -394,22 +395,18 @@ export const OTPerfusionMonitoringModal: React.FC<AnaesthesiaMonitoringModalProp
         <div className="bg-[#2A157c] px-6 py-3 border-b border-[#312e81] flex justify-between items-center shrink-0">
           <div className="flex items-center gap-4">
             <div className="relative w-[150px] h-[140px] flex items-center px-2">
-               <img src="/assets/logo-nobg.png" alt="Logo" width={200} height={200} className="object-contain w-full h-full" />
+               <img src="/assets/logo-nobg.png" alt={i18n.t("Logo")} width={200} height={200} className="object-contain w-full h-full" />
             </div>
-            <div className="border-l border-indigo-800 pl-4">
-              <h2 className="text-white font-bold text-lg flex items-center gap-2 tracking-wide">
-                Perfusion (CPB) Record
-                {loading && <Loader2 size={16} className="animate-spin text-brand-primary" />}
+            <div className="border-s border-indigo-800 ps-4">
+              <h2 className="text-white font-bold text-lg flex items-center gap-2 tracking-wide">{i18n.t("Perfusion (CPB) Record")}{loading && <Loader2 size={16} className="animate-spin text-brand-primary" />}
               </h2>
-              <p className="text-indigo-200 text-xs mt-0.5">
-                MRN: {surgery.mrn} |  FULLNAME: {surgery.first_name} {surgery.last_name} |  GENDER :{surgery.gender} | AGE: {surgery.age} | {surgery.surgery_name}  |  WEIGHT :{surgery.weight} | HEIGHT: {surgery.height} |  BMI: {surgery.bmi}  |  ALLERGIES:{surgery.known_allergies} 
+              <p className="text-indigo-200 text-xs mt-0.5">{i18n.t("MRN:")}{" "}{surgery.mrn}{" "}{i18n.t("| FULLNAME:")}{" "}{surgery.first_name} {surgery.last_name}{" "}{i18n.t("| GENDER :")}{i18n.tv(surgery.gender)}{" "}{i18n.t("| AGE:")}{" "}{surgery.age} | {surgery.surgery_name}{" "}{i18n.t("| WEIGHT :")}{surgery.weight}{" "}{i18n.t("| HEIGHT:")}{" "}{surgery.height}{" "}{i18n.t("| BMI:")}{" "}{surgery.bmi}{" "}{i18n.t("| ALLERGIES:")}{surgery.known_allergies} 
               </p>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <button onClick={handleSave} disabled={saving} className="bg-brand-primary hover:bg-brand-active0 text-white px-6 py-2 rounded flex items-center gap-2 text-sm font-bold disabled:opacity-50 transition-colors shadow-lg">
-              {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />} Save Record
-            </button>
+              {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}{" "}{i18n.t("Save Record")}</button>
             <div className="h-8 w-px bg-indigo-800 mx-2"></div>
             <button onClick={toggleFullscreen} className="p-2 text-indigo-200 hover:text-white hover:bg-white/10 rounded transition-colors">
               {isFullscreen ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
@@ -425,8 +422,8 @@ export const OTPerfusionMonitoringModal: React.FC<AnaesthesiaMonitoringModalProp
           {loading && (
             <div className="absolute inset-0 z-[100] flex flex-col items-center justify-center bg-white/70 backdrop-blur-sm transition-all">
               <Loader2 size={64} className="animate-spin text-[#1e1b4b] mb-4" />
-              <h3 className="text-2xl font-black text-[#1e1b4b] tracking-tight animate-pulse">Loading Clinical Record...</h3>
-              <p className="text-slate-600 font-medium mt-2">Retrieving patient data and timelines, please wait.</p>
+              <h3 className="text-2xl font-black text-[#1e1b4b] tracking-tight animate-pulse">{i18n.t("Loading Clinical Record...")}</h3>
+              <p className="text-slate-600 font-medium mt-2">{i18n.t("Retrieving patient data and timelines, please wait.")}</p>
             </div>
           )}
           
@@ -441,24 +438,16 @@ export const OTPerfusionMonitoringModal: React.FC<AnaesthesiaMonitoringModalProp
           <div className="flex-1 flex flex-col overflow-hidden relative bg-slate-100/50">
             {activeTab === "perfusion" && (
               <div className="flex h-full bg-white">
-                <div className="w-56 bg-slate-50 border-r border-slate-200 flex flex-col shrink-0">
+                <div className="w-56 bg-slate-50 border-e border-slate-200 flex flex-col shrink-0">
                   <div className="p-5 border-b border-slate-200 bg-teal-800 text-white">
-                    <h3 className="font-black tracking-tight text-lg flex items-center gap-2"><Droplets size={20}/> Perfusion Chart</h3>
-                    <p className="text-xs text-teal-200 mt-1">Parts A - I</p>
+                    <h3 className="font-black tracking-tight text-lg flex items-center gap-2"><Droplets size={20}/>{" "}{i18n.t("Perfusion Chart")}</h3>
+                    <p className="text-xs text-teal-200 mt-1">{i18n.t("Parts A - I")}</p>
                   </div>
                   <nav className="p-3 space-y-1">
-                    <button onClick={() => setPerfusionSubTab("setup")} className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${perfusionSubTab === "setup" ? "bg-teal-50 text-teal-800 shadow-sm border border-teal-200" : "text-slate-600 hover:bg-slate-100"}`}>
-                      Setup, Circuit & Prime
-                    </button>
-                    <button onClick={() => setPerfusionSubTab("grid")} className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${perfusionSubTab === "grid" ? "bg-teal-50 text-teal-800 shadow-sm border border-teal-200" : "text-slate-600 hover:bg-slate-100"}`}>
-                      Perfusion Grid
-                    </button>
-                    <button onClick={() => setPerfusionSubTab("logs")} className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${perfusionSubTab === "logs" ? "bg-teal-50 text-teal-800 shadow-sm border border-teal-200" : "text-slate-600 hover:bg-slate-100"}`}>
-                      Cardioplegia & ABG
-                    </button>
-                    <button onClick={() => setPerfusionSubTab("balance")} className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${perfusionSubTab === "balance" ? "bg-teal-50 text-teal-800 shadow-sm border border-teal-200" : "text-slate-600 hover:bg-slate-100"}`}>
-                      Balance & Sign-off
-                    </button>
+                    <button onClick={() => setPerfusionSubTab("setup")} className={`w-full text-start px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${perfusionSubTab === "setup" ? "bg-teal-50 text-teal-800 shadow-sm border border-teal-200" : "text-slate-600 hover:bg-slate-100"}`}>{i18n.t("Setup, Circuit & Prime")}</button>
+                    <button onClick={() => setPerfusionSubTab("grid")} className={`w-full text-start px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${perfusionSubTab === "grid" ? "bg-teal-50 text-teal-800 shadow-sm border border-teal-200" : "text-slate-600 hover:bg-slate-100"}`}>{i18n.t("Perfusion Grid")}</button>
+                    <button onClick={() => setPerfusionSubTab("logs")} className={`w-full text-start px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${perfusionSubTab === "logs" ? "bg-teal-50 text-teal-800 shadow-sm border border-teal-200" : "text-slate-600 hover:bg-slate-100"}`}>{i18n.t("Cardioplegia & ABG")}</button>
+                    <button onClick={() => setPerfusionSubTab("balance")} className={`w-full text-start px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${perfusionSubTab === "balance" ? "bg-teal-50 text-teal-800 shadow-sm border border-teal-200" : "text-slate-600 hover:bg-slate-100"}`}>{i18n.t("Balance & Sign-off")}</button>
                   </nav>
                 </div>
 
@@ -467,35 +456,35 @@ export const OTPerfusionMonitoringModal: React.FC<AnaesthesiaMonitoringModalProp
                     <div className="p-8 overflow-y-auto w-full h-full space-y-6">
                       {/* PART A: Patient & Case Details */}
                       <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
-                        <div className="flex items-center gap-2 border-b pb-3"><div className="bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-black">A</div> <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm">Patient & Case Details</h4></div>
+                        <div className="flex items-center gap-2 border-b pb-3"><div className="bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-black">{i18n.t("A")}</div> <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm">{i18n.t("Patient & Case Details")}</h4></div>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                          <div><label className="block text-xs font-bold text-slate-500 mb-1">Blood Group</label><input type="text" className="w-full p-2 border border-slate-300 rounded" value={masterData.perfusion.patient_measurements.blood_group || ""} onChange={e => updateNestedMasterData("perfusion", "patient_measurements", "blood_group", e.target.value)} /></div>
-                          <div><label className="block text-xs font-bold text-slate-500 mb-1">Antibodies / Crossmatch</label><input type="text" className="w-full p-2 border border-slate-300 rounded" value={masterData.perfusion.patient_measurements.antibodies || ""} onChange={e => updateNestedMasterData("perfusion", "patient_measurements", "antibodies", e.target.value)} /></div>
-                          <div><label className="block text-xs font-bold text-slate-500 mb-1">Pre-op Hb / Hct</label><input type="text" className="w-full p-2 border border-slate-300 rounded" value={masterData.perfusion.patient_measurements.pre_op_hb || ""} onChange={e => updateNestedMasterData("perfusion", "patient_measurements", "pre_op_hb", e.target.value)} /></div>
-                          <div><label className="block text-xs font-bold text-slate-500 mb-1">Baseline ACT (s)</label><input type="text" className="w-full p-2 border border-slate-300 rounded font-bold text-red-600" value={masterData.perfusion.patient_measurements.baseline_act || ""} onChange={e => updateNestedMasterData("perfusion", "patient_measurements", "baseline_act", e.target.value)} /></div>
-                          <div><label className="block text-xs font-bold text-slate-500 mb-1">Redo Sternotomy?</label><select className="w-full p-2 border border-slate-300 rounded" value={masterData.perfusion.patient_measurements.redo_sternotomy || ""} onChange={e => updateNestedMasterData("perfusion", "patient_measurements", "redo_sternotomy", e.target.value)}><option>No</option><option>Yes</option></select></div>
-                          <div><label className="block text-xs font-bold text-slate-500 mb-1">Predicted Prime Dilution Hct</label><input type="text" className="w-full p-2 border border-slate-300 rounded" value={masterData.perfusion.patient_measurements.predicted_hct || ""} onChange={e => updateNestedMasterData("perfusion", "patient_measurements", "predicted_hct", e.target.value)} /></div>
+                          <div><label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Blood Group")}</label><input type="text" className="w-full p-2 border border-slate-300 rounded" value={masterData.perfusion.patient_measurements.blood_group || ""} onChange={e => updateNestedMasterData("perfusion", "patient_measurements", "blood_group", e.target.value)} /></div>
+                          <div><label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Antibodies / Crossmatch")}</label><input type="text" className="w-full p-2 border border-slate-300 rounded" value={masterData.perfusion.patient_measurements.antibodies || ""} onChange={e => updateNestedMasterData("perfusion", "patient_measurements", "antibodies", e.target.value)} /></div>
+                          <div><label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Pre-op Hb / Hct")}</label><input type="text" className="w-full p-2 border border-slate-300 rounded" value={masterData.perfusion.patient_measurements.pre_op_hb || ""} onChange={e => updateNestedMasterData("perfusion", "patient_measurements", "pre_op_hb", e.target.value)} /></div>
+                          <div><label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Baseline ACT (s)")}</label><input type="text" className="w-full p-2 border border-slate-300 rounded font-bold text-red-600" value={masterData.perfusion.patient_measurements.baseline_act || ""} onChange={e => updateNestedMasterData("perfusion", "patient_measurements", "baseline_act", e.target.value)} /></div>
+                          <div><label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Redo Sternotomy?")}</label><select className="w-full p-2 border border-slate-300 rounded" value={masterData.perfusion.patient_measurements.redo_sternotomy || ""} onChange={e => updateNestedMasterData("perfusion", "patient_measurements", "redo_sternotomy", e.target.value)}><option>{i18n.t("No")}</option><option>{i18n.t("Yes")}</option></select></div>
+                          <div><label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Predicted Prime Dilution Hct")}</label><input type="text" className="w-full p-2 border border-slate-300 rounded" value={masterData.perfusion.patient_measurements.predicted_hct || ""} onChange={e => updateNestedMasterData("perfusion", "patient_measurements", "predicted_hct", e.target.value)} /></div>
                         </div>
                       </div>
 
                       {/* PART B: Circuit, Oxygenator & Prime */}
                       <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6">
-                        <div className="flex items-center gap-2 border-b pb-3"><div className="bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-black">B</div> <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm">Circuit, Oxygenator & Prime</h4></div>
+                        <div className="flex items-center gap-2 border-b pb-3"><div className="bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-black">{i18n.t("B")}</div> <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm">{i18n.t("Circuit, Oxygenator & Prime")}</h4></div>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">Oxygenator (Make/Model/Size)</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.oxygenator || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "oxygenator", e.target.value)} /></div>
-                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">Arterial Filter</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.arterial_filter || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "arterial_filter", e.target.value)} /></div>
-                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">Tubing Pack / Size</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.tubing_pack || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "tubing_pack", e.target.value)} /></div>
-                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">Pump Type</label><input type="text" placeholder="roller / centrifugal" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.pump_type || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "pump_type", e.target.value)} /></div>
-                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">Cardioplegia System</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.cardioplegia_system || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "cardioplegia_system", e.target.value)} /></div>
-                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">Haemofilter / Ultrafiltration</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.haemofilter || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "haemofilter", e.target.value)} /></div>
-                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">Cell Salvage Device</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.cell_salvage || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "cell_salvage", e.target.value)} /></div>
-                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">Cannulae - Arterial</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.cannulae_art || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "cannulae_art", e.target.value)} /></div>
-                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">Cannulae - Venous</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.cannulae_ven || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "cannulae_ven", e.target.value)} /></div>
-                          <div className="col-span-2"><label className="block text-[10px] font-bold text-slate-500 uppercase">Vent / Suckers</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.vent_suckers || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "vent_suckers", e.target.value)} /></div>
+                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">{i18n.t("Oxygenator (Make/Model/Size)")}</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.oxygenator || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "oxygenator", e.target.value)} /></div>
+                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">{i18n.t("Arterial Filter")}</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.arterial_filter || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "arterial_filter", e.target.value)} /></div>
+                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">{i18n.t("Tubing Pack / Size")}</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.tubing_pack || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "tubing_pack", e.target.value)} /></div>
+                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">{i18n.t("Pump Type")}</label><input type="text" placeholder={i18n.t("roller / centrifugal")} className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.pump_type || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "pump_type", e.target.value)} /></div>
+                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">{i18n.t("Cardioplegia System")}</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.cardioplegia_system || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "cardioplegia_system", e.target.value)} /></div>
+                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">{i18n.t("Haemofilter / Ultrafiltration")}</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.haemofilter || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "haemofilter", e.target.value)} /></div>
+                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">{i18n.t("Cell Salvage Device")}</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.cell_salvage || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "cell_salvage", e.target.value)} /></div>
+                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">{i18n.t("Cannulae - Arterial")}</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.cannulae_art || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "cannulae_art", e.target.value)} /></div>
+                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">{i18n.t("Cannulae - Venous")}</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.cannulae_ven || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "cannulae_ven", e.target.value)} /></div>
+                          <div className="col-span-2"><label className="block text-[10px] font-bold text-slate-500 uppercase">{i18n.t("Vent / Suckers")}</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.vent_suckers || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "vent_suckers", e.target.value)} /></div>
                         </div>
 
                         <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 mt-4">
-                          <h5 className="text-xs font-bold text-slate-700 uppercase mb-3 border-b pb-2">Prime Composition</h5>
+                          <h5 className="text-xs font-bold text-slate-700 uppercase mb-3 border-b pb-2">{i18n.t("Prime Composition")}</h5>
                           <div className="grid grid-cols-3 gap-4">
                             {[
                               { key: "crystalloid", label: "Crystalloid (base)" }, { key: "heparin", label: "Heparin" }, { key: "blood", label: "Blood" },
@@ -503,8 +492,8 @@ export const OTPerfusionMonitoringModal: React.FC<AnaesthesiaMonitoringModalProp
                               { key: "mannitol", label: "Mannitol" }, { key: "calcium", label: "Calcium" }, { key: "other", label: "Other" }
                             ].map(item => (
                               <div key={item.key} className="flex flex-col">
-                                <label className="text-[10px] font-bold text-slate-500">{item.label}</label>
-                                <input type="text" placeholder="Vol/Dose" className="p-1.5 border border-slate-300 rounded text-xs mt-1" 
+                                <label className="text-[10px] font-bold text-slate-500">{i18n.tx(item.label)}</label>
+                                <input type="text" placeholder={i18n.t("Vol/Dose")} className="p-1.5 border border-slate-300 rounded text-xs mt-1" 
                                   value={masterData.perfusion.circuit_prime.components?.[item.key] || ""} 
                                   onChange={e => {
                                     const newComp = { ...masterData.perfusion.circuit_prime.components, [item.key]: e.target.value };
@@ -515,17 +504,17 @@ export const OTPerfusionMonitoringModal: React.FC<AnaesthesiaMonitoringModalProp
                             ))}
                           </div>
                           <div className="grid grid-cols-4 gap-4 mt-4 pt-4 border-t border-slate-200">
-                            <div><label className="block text-[10px] font-bold text-slate-800 uppercase">Total Prime Volume (mL)</label><input type="text" className="w-full p-1.5 border border-slate-300 rounded text-sm font-bold" value={masterData.perfusion.circuit_prime.total_prime_vol || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "total_prime_vol", e.target.value)} /></div>
-                            <div><label className="block text-[10px] font-bold text-slate-800 uppercase">Prime HCT (Calculated)</label><input type="text" className="w-full p-1.5 border border-slate-300 rounded text-sm font-bold" value={masterData.perfusion.circuit_prime.prime_hct || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "prime_hct", e.target.value)} /></div>
-                            <div><label className="block text-[10px] font-bold text-slate-800 uppercase">Target Flow / Target MAP</label><div className="flex gap-1"><input type="text" placeholder="Flow" className="w-1/2 p-1.5 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.target_flow || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "target_flow", e.target.value)} /><input type="text" placeholder="MAP" className="w-1/2 p-1.5 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.target_map || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "target_map", e.target.value)} /></div></div>
-                            <div><label className="block text-[10px] font-bold text-slate-800 uppercase">RAP Performed?</label><select className="w-full p-1.5 border border-slate-300 rounded text-sm font-bold" value={masterData.perfusion.circuit_prime.rap_performed || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "rap_performed", e.target.value)}><option>No</option><option>Yes</option></select></div>
+                            <div><label className="block text-[10px] font-bold text-slate-800 uppercase">{i18n.t("Total Prime Volume (mL)")}</label><input type="text" className="w-full p-1.5 border border-slate-300 rounded text-sm font-bold" value={masterData.perfusion.circuit_prime.total_prime_vol || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "total_prime_vol", e.target.value)} /></div>
+                            <div><label className="block text-[10px] font-bold text-slate-800 uppercase">{i18n.t("Prime HCT (Calculated)")}</label><input type="text" className="w-full p-1.5 border border-slate-300 rounded text-sm font-bold" value={masterData.perfusion.circuit_prime.prime_hct || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "prime_hct", e.target.value)} /></div>
+                            <div><label className="block text-[10px] font-bold text-slate-800 uppercase">{i18n.t("Target Flow / Target MAP")}</label><div className="flex gap-1"><input type="text" placeholder={i18n.t("Flow")} className="w-1/2 p-1.5 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.target_flow || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "target_flow", e.target.value)} /><input type="text" placeholder={i18n.t("MAP")} className="w-1/2 p-1.5 border border-slate-300 rounded text-sm" value={masterData.perfusion.circuit_prime.target_map || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "target_map", e.target.value)} /></div></div>
+                            <div><label className="block text-[10px] font-bold text-slate-800 uppercase">{i18n.t("RAP Performed?")}</label><select className="w-full p-1.5 border border-slate-300 rounded text-sm font-bold" value={masterData.perfusion.circuit_prime.rap_performed || ""} onChange={e => updateNestedMasterData("perfusion", "circuit_prime", "rap_performed", e.target.value)}><option>{i18n.t("No")}</option><option>{i18n.t("Yes")}</option></select></div>
                           </div>
                         </div>
                       </div>
 
                       {/* PART C: Pre-Bypass Safety Checklist */}
                       <div className="bg-teal-50 p-6 rounded-xl border border-teal-200 shadow-sm space-y-4">
-                        <div className="flex items-center gap-2 border-b border-teal-200 pb-3"><div className="bg-teal-700 text-white px-2 py-0.5 rounded font-black">C</div> <h4 className="font-bold text-teal-900 uppercase tracking-wider text-sm">Pre-Bypass Safety Checklist</h4></div>
+                        <div className="flex items-center gap-2 border-b border-teal-200 pb-3"><div className="bg-teal-700 text-white px-2 py-0.5 rounded font-black">{i18n.t("C")}</div> <h4 className="font-bold text-teal-900 uppercase tracking-wider text-sm">{i18n.t("Pre-Bypass Safety Checklist")}</h4></div>
                         <div className="grid grid-cols-2 gap-y-3 gap-x-6">
                           {[
                             { key: "circuit_primed", label: "Circuit primed, de-aired, no bubbles" }, { key: "act_adequate", label: "ACT > 400–480 s confirmed before bypass" },
@@ -542,7 +531,7 @@ export const OTPerfusionMonitoringModal: React.FC<AnaesthesiaMonitoringModalProp
                                   const newVal = { ...masterData.perfusion.safety_checklist, [chk.key]: e.target.checked };
                                   updateMasterData("perfusion", "safety_checklist", newVal);
                                 }} 
-                              /> {chk.label}
+                              /> {i18n.tx(chk.label)}
                             </label>
                           ))}
                         </div>
@@ -555,12 +544,12 @@ export const OTPerfusionMonitoringModal: React.FC<AnaesthesiaMonitoringModalProp
                     <div className="flex flex-col h-full bg-slate-50 relative">
                       <div className="bg-teal-900 px-4 py-2 flex items-center justify-between text-white shrink-0">
                         <div className="flex items-center gap-3">
-                          <div className="bg-teal-700 px-2 py-0.5 rounded font-black border border-teal-500">D</div>
-                          <h3 className="font-bold text-sm tracking-wide">PERFUSION MONITORING GRID</h3>
+                          <div className="bg-teal-700 px-2 py-0.5 rounded font-black border border-teal-500">{i18n.t("D")}</div>
+                          <h3 className="font-bold text-sm tracking-wide">{i18n.t("PERFUSION MONITORING GRID")}</h3>
                         </div>
                         <div className="flex gap-2">
-                          <button onClick={handleAddTimeColumn} className="bg-teal-700 hover:bg-teal-600 px-3 py-1 text-xs font-bold rounded flex items-center gap-1"><Plus size={14}/> Start 2h Chart</button>
-                          <button onClick={handleAddSingleTimeColumn} className="bg-teal-700 hover:bg-teal-600 px-3 py-1 text-xs font-bold rounded flex items-center gap-1"><Plus size={14}/> Add 5m</button>
+                          <button onClick={handleAddTimeColumn} className="bg-teal-700 hover:bg-teal-600 px-3 py-1 text-xs font-bold rounded flex items-center gap-1"><Plus size={14}/>{" "}{i18n.t("Start 2h Chart")}</button>
+                          <button onClick={handleAddSingleTimeColumn} className="bg-teal-700 hover:bg-teal-600 px-3 py-1 text-xs font-bold rounded flex items-center gap-1"><Plus size={14}/>{" "}{i18n.t("Add 5m")}</button>
                         </div>
                       </div>
                       
@@ -568,11 +557,9 @@ export const OTPerfusionMonitoringModal: React.FC<AnaesthesiaMonitoringModalProp
                         <table className="w-full border-collapse min-w-max">
                           <thead className="sticky top-0 z-20">
                             <tr>
-                              <th className="bg-[#1e1b4b] text-white text-left px-3 py-2 border-b border-r border-[#312e81] text-xs font-bold w-[240px] sticky left-0 z-30 shadow-md">
-                                TIME →
-                              </th>
+                              <th className="bg-[#1e1b4b] text-white text-start px-3 py-2 border-b border-e border-[#312e81] text-xs font-bold w-[240px] sticky start-0 z-30 shadow-md">{i18n.t("TIME →")}</th>
                               {timeColumns.map((t) => (
-                                <th key={t} className="bg-[#1e1b4b] text-white text-center px-1 py-2 border-b border-r border-[#312e81] text-xs font-bold min-w-[70px]">{t}</th>
+                                <th key={t} className="bg-[#1e1b4b] text-white text-center px-1 py-2 border-b border-e border-[#312e81] text-xs font-bold min-w-[70px]">{t}</th>
                               ))}
                             </tr>
                           </thead>
@@ -581,8 +568,8 @@ export const OTPerfusionMonitoringModal: React.FC<AnaesthesiaMonitoringModalProp
                               if (param.isHeader) {
                                 return (
                                   <tr key={param.id} className="bg-teal-700">
-                                    <td colSpan={timeColumns.length + 1} className="py-1 px-3 text-[10px] font-black text-white text-center tracking-widest sticky left-0 z-10 border-b border-teal-800 uppercase shadow-sm">
-                                      {param.label}
+                                    <td colSpan={timeColumns.length + 1} className="py-1 px-3 text-[10px] font-black text-white text-center tracking-widest sticky start-0 z-10 border-b border-teal-800 uppercase shadow-sm">
+                                      {i18n.tx(param.label)}
                                     </td>
                                   </tr>
                                 );
@@ -590,12 +577,12 @@ export const OTPerfusionMonitoringModal: React.FC<AnaesthesiaMonitoringModalProp
 
                               return (
                                 <tr key={param.id} className="border-b border-slate-200 hover:bg-teal-50/50 group transition-colors">
-                                  <td className="px-3 py-1.5 border-r border-slate-200 bg-white sticky left-0 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)] text-left group-hover:bg-teal-50/50 leading-tight">
-                                    <div className="font-bold text-slate-800 text-[12px]">{param.label} <span className="font-medium text-slate-400 text-[10px]">({param.unit})</span></div>
+                                  <td className="px-3 py-1.5 border-e border-slate-200 bg-white sticky start-0 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)] text-start group-hover:bg-teal-50/50 leading-tight">
+                                    <div className="font-bold text-slate-800 text-[12px]">{i18n.tx(param.label)} <span className="font-medium text-slate-400 text-[10px]">({param.unit})</span></div>
                                     {param.expect && <div className="text-[9px] text-slate-400">{param.expect}</div>}
                                   </td>
                                   {timeColumns.map((tKey) => (
-                                    <td key={`${param.id}-${tKey}`} className="border-r border-slate-200 p-0 relative">
+                                    <td key={`${param.id}-${tKey}`} className="border-e border-slate-200 p-0 relative">
                                       <input 
                                         type="text" 
                                         value={gridData[tKey]?.[param.id] || ""} 
@@ -618,16 +605,16 @@ export const OTPerfusionMonitoringModal: React.FC<AnaesthesiaMonitoringModalProp
                       {/* PART E: Cardioplegia Log */}
                       <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
                         <div className="p-4 bg-teal-50 border-b border-teal-200 flex justify-between items-center">
-                          <div className="flex items-center gap-2"><div className="bg-teal-700 text-white px-2 py-0.5 rounded font-black text-sm">E</div> <h4 className="font-bold text-teal-900 uppercase text-sm tracking-wider">CARDIOPLEGIA DELIVERY LOG</h4></div>
-                          <button onClick={addPerfCardioplegiaEvent} className="bg-teal-700 hover:bg-teal-800 text-white px-4 py-1.5 rounded text-xs font-bold flex items-center gap-2 transition-colors"><Plus size={14}/> Add Dose</button>
+                          <div className="flex items-center gap-2"><div className="bg-teal-700 text-white px-2 py-0.5 rounded font-black text-sm">{i18n.t("E")}</div> <h4 className="font-bold text-teal-900 uppercase text-sm tracking-wider">{i18n.t("CARDIOPLEGIA DELIVERY LOG")}</h4></div>
+                          <button onClick={addPerfCardioplegiaEvent} className="bg-teal-700 hover:bg-teal-800 text-white px-4 py-1.5 rounded text-xs font-bold flex items-center gap-2 transition-colors"><Plus size={14}/>{" "}{i18n.t("Add Dose")}</button>
                         </div>
-                        <table className="w-full text-left text-sm">
+                        <table className="w-full text-start text-sm">
                           <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase text-[10px]">
-                            <tr><th className="p-3 w-16 text-center">Dose #</th><th className="p-3 w-32">Time</th><th className="p-3 w-40">Type</th><th className="p-3 w-32">Route</th><th className="p-3 w-32">Vol (mL)</th><th className="p-3 w-32">Press (mmHg)</th><th className="p-3 w-32">Temp (°C)</th><th className="p-3">Interval (min)</th></tr>
+                            <tr><th className="p-3 w-16 text-center">{i18n.t("Dose #")}</th><th className="p-3 w-32">{i18n.t("Time")}</th><th className="p-3 w-40">{i18n.t("Type")}</th><th className="p-3 w-32">{i18n.t("Route")}</th><th className="p-3 w-32">{i18n.t("Vol (mL)")}</th><th className="p-3 w-32">{i18n.t("Press (mmHg)")}</th><th className="p-3 w-32">{i18n.t("Temp (°C)")}</th><th className="p-3">{i18n.t("Interval (min)")}</th></tr>
                           </thead>
                           <tbody className="divide-y divide-slate-100">
                             {perfusionEvents.filter(e => e.event_type === 'CARDIOPLEGIA').length === 0 ? (
-                              <tr><td colSpan={8} className="p-8 text-center text-slate-400 font-medium">No doses logged.</td></tr>
+                              <tr><td colSpan={8} className="p-8 text-center text-slate-400 font-medium">{i18n.t("No doses logged.")}</td></tr>
                             ) : (
                               perfusionEvents.map((evt, i) => {
                                 if (evt.event_type !== 'CARDIOPLEGIA') return null;
@@ -636,17 +623,17 @@ export const OTPerfusionMonitoringModal: React.FC<AnaesthesiaMonitoringModalProp
 
                                 return (
                                   <tr key={i} className="hover:bg-slate-50">
-                                    <td className="p-2 border-r"><input type="text" className="w-full p-1.5 text-center border border-transparent hover:border-slate-200 focus:border-teal-400 rounded outline-none" value={evt.details.dose_no || ""} onChange={e => updatePerfEvent(i, "dose_no", e.target.value)} /></td>
-                                    <td className="p-2 border-r">
+                                    <td className="p-2 border-e"><input type="text" className="w-full p-1.5 text-center border border-transparent hover:border-slate-200 focus:border-teal-400 rounded outline-none" value={evt.details.dose_no || ""} onChange={e => updatePerfEvent(i, "dose_no", e.target.value)} /></td>
+                                    <td className="p-2 border-e">
                                       <input type="time" className="w-full p-1.5 border border-transparent hover:border-slate-200 focus:border-teal-400 rounded outline-none" 
                                         value={displayTime} 
                                         onChange={e => updatePerfEvent(i, "event_time", `${safeBaseDate} ${e.target.value}:00`)} />
                                     </td>
-                                    <td className="p-2 border-r"><input type="text" className="w-full p-1.5 border border-transparent hover:border-slate-200 focus:border-teal-400 rounded outline-none" value={evt.details.type || ""} onChange={e => updatePerfEvent(i, "type", e.target.value)} /></td>
-                                    <td className="p-2 border-r"><input type="text" className="w-full p-1.5 border border-transparent hover:border-slate-200 focus:border-teal-400 rounded outline-none" value={evt.details.route || ""} onChange={e => updatePerfEvent(i, "route", e.target.value)} /></td>
-                                    <td className="p-2 border-r"><input type="number" className="w-full p-1.5 border border-transparent hover:border-slate-200 focus:border-teal-400 rounded outline-none" value={evt.details.volume || ""} onChange={e => updatePerfEvent(i, "volume", e.target.value)} /></td>
-                                    <td className="p-2 border-r"><input type="number" className="w-full p-1.5 border border-transparent hover:border-slate-200 focus:border-teal-400 rounded outline-none" value={evt.details.pressure || ""} onChange={e => updatePerfEvent(i, "pressure", e.target.value)} /></td>
-                                    <td className="p-2 border-r"><input type="number" className="w-full p-1.5 border border-transparent hover:border-slate-200 focus:border-teal-400 rounded outline-none" value={evt.details.temp || ""} onChange={e => updatePerfEvent(i, "temp", e.target.value)} /></td>
+                                    <td className="p-2 border-e"><input type="text" className="w-full p-1.5 border border-transparent hover:border-slate-200 focus:border-teal-400 rounded outline-none" value={evt.details.type || ""} onChange={e => updatePerfEvent(i, "type", e.target.value)} /></td>
+                                    <td className="p-2 border-e"><input type="text" className="w-full p-1.5 border border-transparent hover:border-slate-200 focus:border-teal-400 rounded outline-none" value={evt.details.route || ""} onChange={e => updatePerfEvent(i, "route", e.target.value)} /></td>
+                                    <td className="p-2 border-e"><input type="number" className="w-full p-1.5 border border-transparent hover:border-slate-200 focus:border-teal-400 rounded outline-none" value={evt.details.volume || ""} onChange={e => updatePerfEvent(i, "volume", e.target.value)} /></td>
+                                    <td className="p-2 border-e"><input type="number" className="w-full p-1.5 border border-transparent hover:border-slate-200 focus:border-teal-400 rounded outline-none" value={evt.details.pressure || ""} onChange={e => updatePerfEvent(i, "pressure", e.target.value)} /></td>
+                                    <td className="p-2 border-e"><input type="number" className="w-full p-1.5 border border-transparent hover:border-slate-200 focus:border-teal-400 rounded outline-none" value={evt.details.temp || ""} onChange={e => updatePerfEvent(i, "temp", e.target.value)} /></td>
                                     <td className="p-2"><input type="text" className="w-full p-1.5 border border-transparent hover:border-slate-200 focus:border-teal-400 rounded outline-none" value={evt.details.interval || ""} onChange={e => updatePerfEvent(i, "interval", e.target.value)} /></td>
                                   </tr>
                                 )
@@ -659,21 +646,21 @@ export const OTPerfusionMonitoringModal: React.FC<AnaesthesiaMonitoringModalProp
                       {/* PART F: Blood Gas Log */}
                       <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
                         <div className="p-4 bg-teal-50 border-b border-teal-200 flex justify-between items-center">
-                          <div className="flex items-center gap-2"><div className="bg-teal-700 text-white px-2 py-0.5 rounded font-black text-sm">F</div> <h4 className="font-bold text-teal-900 uppercase text-sm tracking-wider">BLOOD GAS, ELECTROLYTE & ANTICOAGULATION</h4></div>
-                          <button onClick={addPerfABGEvent} className="bg-teal-700 hover:bg-teal-800 text-white px-4 py-1.5 rounded text-xs font-bold flex items-center gap-2 transition-colors"><Plus size={14}/> Add ABG/ACT</button>
+                          <div className="flex items-center gap-2"><div className="bg-teal-700 text-white px-2 py-0.5 rounded font-black text-sm">{i18n.t("F")}</div> <h4 className="font-bold text-teal-900 uppercase text-sm tracking-wider">{i18n.t("BLOOD GAS, ELECTROLYTE & ANTICOAGULATION")}</h4></div>
+                          <button onClick={addPerfABGEvent} className="bg-teal-700 hover:bg-teal-800 text-white px-4 py-1.5 rounded text-xs font-bold flex items-center gap-2 transition-colors"><Plus size={14}/>{" "}{i18n.t("Add ABG/ACT")}</button>
                         </div>
                         <div className="overflow-x-auto">
-                          <table className="w-full text-left text-sm min-w-max">
+                          <table className="w-full text-start text-sm min-w-max">
                             <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase text-[10px]">
                               <tr>
-                                <th className="p-2 border-r w-24">Time</th><th className="p-2 border-r w-16">pH</th><th className="p-2 border-r w-16">pCO₂</th><th className="p-2 border-r w-16">pO₂</th>
-                                <th className="p-2 border-r w-20">HCO₃/BE</th><th className="p-2 border-r w-20">Hct/Hb</th><th className="p-2 border-r w-16">K⁺</th><th className="p-2 border-r w-16">Ca²⁺</th>
-                                <th className="p-2 border-r w-16">Glu</th><th className="p-2 border-r w-16">Lact</th><th className="p-2 border-r w-16">ACT</th><th className="p-2">Action taken</th>
+                                <th className="p-2 border-e w-24">{i18n.t("Time")}</th><th className="p-2 border-e w-16">{i18n.t("pH")}</th><th className="p-2 border-e w-16">{i18n.t("pCO₂")}</th><th className="p-2 border-e w-16">{i18n.t("pO₂")}</th>
+                                <th className="p-2 border-e w-20">{i18n.t("HCO₃/BE")}</th><th className="p-2 border-e w-20">{i18n.t("Hct/Hb")}</th><th className="p-2 border-e w-16">{i18n.t("K⁺")}</th><th className="p-2 border-e w-16">{i18n.t("Ca²⁺")}</th>
+                                <th className="p-2 border-e w-16">{i18n.t("Glu")}</th><th className="p-2 border-e w-16">{i18n.t("Lact")}</th><th className="p-2 border-e w-16">{i18n.t("ACT")}</th><th className="p-2">{i18n.t("Action taken")}</th>
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
                               {perfusionEvents.filter(e => e.event_type === 'ABG_LAB').length === 0 ? (
-                                <tr><td colSpan={12} className="p-8 text-center text-slate-400 font-medium">No gas/labs logged.</td></tr>
+                                <tr><td colSpan={12} className="p-8 text-center text-slate-400 font-medium">{i18n.t("No gas/labs logged.")}</td></tr>
                               ) : (
                                 perfusionEvents.map((evt, i) => {
                                   if (evt.event_type !== 'ABG_LAB') return null;
@@ -682,21 +669,21 @@ export const OTPerfusionMonitoringModal: React.FC<AnaesthesiaMonitoringModalProp
 
                                   return (
                                     <tr key={i} className="hover:bg-slate-50">
-                                      <td className="p-1 border-r">
+                                      <td className="p-1 border-e">
                                         <input type="time" className="w-full p-1.5 border border-transparent focus:border-teal-400 rounded outline-none" 
                                           value={displayTime} 
                                           onChange={e => updatePerfEvent(i, "event_time", `${safeBaseDate} ${e.target.value}:00`)} />
                                       </td>
-                                      <td className="p-1 border-r"><input type="text" className="w-full p-1.5 text-center border border-transparent focus:border-teal-400 rounded outline-none" value={evt.details.ph || ""} onChange={e => updatePerfEvent(i, "ph", e.target.value)} /></td>
-                                      <td className="p-1 border-r"><input type="text" className="w-full p-1.5 text-center border border-transparent focus:border-teal-400 rounded outline-none" value={evt.details.pco2 || ""} onChange={e => updatePerfEvent(i, "pco2", e.target.value)} /></td>
-                                      <td className="p-1 border-r"><input type="text" className="w-full p-1.5 text-center border border-transparent focus:border-teal-400 rounded outline-none" value={evt.details.po2 || ""} onChange={e => updatePerfEvent(i, "po2", e.target.value)} /></td>
-                                      <td className="p-1 border-r"><input type="text" className="w-full p-1.5 text-center border border-transparent focus:border-teal-400 rounded outline-none" value={evt.details.hco3 || ""} onChange={e => updatePerfEvent(i, "hco3", e.target.value)} /></td>
-                                      <td className="p-1 border-r"><input type="text" className="w-full p-1.5 text-center border border-transparent focus:border-teal-400 rounded outline-none" value={evt.details.hb_hct || ""} onChange={e => updatePerfEvent(i, "hb_hct", e.target.value)} /></td>
-                                      <td className="p-1 border-r"><input type="text" className="w-full p-1.5 text-center border border-transparent focus:border-teal-400 rounded outline-none font-bold text-red-600" value={evt.details.k || ""} onChange={e => updatePerfEvent(i, "k", e.target.value)} /></td>
-                                      <td className="p-1 border-r"><input type="text" className="w-full p-1.5 text-center border border-transparent focus:border-teal-400 rounded outline-none" value={evt.details.ca || ""} onChange={e => updatePerfEvent(i, "ca", e.target.value)} /></td>
-                                      <td className="p-1 border-r"><input type="text" className="w-full p-1.5 text-center border border-transparent focus:border-teal-400 rounded outline-none" value={evt.details.glucose || ""} onChange={e => updatePerfEvent(i, "glucose", e.target.value)} /></td>
-                                      <td className="p-1 border-r"><input type="text" className="w-full p-1.5 text-center border border-transparent focus:border-teal-400 rounded outline-none font-bold text-red-600" value={evt.details.lactate || ""} onChange={e => updatePerfEvent(i, "lactate", e.target.value)} /></td>
-                                      <td className="p-1 border-r"><input type="text" className="w-full p-1.5 text-center border border-transparent focus:border-teal-400 rounded outline-none font-black" value={evt.details.act || ""} onChange={e => updatePerfEvent(i, "act", e.target.value)} /></td>
+                                      <td className="p-1 border-e"><input type="text" className="w-full p-1.5 text-center border border-transparent focus:border-teal-400 rounded outline-none" value={evt.details.ph || ""} onChange={e => updatePerfEvent(i, "ph", e.target.value)} /></td>
+                                      <td className="p-1 border-e"><input type="text" className="w-full p-1.5 text-center border border-transparent focus:border-teal-400 rounded outline-none" value={evt.details.pco2 || ""} onChange={e => updatePerfEvent(i, "pco2", e.target.value)} /></td>
+                                      <td className="p-1 border-e"><input type="text" className="w-full p-1.5 text-center border border-transparent focus:border-teal-400 rounded outline-none" value={evt.details.po2 || ""} onChange={e => updatePerfEvent(i, "po2", e.target.value)} /></td>
+                                      <td className="p-1 border-e"><input type="text" className="w-full p-1.5 text-center border border-transparent focus:border-teal-400 rounded outline-none" value={evt.details.hco3 || ""} onChange={e => updatePerfEvent(i, "hco3", e.target.value)} /></td>
+                                      <td className="p-1 border-e"><input type="text" className="w-full p-1.5 text-center border border-transparent focus:border-teal-400 rounded outline-none" value={evt.details.hb_hct || ""} onChange={e => updatePerfEvent(i, "hb_hct", e.target.value)} /></td>
+                                      <td className="p-1 border-e"><input type="text" className="w-full p-1.5 text-center border border-transparent focus:border-teal-400 rounded outline-none font-bold text-red-600" value={evt.details.k || ""} onChange={e => updatePerfEvent(i, "k", e.target.value)} /></td>
+                                      <td className="p-1 border-e"><input type="text" className="w-full p-1.5 text-center border border-transparent focus:border-teal-400 rounded outline-none" value={evt.details.ca || ""} onChange={e => updatePerfEvent(i, "ca", e.target.value)} /></td>
+                                      <td className="p-1 border-e"><input type="text" className="w-full p-1.5 text-center border border-transparent focus:border-teal-400 rounded outline-none" value={evt.details.glucose || ""} onChange={e => updatePerfEvent(i, "glucose", e.target.value)} /></td>
+                                      <td className="p-1 border-e"><input type="text" className="w-full p-1.5 text-center border border-transparent focus:border-teal-400 rounded outline-none font-bold text-red-600" value={evt.details.lactate || ""} onChange={e => updatePerfEvent(i, "lactate", e.target.value)} /></td>
+                                      <td className="p-1 border-e"><input type="text" className="w-full p-1.5 text-center border border-transparent focus:border-teal-400 rounded outline-none font-black" value={evt.details.act || ""} onChange={e => updatePerfEvent(i, "act", e.target.value)} /></td>
                                       <td className="p-1"><input type="text" className="w-full p-1.5 border border-transparent focus:border-teal-400 rounded outline-none" value={evt.details.action || ""} onChange={e => updatePerfEvent(i, "action", e.target.value)} /></td>
                                     </tr>
                                   )
@@ -715,42 +702,42 @@ export const OTPerfusionMonitoringModal: React.FC<AnaesthesiaMonitoringModalProp
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {/* PART G: Interventions & Salvage */}
                         <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
-                          <div className="flex items-center gap-2 border-b pb-3"><div className="bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-black">G</div> <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm">Interventions & Salvage</h4></div>
+                          <div className="flex items-center gap-2 border-b pb-3"><div className="bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-black">{i18n.t("G")}</div> <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm">{i18n.t("Interventions & Salvage")}</h4></div>
                           <div className="grid grid-cols-2 gap-4">
-                            <div><label className="block text-xs font-bold text-slate-500 mb-1">UF Volume Removed (mL)</label><input type="number" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.interventions_salvage.uf_vol || ""} onChange={e => updateNestedMasterData("perfusion", "interventions_salvage", "uf_vol", e.target.value)} /></div>
-                            <div><label className="block text-xs font-bold text-slate-500 mb-1">MUF Performed?</label><input type="text" placeholder="Yes/No - volume" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.interventions_salvage.muf || ""} onChange={e => updateNestedMasterData("perfusion", "interventions_salvage", "muf", e.target.value)} /></div>
-                            <div><label className="block text-xs font-bold text-slate-500 mb-1">Cell Salvage Processed (mL)</label><input type="number" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.interventions_salvage.salvage_processed || ""} onChange={e => updateNestedMasterData("perfusion", "interventions_salvage", "salvage_processed", e.target.value)} /></div>
-                            <div><label className="block text-xs font-bold text-slate-500 mb-1">Cell Salvage Returned (mL)</label><input type="number" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.interventions_salvage.salvage_returned || ""} onChange={e => updateNestedMasterData("perfusion", "interventions_salvage", "salvage_returned", e.target.value)} /></div>
-                            <div className="col-span-2"><label className="block text-xs font-bold text-slate-500 mb-1">Haemoconcentration (Hct achieved)</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.interventions_salvage.haemoconcentration || ""} onChange={e => updateNestedMasterData("perfusion", "interventions_salvage", "haemoconcentration", e.target.value)} /></div>
+                            <div><label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("UF Volume Removed (mL)")}</label><input type="number" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.interventions_salvage.uf_vol || ""} onChange={e => updateNestedMasterData("perfusion", "interventions_salvage", "uf_vol", e.target.value)} /></div>
+                            <div><label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("MUF Performed?")}</label><input type="text" placeholder={i18n.t("Yes/No - volume")} className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.interventions_salvage.muf || ""} onChange={e => updateNestedMasterData("perfusion", "interventions_salvage", "muf", e.target.value)} /></div>
+                            <div><label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Cell Salvage Processed (mL)")}</label><input type="number" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.interventions_salvage.salvage_processed || ""} onChange={e => updateNestedMasterData("perfusion", "interventions_salvage", "salvage_processed", e.target.value)} /></div>
+                            <div><label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Cell Salvage Returned (mL)")}</label><input type="number" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.interventions_salvage.salvage_returned || ""} onChange={e => updateNestedMasterData("perfusion", "interventions_salvage", "salvage_returned", e.target.value)} /></div>
+                            <div className="col-span-2"><label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Haemoconcentration (Hct achieved)")}</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm" value={masterData.perfusion.interventions_salvage.haemoconcentration || ""} onChange={e => updateNestedMasterData("perfusion", "interventions_salvage", "haemoconcentration", e.target.value)} /></div>
                             <div className="col-span-2">
-                              <label className="block text-xs font-bold text-slate-500 mb-1">Perfusion events, interventions & problems</label>
-                              <textarea rows={3} className="w-full p-2 border border-slate-300 rounded text-sm outline-none focus:ring-1 focus:ring-teal-500" placeholder="Flow changes, pressures, arrhythmias, comms..." value={masterData.perfusion.interventions_salvage.events_notes || ""} onChange={e => updateNestedMasterData("perfusion", "interventions_salvage", "events_notes", e.target.value)} />
+                              <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Perfusion events, interventions & problems")}</label>
+                              <textarea rows={3} className="w-full p-2 border border-slate-300 rounded text-sm outline-none focus:ring-1 focus:ring-teal-500" placeholder={i18n.t("Flow changes, pressures, arrhythmias, comms...")} value={masterData.perfusion.interventions_salvage.events_notes || ""} onChange={e => updateNestedMasterData("perfusion", "interventions_salvage", "events_notes", e.target.value)} />
                             </div>
                           </div>
                         </div>
 
                         {/* PART H: CPB Fluid Balance Summary */}
                         <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
-                          <div className="flex items-center gap-2 border-b pb-3"><div className="bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-black">H</div> <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm">CPB Fluid Balance Summary</h4></div>
+                          <div className="flex items-center gap-2 border-b pb-3"><div className="bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-black">{i18n.t("H")}</div> <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm">{i18n.t("CPB Fluid Balance Summary")}</h4></div>
                           <div className="flex gap-6">
                             <div className="flex-1 space-y-3 p-4 bg-green-50 rounded-lg border border-green-100">
-                              <h5 className="font-bold text-green-800 text-xs mb-2">INPUTS (mL)</h5>
-                              <div className="flex justify-between items-center"><label className="text-xs text-slate-600 font-bold">Prime Vol</label><input type="number" className="w-20 p-1 border rounded text-right text-xs" value={masterData.perfusion.fluid_balance.prime_vol || ""} onChange={e => updateNestedMasterData("perfusion", "fluid_balance", "prime_vol", e.target.value)} /></div>
-                              <div className="flex justify-between items-center"><label className="text-xs text-slate-600 font-bold">Cryst Added</label><input type="number" className="w-20 p-1 border rounded text-right text-xs" value={masterData.perfusion.fluid_balance.crystalloid_added || ""} onChange={e => updateNestedMasterData("perfusion", "fluid_balance", "crystalloid_added", e.target.value)} /></div>
-                              <div className="flex justify-between items-center"><label className="text-xs text-slate-600 font-bold">Colloid/Blood</label><input type="number" className="w-20 p-1 border rounded text-right text-xs" value={masterData.perfusion.fluid_balance.colloid_added || ""} onChange={e => updateNestedMasterData("perfusion", "fluid_balance", "colloid_added", e.target.value)} /></div>
-                              <div className="flex justify-between items-center"><label className="text-xs text-slate-600 font-bold">Cardio Vol</label><input type="number" className="w-20 p-1 border rounded text-right text-xs" value={masterData.perfusion.fluid_balance.cardio_vol || ""} onChange={e => updateNestedMasterData("perfusion", "fluid_balance", "cardio_vol", e.target.value)} /></div>
+                              <h5 className="font-bold text-green-800 text-xs mb-2">{i18n.t("INPUTS (mL)")}</h5>
+                              <div className="flex justify-between items-center"><label className="text-xs text-slate-600 font-bold">{i18n.t("Prime Vol")}</label><input type="number" className="w-20 p-1 border rounded text-end text-xs" value={masterData.perfusion.fluid_balance.prime_vol || ""} onChange={e => updateNestedMasterData("perfusion", "fluid_balance", "prime_vol", e.target.value)} /></div>
+                              <div className="flex justify-between items-center"><label className="text-xs text-slate-600 font-bold">{i18n.t("Cryst Added")}</label><input type="number" className="w-20 p-1 border rounded text-end text-xs" value={masterData.perfusion.fluid_balance.crystalloid_added || ""} onChange={e => updateNestedMasterData("perfusion", "fluid_balance", "crystalloid_added", e.target.value)} /></div>
+                              <div className="flex justify-between items-center"><label className="text-xs text-slate-600 font-bold">{i18n.t("Colloid/Blood")}</label><input type="number" className="w-20 p-1 border rounded text-end text-xs" value={masterData.perfusion.fluid_balance.colloid_added || ""} onChange={e => updateNestedMasterData("perfusion", "fluid_balance", "colloid_added", e.target.value)} /></div>
+                              <div className="flex justify-between items-center"><label className="text-xs text-slate-600 font-bold">{i18n.t("Cardio Vol")}</label><input type="number" className="w-20 p-1 border rounded text-end text-xs" value={masterData.perfusion.fluid_balance.cardio_vol || ""} onChange={e => updateNestedMasterData("perfusion", "fluid_balance", "cardio_vol", e.target.value)} /></div>
                               
-                              <div className="flex justify-between items-center border-t border-green-200 pt-2 mt-2"><label className="text-xs text-green-900 font-black">TOTAL IN</label><input type="number" readOnly className="w-20 p-1 border border-green-300 bg-green-200/50 rounded text-right text-xs font-bold outline-none cursor-not-allowed" value={masterData.perfusion.fluid_balance.total_in || ""} /></div>
+                              <div className="flex justify-between items-center border-t border-green-200 pt-2 mt-2"><label className="text-xs text-green-900 font-black">{i18n.t("TOTAL IN")}</label><input type="number" readOnly className="w-20 p-1 border border-green-300 bg-green-200/50 rounded text-end text-xs font-bold outline-none cursor-not-allowed" value={masterData.perfusion.fluid_balance.total_in || ""} /></div>
                             </div>
                             
                             <div className="flex-1 space-y-3 p-4 bg-red-50 rounded-lg border border-red-100">
-                              <h5 className="font-bold text-red-800 text-xs mb-2">OUTPUTS (mL)</h5>
-                              <div className="flex justify-between items-center"><label className="text-xs text-slate-600 font-bold">Ultrafiltration</label><input type="number" className="w-20 p-1 border rounded text-right text-xs" value={masterData.perfusion.fluid_balance.uf || ""} onChange={e => updateNestedMasterData("perfusion", "fluid_balance", "uf", e.target.value)} /></div>
-                              <div className="flex justify-between items-center"><label className="text-xs text-slate-600 font-bold">Urine on Bypass</label><input type="number" className="w-20 p-1 border rounded text-right text-xs" value={masterData.perfusion.fluid_balance.urine || ""} onChange={e => updateNestedMasterData("perfusion", "fluid_balance", "urine", e.target.value)} /></div>
-                              <div className="flex justify-between items-center"><label className="text-xs text-slate-600 font-bold">Pump Salvaged</label><input type="number" className="w-20 p-1 border rounded text-right text-xs" value={masterData.perfusion.fluid_balance.residual_salvaged || ""} onChange={e => updateNestedMasterData("perfusion", "fluid_balance", "residual_salvaged", e.target.value)} /></div>
-                              <div className="flex justify-between items-center"><label className="text-xs text-slate-600 font-bold">Blood Loss</label><input type="number" className="w-20 p-1 border rounded text-right text-xs" value={masterData.perfusion.fluid_balance.blood_loss || ""} onChange={e => updateNestedMasterData("perfusion", "fluid_balance", "blood_loss", e.target.value)} /></div>
+                              <h5 className="font-bold text-red-800 text-xs mb-2">{i18n.t("OUTPUTS (mL)")}</h5>
+                              <div className="flex justify-between items-center"><label className="text-xs text-slate-600 font-bold">{i18n.t("Ultrafiltration")}</label><input type="number" className="w-20 p-1 border rounded text-end text-xs" value={masterData.perfusion.fluid_balance.uf || ""} onChange={e => updateNestedMasterData("perfusion", "fluid_balance", "uf", e.target.value)} /></div>
+                              <div className="flex justify-between items-center"><label className="text-xs text-slate-600 font-bold">{i18n.t("Urine on Bypass")}</label><input type="number" className="w-20 p-1 border rounded text-end text-xs" value={masterData.perfusion.fluid_balance.urine || ""} onChange={e => updateNestedMasterData("perfusion", "fluid_balance", "urine", e.target.value)} /></div>
+                              <div className="flex justify-between items-center"><label className="text-xs text-slate-600 font-bold">{i18n.t("Pump Salvaged")}</label><input type="number" className="w-20 p-1 border rounded text-end text-xs" value={masterData.perfusion.fluid_balance.residual_salvaged || ""} onChange={e => updateNestedMasterData("perfusion", "fluid_balance", "residual_salvaged", e.target.value)} /></div>
+                              <div className="flex justify-between items-center"><label className="text-xs text-slate-600 font-bold">{i18n.t("Blood Loss")}</label><input type="number" className="w-20 p-1 border rounded text-end text-xs" value={masterData.perfusion.fluid_balance.blood_loss || ""} onChange={e => updateNestedMasterData("perfusion", "fluid_balance", "blood_loss", e.target.value)} /></div>
                               
-                              <div className="flex justify-between items-center border-t border-red-200 pt-2 mt-2"><label className="text-xs text-red-900 font-black">NET BALANCE</label><input type="number" readOnly className={`w-20 p-1 border rounded text-right text-xs font-bold outline-none cursor-not-allowed ${Number(masterData.perfusion.fluid_balance.net_balance) < 0 ? 'bg-red-200 border-red-400 text-red-900' : 'bg-green-200 border-green-400 text-green-900'}`} value={masterData.perfusion.fluid_balance.net_balance || ""} /></div>
+                              <div className="flex justify-between items-center border-t border-red-200 pt-2 mt-2"><label className="text-xs text-red-900 font-black">{i18n.t("NET BALANCE")}</label><input type="number" readOnly className={`w-20 p-1 border rounded text-end text-xs font-bold outline-none cursor-not-allowed ${Number(masterData.perfusion.fluid_balance.net_balance) < 0 ? 'bg-red-200 border-red-400 text-red-900' : 'bg-green-200 border-green-400 text-green-900'}`} value={masterData.perfusion.fluid_balance.net_balance || ""} /></div>
                             </div>
                           </div>
                         </div>
@@ -758,54 +745,54 @@ export const OTPerfusionMonitoringModal: React.FC<AnaesthesiaMonitoringModalProp
 
                       {/* PART I: Shared Timings & Signatures */}
                       <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6">
-                        <div className="flex items-center gap-2 border-b pb-3"><div className="bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-black">I</div> <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm">Shared CPB Timings & Certification</h4></div>
-                        <p className="text-xs text-slate-500 italic mb-2">Cross-reference with Cardiac Anaesthesia Record (Single source of truth)</p>
+                        <div className="flex items-center gap-2 border-b pb-3"><div className="bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-black">{i18n.t("I")}</div> <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm">{i18n.t("Shared CPB Timings & Certification")}</h4></div>
+                        <p className="text-xs text-slate-500 italic mb-2">{i18n.t("Cross-reference with Cardiac Anaesthesia Record (Single source of truth)")}</p>
                         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-200">
-                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">Total Bypass (min)</label><input type="number" className="w-full p-2 border border-slate-300 rounded text-sm font-bold text-center" value={masterData.perfusion.shared_timings.bypass_time || ""} onChange={e => updateNestedMasterData("perfusion", "shared_timings", "bypass_time", e.target.value)} /></div>
-                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">Cross-Clamp (min)</label><input type="number" className="w-full p-2 border border-slate-300 rounded text-sm font-bold text-center text-red-600" value={masterData.perfusion.shared_timings.cross_clamp_time || ""} onChange={e => updateNestedMasterData("perfusion", "shared_timings", "cross_clamp_time", e.target.value)} /></div>
-                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">Circ Arrest (min)</label><input type="number" className="w-full p-2 border border-slate-300 rounded text-sm font-bold text-center" value={masterData.perfusion.shared_timings.circ_arrest_time || ""} onChange={e => updateNestedMasterData("perfusion", "shared_timings", "circ_arrest_time", e.target.value)} /></div>
-                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">Lowest Temp (°C)</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm font-bold text-center text-blue-600" value={masterData.perfusion.shared_timings.lowest_temp || ""} onChange={e => updateNestedMasterData("perfusion", "shared_timings", "lowest_temp", e.target.value)} /></div>
-                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">Cardioplegia Total (mL)</label><input type="number" className="w-full p-2 border border-slate-300 rounded text-sm font-bold text-center" value={masterData.perfusion.shared_timings.cardio_total || ""} onChange={e => updateNestedMasterData("perfusion", "shared_timings", "cardio_total", e.target.value)} /></div>
+                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">{i18n.t("Total Bypass (min)")}</label><input type="number" className="w-full p-2 border border-slate-300 rounded text-sm font-bold text-center" value={masterData.perfusion.shared_timings.bypass_time || ""} onChange={e => updateNestedMasterData("perfusion", "shared_timings", "bypass_time", e.target.value)} /></div>
+                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">{i18n.t("Cross-Clamp (min)")}</label><input type="number" className="w-full p-2 border border-slate-300 rounded text-sm font-bold text-center text-red-600" value={masterData.perfusion.shared_timings.cross_clamp_time || ""} onChange={e => updateNestedMasterData("perfusion", "shared_timings", "cross_clamp_time", e.target.value)} /></div>
+                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">{i18n.t("Circ Arrest (min)")}</label><input type="number" className="w-full p-2 border border-slate-300 rounded text-sm font-bold text-center" value={masterData.perfusion.shared_timings.circ_arrest_time || ""} onChange={e => updateNestedMasterData("perfusion", "shared_timings", "circ_arrest_time", e.target.value)} /></div>
+                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">{i18n.t("Lowest Temp (°C)")}</label><input type="text" className="w-full p-2 border border-slate-300 rounded text-sm font-bold text-center text-blue-600" value={masterData.perfusion.shared_timings.lowest_temp || ""} onChange={e => updateNestedMasterData("perfusion", "shared_timings", "lowest_temp", e.target.value)} /></div>
+                          <div><label className="block text-[10px] font-bold text-slate-500 uppercase">{i18n.t("Cardioplegia Total (mL)")}</label><input type="number" className="w-full p-2 border border-slate-300 rounded text-sm font-bold text-center" value={masterData.perfusion.shared_timings.cardio_total || ""} onChange={e => updateNestedMasterData("perfusion", "shared_timings", "cardio_total", e.target.value)} /></div>
                         </div>
 
                         {/* FULL SIGNATURE BLOCK */}
                         <div className="grid grid-cols-2 gap-8 mt-6">
                           <div className="border border-slate-300 rounded-lg p-4 relative bg-white">
-                            <h5 className="text-xs font-bold text-slate-700 uppercase mb-4 border-b pb-2">Primary Perfusionist</h5>
+                            <h5 className="text-xs font-bold text-slate-700 uppercase mb-4 border-b pb-2">{i18n.t("Primary Perfusionist")}</h5>
                             <div className="h-32 bg-slate-50 border-2 border-dashed border-slate-300 rounded mb-4 relative overflow-hidden flex items-center justify-center">
                               {masterData.perfusion.shared_timings.signatures?.primary_signature ? (
                                 <>
-                                  <img src={masterData.perfusion.shared_timings.signatures.primary_signature} alt="Primary Sig" className="max-h-full max-w-full object-contain" />
-                                  <button onClick={() => updateSignature('primary', 'signature', null)} className="absolute top-1 right-1 p-1 bg-red-100 text-red-600 rounded"><Trash2 size={14}/></button>
+                                  <img src={masterData.perfusion.shared_timings.signatures.primary_signature} alt={i18n.t("Primary Sig")} className="max-h-full max-w-full object-contain" />
+                                  <button onClick={() => updateSignature('primary', 'signature', null)} className="absolute top-1 end-1 p-1 bg-red-100 text-red-600 rounded"><Trash2 size={14}/></button>
                                 </>
                               ) : (
                                 <SignaturePad onEnd={(d: any) => updateSignature('primary', 'signature', d)} className="w-full h-full" />
                               )}
-                              {!masterData.perfusion.shared_timings.signatures?.primary_signature && <span className="absolute pointer-events-none text-slate-300 font-bold uppercase tracking-widest">Sign Here</span>}
+                              {!masterData.perfusion.shared_timings.signatures?.primary_signature && <span className="absolute pointer-events-none text-slate-300 font-bold uppercase tracking-widest">{i18n.t("Sign Here")}</span>}
                             </div>
                             
                             <div className="space-y-3">
                               <div>
-                                <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Name (print)</label>
+                                <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Name (print)")}</label>
                                 <input type="text" className="w-full p-2 border border-slate-300 rounded text-xs outline-none focus:ring-1 focus:ring-teal-500" 
                                   value={masterData.perfusion.shared_timings.signatures?.primary_name || ""}
                                   onChange={(e) => updateSignature('primary', 'name', e.target.value)} />
                               </div>
                               <div className="grid grid-cols-3 gap-3">
                                 <div>
-                                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Reg. No.</label>
+                                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Reg. No.")}</label>
                                   <input type="text" className="w-full p-2 border border-slate-300 rounded text-xs outline-none focus:ring-1 focus:ring-teal-500" 
                                     value={masterData.perfusion.shared_timings.signatures?.primary_reg || ""}
                                     onChange={(e) => updateSignature('primary', 'reg', e.target.value)} />
                                 </div>
                                 <div>
-                                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Date</label>
+                                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Date")}</label>
                                   <input type="date" className="w-full p-2 border border-slate-300 rounded text-xs outline-none focus:ring-1 focus:ring-teal-500" 
                                     value={masterData.perfusion.shared_timings.signatures?.primary_date || ""}
                                     onChange={(e) => updateSignature('primary', 'date', e.target.value)} />
                                 </div>
                                 <div>
-                                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Time</label>
+                                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Time")}</label>
                                   <input type="time" className="w-full p-2 border border-slate-300 rounded text-xs outline-none focus:ring-1 focus:ring-teal-500" 
                                     value={masterData.perfusion.shared_timings.signatures?.primary_time || ""}
                                     onChange={(e) => updateSignature('primary', 'time', e.target.value)} />
@@ -815,41 +802,41 @@ export const OTPerfusionMonitoringModal: React.FC<AnaesthesiaMonitoringModalProp
                           </div>
 
                           <div className="border border-slate-300 rounded-lg p-4 relative bg-white">
-                            <h5 className="text-xs font-bold text-slate-700 uppercase mb-4 border-b pb-2">Second Perfusionist / Checked By</h5>
+                            <h5 className="text-xs font-bold text-slate-700 uppercase mb-4 border-b pb-2">{i18n.t("Second Perfusionist / Checked By")}</h5>
                             <div className="h-32 bg-slate-50 border-2 border-dashed border-slate-300 rounded mb-4 relative overflow-hidden flex items-center justify-center">
                               {masterData.perfusion.shared_timings.signatures?.secondary_signature ? (
                                 <>
-                                  <img src={masterData.perfusion.shared_timings.signatures.secondary_signature} alt="Secondary Sig" className="max-h-full max-w-full object-contain" />
-                                  <button onClick={() => updateSignature('secondary', 'signature', null)} className="absolute top-1 right-1 p-1 bg-red-100 text-red-600 rounded"><Trash2 size={14}/></button>
+                                  <img src={masterData.perfusion.shared_timings.signatures.secondary_signature} alt={i18n.t("Secondary Sig")} className="max-h-full max-w-full object-contain" />
+                                  <button onClick={() => updateSignature('secondary', 'signature', null)} className="absolute top-1 end-1 p-1 bg-red-100 text-red-600 rounded"><Trash2 size={14}/></button>
                                 </>
                               ) : (
                                 <SignaturePad onEnd={(d: any) => updateSignature('secondary', 'signature', d)} className="w-full h-full" />
                               )}
-                              {!masterData.perfusion.shared_timings.signatures?.secondary_signature && <span className="absolute pointer-events-none text-slate-300 font-bold uppercase tracking-widest">Sign Here</span>}
+                              {!masterData.perfusion.shared_timings.signatures?.secondary_signature && <span className="absolute pointer-events-none text-slate-300 font-bold uppercase tracking-widest">{i18n.t("Sign Here")}</span>}
                             </div>
                             
                             <div className="space-y-3">
                               <div>
-                                <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Name (print)</label>
+                                <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Name (print)")}</label>
                                 <input type="text" className="w-full p-2 border border-slate-300 rounded text-xs outline-none focus:ring-1 focus:ring-teal-500" 
                                   value={masterData.perfusion.shared_timings.signatures?.secondary_name || ""}
                                   onChange={(e) => updateSignature('secondary', 'name', e.target.value)} />
                               </div>
                               <div className="grid grid-cols-3 gap-3">
                                 <div>
-                                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Reg. No.</label>
+                                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Reg. No.")}</label>
                                   <input type="text" className="w-full p-2 border border-slate-300 rounded text-xs outline-none focus:ring-1 focus:ring-teal-500" 
                                     value={masterData.perfusion.shared_timings.signatures?.secondary_reg || ""}
                                     onChange={(e) => updateSignature('secondary', 'reg', e.target.value)} />
                                 </div>
                                 <div>
-                                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Date</label>
+                                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Date")}</label>
                                   <input type="date" className="w-full p-2 border border-slate-300 rounded text-xs outline-none focus:ring-1 focus:ring-teal-500" 
                                     value={masterData.perfusion.shared_timings.signatures?.secondary_date || ""}
                                     onChange={(e) => updateSignature('secondary', 'date', e.target.value)} />
                                 </div>
                                 <div>
-                                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Time</label>
+                                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Time")}</label>
                                   <input type="time" className="w-full p-2 border border-slate-300 rounded text-xs outline-none focus:ring-1 focus:ring-teal-500" 
                                     value={masterData.perfusion.shared_timings.signatures?.secondary_time || ""}
                                     onChange={(e) => updateSignature('secondary', 'time', e.target.value)} />

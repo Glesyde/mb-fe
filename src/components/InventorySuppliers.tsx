@@ -30,6 +30,7 @@ import {
 } from 'lucide-react';
 import { inventoryService } from '../services/inventory.service';
 import { useNotification } from '../context/NotificationContext';
+import { i18n } from "../i18n";
 
 const InventorySuppliers: React.FC = () => {
   const { notify } = useNotification();
@@ -166,11 +167,11 @@ const InventorySuppliers: React.FC = () => {
       {/* Action Bar */}
       <div className="bg-white p-4 rounded-[32px] border border-slate-200 flex flex-col md:flex-row gap-4 items-center shadow-sm">
         <div className="relative flex-1 w-full group">
-          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-900 transition-colors" size={22} />
+          <Search className="absolute start-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-900 transition-colors" size={22} />
           <input 
             type="text" 
-            placeholder="Search by vendor name or UHID..."
-            className="w-full pl-14 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white focus:ring-4 focus:ring-slate-900/5 outline-none transition-all"
+            placeholder={i18n.t("Search by vendor name or UHID...")}
+            className="w-full ps-14 pe-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white focus:ring-4 focus:ring-slate-900/5 outline-none transition-all"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -186,8 +187,7 @@ const InventorySuppliers: React.FC = () => {
             onClick={handleOpenCreate}
             className="flex-1 md:flex-none bg-slate-900 text-white px-8 py-4 rounded-[20px] font-black uppercase text-xs tracking-widest shadow-xl active:scale-95 transition-all flex items-center justify-center gap-2"
           >
-            <Plus size={18} /> Add New Supplier
-          </button>
+            <Plus size={18} />{" "}{i18n.t("Add New Supplier")}</button>
         </div>
       </div>
 
@@ -195,24 +195,24 @@ const InventorySuppliers: React.FC = () => {
       <div className="bg-white border border-slate-200 rounded-[44px] overflow-hidden shadow-sm min-h-[400px]">
         <div className="p-8 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-black text-slate-800 tracking-tight">Approved Vendor Directory</h2>
-            <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">Master Procurement Index</p>
+            <h2 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Approved Vendor Directory")}</h2>
+            <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">{i18n.t("Master Procurement Index")}</p>
           </div>
           <div className="bg-white px-4 py-2 rounded-xl border border-slate-200 flex items-center gap-2">
             <ShieldCheck size={16} className="text-brand-primary" />
-            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Verified Registry</span>
+            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Verified Registry")}</span>
           </div>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="w-full text-start">
             <thead>
               <tr className="bg-white border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
-                <th className="px-8 py-6">Vendor Identity</th>
-                <th className="px-8 py-6">Contact Point</th>
-                <th className="px-8 py-6">Communication</th>
-                <th className="px-8 py-6">Status</th>
-                <th className="px-8 py-6 text-right">Actions</th>
+                <th className="px-8 py-6">{i18n.t("Vendor Identity")}</th>
+                <th className="px-8 py-6">{i18n.t("Contact Point")}</th>
+                <th className="px-8 py-6">{i18n.t("Communication")}</th>
+                <th className="px-8 py-6">{i18n.t("Status")}</th>
+                <th className="px-8 py-6 text-end">{i18n.t("Actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50 font-medium">
@@ -220,7 +220,7 @@ const InventorySuppliers: React.FC = () => {
                 <tr>
                   <td colSpan={5} className="py-20 text-center">
                     <Loader2 size={40} className="animate-spin mx-auto text-brand-primary mb-4" />
-                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Querying Vendor database...</p>
+                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("Querying Vendor database...")}</p>
                   </td>
                 </tr>
               ) : paginatedVendors.length > 0 ? (
@@ -254,10 +254,10 @@ const InventorySuppliers: React.FC = () => {
                         ${v.is_active ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-slate-100 text-slate-400 border-slate-200'}
                       `}>
                         {v.is_active ? <CheckCircle2 size={12}/> : <XCircle size={12}/>}
-                        {v.is_active ? 'Active' : 'Inactive'}
+                        {v.is_active ? i18n.t("Active") : i18n.t("Inactive")}
                       </div>
                     </td>
-                    <td className="px-8 py-6 text-right relative">
+                    <td className="px-8 py-6 text-end relative">
                       <button 
                         onClick={() => setActiveMenuId(activeMenuId === v.id ? null : v.id)}
                         className={`p-3 rounded-xl transition-all ${activeMenuId === v.id ? 'bg-slate-900 text-white shadow-lg' : 'bg-white border border-slate-200 text-slate-400 hover:text-slate-900 shadow-sm'}`}
@@ -266,16 +266,14 @@ const InventorySuppliers: React.FC = () => {
                       </button>
                       
                       {activeMenuId === v.id && (
-                        <div className="absolute right-20 top-6 w-56 bg-white border border-slate-100 rounded-2xl shadow-2xl z-[100] py-2 overflow-hidden animate-in fade-in zoom-in-95 duration-100">
+                        <div className="absolute end-20 top-6 w-56 bg-white border border-slate-100 rounded-2xl shadow-2xl z-[100] py-2 overflow-hidden animate-in fade-in zoom-in-95 duration-100">
                           <button 
                             onClick={() => handleOpenEdit(v.id)}
                             className="w-full flex items-center gap-3 px-5 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors"
                           >
-                            <Edit2 size={16} className="text-brand-active0" /> Modify Vendor
-                          </button>
+                            <Edit2 size={16} className="text-brand-active0" />{" "}{i18n.t("Modify Vendor")}</button>
                           <button className="w-full flex items-center gap-3 px-5 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors">
-                            <History size={16} className="text-slate-400" /> Supply History
-                          </button>
+                            <History size={16} className="text-slate-400" />{" "}{i18n.t("Supply History")}</button>
                           <div className="h-px bg-slate-50 my-1 mx-3" />
                           <button 
                             onClick={() => {
@@ -284,8 +282,7 @@ const InventorySuppliers: React.FC = () => {
                             }}
                             className="w-full flex items-center gap-3 px-5 py-3 text-sm font-bold text-red-600 hover:bg-red-50 transition-colors"
                           >
-                            <Trash2 size={16} /> Delete Record
-                          </button>
+                            <Trash2 size={16} />{" "}{i18n.t("Delete Record")}</button>
                         </div>
                       )}
                     </td>
@@ -295,7 +292,7 @@ const InventorySuppliers: React.FC = () => {
                 <tr>
                   <td colSpan={5} className="py-32 text-center">
                     <Search className="mx-auto text-slate-200 mb-4" size={48} />
-                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest">No matching vendors found</p>
+                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("No matching vendors found")}</p>
                   </td>
                 </tr>
               )}
@@ -306,9 +303,7 @@ const InventorySuppliers: React.FC = () => {
         {/* Pagination Footer */}
         {filtered.length > 0 && (
           <div className="px-8 py-6 bg-slate-50/50 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-              Showing <span className="text-slate-800 font-black">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="text-slate-800 font-black">{Math.min(currentPage * itemsPerPage, filtered.length)}</span> of <span className="text-slate-800 font-black">{filtered.length}</span> Vendors
-            </p>
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Showing")}{" "}<span className="text-slate-800 font-black">{(currentPage - 1) * itemsPerPage + 1}</span>{" "}{i18n.t("to")}{" "}<span className="text-slate-800 font-black">{Math.min(currentPage * itemsPerPage, filtered.length)}</span>{" "}{i18n.t("of")}{" "}<span className="text-slate-800 font-black">{filtered.length}</span>{" "}{i18n.t("Vendors")}</p>
             
             <div className="flex items-center gap-2">
               <button 
@@ -316,7 +311,7 @@ const InventorySuppliers: React.FC = () => {
                 disabled={currentPage === 1}
                 className="p-3 rounded-xl border border-slate-200 bg-white text-slate-500 hover:text-brand-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm"
               >
-                <ChevronLeft size={18} />
+                <ChevronLeft className="rtl:-scale-x-100" size={18} />
               </button>
               
               <div className="flex items-center gap-1">
@@ -341,7 +336,7 @@ const InventorySuppliers: React.FC = () => {
                 disabled={currentPage === totalPages}
                 className="p-3 rounded-xl border border-slate-200 bg-white text-slate-500 hover:text-brand-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm"
               >
-                <ChevronRight size={18} />
+                <ChevronRight className="rtl:-scale-x-100" size={18} />
               </button>
             </div>
           </div>
@@ -363,9 +358,9 @@ const InventorySuppliers: React.FC = () => {
                 </div>
                 <div>
                   <h2 className="text-xl font-black text-slate-800 tracking-tight">
-                    {modalMode === 'create' ? 'Vendor Onboarding' : 'Modify Vendor'}
+                    {modalMode === 'create' ? i18n.t("Vendor Onboarding") : i18n.t("Modify Vendor")}
                   </h2>
-                  <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Registry Governance</p>
+                  <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">{i18n.t("Registry Governance")}</p>
                 </div>
               </div>
               <button 
@@ -380,11 +375,11 @@ const InventorySuppliers: React.FC = () => {
 
             <div className="p-10 space-y-6 max-h-[70vh] overflow-y-auto no-scrollbar">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Legal Company Name *</label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Legal Company Name *")}</label>
                 <input 
                   required
                   type="text" 
-                  placeholder="e.g. Emzor Pharmaceuticals" 
+                  placeholder={i18n.t("e.g. Emzor Pharmaceuticals")} 
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white focus:ring-4 focus:ring-slate-900/5 transition-all outline-none"
                   value={formData.name}
                   onChange={e => setFormData({...formData, name: e.target.value})}
@@ -393,27 +388,27 @@ const InventorySuppliers: React.FC = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Contact Person</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Contact Person")}</label>
                   <div className="relative">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                    <User className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                     <input 
                       type="text" 
-                      placeholder="Name / Title" 
-                      className="w-full pl-11 pr-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:bg-white transition-all"
+                      placeholder={i18n.t("Name / Title")} 
+                      className="w-full ps-11 pe-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:bg-white transition-all"
                       value={formData.contact_person}
                       onChange={e => setFormData({...formData, contact_person: e.target.value})}
                     />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Contact Phone *</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Contact Phone *")}</label>
                   <div className="relative">
-                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                    <Phone className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                     <input 
                       required
                       type="tel" 
                       placeholder="+234..." 
-                      className="w-full pl-11 pr-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:bg-white transition-all"
+                      className="w-full ps-11 pe-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:bg-white transition-all"
                       value={formData.contact_phone}
                       onChange={e => setFormData({...formData, contact_phone: e.target.value})}
                     />
@@ -422,13 +417,13 @@ const InventorySuppliers: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Work Email</label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Work Email")}</label>
                 <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" size={18} />
+                  <Mail className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" size={18} />
                   <input 
                     type="email" 
-                    placeholder="sales@company.com" 
-                    className="w-full pl-11 pr-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:bg-white transition-all"
+                    placeholder={i18n.t("sales@company.com")} 
+                    className="w-full ps-11 pe-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:bg-white transition-all"
                     value={formData.contact_email}
                     onChange={e => setFormData({...formData, contact_email: e.target.value})}
                   />
@@ -436,25 +431,25 @@ const InventorySuppliers: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Vendor Status</label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Vendor Status")}</label>
                 <select 
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none appearance-none"
                   value={formData.status}
                   onChange={e => setFormData({...formData, status: e.target.value})}
                 >
-                  <option value="ACTIVE">Authorized / Active</option>
-                  <option value="INACTIVE">Deactivated / Suspended</option>
+                  <option value="ACTIVE">{i18n.t("Authorized / Active")}</option>
+                  <option value="INACTIVE">{i18n.t("Deactivated / Suspended")}</option>
                 </select>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Billing / Legal Address</label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Billing / Legal Address")}</label>
                 <div className="relative">
-                  <MapPin className="absolute left-4 top-5 text-slate-400" size={18} />
+                  <MapPin className="absolute start-4 top-5 text-slate-400" size={18} />
                   <textarea 
                     rows={3} 
-                    placeholder="Physical location details..." 
-                    className="w-full pl-11 pr-5 py-4 bg-slate-50 border border-slate-200 rounded-3xl text-sm font-bold outline-none focus:bg-white transition-all resize-none"
+                    placeholder={i18n.t("Physical location details...")} 
+                    className="w-full ps-11 pe-5 py-4 bg-slate-50 border border-slate-200 rounded-3xl text-sm font-bold outline-none focus:bg-white transition-all resize-none"
                     value={formData.address}
                     onChange={e => setFormData({...formData, address: e.target.value})}
                   />
@@ -468,16 +463,14 @@ const InventorySuppliers: React.FC = () => {
                 onClick={() => setShowAddModal(false)} 
                 className="px-6 py-3 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-slate-600 transition-colors"
                 disabled={isSubmitting}
-              >
-                Cancel
-              </button>
+              >{i18n.t("Cancel")}</button>
               <button 
                 type="submit" 
                 disabled={isSubmitting}
                 className="bg-slate-900 text-white px-10 py-4 rounded-[20px] font-black uppercase text-xs tracking-widest shadow-xl active:scale-95 transition-all flex items-center gap-2"
               >
                 {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : (modalMode === 'create' ? <Plus size={16} /> : <Save size={16} />)}
-                {isSubmitting ? 'Processing...' : (modalMode === 'create' ? 'Register Vendor' : 'Commit Changes')}
+                {isSubmitting ? i18n.t("Processing...") : (modalMode === 'create' ? i18n.t("Register Vendor") : i18n.t("Commit Changes"))}
               </button>
             </div>
           </form>
@@ -493,27 +486,21 @@ const InventorySuppliers: React.FC = () => {
               <div className="w-20 h-20 bg-red-50 text-red-600 rounded-[32px] flex items-center justify-center mx-auto mb-6 border border-red-100 shadow-inner">
                 <AlertTriangle size={40} />
               </div>
-              <h3 className="text-xl font-black text-slate-800 tracking-tight">Confirm Deletion</h3>
-              <p className="text-sm text-slate-500 font-medium mt-2 leading-relaxed px-4">
-                Are you sure you want to remove this vendor? This action will permanently archive their registry record.
-              </p>
+              <h3 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Confirm Deletion")}</h3>
+              <p className="text-sm text-slate-500 font-medium mt-2 leading-relaxed px-4">{i18n.t("Are you sure you want to remove this vendor? This action will permanently archive their registry record.")}</p>
             </div>
             <div className="px-8 py-8 bg-slate-50 border-t border-slate-100 grid grid-cols-2 gap-3">
               <button 
                 onClick={() => setShowDeleteConfirm(null)}
                 disabled={isSubmitting}
                 className="px-6 py-4 rounded-[24px] font-black uppercase text-[10px] tracking-widest text-slate-400 hover:text-slate-800 transition-all disabled:opacity-30"
-              >
-                Cancel
-              </button>
+              >{i18n.t("Cancel")}</button>
               <button 
                 onClick={handleDelete}
                 disabled={isSubmitting}
                 className="bg-red-600 text-white px-6 py-4 rounded-[24px] font-black uppercase text-[10px] tracking-widest shadow-xl shadow-red-200 hover:bg-red-700 active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
               >
-                {isSubmitting ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
-                Confirm Delete
-              </button>
+                {isSubmitting ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}{i18n.t("Confirm Delete")}</button>
             </div>
           </div>
         </div>

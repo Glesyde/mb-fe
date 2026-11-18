@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { PartogramChartData } from "../../types/nursing.types";
+import { i18n } from "../../i18n";
 
 interface PartographChartProps {
   data: PartogramChartData;
@@ -86,9 +87,7 @@ const PartographChart: React.FC<PartographChartProps> = ({ data }) => {
                 </g>
               );
             })}
-            <text x={marginLeft - 40} y={fhrTop + fhrHeight / 2} textAnchor="middle" transform={`rotate(-90, ${marginLeft - 40}, ${fhrTop + fhrHeight / 2})`} fontSize="12" fontWeight="bold" fill="#475569">
-              Fetal Heart Rate
-            </text>
+            <text x={marginLeft - 40} y={fhrTop + fhrHeight / 2} textAnchor="middle" transform={`rotate(-90, ${marginLeft - 40}, ${fhrTop + fhrHeight / 2})`} fontSize="12" fontWeight="bold" fill="#475569">{i18n.t("Fetal Heart Rate")}</text>
           </g>
 
           <g className="cvx-grid">
@@ -106,27 +105,21 @@ const PartographChart: React.FC<PartographChartProps> = ({ data }) => {
                 </g>
               );
             })}
-            <text x={marginLeft - 40} y={cvxTop + cvxHeight / 2} textAnchor="middle" transform={`rotate(-90, ${marginLeft - 40}, ${cvxTop + cvxHeight / 2})`} fontSize="12" fontWeight="bold" fill="#475569">
-              Cervix (cm) / Descent
-            </text>
+            <text x={marginLeft - 40} y={cvxTop + cvxHeight / 2} textAnchor="middle" transform={`rotate(-90, ${marginLeft - 40}, ${cvxTop + cvxHeight / 2})`} fontSize="12" fontWeight="bold" fill="#475569">{i18n.t("Cervix (cm) / Descent")}</text>
 
             <line 
               x1={getX(8)} y1={getCvxY(3)} 
               x2={getX(15)} y2={getCvxY(10)} 
               stroke="#ef4444" strokeWidth="2" strokeDasharray="5,5" 
             />
-            <text x={getX(11.5) - 10} y={getCvxY(6.5) - 10} fontSize="12" fill="#ef4444" fontWeight="bold" transform={`rotate(-40, ${getX(11.5)}, ${getCvxY(6.5)})`}>
-              Alert
-            </text>
+            <text x={getX(11.5) - 10} y={getCvxY(6.5) - 10} fontSize="12" fill="#ef4444" fontWeight="bold" transform={`rotate(-40, ${getX(11.5)}, ${getCvxY(6.5)})`}>{i18n.t("Alert")}</text>
             
             <line 
               x1={getX(12)} y1={getCvxY(3)} 
               x2={getX(19)} y2={getCvxY(10)} 
               stroke="#b91c1c" strokeWidth="2" 
             />
-            <text x={getX(15.5) - 10} y={getCvxY(6.5) - 10} fontSize="12" fill="#b91c1c" fontWeight="bold" transform={`rotate(-40, ${getX(15.5)}, ${getCvxY(6.5)})`}>
-              Action
-            </text>
+            <text x={getX(15.5) - 10} y={getCvxY(6.5) - 10} fontSize="12" fill="#b91c1c" fontWeight="bold" transform={`rotate(-40, ${getX(15.5)}, ${getCvxY(6.5)})`}>{i18n.t("Action")}</text>
           </g>
 
           <g className="ctx-grid">
@@ -141,9 +134,7 @@ const PartographChart: React.FC<PartographChartProps> = ({ data }) => {
                 </g>
               );
             })}
-            <text x={marginLeft - 40} y={ctxTop + ctxHeight / 2} textAnchor="middle" transform={`rotate(-90, ${marginLeft - 40}, ${ctxTop + ctxHeight / 2})`} fontSize="12" fontWeight="bold" fill="#475569">
-              Contractions
-            </text>
+            <text x={marginLeft - 40} y={ctxTop + ctxHeight / 2} textAnchor="middle" transform={`rotate(-90, ${marginLeft - 40}, ${ctxTop + ctxHeight / 2})`} fontSize="12" fontWeight="bold" fill="#475569">{i18n.t("Contractions")}</text>
           </g>
 
           {[...Array(hours + 1)].map((_, i) => {
@@ -159,9 +150,7 @@ const PartographChart: React.FC<PartographChartProps> = ({ data }) => {
               </g>
             );
           })}
-          <text x={svgWidth / 2} y={ctxBottom + 40} textAnchor="middle" fontSize="12" fontWeight="bold" fill="#475569">
-            Hours of Labour
-          </text>
+          <text x={svgWidth / 2} y={ctxBottom + 40} textAnchor="middle" fontSize="12" fontWeight="bold" fill="#475569">{i18n.t("Hours of Labour")}</text>
 
           {/* --- Plotting Data --- */}
           
@@ -278,7 +267,7 @@ const PartographChart: React.FC<PartographChartProps> = ({ data }) => {
               className="pointer-events-none transition-all duration-150"
             >
               <div className="bg-slate-800/95 backdrop-blur-sm text-white text-xs p-3 rounded-xl shadow-xl border border-slate-700 pointer-events-none flex flex-col gap-1">
-                <span className="font-bold text-slate-300 uppercase tracking-wider text-[9px]">{tooltip.title}</span>
+                <span className="font-bold text-slate-300 uppercase tracking-wider text-[9px]">{i18n.tx(tooltip.title)}</span>
                 <span className="font-medium text-sm leading-none">{tooltip.value}</span>
               </div>
             </foreignObject>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { X, Save, Loader2 } from "lucide-react";
 import { nursingService } from "../../services/nursingService";
 import { useNotification } from "../../context/NotificationContext";
+import { i18n } from "../../i18n";
 
 interface AddCtgObservationModalProps {
   sessionId: number;
@@ -73,9 +74,7 @@ const AddCtgObservationModal: React.FC<AddCtgObservationModalProps> = ({
       <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/50">
-          <h2 className="text-lg font-bold text-slate-800">
-            Add CTG Observation
-          </h2>
+          <h2 className="text-lg font-bold text-slate-800">{i18n.t("Add CTG Observation")}</h2>
           <button
             onClick={onClose}
             className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors"
@@ -90,9 +89,7 @@ const AddCtgObservationModal: React.FC<AddCtgObservationModalProps> = ({
             
             {/* Time */}
             <div>
-              <label className="block text-xs font-medium text-slate-700 mb-1">
-                Observation Time *
-              </label>
+              <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Observation Time *")}</label>
               <input
                 type="datetime-local"
                 name="observation_datetime"
@@ -105,9 +102,7 @@ const AddCtgObservationModal: React.FC<AddCtgObservationModalProps> = ({
 
             {/* FHR */}
             <div>
-              <label className="block text-xs font-medium text-slate-700 mb-1">
-                Fetal Heart Rate (BPM) *
-              </label>
+              <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Fetal Heart Rate (BPM) *")}</label>
               <input
                 type="number"
                 name="fetal_heart_rate_bpm"
@@ -123,9 +118,7 @@ const AddCtgObservationModal: React.FC<AddCtgObservationModalProps> = ({
             {/* Contractions */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  Contractions (/10 min) *
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Contractions (/10 min) *")}</label>
                 <input
                   type="number"
                   name="contractions_frequency"
@@ -138,33 +131,29 @@ const AddCtgObservationModal: React.FC<AddCtgObservationModalProps> = ({
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  Contractions Duration
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Contractions Duration")}</label>
                 <select
                   name="contractions_duration"
                   value={formData.contractions_duration}
                   onChange={handleChange}
                   className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
                 >
-                  <option value="<20S">&lt; 20 seconds (Mild)</option>
-                  <option value="20-40S">20 - 40 seconds (Moderate)</option>
-                  <option value=">40S">&gt; 40 seconds (Strong)</option>
+                  <option value="<20S">{i18n.t("< 20 seconds (Mild)")}</option>
+                  <option value="20-40S">{i18n.t("20 - 40 seconds (Moderate)")}</option>
+                  <option value=">40S">{i18n.t("> 40 seconds (Strong)")}</option>
                 </select>
               </div>
             </div>
 
             {/* Comment */}
             <div>
-              <label className="block text-xs font-medium text-slate-700 mb-1">
-                Comment
-              </label>
+              <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Comment")}</label>
               <textarea
                 name="comment"
                 rows={3}
                 value={formData.comment}
                 onChange={handleChange}
-                placeholder="Enter observations, e.g. Baseline FHR normal. Moderate variability."
+                placeholder={i18n.t("Enter observations, e.g. Baseline FHR normal. Moderate variability.")}
                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all resize-none"
               />
             </div>
@@ -177,9 +166,7 @@ const AddCtgObservationModal: React.FC<AddCtgObservationModalProps> = ({
             type="button"
             onClick={onClose}
             className="px-4 py-2 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors"
-          >
-            Cancel
-          </button>
+          >{i18n.t("Cancel")}</button>
           <button
             type="submit"
             form="add-ctg-obs-form"
@@ -190,9 +177,7 @@ const AddCtgObservationModal: React.FC<AddCtgObservationModalProps> = ({
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
               <Save className="w-4 h-4" />
-            )}
-            Save CTG Observation
-          </button>
+            )}{i18n.t("Save CTG Observation")}</button>
         </div>
       </div>
     </div>

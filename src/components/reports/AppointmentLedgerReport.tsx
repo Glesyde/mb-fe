@@ -10,6 +10,7 @@ import {
   ReportShell,
   Pagination,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const AppointmentLedgerReport: React.FC = () => {
   const [records, setRecords] = useState<any[]>([]);
@@ -62,8 +63,8 @@ const AppointmentLedgerReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Master Appointment Ledger"
-      subtitle="Complete record of all booked appointments across doctors and specializations."
+      title={i18n.t("Master Appointment Ledger")}
+      subtitle={i18n.t("Complete record of all booked appointments across doctors and specializations.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -78,14 +79,14 @@ const AppointmentLedgerReport: React.FC = () => {
       filters={
         <>
           <div className="relative lg:col-span-2">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input
               type="text"
-              placeholder="Search by MRN..."
+              placeholder={i18n.t("Search by MRN...")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               disabled={isLoading}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
+              className="w-full ps-10 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
             />
           </div>
           <TimeframeSelect value={timeframe} onChange={setTimeframe} disabled={isLoading} />
@@ -96,37 +97,37 @@ const AppointmentLedgerReport: React.FC = () => {
       }
     >
       <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 flex-1 min-h-[300px]">
-        <table className="w-full text-left text-sm whitespace-nowrap">
+        <table className="w-full text-start text-sm whitespace-nowrap">
           <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
             <tr>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Code</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Date / Time</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Patient</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Doctor</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Specialization</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Booking Type</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Reason</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Payer</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Booked By</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Status</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Code")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Date / Time")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Patient")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Doctor")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Specialization")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Booking Type")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Reason")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Payer")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Booked By")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Status")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {records.length > 0 ? (
               records.map((row, i) => (
                 <tr key={`${row.id}-${i}`} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="px-4 py-3.5 font-mono text-xs text-slate-500 border-r border-slate-50">{renderValue(row.appointment_code)}</td>
-                  <td className="px-4 py-3.5 text-slate-500 border-r border-slate-50">{renderValue(row.appointment_date)} {renderValue(row.appointment_time)}</td>
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 font-mono text-xs text-slate-500 border-e border-slate-50">{renderValue(row.appointment_code)}</td>
+                  <td className="px-4 py-3.5 text-slate-500 border-e border-slate-50">{renderValue(row.appointment_date)} {renderValue(row.appointment_time)}</td>
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <div className="font-semibold text-slate-700">{renderValue(row.patient_name)}</div>
-                    <div className="text-[11px] text-slate-400 font-mono">MRN: {renderValue(row.mrn)} · Age {renderValue(row.age)}</div>
+                    <div className="text-[11px] text-slate-400 font-mono">{i18n.t("MRN:")}{" "}{renderValue(row.mrn)}{" "}{i18n.t("· Age")}{" "}{renderValue(row.age)}</div>
                   </td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.doctor_name)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.specialization_name)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.booking_type)?.toString().replace(/_/g, " ")}</td>
-                  <td className="px-4 py-3.5 text-slate-500 border-r border-slate-50">{renderValue(row.reason_for_visit)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.payer_name)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.booked_by)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.doctor_name)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.specialization_name)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.booking_type)?.toString().replace(/_/g, " ")}</td>
+                  <td className="px-4 py-3.5 text-slate-500 border-e border-slate-50">{renderValue(row.reason_for_visit)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.payer_name)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.booked_by)}</td>
                   <td className="px-4 py-3.5">
                     <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border uppercase tracking-wider ${badgeClass(row.status)}`}>
                       {renderValue(row.status)?.toString().replace(/_/g, " ")}
@@ -136,7 +137,7 @@ const AppointmentLedgerReport: React.FC = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={10} className="px-4 py-12 text-center text-slate-400 italic">No appointment records found.</td>
+                <td colSpan={10} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No appointment records found.")}</td>
               </tr>
             )}
           </tbody>

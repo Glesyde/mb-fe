@@ -1,5 +1,6 @@
 import React from "react";
 import { BASE_URL } from "../../../api/client";
+import { i18n } from "../../../i18n";
 
 interface SchemaField {
   id?: string;
@@ -63,7 +64,7 @@ const DynamicConsentPrintTemplate: React.FC<DynamicConsentPrintTemplateProps> = 
     <div className="border border-gray-300 p-3 bg-gray-50 break-inside-avoid">
       <p className="text-[9px] font-bold text-gray-700 uppercase tracking-wide mb-2 text-center">{title}</p>
       {signature ? (
-        <img src={getSigUrl(signature)} alt="Signature" className="h-12 w-full object-contain" />
+        <img src={getSigUrl(signature)} alt={i18n.t("Signature")} className="h-12 w-full object-contain" />
       ) : (
         <div className="border-b border-gray-400 h-12"></div>
       )}
@@ -78,12 +79,12 @@ const DynamicConsentPrintTemplate: React.FC<DynamicConsentPrintTemplateProps> = 
       return null;
     }
     if (field.type === "signature") {
-      return <SignatureBlock key={field.id} title={field.label || ""} signature={d[field.id]} />;
+      return <SignatureBlock key={field.id} title={i18n.tx(field.label) || ""} signature={d[field.id]} />;
     }
     if (field.type === "checkbox") {
-      return <Checkbox key={field.id} checked={!!d[field.id]} label={field.label} />;
+      return <Checkbox key={field.id} checked={!!d[field.id]} label={i18n.tx(field.label)} />;
     }
-    return <FormField key={field.id} label={field.label || ""} value={d[field.id]} colSpan={field.type === "textarea" ? 2 : 1} />;
+    return <FormField key={field.id} label={i18n.tx(field.label) || ""} value={d[field.id]} colSpan={field.type === "textarea" ? 2 : 1} />;
   };
 
   const renderSection = (section: SchemaSection) => {
@@ -91,13 +92,13 @@ const DynamicConsentPrintTemplate: React.FC<DynamicConsentPrintTemplateProps> = 
       return (
         <div key={section.id} className="mb-4 break-inside-avoid">
           {section.title && (
-            <div className="bg-slate-700 text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">{section.title}</div>
+            <div className="bg-slate-700 text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">{i18n.tx(section.title)}</div>
           )}
           <table className="w-full border border-slate-400 text-[9px] table-fixed">
             <thead className="bg-slate-100">
               <tr>
                 {(section.columns || []).map((c) => (
-                  <th key={c} className="border border-slate-300 px-2 py-1 text-left font-bold uppercase">{titleCase(c)}</th>
+                  <th key={c} className="border border-slate-300 px-2 py-1 text-start font-bold uppercase">{titleCase(c)}</th>
                 ))}
               </tr>
             </thead>
@@ -119,7 +120,7 @@ const DynamicConsentPrintTemplate: React.FC<DynamicConsentPrintTemplateProps> = 
       return (
         <div key={section.id} className="mb-4">
           {section.title && (
-            <div className="bg-slate-700 text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">{section.title}</div>
+            <div className="bg-slate-700 text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">{i18n.tx(section.title)}</div>
           )}
           <div className="border border-slate-400 p-3 break-words whitespace-pre-wrap">
             <p className="text-[10px] text-gray-800 leading-relaxed">{section.content}</p>
@@ -132,7 +133,7 @@ const DynamicConsentPrintTemplate: React.FC<DynamicConsentPrintTemplateProps> = 
     return (
       <div key={section.id} className="mb-4">
         {section.title && (
-          <div className="bg-slate-700 text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">{section.title}</div>
+          <div className="bg-slate-700 text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">{i18n.tx(section.title)}</div>
         )}
         <div className="border border-slate-400 p-3 grid grid-cols-2 gap-3">
           {section.content && <p className="text-[9px] text-gray-600 italic col-span-2 break-words whitespace-pre-wrap">{section.content}</p>}
@@ -146,27 +147,25 @@ const DynamicConsentPrintTemplate: React.FC<DynamicConsentPrintTemplateProps> = 
     <div className="w-[210mm] bg-white p-8 text-[11px]">
       {/* Header Block */}
       <div className="w-full bg-[#1e40af] flex items-center p-4 min-h-[28mm] mb-1">
-        <div className="w-[25%] flex items-center justify-center border-r-[1.5px] border-[#3b5bcc] pr-4 h-full">
-          <img src="/assets/login-bg.jpeg" alt="Logo" className="w-[20mm] object-contain" />
+        <div className="w-[25%] flex items-center justify-center border-e-[1.5px] border-[#3b5bcc] pe-4 h-full">
+          <img src="/assets/login-bg.jpeg" alt={i18n.t("Logo")} className="w-[20mm] object-contain" />
         </div>
-        <div className="w-[75%] pl-6 flex flex-col justify-center">
-          <h1 className="text-white text-2xl font-extrabold leading-none tracking-tight mb-2 uppercase italic">
-            Procedure Consent Form
-          </h1>
+        <div className="w-[75%] ps-6 flex flex-col justify-center">
+          <h1 className="text-white text-2xl font-extrabold leading-none tracking-tight mb-2 uppercase italic">{i18n.t("Procedure Consent Form")}</h1>
           <p className="text-[#93c5fd] text-[10px] leading-tight font-bold uppercase">{templateData.display_name}</p>
-          <p className="text-[#93c5fd]/70 text-[8px] mt-1">Policy Ref: {templateData.form_schema?.metadata?.policy || "GSH-T6"} Version {templateData.version}</p>
+          <p className="text-[#93c5fd]/70 text-[8px] mt-1">{i18n.t("Policy Ref:")}{" "}{templateData.form_schema?.metadata?.policy || i18n.t("GSH-T6")}{" "}{i18n.t("Version")}{" "}{templateData.version}</p>
         </div>
       </div>
 
       <div className="w-full text-center py-2 border-b border-slate-200 mb-4">
-        <p className="text-[8px] text-slate-500 font-medium italic">Head Office: Medbookie Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@Medbookiehospital.com</p>
+        <p className="text-[8px] text-slate-500 font-medium italic">{i18n.t("Head Office: Medbookie Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria  •  +234 705 648 2776  •  info@Medbookiehospital.com")}</p>
       </div>
 
       {sections.map(renderSection)}
 
       <div className="mt-6 pt-4 border-t border-slate-200 flex justify-between items-center text-[8px] text-slate-400 font-bold uppercase tracking-widest">
-        <span>Medbookie - Clinical Documentation</span>
-        <span>{templateData.slug} v{templateData.version}</span>
+        <span>{i18n.t("Medbookie - Clinical Documentation")}</span>
+        <span>{templateData.slug}{" "}{i18n.t("v")}{templateData.version}</span>
       </div>
     </div>
   );

@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { exportToCSV, exportToExcel, exportToPDF } from "../../utils/exportUtils";
 import apiClient from "../../api/client";
+import { i18n } from "../../i18n";
 
 // --- Types ---
 interface KPIReport {
@@ -92,19 +93,19 @@ const renderValue = (val: any) => {
 const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
   switch (status?.toUpperCase()) {
     case "SCHEDULED":
-      return <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-blue-50 text-blue-700 border border-blue-200">Scheduled</span>;
+      return <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-blue-50 text-blue-700 border border-blue-200">{i18n.t("Scheduled")}</span>;
     case "CONFIRMED":
-      return <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-cyan-50 text-cyan-700 border border-cyan-200">Confirmed</span>;
+      return <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-cyan-50 text-cyan-700 border border-cyan-200">{i18n.t("Confirmed")}</span>;
     case "CHECKED_IN":
-      return <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">Checked In</span>;
+      return <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">{i18n.t("Checked In")}</span>;
     case "COMPLETED":
-      return <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">Completed</span>;
+      return <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">{i18n.t("Completed")}</span>;
     case "CANCELLED":
-      return <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-rose-50 text-rose-700 border border-rose-200">Cancelled</span>;
+      return <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-rose-50 text-rose-700 border border-rose-200">{i18n.t("Cancelled")}</span>;
     case "BILLING_CLEARANCE":
-      return <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-amber-50 text-amber-700 border border-amber-200">Billing Clearance</span>;
+      return <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-amber-50 text-amber-700 border border-amber-200">{i18n.t("Billing Clearance")}</span>;
     case "NO_SHOW":
-      return <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-slate-100 text-slate-600 border border-slate-300">No Show</span>;
+      return <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-slate-100 text-slate-600 border border-slate-300">{i18n.t("No Show")}</span>;
     default:
       return <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-slate-100 text-slate-600 border border-slate-200">{status || "—"}</span>;
   }
@@ -112,11 +113,11 @@ const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
 
 const BookingTypeBadge: React.FC<{ type: string }> = ({ type }) => {
   if (type === "PRE_BOOKED") {
-    return <span className="px-2 py-0.5 text-[11px] font-bold rounded-md bg-sky-50 text-sky-700 border border-sky-200">Pre-booked</span>;
+    return <span className="px-2 py-0.5 text-[11px] font-bold rounded-md bg-sky-50 text-sky-700 border border-sky-200">{i18n.t("Pre-booked")}</span>;
   } else if (type === "WALK_IN") {
-    return <span className="px-2 py-0.5 text-[11px] font-bold rounded-md bg-purple-50 text-purple-700 border border-purple-200">Walk-in</span>;
+    return <span className="px-2 py-0.5 text-[11px] font-bold rounded-md bg-purple-50 text-purple-700 border border-purple-200">{i18n.t("Walk-in")}</span>;
   } else if (type === "FOLLOW_UP") {
-    return <span className="px-2 py-0.5 text-[11px] font-bold rounded-md bg-amber-50 text-amber-700 border border-amber-200">Follow-up</span>;
+    return <span className="px-2 py-0.5 text-[11px] font-bold rounded-md bg-amber-50 text-amber-700 border border-amber-200">{i18n.t("Follow-up")}</span>;
   }
   return <span className="px-2 py-0.5 text-[11px] font-bold rounded-md bg-slate-100 text-slate-600 border border-slate-200">{type}</span>;
 };
@@ -357,10 +358,8 @@ const AppointmentReport: React.FC = () => {
               <CalendarCheck size={26} />
             </div>
             <div>
-              <h2 className="text-xl font-black text-slate-800 tracking-tight">Appointment & Registration Intelligence</h2>
-              <p className="text-xs font-semibold text-slate-500">
-                Audited Patient Flow, Staff Productivity & HMO vs Private Cash Distribution
-              </p>
+              <h2 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Appointment & Registration Intelligence")}</h2>
+              <p className="text-xs font-semibold text-slate-500">{i18n.t("Audited Patient Flow, Staff Productivity & HMO vs Private Cash Distribution")}</p>
             </div>
           </div>
         </div>
@@ -373,45 +372,39 @@ const AppointmentReport: React.FC = () => {
               className={`px-3.5 py-1.5 rounded-xl transition-all ${
                 activeTab === "dashboard" ? "bg-white text-indigo-700 shadow-sm" : "hover:text-slate-900"
               }`}
-            >
-              Overview
-            </button>
+            >{i18n.t("Overview")}</button>
             <button
               onClick={() => setActiveTab("staff")}
               className={`px-3.5 py-1.5 rounded-xl transition-all ${
                 activeTab === "staff" ? "bg-white text-indigo-700 shadow-sm" : "hover:text-slate-900"
               }`}
-            >
-              Staff Audit
-            </button>
+            >{i18n.t("Staff Audit")}</button>
             <button
               onClick={() => setActiveTab("ledger")}
               className={`px-3.5 py-1.5 rounded-xl transition-all ${
                 activeTab === "ledger" ? "bg-white text-indigo-700 shadow-sm" : "hover:text-slate-900"
               }`}
-            >
-              Master Ledger
-            </button>
+            >{i18n.t("Master Ledger")}</button>
           </div>
 
           <button
             onClick={handleClearFilters}
             disabled={isLoading}
             className="flex items-center gap-1.5 px-3 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 disabled:opacity-50 rounded-xl text-xs font-bold transition-all"
-            title="Reset All Filters"
+            title={i18n.t("Reset All Filters")}
           >
             <FilterX size={16} />
-            <span className="hidden sm:inline">Reset</span>
+            <span className="hidden sm:inline">{i18n.t("Reset")}</span>
           </button>
 
           <button
             onClick={fetchReportData}
             disabled={isLoading}
             className="flex items-center gap-1.5 px-3 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 disabled:opacity-50 rounded-xl text-xs font-bold transition-all"
-            title="Refresh Intelligence Data"
+            title={i18n.t("Refresh Intelligence Data")}
           >
             <RefreshCw size={16} className={isLoading ? "animate-spin text-indigo-600" : ""} />
-            <span className="hidden sm:inline">Refresh</span>
+            <span className="hidden sm:inline">{i18n.t("Refresh")}</span>
           </button>
 
           {/* Export Dropdown */}
@@ -421,34 +414,26 @@ const AppointmentReport: React.FC = () => {
               disabled={isLoading}
               className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 rounded-xl text-xs font-black shadow-md shadow-indigo-600/20 transition-all"
             >
-              <Download size={16} />
-              Export
-              <ChevronDown size={14} className={`transition-transform duration-200 ${isExportOpen ? "rotate-180" : ""}`} />
+              <Download size={16} />{i18n.t("Export")}<ChevronDown size={14} className={`transition-transform duration-200 ${isExportOpen ? "rotate-180" : ""}`} />
             </button>
 
             {isExportOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 py-2 animate-in fade-in zoom-in-95 duration-150">
+              <div className="absolute end-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 py-2 animate-in fade-in zoom-in-95 duration-150">
                 <button
                   onClick={handleExportExcel}
                   className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors"
                 >
-                  <FileSpreadsheet size={16} className="text-emerald-600" />
-                  Export Excel (.xlsx)
-                </button>
+                  <FileSpreadsheet size={16} className="text-emerald-600" />{i18n.t("Export Excel (.xlsx)")}</button>
                 <button
                   onClick={handleExportCSV}
                   className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors"
                 >
-                  <FileText size={16} className="text-blue-600" />
-                  Export CSV (.csv)
-                </button>
+                  <FileText size={16} className="text-blue-600" />{i18n.t("Export CSV (.csv)")}</button>
                 <button
                   onClick={handleExportPDF}
                   className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors"
                 >
-                  <FilePdf size={16} className="text-rose-600" />
-                  Export PDF (.pdf)
-                </button>
+                  <FilePdf size={16} className="text-rose-600" />{i18n.t("Export PDF (.pdf)")}</button>
               </div>
             )}
           </div>
@@ -460,31 +445,30 @@ const AppointmentReport: React.FC = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3.5">
           <div className="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-100 flex flex-col justify-between">
             <div className="flex items-center justify-between text-indigo-700 mb-2">
-              <span className="text-[11px] font-black uppercase tracking-wider">Total Appts</span>
+              <span className="text-[11px] font-black uppercase tracking-wider">{i18n.t("Total Appts")}</span>
               <CalendarCheck size={18} />
             </div>
             <div>
               <div className="text-2xl font-black text-slate-900">{kpis.total_appointments || 0}</div>
               <div className="text-[11px] font-semibold text-slate-500 mt-0.5">
-                {kpis.completed_visits || 0} completed • {kpis.cancelled_visits || 0} cancelled
-              </div>
+                {kpis.completed_visits || 0}{" "}{i18n.t("completed •")}{" "}{kpis.cancelled_visits || 0}{" "}{i18n.t("cancelled")}</div>
             </div>
           </div>
 
           <div className="p-4 rounded-2xl bg-sky-50/60 border border-sky-100 flex flex-col justify-between">
             <div className="flex items-center justify-between text-sky-700 mb-2">
-              <span className="text-[11px] font-black uppercase tracking-wider">Unique Patients</span>
+              <span className="text-[11px] font-black uppercase tracking-wider">{i18n.t("Unique Patients")}</span>
               <Users size={18} />
             </div>
             <div>
               <div className="text-2xl font-black text-slate-900">{kpis.total_unique_patients || 0}</div>
-              <div className="text-[11px] font-semibold text-slate-500 mt-0.5">Active clinical heads</div>
+              <div className="text-[11px] font-semibold text-slate-500 mt-0.5">{i18n.t("Active clinical heads")}</div>
             </div>
           </div>
 
           <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-100 flex flex-col justify-between">
             <div className="flex items-center justify-between text-emerald-700 mb-2">
-              <span className="text-[11px] font-black uppercase tracking-wider">New vs Old</span>
+              <span className="text-[11px] font-black uppercase tracking-wider">{i18n.t("New vs Old")}</span>
               <UserPlus size={18} />
             </div>
             <div>
@@ -493,40 +477,37 @@ const AppointmentReport: React.FC = () => {
                 <span className="text-xs font-bold text-slate-400">/ {kpis.old_patients_count || 0}</span>
               </div>
               <div className="text-[11px] font-semibold text-emerald-700 mt-0.5">
-                {kpis.new_patient_percentage || 0}% New Patients
-              </div>
+                {kpis.new_patient_percentage || 0}{i18n.t("% New Patients")}</div>
             </div>
           </div>
 
           <div className="p-4 rounded-2xl bg-violet-50/60 border border-violet-100 flex flex-col justify-between">
             <div className="flex items-center justify-between text-violet-700 mb-2">
-              <span className="text-[11px] font-black uppercase tracking-wider">HMO vs PVT Ratio</span>
+              <span className="text-[11px] font-black uppercase tracking-wider">{i18n.t("HMO vs PVT Ratio")}</span>
               <TrendingUp size={18} />
             </div>
             <div>
               <div className="text-2xl font-black text-slate-900">{kpis.hmo_vs_pvt_ratio || "0 : 1"}</div>
               <div className="text-[11px] font-semibold text-violet-700 mt-0.5">
-                {kpis.hmo_appointments || 0} HMO vs {kpis.pvt_cash_appointments || 0} Cash
-              </div>
+                {kpis.hmo_appointments || 0}{" "}{i18n.t("HMO vs")}{" "}{kpis.pvt_cash_appointments || 0}{" "}{i18n.t("Cash")}</div>
             </div>
           </div>
 
           <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-100 flex flex-col justify-between">
             <div className="flex items-center justify-between text-amber-700 mb-2">
-              <span className="text-[11px] font-black uppercase tracking-wider">Private Cash</span>
+              <span className="text-[11px] font-black uppercase tracking-wider">{i18n.t("Private Cash")}</span>
               <Wallet size={18} />
             </div>
             <div>
               <div className="text-2xl font-black text-slate-900">{kpis.pvt_cash_appointments || 0}</div>
               <div className="text-[11px] font-semibold text-amber-700 mt-0.5">
-                {kpis.pvt_cash_percentage || 0}% Total Revenue Share
-              </div>
+                {kpis.pvt_cash_percentage || 0}{i18n.t("% Total Revenue Share")}</div>
             </div>
           </div>
 
           <div className="p-4 rounded-2xl bg-rose-50/60 border border-rose-100 flex flex-col justify-between">
             <div className="flex items-center justify-between text-rose-700 mb-2">
-              <span className="text-[11px] font-black uppercase tracking-wider">Pre-Booked vs Walk-in</span>
+              <span className="text-[11px] font-black uppercase tracking-wider">{i18n.t("Pre-Booked vs Walk-in")}</span>
               <Clock size={18} />
             </div>
             <div>
@@ -535,8 +516,7 @@ const AppointmentReport: React.FC = () => {
                 <span className="text-xs font-bold text-slate-400">/ {kpis.walk_in_count || 0}</span>
               </div>
               <div className="text-[11px] font-semibold text-slate-500 mt-0.5">
-                {kpis.active_pending_visits || 0} active / pending
-              </div>
+                {kpis.active_pending_visits || 0}{" "}{i18n.t("active / pending")}</div>
             </div>
           </div>
         </div>
@@ -546,27 +526,27 @@ const AppointmentReport: React.FC = () => {
       <div className="bg-slate-50/80 p-4 rounded-2xl border border-slate-200/80 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+          <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
           <input
             type="text"
-            placeholder="Search patient, phone, code..."
+            placeholder={i18n.t("Search patient, phone, code...")}
             value={searchTerm}
             onChange={e => handleFilterChange(setSearchTerm, e.target.value)}
             disabled={isLoading}
-            className="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none"
+            className="w-full ps-9 pe-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none"
           />
         </div>
 
         {/* MRN Search */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+          <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
           <input
             type="text"
-            placeholder="Filter by MRN..."
+            placeholder={i18n.t("Filter by MRN...")}
             value={mrnFilter}
             onChange={e => handleFilterChange(setMrnFilter, e.target.value)}
             disabled={isLoading}
-            className="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none"
+            className="w-full ps-9 pe-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none"
           />
         </div>
 
@@ -578,18 +558,18 @@ const AppointmentReport: React.FC = () => {
             disabled={isLoading}
             className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-600/20"
           >
-            <option value="all">All Time Intervals</option>
-            <option value="today">Today</option>
-            <option value="yesterday">Yesterday</option>
-            <option value="this_week">This Week</option>
-            <option value="last_week">Last Week</option>
-            <option value="last_7_days">Last 7 Days</option>
-            <option value="last_30_days">Last 30 Days</option>
-            <option value="this_month">This Month</option>
-            <option value="last_month">Last Month</option>
-            <option value="last_3_months">Last 3 Months</option>
-            <option value="this_year">This Year</option>
-            <option value="custom">Custom Date Range</option>
+            <option value="all">{i18n.t("All Time Intervals")}</option>
+            <option value="today">{i18n.t("Today")}</option>
+            <option value="yesterday">{i18n.t("Yesterday")}</option>
+            <option value="this_week">{i18n.t("This Week")}</option>
+            <option value="last_week">{i18n.t("Last Week")}</option>
+            <option value="last_7_days">{i18n.t("Last 7 Days")}</option>
+            <option value="last_30_days">{i18n.t("Last 30 Days")}</option>
+            <option value="this_month">{i18n.t("This Month")}</option>
+            <option value="last_month">{i18n.t("Last Month")}</option>
+            <option value="last_3_months">{i18n.t("Last 3 Months")}</option>
+            <option value="this_year">{i18n.t("This Year")}</option>
+            <option value="custom">{i18n.t("Custom Date Range")}</option>
           </select>
         </div>
 
@@ -625,10 +605,10 @@ const AppointmentReport: React.FC = () => {
             disabled={isLoading}
             className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-600/20"
           >
-            <option value="All">All Staff / Bookers</option>
+            <option value="All">{i18n.t("All Staff / Bookers")}</option>
             {staffList.map(s => (
               <option key={s.user_id} value={s.user_id}>
-                {s.staff_name} ({s.staff_id || "Staff"})
+                {s.staff_name} ({s.staff_id || i18n.t("Staff")})
               </option>
             ))}
           </select>
@@ -642,9 +622,9 @@ const AppointmentReport: React.FC = () => {
             disabled={isLoading}
             className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-600/20"
           >
-            <option value="All">All Patient Categories</option>
-            <option value="NEW">New Patients (Registered in Period)</option>
-            <option value="OLD">Old / Returning Patients</option>
+            <option value="All">{i18n.t("All Patient Categories")}</option>
+            <option value="NEW">{i18n.t("New Patients (Registered in Period)")}</option>
+            <option value="OLD">{i18n.t("Old / Returning Patients")}</option>
           </select>
         </div>
 
@@ -656,9 +636,9 @@ const AppointmentReport: React.FC = () => {
             disabled={isLoading}
             className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-600/20"
           >
-            <option value="All">All Payer Groups (HMO & PVT)</option>
-            <option value="PVT">Private Cash Only</option>
-            <option value="HMO">HMO Covered Only</option>
+            <option value="All">{i18n.t("All Payer Groups (HMO & PVT)")}</option>
+            <option value="PVT">{i18n.t("Private Cash Only")}</option>
+            <option value="HMO">{i18n.t("HMO Covered Only")}</option>
           </select>
         </div>
 
@@ -670,7 +650,7 @@ const AppointmentReport: React.FC = () => {
             disabled={isLoading}
             className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-700 outline-none"
           >
-            <option value="">All Specific Payers</option>
+            <option value="">{i18n.t("All Specific Payers")}</option>
             {payers.map(p => (
               <option key={p.id} value={p.id}>{p.name}</option>
             ))}
@@ -685,10 +665,9 @@ const AppointmentReport: React.FC = () => {
             disabled={isLoading}
             className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-700 outline-none"
           >
-            <option value="All">All Attending Doctors</option>
+            <option value="All">{i18n.t("All Attending Doctors")}</option>
             {doctors.map(doc => (
-              <option key={doc.doctor_id || doc.id} value={doc.doctor_id || doc.id}>
-                Dr. {doc.first_name} {doc.last_name}
+              <option key={doc.doctor_id || doc.id} value={doc.doctor_id || doc.id}>{i18n.t("Dr.")}{" "}{doc.first_name} {doc.last_name}
               </option>
             ))}
           </select>
@@ -702,7 +681,7 @@ const AppointmentReport: React.FC = () => {
             disabled={isLoading}
             className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-700 outline-none"
           >
-            <option value="All">All Specializations</option>
+            <option value="All">{i18n.t("All Specializations")}</option>
             {specializations.map(s => (
               <option key={s.id} value={s.id}>{s.name}</option>
             ))}
@@ -717,14 +696,14 @@ const AppointmentReport: React.FC = () => {
             disabled={isLoading}
             className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-700 outline-none"
           >
-            <option value="All">All Statuses</option>
-            <option value="SCHEDULED">Scheduled</option>
-            <option value="CONFIRMED">Confirmed</option>
-            <option value="CHECKED_IN">Checked In</option>
-            <option value="COMPLETED">Completed</option>
-            <option value="CANCELLED">Cancelled</option>
-            <option value="NO_SHOW">No Show</option>
-            <option value="BILLING_CLEARANCE">Billing Clearance</option>
+            <option value="All">{i18n.t("All Statuses")}</option>
+            <option value="SCHEDULED">{i18n.t("Scheduled")}</option>
+            <option value="CONFIRMED">{i18n.t("Confirmed")}</option>
+            <option value="CHECKED_IN">{i18n.t("Checked In")}</option>
+            <option value="COMPLETED">{i18n.t("Completed")}</option>
+            <option value="CANCELLED">{i18n.t("Cancelled")}</option>
+            <option value="NO_SHOW">{i18n.t("No Show")}</option>
+            <option value="BILLING_CLEARANCE">{i18n.t("Billing Clearance")}</option>
           </select>
         </div>
 
@@ -736,10 +715,10 @@ const AppointmentReport: React.FC = () => {
             disabled={isLoading}
             className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-700 outline-none"
           >
-            <option value="All">All Booking Types</option>
-            <option value="PRE_BOOKED">Pre-booked</option>
-            <option value="WALK_IN">Walk-in</option>
-            <option value="FOLLOW_UP">Follow-up</option>
+            <option value="All">{i18n.t("All Booking Types")}</option>
+            <option value="PRE_BOOKED">{i18n.t("Pre-booked")}</option>
+            <option value="WALK_IN">{i18n.t("Walk-in")}</option>
+            <option value="FOLLOW_UP">{i18n.t("Follow-up")}</option>
           </select>
         </div>
       </div>
@@ -753,11 +732,9 @@ const AppointmentReport: React.FC = () => {
             <div className="p-4 rounded-2xl border border-slate-200 bg-white shadow-xs">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                  <UserPlus size={16} className="text-emerald-600" /> Patient Acquisition Share
-                </span>
+                  <UserPlus size={16} className="text-emerald-600" />{" "}{i18n.t("Patient Acquisition Share")}</span>
                 <span className="text-xs font-extrabold text-slate-500">
-                  {kpis?.new_patient_percentage || 0}% New • {kpis?.old_patient_percentage || 0}% Returning
-                </span>
+                  {kpis?.new_patient_percentage || 0}{i18n.t("% New •")}{" "}{kpis?.old_patient_percentage || 0}{i18n.t("% Returning")}</span>
               </div>
               <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden flex">
                 <div
@@ -772,8 +749,8 @@ const AppointmentReport: React.FC = () => {
                 />
               </div>
               <div className="flex justify-between text-[11px] font-semibold text-slate-500 mt-2">
-                <span>New: {kpis?.new_patients_count || 0}</span>
-                <span>Returning: {kpis?.old_patients_count || 0}</span>
+                <span>{i18n.t("New:")}{" "}{kpis?.new_patients_count || 0}</span>
+                <span>{i18n.t("Returning:")}{" "}{kpis?.old_patients_count || 0}</span>
               </div>
             </div>
 
@@ -781,11 +758,9 @@ const AppointmentReport: React.FC = () => {
             <div className="p-4 rounded-2xl border border-slate-200 bg-white shadow-xs">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                  <Wallet size={16} className="text-violet-600" /> HMO vs Private Cash Ratio
-                </span>
+                  <Wallet size={16} className="text-violet-600" />{" "}{i18n.t("HMO vs Private Cash Ratio")}</span>
                 <span className="text-xs font-extrabold text-slate-500">
-                  {kpis?.pvt_cash_percentage || 0}% Cash • {kpis?.hmo_percentage || 0}% HMO
-                </span>
+                  {kpis?.pvt_cash_percentage || 0}{i18n.t("% Cash •")}{" "}{kpis?.hmo_percentage || 0}{i18n.t("% HMO")}</span>
               </div>
               <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden flex">
                 <div
@@ -800,8 +775,8 @@ const AppointmentReport: React.FC = () => {
                 />
               </div>
               <div className="flex justify-between text-[11px] font-semibold text-slate-500 mt-2">
-                <span>Cash Appts: {kpis?.pvt_cash_appointments || 0}</span>
-                <span>HMO Appts: {kpis?.hmo_appointments || 0}</span>
+                <span>{i18n.t("Cash Appts:")}{" "}{kpis?.pvt_cash_appointments || 0}</span>
+                <span>{i18n.t("HMO Appts:")}{" "}{kpis?.hmo_appointments || 0}</span>
               </div>
             </div>
           </div>
@@ -813,7 +788,7 @@ const AppointmentReport: React.FC = () => {
               <div>
                 <div className="flex items-center gap-2 mb-3 pb-2 border-b border-slate-100">
                   <Building2 size={18} className="text-indigo-600" />
-                  <h3 className="text-sm font-bold text-slate-800">Top Payers Distribution</h3>
+                  <h3 className="text-sm font-bold text-slate-800">{i18n.t("Top Payers Distribution")}</h3>
                 </div>
                 <div className="space-y-2.5">
                   {payerDistribution.length > 0 ? (
@@ -823,14 +798,14 @@ const AppointmentReport: React.FC = () => {
                           <div className="font-bold text-slate-800">{p.payer_name}</div>
                           <div className="text-[10px] text-slate-400 font-bold uppercase">{p.payer_category}</div>
                         </div>
-                        <div className="text-right">
-                          <div className="font-black text-slate-900">{p.appointment_count} appts</div>
-                          <div className="text-[10px] text-slate-500">{p.unique_patients} patients</div>
+                        <div className="text-end">
+                          <div className="font-black text-slate-900">{p.appointment_count}{" "}{i18n.t("appts")}</div>
+                          <div className="text-[10px] text-slate-500">{p.unique_patients}{" "}{i18n.t("patients")}</div>
                         </div>
                       </div>
                     ))
                   ) : (
-                    <div className="text-xs text-slate-400 italic py-4 text-center">No payer records found</div>
+                    <div className="text-xs text-slate-400 italic py-4 text-center">{i18n.t("No payer records found")}</div>
                   )}
                 </div>
               </div>
@@ -841,9 +816,9 @@ const AppointmentReport: React.FC = () => {
               <div>
                 <div className="flex items-center gap-2 mb-3 pb-2 border-b border-slate-100">
                   <Stethoscope size={18} className="text-emerald-600" />
-                  <h3 className="text-sm font-bold text-slate-800">Physician Workload</h3>
+                  <h3 className="text-sm font-bold text-slate-800">{i18n.t("Physician Workload")}</h3>
                 </div>
-                <div className="space-y-2.5 max-h-80 overflow-y-auto pr-1">
+                <div className="space-y-2.5 max-h-80 overflow-y-auto pe-1">
                   {doctorUtilization.length > 0 ? (
                     doctorUtilization.slice(0, 6).map((doc, idx) => (
                       <div key={idx} className="flex justify-between items-center text-xs">
@@ -851,14 +826,14 @@ const AppointmentReport: React.FC = () => {
                           <div className="font-bold text-slate-800">{doc.doctor_name}</div>
                           <div className="text-[10px] text-slate-400 truncate max-w-[150px]">{doc.specialization}</div>
                         </div>
-                        <div className="text-right">
-                          <div className="font-black text-slate-900">{doc.total_appointments} visits</div>
-                          <div className="text-[10px] text-rose-600 font-semibold">{doc.cancelled} cancelled</div>
+                        <div className="text-end">
+                          <div className="font-black text-slate-900">{doc.total_appointments}{" "}{i18n.t("visits")}</div>
+                          <div className="text-[10px] text-rose-600 font-semibold">{doc.cancelled}{" "}{i18n.t("cancelled")}</div>
                         </div>
                       </div>
                     ))
                   ) : (
-                    <div className="text-xs text-slate-400 italic py-4 text-center">No physician records</div>
+                    <div className="text-xs text-slate-400 italic py-4 text-center">{i18n.t("No physician records")}</div>
                   )}
                 </div>
               </div>
@@ -869,9 +844,9 @@ const AppointmentReport: React.FC = () => {
               <div>
                 <div className="flex items-center gap-2 mb-3 pb-2 border-b border-slate-100">
                   <Activity size={18} className="text-sky-600" />
-                  <h3 className="text-sm font-bold text-slate-800">Specialty Volume Demand</h3>
+                  <h3 className="text-sm font-bold text-slate-800">{i18n.t("Specialty Volume Demand")}</h3>
                 </div>
-                <div className="space-y-2.5 max-h-80 overflow-y-auto pr-1">
+                <div className="space-y-2.5 max-h-80 overflow-y-auto pe-1">
                   {specialtyDemand.length > 0 ? (
                     specialtyDemand.slice(0, 6).map((spec, idx) => (
                       <div key={idx} className="flex justify-between items-center text-xs">
@@ -882,7 +857,7 @@ const AppointmentReport: React.FC = () => {
                       </div>
                     ))
                   ) : (
-                    <div className="text-xs text-slate-400 italic py-4 text-center">No specialty data</div>
+                    <div className="text-xs text-slate-400 italic py-4 text-center">{i18n.t("No specialty data")}</div>
                   )}
                 </div>
               </div>
@@ -896,31 +871,26 @@ const AppointmentReport: React.FC = () => {
         <div className="rounded-2xl border border-slate-200 overflow-hidden bg-white shadow-xs">
           <div className="p-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
             <div>
-              <h3 className="text-sm font-black text-slate-800 uppercase tracking-wider">
-                Staff Workload & Registration Audit
-              </h3>
-              <p className="text-xs text-slate-500 font-medium">
-                Tracking appointments and registrations performed by individual staff members
-              </p>
+              <h3 className="text-sm font-black text-slate-800 uppercase tracking-wider">{i18n.t("Staff Workload & Registration Audit")}</h3>
+              <p className="text-xs text-slate-500 font-medium">{i18n.t("Tracking appointments and registrations performed by individual staff members")}</p>
             </div>
             <span className="px-3 py-1 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700">
-              {userAudit.length} Active Staff Found
-            </span>
+              {userAudit.length}{" "}{i18n.t("Active Staff Found")}</span>
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs whitespace-nowrap">
+            <table className="w-full text-start text-xs whitespace-nowrap">
               <thead className="bg-slate-50/80 border-b border-slate-200 font-black text-slate-600 uppercase tracking-wider text-[11px]">
                 <tr>
                   <th className="px-4 py-3">#</th>
-                  <th className="px-4 py-3">Staff Name</th>
-                  <th className="px-4 py-3">Department</th>
-                  <th className="px-4 py-3 text-center">Patients Registered</th>
-                  <th className="px-4 py-3 text-center">Total Appointments</th>
-                  <th className="px-4 py-3 text-center">Pre-Booked</th>
-                  <th className="px-4 py-3 text-center">Walk-In</th>
-                  <th className="px-4 py-3 text-center">Completed Visits</th>
-                  <th className="px-4 py-3 text-center">Cancelled</th>
+                  <th className="px-4 py-3">{i18n.t("Staff Name")}</th>
+                  <th className="px-4 py-3">{i18n.t("Department")}</th>
+                  <th className="px-4 py-3 text-center">{i18n.t("Patients Registered")}</th>
+                  <th className="px-4 py-3 text-center">{i18n.t("Total Appointments")}</th>
+                  <th className="px-4 py-3 text-center">{i18n.t("Pre-Booked")}</th>
+                  <th className="px-4 py-3 text-center">{i18n.t("Walk-In")}</th>
+                  <th className="px-4 py-3 text-center">{i18n.t("Completed Visits")}</th>
+                  <th className="px-4 py-3 text-center">{i18n.t("Cancelled")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
@@ -930,7 +900,7 @@ const AppointmentReport: React.FC = () => {
                       <td className="px-4 py-3 text-slate-400 font-bold">{i + 1}</td>
                       <td className="px-4 py-3 font-bold text-slate-900">
                         {u.staff_name}
-                        <div className="text-[10px] text-slate-400 font-normal">ID: {u.staff_id || "N/A"}</div>
+                        <div className="text-[10px] text-slate-400 font-normal">{i18n.t("ID:")}{" "}{u.staff_id || i18n.t("N/A")}</div>
                       </td>
                       <td className="px-4 py-3 text-slate-600">{u.department}</td>
                       <td className="px-4 py-3 text-center">
@@ -951,9 +921,7 @@ const AppointmentReport: React.FC = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={9} className="px-4 py-8 text-center text-slate-400 italic">
-                      No staff booking audit metrics available for this period.
-                    </td>
+                    <td colSpan={9} className="px-4 py-8 text-center text-slate-400 italic">{i18n.t("No staff booking audit metrics available for this period.")}</td>
                   </tr>
                 )}
               </tbody>
@@ -972,19 +940,19 @@ const AppointmentReport: React.FC = () => {
           )}
 
           <div className="overflow-x-auto flex-1">
-            <table className="w-full text-left text-xs whitespace-nowrap">
+            <table className="w-full text-start text-xs whitespace-nowrap">
               <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10 font-black text-slate-600 uppercase tracking-wider text-[11px]">
                 <tr>
                   <th className="px-4 py-3">#</th>
-                  <th className="px-4 py-3">Appt. Code</th>
-                  <th className="px-4 py-3">Patient Details</th>
-                  <th className="px-4 py-3">Category</th>
-                  <th className="px-4 py-3">Date & Time</th>
-                  <th className="px-4 py-3">Attending Doctor</th>
-                  <th className="px-4 py-3">Payer & Policy</th>
-                  <th className="px-4 py-3">Type</th>
-                  <th className="px-4 py-3">Status</th>
-                  <th className="px-4 py-3">Booked By</th>
+                  <th className="px-4 py-3">{i18n.t("Appt. Code")}</th>
+                  <th className="px-4 py-3">{i18n.t("Patient Details")}</th>
+                  <th className="px-4 py-3">{i18n.t("Category")}</th>
+                  <th className="px-4 py-3">{i18n.t("Date & Time")}</th>
+                  <th className="px-4 py-3">{i18n.t("Attending Doctor")}</th>
+                  <th className="px-4 py-3">{i18n.t("Payer & Policy")}</th>
+                  <th className="px-4 py-3">{i18n.t("Type")}</th>
+                  <th className="px-4 py-3">{i18n.t("Status")}</th>
+                  <th className="px-4 py-3">{i18n.t("Booked By")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 font-medium">
@@ -1002,20 +970,16 @@ const AppointmentReport: React.FC = () => {
                         <div className="text-[11px] text-slate-500 flex gap-1.5 items-center">
                           <span className="font-mono">{renderValue(row.mrn)}</span>
                           <span>•</span>
-                          <span>{renderValue(row.age_years || row.age)} yrs</span>
+                          <span>{renderValue(row.age_years || row.age)}{" "}{i18n.t("yrs")}</span>
                           <span>•</span>
                           <span>{renderValue(row.gender)}</span>
                         </div>
                       </td>
                       <td className="px-4 py-3">
                         {row.patient_category === "NEW" ? (
-                          <span className="px-2 py-0.5 text-[10px] font-black rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
-                            NEW
-                          </span>
+                          <span className="px-2 py-0.5 text-[10px] font-black rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">{i18n.t("NEW")}</span>
                         ) : (
-                          <span className="px-2 py-0.5 text-[10px] font-black rounded-md bg-sky-50 text-sky-700 border border-sky-200">
-                            RETURNING
-                          </span>
+                          <span className="px-2 py-0.5 text-[10px] font-black rounded-md bg-sky-50 text-sky-700 border border-sky-200">{i18n.t("RETURNING")}</span>
                         )}
                       </td>
                       <td className="px-4 py-3">
@@ -1030,13 +994,13 @@ const AppointmentReport: React.FC = () => {
                         <div className="font-bold text-slate-800 flex items-center gap-1.5">
                           {renderValue(row.payer_name)}
                           {row.payer_category === "HMO" ? (
-                            <span className="px-1.5 py-0.2 bg-violet-100 text-violet-700 font-black text-[9px] rounded">HMO</span>
+                            <span className="px-1.5 py-0.2 bg-violet-100 text-violet-700 font-black text-[9px] rounded">{i18n.t("HMO")}</span>
                           ) : (
-                            <span className="px-1.5 py-0.2 bg-amber-100 text-amber-800 font-black text-[9px] rounded">CASH</span>
+                            <span className="px-1.5 py-0.2 bg-amber-100 text-amber-800 font-black text-[9px] rounded">{i18n.t("CASH")}</span>
                           )}
                         </div>
                         <div className="text-[11px] text-slate-400">
-                          {row.policy_number ? `Pol: ${row.policy_number}` : "Direct Cash"}
+                          {row.policy_number ? `Pol: ${row.policy_number}` : i18n.t("Direct Cash")}
                         </div>
                       </td>
                       <td className="px-4 py-3">
@@ -1048,7 +1012,7 @@ const AppointmentReport: React.FC = () => {
                       <td className="px-4 py-3 text-slate-600">
                         <div className="font-bold">{renderValue(row.booked_by_staff || row.booked_by)}</div>
                         {row.registered_by_staff && (
-                          <div className="text-[10px] text-slate-400">Reg: {row.registered_by_staff}</div>
+                          <div className="text-[10px] text-slate-400">{i18n.t("Reg:")}{" "}{row.registered_by_staff}</div>
                         )}
                       </td>
                     </tr>
@@ -1056,7 +1020,7 @@ const AppointmentReport: React.FC = () => {
                 ) : (
                   <tr>
                     <td colSpan={10} className="px-4 py-12 text-center text-slate-400 italic">
-                      {isLoading ? "Retrieving records..." : "No appointment records found for the selected criteria."}
+                      {isLoading ? i18n.t("Retrieving records...") : i18n.t("No appointment records found for the selected criteria.")}
                     </td>
                   </tr>
                 )}
@@ -1067,17 +1031,15 @@ const AppointmentReport: React.FC = () => {
           {/* Pagination Footer */}
           {!isLoading && pagination.total_rows > 0 && (
             <div className="p-3.5 bg-slate-50/70 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-3">
-              <div className="text-xs text-slate-500 font-semibold">
-                Showing <span className="text-slate-900 font-bold">{(currentPage - 1) * itemsPerPage + 1}</span> to{" "}
+              <div className="text-xs text-slate-500 font-semibold">{i18n.t("Showing")}{" "}<span className="text-slate-900 font-bold">{(currentPage - 1) * itemsPerPage + 1}</span>{" "}{i18n.t("to")}{" "}
                 <span className="text-slate-900 font-bold">
                   {Math.min(currentPage * itemsPerPage, pagination.total_rows)}
-                </span> of{" "}
-                <span className="text-slate-900 font-bold">{pagination.total_rows}</span> records
-              </div>
+                </span>{" "}{i18n.t("of")}{" "}
+                <span className="text-slate-900 font-bold">{pagination.total_rows}</span>{" "}{i18n.t("records")}</div>
 
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-xs text-slate-400 font-bold uppercase">Show</span>
+                  <span className="text-xs text-slate-400 font-bold uppercase">{i18n.t("Show")}</span>
                   <select
                     value={itemsPerPage}
                     onChange={e => handleFilterChange(setItemsPerPage, Number(e.target.value))}
@@ -1095,7 +1057,7 @@ const AppointmentReport: React.FC = () => {
                     disabled={currentPage === 1}
                     className="p-1.5 rounded-lg border border-slate-200 bg-white text-slate-600 disabled:opacity-40 hover:bg-slate-50"
                   >
-                    <ChevronLeft size={16} />
+                    <ChevronLeft className="rtl:-scale-x-100" size={16} />
                   </button>
                   <span className="text-xs font-bold text-slate-800 px-2">
                     {currentPage} / {totalPages}
@@ -1105,7 +1067,7 @@ const AppointmentReport: React.FC = () => {
                     disabled={currentPage === totalPages || totalPages === 0}
                     className="p-1.5 rounded-lg border border-slate-200 bg-white text-slate-600 disabled:opacity-40 hover:bg-slate-50"
                   >
-                    <ChevronRight size={16} />
+                    <ChevronRight className="rtl:-scale-x-100" size={16} />
                   </button>
                 </div>
               </div>

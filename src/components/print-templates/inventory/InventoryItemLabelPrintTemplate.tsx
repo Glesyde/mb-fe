@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { inventoryService } from "../../../services/inventory.service";
 import { Loader2, AlertTriangle, Printer } from "lucide-react";
+import { i18n } from "../../../i18n";
 
 const InventoryItemLabelPrintTemplate: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -65,7 +66,7 @@ const InventoryItemLabelPrintTemplate: React.FC = () => {
     return (
       <div className="flex items-center justify-center min-h-screen bg-slate-50">
         <AlertTriangle size={32} className="text-red-500 mb-2" />
-        <p className="text-slate-600 font-semibold">{error || "Error"}</p>
+        <p className="text-slate-600 font-semibold">{error || i18n.t("Error")}</p>
       </div>
     );
   }
@@ -76,36 +77,20 @@ const InventoryItemLabelPrintTemplate: React.FC = () => {
 
   return (
     <>
-      <style>{`
-        @page {
-          size: 12mm 40mm;
-          margin: 0;
-        }
-        @media print {
-          body, html {
-            margin: 0;
-            padding: 0;
-            width: 12mm;
-            height: 40mm;
-            background: white !important;
-          }
-        }
-      `}</style>
+      <style>{"@page { size: 12mm 40mm; margin: 0; } @media print { body, html { margin: 0; padding: 0; width: 12mm; height: 40mm; background: white !important; } }"}</style>
       
       {/* Screen Toolbar - Hidden on Print */}
-      <div className="fixed top-0 left-0 right-0 h-16 bg-slate-900 text-white flex items-center justify-between px-8 print:hidden z-[100] shadow-md">
+      <div className="fixed top-0 start-0 end-0 h-16 bg-slate-900 text-white flex items-center justify-between px-8 print:hidden z-[100] shadow-md">
         <div>
-          <p className="font-black text-sm">Item Label Print Preview</p>
+          <p className="font-black text-sm">{i18n.t("Item Label Print Preview")}</p>
           <p className="text-[10px] text-slate-400 font-mono">
-            {item.items_uhid} • 12mm x 40mm
-          </p>
+            {item.items_uhid}{" "}{i18n.t("• 12mm x 40mm")}</p>
         </div>
         <button
           onClick={() => window.print()}
           className="flex items-center gap-2 px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest text-slate-900 bg-white transition-all hover:bg-slate-200"
         >
-          <Printer size={15} /> Print Label
-        </button>
+          <Printer size={15} />{" "}{i18n.t("Print Label")}</button>
       </div>
 
       {/* Actual Label Area */}
@@ -124,7 +109,7 @@ const InventoryItemLabelPrintTemplate: React.FC = () => {
           <div className="shrink-0 w-full flex items-center justify-center mb-[1mm]">
             <img 
               src={qrUrl} 
-              alt="QR" 
+              alt={i18n.t("QR")} 
               className="object-contain" 
               style={{ width: "10mm", height: "10mm", mixBlendMode: "multiply" }} 
             />
@@ -143,11 +128,9 @@ const InventoryItemLabelPrintTemplate: React.FC = () => {
             <p className="font-black uppercase truncate text-black" style={{ fontSize: "7pt" }}>
               {item.name}
             </p>
-            <p className="font-bold text-black uppercase whitespace-nowrap" style={{ fontSize: "5pt", marginRight: "1.5mm" }}>
-              ID: {item.items_uhid}
+            <p className="font-bold text-black uppercase whitespace-nowrap" style={{ fontSize: "5pt", marginRight: "1.5mm" }}>{i18n.t("ID:")}{" "}{item.items_uhid}
             </p>
-            <p className="font-bold text-black uppercase whitespace-nowrap" style={{ fontSize: "5pt", marginRight: "1.5mm" }}>
-              EXP: {closestExpiry}
+            <p className="font-bold text-black uppercase whitespace-nowrap" style={{ fontSize: "5pt", marginRight: "1.5mm" }}>{i18n.t("EXP:")}{" "}{closestExpiry}
             </p>
           </div>
         </div>

@@ -10,6 +10,7 @@ import {
   ReportShell,
   KpiCard,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const STATUS_OPTIONS = ["SCHEDULED", "IN_PROGRESS", "COMPLETED", "CANCELLED"];
 
@@ -70,8 +71,8 @@ const OtDashboardReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Enterprise OT Dashboard"
-      subtitle="Theatre-wide surgical KPIs, surgeon productivity, room utilization, and active backlog."
+      title={i18n.t("Enterprise OT Dashboard")}
+      subtitle={i18n.t("Theatre-wide surgical KPIs, surgeon productivity, room utilization, and active backlog.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.report_period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -93,7 +94,7 @@ const OtDashboardReport: React.FC = () => {
           <div>
             <input
               type="text"
-              placeholder="Assigned room"
+              placeholder={i18n.t("Assigned room")}
               value={assignedRoom}
               onChange={(e) => setAssignedRoom(e.target.value)}
               disabled={isLoading}
@@ -103,7 +104,7 @@ const OtDashboardReport: React.FC = () => {
           <div>
             <input
               type="text"
-              placeholder="Lead surgeon"
+              placeholder={i18n.t("Lead surgeon")}
               value={leadSurgeon}
               onChange={(e) => setLeadSurgeon(e.target.value)}
               disabled={isLoading}
@@ -113,7 +114,7 @@ const OtDashboardReport: React.FC = () => {
           <div>
             <input
               type="text"
-              placeholder="MRN"
+              placeholder={i18n.t("MRN")}
               value={mrn}
               onChange={(e) => setMrn(e.target.value)}
               disabled={isLoading}
@@ -127,7 +128,7 @@ const OtDashboardReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="">All Statuses</option>
+              <option value="">{i18n.t("All Statuses")}</option>
               {STATUS_OPTIONS.map((s) => (
                 <option key={s} value={s}>{s.replace(/_/g, " ")}</option>
               ))}
@@ -140,9 +141,9 @@ const OtDashboardReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="">Consent Signed? (All)</option>
-              <option value="YES">Yes</option>
-              <option value="NO">No</option>
+              <option value="">{i18n.t("Consent Signed? (All)")}</option>
+              <option value="YES">{i18n.t("Yes")}</option>
+              <option value="NO">{i18n.t("No")}</option>
             </select>
           </div>
           {timeframe === "custom" && (
@@ -152,36 +153,36 @@ const OtDashboardReport: React.FC = () => {
       }
     >
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <KpiCard icon={Scissors} label="Total Surgeries" value={renderValue(kpis?.total_surgeries)} colorClass="bg-blue-50 border-blue-100 text-blue-900" />
-        <KpiCard icon={CheckCircle2} label="Completed Cases" value={renderValue(kpis?.completed_cases)} colorClass="bg-emerald-50 border-emerald-100 text-emerald-900" />
-        <KpiCard icon={XCircle} label="Cancelled Cases" value={renderValue(kpis?.cancelled_cases)} colorClass="bg-red-50 border-red-100 text-red-900" />
-        <KpiCard icon={CalendarClock} label="Elective Cases" value={renderValue(kpis?.elective_cases)} colorClass="bg-amber-50 border-amber-100 text-amber-900" />
-        <KpiCard icon={Siren} label="Emergency Cases" value={renderValue(kpis?.emergency_cases)} colorClass="bg-purple-50 border-purple-100 text-purple-900" />
+        <KpiCard icon={Scissors} label={i18n.t("Total Surgeries")} value={renderValue(kpis?.total_surgeries)} colorClass="bg-blue-50 border-blue-100 text-blue-900" />
+        <KpiCard icon={CheckCircle2} label={i18n.t("Completed Cases")} value={renderValue(kpis?.completed_cases)} colorClass="bg-emerald-50 border-emerald-100 text-emerald-900" />
+        <KpiCard icon={XCircle} label={i18n.t("Cancelled Cases")} value={renderValue(kpis?.cancelled_cases)} colorClass="bg-red-50 border-red-100 text-red-900" />
+        <KpiCard icon={CalendarClock} label={i18n.t("Elective Cases")} value={renderValue(kpis?.elective_cases)} colorClass="bg-amber-50 border-amber-100 text-amber-900" />
+        <KpiCard icon={Siren} label={i18n.t("Emergency Cases")} value={renderValue(kpis?.emergency_cases)} colorClass="bg-purple-50 border-purple-100 text-purple-900" />
       </div>
 
       <div className="mt-8">
-        <h3 className="text-sm font-black text-slate-700 uppercase tracking-wider mb-3">Surgeon Productivity</h3>
+        <h3 className="text-sm font-black text-slate-700 uppercase tracking-wider mb-3">{i18n.t("Surgeon Productivity")}</h3>
         <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 min-h-[120px]">
-          <table className="w-full text-left text-sm whitespace-nowrap">
+          <table className="w-full text-start text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
               <tr>
-                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Surgeon</th>
-                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Cases</th>
-                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Completed</th>
+                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Surgeon")}</th>
+                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Cases")}</th>
+                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Completed")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {surgeonProductivity.length > 0 ? (
                 surgeonProductivity.map((row: any, i: number) => (
                   <tr key={i} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50">{renderValue(row.surgeon_name || row.lead_surgeon)}</td>
-                    <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.cases_performed)}</td>
-                    <td className="px-4 py-3.5 text-slate-700 text-right">{renderValue(row.completed_cases)}</td>
+                    <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50">{renderValue(row.surgeon_name || row.lead_surgeon)}</td>
+                    <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.cases_performed)}</td>
+                    <td className="px-4 py-3.5 text-slate-700 text-end">{renderValue(row.completed_cases)}</td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={3} className="px-4 py-8 text-center text-slate-400 italic">No surgeon productivity data found.</td>
+                  <td colSpan={3} className="px-4 py-8 text-center text-slate-400 italic">{i18n.t("No surgeon productivity data found.")}</td>
                 </tr>
               )}
             </tbody>
@@ -190,28 +191,28 @@ const OtDashboardReport: React.FC = () => {
       </div>
 
       <div className="mt-8">
-        <h3 className="text-sm font-black text-slate-700 uppercase tracking-wider mb-3">Room Utilization</h3>
+        <h3 className="text-sm font-black text-slate-700 uppercase tracking-wider mb-3">{i18n.t("Room Utilization")}</h3>
         <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 min-h-[120px]">
-          <table className="w-full text-left text-sm whitespace-nowrap">
+          <table className="w-full text-start text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
               <tr>
-                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Room</th>
-                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Cases Performed</th>
-                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Completed Cases</th>
+                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Room")}</th>
+                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Cases Performed")}</th>
+                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Completed Cases")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {roomUtilization.length > 0 ? (
                 roomUtilization.map((row: any, i: number) => (
                   <tr key={i} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50">{renderValue(row.room_name)}</td>
-                    <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.cases_performed)}</td>
-                    <td className="px-4 py-3.5 text-slate-700 text-right">{renderValue(row.completed_cases)}</td>
+                    <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50">{renderValue(row.room_name)}</td>
+                    <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.cases_performed)}</td>
+                    <td className="px-4 py-3.5 text-slate-700 text-end">{renderValue(row.completed_cases)}</td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={3} className="px-4 py-8 text-center text-slate-400 italic">No room utilization data found.</td>
+                  <td colSpan={3} className="px-4 py-8 text-center text-slate-400 italic">{i18n.t("No room utilization data found.")}</td>
                 </tr>
               )}
             </tbody>
@@ -220,47 +221,47 @@ const OtDashboardReport: React.FC = () => {
       </div>
 
       <div className="mt-8">
-        <h3 className="text-sm font-black text-slate-700 uppercase tracking-wider mb-3">Active Backlog</h3>
+        <h3 className="text-sm font-black text-slate-700 uppercase tracking-wider mb-3">{i18n.t("Active Backlog")}</h3>
         <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 min-h-[120px]">
-          <table className="w-full text-left text-sm whitespace-nowrap">
+          <table className="w-full text-start text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
               <tr>
-                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Scheduled Date</th>
-                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Surgery</th>
-                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Type</th>
-                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Status</th>
-                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Patient</th>
-                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Lead Surgeon</th>
-                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Anaesthetist</th>
-                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Room</th>
-                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Consent</th>
+                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Scheduled Date")}</th>
+                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Surgery")}</th>
+                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Type")}</th>
+                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Status")}</th>
+                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Patient")}</th>
+                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Lead Surgeon")}</th>
+                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Anaesthetist")}</th>
+                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Room")}</th>
+                <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Consent")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {activeBacklog.length > 0 ? (
                 activeBacklog.map((row: any, i: number) => (
                   <tr key={row.case_id ?? i} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.scheduled_date)}</td>
-                    <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50 whitespace-normal min-w-[200px]">{renderValue(row.surgery_name)}</td>
-                    <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.case_type)}</td>
-                    <td className="px-4 py-3.5 border-r border-slate-50">
+                    <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.scheduled_date)}</td>
+                    <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50 whitespace-normal min-w-[200px]">{renderValue(row.surgery_name)}</td>
+                    <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.case_type)}</td>
+                    <td className="px-4 py-3.5 border-e border-slate-50">
                       <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border uppercase tracking-wider ${badgeClass(row.status)}`}>
                         {renderValue(row.status)}
                       </span>
                     </td>
-                    <td className="px-4 py-3.5 border-r border-slate-50">
+                    <td className="px-4 py-3.5 border-e border-slate-50">
                       <div className="text-slate-700">{renderValue(row.patient_name)}</div>
-                      <div className="text-[11px] text-slate-400 font-mono">MRN: {renderValue(row.mrn)}</div>
+                      <div className="text-[11px] text-slate-400 font-mono">{i18n.t("MRN:")}{" "}{renderValue(row.mrn)}</div>
                     </td>
-                    <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.lead_surgeon)}</td>
-                    <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.anaesthetist)}</td>
-                    <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.assigned_room)}</td>
+                    <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.lead_surgeon)}</td>
+                    <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.anaesthetist)}</td>
+                    <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.assigned_room)}</td>
                     <td className="px-4 py-3.5 text-slate-700">{renderValue(row.consent_signed)}</td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={9} className="px-4 py-8 text-center text-slate-400 italic">No active backlog cases found.</td>
+                  <td colSpan={9} className="px-4 py-8 text-center text-slate-400 italic">{i18n.t("No active backlog cases found.")}</td>
                 </tr>
               )}
             </tbody>

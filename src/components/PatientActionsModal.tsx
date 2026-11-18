@@ -10,6 +10,7 @@ import {
   Activity,
   CheckCircle // Make sure to import this
 } from 'lucide-react';
+import { i18n } from "../i18n";
 
 interface PatientActionsModalProps {
   isOpen: boolean;
@@ -55,13 +56,13 @@ const PatientActionsModal: React.FC<PatientActionsModalProps> = ({
         {/* Header */}
         <div className="p-6 md:p-8 flex items-start justify-between border-b border-slate-100">
           <div>
-            <h2 className="text-2xl font-black text-slate-800 tracking-tight">Patient Actions</h2>
+            <h2 className="text-2xl font-black text-slate-800 tracking-tight">{i18n.t("Patient Actions")}</h2>
             <div className="flex items-center gap-2 mt-2">
               <span className="px-2 py-1 bg-slate-100 text-slate-600 rounded-md text-[10px] font-black uppercase tracking-widest">
                 {patient.mrn}
               </span>
               <span className="text-sm font-bold text-slate-500 uppercase tracking-widest">
-                - {patient.patientName} {patient.visit_reason || 'Inpatient Admission'}
+                - {patient.patientName} {patient.visit_reason || i18n.t("Inpatient Admission")}
               </span>
             </div>
           </div>
@@ -87,13 +88,13 @@ const PatientActionsModal: React.FC<PatientActionsModalProps> = ({
               <div className="p-4 bg-blue-100 rounded-2xl group-hover:scale-110 transition-transform relative text-blue-600">
                 <Activity size={28} />
                 {patient.assessment_completed && (
-                  <span className="absolute -top-1 -right-1 bg-emerald-500 text-white rounded-full p-0.5 shadow-sm">
+                  <span className="absolute -top-1 -end-1 bg-emerald-500 text-white rounded-full p-0.5 shadow-sm">
                     <CheckCircle size={12} />
                   </span>
                 )}
               </div>
               <span className="text-xs font-bold text-center">
-                 {patient.assessment_completed ? "Amend Assessment" : "Admission Assessment Checklist"}
+                 {patient.assessment_completed ? i18n.t("Amend Assessment") : i18n.t("Admission Assessment Checklist")}
               </span>
             </button>
 
@@ -106,7 +107,7 @@ const PatientActionsModal: React.FC<PatientActionsModalProps> = ({
               <div className="p-4 bg-emerald-100 rounded-2xl group-hover:scale-110 transition-transform text-emerald-600">
                 <FilePlus size={28} />
               </div>
-              <span className="text-xs font-bold text-center">Orders</span>
+              <span className="text-xs font-bold text-center">{i18n.t("Orders")}</span>
             </button>
 
             {/* Chart */}
@@ -117,7 +118,7 @@ const PatientActionsModal: React.FC<PatientActionsModalProps> = ({
               <div className="p-4 bg-brand-active0 rounded-2xl group-hover:scale-110 transition-transform text-brand-primary">
                 <Stethoscope size={28} />
               </div>
-              <span className="text-xs font-bold text-center">Chart</span>
+              <span className="text-xs font-bold text-center">{i18n.t("Chart")}</span>
             </button>
 
 
@@ -134,9 +135,7 @@ const PatientActionsModal: React.FC<PatientActionsModalProps> = ({
                 ${isNone ? 'bg-amber-100 text-amber-600 group-hover:scale-110' : 'bg-slate-100 text-slate-400'}`}>
                 <LogOut size={28} />
               </div>
-              <span className={`text-xs font-bold text-center ${isNone ? 'text-amber-700' : 'text-slate-400'}`}>
-                Mark for Discharge
-              </span>
+              <span className={`text-xs font-bold text-center ${isNone ? 'text-amber-700' : 'text-slate-400'}`}>{i18n.t("Mark for Discharge")}</span>
             </button>
 
             {/* Nurse Clearance */}
@@ -152,9 +151,7 @@ const PatientActionsModal: React.FC<PatientActionsModalProps> = ({
                 ${isDoctorMarked ? 'bg-teal-100 text-teal-600 group-hover:scale-110' : 'bg-slate-100 text-slate-400'}`}>
                 <CheckCircle2 size={28} />
               </div>
-              <span className={`text-xs font-bold text-center ${isDoctorMarked ? 'text-teal-700' : 'text-slate-400'}`}>
-                Nurse Clearance
-              </span>
+              <span className={`text-xs font-bold text-center ${isDoctorMarked ? 'text-teal-700' : 'text-slate-400'}`}>{i18n.t("Nurse Clearance")}</span>
             </button>
 
             {/* Reverse Doctor Mark */}
@@ -170,10 +167,7 @@ const PatientActionsModal: React.FC<PatientActionsModalProps> = ({
                 ${isDoctorMarked ? 'bg-rose-100 text-rose-600 group-hover:scale-110' : 'bg-slate-100 text-slate-400'}`}>
                 <RotateCcw size={28} />
               </div>
-              <span className={`text-xs font-bold text-center ${isDoctorMarked ? 'text-rose-700' : 'text-slate-400'}`}>
-                Reverse Doctor Mark
-
-              </span>
+              <span className={`text-xs font-bold text-center ${isDoctorMarked ? 'text-rose-700' : 'text-slate-400'}`}>{i18n.t("Reverse Doctor Mark")}</span>
             </button>
 
             {/* View Discharge Summary */}
@@ -185,9 +179,7 @@ const PatientActionsModal: React.FC<PatientActionsModalProps> = ({
                 <div className="p-4 bg-indigo-100 rounded-2xl group-hover:scale-110 transition-transform text-indigo-600">
                   <ClipboardList size={28} />
                 </div>
-                <span className="text-xs font-bold text-center">
-                  Discharge Summary
-                </span>
+                <span className="text-xs font-bold text-center">{i18n.t("Discharge Summary")}</span>
               </button>
             )}
 

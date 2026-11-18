@@ -12,6 +12,7 @@ import {
   Activity
 } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
+import { i18n } from "../i18n";
 
 const ReportBuilderPlaceholder: React.FC = () => {
   return (
@@ -22,46 +23,41 @@ const ReportBuilderPlaceholder: React.FC = () => {
           <div className="inline-flex items-center justify-center p-5 bg-amber-50 text-amber-600 rounded-[32px] border-4 border-white shadow-xl mb-4 animate-bounce">
             <Construction size={48} />
           </div>
-          <h2 className="text-4xl font-black text-slate-800 tracking-tight">Custom Report Builder</h2>
-          <p className="text-slate-500 text-lg font-medium max-w-2xl mx-auto leading-relaxed">
-            Custom Report Builder is <span className="text-amber-600 font-black italic">coming soon</span>. 
-            We are fine-tuning the drag-and-drop engine to ensure seamless data querying across all hospital modules.
-          </p>
+          <h2 className="text-4xl font-black text-slate-800 tracking-tight">{i18n.t("Custom Report Builder")}</h2>
+          <p className="text-slate-500 text-lg font-medium max-w-2xl mx-auto leading-relaxed">{i18n.t("Custom Report Builder is")}{" "}<span className="text-amber-600 font-black italic">{i18n.t("coming soon")}</span>{i18n.t(". We are fine-tuning the drag-and-drop engine to ensure seamless data querying across all hospital modules.")}</p>
           <div className="pt-8 flex flex-col md:flex-row items-center justify-center gap-4">
              <NavLink 
                to="/reports/revenue"
                className="px-8 py-4 bg-indigo-600 text-white rounded-[24px] font-black uppercase text-xs tracking-widest shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all flex items-center gap-2 active:scale-95"
              >
-                <TrendingUp size={16} /> Use Revenue Templates
-             </NavLink>
+                <TrendingUp size={16} />{" "}{i18n.t("Use Revenue Templates")}</NavLink>
              <NavLink 
                to="/reports/patients"
                className="px-8 py-4 bg-white border-2 border-slate-100 text-slate-600 rounded-[24px] font-black uppercase text-xs tracking-widest hover:border-indigo-200 hover:text-indigo-600 transition-all flex items-center gap-2"
              >
-                <PieChart size={16} /> Patient Analytics
-             </NavLink>
+                <PieChart size={16} />{" "}{i18n.t("Patient Analytics")}</NavLink>
           </div>
         </div>
         
         {/* Background Patterns */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 rounded-full -mr-32 -mt-32 border border-slate-100" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-slate-50 rounded-full -ml-32 -mb-32 border border-slate-100" />
+        <div className="absolute top-0 end-0 w-64 h-64 bg-slate-50 rounded-full -me-32 -mt-32 border border-slate-100" />
+        <div className="absolute bottom-0 start-0 w-64 h-64 bg-slate-50 rounded-full -ms-32 -mb-32 border border-slate-100" />
       </div>
 
       {/* Visual Teaser: Greyed out builder interface */}
       <div className="space-y-6 opacity-40 grayscale pointer-events-none select-none">
-        <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.3em] ml-2">Future Interface Preview</h3>
+        <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.3em] ms-2">{i18n.t("Future Interface Preview")}</h3>
         <div className="bg-slate-100/50 border-4 border-dashed border-slate-200 rounded-[48px] p-12 min-h-[500px] flex gap-8">
            {/* Sidebar Component Picker */}
            <div className="w-64 space-y-4">
               <div className="p-6 bg-white rounded-3xl border border-slate-200 shadow-sm space-y-4">
-                 <p className="text-[10px] font-black text-slate-300 uppercase">Data Blocks</p>
+                 <p className="text-[10px] font-black text-slate-300 uppercase">{i18n.t("Data Blocks")}</p>
                  <div className="h-10 bg-slate-50 rounded-xl border border-slate-100" />
                  <div className="h-10 bg-slate-50 rounded-xl border border-slate-100" />
                  <div className="h-10 bg-slate-50 rounded-xl border border-slate-100" />
               </div>
               <div className="p-6 bg-white rounded-3xl border border-slate-200 shadow-sm space-y-4">
-                 <p className="text-[10px] font-black text-slate-300 uppercase">Visual Widgets</p>
+                 <p className="text-[10px] font-black text-slate-300 uppercase">{i18n.t("Visual Widgets")}</p>
                  <div className="grid grid-cols-2 gap-2">
                     <div className="h-12 bg-slate-50 rounded-xl border border-slate-100" />
                     <div className="h-12 bg-slate-50 rounded-xl border border-slate-100" />
@@ -73,7 +69,7 @@ const ReportBuilderPlaceholder: React.FC = () => {
            <div className="flex-1 bg-white rounded-[40px] border border-slate-200 shadow-lg p-10 flex flex-col items-center justify-center text-center">
               <div className="p-8 border-4 border-dashed border-slate-100 rounded-[32px] w-full max-w-xl flex flex-col items-center gap-4">
                  <MousePointer2 size={40} className="text-slate-200" />
-                 <p className="text-sm font-black text-slate-300 uppercase tracking-widest">Drop Elements Here to Build Dashboard</p>
+                 <p className="text-sm font-black text-slate-300 uppercase tracking-widest">{i18n.t("Drop Elements Here to Build Dashboard")}</p>
               </div>
            </div>
         </div>
@@ -85,10 +81,8 @@ const ReportBuilderPlaceholder: React.FC = () => {
             <Activity size={24} />
          </div>
          <div>
-            <h4 className="text-lg font-black text-indigo-900 tracking-tight">Coming Q3: Cross-Module Intelligence</h4>
-            <p className="text-sm text-indigo-700/80 leading-relaxed font-medium mt-1">
-              The new builder will allow you to correlate patient arrival times with billing revenue and clinical inventory usage in real-time, enabling automated facility resource forecasting.
-            </p>
+            <h4 className="text-lg font-black text-indigo-900 tracking-tight">{i18n.t("Coming Q3: Cross-Module Intelligence")}</h4>
+            <p className="text-sm text-indigo-700/80 leading-relaxed font-medium mt-1">{i18n.t("The new builder will allow you to correlate patient arrival times with billing revenue and clinical inventory usage in real-time, enabling automated facility resource forecasting.")}</p>
          </div>
       </div>
     </div>

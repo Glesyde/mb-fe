@@ -10,6 +10,7 @@ import {
   ReportShell,
   Pagination,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const PasMasterPatientReport: React.FC = () => {
   const [records, setRecords] = useState<any[]>([]);
@@ -89,8 +90,8 @@ const PasMasterPatientReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Master Patient Report"
-      subtitle="Full patient registration ledger with demographic and payer details."
+      title={i18n.t("Master Patient Report")}
+      subtitle={i18n.t("Full patient registration ledger with demographic and payer details.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -109,14 +110,14 @@ const PasMasterPatientReport: React.FC = () => {
       filters={
         <>
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input
               type="text"
-              placeholder="Search by name or MRN..."
+              placeholder={i18n.t("Search by name or MRN...")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               disabled={isLoading}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
+              className="w-full ps-10 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
             />
           </div>
           <div>
@@ -126,10 +127,10 @@ const PasMasterPatientReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="">All Genders</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
+              <option value="">{i18n.t("All Genders")}</option>
+              <option value="Male">{i18n.t("Male")}</option>
+              <option value="Female">{i18n.t("Female")}</option>
+              <option value="Other">{i18n.t("Other")}</option>
             </select>
           </div>
           <div>
@@ -139,7 +140,7 @@ const PasMasterPatientReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="">All Payers</option>
+              <option value="">{i18n.t("All Payers")}</option>
               {payers.map((p) => (
                 <option key={p.id} value={p.id}>{p.name}</option>
               ))}
@@ -152,7 +153,7 @@ const PasMasterPatientReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="">All Staff</option>
+              <option value="">{i18n.t("All Staff")}</option>
               {users.map((u) => (
                 <option key={u.id} value={u.id}>{u.first_name} {u.last_name}</option>
               ))}
@@ -165,9 +166,9 @@ const PasMasterPatientReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="">Deceased? (All)</option>
-              <option value="1">Yes</option>
-              <option value="0">No</option>
+              <option value="">{i18n.t("Deceased? (All)")}</option>
+              <option value="1">{i18n.t("Yes")}</option>
+              <option value="0">{i18n.t("No")}</option>
             </select>
           </div>
           <TimeframeSelect value={timeframe} onChange={setTimeframe} disabled={isLoading} />
@@ -178,48 +179,48 @@ const PasMasterPatientReport: React.FC = () => {
       }
     >
       <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 flex-1 min-h-[300px]">
-        <table className="w-full text-left text-sm whitespace-nowrap">
+        <table className="w-full text-start text-sm whitespace-nowrap">
           <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
             <tr>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">MRN</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Full Name</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Gender</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Age</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">DOB</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Marital Status</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Nationality</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">State of Origin</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Status</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Registered By</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Registration Date</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Payer</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("MRN")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Full Name")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Gender")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Age")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("DOB")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Marital Status")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Nationality")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("State of Origin")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Status")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Registered By")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Registration Date")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Payer")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {records.length > 0 ? (
               records.map((row, i) => (
                 <tr key={`${row.patient_id}-${i}`} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="px-4 py-3.5 font-mono text-xs text-slate-500 border-r border-slate-50">{renderValue(row.mrn)}</td>
-                  <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50">{renderValue(row.full_name)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.gender)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.age_years)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.date_of_birth)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.marital_status)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.nationality)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.state_of_origin)}</td>
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 font-mono text-xs text-slate-500 border-e border-slate-50">{renderValue(row.mrn)}</td>
+                  <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50">{renderValue(row.full_name)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.gender)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.age_years)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.date_of_birth)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.marital_status)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.nationality)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.state_of_origin)}</td>
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border uppercase tracking-wider ${badgeClass(row.is_deceased ? "CANCELLED" : row.is_active ? "COMPLETED" : "PENDING")}`}>
-                      {row.is_deceased ? "Deceased" : row.is_active ? "Active" : "Inactive"}
+                      {row.is_deceased ? i18n.t("Deceased") : row.is_active ? i18n.t("Active") : i18n.t("Inactive")}
                     </span>
                   </td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.registered_by_staff)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.registration_date)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.registered_by_staff)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.registration_date)}</td>
                   <td className="px-4 py-3.5 text-slate-700">{renderValue(row.primary_payer_name)}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={12} className="px-4 py-12 text-center text-slate-400 italic">No patient records found.</td>
+                <td colSpan={12} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No patient records found.")}</td>
               </tr>
             )}
           </tbody>

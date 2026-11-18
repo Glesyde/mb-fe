@@ -3,6 +3,7 @@ import { X, CheckCircle2, Loader2, Pill } from 'lucide-react';
 import { useNotification } from '../context/NotificationContext';
 import { wardService } from '../services/ward.service';
 import { erdService } from '../services/erd.service';
+import { i18n } from "../i18n";
 
 interface PharmacyClearanceModalProps {
   isOpen: boolean;
@@ -80,9 +81,8 @@ const PharmacyClearanceModal: React.FC<PharmacyClearanceModalProps> = ({
               <Pill size={24} />
             </div>
             <div>
-              <h2 className="text-xl font-black text-slate-800 tracking-tight">Pharmacy Clearance</h2>
-              <p className="text-xs text-teal-600 font-bold uppercase tracking-widest mt-0.5">
-                Patient: {patientName}
+              <h2 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Pharmacy Clearance")}</h2>
+              <p className="text-xs text-teal-600 font-bold uppercase tracking-widest mt-0.5">{i18n.t("Patient:")}{" "}{patientName}
               </p>
             </div>
           </div>
@@ -97,9 +97,7 @@ const PharmacyClearanceModal: React.FC<PharmacyClearanceModalProps> = ({
 
         <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-6">
           <div>
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-2 block">
-              Clearance Checklist
-            </label>
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1 mb-2 block">{i18n.t("Clearance Checklist")}</label>
             <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3">
               {checklistItems.map(({ key, label }) => (
                 <label key={key} className="flex items-center gap-3 cursor-pointer group">
@@ -121,14 +119,12 @@ const PharmacyClearanceModal: React.FC<PharmacyClearanceModalProps> = ({
           </div>
 
           <div>
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-2 block">
-              Remarks / Notes
-            </label>
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1 mb-2 block">{i18n.t("Remarks / Notes")}</label>
             <textarea
               required
               value={remarks}
               onChange={(e) => setRemarks(e.target.value)}
-              placeholder="Add final pharmacy notes before clearance..."
+              placeholder={i18n.t("Add final pharmacy notes before clearance...")}
               className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-teal-500 min-h-[100px] shadow-sm resize-none transition-all"
             />
           </div>
@@ -139,17 +135,13 @@ const PharmacyClearanceModal: React.FC<PharmacyClearanceModalProps> = ({
               onClick={onClose}
               disabled={loading}
               className="flex-1 px-4 py-3.5 bg-slate-100 text-slate-600 rounded-2xl text-sm font-black hover:bg-slate-200 transition-colors disabled:opacity-50 uppercase tracking-widest"
-            >
-              Cancel
-            </button>
+            >{i18n.t("Cancel")}</button>
             <button
               type="submit"
               disabled={loading}
               className="flex-1 px-4 py-3.5 bg-teal-600 text-white rounded-2xl text-sm font-black hover:bg-teal-700 transition-colors disabled:opacity-70 flex items-center justify-center gap-2 shadow-lg shadow-teal-200 uppercase tracking-widest"
             >
-              {loading ? <Loader2 size={18} className="animate-spin" /> : <CheckCircle2 size={18} />}
-              Confirm Clearance
-            </button>
+              {loading ? <Loader2 size={18} className="animate-spin" /> : <CheckCircle2 size={18} />}{i18n.t("Confirm Clearance")}</button>
           </div>
         </form>
       </div>

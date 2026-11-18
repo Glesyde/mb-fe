@@ -13,6 +13,7 @@ import {
   Pagination,
   KpiCard,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const ENCOUNTER_TYPES = ["OPD", "IPD", "ERD"];
 
@@ -94,8 +95,8 @@ const UnbilledOrdersReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Unbilled Orders Report"
-      subtitle="Clinical orders and services rendered that have not yet been invoiced."
+      title={i18n.t("Unbilled Orders Report")}
+      subtitle={i18n.t("Clinical orders and services rendered that have not yet been invoiced.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.report_period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -113,14 +114,14 @@ const UnbilledOrdersReport: React.FC = () => {
       filters={
         <>
           <div className="relative lg:col-span-2">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input
               type="text"
-              placeholder="Search patient, MRN, item, encounter #..."
+              placeholder={i18n.t("Search patient, MRN, item, encounter #...")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               disabled={isLoading}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
+              className="w-full ps-10 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
             />
           </div>
           <TimeframeSelect value={timeframe} onChange={setTimeframe} disabled={isLoading} />
@@ -131,7 +132,7 @@ const UnbilledOrdersReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="">All Payer Types</option>
+              <option value="">{i18n.t("All Payer Types")}</option>
               {payerTypes.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
             </select>
           </div>
@@ -142,14 +143,14 @@ const UnbilledOrdersReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="All">All Encounter Types</option>
+              <option value="All">{i18n.t("All Encounter Types")}</option>
               {ENCOUNTER_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
             </select>
           </div>
           <div>
             <input
               type="text"
-              placeholder="Department"
+              placeholder={i18n.t("Department")}
               value={department}
               onChange={(e) => setDepartment(e.target.value)}
               disabled={isLoading}
@@ -163,28 +164,28 @@ const UnbilledOrdersReport: React.FC = () => {
       }
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <KpiCard icon={AlertOctagon} label="Total Unbilled Revenue" value={formatCurrency(summary?.total_unbilled_revenue)} colorClass="bg-red-50 border-red-100 text-red-900" />
-        <KpiCard icon={ListOrdered} label="Total Unbilled Orders" value={summary?.total_unbilled_orders ?? 0} colorClass="bg-amber-50 border-amber-100 text-amber-900" />
+        <KpiCard icon={AlertOctagon} label={i18n.t("Total Unbilled Revenue")} value={formatCurrency(summary?.total_unbilled_revenue)} colorClass="bg-red-50 border-red-100 text-red-900" />
+        <KpiCard icon={ListOrdered} label={i18n.t("Total Unbilled Orders")} value={summary?.total_unbilled_orders ?? 0} colorClass="bg-amber-50 border-amber-100 text-amber-900" />
       </div>
 
       {summary?.payer_risk_exposure?.length > 0 && (
         <div className="mt-6">
-          <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">Payer Risk Exposure</h3>
+          <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">{i18n.t("Payer Risk Exposure")}</h3>
           <div className="overflow-x-auto rounded-xl border border-slate-200">
-            <table className="w-full text-left text-sm whitespace-nowrap">
+            <table className="w-full text-start text-sm whitespace-nowrap">
               <thead className="bg-slate-50 border-b border-slate-200">
                 <tr>
-                  <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Payer</th>
-                  <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Unbilled Count</th>
-                  <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Unbilled Value</th>
+                  <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Payer")}</th>
+                  <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Unbilled Count")}</th>
+                  <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Unbilled Value")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {summary.payer_risk_exposure.map((row: any, i: number) => (
                   <tr key={i} className="hover:bg-slate-50/80 transition-colors">
                     <td className="px-4 py-3 font-semibold text-slate-700">{renderValue(row.payer_name)}</td>
-                    <td className="px-4 py-3 text-slate-700 text-right">{renderValue(row.unbilled_count)}</td>
-                    <td className="px-4 py-3 font-bold text-slate-800 text-right">{formatCurrency(row.unbilled_value)}</td>
+                    <td className="px-4 py-3 text-slate-700 text-end">{renderValue(row.unbilled_count)}</td>
+                    <td className="px-4 py-3 font-bold text-slate-800 text-end">{formatCurrency(row.unbilled_value)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -194,39 +195,39 @@ const UnbilledOrdersReport: React.FC = () => {
       )}
 
       <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 flex-1 min-h-[300px] mt-6">
-        <table className="w-full text-left text-sm whitespace-nowrap">
+        <table className="w-full text-start text-sm whitespace-nowrap">
           <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
             <tr>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Item</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Patient</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Encounter</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Payer</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Ordered By</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Qty</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Amount</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Status</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Item")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Patient")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Encounter")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Payer")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Ordered By")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Qty")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Amount")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Status")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {filteredRecords.length > 0 ? (
               filteredRecords.map((row, i) => (
                 <tr key={`${row.billable_item_id}-${i}`} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <div className="font-bold text-slate-800">{renderValue(row.item_name)}</div>
                     <div className="text-[11px] text-slate-400">{renderValue(row.service_department)} • {renderValue(row.order_date)}</div>
                   </td>
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <div className="font-semibold text-slate-700">{renderValue(row.patient_name)}</div>
-                    <div className="text-[11px] text-slate-400 font-mono">MRN: {renderValue(row.mrn)}</div>
+                    <div className="text-[11px] text-slate-400 font-mono">{i18n.t("MRN:")}{" "}{renderValue(row.mrn)}</div>
                   </td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">
                     <div>{renderValue(row.encounter_number)}</div>
                     <div className="text-[11px] text-slate-400">{renderValue(row.encounter_type)}</div>
                   </td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.payer_name)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.ordered_by_name)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.quantity)}</td>
-                  <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50 text-right">{formatCurrency(row.total_unbilled_amount)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.payer_name)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.ordered_by_name)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.quantity)}</td>
+                  <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50 text-end">{formatCurrency(row.total_unbilled_amount)}</td>
                   <td className="px-4 py-3.5">
                     <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border uppercase tracking-wider ${badgeClass(row.billing_status)}`}>
                       {renderValue(row.billing_status)}
@@ -236,7 +237,7 @@ const UnbilledOrdersReport: React.FC = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={8} className="px-4 py-12 text-center text-slate-400 italic">No unbilled orders found.</td>
+                <td colSpan={8} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No unbilled orders found.")}</td>
               </tr>
             )}
           </tbody>

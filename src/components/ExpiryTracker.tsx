@@ -13,6 +13,7 @@ import {
   ChevronRight,
   ShieldCheck
 } from 'lucide-react';
+import { i18n } from "../i18n";
 
 interface ExpiryItem {
   id: string;
@@ -58,12 +59,12 @@ const ExpiryTracker: React.FC = () => {
       <div className="bg-slate-900 rounded-[48px] p-10 text-white shadow-xl shadow-slate-200 relative overflow-hidden group">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
            <div className="max-w-xl">
-              <h2 className="text-3xl font-black tracking-tight leading-tight">Batch Viability Tracker</h2>
-              <p className="text-slate-400 font-medium mt-2">Monitoring pharmacological integrity and enforcing disposal protocols for expiring substances.</p>
+              <h2 className="text-3xl font-black tracking-tight leading-tight">{i18n.t("Batch Viability Tracker")}</h2>
+              <p className="text-slate-400 font-medium mt-2">{i18n.t("Monitoring pharmacological integrity and enforcing disposal protocols for expiring substances.")}</p>
            </div>
            <div className="flex items-center gap-6">
-              <div className="text-right">
-                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Items Expired/Week</p>
+              <div className="text-end">
+                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">{i18n.t("Items Expired/Week")}</p>
                  <p className="text-4xl font-black text-rose-500">02</p>
               </div>
               <div className="p-4 bg-white/5 rounded-[28px] border border-white/10 backdrop-blur-sm">
@@ -71,17 +72,17 @@ const ExpiryTracker: React.FC = () => {
               </div>
            </div>
         </div>
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-brand-primary/10 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700" />
+        <div className="absolute -bottom-24 -start-24 w-96 h-96 bg-brand-primary/10 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700" />
       </div>
 
       {/* Control Bar */}
       <div className="bg-white p-4 rounded-[32px] border border-slate-200 flex flex-col md:flex-row gap-4 items-center shadow-sm">
         <div className="relative flex-1 w-full">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+          <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
           <input 
             type="text" 
-            placeholder="Search batches by product name..."
-            className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none transition-all"
+            placeholder={i18n.t("Search batches by product name...")}
+            className="w-full ps-12 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none transition-all"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -92,9 +93,7 @@ const ExpiryTracker: React.FC = () => {
                key={val}
                onClick={() => setHorizon(val as any)}
                className={`px-6 py-2 rounded-xl text-xs font-black transition-all ${horizon === val ? 'bg-white text-teal-600 shadow-sm border border-slate-200' : 'text-slate-400 hover:text-slate-600'}`}
-             >
-               Next {val}d
-             </button>
+             >{i18n.t("Next")}{" "}{val}{i18n.t("d")}</button>
            ))}
         </div>
       </div>
@@ -105,21 +104,19 @@ const ExpiryTracker: React.FC = () => {
           <div className="bg-white border border-slate-200 rounded-[44px] shadow-sm overflow-hidden h-full flex flex-col">
             <div className="p-8 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
               <h3 className="text-lg font-black text-slate-800 flex items-center gap-2">
-                <Clock size={20} className="text-teal-600" /> Risk Horizon Log
-              </h3>
+                <Clock size={20} className="text-teal-600" />{" "}{i18n.t("Risk Horizon Log")}</h3>
               <span className="bg-teal-50 text-teal-600 px-3 py-1 rounded-xl text-[10px] font-black uppercase tracking-widest">
-                {filtered.length} Flagged
-              </span>
+                {filtered.length}{" "}{i18n.t("Flagged")}</span>
             </div>
 
             <div className="overflow-x-auto flex-1">
-              <table className="w-full text-left">
+              <table className="w-full text-start">
                 <thead>
                   <tr className="bg-white border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                    <th className="px-8 py-5">Product & Batch</th>
-                    <th className="px-8 py-5">Expiry Date</th>
-                    <th className="px-8 py-5 text-center">Batch Qty</th>
-                    <th className="px-8 py-5 text-right">Risk Level</th>
+                    <th className="px-8 py-5">{i18n.t("Product & Batch")}</th>
+                    <th className="px-8 py-5">{i18n.t("Expiry Date")}</th>
+                    <th className="px-8 py-5 text-center">{i18n.t("Batch Qty")}</th>
+                    <th className="px-8 py-5 text-end">{i18n.t("Risk Level")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
@@ -129,7 +126,7 @@ const ExpiryTracker: React.FC = () => {
                       <tr key={item.id} className="hover:bg-slate-50/50 transition-colors group">
                         <td className="px-8 py-6">
                            <p className="text-sm font-black text-slate-800">{item.name}</p>
-                           <p className="text-[10px] font-mono font-bold text-slate-400 mt-0.5 uppercase tracking-tighter">Batch: {item.batchNo}</p>
+                           <p className="text-[10px] font-mono font-bold text-slate-400 mt-0.5 uppercase tracking-tighter">{i18n.t("Batch:")}{" "}{item.batchNo}</p>
                         </td>
                         <td className="px-8 py-6">
                            <p className={`text-xs font-bold ${status.urgency === 'high' ? 'text-rose-600' : 'text-slate-600'}`}>
@@ -139,10 +136,10 @@ const ExpiryTracker: React.FC = () => {
                         <td className="px-8 py-6 text-center text-sm font-black text-slate-700">
                           {item.quantity}
                         </td>
-                        <td className="px-8 py-6 text-right">
+                        <td className="px-8 py-6 text-end">
                            <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border ${status.color} ${status.urgency === 'high' ? 'animate-pulse' : ''}`}>
                              <AlertCircle size={12} />
-                             {status.label}
+                             {i18n.tx(status.label)}
                            </span>
                         </td>
                       </tr>
@@ -153,7 +150,7 @@ const ExpiryTracker: React.FC = () => {
               {filtered.length === 0 && (
                 <div className="py-20 text-center opacity-30">
                   <ShieldCheck size={48} className="mx-auto text-teal-600 mb-4" />
-                  <p className="text-xs font-black uppercase tracking-widest">No safety risks found in this horizon</p>
+                  <p className="text-xs font-black uppercase tracking-widest">{i18n.t("No safety risks found in this horizon")}</p>
                 </div>
               )}
             </div>
@@ -164,43 +161,40 @@ const ExpiryTracker: React.FC = () => {
         <div className="space-y-6">
           <div className="bg-white border border-slate-200 rounded-[44px] p-8 shadow-sm">
             <h3 className="text-sm font-black text-slate-400 uppercase tracking-[0.2em] mb-8 flex items-center gap-2">
-              <History size={16} className="text-teal-600" /> Disposal Protocols
-            </h3>
+              <History size={16} className="text-teal-600" />{" "}{i18n.t("Disposal Protocols")}</h3>
             
             <div className="space-y-4">
-               <button className="w-full group p-5 bg-slate-50 hover:bg-rose-600 border border-slate-100 rounded-[28px] transition-all flex items-center justify-between text-left">
+               <button className="w-full group p-5 bg-slate-50 hover:bg-rose-600 border border-slate-100 rounded-[28px] transition-all flex items-center justify-between text-start">
                   <div className="flex items-center gap-4">
                      <div className="p-3 bg-white text-rose-600 rounded-2xl shadow-sm border border-rose-50 group-hover:bg-rose-500 group-hover:text-white transition-all">
                         <Trash2 size={20} />
                      </div>
                      <div>
-                        <p className="text-sm font-black text-slate-800 group-hover:text-white">Batch Disposal</p>
-                        <p className="text-[10px] font-bold text-slate-400 group-hover:text-rose-100">Log incineration cert</p>
+                        <p className="text-sm font-black text-slate-800 group-hover:text-white">{i18n.t("Batch Disposal")}</p>
+                        <p className="text-[10px] font-bold text-slate-400 group-hover:text-rose-100">{i18n.t("Log incineration cert")}</p>
                      </div>
                   </div>
-                  <ChevronRight size={18} className="text-slate-300 group-hover:text-white" />
+                  <ChevronRight size={18} className="text-slate-300 group-hover:text-white rtl:-scale-x-100" />
                </button>
 
-               <button className="w-full group p-5 bg-slate-50 hover:bg-teal-600 border border-slate-100 rounded-[28px] transition-all flex items-center justify-between text-left">
+               <button className="w-full group p-5 bg-slate-50 hover:bg-teal-600 border border-slate-100 rounded-[28px] transition-all flex items-center justify-between text-start">
                   <div className="flex items-center gap-4">
                      <div className="p-3 bg-white text-teal-600 rounded-2xl shadow-sm border border-teal-50 group-hover:bg-teal-500 group-hover:text-white transition-all">
                         <History size={20} />
                      </div>
                      <div>
-                        <p className="text-sm font-black text-slate-800 group-hover:text-white">Return to Vendor</p>
-                        <p className="text-[10px] font-bold text-slate-400 group-hover:text-teal-100">Claim credit/exchange</p>
+                        <p className="text-sm font-black text-slate-800 group-hover:text-white">{i18n.t("Return to Vendor")}</p>
+                        <p className="text-[10px] font-bold text-slate-400 group-hover:text-teal-100">{i18n.t("Claim credit/exchange")}</p>
                      </div>
                   </div>
-                  <ChevronRight size={18} className="text-slate-300 group-hover:text-white" />
+                  <ChevronRight size={18} className="text-slate-300 group-hover:text-white rtl:-scale-x-100" />
                </button>
             </div>
 
             <div className="mt-8 pt-8 border-t border-slate-100">
                <div className="bg-brand-active border border-brand-active p-6 rounded-[32px] flex items-start gap-4">
                   <ShieldCheck className="text-brand-primary flex-shrink-0" size={24} />
-                  <p className="text-[10px] text-brand-primary font-bold leading-relaxed uppercase">
-                    Safety Enforcement: Inventory within 14 days of expiry is restricted from all clinical dispensing terminals.
-                  </p>
+                  <p className="text-[10px] text-brand-primary font-bold leading-relaxed uppercase">{i18n.t("Safety Enforcement: Inventory within 14 days of expiry is restricted from all clinical dispensing terminals.")}</p>
                </div>
             </div>
           </div>

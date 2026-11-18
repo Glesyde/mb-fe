@@ -26,6 +26,7 @@ import {
   ReportShell,
   KpiCard,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 interface InvoiceLineItem {
   item_id: number;
@@ -195,8 +196,8 @@ const FinancialOverviewReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Financial Performance & Detailed Billing Audit"
-      subtitle="Complete accounting breakdown showing every patient invoice, tariff item, attending physician, and payer settlement."
+      title={i18n.t("Financial Performance & Detailed Billing Audit")}
+      subtitle={i18n.t("Complete accounting breakdown showing every patient invoice, tariff item, attending physician, and payer settlement.")}
       isLoading={isLoading}
       onClear={() => {
         setSearchTerm("");
@@ -214,10 +215,10 @@ const FinancialOverviewReport: React.FC = () => {
       filters={
         <>
           <div className="relative lg:col-span-2">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input
               type="text"
-              placeholder="Search invoice #, patient, MRN, doctor, biller, or payer..."
+              placeholder={i18n.t("Search invoice #, patient, MRN, doctor, biller, or payer...")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => {
@@ -226,7 +227,7 @@ const FinancialOverviewReport: React.FC = () => {
                   fetchReportData();
                 }
               }}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 font-medium"
+              className="w-full ps-10 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 font-medium"
             />
           </div>
 
@@ -240,15 +241,15 @@ const FinancialOverviewReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-600/20"
             >
-              <option value="today">Today</option>
-              <option value="yesterday">Yesterday</option>
-              <option value="this_week">This Week</option>
-              <option value="last_week">Last Week</option>
-              <option value="this_month">This Month</option>
-              <option value="last_month">Last Month</option>
-              <option value="this_year">This Year</option>
-              <option value="all_time">All Time</option>
-              <option value="custom">Custom Date Range</option>
+              <option value="today">{i18n.t("Today")}</option>
+              <option value="yesterday">{i18n.t("Yesterday")}</option>
+              <option value="this_week">{i18n.t("This Week")}</option>
+              <option value="last_week">{i18n.t("Last Week")}</option>
+              <option value="this_month">{i18n.t("This Month")}</option>
+              <option value="last_month">{i18n.t("Last Month")}</option>
+              <option value="this_year">{i18n.t("This Year")}</option>
+              <option value="all_time">{i18n.t("All Time")}</option>
+              <option value="custom">{i18n.t("Custom Date Range")}</option>
             </select>
           </div>
 
@@ -262,7 +263,7 @@ const FinancialOverviewReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 outline-none focus:ring-2 focus:ring-indigo-600/20"
             >
-              <option value="All">All Payers</option>
+              <option value="All">{i18n.t("All Payers")}</option>
               {payerOptions.map((p) => (
                 <option key={p.id} value={p.id}>{p.name}</option>
               ))}
@@ -279,10 +280,10 @@ const FinancialOverviewReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 outline-none focus:ring-2 focus:ring-indigo-600/20"
             >
-              <option value="All">All Visit Types</option>
-              <option value="OPD">Outpatient (OPD)</option>
-              <option value="IPD">Inpatient (IPD)</option>
-              <option value="ERD">Emergency (ERD)</option>
+              <option value="All">{i18n.t("All Visit Types")}</option>
+              <option value="OPD">{i18n.t("Outpatient (OPD)")}</option>
+              <option value="IPD">{i18n.t("Inpatient (IPD)")}</option>
+              <option value="ERD">{i18n.t("Emergency (ERD)")}</option>
             </select>
           </div>
 
@@ -296,10 +297,10 @@ const FinancialOverviewReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 outline-none focus:ring-2 focus:ring-indigo-600/20"
             >
-              <option value="All">All Settlement Statuses</option>
-              <option value="PAID">Fully Paid</option>
-              <option value="PARTIALLY_PAID">Partially Paid</option>
-              <option value="OPEN">Unsettled / Open</option>
+              <option value="All">{i18n.t("All Settlement Statuses")}</option>
+              <option value="PAID">{i18n.t("Fully Paid")}</option>
+              <option value="PARTIALLY_PAID">{i18n.t("Partially Paid")}</option>
+              <option value="OPEN">{i18n.t("Unsettled / Open")}</option>
             </select>
           </div>
 
@@ -319,25 +320,25 @@ const FinancialOverviewReport: React.FC = () => {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <KpiCard
           icon={Wallet}
-          label="Total Money Received"
+          label={i18n.t("Total Money Received")}
           value={formatCurrency(kpis.total_money_received)}
           colorClass="bg-emerald-50 border-emerald-100 text-emerald-900"
         />
         <KpiCard
           icon={AlertOctagon}
-          label="Total Outstanding (AR)"
+          label={i18n.t("Total Outstanding (AR)")}
           value={formatCurrency(kpis.total_outstanding_ar)}
           colorClass="bg-rose-50 border-rose-100 text-rose-900"
         />
         <KpiCard
           icon={Percent}
-          label="Discounts Allowed"
+          label={i18n.t("Discounts Allowed")}
           value={formatCurrency(kpis.total_discounts_granted)}
           colorClass="bg-amber-50 border-amber-100 text-amber-900"
         />
         <KpiCard
           icon={TrendingUp}
-          label="Collection to AR Ratio"
+          label={i18n.t("Collection to AR Ratio")}
           value={kpis.collection_vs_ar_ratio}
           colorClass="bg-indigo-50 border-indigo-100 text-indigo-900"
         />
@@ -353,8 +354,7 @@ const FinancialOverviewReport: React.FC = () => {
               : "bg-slate-100 text-slate-600 hover:bg-slate-200"
           }`}
         >
-          <FileText size={15} />
-          Invoices & Line-Item Breakdown ({totalRecords})
+          <FileText size={15} />{i18n.t("Invoices & Line-Item Breakdown (")}{totalRecords})
         </button>
 
         <button
@@ -365,9 +365,7 @@ const FinancialOverviewReport: React.FC = () => {
               : "bg-slate-100 text-slate-600 hover:bg-slate-200"
           }`}
         >
-          <Building2 size={15} />
-          Payer Revenue & AR Summary
-        </button>
+          <Building2 size={15} />{i18n.t("Payer Revenue & AR Summary")}</button>
 
         <button
           onClick={() => setActiveTab("departments")}
@@ -377,9 +375,7 @@ const FinancialOverviewReport: React.FC = () => {
               : "bg-slate-100 text-slate-600 hover:bg-slate-200"
           }`}
         >
-          <Layers size={15} />
-          Department Origin
-        </button>
+          <Layers size={15} />{i18n.t("Department Origin")}</button>
 
         <button
           onClick={() => setActiveTab("discounts")}
@@ -389,9 +385,7 @@ const FinancialOverviewReport: React.FC = () => {
               : "bg-slate-100 text-slate-600 hover:bg-slate-200"
           }`}
         >
-          <UserCheck size={15} />
-          Discounts Given By Staff
-        </button>
+          <UserCheck size={15} />{i18n.t("Discounts Given By Staff")}</button>
 
         <button
           onClick={() => setActiveTab("cash_exhaust")}
@@ -401,9 +395,7 @@ const FinancialOverviewReport: React.FC = () => {
               : "bg-slate-100 text-slate-600 hover:bg-slate-200"
           }`}
         >
-          <CreditCard size={15} />
-          Deposit Exhaustion (Cash)
-        </button>
+          <CreditCard size={15} />{i18n.t("Deposit Exhaustion (Cash)")}</button>
       </div>
 
       {/* ---------------- 3. Active Data Area ---------------- */}
@@ -411,22 +403,22 @@ const FinancialOverviewReport: React.FC = () => {
         
         {/* TAB 1: Itemized Invoices Ledger with Expandable Line Items */}
         {activeTab === "detailed_ledger" && (
-          <table className="w-full text-left text-sm whitespace-nowrap">
+          <table className="w-full text-start text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10 text-[11px] font-black uppercase text-slate-600 tracking-wider">
               <tr>
                 <th className="w-8 px-3 py-3.5 text-center"></th>
-                <th className="px-4 py-3.5">Invoice #</th>
-                <th className="px-4 py-3.5">Patient Details</th>
-                <th className="px-4 py-3.5">Context</th>
-                <th className="px-4 py-3.5">Payer Entity</th>
-                <th className="px-4 py-3.5">Attending Doctor</th>
-                <th className="px-4 py-3.5">Biller</th>
-                <th className="px-4 py-3.5 text-right">Gross (₦)</th>
-                <th className="px-4 py-3.5 text-right">Discount (₦)</th>
-                <th className="px-4 py-3.5 text-right">Net Billed (₦)</th>
-                <th className="px-4 py-3.5 text-right">Paid (₦)</th>
-                <th className="px-4 py-3.5 text-right">Outstanding (₦)</th>
-                <th className="px-4 py-3.5 text-center">Status</th>
+                <th className="px-4 py-3.5">{i18n.t("Invoice #")}</th>
+                <th className="px-4 py-3.5">{i18n.t("Patient Details")}</th>
+                <th className="px-4 py-3.5">{i18n.t("Context")}</th>
+                <th className="px-4 py-3.5">{i18n.t("Payer Entity")}</th>
+                <th className="px-4 py-3.5">{i18n.t("Attending Doctor")}</th>
+                <th className="px-4 py-3.5">{i18n.t("Biller")}</th>
+                <th className="px-4 py-3.5 text-end">{i18n.t("Gross (₦)")}</th>
+                <th className="px-4 py-3.5 text-end">{i18n.t("Discount (₦)")}</th>
+                <th className="px-4 py-3.5 text-end">{i18n.t("Net Billed (₦)")}</th>
+                <th className="px-4 py-3.5 text-end">{i18n.t("Paid (₦)")}</th>
+                <th className="px-4 py-3.5 text-end">{i18n.t("Outstanding (₦)")}</th>
+                <th className="px-4 py-3.5 text-center">{i18n.t("Status")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -442,7 +434,7 @@ const FinancialOverviewReport: React.FC = () => {
                         className={`cursor-pointer transition-colors ${isExpanded ? "bg-indigo-50/50" : "hover:bg-slate-50/80"}`}
                       >
                         <td className="px-3 py-3 text-center text-slate-400">
-                          {isExpanded ? <ChevronDown size={16} className="text-indigo-600" /> : <ChevronRight size={16} />}
+                          {isExpanded ? <ChevronDown size={16} className="text-indigo-600" /> : <ChevronRight className="rtl:-scale-x-100" size={16} />}
                         </td>
                         
                         <td className="px-4 py-3 font-mono font-bold text-slate-800 text-xs">
@@ -450,8 +442,7 @@ const FinancialOverviewReport: React.FC = () => {
                             <span className="text-indigo-600 hover:underline">{row.invoice_number}</span>
                             {hasItems && (
                               <span className="text-[10px] px-1.5 py-0.2 bg-slate-100 text-slate-500 rounded font-normal">
-                                {row.items?.length} items
-                              </span>
+                                {row.items?.length}{" "}{i18n.t("items")}</span>
                             )}
                           </div>
                           <div className="text-[10px] text-slate-400 font-normal">{row.invoice_date?.slice(0, 10)}</div>
@@ -459,8 +450,7 @@ const FinancialOverviewReport: React.FC = () => {
 
                         <td className="px-4 py-3">
                           <div className="font-bold text-slate-900">{row.patient_name}</div>
-                          <div className="text-[10px] text-slate-400 font-mono">
-                            MRN: {row.mrn} • {row.age_years || "—"}y / {row.gender}
+                          <div className="text-[10px] text-slate-400 font-mono">{i18n.t("MRN:")}{" "}{row.mrn} • {row.age_years || "—"}{i18n.t("y /")}{" "}{i18n.tv(row.gender)}
                           </div>
                         </td>
 
@@ -486,41 +476,35 @@ const FinancialOverviewReport: React.FC = () => {
                           {row.billing_officer}
                         </td>
 
-                        <td className="px-4 py-3 text-right font-mono text-slate-600 text-xs">
+                        <td className="px-4 py-3 text-end font-mono text-slate-600 text-xs">
                           {formatCurrency(row.gross_amount)}
                         </td>
 
-                        <td className="px-4 py-3 text-right font-mono text-amber-600 text-xs">
+                        <td className="px-4 py-3 text-end font-mono text-amber-600 text-xs">
                           {Number(row.discount_amount) > 0 ? formatCurrency(row.discount_amount) : "—"}
                         </td>
 
-                        <td className="px-4 py-3 text-right font-mono font-bold text-slate-900 text-xs">
+                        <td className="px-4 py-3 text-end font-mono font-bold text-slate-900 text-xs">
                           {formatCurrency(row.net_amount)}
                         </td>
 
-                        <td className="px-4 py-3 text-right font-mono text-emerald-700 font-semibold text-xs">
+                        <td className="px-4 py-3 text-end font-mono text-emerald-700 font-semibold text-xs">
                           {formatCurrency(row.amount_paid)}
                         </td>
 
-                        <td className="px-4 py-3 text-right font-mono font-black text-rose-700 text-xs">
+                        <td className="px-4 py-3 text-end font-mono font-black text-rose-700 text-xs">
                           {Number(row.outstanding_balance) > 0 ? formatCurrency(row.outstanding_balance) : "₦0.00"}
                         </td>
 
                         <td className="px-4 py-3 text-center">
                           {row.invoice_status === "PAID" && (
-                            <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-black uppercase">
-                              Paid
-                            </span>
+                            <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-black uppercase">{i18n.t("Paid")}</span>
                           )}
                           {row.invoice_status === "PARTIALLY_PAID" && (
-                            <span className="px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 text-[10px] font-black uppercase">
-                              Partial
-                            </span>
+                            <span className="px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 text-[10px] font-black uppercase">{i18n.t("Partial")}</span>
                           )}
                           {row.invoice_status === "OPEN" && (
-                            <span className="px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200 text-[10px] font-black uppercase">
-                              Unpaid
-                            </span>
+                            <span className="px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200 text-[10px] font-black uppercase">{i18n.t("Unpaid")}</span>
                           )}
                         </td>
                       </tr>
@@ -529,31 +513,28 @@ const FinancialOverviewReport: React.FC = () => {
                       {isExpanded && (
                         <tr>
                           <td colSpan={13} className="p-0 bg-slate-50/90 border-y border-indigo-100">
-                            <div className="p-4 pl-12 pr-6">
+                            <div className="p-4 ps-12 pe-6">
                               <div className="flex items-center justify-between mb-2">
                                 <h4 className="text-xs font-black uppercase text-indigo-950 flex items-center gap-2">
-                                  <Package size={14} className="text-indigo-600" />
-                                  Invoice Charge Breakdown ({row.items?.length || 0} billable items)
-                                </h4>
-                                <span className="text-[11px] text-slate-500 font-medium">
-                                  Linked Encounter: <span className="font-mono font-bold text-slate-800">{row.encounter_number || "Direct Bill"}</span>
+                                  <Package size={14} className="text-indigo-600" />{i18n.t("Invoice Charge Breakdown (")}{row.items?.length || 0}{" "}{i18n.t("billable items)")}</h4>
+                                <span className="text-[11px] text-slate-500 font-medium">{i18n.t("Linked Encounter:")}{" "}<span className="font-mono font-bold text-slate-800">{row.encounter_number || i18n.t("Direct Bill")}</span>
                                 </span>
                               </div>
 
                               {row.items && row.items.length > 0 ? (
                                 <div className="rounded-lg border border-slate-200 bg-white overflow-hidden shadow-xs">
-                                  <table className="w-full text-left text-xs">
+                                  <table className="w-full text-start text-xs">
                                     <thead className="bg-slate-100/70 border-b border-slate-200 text-[10px] font-bold uppercase text-slate-500">
                                       <tr>
-                                        <th className="px-3 py-2">Code</th>
-                                        <th className="px-3 py-2">Category</th>
-                                        <th className="px-3 py-2">Item Description</th>
-                                        <th className="px-3 py-2">Dept</th>
-                                        <th className="px-3 py-2 text-center">Qty</th>
-                                        <th className="px-3 py-2 text-right">Unit Price</th>
-                                        <th className="px-3 py-2 text-right">Gross Total</th>
-                                        <th className="px-3 py-2 text-right">Discount</th>
-                                        <th className="px-3 py-2 text-right">Net Line Total</th>
+                                        <th className="px-3 py-2">{i18n.t("Code")}</th>
+                                        <th className="px-3 py-2">{i18n.t("Category")}</th>
+                                        <th className="px-3 py-2">{i18n.t("Item Description")}</th>
+                                        <th className="px-3 py-2">{i18n.t("Dept")}</th>
+                                        <th className="px-3 py-2 text-center">{i18n.t("Qty")}</th>
+                                        <th className="px-3 py-2 text-end">{i18n.t("Unit Price")}</th>
+                                        <th className="px-3 py-2 text-end">{i18n.t("Gross Total")}</th>
+                                        <th className="px-3 py-2 text-end">{i18n.t("Discount")}</th>
+                                        <th className="px-3 py-2 text-end">{i18n.t("Net Line Total")}</th>
                                       </tr>
                                     </thead>
                                     <tbody className="divide-y divide-slate-100">
@@ -565,24 +546,22 @@ const FinancialOverviewReport: React.FC = () => {
                                               {item.category}
                                             </span>
                                           </td>
-                                          <td className="px-3 py-2 font-semibold text-slate-800">{item.description}</td>
+                                          <td className="px-3 py-2 font-semibold text-slate-800">{i18n.tx(item.description)}</td>
                                           <td className="px-3 py-2 text-slate-500 text-[11px]">{item.department}</td>
                                           <td className="px-3 py-2 text-center font-bold text-slate-700">{item.quantity}</td>
-                                          <td className="px-3 py-2 text-right font-mono text-slate-600">{formatCurrency(item.unit_price)}</td>
-                                          <td className="px-3 py-2 text-right font-mono text-slate-600">{formatCurrency(item.line_total)}</td>
-                                          <td className="px-3 py-2 text-right font-mono text-amber-600">
+                                          <td className="px-3 py-2 text-end font-mono text-slate-600">{formatCurrency(item.unit_price)}</td>
+                                          <td className="px-3 py-2 text-end font-mono text-slate-600">{formatCurrency(item.line_total)}</td>
+                                          <td className="px-3 py-2 text-end font-mono text-amber-600">
                                             {item.discount_amount > 0 ? formatCurrency(item.discount_amount) : "—"}
                                           </td>
-                                          <td className="px-3 py-2 text-right font-mono font-bold text-slate-900">{formatCurrency(item.net_line_total)}</td>
+                                          <td className="px-3 py-2 text-end font-mono font-bold text-slate-900">{formatCurrency(item.net_line_total)}</td>
                                         </tr>
                                       ))}
                                     </tbody>
                                   </table>
                                 </div>
                               ) : (
-                                <div className="p-3 text-center text-xs text-slate-400 italic bg-white rounded border border-slate-200">
-                                  No individual line items registered for this historical invoice.
-                                </div>
+                                <div className="p-3 text-center text-xs text-slate-400 italic bg-white rounded border border-slate-200">{i18n.t("No individual line items registered for this historical invoice.")}</div>
                               )}
                             </div>
                           </td>
@@ -594,7 +573,7 @@ const FinancialOverviewReport: React.FC = () => {
               ) : (
                 <tr>
                   <td colSpan={13} className="px-4 py-12 text-center text-slate-400 italic">
-                    {isLoading ? "Compiling detailed financial billing ledger..." : "No invoices found for the specified criteria."}
+                    {isLoading ? i18n.t("Compiling detailed financial billing ledger...") : i18n.t("No invoices found for the specified criteria.")}
                   </td>
                 </tr>
               )}
@@ -607,18 +586,16 @@ const FinancialOverviewReport: React.FC = () => {
           <div className="p-4 space-y-8">
             <div>
               <h3 className="text-xs font-black uppercase tracking-wider text-slate-700 mb-3 flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
-                Money Received by Exact Payer Entity
-              </h3>
+                <div className="w-2 h-2 rounded-full bg-emerald-500"></div>{i18n.t("Money Received by Exact Payer Entity")}</h3>
               <div className="rounded-xl border border-slate-200 overflow-hidden">
-                <table className="w-full text-left text-sm whitespace-nowrap">
+                <table className="w-full text-start text-sm whitespace-nowrap">
                   <thead className="bg-slate-50 border-b border-slate-200 text-[11px] font-black uppercase text-slate-600">
                     <tr>
-                      <th className="px-4 py-3">Payer Entity</th>
-                      <th className="px-4 py-3">Category</th>
-                      <th className="px-4 py-3 text-center">Receipts / Payments</th>
-                      <th className="px-4 py-3 text-center">Unique Patients</th>
-                      <th className="px-4 py-3 text-right">Total Collected (₦)</th>
+                      <th className="px-4 py-3">{i18n.t("Payer Entity")}</th>
+                      <th className="px-4 py-3">{i18n.t("Category")}</th>
+                      <th className="px-4 py-3 text-center">{i18n.t("Receipts / Payments")}</th>
+                      <th className="px-4 py-3 text-center">{i18n.t("Unique Patients")}</th>
+                      <th className="px-4 py-3 text-end">{i18n.t("Total Collected (₦)")}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
@@ -628,7 +605,7 @@ const FinancialOverviewReport: React.FC = () => {
                         <td className="px-4 py-3 text-slate-600 font-medium">{r.payer_category}</td>
                         <td className="px-4 py-3 text-center font-bold text-slate-700">{r.payment_count}</td>
                         <td className="px-4 py-3 text-center text-slate-600">{r.unique_patients}</td>
-                        <td className="px-4 py-3 text-right font-black font-mono text-emerald-700">
+                        <td className="px-4 py-3 text-end font-black font-mono text-emerald-700">
                           {formatCurrency(r.total_collected)}
                         </td>
                       </tr>
@@ -640,21 +617,19 @@ const FinancialOverviewReport: React.FC = () => {
 
             <div>
               <h3 className="text-xs font-black uppercase tracking-wider text-slate-700 mb-3 flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-rose-500"></div>
-                Outstanding Debt Exposure (AR) by Exact Payer Entity
-              </h3>
+                <div className="w-2 h-2 rounded-full bg-rose-500"></div>{i18n.t("Outstanding Debt Exposure (AR) by Exact Payer Entity")}</h3>
               <div className="rounded-xl border border-slate-200 overflow-hidden">
-                <table className="w-full text-left text-sm whitespace-nowrap">
+                <table className="w-full text-start text-sm whitespace-nowrap">
                   <thead className="bg-slate-50 border-b border-slate-200 text-[11px] font-black uppercase text-slate-600">
                     <tr>
-                      <th className="px-4 py-3">Payer Entity</th>
-                      <th className="px-4 py-3">Category</th>
-                      <th className="px-4 py-3 text-center">Open Invoices</th>
-                      <th className="px-4 py-3 text-center">Indebted Patients</th>
-                      <th className="px-4 py-3 text-right">Gross Billed</th>
-                      <th className="px-4 py-3 text-right">Discounts</th>
-                      <th className="px-4 py-3 text-right">Net Billed</th>
-                      <th className="px-4 py-3 text-right">Outstanding Balance (₦)</th>
+                      <th className="px-4 py-3">{i18n.t("Payer Entity")}</th>
+                      <th className="px-4 py-3">{i18n.t("Category")}</th>
+                      <th className="px-4 py-3 text-center">{i18n.t("Open Invoices")}</th>
+                      <th className="px-4 py-3 text-center">{i18n.t("Indebted Patients")}</th>
+                      <th className="px-4 py-3 text-end">{i18n.t("Gross Billed")}</th>
+                      <th className="px-4 py-3 text-end">{i18n.t("Discounts")}</th>
+                      <th className="px-4 py-3 text-end">{i18n.t("Net Billed")}</th>
+                      <th className="px-4 py-3 text-end">{i18n.t("Outstanding Balance (₦)")}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
@@ -664,10 +639,10 @@ const FinancialOverviewReport: React.FC = () => {
                         <td className="px-4 py-3 text-slate-600 font-medium">{r.payer_category}</td>
                         <td className="px-4 py-3 text-center font-semibold text-slate-700">{r.open_invoices_count}</td>
                         <td className="px-4 py-3 text-center text-slate-600">{r.indebted_patients}</td>
-                        <td className="px-4 py-3 text-right font-mono text-slate-600">{formatCurrency(r.gross_billed)}</td>
-                        <td className="px-4 py-3 text-right font-mono text-amber-600">{formatCurrency(r.total_discount)}</td>
-                        <td className="px-4 py-3 text-right font-mono text-slate-900">{formatCurrency(r.net_billed)}</td>
-                        <td className="px-4 py-3 text-right font-black font-mono text-rose-700">
+                        <td className="px-4 py-3 text-end font-mono text-slate-600">{formatCurrency(r.gross_billed)}</td>
+                        <td className="px-4 py-3 text-end font-mono text-amber-600">{formatCurrency(r.total_discount)}</td>
+                        <td className="px-4 py-3 text-end font-mono text-slate-900">{formatCurrency(r.net_billed)}</td>
+                        <td className="px-4 py-3 text-end font-black font-mono text-rose-700">
                           {formatCurrency(r.total_outstanding)}
                         </td>
                       </tr>
@@ -682,16 +657,14 @@ const FinancialOverviewReport: React.FC = () => {
         {/* TAB 3: Departmental Service Composition */}
         {activeTab === "departments" && (
           <div className="p-4">
-            <h3 className="text-xs font-black uppercase tracking-wider text-slate-700 mb-3">
-              Hospital Service Revenue Origin
-            </h3>
-            <table className="w-full text-left text-sm whitespace-nowrap">
+            <h3 className="text-xs font-black uppercase tracking-wider text-slate-700 mb-3">{i18n.t("Hospital Service Revenue Origin")}</h3>
+            <table className="w-full text-start text-sm whitespace-nowrap">
               <thead className="bg-slate-50 border-b border-slate-200 text-[11px] font-black uppercase text-slate-600">
                 <tr>
                   <th className="px-4 py-3.5">#</th>
-                  <th className="px-4 py-3.5">Department / Service Group</th>
-                  <th className="px-4 py-3.5 text-center">Service Volume</th>
-                  <th className="px-4 py-3.5 text-right">Billed Revenue (₦)</th>
+                  <th className="px-4 py-3.5">{i18n.t("Department / Service Group")}</th>
+                  <th className="px-4 py-3.5 text-center">{i18n.t("Service Volume")}</th>
+                  <th className="px-4 py-3.5 text-end">{i18n.t("Billed Revenue (₦)")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -699,8 +672,8 @@ const FinancialOverviewReport: React.FC = () => {
                   <tr key={idx} className="hover:bg-slate-50/80">
                     <td className="px-4 py-3 text-xs font-bold text-slate-400">{idx + 1}</td>
                     <td className="px-4 py-3 font-bold text-slate-800">{dept.department_name}</td>
-                    <td className="px-4 py-3 text-center font-semibold text-slate-700">{dept.service_volume} charges</td>
-                    <td className="px-4 py-3 text-right font-mono font-black text-slate-900">
+                    <td className="px-4 py-3 text-center font-semibold text-slate-700">{dept.service_volume}{" "}{i18n.t("charges")}</td>
+                    <td className="px-4 py-3 text-end font-mono font-black text-slate-900">
                       {formatCurrency(dept.total_billed_revenue)}
                     </td>
                   </tr>
@@ -712,18 +685,18 @@ const FinancialOverviewReport: React.FC = () => {
 
         {/* TAB 4: Discounts Authorized By User */}
         {activeTab === "discounts" && (
-          <table className="w-full text-left text-sm whitespace-nowrap">
+          <table className="w-full text-start text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200 text-[11px] font-black uppercase text-slate-600">
               <tr>
                 <th className="px-4 py-3.5">#</th>
-                <th className="px-4 py-3.5">Authorizing Staff</th>
-                <th className="px-4 py-3.5">Staff ID</th>
-                <th className="px-4 py-3.5">Department</th>
-                <th className="px-4 py-3.5 text-center">Discounts Given</th>
-                <th className="px-4 py-3.5 text-center">Invoices Impacted</th>
-                <th className="px-4 py-3.5 text-right">Gross Billed</th>
-                <th className="px-4 py-3.5 text-right">Discount Concession (₦)</th>
-                <th className="px-4 py-3.5 text-right">Avg Discount %</th>
+                <th className="px-4 py-3.5">{i18n.t("Authorizing Staff")}</th>
+                <th className="px-4 py-3.5">{i18n.t("Staff ID")}</th>
+                <th className="px-4 py-3.5">{i18n.t("Department")}</th>
+                <th className="px-4 py-3.5 text-center">{i18n.t("Discounts Given")}</th>
+                <th className="px-4 py-3.5 text-center">{i18n.t("Invoices Impacted")}</th>
+                <th className="px-4 py-3.5 text-end">{i18n.t("Gross Billed")}</th>
+                <th className="px-4 py-3.5 text-end">{i18n.t("Discount Concession (₦)")}</th>
+                <th className="px-4 py-3.5 text-end">{i18n.t("Avg Discount %")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -735,11 +708,11 @@ const FinancialOverviewReport: React.FC = () => {
                   <td className="px-4 py-3 text-xs text-slate-600">{renderValue(row.department)}</td>
                   <td className="px-4 py-3 text-center font-bold text-slate-800">{row.total_discounts_granted}</td>
                   <td className="px-4 py-3 text-center text-slate-600">{row.total_invoices_impacted}</td>
-                  <td className="px-4 py-3 text-right font-mono text-slate-600">{formatCurrency(row.total_gross_value)}</td>
-                  <td className="px-4 py-3 text-right font-black font-mono text-amber-700">
+                  <td className="px-4 py-3 text-end font-mono text-slate-600">{formatCurrency(row.total_gross_value)}</td>
+                  <td className="px-4 py-3 text-end font-black font-mono text-amber-700">
                     {formatCurrency(row.total_discount_granted)}
                   </td>
-                  <td className="px-4 py-3 text-right font-bold text-indigo-700">{row.avg_discount_pct}%</td>
+                  <td className="px-4 py-3 text-end font-bold text-indigo-700">{row.avg_discount_pct}%</td>
                 </tr>
               ))}
             </tbody>
@@ -748,18 +721,18 @@ const FinancialOverviewReport: React.FC = () => {
 
         {/* TAB 5: Cash Deposit Exhaustion */}
         {activeTab === "cash_exhaust" && (
-          <table className="w-full text-left text-sm whitespace-nowrap">
+          <table className="w-full text-start text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200 text-[11px] font-black uppercase text-slate-600">
               <tr>
                 <th className="px-4 py-3.5">#</th>
-                <th className="px-4 py-3.5">Receipt #</th>
-                <th className="px-4 py-3.5">Date</th>
-                <th className="px-4 py-3.5">Patient Details</th>
-                <th className="px-4 py-3.5 text-right">Deposited</th>
-                <th className="px-4 py-3.5 text-right">Utilized</th>
-                <th className="px-4 py-3.5 text-right">Balance</th>
-                <th className="px-4 py-3.5 text-center">Exhaustion %</th>
-                <th className="px-4 py-3.5 text-right">Status</th>
+                <th className="px-4 py-3.5">{i18n.t("Receipt #")}</th>
+                <th className="px-4 py-3.5">{i18n.t("Date")}</th>
+                <th className="px-4 py-3.5">{i18n.t("Patient Details")}</th>
+                <th className="px-4 py-3.5 text-end">{i18n.t("Deposited")}</th>
+                <th className="px-4 py-3.5 text-end">{i18n.t("Utilized")}</th>
+                <th className="px-4 py-3.5 text-end">{i18n.t("Balance")}</th>
+                <th className="px-4 py-3.5 text-center">{i18n.t("Exhaustion %")}</th>
+                <th className="px-4 py-3.5 text-end">{i18n.t("Status")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -770,21 +743,17 @@ const FinancialOverviewReport: React.FC = () => {
                   <td className="px-4 py-3 text-xs text-slate-600">{row.deposit_date?.slice(0, 10)}</td>
                   <td className="px-4 py-3">
                     <div className="font-bold text-slate-900">{row.patient_name}</div>
-                    <div className="text-[10px] text-slate-400 font-mono">MRN: {row.mrn}</div>
+                    <div className="text-[10px] text-slate-400 font-mono">{i18n.t("MRN:")}{" "}{row.mrn}</div>
                   </td>
-                  <td className="px-4 py-3 text-right font-mono text-slate-700">{formatCurrency(row.total_deposited)}</td>
-                  <td className="px-4 py-3 text-right font-mono text-slate-700">{formatCurrency(row.amount_utilized)}</td>
-                  <td className="px-4 py-3 text-right font-black font-mono text-slate-900">{formatCurrency(row.balance_remaining)}</td>
+                  <td className="px-4 py-3 text-end font-mono text-slate-700">{formatCurrency(row.total_deposited)}</td>
+                  <td className="px-4 py-3 text-end font-mono text-slate-700">{formatCurrency(row.amount_utilized)}</td>
+                  <td className="px-4 py-3 text-end font-black font-mono text-slate-900">{formatCurrency(row.balance_remaining)}</td>
                   <td className="px-4 py-3 text-center font-mono font-bold text-xs">{row.exhaust_rate_pct}%</td>
-                  <td className="px-4 py-3 text-right">
+                  <td className="px-4 py-3 text-end">
                     {row.exhaustion_status === "EXHAUSTED" ? (
-                      <span className="px-2.5 py-1 rounded-full bg-rose-100 text-rose-800 border border-rose-300 text-[10px] font-black uppercase">
-                        Exhausted
-                      </span>
+                      <span className="px-2.5 py-1 rounded-full bg-rose-100 text-rose-800 border border-rose-300 text-[10px] font-black uppercase">{i18n.t("Exhausted")}</span>
                     ) : (
-                      <span className="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-black uppercase">
-                        Surplus
-                      </span>
+                      <span className="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-black uppercase">{i18n.t("Surplus")}</span>
                     )}
                   </td>
                 </tr>
@@ -798,19 +767,17 @@ const FinancialOverviewReport: React.FC = () => {
       {/* ---------------- 4. Pagination Controls ---------------- */}
       {activeTab === "detailed_ledger" && totalRecords > 0 && (
         <div className="mt-4 p-4 bg-slate-50 border border-slate-200 rounded-2xl flex flex-col sm:flex-row justify-between items-center gap-3">
-          <div className="text-xs text-slate-500 font-semibold">
-            Showing <span className="text-slate-900 font-bold">
+          <div className="text-xs text-slate-500 font-semibold">{i18n.t("Showing")}{" "}<span className="text-slate-900 font-bold">
               {itemsPerPage === "ALL" ? 1 : (currentPage - 1) * Number(itemsPerPage) + 1}
-            </span> to{" "}
+            </span>{" "}{i18n.t("to")}{" "}
             <span className="text-slate-900 font-bold">
               {itemsPerPage === "ALL" ? totalRecords : Math.min(currentPage * Number(itemsPerPage), totalRecords)}
-            </span> of{" "}
-            <span className="text-slate-900 font-bold">{totalRecords}</span> invoices
-          </div>
+            </span>{" "}{i18n.t("of")}{" "}
+            <span className="text-slate-900 font-bold">{totalRecords}</span>{" "}{i18n.t("invoices")}</div>
 
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5">
-              <span className="text-xs text-slate-400 font-bold uppercase">Show</span>
+              <span className="text-xs text-slate-400 font-bold uppercase">{i18n.t("Show")}</span>
               <select
                 value={itemsPerPage}
                 onChange={(e) => {
@@ -823,7 +790,7 @@ const FinancialOverviewReport: React.FC = () => {
                 <option value={50}>50</option>
                 <option value={100}>100</option>
                 <option value={250}>250</option>
-                <option value="ALL">All Invoices</option>
+                <option value="ALL">{i18n.t("All Invoices")}</option>
               </select>
             </div>
 
@@ -833,19 +800,14 @@ const FinancialOverviewReport: React.FC = () => {
                   onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                   disabled={currentPage === 1}
                   className="px-2.5 py-1 rounded-lg border border-slate-200 bg-white text-xs text-slate-600 disabled:opacity-40 hover:bg-slate-50 font-bold"
-                >
-                  Prev
-                </button>
-                <span className="text-xs font-bold text-slate-800 px-2">
-                  Page {currentPage} of {totalPages}
+                >{i18n.t("Prev")}</button>
+                <span className="text-xs font-bold text-slate-800 px-2">{i18n.t("Page")}{" "}{currentPage}{" "}{i18n.t("of")}{" "}{totalPages}
                 </span>
                 <button
                   onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                   disabled={currentPage >= totalPages}
                   className="px-2.5 py-1 rounded-lg border border-slate-200 bg-white text-xs text-slate-600 disabled:opacity-40 hover:bg-slate-50 font-bold"
-                >
-                  Next
-                </button>
+                >{i18n.t("Next")}</button>
               </div>
             )}
           </div>

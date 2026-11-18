@@ -9,6 +9,7 @@ import { BASE_URL } from "../../api/client";
 import apiClient from "../../api/client";
 import { patientService } from "../../services/patient.service";
 import { formDraftService } from "../../services/session-restore.service";
+import { i18n } from "../../i18n";
 
 export interface CsDeliveryConsentFormProps {
   surgery?: OTSurgery;
@@ -153,9 +154,8 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
   const PartWarning = ({ fields }: { fields: string[] }) => {
     if (isPartComplete(fields) || readOnly) return null;
     return (
-      <div className="absolute top-4 right-6 flex items-center gap-1 text-amber-500 bg-amber-50 px-3 py-1 rounded-full text-[10px] font-bold border border-amber-200 shadow-sm animate-pulse">
-        <AlertCircle size={12} /> Incomplete
-      </div>
+      <div className="absolute top-4 end-6 flex items-center gap-1 text-amber-500 bg-amber-50 px-3 py-1 rounded-full text-[10px] font-bold border border-amber-200 shadow-sm animate-pulse">
+        <AlertCircle size={12} />{" "}{i18n.t("Incomplete")}</div>
     );
   };
 
@@ -388,7 +388,7 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
           {hasSignature ? (
             <img src={getSigUrl(formData[id])} alt={label} className="max-h-full max-w-full object-contain" />
           ) : (
-            <span className="text-slate-300 font-bold uppercase text-xs">No Signature</span>
+            <span className="text-slate-300 font-bold uppercase text-xs">{i18n.t("No Signature")}</span>
           )}
         </div>
       );
@@ -401,10 +401,8 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
           <button
             type="button"
             onClick={() => handleInputChange(id, null)}
-            className="absolute top-2 right-2 bg-red-100 text-red-600 px-3 py-1 rounded-lg text-[10px] font-black uppercase hover:bg-red-200 transition-colors opacity-0 group-hover:opacity-100 shadow-sm"
-          >
-            Clear
-          </button>
+            className="absolute top-2 end-2 bg-red-100 text-red-600 px-3 py-1 rounded-lg text-[10px] font-black uppercase hover:bg-red-200 transition-colors opacity-0 group-hover:opacity-100 shadow-sm"
+          >{i18n.t("Clear")}</button>
         </div>
       );
     }
@@ -422,9 +420,7 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
     return (
       <div className="flex flex-col items-center justify-center p-12 bg-white rounded-3xl shadow-xl mx-auto max-w-4xl">
         <Loader2 className="animate-spin text-[#3B309A] mb-4" size={48} />
-        <p className="text-slate-500 font-bold uppercase tracking-widest animate-pulse">
-          Loading CS Consent Template...
-        </p>
+        <p className="text-slate-500 font-bold uppercase tracking-widest animate-pulse">{i18n.t("Loading CS Consent Template...")}</p>
       </div>
     );
   }
@@ -433,37 +429,30 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
     <div className="bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[95vh] flex flex-col max-w-6xl mx-auto w-[90vw]">
       {/* Header */}
       <div className="bg-[#1e1b4b] text-white p-10 flex justify-between items-center relative overflow-hidden shrink-0">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full -mr-32 -mt-32 blur-3xl pointer-events-none" />
+        <div className="absolute top-0 end-0 w-64 h-64 bg-indigo-500/10 rounded-full -me-32 -mt-32 blur-3xl pointer-events-none" />
         <div className="z-10">
           <div className="flex items-center gap-4 mb-2">
             <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
-              <img src="/assets/login-bg.jpeg" alt="Logo" className="w-10 h-10 object-contain" />
+              <img src="/assets/login-bg.jpeg" alt={i18n.t("Logo")} className="w-10 h-10 object-contain" />
             </div>
             <div>
-              <h1 className="text-3xl font-black tracking-tighter">Procedure Consent Form</h1>
-              <p className="text-indigo-300 font-bold text-sm uppercase tracking-widest">
-                Caesarean Section Delivery
-              </p>
+              <h1 className="text-3xl font-black tracking-tighter">{i18n.t("Procedure Consent Form")}</h1>
+              <p className="text-indigo-300 font-bold text-sm uppercase tracking-widest">{i18n.t("Caesarean Section Delivery")}</p>
             </div>
           </div>
-          <p className="text-xs text-indigo-200/60 font-medium">
-            Form Ref: GSH-CONSENT-CS-001 • Policy Ref: GSH-T6 • Version 1.0 • Multi-Stage Consent
-          </p>
+          <p className="text-xs text-indigo-200/60 font-medium">{i18n.t("Form Ref: GSH-CONSENT-CS-001 • Policy Ref: GSH-T6 • Version 1.0 • Multi-Stage Consent")}</p>
         </div>
-        <div className="text-right z-10 flex flex-col items-end gap-3">
-          <div className="hidden md:block text-right">
-            <p className="text-[10px] text-indigo-200 font-bold leading-tight uppercase tracking-wider">
-              Medbookie
-            </p>
-            <p className="text-[10px] text-indigo-200">+234 705 648 2776 • admin@Medbookiehospitals.com</p>
+        <div className="text-end z-10 flex flex-col items-end gap-3">
+          <div className="hidden md:block text-end">
+            <p className="text-[10px] text-indigo-200 font-bold leading-tight uppercase tracking-wider">{i18n.t("Medbookie")}</p>
+            <p className="text-[10px] text-indigo-200">{i18n.t("+234 705 648 2776 • admin@Medbookiehospitals.com")}</p>
           </div>
           <button
             type="button"
             onClick={onPrint || (() => window.print())}
             className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border border-white/20 transition-all"
           >
-            <Printer size={14} /> Print Blank Form
-          </button>
+            <Printer size={14} />{" "}{i18n.t("Print Blank Form")}</button>
         </div>
       </div>
 
@@ -471,37 +460,20 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
       <div className="flex-1 overflow-y-auto p-8 space-y-10 custom-scrollbar bg-white">
         {/* Patient Rights */}
         <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">
-            Patient Rights
-          </div>
-          <p className="text-sm text-amber-900 font-medium leading-relaxed italic">
-            "You have the right to make decisions about your medical care and to refuse any procedure. If you wish
-            to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not
-            remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie
-            Hospitals Consent Policy (GSH-T6)."
-          </p>
+          <div className="absolute top-0 end-0 bg-amber-200/50 px-4 py-1 rounded-es-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">{i18n.t("Patient Rights")}</div>
+          <p className="text-sm text-amber-900 font-medium leading-relaxed italic">{i18n.t("\"You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Hospitals Consent Policy (GSH-T6).\"")}</p>
         </div>
 
         {/* Layered Consent Framework Notice */}
         <div className="bg-slate-50 border-2 border-slate-200 rounded-2xl p-6 relative">
-          <h4 className="text-xs font-black uppercase tracking-wider text-slate-800 mb-2">
-            How this form works — concentric (layered) consent
-          </h4>
-          <p className="text-xs text-slate-600 leading-relaxed">
-            Information is layered in rings from the essential <strong>CORE</strong> outward. The ring labels inside
-            Parts B, C, E, and G show the layer of disclosure: <strong>Ring 1</strong> (core every woman must understand),
-            <strong>Ring 2</strong> (common & serious risks and alternatives), <strong>Ring 3</strong> (individualised
-            factors), and <strong>Ring 4</strong> (practical & after-care). The clinician records what was discussed at
-            each depth.
-          </p>
+          <h4 className="text-xs font-black uppercase tracking-wider text-slate-800 mb-2">{i18n.t("How this form works — concentric (layered) consent")}</h4>
+          <p className="text-xs text-slate-600 leading-relaxed">{i18n.t("Information is layered in rings from the essential")}{" "}<strong>{i18n.t("CORE")}</strong>{" "}{i18n.t("outward. The ring labels inside Parts B, C, E, and G show the layer of disclosure:")}{" "}<strong>{i18n.t("Ring 1")}</strong>{" "}{i18n.t("(core every woman must understand),")}<strong>{i18n.t("Ring 2")}</strong>{" "}{i18n.t("(common & serious risks and alternatives),")}{" "}<strong>{i18n.t("Ring 3")}</strong>{" "}{i18n.t("(individualised factors), and")}{" "}<strong>{i18n.t("Ring 4")}</strong>{" "}{i18n.t("(practical & after-care). The clinician records what was discussed at each depth.")}</p>
         </div>
 
         {/* Type of Caesarean Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-2">
-            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">
-              Type of Caesarean Birth *
-            </label>
+            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Type of Caesarean Birth *")}</label>
             <div className="grid grid-cols-1 gap-2 p-4 bg-slate-50 border-2 border-slate-200 rounded-2xl">
               {[
                 "Planned (elective) LSCS",
@@ -526,9 +498,7 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
           </div>
 
           <div className="space-y-2">
-            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">
-              RCOG Category
-            </label>
+            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("RCOG Category")}</label>
             <div className="grid grid-cols-1 gap-2 p-4 bg-slate-50 border-2 border-slate-200 rounded-2xl">
               {[
                 "1 (immediate threat to life)",
@@ -556,15 +526,11 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
 
         {/* Part A — Mother Identification */}
         <section>
-          <div className="bg-[#1e1b4b] text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ml-4">
-            Part A — Mother Identification
-          </div>
+          <div className="bg-[#1e1b4b] text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part A — Mother Identification")}</div>
           <div className="border-4 border-slate-900 rounded-3xl p-8 grid grid-cols-1 md:grid-cols-4 gap-6 shadow-inner bg-slate-50 relative">
             <PartWarning fields={["mother_name", "dob", "mrn", "gestation", "consultant", "ward"]} />
             <div className="md:col-span-2 space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                Mother's Full Name *
-              </label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Mother's Full Name *")}</label>
               <input
                 type="text"
                 value={formData.mother_name}
@@ -576,9 +542,7 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                Date of Birth *
-              </label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Date of Birth *")}</label>
               <input
                 type="date"
                 value={formData.dob}
@@ -590,9 +554,7 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                MRN *
-              </label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("MRN *")}</label>
               <input
                 type="text"
                 value={formData.mrn}
@@ -601,54 +563,46 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                Gestation (Weeks) *
-              </label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Gestation (Weeks) *")}</label>
               <input
                 type="text"
                 value={formData.gestation}
                 onChange={(e) => handleInputChange("gestation", e.target.value)}
                 readOnly={readOnly}
-                placeholder="e.g. 38 + 4"
+                placeholder={i18n.t("e.g. 38 + 4")}
                 className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${
                   readOnly ? "bg-slate-100" : "bg-white focus:border-[#1e1b4b]"
                 }`}
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                Gravida / Para
-              </label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Gravida / Para")}</label>
               <input
                 type="text"
                 value={formData.gravida_para}
                 onChange={(e) => handleInputChange("gravida_para", e.target.value)}
                 readOnly={readOnly}
-                placeholder="e.g. G2 P1"
+                placeholder={i18n.t("e.g. G2 P1")}
                 className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${
                   readOnly ? "bg-slate-100" : "bg-white focus:border-[#1e1b4b]"
                 }`}
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                Blood Group / RH
-              </label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Blood Group / RH")}</label>
               <input
                 type="text"
                 value={formData.blood_group}
                 onChange={(e) => handleInputChange("blood_group", e.target.value)}
                 readOnly={readOnly}
-                placeholder="e.g. O Positive"
+                placeholder={i18n.t("e.g. O Positive")}
                 className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${
                   readOnly ? "bg-slate-100" : "bg-white focus:border-[#1e1b4b]"
                 }`}
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                Ward / Unit *
-              </label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Ward / Unit *")}</label>
               <input
                 type="text"
                 value={formData.ward}
@@ -660,9 +614,7 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
               />
             </div>
             <div className="md:col-span-4 space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                Consultant Obstetrician *
-              </label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Consultant Obstetrician *")}</label>
               <input
                 type="text"
                 value={formData.consultant}
@@ -674,14 +626,12 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
               />
             </div>
             <div className="md:col-span-4 space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                Indication for Caesarean Section *
-              </label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Indication for Caesarean Section *")}</label>
               <textarea
                 rows={2}
                 value={formData.indication_reason}
                 onChange={(e) => handleInputChange("indication_reason", e.target.value)}
-                placeholder="e.g. previous CS with failed VBAC; breech presentation; fetal compromise"
+                placeholder={i18n.t("e.g. previous CS with failed VBAC; breech presentation; fetal compromise")}
                 readOnly={readOnly}
                 className={`w-full border-2 border-slate-200 rounded-xl px-4 py-3 font-bold text-slate-800 transition-all outline-none resize-none ${
                   readOnly ? "bg-slate-100" : "bg-white focus:border-[#1e1b4b]"
@@ -694,15 +644,11 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
         {/* Part B & Part C */}
         <div className="grid grid-cols-1 gap-8">
           <section>
-            <div className="bg-[#334155] text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ml-4">
-              Part B — Description of the Procedure (Ring 1: Core)
-            </div>
+            <div className="bg-[#334155] text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part B — Description of the Procedure (Ring 1: Core)")}</div>
             <div className="border-4 border-slate-900 rounded-3xl p-6 bg-slate-50 space-y-4 relative">
               <PartWarning fields={["plain_terms", "core_understanding"]} />
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                  Why a caesarean is recommended for you (plain terms)
-                </label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Why a caesarean is recommended for you (plain terms)")}</label>
                 <textarea
                   rows={3}
                   value={formData.plain_terms}
@@ -721,45 +667,35 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
                   disabled={readOnly}
                   className="mt-1 w-5 h-5 text-[#1e1b4b] rounded"
                 />
-                <span className="text-xs font-bold text-slate-700 leading-relaxed">
-                  The mother understands what a CS is, why it is recommended, and the core risks (heavy
-                  bleeding, infection, clots, organ injury, future pregnancy impacts). *
-                </span>
+                <span className="text-xs font-bold text-slate-700 leading-relaxed">{i18n.t("The mother understands what a CS is, why it is recommended, and the core risks (heavy bleeding, infection, clots, organ injury, future pregnancy impacts). *")}</span>
               </label>
             </div>
           </section>
 
           <section>
-            <div className="bg-[#334155] text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ml-4">
-              Part C — What to Expect (Ring 4: Practical Detail & After-care)
-            </div>
+            <div className="bg-[#334155] text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part C — What to Expect (Ring 4: Practical Detail & After-care)")}</div>
             <div className="border-4 border-slate-900 rounded-3xl p-6 bg-slate-50 space-y-2">
               <p className="text-xs text-slate-700 leading-relaxed font-medium">
-                <strong>Before:</strong> fasting, IV access, bladder catheter, antacid and antibiotics.{" "}
-                <strong>Anaesthesia:</strong> usually spinal/epidural so you are awake.{" "}
-                <strong>During:</strong> low 'bikini-line' incision, baby delivered, placenta removed.{" "}
-                <strong>Baby:</strong> skin-to-skin and early breastfeeding supported.{" "}
-                <strong>After:</strong> pain relief, clot prevention, early mobilisation.
-              </p>
+                <strong>{i18n.t("Before:")}</strong>{" "}{i18n.t("fasting, IV access, bladder catheter, antacid and antibiotics.")}{" "}
+                <strong>{i18n.t("Anaesthesia:")}</strong>{" "}{i18n.t("usually spinal/epidural so you are awake.")}{" "}
+                <strong>{i18n.t("During:")}</strong>{" "}{i18n.t("low 'bikini-line' incision, baby delivered, placenta removed.")}{" "}
+                <strong>{i18n.t("Baby:")}</strong>{" "}{i18n.t("skin-to-skin and early breastfeeding supported.")}{" "}
+                <strong>{i18n.t("After:")}</strong>{" "}{i18n.t("pain relief, clot prevention, early mobilisation.")}</p>
             </div>
           </section>
         </div>
 
         {/* Part D — Intended Benefits */}
         <section>
-          <div className="bg-[#1e293b] text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ml-4">
-            Part D — Intended Benefits
-          </div>
+          <div className="bg-[#1e293b] text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part D — Intended Benefits")}</div>
           <div className="border-4 border-slate-900 rounded-3xl p-6 bg-slate-50 relative">
-            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">
-              Expected outcome for mother and baby
-            </label>
+            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">{i18n.t("Expected outcome for mother and baby")}</label>
             <textarea
               rows={2}
               value={formData.intended_benefits}
               onChange={(e) => handleInputChange("intended_benefits", e.target.value)}
               readOnly={readOnly}
-              placeholder="e.g. Safe birth of baby avoiding obstructed labour and fetal hypoxia"
+              placeholder={i18n.t("e.g. Safe birth of baby avoiding obstructed labour and fetal hypoxia")}
               className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none resize-none ${
                 readOnly ? "bg-slate-100" : "bg-white focus:border-[#1e1b4b]"
               }`}
@@ -769,22 +705,14 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
 
         {/* Part E — Risks & Complications Table */}
         <section>
-          <div className="bg-[#be123c] text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ml-4">
-            Part E — Risks & Complications (Ring 2)
-          </div>
+          <div className="bg-[#be123c] text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part E — Risks & Complications (Ring 2)")}</div>
           <div className="border-4 border-slate-900 rounded-3xl overflow-hidden shadow-xl">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-start border-collapse">
               <thead className="bg-slate-900 text-white">
                 <tr>
-                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border-r border-slate-700 w-1/4">
-                    Frequency
-                  </th>
-                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border-r border-slate-700 w-2/5">
-                    Risk / Complication
-                  </th>
-                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest">
-                    Additional Detail
-                  </th>
+                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border-e border-slate-700 w-1/4">{i18n.t("Frequency")}</th>
+                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border-e border-slate-700 w-2/5">{i18n.t("Risk / Complication")}</th>
+                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest">{i18n.t("Additional Detail")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200 text-xs">
@@ -826,8 +754,8 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
                   ],
                 ].map((row, idx) => (
                   <tr key={idx} className={idx % 2 === 0 ? "bg-white" : "bg-slate-50"}>
-                    <td className="px-6 py-3.5 font-black text-[#be123c] border-r border-slate-200">{row[0]}</td>
-                    <td className="px-6 py-3.5 font-bold text-slate-700 border-r border-slate-200">{row[1]}</td>
+                    <td className="px-6 py-3.5 font-black text-[#be123c] border-e border-slate-200">{row[0]}</td>
+                    <td className="px-6 py-3.5 font-bold text-slate-700 border-e border-slate-200">{row[1]}</td>
                     <td className="px-6 py-3.5 font-medium text-slate-500 italic">{row[2]}</td>
                   </tr>
                 ))}
@@ -838,13 +766,9 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
 
         {/* Part F — Alternatives */}
         <section>
-          <div className="bg-[#ea580c] text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ml-4">
-            Part F — Alternatives to Caesarean Section
-          </div>
+          <div className="bg-[#ea580c] text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part F — Alternatives to Caesarean Section")}</div>
           <div className="border-4 border-slate-900 rounded-3xl p-6 bg-slate-50 relative">
-            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">
-              Alternatives discussed with this mother (VBAC, Induction, Expectant, None) and what happens if no CS is performed
-            </label>
+            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">{i18n.t("Alternatives discussed with this mother (VBAC, Induction, Expectant, None) and what happens if no CS is performed")}</label>
             <textarea
               rows={2}
               value={formData.alternatives_discussed}
@@ -859,14 +783,10 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
 
         {/* Part G — Individualised Risks */}
         <section>
-          <div className="bg-[#475569] text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ml-4">
-            Part G — Individualised Risks & Procedures (Ring 3)
-          </div>
+          <div className="bg-[#475569] text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part G — Individualised Risks & Procedures (Ring 3)")}</div>
           <div className="border-4 border-slate-900 rounded-3xl p-8 grid grid-cols-1 md:grid-cols-2 gap-6 shadow-inner bg-slate-50 relative">
             <div className="md:col-span-2 space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                Risks/factors specific to THIS mother (e.g. anaemia, high BMI, previous CS, fibroids)
-              </label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Risks/factors specific to THIS mother (e.g. anaemia, high BMI, previous CS, fibroids)")}</label>
               <textarea
                 rows={2}
                 value={formData.individual_risks}
@@ -891,14 +811,12 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
                     disabled={readOnly}
                     className="mt-1 w-5 h-5 text-[#1e1b4b] rounded"
                   />
-                  <span className="text-xs font-bold text-slate-700 leading-tight">{item.label}</span>
+                  <span className="text-xs font-bold text-slate-700 leading-tight">{i18n.tx(item.label)}</span>
                 </label>
               ))}
             </div>
             <div className="md:col-span-2 space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                Procedures the mother does NOT wish carried out under any circumstances
-              </label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Procedures the mother does NOT wish carried out under any circumstances")}</label>
               <textarea
                 rows={2}
                 value={formData.procedures_declined}
@@ -915,13 +833,9 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
         {/* Part H & Part I */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <section>
-            <div className="bg-[#475569] text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ml-4">
-              Part H — Anaesthesia & Sedation
-            </div>
+            <div className="bg-[#475569] text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part H — Anaesthesia & Sedation")}</div>
             <div className="border-4 border-slate-900 rounded-3xl p-6 bg-slate-50 space-y-4 relative h-[calc(100%-2rem)]">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                Planned Anaesthesia Type
-              </label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Planned Anaesthesia Type")}</label>
               <div className="grid grid-cols-1 gap-3">
                 {[
                   "Regional (spinal / epidural)",
@@ -945,14 +859,10 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
           </section>
 
           <section>
-            <div className="bg-[#475569] text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ml-4">
-              Part I — Language & Interpretation
-            </div>
+            <div className="bg-[#475569] text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part I — Language & Interpretation")}</div>
             <div className="border-4 border-slate-900 rounded-3xl p-6 bg-slate-50 space-y-4 relative flex flex-col justify-between">
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                  Interpreter Full Name
-                </label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Interpreter Full Name")}</label>
                 <input
                   type="text"
                   value={formData.interpreter_name}
@@ -964,9 +874,7 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
                 />
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                  Interpreter Signature
-                </label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Interpreter Signature")}</label>
                 <div className="h-32 border-2 border-dashed border-slate-300 rounded-xl bg-white overflow-hidden">
                   {renderSignatureBox("interpreter_signature", "Interpreter Signature")}
                 </div>
@@ -977,9 +885,7 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
 
         {/* Declarations & Signatures Section */}
         <section className="space-y-12 bg-slate-900 p-10 rounded-[3rem] shadow-2xl">
-          <h3 className="text-center text-white font-black uppercase tracking-[0.5em] text-xl mb-8">
-            Final Declarations & Signatures
-          </h3>
+          <h3 className="text-center text-white font-black uppercase tracking-[0.5em] text-xl mb-8">{i18n.t("Final Declarations & Signatures")}</h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Part J — Consenting Obstetrician */}
@@ -987,17 +893,11 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
               <PartWarning fields={["obstetrician_name", "obstetrician_signature"]} />
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center text-[#1e1b4b] font-black">
-                    J
-                  </div>
-                  <h4 className="font-black text-slate-800 uppercase tracking-wider text-xs">
-                    PART J — Declaration of Consenting Obstetrician
-                  </h4>
+                  <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center text-[#1e1b4b] font-black">{i18n.t("J")}</div>
+                  <h4 className="font-black text-slate-800 uppercase tracking-wider text-xs">{i18n.t("PART J — Declaration of Consenting Obstetrician")}</h4>
                 </div>
                 <div className="space-y-2 mb-4">
-                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                    Additional Clinician Notes
-                  </label>
+                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Additional Clinician Notes")}</label>
                   <textarea
                     rows={2}
                     value={formData.clinician_notes}
@@ -1009,18 +909,14 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                    Obstetrician Signature *
-                  </label>
+                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Obstetrician Signature *")}</label>
                   <div className="h-44 border-4 border-dashed border-slate-200 rounded-2xl overflow-hidden bg-slate-50">
                     {renderSignatureBox("obstetrician_signature", "Obstetrician Signature")}
                   </div>
                 </div>
               </div>
               <div className="mt-4 space-y-2">
-                <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">
-                  Obstetrician Full Name *
-                </p>
+                <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">{i18n.t("Obstetrician Full Name *")}</p>
                 <input
                   type="text"
                   value={formData.obstetrician_name}
@@ -1048,12 +944,8 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
               />
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center text-pink-600 font-black">
-                    K
-                  </div>
-                  <h4 className="font-black text-slate-800 uppercase tracking-wider text-xs">
-                    PART K — Mother's Consent Declaration
-                  </h4>
+                  <div className="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center text-pink-600 font-black">{i18n.t("K")}</div>
+                  <h4 className="font-black text-slate-800 uppercase tracking-wider text-xs">{i18n.t("PART K — Mother's Consent Declaration")}</h4>
                 </div>
                 <div className="space-y-2 mb-4">
                   {[
@@ -1075,23 +967,19 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
                         disabled={readOnly}
                         className="w-4 h-4 text-pink-600 rounded"
                       />
-                      <span className="text-[11px] font-bold text-pink-950">{item.label} *</span>
+                      <span className="text-[11px] font-bold text-pink-950">{i18n.tx(item.label)} *</span>
                     </label>
                   ))}
                 </div>
                 <div className="space-y-2">
-                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                    Mother's Signature *
-                  </label>
+                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Mother's Signature *")}</label>
                   <div className="h-44 border-4 border-dashed border-slate-200 rounded-2xl overflow-hidden bg-slate-50">
                     {renderSignatureBox("mother_signature", "Mother Signature")}
                   </div>
                 </div>
               </div>
               <div className="mt-4 space-y-2">
-                <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">
-                  Witness Signature (If mother unable to sign)
-                </p>
+                <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest text-center">{i18n.t("Witness Signature (If mother unable to sign)")}</p>
                 <div className="h-20 border-2 border-dashed border-slate-200 rounded-xl overflow-hidden bg-slate-50">
                   {renderSignatureBox("witness_signature", "Witness Signature")}
                 </div>
@@ -1104,19 +992,13 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
         <section className="bg-red-50 border-4 border-red-200 p-8 rounded-3xl relative">
           <div className="flex items-center gap-2 mb-2">
             <AlertCircle className="text-red-600" />
-            <h4 className="font-black text-red-900 uppercase tracking-widest text-sm">
-              Part L — Emergency Authorisation (Mother Unable to Consent)
-            </h4>
+            <h4 className="font-black text-red-900 uppercase tracking-widest text-sm">{i18n.t("Part L — Emergency Authorisation (Mother Unable to Consent)")}</h4>
           </div>
-          <p className="text-xs text-red-700 font-medium mb-6">
-            Complete this section <strong>ONLY</strong> if the mother lacks capacity to consent and immediate delivery is required in the best interests of mother or baby.
-          </p>
+          <p className="text-xs text-red-700 font-medium mb-6">{i18n.t("Complete this section")}{" "}<strong>{i18n.t("ONLY")}</strong>{" "}{i18n.t("if the mother lacks capacity to consent and immediate delivery is required in the best interests of mother or baby.")}</p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="md:col-span-2 space-y-2">
-              <label className="block text-[10px] font-black text-red-500 uppercase tracking-widest">
-                Clinical situation and why immediate caesarean is in patient's best interests
-              </label>
+              <label className="block text-[10px] font-black text-red-500 uppercase tracking-widest">{i18n.t("Clinical situation and why immediate caesarean is in patient's best interests")}</label>
               <textarea
                 rows={2}
                 value={formData.emergency_situation}
@@ -1128,9 +1010,7 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-red-500 uppercase tracking-widest">
-                Next of Kin / Representative Name
-              </label>
+              <label className="block text-[10px] font-black text-red-500 uppercase tracking-widest">{i18n.t("Next of Kin / Representative Name")}</label>
               <input
                 type="text"
                 value={formData.nok_name}
@@ -1142,9 +1022,7 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-red-500 uppercase tracking-widest">
-                Relationship to Patient
-              </label>
+              <label className="block text-[10px] font-black text-red-500 uppercase tracking-widest">{i18n.t("Relationship to Patient")}</label>
               <input
                 type="text"
                 value={formData.nok_relationship}
@@ -1156,17 +1034,13 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-red-500 uppercase tracking-widest">
-                Responsible Obstetrician Signature
-              </label>
+              <label className="block text-[10px] font-black text-red-500 uppercase tracking-widest">{i18n.t("Responsible Obstetrician Signature")}</label>
               <div className="h-32 border-2 border-dashed border-red-200 rounded-xl bg-white overflow-hidden">
                 {renderSignatureBox("emergency_obstetrician_signature", "Emergency Obstetrician")}
               </div>
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-red-500 uppercase tracking-widest">
-                Second Senior Clinician Witness Signature
-              </label>
+              <label className="block text-[10px] font-black text-red-500 uppercase tracking-widest">{i18n.t("Second Senior Clinician Witness Signature")}</label>
               <div className="h-32 border-2 border-dashed border-red-200 rounded-xl bg-white overflow-hidden">
                 {renderSignatureBox("emergency_witness_signature", "Second Senior Clinician Witness")}
               </div>
@@ -1176,28 +1050,22 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
 
         {/* Part M — Confirmation & Withdrawal */}
         <section>
-          <div className="bg-[#475569] text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ml-4">
-            Part M — Confirmation & Withdrawal
-          </div>
+          <div className="bg-[#475569] text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part M — Confirmation & Withdrawal")}</div>
           <div className="border-4 border-slate-900 rounded-3xl p-8 bg-slate-50 grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-3">
-              <label className="block text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                Confirming Clinician (Immediately before op)
-              </label>
+              <label className="block text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Confirming Clinician (Immediately before op)")}</label>
               <div className="h-36 border-2 border-dashed border-slate-200 rounded-2xl bg-white overflow-hidden">
                 {renderSignatureBox("confirmation_clinician_signature", "Confirming Clinician Signature")}
               </div>
             </div>
             <div className="space-y-3">
-              <label className="block text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                Withdrawal Notes (If applicable)
-              </label>
+              <label className="block text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Withdrawal Notes (If applicable)")}</label>
               <textarea
                 rows={2}
                 value={formData.withdrawal_reason}
                 onChange={(e) => handleInputChange("withdrawal_reason", e.target.value)}
                 readOnly={readOnly}
-                placeholder="Reason if mother revokes consent before commencement"
+                placeholder={i18n.t("Reason if mother revokes consent before commencement")}
                 className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none resize-none ${
                   readOnly ? "bg-slate-100" : "bg-white focus:border-[#1e1b4b]"
                 }`}
@@ -1223,7 +1091,7 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
           disabled={submitting}
           className="px-8 py-3 rounded-2xl font-black text-slate-500 hover:bg-slate-200 transition-all uppercase tracking-widest text-sm"
         >
-          {readOnly ? "Close" : "Discard Form"}
+          {readOnly ? i18n.t("Close") : i18n.t("Discard Form")}
         </button>
         <div className="flex gap-4">
           {!readOnly && (
@@ -1235,7 +1103,7 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
                 className="bg-amber-500 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-[0.1em] text-sm shadow-xl hover:bg-amber-600 transition-all flex items-center gap-2 disabled:opacity-50"
               >
                 {submitting ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
-                {submitting ? "Saving..." : "Save Draft"}
+                {submitting ? i18n.t("Saving...") : i18n.t("Save Draft")}
               </button>
 
               <button
@@ -1245,7 +1113,7 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
                 className="bg-[#1e1b4b] text-white px-10 py-4 rounded-2xl font-black uppercase tracking-[0.2em] text-sm shadow-2xl shadow-indigo-950/30 hover:scale-105 active:scale-95 transition-all flex items-center gap-3 disabled:opacity-50 disabled:grayscale disabled:scale-100"
               >
                 {submitting ? <Loader2 className="animate-spin" size={20} /> : <CheckCircle size={20} />}
-                {submitting ? "Finalizing..." : "Submit & Print Consent"}
+                {submitting ? i18n.t("Finalizing...") : i18n.t("Submit & Print Consent")}
               </button>
             </>
           )}
@@ -1255,8 +1123,7 @@ const CsDeliveryConsentForm: React.FC<CsDeliveryConsentFormProps> = ({
               onClick={onPrint || (() => window.print())}
               className="bg-[#1e1b4b] text-white px-10 py-4 rounded-2xl font-black uppercase tracking-[0.2em] text-sm shadow-2xl transition-all flex items-center gap-3"
             >
-              <Printer size={20} /> View Full PDF / Print
-            </button>
+              <Printer size={20} />{" "}{i18n.t("View Full PDF / Print")}</button>
           )}
         </div>
       </div>

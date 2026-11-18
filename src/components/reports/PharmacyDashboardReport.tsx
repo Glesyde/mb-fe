@@ -13,6 +13,7 @@ import {
   Pagination,
   usePagedRows,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const PharmacyDashboardReport: React.FC = () => {
   const [metadata, setMetadata] = useState<any>(null);
@@ -92,8 +93,8 @@ const PharmacyDashboardReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Pharmacy Report"
-      subtitle="Enterprise pharmacy dashboard — top drugs, prescribers, workload, and active backlog."
+      title={i18n.t("Pharmacy Report")}
+      subtitle={i18n.t("Enterprise pharmacy dashboard — top drugs, prescribers, workload, and active backlog.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.report_period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -116,7 +117,7 @@ const PharmacyDashboardReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="">All Prescribing Doctors</option>
+              <option value="">{i18n.t("All Prescribing Doctors")}</option>
               {doctors.map((d) => (
                 <option key={d.doctor_id} value={`${d.first_name} ${d.last_name}`}>{d.first_name} {d.last_name}</option>
               ))}
@@ -129,7 +130,7 @@ const PharmacyDashboardReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="">All Dispensed By</option>
+              <option value="">{i18n.t("All Dispensed By")}</option>
               {users.map((u) => (
                 <option key={u.id} value={`${u.first_name} ${u.last_name}`}>{u.first_name} {u.last_name}</option>
               ))}
@@ -142,22 +143,22 @@ const PharmacyDashboardReport: React.FC = () => {
       }
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <KpiCard icon={Pill} label="Total Prescriptions" value={kpis?.total_prescriptions ?? 0} colorClass="bg-blue-50 border-blue-100 text-blue-900" />
-        <KpiCard icon={TrendingUp} label="Total Gross Revenue" value={formatCurrency(kpis?.total_gross_revenue)} colorClass="bg-emerald-50 border-emerald-100 text-emerald-900" />
-        <KpiCard icon={AlertTriangle} label="Active Bottlenecks" value={kpis?.active_bottlenecks ?? 0} colorClass="bg-red-50 border-red-100 text-red-900" />
+        <KpiCard icon={Pill} label={i18n.t("Total Prescriptions")} value={kpis?.total_prescriptions ?? 0} colorClass="bg-blue-50 border-blue-100 text-blue-900" />
+        <KpiCard icon={TrendingUp} label={i18n.t("Total Gross Revenue")} value={formatCurrency(kpis?.total_gross_revenue)} colorClass="bg-emerald-50 border-emerald-100 text-emerald-900" />
+        <KpiCard icon={AlertTriangle} label={i18n.t("Active Bottlenecks")} value={kpis?.active_bottlenecks ?? 0} colorClass="bg-red-50 border-red-100 text-red-900" />
       </div>
 
       <div className="mt-6">
-        <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">Top Dispensed Drugs</h3>
+        <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">{i18n.t("Top Dispensed Drugs")}</h3>
         <div className="overflow-x-auto rounded-xl border border-slate-200">
-          <table className="w-full text-left text-sm whitespace-nowrap">
+          <table className="w-full text-start text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200">
               <tr>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Drug</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Type</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Prescriptions</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Units Ordered</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Revenue</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Drug")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Type")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Prescriptions")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Units Ordered")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Revenue")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -165,12 +166,12 @@ const PharmacyDashboardReport: React.FC = () => {
                 <tr key={i} className="hover:bg-slate-50/80 transition-colors">
                   <td className="px-4 py-3 font-semibold text-slate-700">{renderValue(row.drug_name)}</td>
                   <td className="px-4 py-3 text-slate-500">{renderValue(row.item_type)}</td>
-                  <td className="px-4 py-3 text-slate-700 text-right">{renderValue(row.total_prescriptions)}</td>
-                  <td className="px-4 py-3 text-slate-700 text-right">{renderValue(row.total_units_ordered)}</td>
-                  <td className="px-4 py-3 font-bold text-slate-800 text-right">{formatCurrency(row.revenue_generated)}</td>
+                  <td className="px-4 py-3 text-slate-700 text-end">{renderValue(row.total_prescriptions)}</td>
+                  <td className="px-4 py-3 text-slate-700 text-end">{renderValue(row.total_units_ordered)}</td>
+                  <td className="px-4 py-3 font-bold text-slate-800 text-end">{formatCurrency(row.revenue_generated)}</td>
                 </tr>
               )) : (
-                <tr><td colSpan={5} className="px-4 py-8 text-center text-slate-400 italic">No dispensing data.</td></tr>
+                <tr><td colSpan={5} className="px-4 py-8 text-center text-slate-400 italic">{i18n.t("No dispensing data.")}</td></tr>
               )}
             </tbody>
           </table>
@@ -191,25 +192,25 @@ const PharmacyDashboardReport: React.FC = () => {
       </div>
 
       <div className="mt-6">
-        <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">Prescribing Doctors</h3>
+        <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">{i18n.t("Prescribing Doctors")}</h3>
         <div className="overflow-x-auto rounded-xl border border-slate-200">
-          <table className="w-full text-left text-sm whitespace-nowrap">
+          <table className="w-full text-start text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200">
               <tr>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Prescribing Doctor</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Prescriptions Written</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Revenue</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Prescribing Doctor")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Prescriptions Written")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Revenue")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {prescribingDoctorsPage.pageRows.length > 0 ? prescribingDoctorsPage.pageRows.map((row, i) => (
                 <tr key={i} className="hover:bg-slate-50/80 transition-colors">
                   <td className="px-4 py-3 font-bold text-slate-800">{renderValue(row.prescribing_doctor)}</td>
-                  <td className="px-4 py-3 text-slate-700 text-right">{renderValue(row.total_prescriptions_written)}</td>
-                  <td className="px-4 py-3 font-bold text-slate-800 text-right">{formatCurrency(row.revenue_generated)}</td>
+                  <td className="px-4 py-3 text-slate-700 text-end">{renderValue(row.total_prescriptions_written)}</td>
+                  <td className="px-4 py-3 font-bold text-slate-800 text-end">{formatCurrency(row.revenue_generated)}</td>
                 </tr>
               )) : (
-                <tr><td colSpan={3} className="px-4 py-8 text-center text-slate-400 italic">No prescriber data.</td></tr>
+                <tr><td colSpan={3} className="px-4 py-8 text-center text-slate-400 italic">{i18n.t("No prescriber data.")}</td></tr>
               )}
             </tbody>
           </table>
@@ -230,25 +231,25 @@ const PharmacyDashboardReport: React.FC = () => {
       </div>
 
       <div className="mt-6">
-        <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">Workload Distribution</h3>
+        <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">{i18n.t("Workload Distribution")}</h3>
         <div className="overflow-x-auto rounded-xl border border-slate-200">
-          <table className="w-full text-left text-sm whitespace-nowrap">
+          <table className="w-full text-start text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200">
               <tr>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Patient Origin</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Prescription Volume</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Revenue</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Patient Origin")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Prescription Volume")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Revenue")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {workloadDistributionPage.pageRows.length > 0 ? workloadDistributionPage.pageRows.map((row, i) => (
                 <tr key={i} className="hover:bg-slate-50/80 transition-colors">
                   <td className="px-4 py-3 font-bold text-slate-800">{renderValue(row.patient_origin)}</td>
-                  <td className="px-4 py-3 text-slate-700 text-right">{renderValue(row.prescription_volume)}</td>
-                  <td className="px-4 py-3 font-bold text-slate-800 text-right">{formatCurrency(row.revenue_generated)}</td>
+                  <td className="px-4 py-3 text-slate-700 text-end">{renderValue(row.prescription_volume)}</td>
+                  <td className="px-4 py-3 font-bold text-slate-800 text-end">{formatCurrency(row.revenue_generated)}</td>
                 </tr>
               )) : (
-                <tr><td colSpan={3} className="px-4 py-8 text-center text-slate-400 italic">No workload data.</td></tr>
+                <tr><td colSpan={3} className="px-4 py-8 text-center text-slate-400 italic">{i18n.t("No workload data.")}</td></tr>
               )}
             </tbody>
           </table>
@@ -269,9 +270,9 @@ const PharmacyDashboardReport: React.FC = () => {
       </div>
 
       <div className="mt-6">
-        <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">Active Backlog</h3>
+        <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">{i18n.t("Active Backlog")}</h3>
         <div className="overflow-x-auto rounded-xl border border-slate-200">
-          <table className="w-full text-left text-sm whitespace-nowrap">
+          <table className="w-full text-start text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200">
               <tr>
                 {backlogHeaders.length > 0 ? backlogHeaders.map((header) => (
@@ -279,7 +280,7 @@ const PharmacyDashboardReport: React.FC = () => {
                     {header.replace(/_/g, " ")}
                   </th>
                 )) : (
-                  <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Backlog</th>
+                  <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Backlog")}</th>
                 )}
               </tr>
             </thead>
@@ -291,7 +292,7 @@ const PharmacyDashboardReport: React.FC = () => {
                   ))}
                 </tr>
               )) : (
-                <tr><td colSpan={backlogHeaders.length || 1} className="px-4 py-8 text-center text-slate-400 italic">No active backlog.</td></tr>
+                <tr><td colSpan={backlogHeaders.length || 1} className="px-4 py-8 text-center text-slate-400 italic">{i18n.t("No active backlog.")}</td></tr>
               )}
             </tbody>
           </table>

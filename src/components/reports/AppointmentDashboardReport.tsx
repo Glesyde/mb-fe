@@ -11,6 +11,7 @@ import {
   Pagination,
   usePagedRows,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const AppointmentDashboardReport: React.FC = () => {
   const [metadata, setMetadata] = useState<any>(null);
@@ -64,8 +65,8 @@ const AppointmentDashboardReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Appointments Dashboard"
-      subtitle="Enterprise appointments overview — visit outcomes, doctor utilization, and specialty demand."
+      title={i18n.t("Appointments Dashboard")}
+      subtitle={i18n.t("Enterprise appointments overview — visit outcomes, doctor utilization, and specialty demand.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.report_period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -86,25 +87,25 @@ const AppointmentDashboardReport: React.FC = () => {
       }
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        <KpiCard icon={CalendarCheck} label="Total Appointments" value={kpis?.total_appointments ?? 0} colorClass="bg-blue-50 border-blue-100 text-blue-900" />
-        <KpiCard icon={CheckCircle2} label="Completed Visits" value={kpis?.completed_visits ?? 0} colorClass="bg-emerald-50 border-emerald-100 text-emerald-900" />
-        <KpiCard icon={XCircle} label="Cancelled Visits" value={kpis?.cancelled_visits ?? 0} colorClass="bg-red-50 border-red-100 text-red-900" />
-        <KpiCard icon={UserX} label="No Shows" value={kpis?.no_shows ?? 0} colorClass="bg-amber-50 border-amber-100 text-amber-900" />
-        <KpiCard icon={Clock} label="Pending Visits" value={kpis?.pending_visits ?? 0} colorClass="bg-purple-50 border-purple-100 text-purple-900" />
-        <KpiCard icon={Users} label="Unique Patients" value={kpis?.unique_patients ?? 0} colorClass="bg-slate-50 border-slate-200 text-slate-900" />
+        <KpiCard icon={CalendarCheck} label={i18n.t("Total Appointments")} value={kpis?.total_appointments ?? 0} colorClass="bg-blue-50 border-blue-100 text-blue-900" />
+        <KpiCard icon={CheckCircle2} label={i18n.t("Completed Visits")} value={kpis?.completed_visits ?? 0} colorClass="bg-emerald-50 border-emerald-100 text-emerald-900" />
+        <KpiCard icon={XCircle} label={i18n.t("Cancelled Visits")} value={kpis?.cancelled_visits ?? 0} colorClass="bg-red-50 border-red-100 text-red-900" />
+        <KpiCard icon={UserX} label={i18n.t("No Shows")} value={kpis?.no_shows ?? 0} colorClass="bg-amber-50 border-amber-100 text-amber-900" />
+        <KpiCard icon={Clock} label={i18n.t("Pending Visits")} value={kpis?.pending_visits ?? 0} colorClass="bg-purple-50 border-purple-100 text-purple-900" />
+        <KpiCard icon={Users} label={i18n.t("Unique Patients")} value={kpis?.unique_patients ?? 0} colorClass="bg-slate-50 border-slate-200 text-slate-900" />
       </div>
 
       <div className="mt-6">
-        <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">Doctor Utilization</h3>
+        <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">{i18n.t("Doctor Utilization")}</h3>
         <div className="overflow-x-auto rounded-xl border border-slate-200">
-          <table className="w-full text-left text-sm whitespace-nowrap">
+          <table className="w-full text-start text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200">
               <tr>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Doctor</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Specialization</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Total Appointments</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Completed</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Cancelled</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Doctor")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Specialization")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Total Appointments")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Completed")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Cancelled")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -112,12 +113,12 @@ const AppointmentDashboardReport: React.FC = () => {
                 <tr key={i} className="hover:bg-slate-50/80 transition-colors">
                   <td className="px-4 py-3 font-bold text-slate-800">{renderValue(row.doctor_name)}</td>
                   <td className="px-4 py-3 text-slate-700">{renderValue(row.specialization)}</td>
-                  <td className="px-4 py-3 text-slate-700 text-right">{renderValue(row.total_appointments)}</td>
-                  <td className="px-4 py-3 text-slate-700 text-right">{renderValue(row.completed)}</td>
-                  <td className="px-4 py-3 text-slate-700 text-right">{renderValue(row.cancelled)}</td>
+                  <td className="px-4 py-3 text-slate-700 text-end">{renderValue(row.total_appointments)}</td>
+                  <td className="px-4 py-3 text-slate-700 text-end">{renderValue(row.completed)}</td>
+                  <td className="px-4 py-3 text-slate-700 text-end">{renderValue(row.cancelled)}</td>
                 </tr>
               )) : (
-                <tr><td colSpan={5} className="px-4 py-8 text-center text-slate-400 italic">No doctor utilization data.</td></tr>
+                <tr><td colSpan={5} className="px-4 py-8 text-center text-slate-400 italic">{i18n.t("No doctor utilization data.")}</td></tr>
               )}
             </tbody>
           </table>
@@ -138,23 +139,23 @@ const AppointmentDashboardReport: React.FC = () => {
       </div>
 
       <div className="mt-6">
-        <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">Specialty Demand</h3>
+        <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">{i18n.t("Specialty Demand")}</h3>
         <div className="overflow-x-auto rounded-xl border border-slate-200">
-          <table className="w-full text-left text-sm whitespace-nowrap">
+          <table className="w-full text-start text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200">
               <tr>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Specialization</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Total Volume</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Specialization")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Total Volume")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {specialtyDemandPage.pageRows.length > 0 ? specialtyDemandPage.pageRows.map((row, i) => (
                 <tr key={i} className="hover:bg-slate-50/80 transition-colors">
                   <td className="px-4 py-3 font-semibold text-slate-700">{renderValue(row.specialization)}</td>
-                  <td className="px-4 py-3 font-bold text-slate-800 text-right">{renderValue(row.total_volume)}</td>
+                  <td className="px-4 py-3 font-bold text-slate-800 text-end">{renderValue(row.total_volume)}</td>
                 </tr>
               )) : (
-                <tr><td colSpan={2} className="px-4 py-8 text-center text-slate-400 italic">No specialty demand data.</td></tr>
+                <tr><td colSpan={2} className="px-4 py-8 text-center text-slate-400 italic">{i18n.t("No specialty demand data.")}</td></tr>
               )}
             </tbody>
           </table>

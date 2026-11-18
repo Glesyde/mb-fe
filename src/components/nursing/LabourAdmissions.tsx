@@ -7,6 +7,7 @@ import StartSessionModal from "./StartSessionModal";
 import SessionActionsModal from "./SessionActionsModal";
 import EditSessionModal from "./EditSessionModal";
 import { useNotification } from "../../context/NotificationContext";
+import { i18n } from "../../i18n";
 
 const LabourAdmissions: React.FC = () => {
   const [admissions, setAdmissions] = useState<LabourListRecord[]>([]);
@@ -79,7 +80,7 @@ const LabourAdmissions: React.FC = () => {
   };
 
   const handleDeleteSession = async (sessionId: number) => {
-    if (window.confirm("Are you sure you want to delete this labour session? This cannot be undone.")) {
+    if (window.confirm(i18n.t("Are you sure you want to delete this labour session? This cannot be undone."))) {
       try {
         const res = await nursingService.deleteLabourSession(sessionId);
         if (res.status === "success") {
@@ -152,14 +153,14 @@ const LabourAdmissions: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-white p-5 rounded-[28px] border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Pending Admissions</p>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Pending Admissions")}</p>
             <p className="text-3xl font-black text-slate-800">{unifiedAdmissions.length}</p>
           </div>
           <div className="p-3 bg-brand-active text-brand-primary rounded-2xl"><ClipboardList size={22}/></div>
         </div>
         <div className="bg-white p-5 rounded-[28px] border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Active Labour Sessions</p>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Active Labour Sessions")}</p>
             <p className="text-3xl font-black text-emerald-600">{unifiedSessions.length || '—'}</p>
           </div>
           <div className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl"><Activity size={22}/></div>
@@ -180,9 +181,7 @@ const LabourAdmissions: React.FC = () => {
                   ? 'bg-white text-brand-primary shadow-sm'
                   : 'text-slate-500 hover:text-slate-800'
               }`}
-            >
-              Admission List
-            </button>
+            >{i18n.t("Admission List")}</button>
             <button
               onClick={() => setActiveTab('sessions')}
               className={`px-5 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-widest transition-all whitespace-nowrap ${
@@ -190,19 +189,17 @@ const LabourAdmissions: React.FC = () => {
                   ? 'bg-white text-emerald-600 shadow-sm'
                   : 'text-slate-500 hover:text-slate-800'
               }`}
-            >
-              Active Sessions
-            </button>
+            >{i18n.t("Active Sessions")}</button>
           </div>
 
           {/* Search + Refresh */}
-          <div className="flex items-center gap-3 ml-auto">
+          <div className="flex items-center gap-3 ms-auto">
             <div className="relative w-72">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
+              <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
               <input
                 type="text"
-                placeholder="Search by name, MRN, or admission no..."
-                className="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-brand-primary/10 focus:border-brand-primary/40 transition-all font-medium"
+                placeholder={i18n.t("Search by name, MRN, or admission no...")}
+                className="w-full ps-11 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-brand-primary/10 focus:border-brand-primary/40 transition-all font-medium"
                 value={activeTab === 'admissions' ? searchAdmissions : searchSessions}
                 onChange={(e) => activeTab === 'admissions' ? setSearchAdmissions(e.target.value) : setSearchSessions(e.target.value)}
               />
@@ -211,8 +208,7 @@ const LabourAdmissions: React.FC = () => {
               onClick={fetchData}
               className="flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-slate-600 bg-slate-50 border border-slate-200 rounded-2xl hover:bg-slate-100 transition-all"
             >
-              <RefreshCw size={15} className={loading ? 'animate-spin' : ''} /> Refresh
-            </button>
+              <RefreshCw size={15} className={loading ? 'animate-spin' : ''} />{" "}{i18n.t("Refresh")}</button>
           </div>
         </div>
 
@@ -220,22 +216,22 @@ const LabourAdmissions: React.FC = () => {
         <div className="px-8 py-4 border-b border-slate-100 bg-slate-50/30">
           <h3 className={`text-xs font-black uppercase tracking-widest flex items-center gap-2 ${activeTab === 'admissions' ? 'text-brand-primary' : 'text-emerald-600'}`}>
             {activeTab === 'admissions' ? <ClipboardList size={14} /> : <Activity size={14} />}
-            {activeTab === 'admissions' ? 'Pending Labour Admissions' : 'Active Labour Sessions'}
+            {activeTab === 'admissions' ? i18n.t("Pending Labour Admissions") : i18n.t("Active Labour Sessions")}
           </h3>
         </div>
 
         {/* Data Table */}
         <div className="overflow-x-auto pb-24 min-h-[400px]">
-          <table className="w-full text-left">
+          <table className="w-full text-start">
             <thead>
               <tr className="border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                <th className="px-6 py-4">Patient Details</th>
-                <th className="px-6 py-4">Admission Info</th>
+                <th className="px-6 py-4">{i18n.t("Patient Details")}</th>
+                <th className="px-6 py-4">{i18n.t("Admission Info")}</th>
                 {activeTab === "sessions" && (
-                  <th className="px-6 py-4">Labour Status</th>
+                  <th className="px-6 py-4">{i18n.t("Labour Status")}</th>
                 )}
-                <th className="px-6 py-4">Location</th>
-                <th className="px-6 py-4 text-right">Actions</th>
+                <th className="px-6 py-4">{i18n.t("Location")}</th>
+                <th className="px-6 py-4 text-end">{i18n.t("Actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -243,7 +239,7 @@ const LabourAdmissions: React.FC = () => {
                 <tr>
                   <td colSpan={5} className="py-20 text-center">
                     <Loader2 size={36} className={`animate-spin mx-auto mb-3 ${activeTab === 'admissions' ? 'text-brand-primary' : 'text-emerald-600'}`} />
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Loading Records...</p>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Loading Records...")}</p>
                   </td>
                 </tr>
               ) : currentFilteredData.length === 0 ? (
@@ -254,7 +250,7 @@ const LabourAdmissions: React.FC = () => {
                     ) : (
                       <Activity size={40} className="mx-auto text-slate-300 mb-4" />
                     )}
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">No records found</p>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{i18n.t("No records found")}</p>
                   </td>
                 </tr>
               ) : currentFilteredData.map((item) => (
@@ -267,8 +263,8 @@ const LabourAdmissions: React.FC = () => {
                       <div>
                         <p className="text-sm font-black text-slate-800">{item.patient_name}</p>
                         <div className="flex flex-wrap items-center gap-1.5 mt-0.5">
-                          <span className="text-[10px] font-mono font-bold text-brand-primary">MRN: {item.mrn}</span>
-                          {item.dob && <span className="text-[10px] font-bold text-slate-400">• DOB: {item.dob}</span>}
+                          <span className="text-[10px] font-mono font-bold text-brand-primary">{i18n.t("MRN:")}{" "}{item.mrn}</span>
+                          {item.dob && <span className="text-[10px] font-bold text-slate-400">{i18n.t("• DOB:")}{" "}{item.dob}</span>}
                         </div>
                       </div>
                     </div>
@@ -285,10 +281,10 @@ const LabourAdmissions: React.FC = () => {
                     <td className="px-6 py-4">
                       <div className="flex flex-col gap-1.5">
                         <span className="inline-flex px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest border bg-emerald-50 text-emerald-700 border-emerald-200 w-fit">
-                          {item.status || "Active"}
+                          {i18n.tv(item.status) || i18n.t("Active")}
                         </span>
                         <span className="text-[10px] font-medium text-slate-400 mt-1">
-                          {item.hours ? `${item.hours} hrs in labour` : (item.weeks ? `${item.weeks} weeks` : "N/A")}
+                          {item.hours ? `${item.hours} hrs in labour` : (item.weeks ? `${item.weeks} weeks` : i18n.t("N/A"))}
                         </span>
                       </div>
                     </td>
@@ -299,18 +295,17 @@ const LabourAdmissions: React.FC = () => {
                       {item.ward}
                     </div>
                     {item.location && (
-                      <p className="text-[10px] text-slate-400 font-medium mt-0.5 ml-4.5">{item.location}</p>
+                      <p className="text-[10px] text-slate-400 font-medium mt-0.5 ms-4.5">{item.location}</p>
                     )}
                   </td>
-                  <td className="px-6 py-4 text-right relative">
+                  <td className="px-6 py-4 text-end relative">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         setActiveActionModal(item);
                       }}
                       className="px-4 py-2 bg-slate-800 text-white text-xs font-bold rounded-full hover:bg-slate-700 transition-colors inline-flex items-center gap-2"
-                    >
-                      Action <span className="text-[10px]">▼</span>
+                    >{i18n.t("Action")}{" "}<span className="text-[10px]">▼</span>
                     </button>
                   </td>
                 </tr>

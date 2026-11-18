@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Plus, Trash2, Layers, ShieldCheck, AlertCircle, Building2 } from 'lucide-react';
+import { i18n } from "../i18n";
 
 const INITIAL_DEPARTMENTS = [
   'General Outpatient (GOPD)',
@@ -33,25 +34,25 @@ const DepartmentSetup: React.FC = () => {
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex items-center justify-between mb-2">
         <div>
-          <h3 className="text-2xl font-black text-slate-800 tracking-tight">Clinical Departments & Units</h3>
-          <p className="text-sm font-medium text-slate-500 mt-1">Configure and index active hospital clinical modules.</p>
+          <h3 className="text-2xl font-black text-slate-800 tracking-tight">{i18n.t("Clinical Departments & Units")}</h3>
+          <p className="text-sm font-medium text-slate-500 mt-1">{i18n.t("Configure and index active hospital clinical modules.")}</p>
         </div>
         <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-600 rounded-2xl border border-emerald-100">
           <ShieldCheck size={16} />
-          <span className="text-[10px] font-black uppercase tracking-widest">HL7 Registry Synced</span>
+          <span className="text-[10px] font-black uppercase tracking-widest">{i18n.t("HL7 Registry Synced")}</span>
         </div>
       </div>
 
       <div className="bg-slate-50 p-10 rounded-[44px] border border-slate-200/60 shadow-inner">
         <div className="max-w-2xl mx-auto space-y-4">
-           <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 block text-center">Register New Hospital Unit</label>
+           <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1 block text-center">{i18n.t("Register New Hospital Unit")}</label>
            <div className="flex flex-col md:flex-row gap-3">
             <div className="relative flex-1 group">
-              <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-primary transition-colors" size={18} />
+              <Building2 className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-primary transition-colors" size={18} />
               <input 
                 type="text" 
-                placeholder="e.g. Intensive Care Unit (ICU)" 
-                className="w-full pl-11 pr-5 py-4 bg-white border-2 border-transparent rounded-[24px] text-sm font-bold outline-none focus:border-brand-active0 focus:ring-8 focus:ring-brand-active0/5 transition-all shadow-sm"
+                placeholder={i18n.t("e.g. Intensive Care Unit (ICU)")} 
+                className="w-full ps-11 pe-5 py-4 bg-white border-2 border-transparent rounded-[24px] text-sm font-bold outline-none focus:border-brand-active0 focus:ring-8 focus:ring-brand-active0/5 transition-all shadow-sm"
                 value={newDept}
                 onChange={(e) => setNewDept(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleAddDept()}
@@ -62,8 +63,7 @@ const DepartmentSetup: React.FC = () => {
               disabled={!newDept.trim()}
               className="bg-slate-900 text-white px-10 py-4 rounded-[24px] font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-brand-primary transition-all shadow-xl active:scale-95 disabled:opacity-30"
             >
-              <Plus size={20} /> Add Dept
-            </button>
+              <Plus size={20} />{" "}{i18n.t("Add Dept")}</button>
           </div>
         </div>
       </div>
@@ -88,10 +88,8 @@ const DepartmentSetup: React.FC = () => {
       <div className="bg-amber-50 border border-amber-100 p-8 rounded-[40px] flex items-start gap-4">
          <AlertCircle className="text-amber-600 flex-shrink-0" size={28} />
          <div>
-            <h4 className="text-sm font-black text-amber-900 uppercase tracking-widest">Administrative Guardrail</h4>
-            <p className="text-xs text-amber-700 font-bold leading-relaxed uppercase mt-1">
-              Note: Removal of a department does not delete associated clinical or financial archives. It only restricts the unit from appearing in future triage and admission dropdowns.
-            </p>
+            <h4 className="text-sm font-black text-amber-900 uppercase tracking-widest">{i18n.t("Administrative Guardrail")}</h4>
+            <p className="text-xs text-amber-700 font-bold leading-relaxed uppercase mt-1">{i18n.t("Note: Removal of a department does not delete associated clinical or financial archives. It only restricts the unit from appearing in future triage and admission dropdowns.")}</p>
          </div>
       </div>
     </div>

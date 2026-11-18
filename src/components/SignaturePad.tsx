@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Eraser, PenTool, CheckCircle, Maximize2 } from 'lucide-react';
 import { createPortal } from 'react-dom';
+import { i18n } from "../i18n";
 
 interface SignaturePadProps {
   onEnd?: (dataUrl: string) => void;
@@ -184,15 +185,13 @@ const SignaturePad: React.FC<SignaturePadProps> = ({ onEnd, onClear, className =
           
           <div className="bg-[#1e1b4b] text-white p-4 flex justify-between items-center shrink-0 shadow-md z-10">
             <div>
-              <h3 className="font-black tracking-widest uppercase text-sm">Please Sign Below</h3>
-              <p className="text-xs text-brand-active opacity-70">Use your finger or a stylus to draw your signature</p>
+              <h3 className="font-black tracking-widest uppercase text-sm">{i18n.t("Please Sign Below")}</h3>
+              <p className="text-xs text-brand-active opacity-70">{i18n.t("Use your finger or a stylus to draw your signature")}</p>
             </div>
             <button 
               onClick={() => setIsFullScreen(false)}
               className="text-white hover:text-red-400 font-bold px-4 py-2 rounded-lg transition-colors text-sm uppercase tracking-wider"
-            >
-              Cancel
-            </button>
+            >{i18n.t("Cancel")}</button>
           </div>
 
           <div className="flex-1 relative bg-slate-50 w-full h-full">
@@ -213,7 +212,7 @@ const SignaturePad: React.FC<SignaturePadProps> = ({ onEnd, onClear, className =
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
                 <div className="text-center">
                   <PenTool size={64} className="mx-auto mb-4 text-slate-400" />
-                  <p className="text-xl font-bold text-slate-400 uppercase tracking-widest">Sign Here</p>
+                  <p className="text-xl font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Sign Here")}</p>
                 </div>
               </div>
             )}
@@ -224,15 +223,13 @@ const SignaturePad: React.FC<SignaturePadProps> = ({ onEnd, onClear, className =
               onClick={handleClear}
               className="flex items-center gap-2 px-6 py-3 bg-white text-slate-600 border-2 border-slate-300 rounded-xl font-bold uppercase tracking-wider hover:bg-slate-50 hover:text-red-500 hover:border-red-300 transition-all active:scale-95"
             >
-              <Eraser size={18} /> Clear
-            </button>
+              <Eraser size={18} />{" "}{i18n.t("Clear")}</button>
             <button
               onClick={handleDone}
               disabled={!hasSignature}
               className="flex items-center gap-2 px-10 py-3 bg-[#1e1b4b] text-white rounded-xl font-black uppercase tracking-[0.1em] shadow-lg hover:bg-[#2d258a] transition-all disabled:opacity-50 disabled:grayscale active:scale-95"
             >
-              <CheckCircle size={20} /> Done Signing
-            </button>
+              <CheckCircle size={20} />{" "}{i18n.t("Done Signing")}</button>
           </div>
 
         </div>
@@ -253,16 +250,15 @@ const SignaturePad: React.FC<SignaturePadProps> = ({ onEnd, onClear, className =
       >
         {internalDataUrl ? (
           <div className="w-full h-full p-2 relative flex items-center justify-center">
-            <img src={internalDataUrl} alt="Signature" className="max-h-full max-w-full object-contain mx-auto" />
+            <img src={internalDataUrl} alt={i18n.t("Signature")} className="max-h-full max-w-full object-contain mx-auto" />
             <div className="absolute inset-0 bg-white/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-xl">
               <span className="bg-[#1e1b4b] text-white font-bold px-4 py-2 rounded-lg shadow-md flex items-center gap-2 uppercase tracking-widest text-xs">
-                <Maximize2 size={14} /> Tap to edit
-              </span>
+                <Maximize2 size={14} />{" "}{i18n.t("Tap to edit")}</span>
             </div>
             <button
               onClick={handleClearInternal}
-              className="absolute top-2 right-2 p-2 bg-white/90 backdrop-blur-sm rounded-lg text-slate-500 hover:text-red-500 hover:bg-red-50 transition-colors shadow-sm border border-slate-200 z-10"
-              title="Clear Signature"
+              className="absolute top-2 end-2 p-2 bg-white/90 backdrop-blur-sm rounded-lg text-slate-500 hover:text-red-500 hover:bg-red-50 transition-colors shadow-sm border border-slate-200 z-10"
+              title={i18n.t("Clear Signature")}
             >
               <Eraser size={16} />
             </button>
@@ -272,7 +268,7 @@ const SignaturePad: React.FC<SignaturePadProps> = ({ onEnd, onClear, className =
             <div className="bg-slate-200/50 p-4 rounded-full mb-3 group-hover:bg-[#1e1b4b] group-hover:text-white transition-colors shadow-sm group-hover:shadow-md">
                <Maximize2 size={24} className="text-slate-500 group-hover:text-white transition-colors" />
             </div>
-            <p className="text-[10px] font-black text-slate-400 group-hover:text-[#1e1b4b] uppercase tracking-[0.2em] transition-colors">Tap anywhere to sign</p>
+            <p className="text-[10px] font-black text-slate-400 group-hover:text-[#1e1b4b] uppercase tracking-[0.2em] transition-colors">{i18n.t("Tap anywhere to sign")}</p>
           </div>
         )}
       </div>

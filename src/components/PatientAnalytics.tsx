@@ -24,6 +24,7 @@ import {
   YAxis,
 } from "recharts";
 import apiClient from "../api/client";
+import { i18n } from "../i18n";
 
 const PatientAnalytics: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -65,9 +66,7 @@ const PatientAnalytics: React.FC = () => {
       {/* Stat Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm">
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-            Total Visits Today
-          </p>
+          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Total Visits Today")}</p>
           {loading ? (
             <Loader size={28} className="animate-spin text-indigo-400 mt-4" />
           ) : (
@@ -76,15 +75,11 @@ const PatientAnalytics: React.FC = () => {
             </p>
           )}
           <div className="mt-4 flex items-center gap-1.5 text-xs font-bold text-indigo-600">
-            <TrendingUp size={14} /> {growth.expected_growth || "+0%"} projected
-            growth
-          </div>
+            <TrendingUp size={14} /> {growth.expected_growth || "+0%"}{" "}{i18n.t("projected growth")}</div>
         </div>
 
         <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm">
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-            New vs Returning
-          </p>
+          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("New vs Returning")}</p>
           {loading ? (
             <Loader size={28} className="animate-spin text-emerald-400 mt-4" />
           ) : (
@@ -93,37 +88,29 @@ const PatientAnalytics: React.FC = () => {
                 <p className="text-3xl font-black text-emerald-600">
                   {visits.new ?? 0}
                 </p>
-                <p className="text-[8px] font-bold text-slate-400 uppercase">
-                  New
-                </p>
+                <p className="text-[8px] font-bold text-slate-400 uppercase">{i18n.t("New")}</p>
               </div>
               <div className="h-8 w-px bg-slate-100" />
               <div>
                 <p className="text-3xl font-black text-indigo-600">
                   {visits.returning ?? 0}
                 </p>
-                <p className="text-[8px] font-bold text-slate-400 uppercase">
-                  Returning
-                </p>
+                <p className="text-[8px] font-bold text-slate-400 uppercase">{i18n.t("Returning")}</p>
               </div>
             </div>
           )}
         </div>
 
         <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm">
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-            Avg Wait Time
-          </p>
+          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Avg Wait Time")}</p>
           {loading ? (
             <Loader size={28} className="animate-spin text-amber-400 mt-4" />
           ) : (
             <p className="text-4xl font-black text-amber-600 mt-2">
-              {visits.avg_wait_time_minutes ?? 0}m
-            </p>
+              {visits.avg_wait_time_minutes ?? 0}{i18n.t("m")}</p>
           )}
           <div className="mt-4 flex items-center gap-1.5 text-xs font-bold text-emerald-500">
-            <Activity size={14} /> Optimized Flow
-          </div>
+            <Activity size={14} />{" "}{i18n.t("Optimized Flow")}</div>
         </div>
       </div>
 
@@ -133,12 +120,8 @@ const PatientAnalytics: React.FC = () => {
           <div className="flex items-center justify-between mb-10">
             <div>
               <h3 className="text-xl font-black text-slate-800 tracking-tight flex items-center gap-3">
-                <BarChart3 size={24} className="text-indigo-600" /> Clinic
-                Distribution
-              </h3>
-              <p className="text-xs text-slate-500 font-medium mt-1">
-                Today's visits per clinical unit.
-              </p>
+                <BarChart3 size={24} className="text-indigo-600" />{" "}{i18n.t("Clinic Distribution")}</h3>
+              <p className="text-xs text-slate-500 font-medium mt-1">{i18n.t("Today's visits per clinical unit.")}</p>
             </div>
             <button className="p-2.5 bg-slate-50 text-slate-400 rounded-xl hover:bg-white hover:text-indigo-600 border border-transparent hover:border-slate-100 transition-all">
               <Filter size={18} />
@@ -185,9 +168,7 @@ const PatientAnalytics: React.FC = () => {
           ) : (
             <div className="h-[350px] flex flex-col items-center justify-center text-slate-300">
               <BarChart3 size={48} className="opacity-30 mb-3" />
-              <p className="text-xs font-bold uppercase tracking-widest">
-                No clinic data yet today
-              </p>
+              <p className="text-xs font-bold uppercase tracking-widest">{i18n.t("No clinic data yet today")}</p>
             </div>
           )}
         </div>
@@ -195,9 +176,7 @@ const PatientAnalytics: React.FC = () => {
         {/* Patient Segments Pie Chart */}
         <div className="bg-white p-10 rounded-[44px] border border-slate-200 shadow-sm flex flex-col">
           <h3 className="text-xl font-black text-slate-800 tracking-tight mb-8 flex items-center gap-3">
-            <PieChartIcon size={24} className="text-indigo-600" /> Patient
-            Segments
-          </h3>
+            <PieChartIcon size={24} className="text-indigo-600" />{" "}{i18n.t("Patient Segments")}</h3>
           {loading ? (
             <div className="flex-1 flex items-center justify-center">
               <Loader size={32} className="animate-spin text-indigo-400" />
@@ -232,15 +211,11 @@ const PatientAnalytics: React.FC = () => {
 
           <div className="mt-8 pt-8 border-t border-slate-50 space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                Growth Forecast
-              </span>
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Growth Forecast")}</span>
               <span className="text-[10px] font-black text-emerald-600 uppercase">
-                {growth.expected_growth || "+0%"} expected
-              </span>
+                {growth.expected_growth || "+0%"}{" "}{i18n.t("expected")}</span>
             </div>
-            <button className="w-full py-4 bg-slate-50 hover:bg-slate-100 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-500 transition-all flex items-center justify-center gap-2">
-              Full Demographic Breakdown <ChevronRight size={14} />
+            <button className="w-full py-4 bg-slate-50 hover:bg-slate-100 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-500 transition-all flex items-center justify-center gap-2">{i18n.t("Full Demographic Breakdown")}{" "}<ChevronRight className="rtl:-scale-x-100" size={14} />
             </button>
           </div>
         </div>

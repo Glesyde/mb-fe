@@ -22,6 +22,7 @@ import TariffComponentsModal from './TariffComponentsModal';
 import { billingService } from "../services/billing.service";
 import { userService } from "../services/user.service";
 import { useNotification } from "../context/NotificationContext";
+import { i18n } from "../i18n";
 
 const CARE_LEVELS = ["OPD", "IPD", "ICU", "HDU"];
 const CATEGORIES = [
@@ -228,7 +229,7 @@ const BillingPricing: React.FC = () => {
   };
 
   const handleDelete = async (id: number) => {
-    if (!confirm("Are you sure you want to remove this pricing rule? This may affect billing.")) return;
+    if (!confirm(i18n.t("Are you sure you want to remove this pricing rule? This may affect billing."))) return;
     try {
       await billingService.deleteTariff(id);
       notify("Tariff removed successfully", "success");
@@ -259,12 +260,8 @@ const BillingPricing: React.FC = () => {
           <h1 className="text-2xl font-black text-slate-800 tracking-tight flex items-center gap-3">
             <div className="p-2 bg-emerald-50 text-emerald-600 rounded-xl">
               <DollarSign size={24} />
-            </div>
-            Services & Pricing Master
-          </h1>
-          <p className="text-slate-500 font-medium">
-            Configure global billable items and insurance tariffs.
-          </p>
+            </div>{i18n.t("Services & Pricing Master")}</h1>
+          <p className="text-slate-500 font-medium">{i18n.t("Configure global billable items and insurance tariffs.")}</p>
         </div>
         <div className="flex items-center gap-3">
           <button
@@ -272,15 +269,12 @@ const BillingPricing: React.FC = () => {
             disabled={isExporting}
             className="bg-white text-emerald-600 border border-emerald-200 px-6 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-emerald-50 transition-all active:scale-95 disabled:opacity-50"
           >
-            {isExporting ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}
-            Export Excel
-          </button>
+            {isExporting ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}{i18n.t("Export Excel")}</button>
           <button
             onClick={handleOpenCreate}
             className="bg-emerald-600 text-white px-6 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-200 active:scale-95"
           >
-            <Plus size={18} /> Add New Service
-          </button>
+            <Plus size={18} />{" "}{i18n.t("Add New Service")}</button>
         </div>
       </div>
 
@@ -288,13 +282,13 @@ const BillingPricing: React.FC = () => {
       <div className="bg-white p-4 rounded-3xl border border-slate-200 flex flex-col md:flex-row gap-4 items-center shadow-sm">
         <div className="relative flex-1 w-full">
           <Search
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+            className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400"
             size={18}
           />
           <input
             type="text"
-            placeholder="Search service name or code..."
-            className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all"
+            placeholder={i18n.t("Search service name or code...")}
+            className="w-full ps-11 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -305,7 +299,7 @@ const BillingPricing: React.FC = () => {
           onChange={(e) => setCategoryFilter(e.target.value)}
           className="px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-600 outline-none focus:ring-2 focus:ring-emerald-500/20 cursor-pointer"
         >
-          <option value="ALL">All Categories</option>
+          <option value="ALL">{i18n.t("All Categories")}</option>
           {CATEGORIES.map(c => <option value={c} key={c}>{c.toUpperCase()}</option>)}
         </select>
 
@@ -314,7 +308,7 @@ const BillingPricing: React.FC = () => {
           onChange={(e) => setCareLevelFilter(e.target.value)}
           className="px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-600 outline-none focus:ring-2 focus:ring-emerald-500/20 cursor-pointer"
         >
-          <option value="ALL">All Care Levels</option>
+          <option value="ALL">{i18n.t("All Care Levels")}</option>
           {CARE_LEVELS.map(c => <option value={c} key={c}>{c}</option>)}
         </select>
 
@@ -323,7 +317,7 @@ const BillingPricing: React.FC = () => {
           onChange={(e) => setPayerFilter(e.target.value)}
           className="px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-600 outline-none focus:ring-2 focus:ring-emerald-500/20 md:max-w-[200px] cursor-pointer truncate"
         >
-          <option value="ALL">All Specific Payers</option>
+          <option value="ALL">{i18n.t("All Specific Payers")}</option>
           {payers.map(p => <option value={p.id} key={p.id}>{p.name}</option>)}
         </select>
       </div>
@@ -333,22 +327,20 @@ const BillingPricing: React.FC = () => {
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 flex-1">
             <Loader2 size={40} className="text-emerald-600 animate-spin mb-4" />
-            <p className="text-slate-400 font-bold uppercase tracking-widest">
-              Loading Price List...
-            </p>
+            <p className="text-slate-400 font-bold uppercase tracking-widest">{i18n.t("Loading Price List...")}</p>
           </div>
         ) : (
           <>
             <div className="overflow-x-auto flex-1">
-              <table className="w-full text-left">
+              <table className="w-full text-start">
                 <thead>
                   <tr className="bg-slate-50/50 border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                    <th className="px-8 py-5">Service Details</th>
-                    <th className="px-8 py-5">Payer / Plan</th>
-                    <th className="px-8 py-5">Category</th>
-                    <th className="px-8 py-5 text-right">Unit Price</th>
-                    <th className="px-8 py-5 text-center">Status</th>
-                    <th className="px-8 py-5 text-right">Actions</th>
+                    <th className="px-8 py-5">{i18n.t("Service Details")}</th>
+                    <th className="px-8 py-5">{i18n.t("Payer / Plan")}</th>
+                    <th className="px-8 py-5">{i18n.t("Category")}</th>
+                    <th className="px-8 py-5 text-end">{i18n.t("Unit Price")}</th>
+                    <th className="px-8 py-5 text-center">{i18n.t("Status")}</th>
+                    <th className="px-8 py-5 text-end">{i18n.t("Actions")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
@@ -362,18 +354,18 @@ const BillingPricing: React.FC = () => {
                           {t.billable_name}
                         </p>
                         <span className="text-[10px] font-mono font-bold text-brand-primary bg-brand-active px-2 py-0.5 rounded border border-brand-active uppercase tracking-tight">
-                          {t.billable_code || "NO-CODE"}
+                          {t.billable_code || i18n.t("NO-CODE")}
                         </span>
                       </td>
                       <td className="px-8 py-5">
                         <div className="flex flex-col gap-1.5">
                           {/* Elegantly shows Leadway, or falls back to General */}
                           <span className="text-sm font-black text-slate-800">
-                            {t.payer_name || "Standard / General"}
+                            {t.payer_name || i18n.t("Standard / General")}
                           </span>
                           <div className="flex items-center gap-2">
                             <span className="text-[9px] font-black text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100 uppercase tracking-widest">
-                              {t.payer_type_code || t.payer_type_name || "HMO"}
+                              {t.payer_type_code || t.payer_type_name || i18n.t("HMO")}
                             </span>
                             <span className="text-[9px] text-slate-400 uppercase tracking-widest font-bold">
                               {t.care_level}
@@ -386,7 +378,7 @@ const BillingPricing: React.FC = () => {
                           {t.category}
                         </span>
                       </td>
-                      <td className="px-8 py-5 text-right">
+                      <td className="px-8 py-5 text-end">
                         <p className="text-sm font-black text-emerald-600">
                           ₦{parseFloat(t.unit_price).toLocaleString()}
                         </p>
@@ -394,21 +386,18 @@ const BillingPricing: React.FC = () => {
                       <td className="px-8 py-5 text-center">
                         {t.is_active ? (
                           <span className="inline-flex items-center gap-1 text-[9px] font-black text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full border border-emerald-100 uppercase tracking-wider">
-                            <Activity size={10} /> Active
-                          </span>
+                            <Activity size={10} />{" "}{i18n.t("Active")}</span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 text-[9px] font-black text-slate-400 bg-slate-50 px-2 py-1 rounded-full border border-slate-200 uppercase tracking-wider">
-                            Inactive
-                          </span>
+                          <span className="inline-flex items-center gap-1 text-[9px] font-black text-slate-400 bg-slate-50 px-2 py-1 rounded-full border border-slate-200 uppercase tracking-wider">{i18n.t("Inactive")}</span>
                         )}
                       </td>
-                      <td className="px-8 py-5 text-right">
+                      <td className="px-8 py-5 text-end">
                         <div className="flex items-center justify-end gap-2">
                           
                           {['surgery', 'procedure', 'package'].includes(t.category?.toLowerCase()) && (
                             <button
                               onClick={() => setComponentTariff(t)}
-                              title="Manage Components"
+                              title={i18n.t("Manage Components")}
                               className="p-2 text-slate-300 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all"
                             >
                               <Layers size={16} />
@@ -417,14 +406,14 @@ const BillingPricing: React.FC = () => {
 
                           <button
                             onClick={() => handleOpenEdit(t.id)}
-                            title="Edit Tariff"
+                            title={i18n.t("Edit Tariff")}
                             className="p-2 text-slate-300 hover:text-brand-primary hover:bg-brand-active rounded-xl transition-all"
                           >
                             <Edit2 size={16} />
                           </button>
                           <button
                             onClick={() => handleDelete(t.id)}
-                            title="Delete Tariff"
+                            title={i18n.t("Delete Tariff")}
                             className="p-2 text-slate-300 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all"
                           >
                             <Trash2 size={16} />
@@ -438,9 +427,7 @@ const BillingPricing: React.FC = () => {
               {tariffs.length === 0 && (
                 <div className="py-20 text-center opacity-40">
                   <Tag size={48} className="mx-auto text-slate-300 mb-4" />
-                  <p className="text-xs font-black uppercase tracking-widest text-slate-400">
-                    No Services Found
-                  </p>
+                  <p className="text-xs font-black uppercase tracking-widest text-slate-400">{i18n.t("No Services Found")}</p>
                 </div>
               )}
             </div>
@@ -448,27 +435,24 @@ const BillingPricing: React.FC = () => {
             {/* Pagination Controls */}
             {totalPages > 1 && (
               <div className="px-8 py-6 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-500">
-                  Showing {(currentPage - 1) * itemsPerPage + (tariffs.length > 0 ? 1 : 0)} to{" "}
-                  {Math.min(currentPage * itemsPerPage, totalRecords)} of {totalRecords} entries
-                </span>
+                <span className="text-xs font-bold text-slate-500">{i18n.t("Showing")}{" "}{(currentPage - 1) * itemsPerPage + (tariffs.length > 0 ? 1 : 0)}{" "}{i18n.t("to")}{" "}
+                  {Math.min(currentPage * itemsPerPage, totalRecords)}{" "}{i18n.t("of")}{" "}{totalRecords}{" "}{i18n.t("entries")}</span>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                     disabled={currentPage === 1}
                     className="p-2 bg-white border border-slate-200 rounded-lg text-slate-500 hover:text-brand-primary disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   >
-                    <ChevronLeft size={16} />
+                    <ChevronLeft className="rtl:-scale-x-100" size={16} />
                   </button>
-                  <span className="text-xs font-black text-slate-700">
-                    Page {currentPage} of {totalPages}
+                  <span className="text-xs font-black text-slate-700">{i18n.t("Page")}{" "}{currentPage}{" "}{i18n.t("of")}{" "}{totalPages}
                   </span>
                   <button
                     onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                     disabled={currentPage === totalPages}
                     className="p-2 bg-white border border-slate-200 rounded-lg text-slate-500 hover:text-brand-primary disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   >
-                    <ChevronRight size={16} />
+                    <ChevronRight className="rtl:-scale-x-100" size={16} />
                   </button>
                 </div>
               </div>
@@ -495,11 +479,9 @@ const BillingPricing: React.FC = () => {
                 </div>
                 <div>
                   <h2 className="text-lg font-black text-slate-800 tracking-tight">
-                    {editingId ? "Modify Tariff" : "New Service Item"}
+                    {editingId ? i18n.t("Modify Tariff") : i18n.t("New Service Item")}
                   </h2>
-                  <p className="text-[10px] text-emerald-600 font-bold uppercase tracking-widest">
-                    Pricing Configuration
-                  </p>
+                  <p className="text-[10px] text-emerald-600 font-bold uppercase tracking-widest">{i18n.t("Pricing Configuration")}</p>
                 </div>
               </div>
               <button
@@ -513,14 +495,12 @@ const BillingPricing: React.FC = () => {
 
             <div className="p-8 space-y-6 max-h-[70vh] overflow-y-auto no-scrollbar">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Billable Name
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Billable Name")}</label>
                 <input
                   required
                   type="text"
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all"
-                  placeholder="e.g. General Consultation"
+                  placeholder={i18n.t("e.g. General Consultation")}
                   value={formData.billable_name}
                   onChange={(e) =>
                     setFormData({ ...formData, billable_name: e.target.value })
@@ -530,9 +510,7 @@ const BillingPricing: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    Category
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Category")}</label>
                   <select
                     className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none appearance-none cursor-pointer"
                     value={formData.category}
@@ -548,9 +526,7 @@ const BillingPricing: React.FC = () => {
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    Care Level
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Care Level")}</label>
                   <select
                     className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none appearance-none cursor-pointer"
                     value={formData.care_level}
@@ -570,13 +546,13 @@ const BillingPricing: React.FC = () => {
               {/* Dynamic Clinical Configuration Section */}
               {formData.category === "lab" && (
                 <div className="p-4 bg-blue-50/50 rounded-2xl border border-blue-100 space-y-4">
-                  <h3 className="text-xs font-black text-blue-800 uppercase tracking-widest">Lab Test Parameters</h3>
-                  <p className="text-[10px] text-blue-600 mb-2">These parameters will auto-populate when a doctor orders this test.</p>
+                  <h3 className="text-xs font-black text-blue-800 uppercase tracking-widest">{i18n.t("Lab Test Parameters")}</h3>
+                  <p className="text-[10px] text-blue-600 mb-2">{i18n.t("These parameters will auto-populate when a doctor orders this test.")}</p>
 
                   {labParameters.map((param, index) => (
                     <div key={index} className="flex gap-2 items-center">
                       <input 
-                        placeholder="Parameter (e.g., Hemoglobin)" 
+                        placeholder={i18n.t("Parameter (e.g., Hemoglobin)")} 
                         className="flex-1 px-3 py-2 text-sm border rounded-xl"
                         value={param.name}
                         onChange={(e) => {
@@ -586,34 +562,34 @@ const BillingPricing: React.FC = () => {
                         }}
                       />
                       <input 
-                        placeholder="Unit (e.g., g/dL)" 
+                        placeholder={i18n.t("Unit (e.g., g/dL)")} 
                         className="w-24 px-3 py-2 text-sm border rounded-xl"
                         value={param.unit}
                         onChange={(e) => { /* update unit */ }}
                       />
                       <input 
-                        placeholder="Normal Range (e.g., 12-16)" 
+                        placeholder={i18n.t("Normal Range (e.g., 12-16)")} 
                         className="w-32 px-3 py-2 text-sm border rounded-xl"
                         value={param.reference_range}
                         onChange={(e) => { /* update range */ }}
                       />
                     </div>
                   ))}
-                  <button type="button" onClick={() => setLabParameters([...labParameters, { name: "", unit: "", reference_range: "" }])} className="text-xs font-bold text-blue-600">+ Add Parameter</button>
+                  <button type="button" onClick={() => setLabParameters([...labParameters, { name: "", unit: "", reference_range: "" }])} className="text-xs font-bold text-blue-600">{i18n.t("+ Add Parameter")}</button>
                 </div>
               )}
 
               {formData.category === "radiology" && (
                 <div className="p-4 bg-purple-50/50 rounded-2xl border border-purple-100 space-y-4">
-                  <h3 className="text-xs font-black text-purple-800 uppercase tracking-widest">Radiology Template</h3>
+                  <h3 className="text-xs font-black text-purple-800 uppercase tracking-widest">{i18n.t("Radiology Template")}</h3>
                   <select className="w-full px-3 py-2 text-sm border rounded-xl mb-2" value={radiologySetup.modality} onChange={e => setRadiologySetup({...radiologySetup, modality: e.target.value})}>
-                    <option value="X-RAY">X-Ray</option>
-                    <option value="MRI">MRI</option>
-                    <option value="CT">CT Scan</option>
-                    <option value="USG">Ultrasound</option>
+                    <option value="X-RAY">{i18n.t("X-Ray")}</option>
+                    <option value="MRI">{i18n.t("MRI")}</option>
+                    <option value="CT">{i18n.t("CT Scan")}</option>
+                    <option value="USG">{i18n.t("Ultrasound")}</option>
                   </select>
                   <textarea 
-                    placeholder="Default Report Template structure..." 
+                    placeholder={i18n.t("Default Report Template structure...")} 
                     className="w-full px-3 py-2 text-sm border rounded-xl h-24"
                     value={radiologySetup.template}
                     onChange={e => setRadiologySetup({...radiologySetup, template: e.target.value})}
@@ -624,9 +600,7 @@ const BillingPricing: React.FC = () => {
               {formData.category === "consultation" && (
                 <div className="grid grid-cols-2 gap-4 p-4 bg-brand-active/50 rounded-2xl border border-brand-active">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                      Specialization (Optional)
-                    </label>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Specialization (Optional)")}</label>
                     <select
                       className="w-full px-5 py-4 bg-white border border-brand-active rounded-2xl text-sm font-bold focus:bg-white focus:ring-4 focus:ring-brand-active0/10 outline-none appearance-none cursor-pointer"
                       value={formData.specialization_code}
@@ -637,7 +611,7 @@ const BillingPricing: React.FC = () => {
                         })
                       }
                     >
-                      <option value="">No Specialization</option>
+                      <option value="">{i18n.t("No Specialization")}</option>
                       {specializations.map((s) => (
                         <option key={s.id} value={s.code}>
                           {s.name} ({s.code})
@@ -646,9 +620,7 @@ const BillingPricing: React.FC = () => {
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                      Doctor (Optional)
-                    </label>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Doctor (Optional)")}</label>
                     <select
                       className="w-full px-5 py-4 bg-white border border-brand-active rounded-2xl text-sm font-bold focus:bg-white focus:ring-4 focus:ring-brand-active0/10 outline-none appearance-none cursor-pointer"
                       value={formData.doctor_id}
@@ -656,7 +628,7 @@ const BillingPricing: React.FC = () => {
                         setFormData({ ...formData, doctor_id: e.target.value })
                       }
                     >
-                      <option value="">No Doctor</option>
+                      <option value="">{i18n.t("No Doctor")}</option>
                       {doctors.map((d) => (
                         <option key={d.doctor_id} value={d.doctor_id}>
                           {d.first_name} {d.last_name} ({d.specialization_code})
@@ -669,9 +641,7 @@ const BillingPricing: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    Payer / Insurance
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Payer / Insurance")}</label>
                   <select
                     required
                     className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none appearance-none cursor-pointer"
@@ -686,7 +656,7 @@ const BillingPricing: React.FC = () => {
                       });
                     }}
                   >
-                    <option value="">Select Specific Payer...</option>
+                    <option value="">{i18n.t("Select Specific Payer...")}</option>
                     {payers.map((p) => (
                       <option key={p.id} value={p.id}>
                         {p.name}
@@ -695,9 +665,7 @@ const BillingPricing: React.FC = () => {
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    Unit Price (₦)
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Unit Price (₦)")}</label>
                   <input
                     required
                     type="number"
@@ -712,9 +680,8 @@ const BillingPricing: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-1">
-                    <Calendar size={12} /> Effective From
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1 flex items-center gap-1">
+                    <Calendar size={12} />{" "}{i18n.t("Effective From")}</label>
                   <input
                     required
                     type="date"
@@ -729,9 +696,8 @@ const BillingPricing: React.FC = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-1">
-                    <Calendar size={12} /> Valid To (Optional)
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1 flex items-center gap-1">
+                    <Calendar size={12} />{" "}{i18n.t("Valid To (Optional)")}</label>
                   <input
                     type="date"
                     className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none"
@@ -759,9 +725,7 @@ const BillingPricing: React.FC = () => {
                     className={`w-4 h-4 bg-white rounded-full shadow-sm transition-all ${formData.is_active ? "translate-x-4" : "translate-x-0"}`}
                   />
                 </div>
-                <span className="text-xs font-bold text-slate-600">
-                  Service is Active & Billable
-                </span>
+                <span className="text-xs font-bold text-slate-600">{i18n.t("Service is Active & Billable")}</span>
               </div>
             </div>
 
@@ -771,9 +735,7 @@ const BillingPricing: React.FC = () => {
                 onClick={() => setShowModal(false)}
                 disabled={isSubmitting}
                 className="px-6 py-3 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-slate-800"
-              >
-                Cancel
-              </button>
+              >{i18n.t("Cancel")}</button>
               <button
                 type="submit"
                 disabled={isSubmitting}
@@ -783,9 +745,7 @@ const BillingPricing: React.FC = () => {
                   <Loader2 size={16} className="animate-spin" />
                 ) : (
                   <Save size={16} />
-                )}
-                Save Tariff
-              </button>
+                )}{i18n.t("Save Tariff")}</button>
             </div>
           </form>
         </div>

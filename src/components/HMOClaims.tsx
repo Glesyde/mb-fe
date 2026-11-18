@@ -12,6 +12,7 @@ import {
   FileText,
   Calendar
 } from 'lucide-react';
+import { i18n } from "../i18n";
 
 interface Claim {
   id: string;
@@ -56,11 +57,11 @@ const HMOClaims: React.FC = () => {
       {/* Search and Filters Bar */}
       <div className="bg-white border border-slate-200 rounded-[32px] p-4 flex flex-col md:flex-row md:items-center gap-4 shadow-sm">
         <div className="relative flex-1 group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 group-focus-within:text-brand-primary transition-colors" />
+          <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 group-focus-within:text-brand-primary transition-colors" />
           <input 
             type="text" 
-            placeholder="Search by Patient or Claim ID..."
-            className="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm outline-none focus:bg-white focus:ring-4 focus:ring-brand-active0/10 transition-all font-medium"
+            placeholder={i18n.t("Search by Patient or Claim ID...")}
+            className="w-full ps-11 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm outline-none focus:bg-white focus:ring-4 focus:ring-brand-active0/10 transition-all font-medium"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -68,48 +69,45 @@ const HMOClaims: React.FC = () => {
         
         <div className="flex items-center gap-2">
           <div className="relative">
-            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-3.5 h-3.5 pointer-events-none" />
+            <Filter className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400 w-3.5 h-3.5 pointer-events-none" />
             <select 
-              className="pl-9 pr-8 py-2.5 bg-white border border-slate-200 rounded-2xl text-xs font-bold text-slate-600 outline-none appearance-none hover:bg-slate-50 transition-all cursor-pointer"
+              className="ps-9 pe-8 py-2.5 bg-white border border-slate-200 rounded-2xl text-xs font-bold text-slate-600 outline-none appearance-none hover:bg-slate-50 transition-all cursor-pointer"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
-              <option value="All">All Statuses</option>
-              <option value="Paid">Paid</option>
-              <option value="Pending">Pending</option>
-              <option value="Submitted">Submitted</option>
-              <option value="Rejected">Rejected</option>
+              <option value="All">{i18n.t("All Statuses")}</option>
+              <option value="Paid">{i18n.t("Paid")}</option>
+              <option value="Pending">{i18n.t("Pending")}</option>
+              <option value="Submitted">{i18n.t("Submitted")}</option>
+              <option value="Rejected">{i18n.t("Rejected")}</option>
             </select>
-            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 w-3 h-3 pointer-events-none" />
+            <ChevronDown className="absolute end-3 top-1/2 -translate-y-1/2 text-slate-400 w-3 h-3 pointer-events-none" />
           </div>
 
           <button className="flex items-center gap-2 px-4 py-2.5 bg-slate-900 text-white rounded-2xl text-xs font-bold hover:bg-slate-800 transition-all shadow-md">
-            <Download size={14} /> Export CSV
-          </button>
+            <Download size={14} />{" "}{i18n.t("Export CSV")}</button>
         </div>
       </div>
 
       <div className="bg-white border border-slate-200 rounded-[40px] overflow-hidden shadow-sm">
         <div className="p-8 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-black text-slate-800 tracking-tight">Claims Registry</h2>
-            <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">Global Claim Ledger</p>
+            <h2 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Claims Registry")}</h2>
+            <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">{i18n.t("Global Claim Ledger")}</p>
           </div>
-          <button className="bg-brand-primary text-white px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-brand-primary transition-all shadow-lg shadow-brand-active">
-            Process Batch Claims
-          </button>
+          <button className="bg-brand-primary text-white px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-brand-primary transition-all shadow-lg shadow-brand-active">{i18n.t("Process Batch Claims")}</button>
         </div>
         
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-start border-collapse">
             <thead>
               <tr className="bg-white border-b border-slate-100">
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Claim ID</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Patient</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">HMO Provider</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Amount</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Status</th>
-                <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Date</th>
+                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Claim ID")}</th>
+                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Patient")}</th>
+                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("HMO Provider")}</th>
+                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Amount")}</th>
+                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Status")}</th>
+                <th className="px-8 py-5 text-end text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Date")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -131,10 +129,10 @@ const HMOClaims: React.FC = () => {
                       {claim.status === 'Pending' && <Clock size={12} />}
                       {claim.status === 'Rejected' && <XCircle size={12} />}
                       {claim.status === 'Submitted' && <Send size={12} />}
-                      {claim.status}
+                      {i18n.tv(claim.status)}
                     </span>
                   </td>
-                  <td className="px-8 py-5 text-right text-xs font-bold text-slate-400 uppercase">
+                  <td className="px-8 py-5 text-end text-xs font-bold text-slate-400 uppercase">
                     {claim.date}
                   </td>
                 </tr>
@@ -146,7 +144,7 @@ const HMOClaims: React.FC = () => {
         {filteredClaims.length === 0 && (
           <div className="py-20 text-center">
             <FileText className="mx-auto text-slate-200 mb-4" size={48} />
-            <p className="text-slate-400 font-bold uppercase tracking-widest">No claims found matching filters</p>
+            <p className="text-slate-400 font-bold uppercase tracking-widest">{i18n.t("No claims found matching filters")}</p>
           </div>
         )}
       </div>

@@ -3,6 +3,7 @@ import { PackageMinus, Plus, Trash2, CheckCircle2, Loader2, AlertCircle, X } fro
 import SearchableDropdown from './SearchableDropdown';
 import { useNotification } from '../context/NotificationContext';
 import { inventoryService } from '../services/inventory.service';
+import { i18n } from "../i18n";
 
 // Add this to your inventory.service.ts:
 // getAvailableBatches: (itemId: number, location: string) => axios.get(`/inventory/stock/available-batches?item_id=${itemId}&location=${location}`).then(res => res.data.data),
@@ -130,8 +131,8 @@ export default function InternalConsumptionForm({ onClose, preselectedDepartment
         <div className="flex items-center gap-3">
           <div className="p-2.5 bg-rose-50 text-rose-600 rounded-xl"><PackageMinus size={20} /></div>
           <div>
-            <h2 className="text-lg font-black text-slate-800">Log Internal Consumption</h2>
-            <p className="text-xs font-medium text-slate-500">Record items used by departments (non-billable).</p>
+            <h2 className="text-lg font-black text-slate-800">{i18n.t("Log Internal Consumption")}</h2>
+            <p className="text-xs font-medium text-slate-500">{i18n.t("Record items used by departments (non-billable).")}</p>
           </div>
         </div>
         <button onClick={onClose} className="text-slate-400 hover:text-slate-700 bg-slate-50 p-2 rounded-xl"><X size={20}/></button>
@@ -139,20 +140,20 @@ export default function InternalConsumptionForm({ onClose, preselectedDepartment
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div>
-          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Requesting Department *</label>
+          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">{i18n.t("Requesting Department *")}</label>
           <SearchableDropdown
             options={departments}
             value={form.department_id}
             onChange={(val: string) => setForm({...form, department_id: val})}
-            placeholder="Search Department..."
+            placeholder={i18n.t("Search Department...")}
             buttonClassName="p-3 bg-slate-50"
           />
         </div>
         <div>
-          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Reason / Notes</label>
+          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">{i18n.t("Reason / Notes")}</label>
           <input 
             type="text" value={form.notes} onChange={(e) => setForm({...form, notes: e.target.value})}
-            placeholder="e.g., Weekly office supplies"
+            placeholder={i18n.t("e.g., Weekly office supplies")}
             className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-700 outline-none focus:border-indigo-400"
           />
         </div>
@@ -160,8 +161,8 @@ export default function InternalConsumptionForm({ onClose, preselectedDepartment
 
       <div className="mb-6">
         <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
-          <h3 className="text-sm font-black text-slate-700 uppercase tracking-widest">Consumed Items</h3>
-          <button onClick={() => setItems([...items, { item_id: '', batch_id: '', source_location: 'STORE', quantity: 1, availableBatches: [], maxQuantity: 0 }])} className="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg flex items-center gap-1 hover:bg-indigo-100"><Plus size={14}/> Add Item</button>
+          <h3 className="text-sm font-black text-slate-700 uppercase tracking-widest">{i18n.t("Consumed Items")}</h3>
+          <button onClick={() => setItems([...items, { item_id: '', batch_id: '', source_location: 'STORE', quantity: 1, availableBatches: [], maxQuantity: 0 }])} className="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg flex items-center gap-1 hover:bg-indigo-100"><Plus size={14}/>{" "}{i18n.t("Add Item")}</button>
         </div>
         
         <div className="space-y-4">
@@ -175,7 +176,7 @@ export default function InternalConsumptionForm({ onClose, preselectedDepartment
                     options={consumables}
                     value={line.item_id}
                     onChange={(val: string) => handleItemChange(idx, 'item_id', val)}
-                    placeholder="-- Select Item --"
+                    placeholder={i18n.t("-- Select Item --")}
                     buttonClassName="p-2.5 text-xs bg-white"
                   />
                 </div>
@@ -196,11 +197,11 @@ export default function InternalConsumptionForm({ onClose, preselectedDepartment
                     options={line.availableBatches}
                     value={line.batch_id}
                     onChange={(val: string) => handleItemChange(idx, 'batch_id', val)}
-                    placeholder={line.item_id ? (line.availableBatches.length > 0 ? "-- Select Batch --" : "Out of Stock") : "Select item first"}
+                    placeholder={line.item_id ? (line.availableBatches.length > 0 ? i18n.t("-- Select Batch --") : i18n.t("Out of Stock")) : i18n.t("Select item first")}
                     buttonClassName={`p-2.5 text-xs bg-white ${line.item_id && line.availableBatches.length === 0 ? 'border-red-300 text-red-500' : ''}`}
                   />
                   {line.item_id && line.availableBatches.length === 0 && (
-                    <span className="absolute -bottom-4 left-1 text-[9px] font-bold text-red-500 flex items-center gap-1"><AlertCircle size={10}/> Out of stock in selected location</span>
+                    <span className="absolute -bottom-4 start-1 text-[9px] font-bold text-red-500 flex items-center gap-1"><AlertCircle size={10}/>{" "}{i18n.t("Out of stock in selected location")}</span>
                   )}
                 </div>
 
@@ -209,7 +210,7 @@ export default function InternalConsumptionForm({ onClose, preselectedDepartment
                     type="number" 
                     min="1" 
                     max={line.maxQuantity || 1} 
-                    placeholder="Qty" 
+                    placeholder={i18n.t("Qty")} 
                     value={line.quantity} 
                     onChange={(e) => handleItemChange(idx, 'quantity', e.target.value)} 
                     disabled={!line.batch_id}
@@ -232,8 +233,7 @@ export default function InternalConsumptionForm({ onClose, preselectedDepartment
           onClick={handleSubmit} disabled={isSubmitting}
           className="bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs px-8 py-3.5 rounded-xl uppercase tracking-widest shadow-md disabled:opacity-50 transition-all flex items-center gap-2"
         >
-          {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />} Submit Consumption
-        </button>
+          {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />}{" "}{i18n.t("Submit Consumption")}</button>
       </div>
     </div>
   );

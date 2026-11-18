@@ -11,6 +11,7 @@ import {
   Pagination,
   KpiCard,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const OpdRevenueYieldReport: React.FC = () => {
   const [records, setRecords] = useState<any[]>([]);
@@ -62,8 +63,8 @@ const OpdRevenueYieldReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="OPD Revenue Departmental Yield"
-      subtitle="Service-level billing yield across outpatient departments."
+      title={i18n.t("OPD Revenue Departmental Yield")}
+      subtitle={i18n.t("Service-level billing yield across outpatient departments.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -84,34 +85,34 @@ const OpdRevenueYieldReport: React.FC = () => {
       }
     >
       <div className="grid grid-cols-1 gap-4">
-        <KpiCard icon={Banknote} label="Global Net Revenue" value={formatCurrency(aggregates?.global_net_revenue)} colorClass="bg-emerald-50 border-emerald-100 text-emerald-900" />
+        <KpiCard icon={Banknote} label={i18n.t("Global Net Revenue")} value={formatCurrency(aggregates?.global_net_revenue)} colorClass="bg-emerald-50 border-emerald-100 text-emerald-900" />
       </div>
 
       <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 flex-1 min-h-[300px] mt-6">
-        <table className="w-full text-left text-sm whitespace-nowrap">
+        <table className="w-full text-start text-sm whitespace-nowrap">
           <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
             <tr>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Service Code</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Service Name</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Times Billed</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Total Units</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Total Yield Revenue</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Service Code")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Service Name")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Times Billed")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Total Units")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Total Yield Revenue")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {records.length > 0 ? (
               records.map((row, i) => (
                 <tr key={`${row.service_code}-${i}`} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="px-4 py-3.5 font-mono text-xs text-slate-500 border-r border-slate-50">{renderValue(row.service_code)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 whitespace-normal min-w-[220px]">{renderValue(row.service_name)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.times_billed)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.total_units)}</td>
-                  <td className="px-4 py-3.5 font-bold text-slate-800 text-right">{formatCurrency(row.total_yield_revenue)}</td>
+                  <td className="px-4 py-3.5 font-mono text-xs text-slate-500 border-e border-slate-50">{renderValue(row.service_code)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 whitespace-normal min-w-[220px]">{renderValue(row.service_name)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.times_billed)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.total_units)}</td>
+                  <td className="px-4 py-3.5 font-bold text-slate-800 text-end">{formatCurrency(row.total_yield_revenue)}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={5} className="px-4 py-12 text-center text-slate-400 italic">No revenue yield records found.</td>
+                <td colSpan={5} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No revenue yield records found.")}</td>
               </tr>
             )}
           </tbody>

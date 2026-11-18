@@ -21,6 +21,7 @@ import { formDraftService } from "../services/session-restore.service"; // ADDED
 import SearchableDoctorSelect from "./shared/SearchableDoctorSelect";
 import SearchableUserSelect from "./shared/SearchableUserSelect";
 import SignaturePad from "./SignaturePad";
+import { i18n } from "../i18n";
 
 // 1. Extend OTSurgery to fix TypeScript missing property errors
 interface OperativeNoteModalProps {
@@ -339,31 +340,26 @@ const OperativeNoteModal: React.FC<OperativeNoteModalProps> = ({
         <div className="bg-[#2A157c] px-6 py-3 border-b border-[#312e81] flex justify-between items-center shrink-0">
           <div className="flex items-center gap-4">
             <div className="relative w-[150px] h-[40px] flex items-center px-2">
-               <img src="/assets/logo-nobg.png" alt="Logo" className="object-contain w-full h-full" />
+               <img src="/assets/logo-nobg.png" alt={i18n.t("Logo")} className="object-contain w-full h-full" />
             </div>
-            <div className="border-l border-indigo-800 pl-4">
+            <div className="border-s border-indigo-800 ps-4">
               <h2 className="text-white font-bold text-lg flex items-center gap-2 tracking-wide">
-                <FileText className="text-brand-primary" size={20} /> Operative Note
-                {loading && <Loader2 size={16} className="animate-spin text-brand-primary" />}
+                <FileText className="text-brand-primary" size={20} />{" "}{i18n.t("Operative Note")}{loading && <Loader2 size={16} className="animate-spin text-brand-primary" />}
               </h2>
-              <p className="text-indigo-200 text-xs mt-0.5">
-                MRN: {surgery.mrn} |  FULLNAME: {surgery.first_name} {surgery.last_name} |  GENDER: {surgery.gender} | AGE: {surgery.age} | {surgery.surgery_name}  |  WEIGHT: {surgery.weight} | HEIGHT: {surgery.height} |  BMI: {surgery.bmi}  |  ALLERGIES: {surgery.known_allergies} 
+              <p className="text-indigo-200 text-xs mt-0.5">{i18n.t("MRN:")}{" "}{surgery.mrn}{" "}{i18n.t("| FULLNAME:")}{" "}{surgery.first_name} {surgery.last_name}{" "}{i18n.t("| GENDER:")}{" "}{i18n.tv(surgery.gender)}{" "}{i18n.t("| AGE:")}{" "}{surgery.age} | {surgery.surgery_name}{" "}{i18n.t("| WEIGHT:")}{" "}{surgery.weight}{" "}{i18n.t("| HEIGHT:")}{" "}{surgery.height}{" "}{i18n.t("| BMI:")}{" "}{surgery.bmi}{" "}{i18n.t("| ALLERGIES:")}{" "}{surgery.known_allergies} 
               </p>
             </div>
           </div>
           <div className="flex items-center gap-3">
              {/* DRAFT INDICATOR (ADDED) */}
              {showDraftBanner && (
-                 <span className="text-amber-200 bg-amber-900/50 px-2 py-1 rounded text-xs font-bold mr-2 animate-pulse">
-                     Unsaved draft restored
-                 </span>
+                 <span className="text-amber-200 bg-amber-900/50 px-2 py-1 rounded text-xs font-bold me-2 animate-pulse">{i18n.t("Unsaved draft restored")}</span>
              )}
             <button
               onClick={() => window.open(`/print/operative-note/${surgery.id}`, '_blank')}
               className="px-4 py-2 text-xs rounded font-bold text-white bg-white/10 border border-white/20 hover:bg-white/20 transition-colors flex items-center gap-2"
             >
-              <Printer size={16} /> Print
-            </button>
+              <Printer size={16} />{" "}{i18n.t("Print")}</button>
             <div className="h-8 w-px bg-indigo-800 mx-1"></div>
             <button onClick={toggleFullscreen} className="p-2 text-indigo-200 hover:text-white hover:bg-white/10 rounded transition-colors">
               {isFullscreen ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
@@ -379,7 +375,7 @@ const OperativeNoteModal: React.FC<OperativeNoteModalProps> = ({
           {loading ? (
             <div className="absolute inset-0 z-[100] flex flex-col items-center justify-center bg-white/70 backdrop-blur-sm transition-all">
               <Loader2 size={64} className="animate-spin text-[#1e1b4b] mb-4" />
-              <h3 className="text-2xl font-black text-[#1e1b4b] tracking-tight animate-pulse">Loading Operative Note...</h3>
+              <h3 className="text-2xl font-black text-[#1e1b4b] tracking-tight animate-pulse">{i18n.t("Loading Operative Note...")}</h3>
             </div>
           ) : (
             <div className="max-w-6xl mx-auto space-y-8 pb-12">
@@ -388,47 +384,47 @@ const OperativeNoteModal: React.FC<OperativeNoteModalProps> = ({
               <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
                 <div className="flex items-center gap-2 border-b pb-3">
                   <div className="bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded font-black">1</div> 
-                  <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm flex items-center gap-2"><Activity size={16}/> Operation Details</h4>
+                  <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm flex items-center gap-2"><Activity size={16}/>{" "}{i18n.t("Operation Details")}</h4>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Date of Operation</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Date of Operation")}</label>
                     <input type="date" disabled={!canEdit} name="operation_date" value={formData.operation_date} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Start Time</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Start Time")}</label>
                     <input type="time" disabled={!canEdit} name="start_time" value={formData.start_time} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">End Time</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("End Time")}</label>
                     <input type="time" disabled={!canEdit} name="end_time" value={formData.end_time} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Procedure Type</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Procedure Type")}</label>
                     <select name="procedure_type" disabled={!canEdit} value={formData.procedure_type} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none font-medium disabled:bg-slate-50 disabled:text-slate-500">
-                      <option value="Elective">Elective</option>
-                      <option value="Emergency">Emergency</option>
+                      <option value="Elective">{i18n.t("Elective")}</option>
+                      <option value="Emergency">{i18n.t("Emergency")}</option>
                     </select>
                   </div>
                   <div className="col-span-2">
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Anaesthesia Type</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Anaesthesia Type")}</label>
                     <select name="anesthesia_type" disabled={!canEdit} value={formData.anesthesia_type} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500">
-                      <option value="">Select...</option>
-                      <option value="General (GA)">General (GA)</option>
-                      <option value="Local (LA)">Local (LA)</option>
-                      <option value="Regional-Spinal">Regional - Spinal</option>
-                      <option value="Regional-Epidural">Regional - Epidural</option>
-                      <option value="Regional-Caudal">Regional - Caudal</option>
-                      <option value="Combined Spinal & Epidural (CSE)">Combined Spinal & Epidural (CSE)</option>
-                      <option value="Sedation-with-anaesthetist">Sedation - with anaesthetist</option>
-                      <option value="Sedation-no-anaesthetist">Sedation - no anaesthetist</option>
-                      <option value="No anaesthesia">No anaesthesia</option>
-                      <option value="Other">Other</option>
+                      <option value="">{i18n.t("Select...")}</option>
+                      <option value="General (GA)">{i18n.t("General (GA)")}</option>
+                      <option value="Local (LA)">{i18n.t("Local (LA)")}</option>
+                      <option value="Regional-Spinal">{i18n.t("Regional - Spinal")}</option>
+                      <option value="Regional-Epidural">{i18n.t("Regional - Epidural")}</option>
+                      <option value="Regional-Caudal">{i18n.t("Regional - Caudal")}</option>
+                      <option value="Combined Spinal & Epidural (CSE)">{i18n.t("Combined Spinal & Epidural (CSE)")}</option>
+                      <option value="Sedation-with-anaesthetist">{i18n.t("Sedation - with anaesthetist")}</option>
+                      <option value="Sedation-no-anaesthetist">{i18n.t("Sedation - no anaesthetist")}</option>
+                      <option value="No anaesthesia">{i18n.t("No anaesthesia")}</option>
+                      <option value="Other">{i18n.t("Other")}</option>
                     </select>
                   </div>
                   <div className="col-span-2">
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Local Anaesthetic / Drugs</label>
-                    <input type="text" disabled={!canEdit} name="anesthetic_drugs" value={formData.anesthetic_drugs} onChange={handleChange} placeholder="Agent, concentration, volume, total dose" className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Local Anaesthetic / Drugs")}</label>
+                    <input type="text" disabled={!canEdit} name="anesthetic_drugs" value={formData.anesthetic_drugs} onChange={handleChange} placeholder={i18n.t("Agent, concentration, volume, total dose")} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
                   </div>
                 </div>
               </div>
@@ -437,7 +433,7 @@ const OperativeNoteModal: React.FC<OperativeNoteModalProps> = ({
               <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
                 <div className="flex items-center gap-2 border-b pb-3">
                   <div className="bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded font-black">2</div> 
-                  <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm flex items-center gap-2"><UserCircle size={16}/> Performed By (Personnel)</h4>
+                  <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm flex items-center gap-2"><UserCircle size={16}/>{" "}{i18n.t("Performed By (Personnel)")}</h4>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                   {[
@@ -453,9 +449,9 @@ const OperativeNoteModal: React.FC<OperativeNoteModalProps> = ({
                   ].map((staff) => (
                     <div key={staff.id}>
                       <div className="flex justify-between items-end mb-1">
-                        <label className="block text-[10px] font-bold text-slate-500 uppercase">{staff.label}</label>
+                        <label className="block text-[10px] font-bold text-slate-500 uppercase">{i18n.tx(staff.label)}</label>
                         {formData[staff.id] !== "0" && canEdit && (
-                           <button type="button" onClick={() => handleClearStaff(staff.id)} className="text-[10px] font-bold text-red-500 hover:text-red-700 bg-red-50 px-1.5 py-0.5 rounded">Set to None</button>
+                           <button type="button" onClick={() => handleClearStaff(staff.id)} className="text-[10px] font-bold text-red-500 hover:text-red-700 bg-red-50 px-1.5 py-0.5 rounded">{i18n.t("Set to None")}</button>
                         )}
                       </div>
 
@@ -467,11 +463,11 @@ const OperativeNoteModal: React.FC<OperativeNoteModalProps> = ({
                     </div>
                   ))}
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Supervision Level</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Supervision Level")}</label>
                     <select name="supervision_level" disabled={!canEdit} value={formData.supervision_level} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500">
-                      <option value="Independent">Independent</option>
-                      <option value="Direct">Direct</option>
-                      <option value="Indirect">Indirect</option>
+                      <option value="Independent">{i18n.t("Independent")}</option>
+                      <option value="Direct">{i18n.t("Direct")}</option>
+                      <option value="Indirect">{i18n.t("Indirect")}</option>
                     </select>
                   </div>
                 </div>
@@ -481,19 +477,19 @@ const OperativeNoteModal: React.FC<OperativeNoteModalProps> = ({
               <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
                 <div className="flex items-center gap-2 border-b pb-3">
                   <div className="bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded font-black">3</div> 
-                  <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm flex items-center gap-2"><Stethoscope size={16}/> Procedure(s) & Operative Diagnosis</h4>
+                  <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm flex items-center gap-2"><Stethoscope size={16}/>{" "}{i18n.t("Procedure(s) & Operative Diagnosis")}</h4>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Pre-Operative Diagnosis</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Pre-Operative Diagnosis")}</label>
                     <input type="text" disabled={!canEdit} name="preop_diagnosis" value={formData.preop_diagnosis} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Operative Diagnosis (Post-Op)</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Operative Diagnosis (Post-Op)")}</label>
                     <input type="text" disabled={!canEdit} name="postop_diagnosis" value={formData.postop_diagnosis} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Procedure(s) Performed (List all; primary first)</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Procedure(s) Performed (List all; primary first)")}</label>
                     <textarea rows={3} disabled={!canEdit} name="procedures_performed" value={formData.procedures_performed} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none resize-y disabled:bg-slate-50 disabled:text-slate-500" />
                   </div>
                 </div>
@@ -503,23 +499,23 @@ const OperativeNoteModal: React.FC<OperativeNoteModalProps> = ({
               <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
                 <div className="flex items-center gap-2 border-b pb-3">
                   <div className="bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded font-black">4</div> 
-                  <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm">Operative Narrative</h4>
+                  <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm">{i18n.t("Operative Narrative")}</h4>
                 </div>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Operative Indication</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Operative Indication")}</label>
                     <textarea rows={2} disabled={!canEdit} name="operative_indication" value={formData.operative_indication} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none resize-y disabled:bg-slate-50 disabled:text-slate-500" />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Operative Findings</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Operative Findings")}</label>
                     <textarea rows={3} disabled={!canEdit} name="operative_findings" value={formData.operative_findings} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none resize-y disabled:bg-slate-50 disabled:text-slate-500" />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Operative Procedure — Step by Step</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Operative Procedure — Step by Step")}</label>
                     <textarea rows={6} disabled={!canEdit} name="operative_procedure_steps" value={formData.operative_procedure_steps} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none resize-y disabled:bg-slate-50 disabled:text-slate-500" />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Closure Technique (Layers, suture material, skin)</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Closure Technique (Layers, suture material, skin)")}</label>
                     <textarea rows={2} disabled={!canEdit} name="closure_technique" value={formData.closure_technique} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none resize-y disabled:bg-slate-50 disabled:text-slate-500" />
                   </div>
                 </div>
@@ -529,7 +525,7 @@ const OperativeNoteModal: React.FC<OperativeNoteModalProps> = ({
               <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6">
                 <div className="flex items-center gap-2 border-b pb-3">
                   <div className="bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded font-black">5</div> 
-                  <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm flex items-center gap-2"><Syringe size={16}/> Intra-Operative Adjuncts, Drugs & Specimens</h4>
+                  <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm flex items-center gap-2"><Syringe size={16}/>{" "}{i18n.t("Intra-Operative Adjuncts, Drugs & Specimens")}</h4>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
@@ -538,32 +534,32 @@ const OperativeNoteModal: React.FC<OperativeNoteModalProps> = ({
                     <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg">
                       <label className="flex items-center gap-3 cursor-pointer">
                         <input type="checkbox" disabled={!canEdit} name="drains_present" checked={formData.drains_present} onChange={handleChange} className="w-4 h-4 accent-indigo-600 rounded disabled:opacity-50" />
-                        <span className="text-sm font-bold text-slate-700">Drains Present</span>
+                        <span className="text-sm font-bold text-slate-700">{i18n.t("Drains Present")}</span>
                       </label>
                       {formData.drains_present && (
-                        <input type="text" disabled={!canEdit} name="drains_details" value={formData.drains_details} onChange={handleChange} placeholder="Type, site & number" className="w-full mt-2 p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
+                        <input type="text" disabled={!canEdit} name="drains_details" value={formData.drains_details} onChange={handleChange} placeholder={i18n.t("Type, site & number")} className="w-full mt-2 p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
                       )}
                     </div>
                     <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg">
                       <label className="flex items-center gap-3 cursor-pointer">
                         <input type="checkbox" disabled={!canEdit} name="tourniquet_used" checked={formData.tourniquet_used} onChange={handleChange} className="w-4 h-4 accent-indigo-600 rounded disabled:opacity-50" />
-                        <span className="text-sm font-bold text-slate-700">Tourniquet Used</span>
+                        <span className="text-sm font-bold text-slate-700">{i18n.t("Tourniquet Used")}</span>
                       </label>
                       {formData.tourniquet_used && (
                         <div className="grid grid-cols-3 gap-2 mt-2">
-                          <div><label className="text-[9px] font-bold text-slate-400 uppercase">Site</label><input type="text" disabled={!canEdit} name="tourniquet_site" value={formData.tourniquet_site} onChange={handleChange} className="w-full p-1.5 border border-slate-300 rounded text-sm outline-none focus:ring-1 focus:ring-indigo-500 disabled:bg-slate-50 disabled:text-slate-500" /></div>
-                          <div><label className="text-[9px] font-bold text-slate-400 uppercase">Pressure</label><input type="number" disabled={!canEdit} name="tourniquet_pressure" value={formData.tourniquet_pressure} onChange={handleChange} className="w-full p-1.5 border border-slate-300 rounded text-sm outline-none focus:ring-1 focus:ring-indigo-500 disabled:bg-slate-50 disabled:text-slate-500" /></div>
-                          <div><label className="text-[9px] font-bold text-slate-400 uppercase">Duration (m)</label><input type="number" disabled={!canEdit} name="tourniquet_duration" value={formData.tourniquet_duration} onChange={handleChange} className="w-full p-1.5 border border-slate-300 rounded text-sm outline-none focus:ring-1 focus:ring-indigo-500 disabled:bg-slate-50 disabled:text-slate-500" /></div>
+                          <div><label className="text-[9px] font-bold text-slate-400 uppercase">{i18n.t("Site")}</label><input type="text" disabled={!canEdit} name="tourniquet_site" value={formData.tourniquet_site} onChange={handleChange} className="w-full p-1.5 border border-slate-300 rounded text-sm outline-none focus:ring-1 focus:ring-indigo-500 disabled:bg-slate-50 disabled:text-slate-500" /></div>
+                          <div><label className="text-[9px] font-bold text-slate-400 uppercase">{i18n.t("Pressure")}</label><input type="number" disabled={!canEdit} name="tourniquet_pressure" value={formData.tourniquet_pressure} onChange={handleChange} className="w-full p-1.5 border border-slate-300 rounded text-sm outline-none focus:ring-1 focus:ring-indigo-500 disabled:bg-slate-50 disabled:text-slate-500" /></div>
+                          <div><label className="text-[9px] font-bold text-slate-400 uppercase">{i18n.t("Duration (m)")}</label><input type="number" disabled={!canEdit} name="tourniquet_duration" value={formData.tourniquet_duration} onChange={handleChange} className="w-full p-1.5 border border-slate-300 rounded text-sm outline-none focus:ring-1 focus:ring-indigo-500 disabled:bg-slate-50 disabled:text-slate-500" /></div>
                         </div>
                       )}
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Estimated Blood Loss (mL)</label>
+                        <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Estimated Blood Loss (mL)")}</label>
                         <input type="number" disabled={!canEdit} name="estimated_blood_loss" value={formData.estimated_blood_loss} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
                       </div>
                       <div>
-                        <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Blood Products (Units)</label>
+                        <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Blood Products (Units)")}</label>
                         <input type="text" disabled={!canEdit} name="blood_products" value={formData.blood_products} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
                       </div>
                     </div>
@@ -574,49 +570,49 @@ const OperativeNoteModal: React.FC<OperativeNoteModalProps> = ({
                     <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg">
                       <label className="flex items-center gap-3 cursor-pointer">
                         <input type="checkbox" disabled={!canEdit} name="antibiotic_prophylaxis" checked={formData.antibiotic_prophylaxis} onChange={handleChange} className="w-4 h-4 accent-indigo-600 rounded disabled:opacity-50" />
-                        <span className="text-sm font-bold text-slate-700">Antibiotic Prophylaxis Given</span>
+                        <span className="text-sm font-bold text-slate-700">{i18n.t("Antibiotic Prophylaxis Given")}</span>
                       </label>
                       {formData.antibiotic_prophylaxis && (
-                        <input type="text" disabled={!canEdit} name="antibiotic_agent" value={formData.antibiotic_agent} onChange={handleChange} placeholder="Agent, dose, route & time" className="w-full mt-2 p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
+                        <input type="text" disabled={!canEdit} name="antibiotic_agent" value={formData.antibiotic_agent} onChange={handleChange} placeholder={i18n.t("Agent, dose, route & time")} className="w-full mt-2 p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
                       )}
                     </div>
                     <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg space-y-2">
-                       <label className="block text-[10px] font-bold text-slate-500 uppercase">DVT Prophylaxis</label>
+                       <label className="block text-[10px] font-bold text-slate-500 uppercase">{i18n.t("DVT Prophylaxis")}</label>
                        <select name="dvt_prophylaxis" disabled={!canEdit} value={formData.dvt_prophylaxis} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500">
-                          <option value="None">None</option>
-                          <option value="Mechanical">Mechanical</option>
-                          <option value="Pharmacological">Pharmacological</option>
-                          <option value="Both">Both</option>
+                          <option value="None">{i18n.t("None")}</option>
+                          <option value="Mechanical">{i18n.t("Mechanical")}</option>
+                          <option value="Pharmacological">{i18n.t("Pharmacological")}</option>
+                          <option value="Both">{i18n.t("Both")}</option>
                        </select>
                        {formData.dvt_prophylaxis !== "None" && (
-                          <input type="text" disabled={!canEdit} name="dvt_details" value={formData.dvt_details} onChange={handleChange} placeholder="Details (TED stockings, LMWH dose, etc.)" className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
+                          <input type="text" disabled={!canEdit} name="dvt_details" value={formData.dvt_details} onChange={handleChange} placeholder={i18n.t("Details (TED stockings, LMWH dose, etc.)")} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
                        )}
                     </div>
                     <div>
-                      <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Fluids Given (Type/Volume)</label>
+                      <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Fluids Given (Type/Volume)")}</label>
                       <input type="text" disabled={!canEdit} name="fluids_given" value={formData.fluids_given} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
                     </div>
                   </div>
                   
                   {/* Specimens Span Full */}
                   <div className="col-span-1 md:col-span-2 p-4 bg-indigo-50 border border-indigo-100 rounded-lg">
-                    <h5 className="font-bold text-indigo-900 text-xs mb-3 uppercase tracking-wide">Specimens</h5>
+                    <h5 className="font-bold text-indigo-900 text-xs mb-3 uppercase tracking-wide">{i18n.t("Specimens")}</h5>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                        <div>
-                          <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Sent To</label>
+                          <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Sent To")}</label>
                           <select name="specimens_sent_to" disabled={!canEdit} value={formData.specimens_sent_to} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none bg-white disabled:bg-slate-50 disabled:text-slate-500">
-                            <option value="">Select...</option>
-                            <option value="Histology">Histology</option>
-                            <option value="Microbiology">Microbiology</option>
-                            <option value="Cytology">Cytology</option>
-                            <option value="Frozen section">Frozen section</option>
-                            <option value="Disposed of">Disposed of</option>
-                            <option value="Other">Other</option>
+                            <option value="">{i18n.t("Select...")}</option>
+                            <option value="Histology">{i18n.t("Histology")}</option>
+                            <option value="Microbiology">{i18n.t("Microbiology")}</option>
+                            <option value="Cytology">{i18n.t("Cytology")}</option>
+                            <option value="Frozen section">{i18n.t("Frozen section")}</option>
+                            <option value="Disposed of">{i18n.t("Disposed of")}</option>
+                            <option value="Other">{i18n.t("Other")}</option>
                           </select>
                        </div>
                        <div className="md:col-span-2">
-                          <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Description & Labelling</label>
-                          <input type="text" disabled={!canEdit} name="specimen_description" value={formData.specimen_description} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none bg-white disabled:bg-slate-50 disabled:text-slate-500" placeholder="Pots numbered, request form completed..." />
+                          <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Description & Labelling")}</label>
+                          <input type="text" disabled={!canEdit} name="specimen_description" value={formData.specimen_description} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none bg-white disabled:bg-slate-50 disabled:text-slate-500" placeholder={i18n.t("Pots numbered, request form completed...")} />
                        </div>
                     </div>
                   </div>
@@ -627,24 +623,24 @@ const OperativeNoteModal: React.FC<OperativeNoteModalProps> = ({
               <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
                 <div className="flex items-center gap-2 border-b pb-3">
                   <div className="bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded font-black">6</div> 
-                  <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm">Outcome & Post-Operative Plan</h4>
+                  <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm">{i18n.t("Outcome & Post-Operative Plan")}</h4>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-4">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Outcome</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Outcome")}</label>
                     <select name="outcome" disabled={!canEdit} value={formData.outcome} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none font-bold disabled:bg-slate-50 disabled:text-slate-500">
-                      <option value="Uncomplicated">Uncomplicated</option>
-                      <option value="Complicated">Complicated</option>
+                      <option value="Uncomplicated">{i18n.t("Uncomplicated")}</option>
+                      <option value="Complicated">{i18n.t("Complicated")}</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Patient Condition Leaving Theatre</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Patient Condition Leaving Theatre")}</label>
                     <input type="text" disabled={!canEdit} name="patient_condition_leaving" value={formData.patient_condition_leaving} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
                   </div>
                   {formData.outcome === "Complicated" && (
                     <div className="md:col-span-2 bg-red-50 p-3 border border-red-200 rounded-lg">
-                      <label className="block text-[10px] font-bold text-red-700 uppercase mb-1">Describe Complication, Actions & Persons Informed</label>
+                      <label className="block text-[10px] font-bold text-red-700 uppercase mb-1">{i18n.t("Describe Complication, Actions & Persons Informed")}</label>
                       <textarea rows={2} disabled={!canEdit} name="complications" value={formData.complications} onChange={handleChange} className="w-full p-2 border border-red-300 rounded text-sm focus:ring-2 focus:ring-red-500 outline-none resize-y disabled:bg-red-50 disabled:text-slate-500" />
                     </div>
                   )}
@@ -652,43 +648,43 @@ const OperativeNoteModal: React.FC<OperativeNoteModalProps> = ({
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-4 border-t border-slate-100">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Transfer To</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Transfer To")}</label>
                     <select name="transfer_to" disabled={!canEdit} value={formData.transfer_to} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500">
-                      <option value="Recovery">Recovery / PACU</option>
-                      <option value="HDU">HDU</option>
-                      <option value="ICU">ICU</option>
-                      <option value="Ward">Ward</option>
-                      <option value="Day-case discharge">Day-case discharge</option>
-                      <option value="Other">Other</option>
+                      <option value="Recovery">{i18n.t("Recovery / PACU")}</option>
+                      <option value="HDU">{i18n.t("HDU")}</option>
+                      <option value="ICU">{i18n.t("ICU")}</option>
+                      <option value="Ward">{i18n.t("Ward")}</option>
+                      <option value="Day-case discharge">{i18n.t("Day-case discharge")}</option>
+                      <option value="Other">{i18n.t("Other")}</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Destination Ward / Unit</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Destination Ward / Unit")}</label>
                     <input type="text" disabled={!canEdit} name="destination_ward" value={formData.destination_ward} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Post-Operative Instructions (Observations, position, NBM/diet, drains)</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Post-Operative Instructions (Observations, position, NBM/diet, drains)")}</label>
                     <textarea rows={3} disabled={!canEdit} name="postop_instructions" value={formData.postop_instructions} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none resize-y disabled:bg-slate-50 disabled:text-slate-500" />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">New Medications Requested (Drug, dose, route, duration)</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("New Medications Requested (Drug, dose, route, duration)")}</label>
                     <textarea rows={2} disabled={!canEdit} name="new_medications" value={formData.new_medications} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none resize-y disabled:bg-slate-50 disabled:text-slate-500" />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Discharge Instructions (If applicable)</label>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Discharge Instructions (If applicable)")}</label>
                     <textarea rows={2} disabled={!canEdit} name="discharge_instructions" value={formData.discharge_instructions} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none resize-y disabled:bg-slate-50 disabled:text-slate-500" />
                   </div>
                   <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
                      <div>
-                       <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Follow-up Clinic Date</label>
+                       <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Follow-up Clinic Date")}</label>
                        <input type="date" disabled={!canEdit} name="followup_clinic_date" value={formData.followup_clinic_date} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
                      </div>
                      <div>
-                       <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Suture/Staple Removal</label>
+                       <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Suture/Staple Removal")}</label>
                        <input type="date" disabled={!canEdit} name="suture_removal_date" value={formData.suture_removal_date} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
                      </div>
                      <div>
-                       <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Histology Follow-up Plan</label>
+                       <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{i18n.t("Histology Follow-up Plan")}</label>
                        <input type="text" disabled={!canEdit} name="histology_followup" value={formData.histology_followup} onChange={handleChange} className="w-full p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-slate-50 disabled:text-slate-500" />
                      </div>
                   </div>
@@ -699,28 +695,28 @@ const OperativeNoteModal: React.FC<OperativeNoteModalProps> = ({
               <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6">
                 <div className="flex items-center gap-2 border-b pb-3">
                   <div className="bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded font-black">7</div> 
-                  <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm flex items-center gap-2"><FileSignature size={16}/> Signatures & Certification</h4>
+                  <h4 className="font-bold text-slate-800 uppercase tracking-wider text-sm flex items-center gap-2"><FileSignature size={16}/>{" "}{i18n.t("Signatures & Certification")}</h4>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="border border-slate-300 rounded-lg p-4 relative bg-slate-50/50">
-                    <h5 className="text-xs font-bold text-slate-700 uppercase mb-4 border-b border-slate-200 pb-2">Primary Surgeon / Operator</h5>
+                    <h5 className="text-xs font-bold text-slate-700 uppercase mb-4 border-b border-slate-200 pb-2">{i18n.t("Primary Surgeon / Operator")}</h5>
                     <div className="h-40 bg-white border-2 border-dashed border-slate-300 rounded-lg mb-4 relative overflow-hidden flex items-center justify-center">
                       {formData.surgeon_signature ? (
                         <>
-                          <img src={formData.surgeon_signature} alt="Primary Surgeon Signature" className="max-h-full max-w-full object-contain p-2" />
+                          <img src={formData.surgeon_signature} alt={i18n.t("Primary Surgeon Signature")} className="max-h-full max-w-full object-contain p-2" />
                           {canEdit && (
-                            <button onClick={() => setFormData({...formData, surgeon_signature: null})} className="absolute top-2 right-2 p-1.5 bg-red-100 text-red-600 rounded shadow hover:bg-red-200 transition-colors"><Trash2 size={16}/></button>
+                            <button onClick={() => setFormData({...formData, surgeon_signature: null})} className="absolute top-2 end-2 p-1.5 bg-red-100 text-red-600 rounded shadow hover:bg-red-200 transition-colors"><Trash2 size={16}/></button>
                           )}
                         </>
                       ) : (
                         canEdit ? (
                           <SignaturePad onEnd={(d: any) => setFormData({...formData, surgeon_signature: d})} className="w-full h-full" />
                         ) : (
-                          <span className="text-slate-400 font-bold uppercase text-xs">No Signature Available</span>
+                          <span className="text-slate-400 font-bold uppercase text-xs">{i18n.t("No Signature Available")}</span>
                         )
                       )}
-                      {!formData.surgeon_signature && canEdit && <span className="absolute pointer-events-none text-slate-300 font-bold uppercase tracking-widest flex flex-col items-center gap-2"><FileSignature size={24}/> Sign Here</span>}
+                      {!formData.surgeon_signature && canEdit && <span className="absolute pointer-events-none text-slate-300 font-bold uppercase tracking-widest flex flex-col items-center gap-2"><FileSignature size={24}/>{" "}{i18n.t("Sign Here")}</span>}
                     </div>
                   </div>
                 </div>
@@ -733,18 +729,16 @@ const OperativeNoteModal: React.FC<OperativeNoteModalProps> = ({
         {/* Action Footer */}
         <div className="bg-white px-6 py-4 border-t border-slate-200 flex justify-end gap-3 shrink-0 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
           <button onClick={onClose} disabled={saving} className="px-6 py-2.5 rounded-lg font-bold text-slate-600 hover:bg-slate-100 transition-colors">
-            {canEdit ? "Cancel" : "Close"}
+            {canEdit ? i18n.t("Cancel") : i18n.t("Close")}
           </button>
           
           {/* Conditionally render save buttons based on authorization logic */}
           {canEdit && (
             <>
               <button onClick={() => handleSave(false)} disabled={saving} className="px-6 py-2.5 rounded-lg font-bold text-brand-primary bg-brand-primary/10 hover:bg-brand-primary/20 transition-all flex items-center gap-2">
-                {saving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />} Save Draft
-              </button>
+                {saving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}{" "}{i18n.t("Save Draft")}</button>
               <button onClick={() => handleSave(true)} disabled={saving} className="px-8 py-2.5 rounded-lg font-bold text-white bg-brand-primary hover:bg-brand-active0 shadow-lg transition-all flex items-center gap-2 disabled:opacity-50">
-                {saving ? <Loader2 size={18} className="animate-spin" /> : <CheckCircle size={18} />} Sign & Complete Note
-              </button>
+                {saving ? <Loader2 size={18} className="animate-spin" /> : <CheckCircle size={18} />}{" "}{i18n.t("Sign & Complete Note")}</button>
             </>
           )}
         </div>

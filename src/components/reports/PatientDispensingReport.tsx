@@ -27,6 +27,7 @@ import {
   ReportShell,
   KpiCard,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 interface DispensingRecord {
   dispense_id?: number;
@@ -69,27 +70,19 @@ const AuditBadge: React.FC<{ status: string }> = ({ status }) => {
   switch (status) {
     case "FULLY_DISPENSED":
       return (
-        <span className="px-2.5 py-1 text-xs font-black rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-          Fully Dispensed
-        </span>
+        <span className="px-2.5 py-1 text-xs font-black rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">{i18n.t("Fully Dispensed")}</span>
       );
     case "PARTIALLY_DISPENSED":
       return (
-        <span className="px-2.5 py-1 text-xs font-black rounded-full bg-amber-50 text-amber-700 border border-amber-200">
-          Partial Dispense
-        </span>
+        <span className="px-2.5 py-1 text-xs font-black rounded-full bg-amber-50 text-amber-700 border border-amber-200">{i18n.t("Partial Dispense")}</span>
       );
     case "PENDING_DISPENSE":
       return (
-        <span className="px-2.5 py-1 text-xs font-black rounded-full bg-sky-50 text-sky-700 border border-sky-200">
-          Awaiting Dispense
-        </span>
+        <span className="px-2.5 py-1 text-xs font-black rounded-full bg-sky-50 text-sky-700 border border-sky-200">{i18n.t("Awaiting Dispense")}</span>
       );
     case "CANCELLED":
       return (
-        <span className="px-2.5 py-1 text-xs font-black rounded-full bg-rose-50 text-rose-700 border border-rose-200">
-          Cancelled
-        </span>
+        <span className="px-2.5 py-1 text-xs font-black rounded-full bg-rose-50 text-rose-700 border border-rose-200">{i18n.t("Cancelled")}</span>
       );
     default:
       return (
@@ -286,8 +279,8 @@ const PatientDispensingReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Patient Medication Dispensation Register"
-      subtitle="Reconciled audit register of clinical prescription orders, prescribing physicians, patient identity, and dispensed medications."
+      title={i18n.t("Patient Medication Dispensation Register")}
+      subtitle={i18n.t("Reconciled audit register of clinical prescription orders, prescribing physicians, patient identity, and dispensed medications.")}
       isLoading={isLoading}
       onClear={handleClear}
       onRefresh={fetchReportData}
@@ -297,14 +290,14 @@ const PatientDispensingReport: React.FC = () => {
         <>
           {/* Universal Search Bar */}
           <div className="relative lg:col-span-2">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input
               type="text"
-              placeholder="Search patient, MRN, drug, doctor, pharmacist, or ref..."
+              placeholder={i18n.t("Search patient, MRN, drug, doctor, pharmacist, or ref...")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               disabled={isLoading}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 disabled:opacity-50 font-medium"
+              className="w-full ps-10 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 disabled:opacity-50 font-medium"
             />
           </div>
 
@@ -316,19 +309,19 @@ const PatientDispensingReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-600/20"
             >
-              <option value="today">Today</option>
-              <option value="yesterday">Yesterday</option>
-              <option value="this_week">This Week</option>
-              <option value="last_week">Last Week</option>
-              <option value="last_7_days">Last 7 Days</option>
-              <option value="last_30_days">Last 30 Days</option>
-              <option value="this_month">This Month</option>
-              <option value="last_month">Last Month</option>
-              <option value="last_3_months">Last 3 Months</option>
-              <option value="this_year">This Year</option>
-              <option value="last_year">Last Year</option>
-              <option value="all_time">All Time</option>
-              <option value="custom">Custom Date Range</option>
+              <option value="today">{i18n.t("Today")}</option>
+              <option value="yesterday">{i18n.t("Yesterday")}</option>
+              <option value="this_week">{i18n.t("This Week")}</option>
+              <option value="last_week">{i18n.t("Last Week")}</option>
+              <option value="last_7_days">{i18n.t("Last 7 Days")}</option>
+              <option value="last_30_days">{i18n.t("Last 30 Days")}</option>
+              <option value="this_month">{i18n.t("This Month")}</option>
+              <option value="last_month">{i18n.t("Last Month")}</option>
+              <option value="last_3_months">{i18n.t("Last 3 Months")}</option>
+              <option value="this_year">{i18n.t("This Year")}</option>
+              <option value="last_year">{i18n.t("Last Year")}</option>
+              <option value="all_time">{i18n.t("All Time")}</option>
+              <option value="custom">{i18n.t("Custom Date Range")}</option>
             </select>
           </div>
 
@@ -340,11 +333,11 @@ const PatientDispensingReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-600/20"
             >
-              <option value="All">All Dispense Statuses</option>
-              <option value="FULLY_DISPENSED">Fully Dispensed</option>
-              <option value="PARTIALLY_DISPENSED">Partially Dispensed</option>
-              <option value="PENDING_DISPENSE">Awaiting Dispensing</option>
-              <option value="CANCELLED">Cancelled Prescriptions</option>
+              <option value="All">{i18n.t("All Dispense Statuses")}</option>
+              <option value="FULLY_DISPENSED">{i18n.t("Fully Dispensed")}</option>
+              <option value="PARTIALLY_DISPENSED">{i18n.t("Partially Dispensed")}</option>
+              <option value="PENDING_DISPENSE">{i18n.t("Awaiting Dispensing")}</option>
+              <option value="CANCELLED">{i18n.t("Cancelled Prescriptions")}</option>
             </select>
           </div>
 
@@ -356,7 +349,7 @@ const PatientDispensingReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 outline-none focus:ring-2 focus:ring-indigo-600/20"
             >
-              <option value="All">All Prescribing Doctors</option>
+              <option value="All">{i18n.t("All Prescribing Doctors")}</option>
               {doctorOptions.map((doc) => (
                 <option key={doc} value={doc}>
                   {doc}
@@ -373,7 +366,7 @@ const PatientDispensingReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 outline-none focus:ring-2 focus:ring-indigo-600/20"
             >
-              <option value="All">All Dispensing Staff</option>
+              <option value="All">{i18n.t("All Dispensing Staff")}</option>
               {pharmacistOptions.map((pharm) => (
                 <option key={pharm} value={pharm}>
                   {pharm}
@@ -399,31 +392,31 @@ const PatientDispensingReport: React.FC = () => {
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3.5 mb-6">
         <KpiCard
           icon={Pill}
-          label="Prescriptions Audited"
+          label={i18n.t("Prescriptions Audited")}
           value={aggregates.total_prescriptions_reviewed ?? records.length}
           colorClass="bg-blue-50 border-blue-100 text-blue-900"
         />
         <KpiCard
           icon={CheckCircle2}
-          label="Fully Dispensed"
+          label={i18n.t("Fully Dispensed")}
           value={aggregates.fully_dispensed ?? 0}
           colorClass="bg-emerald-50 border-emerald-100 text-emerald-900"
         />
         <KpiCard
           icon={AlertCircle}
-          label="Partially Dispensed"
+          label={i18n.t("Partially Dispensed")}
           value={aggregates.partially_dispensed ?? 0}
           colorClass="bg-amber-50 border-amber-100 text-amber-900"
         />
         <KpiCard
           icon={Clock}
-          label="Pending at Counter"
+          label={i18n.t("Pending at Counter")}
           value={aggregates.pending_dispense ?? 0}
           colorClass="bg-sky-50 border-sky-100 text-sky-900"
         />
         <KpiCard
           icon={Activity}
-          label="Fulfillment Rate"
+          label={i18n.t("Fulfillment Rate")}
           value={`${aggregates.overall_fulfillment_rate_pct ?? 0}%`}
           colorClass="bg-indigo-50 border-indigo-100 text-indigo-900"
         />
@@ -431,19 +424,19 @@ const PatientDispensingReport: React.FC = () => {
 
       {/* ---------------- 2. Dispensation Register Table ---------------- */}
       <div className="overflow-x-auto rounded-xl border border-slate-200 min-h-[420px] bg-white">
-        <table className="w-full text-left text-sm whitespace-nowrap">
+        <table className="w-full text-start text-sm whitespace-nowrap">
           <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10 text-[11px] font-black uppercase text-slate-600 tracking-wider">
             <tr>
               <th className="px-3 py-3.5 w-10"></th>
               <th className="px-4 py-3.5">#</th>
-              <th className="px-4 py-3.5">Patient Details</th>
-              <th className="px-4 py-3.5">Prescribed Medication</th>
-              <th className="px-4 py-3.5">Clinical Regimen</th>
-              <th className="px-4 py-3.5 text-center">Prescribed</th>
-              <th className="px-4 py-3.5 text-center">Dispensed</th>
-              <th className="px-4 py-3.5">Prescribing Physician</th>
-              <th className="px-4 py-3.5">Dispensed By</th>
-              <th className="px-4 py-3.5 text-right">Audit Status</th>
+              <th className="px-4 py-3.5">{i18n.t("Patient Details")}</th>
+              <th className="px-4 py-3.5">{i18n.t("Prescribed Medication")}</th>
+              <th className="px-4 py-3.5">{i18n.t("Clinical Regimen")}</th>
+              <th className="px-4 py-3.5 text-center">{i18n.t("Prescribed")}</th>
+              <th className="px-4 py-3.5 text-center">{i18n.t("Dispensed")}</th>
+              <th className="px-4 py-3.5">{i18n.t("Prescribing Physician")}</th>
+              <th className="px-4 py-3.5">{i18n.t("Dispensed By")}</th>
+              <th className="px-4 py-3.5 text-end">{i18n.t("Audit Status")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -468,9 +461,9 @@ const PatientDispensingReport: React.FC = () => {
                     <td className="px-4 py-3">
                       <div className="font-bold text-slate-900">{renderValue(row.patient_name)}</div>
                       <div className="text-[11px] text-slate-500 font-mono flex items-center gap-1.5 mt-0.5">
-                        <span className="font-semibold text-slate-700">MRN: {renderValue(row.mrn)}</span>
+                        <span className="font-semibold text-slate-700">{i18n.t("MRN:")}{" "}{renderValue(row.mrn)}</span>
                         <span>•</span>
-                        <span>{row.age_years || "—"}y</span>
+                        <span>{row.age_years || "—"}{i18n.t("y")}</span>
                         <span>•</span>
                         <span>{renderValue(row.gender)}</span>
                       </div>
@@ -483,7 +476,7 @@ const PatientDispensingReport: React.FC = () => {
                         {renderValue(row.medication_name)}
                       </div>
                       {(row.strength || row.formulation) && (
-                        <div className="text-[11px] text-slate-400 ml-5 font-medium">
+                        <div className="text-[11px] text-slate-400 ms-5 font-medium">
                           {[row.strength, row.formulation].filter(Boolean).join(" • ")}
                         </div>
                       )}
@@ -492,8 +485,7 @@ const PatientDispensingReport: React.FC = () => {
                     {/* Clinical Regimen & Route */}
                     <td className="px-4 py-3 text-xs text-slate-700">
                       <div className="font-semibold">{renderValue(row.clinical_regimen)}</div>
-                      <div className="text-[10px] text-slate-400 font-mono mt-0.5">
-                        Route: <span className="font-bold uppercase text-slate-600">{renderValue(row.route)}</span>
+                      <div className="text-[10px] text-slate-400 font-mono mt-0.5">{i18n.t("Route:")}{" "}<span className="font-bold uppercase text-slate-600">{renderValue(row.route)}</span>
                       </div>
                     </td>
 
@@ -508,8 +500,7 @@ const PatientDispensingReport: React.FC = () => {
                         {row.qty_dispensed} {row.dosage_unit}
                       </span>
                       {row.balance_remaining > 0 && (
-                        <div className="text-[10px] text-amber-600 font-bold mt-0.5">
-                          Bal: {row.balance_remaining}
+                        <div className="text-[10px] text-amber-600 font-bold mt-0.5">{i18n.t("Bal:")}{" "}{row.balance_remaining}
                         </div>
                       )}
                     </td>
@@ -520,7 +511,7 @@ const PatientDispensingReport: React.FC = () => {
                         <Stethoscope size={13} className="text-slate-400 shrink-0" />
                         {renderValue(row.prescribing_doctor)}
                       </div>
-                      <div className="text-[10px] text-slate-400 ml-4">
+                      <div className="text-[10px] text-slate-400 ms-4">
                         {renderValue(row.doctor_department)} • {row.prescribed_at?.slice(0, 10)}
                       </div>
                     </td>
@@ -532,18 +523,15 @@ const PatientDispensingReport: React.FC = () => {
                         {renderValue(row.dispensed_by_pharmacist)}
                       </div>
                       {row.dispensed_at ? (
-                        <div className="text-[10px] text-slate-400 ml-4 font-mono">
-                          Ref: {row.dispense_ref} ({row.dispensed_at.slice(0, 16)})
+                        <div className="text-[10px] text-slate-400 ms-4 font-mono">{i18n.t("Ref:")}{" "}{row.dispense_ref} ({row.dispensed_at.slice(0, 16)})
                         </div>
                       ) : (
-                        <div className="text-[10px] text-slate-400 ml-4 italic">
-                          Awaiting Dispensing
-                        </div>
+                        <div className="text-[10px] text-slate-400 ms-4 italic">{i18n.t("Awaiting Dispensing")}</div>
                       )}
                     </td>
 
                     {/* Audit Status */}
-                    <td className="px-4 py-3 text-right">
+                    <td className="px-4 py-3 text-end">
                       <AuditBadge status={row.fulfillment_audit_status} />
                     </td>
                   </tr>
@@ -554,31 +542,25 @@ const PatientDispensingReport: React.FC = () => {
                       <td colSpan={10} className="px-4 py-3.5 bg-slate-50/80 border-b border-slate-200">
                         <div className="bg-white p-3.5 rounded-xl border border-slate-200/80 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
                           <div>
-                            <span className="text-[10px] uppercase font-black tracking-wider text-slate-400 block mb-1">
-                              Clinical Instructions & Timing
-                            </span>
+                            <span className="text-[10px] uppercase font-black tracking-wider text-slate-400 block mb-1">{i18n.t("Clinical Instructions & Timing")}</span>
                             <p className="font-semibold text-slate-700">
-                              {renderValue(row.instructions) || "Standard prescribed dosing frequency applies."}
+                              {renderValue(row.instructions) || i18n.t("Standard prescribed dosing frequency applies.")}
                             </p>
                           </div>
 
                           <div>
-                            <span className="text-[10px] uppercase font-black tracking-wider text-slate-400 block mb-1">
-                              Prescription Timeline & Verification
-                            </span>
+                            <span className="text-[10px] uppercase font-black tracking-wider text-slate-400 block mb-1">{i18n.t("Prescription Timeline & Verification")}</span>
                             <div className="text-slate-600 space-y-0.5">
-                              <div>Ordered: <span className="font-semibold text-slate-900">{row.prescribed_at}</span></div>
-                              <div>Dispensed: <span className="font-semibold text-slate-900">{row.dispensed_at || "Pending Handover"}</span></div>
+                              <div>{i18n.t("Ordered:")}{" "}<span className="font-semibold text-slate-900">{row.prescribed_at}</span></div>
+                              <div>{i18n.t("Dispensed:")}{" "}<span className="font-semibold text-slate-900">{row.dispensed_at || i18n.t("Pending Handover")}</span></div>
                             </div>
                           </div>
 
                           <div>
-                            <span className="text-[10px] uppercase font-black tracking-wider text-slate-400 block mb-1">
-                              Dispense Authentication Reference
-                            </span>
+                            <span className="text-[10px] uppercase font-black tracking-wider text-slate-400 block mb-1">{i18n.t("Dispense Authentication Reference")}</span>
                             <div className="text-slate-600 space-y-0.5">
-                              <div>Receipt / Accession: <span className="font-mono font-bold text-slate-800">{row.dispense_ref}</span></div>
-                              <div>Pharmacist on Duty: <span className="font-semibold text-slate-900">{row.dispensed_by_pharmacist}</span></div>
+                              <div>{i18n.t("Receipt / Accession:")}{" "}<span className="font-mono font-bold text-slate-800">{row.dispense_ref}</span></div>
+                              <div>{i18n.t("Pharmacist on Duty:")}{" "}<span className="font-semibold text-slate-900">{row.dispensed_by_pharmacist}</span></div>
                             </div>
                           </div>
                         </div>
@@ -591,8 +573,8 @@ const PatientDispensingReport: React.FC = () => {
               <tr>
                 <td colSpan={10} className="px-4 py-12 text-center text-slate-400 italic">
                   {isLoading 
-                    ? "Compiling patient medication dispensation ledger..." 
-                    : "No medication dispensing records found for the selected timeframe and criteria."}
+                    ? i18n.t("Compiling patient medication dispensation ledger...") 
+                    : i18n.t("No medication dispensing records found for the selected timeframe and criteria.")}
                 </td>
               </tr>
             )}
@@ -603,15 +585,13 @@ const PatientDispensingReport: React.FC = () => {
       {/* ---------------- Pagination Footer ---------------- */}
       {!isLoading && totalRecords > 0 && (
         <div className="mt-4 p-4 bg-slate-50 border border-slate-200 rounded-2xl flex flex-col sm:flex-row justify-between items-center gap-3">
-          <div className="text-xs text-slate-500 font-semibold">
-            Showing <span className="text-slate-900 font-bold">{(currentPage - 1) * itemsPerPage + 1}</span> to{" "}
-            <span className="text-slate-900 font-bold">{Math.min(currentPage * itemsPerPage, totalRecords)}</span> of{" "}
-            <span className="text-slate-900 font-bold">{totalRecords}</span> prescriptions
-          </div>
+          <div className="text-xs text-slate-500 font-semibold">{i18n.t("Showing")}{" "}<span className="text-slate-900 font-bold">{(currentPage - 1) * itemsPerPage + 1}</span>{" "}{i18n.t("to")}{" "}
+            <span className="text-slate-900 font-bold">{Math.min(currentPage * itemsPerPage, totalRecords)}</span>{" "}{i18n.t("of")}{" "}
+            <span className="text-slate-900 font-bold">{totalRecords}</span>{" "}{i18n.t("prescriptions")}</div>
 
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5">
-              <span className="text-xs text-slate-400 font-bold uppercase">Show</span>
+              <span className="text-xs text-slate-400 font-bold uppercase">{i18n.t("Show")}</span>
               <select
                 value={itemsPerPage}
                 onChange={(e) => {
@@ -631,19 +611,14 @@ const PatientDispensingReport: React.FC = () => {
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
                 className="p-1.5 rounded-lg border border-slate-200 bg-white text-slate-600 disabled:opacity-40 hover:bg-slate-50"
-              >
-                Prev
-              </button>
-              <span className="text-xs font-bold text-slate-800 px-2">
-                Page {currentPage} of {totalPages}
+              >{i18n.t("Prev")}</button>
+              <span className="text-xs font-bold text-slate-800 px-2">{i18n.t("Page")}{" "}{currentPage}{" "}{i18n.t("of")}{" "}{totalPages}
               </span>
               <button
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage >= totalPages}
                 className="p-1.5 rounded-lg border border-slate-200 bg-white text-slate-600 disabled:opacity-40 hover:bg-slate-50"
-              >
-                Next
-              </button>
+              >{i18n.t("Next")}</button>
             </div>
           </div>
         </div>

@@ -20,6 +20,7 @@ import {
 import { billingService } from '../services/billing.service';
 import { patientService } from '../services/patient.service';
 import { useNotification } from '../context/NotificationContext';
+import { i18n } from "../i18n";
 
 const AdvanceCollection: React.FC = () => {
   const [balance, setBalance] = useState(0);
@@ -128,10 +129,8 @@ const AdvanceCollection: React.FC = () => {
           <h1 className="text-3xl font-black text-slate-800 tracking-tight flex items-center gap-3">
              <div className="p-2 bg-emerald-50 text-emerald-600 rounded-xl">
               <Wallet size={28} />
-            </div>
-            Advance Collection & Wallet
-          </h1>
-          <p className="text-slate-500 font-medium">Manage patient deposits and pre-payments.</p>
+            </div>{i18n.t("Advance Collection & Wallet")}</h1>
+          <p className="text-slate-500 font-medium">{i18n.t("Manage patient deposits and pre-payments.")}</p>
         </div>
       </div>
 
@@ -141,15 +140,14 @@ const AdvanceCollection: React.FC = () => {
           {/* Patient Card */}
           <div className="bg-white border border-slate-200 rounded-[40px] p-8 shadow-sm">
             <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
-              <User size={16} /> Identify Patient
-            </h3>
+              <User size={16} />{" "}{i18n.t("Identify Patient")}</h3>
             <div className="relative mb-6 flex gap-2">
               <div className="relative flex-1">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                 <input 
                   type="text" 
-                  placeholder="Search MRN..." 
-                  className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold outline-none focus:bg-white transition-all"
+                  placeholder={i18n.t("Search MRN...")} 
+                  className="w-full ps-11 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold outline-none focus:bg-white transition-all"
                   value={searchMrn}
                   onChange={(e) => setSearchMrn(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -174,24 +172,21 @@ const AdvanceCollection: React.FC = () => {
           {/* Balance Card */}
           <div className="bg-gradient-to-br from-emerald-600 to-teal-800 rounded-[40px] p-8 text-white shadow-xl shadow-emerald-100 relative overflow-hidden group">
             <div className="relative z-10">
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-200 mb-1">Available Credit</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-200 mb-1">{i18n.t("Available Credit")}</p>
               <h2 className="text-4xl font-black tracking-tight">₦{balance.toLocaleString()}</h2>
               <div className="mt-8 flex items-center gap-2 text-[10px] font-bold text-emerald-200/60 uppercase tracking-widest">
-                <Clock size={12} /> Last updated: Just now
-              </div>
+                <Clock size={12} />{" "}{i18n.t("Last updated: Just now")}</div>
             </div>
-            <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-white/5 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700" />
+            <div className="absolute -bottom-10 -end-10 w-48 h-48 bg-white/5 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700" />
           </div>
 
           {/* Top-up Form */}
           <div className="bg-white border border-slate-200 rounded-[40px] p-8 shadow-sm">
             <h3 className="text-lg font-black text-slate-800 mb-6 flex items-center gap-2">
-              <Plus size={20} className="text-emerald-600" />
-              Collect Advance
-            </h3>
+              <Plus size={20} className="text-emerald-600" />{i18n.t("Collect Advance")}</h3>
             <form onSubmit={handleDeposit} className="space-y-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Deposit Amount (₦)</label>
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Deposit Amount (₦)")}</label>
                 <input 
                   required
                   type="number" 
@@ -204,7 +199,7 @@ const AdvanceCollection: React.FC = () => {
               
               <div className="space-y-4">
                 <div className="relative group">
-                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-primary transition-colors z-10">
+                  <div className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-primary transition-colors z-10">
                     <Wallet size={18} />
                   </div>
                   <select
@@ -214,7 +209,7 @@ const AdvanceCollection: React.FC = () => {
                       const method = paymentMethods.find((m) => m.code === e.target.value);
                       if (method?.category === "CASH") setPaymentReference("");
                     }}
-                    className="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-sm text-slate-800 outline-none focus:bg-white focus:border-emerald-500 transition-all appearance-none cursor-pointer"
+                    className="w-full ps-10 pe-10 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-sm text-slate-800 outline-none focus:bg-white focus:border-emerald-500 transition-all appearance-none cursor-pointer"
                   >
                     {paymentMethods.length > 0 ? (
                       paymentMethods.map((method) => (
@@ -223,10 +218,10 @@ const AdvanceCollection: React.FC = () => {
                         </option>
                       ))
                     ) : (
-                      <option value="CASH">Cash Payment</option>
+                      <option value="CASH">{i18n.t("Cash Payment")}</option>
                     )}
                   </select>
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none transition-transform group-focus-within:rotate-180">
+                  <div className="absolute end-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none transition-transform group-focus-within:rotate-180">
                     <ChevronDown size={18} />
                   </div>
                 </div>
@@ -234,11 +229,11 @@ const AdvanceCollection: React.FC = () => {
 
               {paymentMethods.find(m => m.code === paymentMethod)?.category !== "CASH" && (
                 <div className="space-y-2 animate-in fade-in slide-in-from-top-2">
-                   <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Reference / Transaction ID</label>
+                   <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Reference / Transaction ID")}</label>
                    <input 
                       value={paymentReference}
                       onChange={(e) => setPaymentReference(e.target.value)}
-                      placeholder="Enter Ref No."
+                      placeholder={i18n.t("Enter Ref No.")}
                       className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold outline-none focus:bg-white focus:border-emerald-500 transition-all"
                    />
                 </div>
@@ -248,7 +243,7 @@ const AdvanceCollection: React.FC = () => {
                 disabled={processing || !selectedPatient}
                 className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg active:scale-95 transition-all disabled:opacity-50 disabled:active:scale-100"
               >
-                {processing ? <Loader2 className="animate-spin mx-auto" /> : 'Confirm & Receipt'}
+                {processing ? <Loader2 className="animate-spin mx-auto" /> : i18n.t("Confirm & Receipt")}
               </button>
             </form>
           </div>
@@ -259,27 +254,23 @@ const AdvanceCollection: React.FC = () => {
           <div className="bg-white border border-slate-200 rounded-[40px] shadow-sm overflow-hidden flex flex-col h-full">
             <div className="p-8 border-b border-slate-100 flex items-center justify-between">
               <h3 className="text-xl font-black text-slate-800 tracking-tight flex items-center gap-2">
-                <History size={20} className="text-brand-primary" />
-                Wallet Ledger
-              </h3>
+                <History size={20} className="text-brand-primary" />{i18n.t("Wallet Ledger")}</h3>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full text-left">
+              <table className="w-full text-start">
                 <thead>
                   <tr className="bg-slate-50/50 border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                    <th className="px-8 py-5">Date & Time</th>
-                    <th className="px-8 py-5">Receipt #</th>
-                    <th className="px-8 py-5">Method</th>
-                    <th className="px-8 py-5">Collected By</th>
-                    <th className="px-8 py-5 text-right">Amount</th>
+                    <th className="px-8 py-5">{i18n.t("Date & Time")}</th>
+                    <th className="px-8 py-5">{i18n.t("Receipt #")}</th>
+                    <th className="px-8 py-5">{i18n.t("Method")}</th>
+                    <th className="px-8 py-5">{i18n.t("Collected By")}</th>
+                    <th className="px-8 py-5 text-end">{i18n.t("Amount")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
                   {history.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="px-8 py-12 text-center text-slate-400 font-bold uppercase tracking-widest text-xs">
-                        No transactions found
-                      </td>
+                      <td colSpan={5} className="px-8 py-12 text-center text-slate-400 font-bold uppercase tracking-widest text-xs">{i18n.t("No transactions found")}</td>
                     </tr>
                   ) : (
                     history.map((tx, idx) => (
@@ -296,7 +287,7 @@ const AdvanceCollection: React.FC = () => {
                         <td className="px-8 py-5">
                           <p className="text-xs font-bold text-slate-700">{tx.collected_by || "-"}</p>
                         </td>
-                        <td className="px-8 py-5 text-right font-black text-slate-800">
+                        <td className="px-8 py-5 text-end font-black text-slate-800">
                           ₦{parseFloat(tx.amount).toLocaleString()}
                         </td>
                       </tr>
@@ -311,9 +302,7 @@ const AdvanceCollection: React.FC = () => {
 
       <div className="bg-brand-active border border-brand-active p-6 rounded-[32px] flex items-start gap-4">
          <AlertCircle className="text-brand-primary flex-shrink-0" size={24} />
-         <p className="text-xs text-brand-primary font-medium leading-relaxed uppercase tracking-tight">
-          Advance payments are held in escrow for patient services. Unused balances are refundable upon final discharge verification by the Medical Director.
-         </p>
+         <p className="text-xs text-brand-primary font-medium leading-relaxed uppercase tracking-tight">{i18n.t("Advance payments are held in escrow for patient services. Unused balances are refundable upon final discharge verification by the Medical Director.")}</p>
       </div>
     </div>
   );

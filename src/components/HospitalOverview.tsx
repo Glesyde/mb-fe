@@ -20,6 +20,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import apiClient from "../api/client";
+import { i18n } from "../i18n";
 
 
 
@@ -61,7 +62,7 @@ const HospitalOverview: React.FC = () => {
       <div className="flex items-center justify-center h-96">
         <div className="flex flex-col items-center gap-4">
           <Loader className="animate-spin text-brand-primary" size={40} />
-          <p className="text-slate-500 text-sm font-semibold">Loading overview...</p>
+          <p className="text-slate-500 text-sm font-semibold">{i18n.t("Loading overview...")}</p>
         </div>
       </div>
     );
@@ -72,7 +73,7 @@ const HospitalOverview: React.FC = () => {
       <div className="flex items-center justify-center h-96">
         <div className="flex flex-col items-center gap-4 bg-red-50 p-8 rounded-2xl border border-red-200">
           <AlertCircle className="text-red-600" size={40} />
-          <p className="text-red-600 font-semibold text-center">{error || "No data available."}</p>
+          <p className="text-red-600 font-semibold text-center">{error || i18n.t("No data available.")}</p>
         </div>
       </div>
     );
@@ -87,14 +88,11 @@ const HospitalOverview: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-slate-800 flex items-center gap-2">
-            <Activity size={24} className="text-brand-primary" />
-            Hospital Overview
-          </h1>
-          <p className="text-slate-500 text-sm mt-1">Real-time facility status and inflow analytics.</p>
+            <Activity size={24} className="text-brand-primary" />{i18n.t("Hospital Overview")}</h1>
+          <p className="text-slate-500 text-sm mt-1">{i18n.t("Real-time facility status and inflow analytics.")}</p>
         </div>
         <div className="flex items-center gap-2 text-sm text-slate-600 bg-white border border-slate-200 px-4 py-2 rounded-xl">
-          <Clock size={16} />
-          Last updated: {new Date().toLocaleTimeString("en-NG", { hour: "2-digit", minute: "2-digit" })}
+          <Clock size={16} />{i18n.t("Last updated:")}{" "}{new Date().toLocaleTimeString("en-NG", { hour: "2-digit", minute: "2-digit" })}
         </div>
       </div>
 
@@ -102,27 +100,27 @@ const HospitalOverview: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           icon={Users}
-          label="Total Admissions"
+          label={i18n.t("Total Admissions")}
           value={ha.total_admissions ?? "—"}
           color="blue"
         />
         <StatCard
           icon={Bed}
-          label="Bed Occupancy"
+          label={i18n.t("Bed Occupancy")}
           value={ha.occupancy_rate ?? "—"}
           sub={`${ha.occupied_beds ?? 0} of ${ha.total_beds ?? 0} beds occupied`}
           color="teal"
         />
         <StatCard
           icon={AlertCircle}
-          label="ED Waiting"
+          label={i18n.t("ED Waiting")}
           value={ha.er_waiting ?? "—"}
           sub="Patients in emergency queue"
           color="red"
         />
         <StatCard
           icon={CalendarCheck}
-          label="Consultations Today"
+          label={i18n.t("Consultations Today")}
           value={ha.today_consultations ?? "—"}
           color="indigo"
         />
@@ -132,9 +130,7 @@ const HospitalOverview: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white p-8 rounded-[36px] border border-slate-200 shadow-sm flex flex-col gap-6">
           <h2 className="text-lg font-black text-slate-800 flex items-center gap-2">
-            <ClipboardList size={20} className="text-brand-primary" />
-            Visit Summary
-          </h2>
+            <ClipboardList size={20} className="text-brand-primary" />{i18n.t("Visit Summary")}</h2>
           {[
             { label: "Total Visits Today", value: visits.total_today ?? 0, color: "text-slate-800" },
             { label: "New Patients", value: visits.new ?? 0, color: "text-brand-primary" },
@@ -142,14 +138,13 @@ const HospitalOverview: React.FC = () => {
             { label: "Avg Wait Time", value: `${visits.avg_wait_time_minutes ?? 0}m`, color: "text-amber-600" },
           ].map(s => (
             <div key={s.label} className="flex items-center justify-between border-b border-slate-50 pb-4 last:border-0 last:pb-0">
-              <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{s.label}</span>
+              <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.tx(s.label)}</span>
               <span className={`text-2xl font-black ${s.color}`}>{s.value}</span>
             </div>
           ))}
           <div className="mt-auto pt-4 border-t border-slate-100">
             <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest flex items-center gap-1">
-              <TrendingUp size={12} /> {data.growth_forecast?.expected_growth || "+0%"} projected growth
-            </p>
+              <TrendingUp size={12} /> {data.growth_forecast?.expected_growth || "+0%"}{" "}{i18n.t("projected growth")}</p>
           </div>
         </div>
       </div>

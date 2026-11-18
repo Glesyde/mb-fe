@@ -6,6 +6,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useNotification } from "../../context/NotificationContext";
 import { BASE_URL } from "../../api/client";
 import { formDraftService } from "../../services/session-restore.service";
+import { i18n } from "../../i18n";
 
 interface IvcFilterConsentFormProps {
   orderId: number;
@@ -60,9 +61,8 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
   const PartWarning = ({ fields }: { fields: string[] }) => {
     if (isPartComplete(fields) || readOnly) return null;
     return (
-      <div className="absolute top-4 right-6 flex items-center gap-1 text-amber-500 bg-amber-50 px-3 py-1 rounded-full text-[10px] font-bold border border-amber-200 shadow-sm animate-pulse">
-        <AlertCircle size={12} /> Incomplete
-      </div>
+      <div className="absolute top-4 end-6 flex items-center gap-1 text-amber-500 bg-amber-50 px-3 py-1 rounded-full text-[10px] font-bold border border-amber-200 shadow-sm animate-pulse">
+        <AlertCircle size={12} />{" "}{i18n.t("Incomplete")}</div>
     );
   };
 
@@ -221,7 +221,7 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
           {hasSignature ? (
             <img src={getSigUrl(formData[id])} alt={label} className="max-h-full max-w-full object-contain" />
           ) : (
-            <span className="text-slate-300 font-bold uppercase text-xs">No Signature</span>
+            <span className="text-slate-300 font-bold uppercase text-xs">{i18n.t("No Signature")}</span>
           )}
         </div>
       );
@@ -233,11 +233,9 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
           <img src={getSigUrl(formData[id])} alt={label} className="max-h-full max-w-full object-contain" />
           <button 
             onClick={() => handleInputChange(id, null)} 
-            className="absolute top-2 right-2 bg-red-100 text-red-600 px-3 py-1 rounded-lg text-[10px] font-black uppercase hover:bg-red-200 transition-colors opacity-0 group-hover:opacity-100 shadow-sm"
-            title="Clear Signature"
-          >
-            Clear
-          </button>
+            className="absolute top-2 end-2 bg-red-100 text-red-600 px-3 py-1 rounded-lg text-[10px] font-black uppercase hover:bg-red-200 transition-colors opacity-0 group-hover:opacity-100 shadow-sm"
+            title={i18n.t("Clear Signature")}
+          >{i18n.t("Clear")}</button>
         </div>
       );
     }
@@ -255,7 +253,7 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
     return (
       <div className="flex flex-col items-center justify-center p-12 bg-white rounded-2xl shadow-xl">
         <Loader2 className="animate-spin text-brand-primary mb-4" size={48} />
-        <p className="text-slate-500 font-bold uppercase tracking-widest animate-pulse">Loading Procedure Template...</p>
+        <p className="text-slate-500 font-bold uppercase tracking-widest animate-pulse">{i18n.t("Loading Procedure Template...")}</p>
       </div>
     );
   }
@@ -264,30 +262,29 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
     <div className="bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[95vh] flex flex-col max-w-6xl mx-auto">
       {/* Header - High Fidelity Replica */}
       <div className="bg-[#1e1b4b] text-white p-10 flex justify-between items-center relative overflow-hidden shrink-0">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-brand-active0/10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+        <div className="absolute top-0 end-0 w-64 h-64 bg-brand-active0/10 rounded-full -me-32 -mt-32 blur-3xl"></div>
         <div className="z-10">
           <div className="flex items-center gap-4 mb-2">
             <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
-              <img src="/assets/login-bg.jpeg" alt="Medbookie" className="w-10 h-10 object-contain" />
+              <img src="/assets/login-bg.jpeg" alt={i18n.t("Medbookie")} className="w-10 h-10 object-contain" />
             </div>
             <div>
-              <h1 className="text-3xl font-black tracking-tighter">Procedure Consent Form</h1>
-              <p className="text-brand-primary font-bold text-sm">C-Arm Guided Inferior Vena Cava (IVC) Filter Insertion</p>
+              <h1 className="text-3xl font-black tracking-tighter">{i18n.t("Procedure Consent Form")}</h1>
+              <p className="text-brand-primary font-bold text-sm">{i18n.t("C-Arm Guided Inferior Vena Cava (IVC) Filter Insertion")}</p>
             </div>
           </div>
-          <p className="text-xs text-brand-active/60 font-medium">Form Ref: GSH-CONSENT-IVC-001 • Policy Ref: GSH-T6 • Version 1.0</p>
+          <p className="text-xs text-brand-active/60 font-medium">{i18n.t("Form Ref: GSH-CONSENT-IVC-001 • Policy Ref: GSH-T6 • Version 1.0")}</p>
         </div>
-        <div className="text-right z-10 flex flex-col items-end gap-3">
-          <div className="hidden md:block text-right">
-            <p className="text-[10px] text-brand-active font-bold leading-tight uppercase tracking-wider">Medbookie</p>
-            <p className="text-[10px] text-brand-active">+234 705 648 2776 • admin@Medbookiehospitals.com</p>
+        <div className="text-end z-10 flex flex-col items-end gap-3">
+          <div className="hidden md:block text-end">
+            <p className="text-[10px] text-brand-active font-bold leading-tight uppercase tracking-wider">{i18n.t("Medbookie")}</p>
+            <p className="text-[10px] text-brand-active">{i18n.t("+234 705 648 2776 • admin@Medbookiehospitals.com")}</p>
           </div>
           <button 
             onClick={onPrint}
             className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border border-white/20 transition-all"
           >
-            <Printer size={14} /> Print Blank Form
-          </button>
+            <Printer size={14} />{" "}{i18n.t("Print Blank Form")}</button>
         </div>
       </div>
 
@@ -296,19 +293,17 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
         
         {/* Patient Rights */}
         <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">Patient Rights</div>
-          <p className="text-sm text-amber-900 font-medium leading-relaxed italic">
-            "You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6)."
-          </p>
+          <div className="absolute top-0 end-0 bg-amber-200/50 px-4 py-1 rounded-es-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">{i18n.t("Patient Rights")}</div>
+          <p className="text-sm text-amber-900 font-medium leading-relaxed italic">{i18n.t("\"You have the right to make decisions about your medical care and to refuse any procedure. If you wish to withdraw consent at any time before the procedure begins, you may do so. Signing this form does not remove your legal rights. This form complies with the National Health Act 2014 (Nigeria) and Medbookie Consent Policy (GSH-T6).\"")}</p>
         </div>
 
         {/* Part A - Patient Identification */}
         <section>
-          <div className="bg-brand-primary text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ml-4">Part A — Patient Identification</div>
+          <div className="bg-brand-primary text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part A — Patient Identification")}</div>
           <div className="border-4 border-slate-900 rounded-3xl p-8 grid grid-cols-1 md:grid-cols-3 gap-8 shadow-inner bg-slate-50 relative">
             <PartWarning fields={["patient_name", "dob", "sex", "mrn", "ward", "consultant", "diagnosis", "access_site"]} />
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Patient Full Name *</label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Patient Full Name *")}</label>
               <input 
                 type="text" 
                 value={formData.patient_name} 
@@ -318,7 +313,7 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Date of Birth *</label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Date of Birth *")}</label>
               <input 
                 type="date" 
                 value={formData.dob} 
@@ -328,7 +323,7 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Sex at Birth</label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Sex at Birth")}</label>
               <div className="flex gap-4 p-2 bg-white border-2 border-slate-200 rounded-xl">
                 {["Male", "Female", "Other"].map(s => (
                   <label key={s} className="flex items-center gap-2 cursor-pointer group">
@@ -346,7 +341,7 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
               </div>
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">MRN (Medical Record Number) *</label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("MRN (Medical Record Number) *")}</label>
               <input 
                 type="text" 
                 value={formData.mrn} 
@@ -355,7 +350,7 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Ward / Unit</label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Ward / Unit")}</label>
               <input 
                 type="text" 
                 value={formData.ward} 
@@ -365,7 +360,7 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Consultant Vascular Surgeon / Interventionist *</label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Consultant Vascular Surgeon / Interventionist *")}</label>
               <input 
                 type="text" 
                 value={formData.consultant} 
@@ -375,18 +370,18 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
               />
             </div>
             <div className="md:col-span-2 space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Primary Diagnosis / Indication for IVC Filter *</label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Primary Diagnosis / Indication for IVC Filter *")}</label>
               <textarea 
                 rows={2}
                 value={formData.diagnosis}
                 onChange={(e) => handleInputChange("diagnosis", e.target.value)}
-                placeholder="e.g. DVT with contraindication to anticoagulation; recurrent PE on anticoagulation..."
+                placeholder={i18n.t("e.g. DVT with contraindication to anticoagulation; recurrent PE on anticoagulation...")}
                 readOnly={readOnly}
                 className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none resize-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active0"}`}
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Procedure Side / Venous Access Site</label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Procedure Side / Venous Access Site")}</label>
               <div className="grid grid-cols-2 gap-2 p-2 bg-white border-2 border-slate-200 rounded-xl">
                 {["Right femoral", "Left femoral", "Right jugular", "Left jugular", "Antecubital"].map(site => (
                   <label key={site} className="flex items-center gap-2 cursor-pointer group">
@@ -407,27 +402,23 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
 
         {/* Part B - Description */}
         <section>
-          <div className="bg-brand-primary text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ml-4">Part B — Description of the Procedure</div>
+          <div className="bg-brand-primary text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part B — Description of the Procedure")}</div>
           <div className="border-4 border-slate-900 rounded-3xl p-8 bg-slate-50 space-y-4">
-            <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">What is an IVC Filter?</h4>
-            <p className="text-sm text-slate-700 leading-relaxed font-medium">
-              An Inferior Vena Cava (IVC) filter is a small, cage-like medical device made of metal (usually nitinol or stainless steel) that is inserted into the inferior vena cava — the large vein that carries blood from the lower body back to the heart. Its purpose is to catch blood clots (thrombus) that break away from the deep veins of the legs or pelvis before they can travel to the lungs and cause a potentially fatal pulmonary embolism (PE).
-            </p>
-            <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">How is it performed at Medbookie?</h4>
-            <p className="text-sm text-slate-700 leading-relaxed font-medium">
-              The procedure is performed using C-arm fluoroscopic (real-time X-ray) guidance in the Interventional Radiology / Vascular Suite under local anaesthesia with or without conscious sedation. You will be awake or lightly sedated and will not require a general anaesthetic for this procedure. The procedure typically takes 30–60 minutes.
-            </p>
+            <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">{i18n.t("What is an IVC Filter?")}</h4>
+            <p className="text-sm text-slate-700 leading-relaxed font-medium">{i18n.t("An Inferior Vena Cava (IVC) filter is a small, cage-like medical device made of metal (usually nitinol or stainless steel) that is inserted into the inferior vena cava — the large vein that carries blood from the lower body back to the heart. Its purpose is to catch blood clots (thrombus) that break away from the deep veins of the legs or pelvis before they can travel to the lungs and cause a potentially fatal pulmonary embolism (PE).")}</p>
+            <h4 className="font-black text-slate-900 uppercase tracking-widest text-sm">{i18n.t("How is it performed at Medbookie?")}</h4>
+            <p className="text-sm text-slate-700 leading-relaxed font-medium">{i18n.t("The procedure is performed using C-arm fluoroscopic (real-time X-ray) guidance in the Interventional Radiology / Vascular Suite under local anaesthesia with or without conscious sedation. You will be awake or lightly sedated and will not require a general anaesthetic for this procedure. The procedure typically takes 30–60 minutes.")}</p>
           </div>
         </section>
 
         {/* Part C - Contrast & Radiation */}
         <section>
-          <div className="bg-brand-primary text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ml-4">Part C — Contrast Agent & Radiation Disclosure</div>
+          <div className="bg-brand-primary text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part C — Contrast Agent & Radiation Disclosure")}</div>
           <div className="border-4 border-slate-900 rounded-3xl p-8 bg-slate-50 space-y-6 relative">
             <PartWarning fields={["contrast_ack", "radiation_ack", "contrast_allergy", "pregnancy_status"]} />
             <div className="bg-amber-100 border-2 border-amber-200 p-3 rounded-xl flex items-center gap-3">
               <AlertCircle className="text-amber-600" size={20} />
-              <p className="text-xs font-black text-amber-800">C-arm guided procedures use ionising radiation (X-rays) and require the injection of iodinated contrast dye. You must read and acknowledge the following disclosures.</p>
+              <p className="text-xs font-black text-amber-800">{i18n.t("C-arm guided procedures use ionising radiation (X-rays) and require the injection of iodinated contrast dye. You must read and acknowledge the following disclosures.")}</p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -441,9 +432,7 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
                     disabled={readOnly}
                     className="mt-1 w-6 h-6 text-brand-primary rounded-lg focus:ring-brand-active0"
                   />
-                  <label htmlFor="contrast_ack" className="text-xs font-bold text-slate-700 leading-tight cursor-pointer">
-                    I have been informed about the use of contrast dye and its risks (flush sensation, nausea, allergic reactions).
-                  </label>
+                  <label htmlFor="contrast_ack" className="text-xs font-bold text-slate-700 leading-tight cursor-pointer">{i18n.t("I have been informed about the use of contrast dye and its risks (flush sensation, nausea, allergic reactions).")}</label>
                 </div>
                 <div className="flex items-start gap-4 p-4 bg-white border-2 border-slate-200 rounded-2xl">
                   <input 
@@ -454,15 +443,13 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
                     disabled={readOnly}
                     className="mt-1 w-6 h-6 text-brand-primary rounded-lg focus:ring-brand-active0"
                   />
-                  <label htmlFor="radiation_ack" className="text-xs font-bold text-slate-700 leading-tight cursor-pointer">
-                    I have been informed about the use of ionising radiation during this procedure.
-                  </label>
+                  <label htmlFor="radiation_ack" className="text-xs font-bold text-slate-700 leading-tight cursor-pointer">{i18n.t("I have been informed about the use of ionising radiation during this procedure.")}</label>
                 </div>
               </div>
               
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Known Contrast Allergy?</label>
+                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Known Contrast Allergy?")}</label>
                   <div className="flex gap-4 p-3 bg-white border-2 border-slate-200 rounded-xl">
                     {["Known", "None"].map(o => (
                       <label key={o} className="flex items-center gap-2 cursor-pointer">
@@ -480,12 +467,12 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Pregnancy Status / Confirmation</label>
+                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Pregnancy Status / Confirmation")}</label>
                   <input 
                     type="text" 
                     value={formData.pregnancy_status} 
                     onChange={(e) => handleInputChange("pregnancy_status", e.target.value)}
-                    placeholder="e.g. N/A or Date of last menstrual period"
+                    placeholder={i18n.t("e.g. N/A or Date of last menstrual period")}
                     readOnly={readOnly}
                     className={`w-full border-2 border-slate-200 rounded-xl px-4 py-2 font-bold text-slate-800 transition-all outline-none ${readOnly ? "bg-slate-100" : "bg-white focus:border-brand-active0"}`}
                   />
@@ -497,14 +484,14 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
 
         {/* Part E - Risks Table (High Fidelity) */}
         <section>
-          <div className="bg-brand-primary text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ml-4">Part E — Risks & Complications</div>
+          <div className="bg-brand-primary text-white px-4 py-1 inline-block rounded-t-xl text-xs font-black uppercase tracking-widest mb-0 ms-4">{i18n.t("Part E — Risks & Complications")}</div>
           <div className="border-4 border-slate-900 rounded-3xl overflow-hidden shadow-xl">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-start border-collapse">
               <thead className="bg-slate-900 text-white">
                 <tr>
-                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border-r border-slate-700">Frequency</th>
-                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border-r border-slate-700">Risk / Complication</th>
-                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest">Additional Detail</th>
+                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border-e border-slate-700">{i18n.t("Frequency")}</th>
+                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border-e border-slate-700">{i18n.t("Risk / Complication")}</th>
+                  <th className="px-6 py-3 text-[10px] font-black uppercase tracking-widest">{i18n.t("Additional Detail")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200">
@@ -516,8 +503,8 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
                   ["VERY RARE", "Death directly related to the procedure", "Estimated procedural mortality <0.1%"]
                 ].map((row, idx) => (
                   <tr key={idx} className={idx % 2 === 0 ? "bg-white" : "bg-slate-50"}>
-                    <td className="px-6 py-4 text-xs font-black text-brand-primary border-r border-slate-200">{row[0]}</td>
-                    <td className="px-6 py-4 text-xs font-bold text-slate-700 border-r border-slate-200">{row[1]}</td>
+                    <td className="px-6 py-4 text-xs font-black text-brand-primary border-e border-slate-200">{row[0]}</td>
+                    <td className="px-6 py-4 text-xs font-bold text-slate-700 border-e border-slate-200">{row[1]}</td>
                     <td className="px-6 py-4 text-xs font-medium text-slate-500 italic">{row[2]}</td>
                   </tr>
                 ))}
@@ -528,15 +515,15 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
 
         {/* Part J, K, N - Multiple Signatures Workflow */}
         <section className="space-y-12 bg-slate-900 p-10 rounded-[3rem] shadow-2xl">
-          <h3 className="text-center text-white font-black uppercase tracking-[0.5em] text-xl mb-12">Final Declarations & Signatures</h3>
+          <h3 className="text-center text-white font-black uppercase tracking-[0.5em] text-xl mb-12">{i18n.t("Final Declarations & Signatures")}</h3>
           
           <div className="grid grid-cols-1 gap-8">
             {/* Clinician Signature */}
             <div className="bg-white rounded-3xl p-6 shadow-xl border-t-8 border-brand-active0 relative flex flex-col h-full">
               <PartWarning fields={["clinician_signature", "clinician_confirm"]} />
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-8 h-8 bg-brand-active rounded-lg flex items-center justify-center text-brand-primary font-black">J</div>
-                <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px]">Declaration of Clinician</h4>
+                <div className="w-8 h-8 bg-brand-active rounded-lg flex items-center justify-center text-brand-primary font-black">{i18n.t("J")}</div>
+                <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px]">{i18n.t("Declaration of Clinician")}</h4>
               </div>
               <div className="space-y-4 mb-6">
                 <label className="flex items-start gap-3 p-3 bg-brand-active rounded-xl cursor-pointer">
@@ -547,14 +534,14 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
                     disabled={readOnly}
                     className="mt-1 w-5 h-5 text-brand-primary rounded"
                   />
-                  <span className="text-[10px] font-bold text-brand-primary">I confirm that I have explained the nature, purpose, benefits and risks.</span>
+                  <span className="text-[10px] font-bold text-brand-primary">{i18n.t("I confirm that I have explained the nature, purpose, benefits and risks.")}</span>
                 </label>
               </div>
               <div className="space-y-2 flex-grow flex flex-col">
                 <div className="flex-grow min-h-[250px] border-4 border-dashed border-slate-200 rounded-2xl overflow-hidden bg-slate-50">
                   {renderSignatureBox("clinician_signature", "Clinician Signature")}
                 </div>
-                <p className="text-[10px] text-slate-400 font-bold italic text-center">Clinician Signature</p>
+                <p className="text-[10px] text-slate-400 font-bold italic text-center">{i18n.t("Clinician Signature")}</p>
               </div>
             </div>
 
@@ -562,8 +549,8 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
             <div className="bg-white rounded-3xl p-6 shadow-xl border-t-8 border-emerald-500 relative flex flex-col h-full">
               <PartWarning fields={["patient_signature", "patient_confirm"]} />
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-600 font-black">K</div>
-                <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px]">Patient Consent</h4>
+                <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-600 font-black">{i18n.t("K")}</div>
+                <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px]">{i18n.t("Patient Consent")}</h4>
               </div>
               <div className="space-y-4 mb-6">
                 <label className="flex items-start gap-3 p-3 bg-emerald-50 rounded-xl cursor-pointer">
@@ -574,14 +561,14 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
                     disabled={readOnly}
                     className="mt-1 w-5 h-5 text-emerald-600 rounded"
                   />
-                  <span className="text-[10px] font-bold text-emerald-900">I give my informed consent to proceed with IVC Filter Insertion.</span>
+                  <span className="text-[10px] font-bold text-emerald-900">{i18n.t("I give my informed consent to proceed with IVC Filter Insertion.")}</span>
                 </label>
               </div>
               <div className="space-y-2 flex-grow flex flex-col">
                 <div className="flex-grow min-h-[250px] border-4 border-dashed border-slate-200 rounded-2xl overflow-hidden bg-slate-50">
                   {renderSignatureBox("patient_signature", "Patient Signature")}
                 </div>
-                <p className="text-[10px] text-slate-400 font-bold italic text-center">Patient Signature</p>
+                <p className="text-[10px] text-slate-400 font-bold italic text-center">{i18n.t("Patient Signature")}</p>
               </div>
             </div>
 
@@ -589,19 +576,19 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
             <div className="bg-white rounded-3xl p-6 shadow-xl border-t-8 border-purple-500 relative flex flex-col h-full">
               <PartWarning fields={["nurse_signature"]} />
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 font-black">N</div>
-                <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px]">Nurse Verification</h4>
+                <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 font-black">{i18n.t("N")}</div>
+                <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px]">{i18n.t("Nurse Verification")}</h4>
               </div>
               <div className="space-y-4 mb-6">
                 <div className="p-3 bg-purple-50 rounded-xl">
-                  <p className="text-[10px] font-bold text-purple-900">I verify that the patient identity has been confirmed and the consent has been signed in my presence.</p>
+                  <p className="text-[10px] font-bold text-purple-900">{i18n.t("I verify that the patient identity has been confirmed and the consent has been signed in my presence.")}</p>
                 </div>
               </div>
               <div className="space-y-2 flex-grow flex flex-col">
                 <div className="flex-grow min-h-[250px] border-4 border-dashed border-slate-200 rounded-2xl overflow-hidden bg-slate-50">
                   {renderSignatureBox("nurse_signature", "Nurse Signature")}
                 </div>
-                <p className="text-[10px] text-slate-400 font-bold italic text-center">Witnessing Nurse Signature</p>
+                <p className="text-[10px] text-slate-400 font-bold italic text-center">{i18n.t("Witnessing Nurse Signature")}</p>
               </div>
             </div>
           </div>
@@ -616,7 +603,7 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
           disabled={submitting}
           className="px-8 py-3 rounded-2xl font-black text-slate-500 hover:bg-slate-200 transition-all uppercase tracking-widest text-sm"
         >
-          {readOnly ? "Close" : "Discard Form"}
+          {readOnly ? i18n.t("Close") : i18n.t("Discard Form")}
         </button>
         <div className="flex gap-4">
           {!readOnly && (
@@ -628,7 +615,7 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
                 className="bg-amber-500 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-[0.1em] text-sm shadow-xl hover:bg-amber-600 transition-all flex items-center gap-2 disabled:opacity-50"
               >
                 {submitting ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
-                {submitting ? "Saving..." : "Save Draft"}
+                {submitting ? i18n.t("Saving...") : i18n.t("Save Draft")}
               </button>
 
               <button 
@@ -641,7 +628,7 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
                 ) : (
                   <CheckCircle size={20} />
                 )}
-                {submitting ? "Finalizing..." : "Submit & Print Consent"}
+                {submitting ? i18n.t("Finalizing...") : i18n.t("Submit & Print Consent")}
               </button>
             </>
           )}
@@ -650,8 +637,7 @@ const IvcFilterConsentForm: React.FC<IvcFilterConsentFormProps> = ({
               onClick={onPrint}
               className="bg-brand-active0 text-white px-10 py-4 rounded-2xl font-black uppercase tracking-[0.2em] text-sm shadow-2xl transition-all flex items-center gap-3"
             >
-              <Printer size={20} /> View Full PDF
-            </button>
+              <Printer size={20} />{" "}{i18n.t("View Full PDF")}</button>
           )}
         </div>
       </div>

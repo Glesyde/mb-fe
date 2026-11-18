@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Search, ChevronDown } from "lucide-react";
+import { i18n } from "../i18n";
 
 interface SearchableSelectProps {
   options: string[];
@@ -58,7 +59,7 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
             <input
               type="text"
               autoFocus
-              placeholder="Search..."
+              placeholder={i18n.t("Search...")}
               className="w-full bg-transparent text-xs outline-none"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -75,7 +76,7 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
                     setIsOpen(false);
                     setSearchTerm("");
                   }}
-                  className={`w-full text-left px-3 py-2 text-xs rounded-lg transition-colors ${
+                  className={`w-full text-start px-3 py-2 text-xs rounded-lg transition-colors ${
                     value === opt
                       ? "bg-brand-primary text-white font-bold"
                       : "text-slate-700 hover:bg-slate-100"
@@ -85,9 +86,7 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
                 </button>
               ))
             ) : (
-              <div className="p-3 text-xs text-center text-slate-400">
-                No results found
-              </div>
+              <div className="p-3 text-xs text-center text-slate-400">{i18n.t("No results found")}</div>
             )}
           </div>
         </div>

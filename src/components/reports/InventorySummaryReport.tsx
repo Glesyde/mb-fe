@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { exportToCSV, exportToExcel, exportToPDF } from "../../utils/exportUtils";
 import apiClient from "../../api/client";
+import { i18n } from "../../i18n";
 
 const renderValue = (val: any) => {
   if (val === null || val === undefined || val === "") return "—";
@@ -47,7 +48,7 @@ const DynamicTable: React.FC<{ rows: any[]; emptyLabel: string }> = ({ rows, emp
   const headers = Object.keys(rows[0]);
   return (
     <div className="overflow-x-auto rounded-xl border border-slate-200">
-      <table className="w-full text-left text-sm whitespace-nowrap">
+      <table className="w-full text-start text-sm whitespace-nowrap">
         <thead className="bg-slate-50 border-b border-slate-200">
           <tr>
             {headers.map((h) => (
@@ -193,13 +194,10 @@ const InventorySummaryReport: React.FC = () => {
       <div>
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-2">
           <div>
-            <h2 className="text-xl font-bold text-slate-800">Inventory Summary Report</h2>
-            <p className="text-sm text-slate-500">
-              Comprehensive inventory dashboard — valuation, classification, vendors, and requisitions.
-            </p>
+            <h2 className="text-xl font-bold text-slate-800">{i18n.t("Inventory Summary Report")}</h2>
+            <p className="text-sm text-slate-500">{i18n.t("Comprehensive inventory dashboard — valuation, classification, vendors, and requisitions.")}</p>
             {metadata && (
-              <p className="text-xs text-slate-400 font-medium mt-1">
-                Period: {renderValue(metadata.report_period)} • Location: {renderValue(metadata.location_filter)} • Item Type: {renderValue(metadata.item_type_filter)}
+              <p className="text-xs text-slate-400 font-medium mt-1">{i18n.t("Period:")}{" "}{renderValue(metadata.report_period)}{" "}{i18n.t("• Location:")}{" "}{renderValue(metadata.location_filter)}{" "}{i18n.t("• Item Type:")}{" "}{renderValue(metadata.item_type_filter)}
               </p>
             )}
           </div>
@@ -216,20 +214,20 @@ const InventorySummaryReport: React.FC = () => {
               }}
               disabled={isLoading}
               className="flex items-center gap-2 px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 disabled:opacity-50 rounded-xl text-sm font-bold transition-colors"
-              title="Clear Filters"
+              title={i18n.t("Clear Filters")}
             >
               <FilterX size={18} />
-              <span className="hidden sm:inline">Clear</span>
+              <span className="hidden sm:inline">{i18n.t("Clear")}</span>
             </button>
 
             <button
               onClick={fetchReportData}
               disabled={isLoading}
               className="flex items-center gap-2 px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 disabled:opacity-50 rounded-xl text-sm font-bold transition-colors"
-              title="Refresh Data"
+              title={i18n.t("Refresh Data")}
             >
               <RefreshCw size={18} className={isLoading ? "animate-spin" : ""} />
-              <span className="hidden sm:inline">Refresh</span>
+              <span className="hidden sm:inline">{i18n.t("Refresh")}</span>
             </button>
 
             {/* Export Dropdown */}
@@ -239,31 +237,23 @@ const InventorySummaryReport: React.FC = () => {
                 disabled={isLoading || detailedInventory.length === 0}
                 className="flex items-center gap-2 px-5 py-2.5 bg-brand-primary text-white hover:bg-brand-primary/90 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl text-sm font-bold transition-all shadow-md shadow-brand-primary/20"
               >
-                <Download size={18} />
-                Export
-                <ChevronDown size={16} className={`transition-transform duration-200 ${isExportOpen ? "rotate-180" : ""}`} />
+                <Download size={18} />{i18n.t("Export")}<ChevronDown size={16} className={`transition-transform duration-200 ${isExportOpen ? "rotate-180" : ""}`} />
               </button>
 
               {isExportOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 py-2 animate-in fade-in zoom-in-95 duration-200">
+                <div className="absolute end-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 py-2 animate-in fade-in zoom-in-95 duration-200">
                   <button onClick={handleExportCSV} className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors">
                     <div className="p-1.5 bg-slate-50 text-slate-600 rounded-lg">
                       <FileText size={16} />
-                    </div>
-                    Export as CSV
-                  </button>
+                    </div>{i18n.t("Export as CSV")}</button>
                   <button onClick={handleExportExcel} className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors">
                     <div className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg">
                       <FileSpreadsheet size={16} />
-                    </div>
-                    Export as Excel
-                  </button>
+                    </div>{i18n.t("Export as Excel")}</button>
                   <button onClick={handleExportPDF} className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors">
                     <div className="p-1.5 bg-red-50 text-red-600 rounded-lg">
                       <FilePdf size={16} />
-                    </div>
-                    Export as PDF
-                  </button>
+                    </div>{i18n.t("Export as PDF")}</button>
                 </div>
               )}
             </div>
@@ -272,14 +262,14 @@ const InventorySummaryReport: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-4">
           <div className="relative lg:col-span-2">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input
               type="text"
-              placeholder="Search item, UHID, brand, vendor..."
+              placeholder={i18n.t("Search item, UHID, brand, vendor...")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               disabled={isLoading}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
+              className="w-full ps-10 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
             />
           </div>
           <div>
@@ -289,18 +279,18 @@ const InventorySummaryReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="all_time">All Time</option>
-              <option value="today">Today</option>
-              <option value="yesterday">Yesterday</option>
-              <option value="this_week">This Week</option>
-              <option value="last_week">Last Week</option>
-              <option value="this_month">This Month</option>
-              <option value="last_month">Last Month</option>
-              <option value="last_2_months">Last 2 Months</option>
-              <option value="last_3_months">Last 3 Months</option>
-              <option value="this_year">This Year</option>
-              <option value="last_year">Last Year</option>
-              <option value="custom">Custom Range</option>
+              <option value="all_time">{i18n.t("All Time")}</option>
+              <option value="today">{i18n.t("Today")}</option>
+              <option value="yesterday">{i18n.t("Yesterday")}</option>
+              <option value="this_week">{i18n.t("This Week")}</option>
+              <option value="last_week">{i18n.t("Last Week")}</option>
+              <option value="this_month">{i18n.t("This Month")}</option>
+              <option value="last_month">{i18n.t("Last Month")}</option>
+              <option value="last_2_months">{i18n.t("Last 2 Months")}</option>
+              <option value="last_3_months">{i18n.t("Last 3 Months")}</option>
+              <option value="this_year">{i18n.t("This Year")}</option>
+              <option value="last_year">{i18n.t("Last Year")}</option>
+              <option value="custom">{i18n.t("Custom Range")}</option>
             </select>
           </div>
           <div>
@@ -310,7 +300,7 @@ const InventorySummaryReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="All">All Item Types</option>
+              <option value="All">{i18n.t("All Item Types")}</option>
               {ITEM_TYPES.map((t) => (
                 <option key={t} value={t}>{t.charAt(0) + t.slice(1).toLowerCase()}</option>
               ))}
@@ -323,7 +313,7 @@ const InventorySummaryReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="All">All Locations</option>
+              <option value="All">{i18n.t("All Locations")}</option>
               {LOCATIONS.map((l) => (
                 <option key={l} value={l}>{l}</option>
               ))}
@@ -333,26 +323,26 @@ const InventorySummaryReport: React.FC = () => {
           {timeframe === "custom" && (
             <>
               <div className="relative">
-                <CalendarRange className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={16} />
+                <CalendarRange className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={16} />
                 <input
                   type="date"
                   value={dateFrom}
                   onChange={(e) => setDateFrom(e.target.value)}
                   disabled={isLoading}
-                  title="Date From"
-                  className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
+                  title={i18n.t("Date From")}
+                  className="w-full ps-9 pe-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
                 />
               </div>
               <div className="relative">
-                <CalendarRange className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={16} />
+                <CalendarRange className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={16} />
                 <input
                   type="date"
                   value={dateTo}
                   onChange={(e) => setDateTo(e.target.value)}
                   disabled={isLoading}
                   min={dateFrom}
-                  title="Date To"
-                  className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
+                  title={i18n.t("Date To")}
+                  className="w-full ps-9 pe-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
                 />
               </div>
             </>
@@ -373,7 +363,7 @@ const InventorySummaryReport: React.FC = () => {
                 <Wallet size={20} />
               </div>
               <div>
-                <p className="text-xs text-emerald-600 font-bold uppercase tracking-wider mb-1">Total Inventory Value</p>
+                <p className="text-xs text-emerald-600 font-bold uppercase tracking-wider mb-1">{i18n.t("Total Inventory Value")}</p>
                 <p className="text-xl font-black text-emerald-900">{formatCurrency(kpis?.total_inventory_value || 0)}</p>
               </div>
             </div>
@@ -382,7 +372,7 @@ const InventorySummaryReport: React.FC = () => {
                 <Boxes size={20} />
               </div>
               <div>
-                <p className="text-xs text-blue-600 font-bold uppercase tracking-wider mb-1">Total Items In Stock</p>
+                <p className="text-xs text-blue-600 font-bold uppercase tracking-wider mb-1">{i18n.t("Total Items In Stock")}</p>
                 <p className="text-xl font-black text-blue-900">{(kpis?.total_items_in_stock ?? 0).toLocaleString()}</p>
               </div>
             </div>
@@ -391,7 +381,7 @@ const InventorySummaryReport: React.FC = () => {
                 <ShoppingCart size={20} />
               </div>
               <div>
-                <p className="text-xs text-purple-600 font-bold uppercase tracking-wider mb-1">Total Supply Cost (Period)</p>
+                <p className="text-xs text-purple-600 font-bold uppercase tracking-wider mb-1">{i18n.t("Total Supply Cost (Period)")}</p>
                 <p className="text-xl font-black text-purple-900">{formatCurrency(kpis?.total_supply_cost_period || 0)}</p>
               </div>
             </div>
@@ -399,15 +389,15 @@ const InventorySummaryReport: React.FC = () => {
 
           {/* Classification Summary */}
           <div>
-            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">Classification Summary</h3>
+            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">{i18n.t("Classification Summary")}</h3>
             <div className="overflow-x-auto rounded-xl border border-slate-200">
-              <table className="w-full text-left text-sm whitespace-nowrap">
+              <table className="w-full text-start text-sm whitespace-nowrap">
                 <thead className="bg-slate-50 border-b border-slate-200">
                   <tr>
-                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Classification</th>
-                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Unique Items</th>
-                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Total Physical Stock</th>
-                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Total Financial Value</th>
+                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Classification")}</th>
+                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Unique Items")}</th>
+                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Total Physical Stock")}</th>
+                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Total Financial Value")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -415,14 +405,14 @@ const InventorySummaryReport: React.FC = () => {
                     classificationSummary.map((row, i) => (
                       <tr key={i} className="hover:bg-slate-50/80 transition-colors">
                         <td className="px-4 py-3 font-bold text-slate-800">{renderValue(row.classification)}</td>
-                        <td className="px-4 py-3 text-slate-700 text-right">{renderValue(row.unique_items_count)}</td>
-                        <td className="px-4 py-3 text-slate-700 text-right">{renderValue(row.total_physical_stock)}</td>
-                        <td className="px-4 py-3 font-bold text-slate-800 text-right">{formatCurrency(Number(row.total_financial_value))}</td>
+                        <td className="px-4 py-3 text-slate-700 text-end">{renderValue(row.unique_items_count)}</td>
+                        <td className="px-4 py-3 text-slate-700 text-end">{renderValue(row.total_physical_stock)}</td>
+                        <td className="px-4 py-3 font-bold text-slate-800 text-end">{formatCurrency(Number(row.total_financial_value))}</td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={4} className="px-4 py-8 text-center text-slate-400 italic">No classification data.</td>
+                      <td colSpan={4} className="px-4 py-8 text-center text-slate-400 italic">{i18n.t("No classification data.")}</td>
                     </tr>
                   )}
                 </tbody>
@@ -432,16 +422,16 @@ const InventorySummaryReport: React.FC = () => {
 
           {/* Vendor Valuation Summary */}
           <div>
-            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">Vendor Valuation Summary</h3>
+            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">{i18n.t("Vendor Valuation Summary")}</h3>
             <div className="overflow-x-auto rounded-xl border border-slate-200">
-              <table className="w-full text-left text-sm whitespace-nowrap">
+              <table className="w-full text-start text-sm whitespace-nowrap">
                 <thead className="bg-slate-50 border-b border-slate-200">
                   <tr>
-                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Vendor</th>
-                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Vendor UHID</th>
-                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Items Supplied</th>
-                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Total Physical Stock</th>
-                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Total Financial Value</th>
+                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Vendor")}</th>
+                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Vendor UHID")}</th>
+                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Items Supplied")}</th>
+                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Total Physical Stock")}</th>
+                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Total Financial Value")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -450,14 +440,14 @@ const InventorySummaryReport: React.FC = () => {
                       <tr key={i} className="hover:bg-slate-50/80 transition-colors">
                         <td className="px-4 py-3 font-bold text-slate-800">{renderValue(row.vendor_name)}</td>
                         <td className="px-4 py-3 text-slate-500 font-mono text-xs">{renderValue(row.vendor_uhid)}</td>
-                        <td className="px-4 py-3 text-slate-700 text-right">{renderValue(row.unique_items_supplied)}</td>
-                        <td className="px-4 py-3 text-slate-700 text-right">{renderValue(row.total_physical_stock)}</td>
-                        <td className="px-4 py-3 font-bold text-slate-800 text-right">{formatCurrency(Number(row.total_financial_value))}</td>
+                        <td className="px-4 py-3 text-slate-700 text-end">{renderValue(row.unique_items_supplied)}</td>
+                        <td className="px-4 py-3 text-slate-700 text-end">{renderValue(row.total_physical_stock)}</td>
+                        <td className="px-4 py-3 font-bold text-slate-800 text-end">{formatCurrency(Number(row.total_financial_value))}</td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={5} className="px-4 py-8 text-center text-slate-400 italic">No vendor data.</td>
+                      <td colSpan={5} className="px-4 py-8 text-center text-slate-400 italic">{i18n.t("No vendor data.")}</td>
                     </tr>
                   )}
                 </tbody>
@@ -467,20 +457,20 @@ const InventorySummaryReport: React.FC = () => {
 
           {/* Requisition Tracking */}
           <div>
-            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">Requisition Tracking</h3>
+            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">{i18n.t("Requisition Tracking")}</h3>
             <div className="overflow-x-auto rounded-xl border border-slate-200">
-              <table className="w-full text-left text-sm whitespace-nowrap">
+              <table className="w-full text-start text-sm whitespace-nowrap">
                 <thead className="bg-slate-50 border-b border-slate-200">
                   <tr>
-                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Request #</th>
-                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Requesting Dept</th>
-                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Dispensing Dept</th>
-                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Item</th>
-                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Requested</th>
-                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Approved</th>
-                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Outstanding</th>
-                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Status</th>
-                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Requested At</th>
+                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Request #")}</th>
+                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Requesting Dept")}</th>
+                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Dispensing Dept")}</th>
+                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Item")}</th>
+                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Requested")}</th>
+                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Approved")}</th>
+                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Outstanding")}</th>
+                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Status")}</th>
+                    <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Requested At")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -494,9 +484,9 @@ const InventorySummaryReport: React.FC = () => {
                           <div className="font-bold text-slate-800">{renderValue(row.item_name)}</div>
                           <div className="text-[11px] text-slate-400">{renderValue(row.item_type)}</div>
                         </td>
-                        <td className="px-4 py-3 text-slate-700 text-right">{renderValue(row.requested_qty)}</td>
-                        <td className="px-4 py-3 text-slate-700 text-right">{renderValue(row.approved_qty)}</td>
-                        <td className="px-4 py-3 text-slate-700 text-right">{renderValue(row.outstanding_qty)}</td>
+                        <td className="px-4 py-3 text-slate-700 text-end">{renderValue(row.requested_qty)}</td>
+                        <td className="px-4 py-3 text-slate-700 text-end">{renderValue(row.approved_qty)}</td>
+                        <td className="px-4 py-3 text-slate-700 text-end">{renderValue(row.outstanding_qty)}</td>
                         <td className="px-4 py-3">
                           <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border uppercase tracking-wider ${statusBadgeClass(row.item_status)}`}>
                             {renderValue(row.item_status)}
@@ -507,7 +497,7 @@ const InventorySummaryReport: React.FC = () => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={9} className="px-4 py-8 text-center text-slate-400 italic">No requisition tracking data.</td>
+                      <td colSpan={9} className="px-4 py-8 text-center text-slate-400 italic">{i18n.t("No requisition tracking data.")}</td>
                     </tr>
                   )}
                 </tbody>
@@ -517,56 +507,56 @@ const InventorySummaryReport: React.FC = () => {
 
           {/* Weekly Supplies */}
           <div>
-            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">Weekly Supplies</h3>
+            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">{i18n.t("Weekly Supplies")}</h3>
             <DynamicTable rows={weeklySupplies} emptyLabel="No weekly supply data for this period." />
           </div>
 
           {/* Approved Requisition Metrics */}
           <div>
-            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">Approved Requisition Metrics</h3>
+            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">{i18n.t("Approved Requisition Metrics")}</h3>
             <DynamicTable rows={approvedRequisitionMetrics} emptyLabel="No approved requisition metrics for this period." />
           </div>
 
           {/* Detailed Financial Inventory */}
           <div>
-            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">Detailed Financial Inventory</h3>
+            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">{i18n.t("Detailed Financial Inventory")}</h3>
             <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 min-h-[300px]">
-              <table className="w-full text-left text-sm whitespace-nowrap">
+              <table className="w-full text-start text-sm whitespace-nowrap">
                 <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
                   <tr>
-                    <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Item</th>
-                    <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Type</th>
-                    <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Location</th>
-                    <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Vendor</th>
-                    <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Vendor Contact</th>
-                    <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Qty</th>
-                    <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Unit Cost</th>
-                    <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Total Value</th>
+                    <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Item")}</th>
+                    <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Type")}</th>
+                    <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Location")}</th>
+                    <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Vendor")}</th>
+                    <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Vendor Contact")}</th>
+                    <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Qty")}</th>
+                    <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Unit Cost")}</th>
+                    <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Total Value")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {currentItems.length > 0 ? (
                     currentItems.map((row, index) => (
                       <tr key={`${row.items_uhid}-${index}`} className="hover:bg-slate-50/80 transition-colors">
-                        <td className="px-4 py-3.5 border-r border-slate-50">
+                        <td className="px-4 py-3.5 border-e border-slate-50">
                           <div className="font-bold text-slate-800">{renderValue(row.item_name)}</div>
                           <div className="text-[11px] text-slate-400">{renderValue(row.brand)} • {renderValue(row.items_uhid)}</div>
                         </td>
-                        <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.item_type)}</td>
-                        <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.location)}</td>
-                        <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.vendor_name)}</td>
-                        <td className="px-4 py-3.5 border-r border-slate-50">
+                        <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.item_type)}</td>
+                        <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.location)}</td>
+                        <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.vendor_name)}</td>
+                        <td className="px-4 py-3.5 border-e border-slate-50">
                           <div className="text-slate-700">{renderValue(row.vendor_contact)}</div>
                           <div className="text-[11px] text-slate-400">{renderValue(row.vendor_phone)}</div>
                         </td>
-                        <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.total_quantity)}</td>
-                        <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{formatCurrency(Number(row.unit_purchase_cost))}</td>
-                        <td className="px-4 py-3.5 font-bold text-slate-800 text-right">{formatCurrency(Number(row.total_financial_value))}</td>
+                        <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.total_quantity)}</td>
+                        <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{formatCurrency(Number(row.unit_purchase_cost))}</td>
+                        <td className="px-4 py-3.5 font-bold text-slate-800 text-end">{formatCurrency(Number(row.total_financial_value))}</td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={8} className="px-4 py-12 text-center text-slate-400 italic">No detailed inventory records found.</td>
+                      <td colSpan={8} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No detailed inventory records found.")}</td>
                     </tr>
                   )}
                 </tbody>
@@ -576,15 +566,13 @@ const InventorySummaryReport: React.FC = () => {
             {/* Pagination Footer */}
             {detailedInventory.length > 0 && (
               <div className="mt-4 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
-                <div className="text-sm text-slate-500 font-medium">
-                  Showing <span className="text-slate-900 font-bold">{totalItems === 0 ? 0 : indexOfFirstItem + 1}</span> to{" "}
-                  <span className="text-slate-900 font-bold">{Math.min(indexOfLastItem, totalItems)}</span> of{" "}
-                  <span className="text-slate-900 font-bold">{totalItems}</span> records
-                </div>
+                <div className="text-sm text-slate-500 font-medium">{i18n.t("Showing")}{" "}<span className="text-slate-900 font-bold">{totalItems === 0 ? 0 : indexOfFirstItem + 1}</span>{" "}{i18n.t("to")}{" "}
+                  <span className="text-slate-900 font-bold">{Math.min(indexOfLastItem, totalItems)}</span>{" "}{i18n.t("of")}{" "}
+                  <span className="text-slate-900 font-bold">{totalItems}</span>{" "}{i18n.t("records")}</div>
 
                 <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-1 mr-4">
-                    <span className="text-xs text-slate-400 font-bold uppercase mr-2">Show</span>
+                  <div className="flex items-center gap-1 me-4">
+                    <span className="text-xs text-slate-400 font-bold uppercase me-2">{i18n.t("Show")}</span>
                     <select
                       value={itemsPerPage}
                       onChange={(e) => {
@@ -605,11 +593,11 @@ const InventorySummaryReport: React.FC = () => {
                       disabled={currentPage === 1}
                       className="p-2 rounded-lg border border-slate-200 bg-white text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors shadow-sm"
                     >
-                      <ChevronLeft size={16} />
+                      <ChevronLeft className="rtl:-scale-x-100" size={16} />
                     </button>
                     <div className="flex items-center gap-1 px-2">
                       <span className="text-sm font-bold text-slate-900">{currentPage}</span>
-                      <span className="text-sm text-slate-400 mx-1">of</span>
+                      <span className="text-sm text-slate-400 mx-1">{i18n.t("of")}</span>
                       <span className="text-sm font-bold text-slate-900">{totalPages}</span>
                     </div>
                     <button
@@ -617,7 +605,7 @@ const InventorySummaryReport: React.FC = () => {
                       disabled={currentPage === totalPages}
                       className="p-2 rounded-lg border border-slate-200 bg-white text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors shadow-sm"
                     >
-                      <ChevronRight size={16} />
+                      <ChevronRight className="rtl:-scale-x-100" size={16} />
                     </button>
                   </div>
                 </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { XCircle, Eye, Edit, Trash2, PlayCircle } from "lucide-react";
+import { i18n } from "../../i18n";
 
 interface SessionActionsModalProps {
   session: any;
@@ -26,13 +27,13 @@ const SessionActionsModal: React.FC<SessionActionsModalProps> = ({
         <div className="bg-slate-50 px-6 py-5 border-b border-slate-100 flex justify-between items-start sticky top-0 z-10">
           <div>
             <h3 className="font-black text-slate-800 text-xl tracking-tight">
-              {isPending ? "Admission Actions" : "Session Actions"}
+              {isPending ? i18n.t("Admission Actions") : i18n.t("Session Actions")}
             </h3>
             <p className="text-xs font-bold text-slate-500 mt-1 flex items-center gap-2">
               <span className="px-2 py-0.5 bg-white border border-slate-200 rounded text-slate-700">
                 {session.mrn}
               </span>
-              {session.patient_name} • Adm: {session.adm_num}
+              {session.patient_name}{" "}{i18n.t("• Adm:")}{" "}{session.adm_num}
             </p>
           </div>
           <button
@@ -57,7 +58,7 @@ const SessionActionsModal: React.FC<SessionActionsModalProps> = ({
                   <div className="p-4 bg-slate-100 rounded-2xl group-hover:scale-110 group-hover:bg-brand-active group-hover:text-brand-primary transition-all">
                     <Eye size={28} className="text-slate-600 group-hover:text-brand-primary" />
                   </div>
-                  <span className="text-sm font-bold text-center group-hover:text-brand-primary transition-colors">View Partogram</span>
+                  <span className="text-sm font-bold text-center group-hover:text-brand-primary transition-colors">{i18n.t("View Partogram")}</span>
                 </button>
               ) : (
                 <button
@@ -70,7 +71,7 @@ const SessionActionsModal: React.FC<SessionActionsModalProps> = ({
                   <div className="p-4 bg-slate-100 rounded-2xl group-hover:scale-110 group-hover:bg-brand-active group-hover:text-brand-primary transition-all">
                     <PlayCircle size={28} className="text-slate-600 group-hover:text-brand-primary" />
                   </div>
-                  <span className="text-sm font-bold text-center group-hover:text-brand-primary transition-colors">Start Session</span>
+                  <span className="text-sm font-bold text-center group-hover:text-brand-primary transition-colors">{i18n.t("Start Session")}</span>
                 </button>
               )
             ) : (
@@ -86,7 +87,7 @@ const SessionActionsModal: React.FC<SessionActionsModalProps> = ({
                   <div className="p-4 bg-slate-100 rounded-2xl group-hover:scale-110 group-hover:bg-brand-active group-hover:text-brand-primary transition-all">
                     <Eye size={28} className="text-slate-600 group-hover:text-brand-primary" />
                   </div>
-                  <span className="text-sm font-bold text-center group-hover:text-brand-primary transition-colors">View Partogram</span>
+                  <span className="text-sm font-bold text-center group-hover:text-brand-primary transition-colors">{i18n.t("View Partogram")}</span>
                 </button>
 
                 {/* Edit Session */}
@@ -100,7 +101,7 @@ const SessionActionsModal: React.FC<SessionActionsModalProps> = ({
                   <div className="p-4 bg-slate-100 rounded-2xl group-hover:scale-110 group-hover:bg-amber-50 group-hover:text-amber-600 transition-all">
                     <Edit size={28} className="text-slate-600 group-hover:text-amber-600" />
                   </div>
-                  <span className="text-sm font-bold text-center group-hover:text-amber-600 transition-colors">Edit Details</span>
+                  <span className="text-sm font-bold text-center group-hover:text-amber-600 transition-colors">{i18n.t("Edit Details")}</span>
                 </button>
 
                 {/* Delete Session */}
@@ -114,7 +115,7 @@ const SessionActionsModal: React.FC<SessionActionsModalProps> = ({
                   <div className="p-4 bg-slate-100 rounded-2xl group-hover:scale-110 group-hover:bg-white group-hover:shadow-sm transition-all text-red-500">
                     <Trash2 size={28} />
                   </div>
-                  <span className="text-sm font-bold text-center group-hover:text-red-600 transition-colors">Cancel Session</span>
+                  <span className="text-sm font-bold text-center group-hover:text-red-600 transition-colors">{i18n.t("Cancel Session")}</span>
                 </button>
               </>
             )}

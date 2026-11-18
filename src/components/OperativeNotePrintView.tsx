@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { otService, OTSurgery } from "../services/ot.service";
 import OperativeNotePrintTemplate from "./print-templates/theatre/OperativeNotePrintTemplate";
 import { Loader2, AlertTriangle } from "lucide-react";
+import { i18n } from "../i18n";
 
 const OperativeNotePrintView: React.FC = () => {
   const { otCaseId } = useParams<{ otCaseId: string }>();
@@ -53,7 +54,7 @@ const OperativeNotePrintView: React.FC = () => {
       <div className="flex items-center justify-center min-h-screen bg-slate-50">
         <div className="text-center">
           <Loader2 size={48} className="animate-spin text-[#3B309A] mx-auto mb-4" />
-          <p className="text-slate-600 font-medium">Preparing Operative Note for printing...</p>
+          <p className="text-slate-600 font-medium">{i18n.t("Preparing Operative Note for printing...")}</p>
         </div>
       </div>
     );
@@ -64,14 +65,12 @@ const OperativeNotePrintView: React.FC = () => {
       <div className="flex items-center justify-center min-h-screen bg-slate-50">
         <div className="bg-white p-8 rounded-2xl shadow-xl text-center max-w-md">
           <AlertTriangle size={48} className="text-red-500 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-slate-800 mb-2">Print Error</h2>
-          <p className="text-slate-500">{error || "The operative note data could not be retrieved."}</p>
+          <h2 className="text-xl font-bold text-slate-800 mb-2">{i18n.t("Print Error")}</h2>
+          <p className="text-slate-500">{error || i18n.t("The operative note data could not be retrieved.")}</p>
           <button 
             onClick={() => window.close()}
             className="mt-6 bg-slate-800 text-white px-6 py-2 rounded-lg font-bold text-sm"
-          >
-            Close Window
-          </button>
+          >{i18n.t("Close Window")}</button>
         </div>
       </div>
     );

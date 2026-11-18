@@ -9,6 +9,7 @@ import {
   Maximize2,
   Minimize2,
 } from "lucide-react";
+import { i18n } from "../i18n";
 
 const STORAGE_KEY = "hims_sticky_note";
 const POS_KEY = "hims_sticky_note_pos";
@@ -128,13 +129,13 @@ const StickyNote: React.FC = () => {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          title="Open Quick Notes"
+          title={i18n.t("Open Quick Notes")}
           style={{ width: 52, height: 52 }}
-          className="fixed z-[9998] bottom-6 right-6 flex items-center justify-center bg-amber-400 hover:bg-amber-500 text-white rounded-2xl shadow-xl shadow-amber-200/70 transition-all duration-200 hover:scale-110 active:scale-95"
+          className="fixed z-[9998] bottom-6 end-6 flex items-center justify-center bg-amber-400 hover:bg-amber-500 text-white rounded-2xl shadow-xl shadow-amber-200/70 transition-all duration-200 hover:scale-110 active:scale-95"
         >
           <StickyNoteIcon size={22} />
           {text.trim() && (
-            <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-rose-500 rounded-full text-[8px] font-black text-white flex items-center justify-center shadow-sm">
+            <span className="absolute -top-1.5 -end-1.5 w-4 h-4 bg-rose-500 rounded-full text-[8px] font-black text-white flex items-center justify-center shadow-sm">
               ✓
             </span>
           )}
@@ -162,9 +163,7 @@ const StickyNote: React.FC = () => {
             <div className="flex items-center gap-1.5">
               <GripVertical size={13} className="text-amber-700/60" />
               <StickyNoteIcon size={14} className="text-amber-800" />
-              <span className="text-[10px] font-black text-amber-900 uppercase tracking-widest">
-                Quick Notes
-              </span>
+              <span className="text-[10px] font-black text-amber-900 uppercase tracking-widest">{i18n.t("Quick Notes")}</span>
             </div>
             <div className="flex items-center gap-0.5">
               {/* Expand / Collapse */}
@@ -172,7 +171,7 @@ const StickyNote: React.FC = () => {
                 onMouseDown={(e) => e.stopPropagation()}
                 onClick={toggleExpand}
                 className="p-1 hover:bg-amber-500 rounded-lg transition-colors text-amber-800"
-                title={isExpanded ? "Collapse" : "Expand"}
+                title={isExpanded ? i18n.t("Collapse") : i18n.t("Expand")}
               >
                 {isExpanded ? <Minimize2 size={13} /> : <Maximize2 size={13} />}
               </button>
@@ -181,7 +180,7 @@ const StickyNote: React.FC = () => {
                 onMouseDown={(e) => e.stopPropagation()}
                 onClick={() => setIsMinimized((v) => !v)}
                 className="p-1 hover:bg-amber-500 rounded-lg transition-colors text-amber-800"
-                title={isMinimized ? "Restore" : "Minimize"}
+                title={isMinimized ? i18n.t("Restore") : i18n.t("Minimize")}
               >
                 {isMinimized ? <Plus size={13} /> : <Minus size={13} />}
               </button>
@@ -190,7 +189,7 @@ const StickyNote: React.FC = () => {
                 onMouseDown={(e) => e.stopPropagation()}
                 onClick={() => setIsOpen(false)}
                 className="p-1 hover:bg-amber-500 rounded-lg transition-colors text-amber-800"
-                title="Close"
+                title={i18n.t("Close")}
               >
                 <X size={13} />
               </button>
@@ -204,7 +203,7 @@ const StickyNote: React.FC = () => {
                 ref={textareaRef}
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                placeholder={"Jot something down…\n\n• Patient to follow up\n• Pending results\n• Call pharmacy"}
+                placeholder={i18n.t("Jot something down… • Patient to follow up • Pending results • Call pharmacy")}
                 className="flex-1 resize-none bg-transparent px-4 py-3 text-sm text-amber-900 placeholder-amber-300 outline-none leading-relaxed font-medium min-h-0"
                 style={{ fontFamily: "'Segoe UI', system-ui, sans-serif" }}
               />
@@ -212,13 +211,12 @@ const StickyNote: React.FC = () => {
               {/* Footer */}
               <div className="flex items-center justify-between px-4 py-2 bg-amber-100 border-t border-amber-200 shrink-0">
                 <span className="text-[10px] font-bold text-amber-500">
-                  {wordCount} {wordCount === 1 ? "word" : "words"} · {charCount} chars
-                </span>
+                  {wordCount} {wordCount === 1 ? i18n.t("word") : i18n.t("words")} · {charCount}{" "}{i18n.t("chars")}</span>
                 <button
                   onClick={() => {
-                    if (text.trim() && window.confirm("Clear all notes?")) setText("");
+                    if (text.trim() && window.confirm(i18n.t("Clear all notes?"))) setText("");
                   }}
-                  title="Clear notes"
+                  title={i18n.t("Clear notes")}
                   className="p-1 text-amber-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-colors"
                 >
                   <Trash2 size={13} />
@@ -228,8 +226,8 @@ const StickyNote: React.FC = () => {
               {/* Resize Handle */}
               <div
                 onMouseDown={handleResizeMouseDown}
-                className="absolute bottom-0 right-0 w-5 h-5 cursor-se-resize flex items-end justify-end pr-1 pb-1 select-none"
-                title="Drag to resize"
+                className="absolute bottom-0 end-0 w-5 h-5 cursor-se-resize flex items-end justify-end pe-1 pb-1 select-none"
+                title={i18n.t("Drag to resize")}
               >
                 <svg width="10" height="10" viewBox="0 0 10 10" className="text-amber-400 opacity-70">
                   <path d="M1 9L9 1M5 9L9 5M9 9L9 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />

@@ -7,6 +7,7 @@ import { patientService } from '../services/patient.service';
 import { useNotification } from '../context/NotificationContext';
 import ReversalModal from './ReversalModal';
 import DischargeSummaryModal from './DischargeSummaryModal';
+import { i18n } from "../i18n";
 
 interface ERDBed {
   bed_id: number;
@@ -249,7 +250,7 @@ const EmergencyFloor: React.FC = () => {
   };
 
   const handleDeleteBed = async (id: number) => {
-    if (!window.confirm("Are you sure you want to delete this bed?")) return;
+    if (!window.confirm(i18n.t("Are you sure you want to delete this bed?"))) return;
     try {
       await erdService.deleteBed(id);
       notify('ERD Bed deleted successfully', 'success');
@@ -426,10 +427,8 @@ const EmergencyFloor: React.FC = () => {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h2 className="text-xl font-black text-slate-800 tracking-tight flex items-center gap-2">
-            <Layout size={20} className="text-red-600" />
-            ED Floor Layout
-          </h2>
-          <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Real-time facility visualization</p>
+            <Layout size={20} className="text-red-600" />{i18n.t("ED Floor Layout")}</h2>
+          <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">{i18n.t("Real-time facility visualization")}</p>
         </div>
         <div className="flex items-center gap-4">
           <select 
@@ -437,29 +436,29 @@ const EmergencyFloor: React.FC = () => {
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
           >
-            <option value="">All Statuses</option>
-            <option value="AVAILABLE">Available</option>
-            <option value="OCCUPIED">Occupied</option>
-            <option value="MAINTENANCE">Maintenance</option>
-            <option value="RESERVED">Reserved</option>
+            <option value="">{i18n.t("All Statuses")}</option>
+            <option value="AVAILABLE">{i18n.t("Available")}</option>
+            <option value="OCCUPIED">{i18n.t("Occupied")}</option>
+            <option value="MAINTENANCE">{i18n.t("Maintenance")}</option>
+            <option value="RESERVED">{i18n.t("Reserved")}</option>
           </select>
           <select 
             className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold outline-none focus:border-red-500"
             value={filterTriage}
             onChange={(e) => setFilterTriage(e.target.value)}
           >
-            <option value="">All Triage</option>
-            <option value="RED">RED</option>
-            <option value="YELLOW">YELLOW</option>
-            <option value="GREEN">GREEN</option>
-            <option value="BLACK">BLACK</option>
+            <option value="">{i18n.t("All Triage")}</option>
+            <option value="RED">{i18n.t("RED")}</option>
+            <option value="YELLOW">{i18n.t("YELLOW")}</option>
+            <option value="GREEN">{i18n.t("GREEN")}</option>
+            <option value="BLACK">{i18n.t("BLACK")}</option>
           </select>
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
             <input 
               type="text" 
-              placeholder="Find bed..."
-              className="pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:border-red-500 outline-none transition-all"
+              placeholder={i18n.t("Find bed...")}
+              className="ps-9 pe-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:border-red-500 outline-none transition-all"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -468,8 +467,7 @@ const EmergencyFloor: React.FC = () => {
             onClick={() => setShowSetupModal(true)}
             className="bg-red-600 text-white px-4 py-2 rounded-xl font-bold text-sm hover:bg-red-700 transition-colors flex items-center gap-2 shadow-sm"
           >
-            <Plus size={16} /> Add ERD Bed
-          </button>
+            <Plus size={16} />{" "}{i18n.t("Add ERD Bed")}</button>
         </div>
       </div>
 
@@ -493,7 +491,7 @@ const EmergencyFloor: React.FC = () => {
                     {bed.triage_category}
                   </span>
                   <span className={`text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-widest border ${getStatusBadgeColor(bed.bed_status, bed.triage_category)}`}>
-                    {bed.bed_status}
+                    {i18n.tv(bed.bed_status)}
                   </span>
                 </div>
               </div>
@@ -513,11 +511,11 @@ const EmergencyFloor: React.FC = () => {
                         <span className="bg-slate-100 px-1.5 py-0.5 rounded">{bed.occupant.admission_details?.admission_no}</span>
                       </div>
                       <div className="flex items-center gap-1 text-[10px] font-bold text-slate-400">
-                        <Clock size={12} /> {bed.occupant.admission_details?.admitted_at ? new Date(bed.occupant.admission_details.admitted_at).toLocaleString() : 'N/A'}
+                        <Clock size={12} /> {bed.occupant.admission_details?.admitted_at ? new Date(bed.occupant.admission_details.admitted_at).toLocaleString() : i18n.t("N/A")}
                       </div>
                       <div className="flex items-center justify-between text-[10px] font-bold text-slate-400 mt-1">
-                        <span className="truncate max-w-[120px]">Dr: {bed.occupant.clinical?.admitting_doctor || 'N/A'}</span>
-                        <span className="text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded truncate max-w-[80px]">{bed.occupant.financial?.payer_name || 'N/A'}</span>
+                        <span className="truncate max-w-[120px]">{i18n.t("Dr:")}{" "}{bed.occupant.clinical?.admitting_doctor || i18n.t("N/A")}</span>
+                        <span className="text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded truncate max-w-[80px]">{bed.occupant.financial?.payer_name || i18n.t("N/A")}</span>
                       </div>
                       {getDischargeStageLabel(bed.occupant.admission_details?.discharge_stage) && (
                         <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-wide bg-amber-50 text-amber-700 border border-amber-100 whitespace-nowrap w-fit max-w-full">
@@ -538,7 +536,7 @@ const EmergencyFloor: React.FC = () => {
                   ) : (
                     <div className={`mt-6 flex items-center gap-2 ${getActivityColor(bed.triage_category)}`}>
                        <Activity size={14} className="animate-pulse" />
-                       <span className="text-[10px] font-black uppercase">OCCUPIED</span>
+                       <span className="text-[10px] font-black uppercase">{i18n.t("OCCUPIED")}</span>
                     </div>
                   )
                 ) : bed.bed_status === 'AVAILABLE' ? (
@@ -546,12 +544,11 @@ const EmergencyFloor: React.FC = () => {
                      onClick={() => setShowAdmitModal(bed)}
                      className="mt-6 flex items-center gap-2 text-[10px] font-black text-brand-primary uppercase tracking-widest hover:underline"
                    >
-                      <Plus size={14} /> Assign Patient
-                   </button>
+                      <Plus size={14} />{" "}{i18n.t("Assign Patient")}</button>
                 ) : (
                   <div className="mt-6 flex items-center gap-2 text-amber-500">
                      <Activity size={14} className="animate-pulse" />
-                     <span className="text-[10px] font-black uppercase">{bed.bed_status}</span>
+                     <span className="text-[10px] font-black uppercase">{i18n.tv(bed.bed_status)}</span>
                   </div>
                 )}
 
@@ -562,15 +559,12 @@ const EmergencyFloor: React.FC = () => {
                   }}
                   className="mt-4 w-full flex items-center justify-center gap-2 py-2 bg-white/70 hover:bg-white border border-slate-200 rounded-xl text-[10px] font-black text-slate-600 uppercase tracking-widest transition-colors"
                 >
-                  <MoreVertical size={14} /> Actions
-                </button>
+                  <MoreVertical size={14} />{" "}{i18n.t("Actions")}</button>
               </div>
             </div>
           ))}
           {filteredBeds.length === 0 && (
-            <div className="col-span-full text-center py-20 text-slate-400 font-bold">
-              No ERD beds found. Create one to get started.
-            </div>
+            <div className="col-span-full text-center py-20 text-slate-400 font-bold">{i18n.t("No ERD beds found. Create one to get started.")}</div>
           )}
         </div>
       )}
@@ -586,8 +580,8 @@ const EmergencyFloor: React.FC = () => {
                   <Plus size={20} />
                 </div>
                 <div>
-                  <h2 className="text-lg font-black text-slate-800 tracking-tight">Create ERD Bed</h2>
-                  <p className="text-[10px] text-red-600 font-bold uppercase tracking-widest">Emergency Floor</p>
+                  <h2 className="text-lg font-black text-slate-800 tracking-tight">{i18n.t("Create ERD Bed")}</h2>
+                  <p className="text-[10px] text-red-600 font-bold uppercase tracking-widest">{i18n.t("Emergency Floor")}</p>
                 </div>
               </div>
               <button onClick={() => setShowSetupModal(false)} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400">
@@ -597,39 +591,37 @@ const EmergencyFloor: React.FC = () => {
 
             <div className="p-8 space-y-5">
               <div className="space-y-1.5">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Bed Number / Name</label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Bed Number / Name")}</label>
                 <input 
                   type="text" 
-                  placeholder="e.g. ER Triage 1"
+                  placeholder={i18n.t("e.g. ER Triage 1")}
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-red-500"
                   value={setupData.bed_number}
                   onChange={e => setSetupData({...setupData, bed_number: e.target.value})}
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Triage Category</label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Triage Category")}</label>
                 <select 
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-red-500"
                   value={setupData.triage_category}
                   onChange={e => setSetupData({...setupData, triage_category: e.target.value})}
                 >
-                  <option value="RED">RED (Immediate)</option>
-                  <option value="YELLOW">YELLOW (Urgent)</option>
-                  <option value="GREEN">GREEN (Stable)</option>
-                  <option value="BLACK">BLACK (Deceased/Expectant)</option>
+                  <option value="RED">{i18n.t("RED (Immediate)")}</option>
+                  <option value="YELLOW">{i18n.t("YELLOW (Urgent)")}</option>
+                  <option value="GREEN">{i18n.t("GREEN (Stable)")}</option>
+                  <option value="BLACK">{i18n.t("BLACK (Deceased/Expectant)")}</option>
                 </select>
               </div>
             </div>
 
             <div className="px-8 py-6 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
-              <button onClick={() => setShowSetupModal(false)} className="px-6 py-2.5 text-xs font-black text-slate-400 uppercase tracking-widest">Cancel</button>
+              <button onClick={() => setShowSetupModal(false)} className="px-6 py-2.5 text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("Cancel")}</button>
               <button 
                 onClick={handleCreateBed}
                 disabled={!setupData.bed_number}
                 className="bg-red-600 text-white px-8 py-3 rounded-[24px] font-black uppercase text-xs tracking-widest shadow-lg shadow-red-200 hover:bg-red-700 transition-all disabled:opacity-50"
-              >
-                Create Bed
-              </button>
+              >{i18n.t("Create Bed")}</button>
             </div>
           </div>
         </div>
@@ -646,7 +638,7 @@ const EmergencyFloor: React.FC = () => {
                   <User size={24} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-black text-slate-800 tracking-tight">Admit to ERD</h2>
+                  <h2 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Admit to ERD")}</h2>
                   <p className="text-xs text-emerald-600 font-bold uppercase tracking-widest">{showAdmitModal.bed_number}</p>
                 </div>
               </div>
@@ -657,11 +649,11 @@ const EmergencyFloor: React.FC = () => {
 
             <div className="p-10 space-y-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Patient MRN</label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Patient MRN")}</label>
                 <div className="flex gap-2">
                   <input 
                     type="text" 
-                    placeholder="Enter MRN..."
+                    placeholder={i18n.t("Enter MRN...")}
                     className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-emerald-500"
                     value={searchMrn}
                     onChange={e => setSearchMrn(e.target.value)}
@@ -690,45 +682,42 @@ const EmergencyFloor: React.FC = () => {
 
               <div className="space-y-4 pt-4 border-t border-slate-100">
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Admitting Doctor</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Admitting Doctor")}</label>
                   <select 
                     value={admissionData.admitting_doctor_id}
                     onChange={e => setAdmissionData({...admissionData, admitting_doctor_id: e.target.value})}
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-emerald-500 mt-1"
                   >
-                    <option value="">Select a doctor...</option>
+                    <option value="">{i18n.t("Select a doctor...")}</option>
                     {doctors.map(d => (
-                      <option key={d.doctor_id} value={d.doctor_id}>
-                        Dr. {d.first_name} {d.last_name} ({d.specialization_name})
+                      <option key={d.doctor_id} value={d.doctor_id}>{i18n.t("Dr.")}{" "}{d.first_name} {d.last_name} ({d.specialization_name})
                       </option>
                     ))}
                   </select>
                 </div>
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Triage Level</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Triage Level")}</label>
                   <select 
                     value={admissionData.triage_level}
                     onChange={e => setAdmissionData({...admissionData, triage_level: e.target.value})}
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-emerald-500 mt-1"
                   >
-                    <option value="IMMEDIATE">IMMEDIATE</option>
-                    <option value="URGENT">URGENT</option>
-                    <option value="DELAYED">DELAYED</option>
-                    <option value="EXPECTANT">EXPECTANT</option>
+                    <option value="IMMEDIATE">{i18n.t("IMMEDIATE")}</option>
+                    <option value="URGENT">{i18n.t("URGENT")}</option>
+                    <option value="DELAYED">{i18n.t("DELAYED")}</option>
+                    <option value="EXPECTANT">{i18n.t("EXPECTANT")}</option>
                   </select>
                 </div>
               </div>
             </div>
 
             <div className="px-10 py-8 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
-              <button onClick={() => setShowAdmitModal(null)} className="px-6 py-2.5 text-xs font-black text-slate-400 uppercase tracking-widest">Cancel</button>
+              <button onClick={() => setShowAdmitModal(null)} className="px-6 py-2.5 text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("Cancel")}</button>
               <button 
                 onClick={handleAdmitPatient}
                 disabled={!searchedPatient || !admissionData.admitting_doctor_id}
                 className="bg-emerald-600 text-white px-8 py-3 rounded-[24px] font-black uppercase text-xs tracking-widest shadow-xl shadow-emerald-200 hover:bg-emerald-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Confirm Admission
-              </button>
+              >{i18n.t("Confirm Admission")}</button>
             </div>
           </div>
         </div>
@@ -755,18 +744,18 @@ const EmergencyFloor: React.FC = () => {
                     <button
                       onClick={() => setDischargeModalView('actions')}
                       className="p-2 rounded-full bg-white border border-slate-200 text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors shrink-0"
-                      title="Back"
+                      title={i18n.t("Back")}
                     >
-                      <ArrowLeft size={18} />
+                      <ArrowLeft className="rtl:-scale-x-100" size={18} />
                     </button>
                   )}
                   <div>
                     <h3 className="font-black text-slate-800 text-xl tracking-tight">
-                      {dischargeModalView === 'details' ? 'Patient Details' : dischargeModalView === 'edit' ? 'Edit Bed' : dischargeModalView === 'transferIpd' ? 'Transfer to IPD' : 'Bed Actions'}
+                      {dischargeModalView === 'details' ? i18n.t("Patient Details") : dischargeModalView === 'edit' ? i18n.t("Edit Bed") : dischargeModalView === 'transferIpd' ? i18n.t("Transfer to IPD") : i18n.t("Bed Actions")}
                     </h3>
                     <p className="text-xs font-bold text-slate-500 mt-1 flex items-center gap-2">
                       <span className="px-2 py-0.5 bg-white border border-slate-200 rounded text-slate-700">{bed.bed_number}</span>
-                      {occupant ? `${occupant.mrn} • ${occupant.full_name}` : 'No patient assigned'}
+                      {occupant ? `${occupant.mrn} • ${occupant.full_name}` : i18n.t("No patient assigned")}
                     </p>
                   </div>
                 </div>
@@ -781,65 +770,65 @@ const EmergencyFloor: React.FC = () => {
               {dischargeModalView === 'details' && occupant && (
                 <div className="p-8 space-y-6 overflow-y-auto custom-scrollbar">
                   <div>
-                    <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">Demographics</h4>
+                    <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">{i18n.t("Demographics")}</h4>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Full Name</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Full Name")}</p>
                         <p className="font-black text-slate-800 mt-1">{occupant.full_name}</p>
                       </div>
                       <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MRN</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("MRN")}</p>
                         <p className="font-black text-slate-800 mt-1">{occupant.mrn}</p>
                       </div>
                       <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Gender</p>
-                        <p className="font-black text-slate-800 mt-1">{occupant.gender}</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Gender")}</p>
+                        <p className="font-black text-slate-800 mt-1">{i18n.tv(occupant.gender)}</p>
                       </div>
                       <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Age</p>
-                        <p className="font-black text-slate-800 mt-1">{occupant.age} years</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Age")}</p>
+                        <p className="font-black text-slate-800 mt-1">{occupant.age}{" "}{i18n.t("years")}</p>
                       </div>
                     </div>
                   </div>
 
                   <div>
-                    <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">Admission Details</h4>
+                    <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">{i18n.t("Admission Details")}</h4>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Admission No</p>
-                        <p className="font-black text-slate-800 mt-1">{details?.admission_no || 'N/A'}</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Admission No")}</p>
+                        <p className="font-black text-slate-800 mt-1">{details?.admission_no || i18n.t("N/A")}</p>
                       </div>
                       <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Admitted At</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Admitted At")}</p>
                         <p className="font-black text-slate-800 mt-1">
-                          {details?.admitted_at ? new Date(details.admitted_at).toLocaleString() : 'N/A'}
+                          {details?.admitted_at ? new Date(details.admitted_at).toLocaleString() : i18n.t("N/A")}
                         </p>
                       </div>
                       <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Triage Level</p>
-                        <p className="font-black text-slate-800 mt-1">{details?.triage_level || 'N/A'}</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Triage Level")}</p>
+                        <p className="font-black text-slate-800 mt-1">{details?.triage_level || i18n.t("N/A")}</p>
                       </div>
                       <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Reason for Admission</p>
-                        <p className="font-black text-slate-800 mt-1">{(details as any)?.reason_for_admission || 'N/A'}</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Reason for Admission")}</p>
+                        <p className="font-black text-slate-800 mt-1">{(details as any)?.reason_for_admission || i18n.t("N/A")}</p>
                       </div>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-6">
                     <div>
-                      <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">Clinical</h4>
+                      <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">{i18n.t("Clinical")}</h4>
                       <div className="space-y-3">
                         <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Admitting Doctor</p>
-                          <p className="font-black text-slate-800 mt-1">Dr. {occupant.clinical?.admitting_doctor || 'N/A'}</p>
+                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Admitting Doctor")}</p>
+                          <p className="font-black text-slate-800 mt-1">{i18n.t("Dr.")}{" "}{occupant.clinical?.admitting_doctor || i18n.t("N/A")}</p>
                         </div>
                         <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Diagnosis</p>
-                          <p className="font-black text-slate-800 mt-1">{(occupant.clinical as any)?.diagnosis || 'N/A'}</p>
+                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Diagnosis")}</p>
+                          <p className="font-black text-slate-800 mt-1">{(occupant.clinical as any)?.diagnosis || i18n.t("N/A")}</p>
                         </div>
                         <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Allergies</p>
+                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Allergies")}</p>
                           <div className="mt-1 flex flex-wrap gap-1">
                             {((occupant.clinical as any)?.allergies || []).length > 0 ? (
                               ((occupant.clinical as any)?.allergies || []).map((allergy: string, idx: number) => (
@@ -848,26 +837,26 @@ const EmergencyFloor: React.FC = () => {
                                 </span>
                               ))
                             ) : (
-                              <span className="font-black text-slate-800">None recorded</span>
+                              <span className="font-black text-slate-800">{i18n.t("None recorded")}</span>
                             )}
                           </div>
                         </div>
                       </div>
                     </div>
                     <div>
-                      <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">Financial</h4>
+                      <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">{i18n.t("Financial")}</h4>
                       <div className="space-y-3">
                         <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Payer Name</p>
-                          <p className="font-black text-slate-800 mt-1">{occupant.financial?.payer_name || 'N/A'}</p>
+                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Payer Name")}</p>
+                          <p className="font-black text-slate-800 mt-1">{occupant.financial?.payer_name || i18n.t("N/A")}</p>
                         </div>
                         <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Payer Category</p>
-                          <p className="font-black text-slate-800 mt-1">{occupant.financial?.payer_category || 'N/A'}</p>
+                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Payer Category")}</p>
+                          <p className="font-black text-slate-800 mt-1">{occupant.financial?.payer_category || i18n.t("N/A")}</p>
                         </div>
                         <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Plan Name</p>
-                          <p className="font-black text-slate-800 mt-1">{(occupant.financial as any)?.plan_name || 'N/A'}</p>
+                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Plan Name")}</p>
+                          <p className="font-black text-slate-800 mt-1">{(occupant.financial as any)?.plan_name || i18n.t("N/A")}</p>
                         </div>
                       </div>
                     </div>
@@ -879,7 +868,7 @@ const EmergencyFloor: React.FC = () => {
                 <>
                   <div className="p-8 space-y-5 overflow-y-auto custom-scrollbar">
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Bed Number / Name</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Bed Number / Name")}</label>
                       <input
                         type="text"
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-brand-active0"
@@ -888,41 +877,39 @@ const EmergencyFloor: React.FC = () => {
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Status</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Status")}</label>
                       <select
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-brand-active0"
                         value={showEditModal.bed_status}
                         onChange={e => setShowEditModal({ ...showEditModal, bed_status: e.target.value as any })}
                       >
-                        <option value="AVAILABLE">AVAILABLE</option>
-                        <option value="OCCUPIED">OCCUPIED</option>
-                        <option value="MAINTENANCE">MAINTENANCE</option>
-                        <option value="RESERVED">RESERVED</option>
+                        <option value="AVAILABLE">{i18n.t("AVAILABLE")}</option>
+                        <option value="OCCUPIED">{i18n.t("OCCUPIED")}</option>
+                        <option value="MAINTENANCE">{i18n.t("MAINTENANCE")}</option>
+                        <option value="RESERVED">{i18n.t("RESERVED")}</option>
                       </select>
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Triage Category</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Triage Category")}</label>
                       <select
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-brand-active0"
                         value={showEditModal.triage_category}
                         onChange={e => setShowEditModal({ ...showEditModal, triage_category: e.target.value as any })}
                       >
-                        <option value="RED">RED (Immediate)</option>
-                        <option value="YELLOW">YELLOW (Urgent)</option>
-                        <option value="GREEN">GREEN (Stable)</option>
-                        <option value="BLACK">BLACK (Deceased/Expectant)</option>
+                        <option value="RED">{i18n.t("RED (Immediate)")}</option>
+                        <option value="YELLOW">{i18n.t("YELLOW (Urgent)")}</option>
+                        <option value="GREEN">{i18n.t("GREEN (Stable)")}</option>
+                        <option value="BLACK">{i18n.t("BLACK (Deceased/Expectant)")}</option>
                       </select>
                     </div>
                   </div>
                   <div className="px-8 py-6 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
-                    <button onClick={() => setDischargeModalView('actions')} className="px-6 py-2.5 text-xs font-black text-slate-400 uppercase tracking-widest">Cancel</button>
+                    <button onClick={() => setDischargeModalView('actions')} className="px-6 py-2.5 text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("Cancel")}</button>
                     <button
                       onClick={handleUpdateBed}
                       disabled={!showEditModal.bed_number}
                       className="bg-brand-primary text-white px-8 py-3 rounded-[24px] font-black uppercase text-xs tracking-widest shadow-lg shadow-brand-active hover:bg-brand-primary transition-all disabled:opacity-50"
-                    >
-                      Save Changes
-                    </button>
+                    >{i18n.t("Save Changes")}</button>
                   </div>
                 </>
               )}
@@ -932,7 +919,7 @@ const EmergencyFloor: React.FC = () => {
                   <div className="p-8 space-y-5 overflow-y-auto custom-scrollbar">
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-1.5">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Ward</label>
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Ward")}</label>
                         <select
                           className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-brand-active0"
                           value={transferForm.ward_id}
@@ -944,14 +931,14 @@ const EmergencyFloor: React.FC = () => {
                             else setIpdRooms([]);
                           }}
                         >
-                          <option value="">Select ward...</option>
+                          <option value="">{i18n.t("Select ward...")}</option>
                           {ipdWards.map((w: any) => (
                             <option key={w.id} value={w.id}>{w.name}</option>
                           ))}
                         </select>
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Room</label>
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Room")}</label>
                         <select
                           className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-brand-active0 disabled:opacity-50"
                           value={transferForm.room_id}
@@ -963,7 +950,7 @@ const EmergencyFloor: React.FC = () => {
                             else setIpdBeds([]);
                           }}
                         >
-                          <option value="">Select room...</option>
+                          <option value="">{i18n.t("Select room...")}</option>
                           {ipdRooms.map((r: any) => (
                             <option key={r.id} value={r.id}>{r.room_number}</option>
                           ))}
@@ -972,14 +959,14 @@ const EmergencyFloor: React.FC = () => {
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Bed</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Bed")}</label>
                       <select
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-brand-active0 disabled:opacity-50"
                         value={transferForm.bed_id}
                         disabled={!transferForm.room_id}
                         onChange={e => setTransferForm({ ...transferForm, bed_id: e.target.value })}
                       >
-                        <option value="">Select bed...</option>
+                        <option value="">{i18n.t("Select bed...")}</option>
                         {ipdBeds.map((b: any) => (
                           <option key={b.id} value={b.id} disabled={b.bed_status !== 'AVAILABLE'}>
                             {b.bed_number} {b.bed_status !== 'AVAILABLE' ? `(${b.bed_status})` : ''}
@@ -989,39 +976,37 @@ const EmergencyFloor: React.FC = () => {
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Admitting Doctor</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Admitting Doctor")}</label>
                       <select
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-brand-active0"
                         value={transferForm.admitting_doctor_id}
                         onChange={e => setTransferForm({ ...transferForm, admitting_doctor_id: e.target.value })}
                       >
-                        <option value="">Select doctor...</option>
+                        <option value="">{i18n.t("Select doctor...")}</option>
                         {doctors.map((d: Doctor) => (
-                          <option key={d.doctor_id} value={d.doctor_id}>Dr. {d.first_name} {d.last_name}{d.specialization_name ? ` — ${d.specialization_name}` : ''}</option>
+                          <option key={d.doctor_id} value={d.doctor_id}>{i18n.t("Dr.")}{" "}{d.first_name} {d.last_name}{d.specialization_name ? ` — ${d.specialization_name}` : ''}</option>
                         ))}
                       </select>
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Admission Reason</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Admission Reason")}</label>
                       <textarea
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-brand-active0 min-h-[100px] resize-none"
-                        placeholder="e.g. Patient requires continuous monitoring and IV antibiotics for severe pneumonia."
+                        placeholder={i18n.t("e.g. Patient requires continuous monitoring and IV antibiotics for severe pneumonia.")}
                         value={transferForm.admission_reason}
                         onChange={e => setTransferForm({ ...transferForm, admission_reason: e.target.value })}
                       />
                     </div>
                   </div>
                   <div className="px-8 py-6 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
-                    <button onClick={() => setDischargeModalView('actions')} disabled={transferLoading} className="px-6 py-2.5 text-xs font-black text-slate-400 uppercase tracking-widest disabled:opacity-50">Cancel</button>
+                    <button onClick={() => setDischargeModalView('actions')} disabled={transferLoading} className="px-6 py-2.5 text-xs font-black text-slate-400 uppercase tracking-widest disabled:opacity-50">{i18n.t("Cancel")}</button>
                     <button
                       onClick={() => handleTransferToIpd(admissionId, occupant.mrn)}
                       disabled={transferLoading || !transferForm.bed_id || !transferForm.admitting_doctor_id || !transferForm.admission_reason.trim()}
                       className="bg-indigo-600 text-white px-8 py-3 rounded-[24px] font-black uppercase text-xs tracking-widest shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all disabled:opacity-50 flex items-center gap-2"
                     >
-                      {transferLoading ? <Loader2 size={16} className="animate-spin" /> : null}
-                      Confirm Transfer
-                    </button>
+                      {transferLoading ? <Loader2 size={16} className="animate-spin" /> : null}{i18n.t("Confirm Transfer")}</button>
                   </div>
                 </>
               )}
@@ -1037,7 +1022,7 @@ const EmergencyFloor: React.FC = () => {
                         <div className="p-4 bg-slate-100 rounded-2xl group-hover:scale-110 transition-transform text-slate-600">
                           <User size={28} />
                         </div>
-                        <span className="text-sm font-bold text-center">View Details</span>
+                        <span className="text-sm font-bold text-center">{i18n.t("View Details")}</span>
                       </button>
                     )}
 
@@ -1047,9 +1032,9 @@ const EmergencyFloor: React.FC = () => {
                         className="flex flex-col items-center justify-center gap-3 p-5 bg-white border-2 border-indigo-50 rounded-2xl hover:bg-indigo-50 hover:border-indigo-200 transition-all text-indigo-700 group shadow-sm hover:shadow-md shadow-indigo-500/5"
                       >
                         <div className="p-4 bg-indigo-100 rounded-2xl group-hover:scale-110 transition-transform text-indigo-600">
-                          <ArrowLeft size={28} className="rotate-180" />
+                          <ArrowLeft size={28} className="rotate-180 rtl:-scale-x-100" />
                         </div>
-                        <span className="text-sm font-bold text-center">Transfer to IPD</span>
+                        <span className="text-sm font-bold text-center">{i18n.t("Transfer to IPD")}</span>
                       </button>
                     )}
 
@@ -1063,7 +1048,7 @@ const EmergencyFloor: React.FC = () => {
                       <div className="p-4 bg-slate-100 rounded-2xl group-hover:scale-110 transition-transform text-slate-600">
                         <Edit2 size={28} />
                       </div>
-                      <span className="text-sm font-bold text-center">Edit Bed</span>
+                      <span className="text-sm font-bold text-center">{i18n.t("Edit Bed")}</span>
                     </button>
 
                     <button
@@ -1076,7 +1061,7 @@ const EmergencyFloor: React.FC = () => {
                       <div className="p-4 bg-rose-100 rounded-2xl group-hover:scale-110 transition-transform text-rose-600">
                         <Trash2 size={28} />
                       </div>
-                      <span className="text-sm font-bold text-center">Delete Bed</span>
+                      <span className="text-sm font-bold text-center">{i18n.t("Delete Bed")}</span>
                     </button>
 
                     {occupant && (
@@ -1084,61 +1069,61 @@ const EmergencyFloor: React.FC = () => {
                     <button
                       onClick={() => isPharmacyClearance && handleDischargeAction('billingFileReceived', admissionId, occupant.full_name)}
                       disabled={dischargeActionLoading || !isPharmacyClearance}
-                      title={!isPharmacyClearance ? "Requires Pharmacy Clearance first, or file already received." : ""}
+                      title={!isPharmacyClearance ? i18n.t("Requires Pharmacy Clearance first, or file already received.") : ""}
                       className="flex flex-col items-center justify-center gap-3 p-5 bg-white border-2 border-teal-50 rounded-2xl hover:bg-teal-50 hover:border-teal-200 transition-all text-teal-700 group shadow-sm hover:shadow-md shadow-teal-500/5 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
                     >
                       <div className="p-4 bg-teal-100 rounded-2xl group-hover:scale-110 transition-transform text-teal-600">
                         {dischargeActionLoading && isPharmacyClearance ? <Loader2 size={28} className="animate-spin" /> : <CheckCircle2 size={28} />}
                       </div>
-                      <span className="text-sm font-bold text-center">Receive File</span>
+                      <span className="text-sm font-bold text-center">{i18n.t("Receive File")}</span>
                     </button>
 
                     <button
                       onClick={() => isBillingFileReceived && handleDischargeAction('reverseBillingFileReceived', admissionId, occupant.full_name)}
                       disabled={dischargeActionLoading || !isBillingFileReceived}
-                      title={!isBillingFileReceived ? "Can only reverse if file was just received." : ""}
+                      title={!isBillingFileReceived ? i18n.t("Can only reverse if file was just received.") : ""}
                       className="flex flex-col items-center justify-center gap-3 p-5 bg-white border-2 border-rose-50 rounded-2xl hover:bg-rose-50 hover:border-rose-200 transition-all text-rose-700 group shadow-sm hover:shadow-md shadow-rose-500/5 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
                     >
                       <div className="p-4 bg-rose-100 rounded-2xl group-hover:scale-110 transition-transform text-rose-600">
                         <RotateCcw size={28} />
                       </div>
-                      <span className="text-sm font-bold text-center">Reverse File</span>
+                      <span className="text-sm font-bold text-center">{i18n.t("Reverse File")}</span>
                     </button>
 
                     <button
                       onClick={() => isBillingFileReceived && handleDischargeAction('billingClearance', admissionId, occupant.full_name)}
                       disabled={dischargeActionLoading || !isBillingFileReceived}
-                      title={!isBillingFileReceived ? "Requires Billing File Received first, or already cleared." : ""}
+                      title={!isBillingFileReceived ? i18n.t("Requires Billing File Received first, or already cleared.") : ""}
                       className="flex flex-col items-center justify-center gap-3 p-5 bg-white border-2 border-teal-50 rounded-2xl hover:bg-teal-50 hover:border-teal-200 transition-all text-teal-700 group shadow-sm hover:shadow-md shadow-teal-500/5 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
                     >
                       <div className="p-4 bg-teal-100 rounded-2xl group-hover:scale-110 transition-transform text-teal-600">
                         {dischargeActionLoading && isBillingFileReceived ? <Loader2 size={28} className="animate-spin" /> : <CheckCircle2 size={28} />}
                       </div>
-                      <span className="text-sm font-bold text-center">Clear Billing</span>
+                      <span className="text-sm font-bold text-center">{i18n.t("Clear Billing")}</span>
                     </button>
 
                     <button
                       onClick={() => isBillingClearance && handleDischargeAction('reverseBillingClearance', admissionId, occupant.full_name)}
                       disabled={dischargeActionLoading || !isBillingClearance}
-                      title={!isBillingClearance ? "Can only reverse if currently at Billing Clearance stage." : ""}
+                      title={!isBillingClearance ? i18n.t("Can only reverse if currently at Billing Clearance stage.") : ""}
                       className="flex flex-col items-center justify-center gap-3 p-5 bg-white border-2 border-rose-50 rounded-2xl hover:bg-rose-50 hover:border-rose-200 transition-all text-rose-700 group shadow-sm hover:shadow-md shadow-rose-500/5 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
                     >
                       <div className="p-4 bg-rose-100 rounded-2xl group-hover:scale-110 transition-transform text-rose-600">
                         <RotateCcw size={28} />
                       </div>
-                      <span className="text-sm font-bold text-center">Reverse Clearance</span>
+                      <span className="text-sm font-bold text-center">{i18n.t("Reverse Clearance")}</span>
                     </button>
 
                     <button
                       onClick={() => isBillingClearance && handleDischargeAction('finalizeDischarge', admissionId, occupant.full_name)}
                       disabled={dischargeActionLoading || !isBillingClearance}
-                      title={!isBillingClearance ? "Requires Billing Clearance first." : ""}
+                      title={!isBillingClearance ? i18n.t("Requires Billing Clearance first.") : ""}
                       className="flex flex-col items-center justify-center gap-3 p-5 bg-white border-2 border-brand-active rounded-2xl hover:bg-brand-active/50 hover:border-brand-primary transition-all text-brand-primary group shadow-sm hover:shadow-md shadow-brand-primary/10 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
                     >
                       <div className="p-4 bg-brand-active0 rounded-2xl group-hover:scale-110 transition-transform text-brand-primary">
                         {dischargeActionLoading && isBillingClearance ? <Loader2 size={28} className="animate-spin" /> : <LogOut size={28} />}
                       </div>
-                      <span className="text-sm font-bold text-center">Finalize Discharge</span>
+                      <span className="text-sm font-bold text-center">{i18n.t("Finalize Discharge")}</span>
                     </button>
 
                     <button
@@ -1148,13 +1133,13 @@ const EmergencyFloor: React.FC = () => {
                         setActiveDischargeAction(null);
                       }}
                       disabled={!hasDischargeStarted}
-                      title={!hasDischargeStarted ? "Requires the patient to be marked for discharge first." : ""}
+                      title={!hasDischargeStarted ? i18n.t("Requires the patient to be marked for discharge first.") : ""}
                       className="flex flex-col items-center justify-center gap-3 p-5 bg-white border-2 border-slate-100 rounded-2xl hover:bg-slate-50 hover:border-slate-300 transition-all text-slate-700 group shadow-sm hover:shadow-md shadow-slate-500/5 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
                     >
                       <div className="p-4 bg-slate-100 rounded-2xl group-hover:scale-110 transition-transform text-slate-600">
                         <FileText size={28} />
                       </div>
-                      <span className="text-sm font-bold text-center">Discharge Summary</span>
+                      <span className="text-sm font-bold text-center">{i18n.t("Discharge Summary")}</span>
                     </button>
                       </>
                     )}
@@ -1173,8 +1158,8 @@ const EmergencyFloor: React.FC = () => {
           setActiveDischargeAction(null);
         }}
         onBack={() => setShowReversalModal(null)}
-        title={showReversalModal?.title || ''}
-        description={showReversalModal?.description || ''}
+        title={i18n.tx(showReversalModal?.title) || ''}
+        description={i18n.tx(showReversalModal?.description) || ''}
         patientName={showReversalModal?.patientName}
         onConfirm={async (reason) => {
           if (!showReversalModal) return;

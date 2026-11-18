@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { Search, ChevronDown, Check } from "lucide-react";
 import apiClient from "../../api/client";
+import { i18n } from "../../i18n";
 
 export interface User {
   id: number;
@@ -116,7 +117,7 @@ const SearchableUserSelect: React.FC<SearchableUserSelectProps> = ({
               <input
                 type="text"
                 className="w-full text-sm outline-none bg-transparent"
-                placeholder="Search by name..."
+                placeholder={i18n.t("Search by name...")}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 autoFocus
@@ -126,11 +127,9 @@ const SearchableUserSelect: React.FC<SearchableUserSelectProps> = ({
             <div className="overflow-y-auto flex-1 p-1">
               {loading ? (
                 <div className="p-3 text-sm text-slate-500 text-center flex flex-col items-center">
-                  <div className="w-4 h-4 border-2 border-brand-primary border-t-transparent rounded-full animate-spin mb-1"></div>
-                  Loading...
-                </div>
+                  <div className="w-4 h-4 border-2 border-brand-primary border-t-transparent rounded-full animate-spin mb-1"></div>{i18n.t("Loading...")}</div>
               ) : filteredUsers.length === 0 ? (
-                <div className="p-3 text-sm text-slate-500 text-center">No users found</div>
+                <div className="p-3 text-sm text-slate-500 text-center">{i18n.t("No users found")}</div>
               ) : (
                 <>
                   <div
@@ -142,9 +141,7 @@ const SearchableUserSelect: React.FC<SearchableUserSelectProps> = ({
                       setIsOpen(false);
                       setSearchTerm("");
                     }}
-                  >
-                    None / Clear selection
-                  </div>
+                  >{i18n.t("None / Clear selection")}</div>
                   {filteredUsers.map((u) => {
                     const isSelected = u.id.toString() === value?.toString();
                     return (

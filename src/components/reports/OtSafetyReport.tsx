@@ -8,18 +8,16 @@ import {
   buildTimeframeParams,
   ReportShell,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const BoolFlag: React.FC<{ value: any; invert?: boolean }> = ({ value, invert }) => {
   const truthy = value === 1 || value === true || value === "1";
   const good = invert ? !truthy : truthy;
   return truthy ? (
     <span className={`inline-flex items-center gap-1 text-[10px] font-black px-2 py-1 rounded-full border uppercase tracking-wider ${good ? "bg-emerald-50 text-emerald-600 border-emerald-100" : "bg-red-50 text-red-600 border-red-100"}`}>
-      {good ? <CheckCircle2 size={11} /> : <XCircle size={11} />} Yes
-    </span>
+      {good ? <CheckCircle2 size={11} /> : <XCircle size={11} />}{" "}{i18n.t("Yes")}</span>
   ) : (
-    <span className="inline-flex items-center gap-1 text-[10px] font-black px-2 py-1 rounded-full border uppercase tracking-wider bg-slate-50 text-slate-500 border-slate-100">
-      No
-    </span>
+    <span className="inline-flex items-center gap-1 text-[10px] font-black px-2 py-1 rounded-full border uppercase tracking-wider bg-slate-50 text-slate-500 border-slate-100">{i18n.t("No")}</span>
   );
 };
 
@@ -67,8 +65,8 @@ const OtSafetyReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Pre-Op Safety & Equipment Audit"
-      subtitle="Identity confirmation, allergy, blood, and equipment safety checks per case."
+      title={i18n.t("Pre-Op Safety & Equipment Audit")}
+      subtitle={i18n.t("Identity confirmation, allergy, blood, and equipment safety checks per case.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -88,7 +86,7 @@ const OtSafetyReport: React.FC = () => {
           <div>
             <input
               type="text"
-              placeholder="Assigned room"
+              placeholder={i18n.t("Assigned room")}
               value={assignedRoom}
               onChange={(e) => setAssignedRoom(e.target.value)}
               disabled={isLoading}
@@ -98,7 +96,7 @@ const OtSafetyReport: React.FC = () => {
           <div>
             <input
               type="text"
-              placeholder="Lead surgeon"
+              placeholder={i18n.t("Lead surgeon")}
               value={leadSurgeon}
               onChange={(e) => setLeadSurgeon(e.target.value)}
               disabled={isLoading}
@@ -108,7 +106,7 @@ const OtSafetyReport: React.FC = () => {
           <div>
             <input
               type="text"
-              placeholder="MRN"
+              placeholder={i18n.t("MRN")}
               value={mrn}
               onChange={(e) => setMrn(e.target.value)}
               disabled={isLoading}
@@ -122,39 +120,39 @@ const OtSafetyReport: React.FC = () => {
       }
     >
       <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 flex-1 min-h-[300px]">
-        <table className="w-full text-left text-sm whitespace-nowrap">
+        <table className="w-full text-start text-sm whitespace-nowrap">
           <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
             <tr>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Surgery</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Patient</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Surgeon</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Anaesthetist</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Identity Confirmed</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Has Allergy</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Blood Loss Risk</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Blood Prepared</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">ICU Required</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Equipment Issue</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Sterility Confirmed</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Surgery")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Patient")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Surgeon")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Anaesthetist")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Identity Confirmed")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Has Allergy")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Blood Loss Risk")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Blood Prepared")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("ICU Required")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Equipment Issue")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Sterility Confirmed")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {records.length > 0 ? (
               records.map((row, i) => (
                 <tr key={`${row.case_id}-${i}`} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50 whitespace-normal min-w-[220px]">{renderValue(row.surgery_name)}</td>
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50 whitespace-normal min-w-[220px]">{renderValue(row.surgery_name)}</td>
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <div className="text-slate-700">{renderValue(row.patient_name)}</div>
-                    <div className="text-[11px] text-slate-400 font-mono">MRN: {renderValue(row.mrn)}</div>
+                    <div className="text-[11px] text-slate-400 font-mono">{i18n.t("MRN:")}{" "}{renderValue(row.mrn)}</div>
                   </td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.surgeon_name)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.anaesthetist_name)}</td>
-                  <td className="px-4 py-3.5 border-r border-slate-50"><BoolFlag value={row.identity_confirmed} /></td>
-                  <td className="px-4 py-3.5 border-r border-slate-50"><BoolFlag value={row.has_allergy} invert /></td>
-                  <td className="px-4 py-3.5 border-r border-slate-50"><BoolFlag value={row.blood_loss_risk} invert /></td>
-                  <td className="px-4 py-3.5 border-r border-slate-50"><BoolFlag value={row.blood_prepared} /></td>
-                  <td className="px-4 py-3.5 border-r border-slate-50"><BoolFlag value={row.icu_required} invert /></td>
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.surgeon_name)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.anaesthetist_name)}</td>
+                  <td className="px-4 py-3.5 border-e border-slate-50"><BoolFlag value={row.identity_confirmed} /></td>
+                  <td className="px-4 py-3.5 border-e border-slate-50"><BoolFlag value={row.has_allergy} invert /></td>
+                  <td className="px-4 py-3.5 border-e border-slate-50"><BoolFlag value={row.blood_loss_risk} invert /></td>
+                  <td className="px-4 py-3.5 border-e border-slate-50"><BoolFlag value={row.blood_prepared} /></td>
+                  <td className="px-4 py-3.5 border-e border-slate-50"><BoolFlag value={row.icu_required} invert /></td>
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <BoolFlag value={row.equipment_issues_flag} invert />
                     {row.equipment_issue_details && (
                       <div className="text-[11px] text-slate-400 mt-1 whitespace-normal max-w-[180px]">{row.equipment_issue_details}</div>
@@ -165,7 +163,7 @@ const OtSafetyReport: React.FC = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={11} className="px-4 py-12 text-center text-slate-400 italic">No pre-op safety audit records found.</td>
+                <td colSpan={11} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No pre-op safety audit records found.")}</td>
               </tr>
             )}
           </tbody>

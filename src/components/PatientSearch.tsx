@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { patientService } from "../services/patient.service";
 import { useNotification } from "../context/NotificationContext";
+import { i18n } from "../i18n";
 
 const PatientSearch: React.FC = () => {
   const navigate = useNavigate();
@@ -125,12 +126,8 @@ const PatientSearch: React.FC = () => {
           <h1 className=" font-semibold text-slate-800 tracking-tight flex items-center gap-3 ">
             <div className="p-2 bg-brand-primary text-white rounded-xl shadow-lg shadow-brand-active">
               <Search size={18} />
-            </div>
-            Patient Search & Directory
-          </h1>
-          <p className="text-slate-500 font-medium mt-1">
-            Access the centralized Master Patient Index (MPI).
-          </p>
+            </div>{i18n.t("Patient Search & Directory")}</h1>
+          <p className="text-slate-500 font-medium mt-1">{i18n.t("Access the centralized Master Patient Index (MPI).")}</p>
         </div>
 
 
@@ -138,18 +135,18 @@ const PatientSearch: React.FC = () => {
       <div className="bg-white rounded-[40px] border border-slate-200 shadow-sm relative group ">
         <div className="relative">
           <Search
-            className={`absolute left-5 top-1/2 -translate-y-1/2 transition-colors duration-300 ${isSearching ? "text-brand-primary" : "text-slate-400"}`}
+            className={`absolute start-5 top-1/2 -translate-y-1/2 transition-colors duration-300 ${isSearching ? "text-brand-primary" : "text-slate-400"}`}
             size={24}
           />
           <input
             type="text"
-            placeholder="Search by First Name, Last Name, Phone, or MRN..."
-            className="w-full pl-14 pr-24 py-1 bg-slate-50 border-2 border-slate-100 rounded-[32px] text-lg font-bold text-slate-800 focus:bg-white focus:border-brand-active0 outline-none transition-all shadow-inner "
+            placeholder={i18n.t("Search by First Name, Last Name, Phone, or MRN...")}
+            className="w-full ps-14 pe-24 py-1 bg-slate-50 border-2 border-slate-100 rounded-[32px] text-lg font-bold text-slate-800 focus:bg-white focus:border-brand-active0 outline-none transition-all shadow-inner "
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             autoFocus
           />
-          <div className="absolute right-5 top-1/2 -translate-y-1/2 flex items-center gap-3">
+          <div className="absolute end-5 top-1/2 -translate-y-1/2 flex items-center gap-3">
             {isSearching && (
               <Loader2 size={20} className="text-brand-primary animate-spin" />
             )}
@@ -157,7 +154,7 @@ const PatientSearch: React.FC = () => {
               onClick={() => performSearch(searchTerm)}
               className="p-1 bg-slate-900 text-white rounded-2xl hover:bg-slate-800 transition-all"
             >
-              <ChevronRight size={20} />
+              <ChevronRight className="rtl:-scale-x-100" size={20} />
             </button>
           </div>
         </div>
@@ -170,9 +167,7 @@ const PatientSearch: React.FC = () => {
             onClick={() => navigate("/patients/demographics")}
             className="flex items-center gap-2 bg-brand-primary text-white px-6 py-3 rounded-2xl font-bold hover:bg-brand-primary transition-all shadow-lg shadow-brand-active active:scale-95"
           >
-            <Plus size={20} />
-            Register New Patient
-          </button>
+            <Plus size={20} />{i18n.t("Register New Patient")}</button>
 
         </div>
 
@@ -184,24 +179,14 @@ const PatientSearch: React.FC = () => {
       <div className="bg-white rounded-[44px] border border-slate-200 overflow-visible shadow-sm min-h-[400px] mb-20">
         {patients.length > 0 ? (
           <div className="overflow-visible pb-32">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-start border-collapse">
               <thead>
                 <tr className="bg-slate-50/50 border-b border-slate-100">
-                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
-                    MRN
-                  </th>
-                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
-                    Patient Identity
-                  </th>
-                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
-                    Age / Gender
-                  </th>
-                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
-                    Primary Contact
-                  </th>
-                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
-                    Payer Type
-                  </th>
+                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("MRN")}</th>
+                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Patient Identity")}</th>
+                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Age / Gender")}</th>
+                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Primary Contact")}</th>
+                  <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Payer Type")}</th>
                   <th className="px-8 py-6"></th>
                 </tr>
               </thead>
@@ -227,15 +212,15 @@ const PatientSearch: React.FC = () => {
                             {p.demographics.last_name}
                           </p>
                           <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">
-                            {p.demographics.email || "No email provided"}
+                            {p.demographics.email || i18n.t("No email provided")}
                           </p>
                         </div>
                       </div>
                     </td>
                     <td className="px-8 py-6">
                       <p className="text-sm font-black text-slate-700">
-                        {p.age}Y <span className="text-slate-300 mx-1">/</span>{" "}
-                        {p.demographics.gender}
+                        {p.age}{i18n.t("Y")}{" "}<span className="text-slate-300 mx-1">/</span>{" "}
+                        {i18n.tv(p.demographics.gender)}
                       </p>
                       <p className="text-[10px] text-slate-400 font-bold uppercase mt-0.5">
                         {p.demographics.date_of_birth}
@@ -255,11 +240,11 @@ const PatientSearch: React.FC = () => {
                         ${p.payer ? "bg-indigo-50 text-indigo-600 border-indigo-100" : "bg-slate-50 text-slate-500 border-slate-200"}
                       `}
                       >
-                        {p.payer?.payer_type || "Self-Pay"}
+                        {p.payer?.payer_type || i18n.t("Self-Pay")}
                       </span>
                     </td>
                     <td
-                      className="px-8 py-6 text-right relative"
+                      className="px-8 py-6 text-end relative"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <button
@@ -279,22 +264,15 @@ const PatientSearch: React.FC = () => {
             {isSearching ? (
               <div className="space-y-6">
                 <div className="w-20 h-20 border-4 border-brand-primary border-t-transparent rounded-full animate-spin mx-auto shadow-xl" />
-                <p className="text-lg font-black text-slate-800 uppercase tracking-widest">
-                  Querying Global Patient Index
-                </p>
+                <p className="text-lg font-black text-slate-800 uppercase tracking-widest">{i18n.t("Querying Global Patient Index")}</p>
               </div>
             ) : (
               <>
                 <div className="w-24 h-24 bg-slate-50 rounded-[40px] flex items-center justify-center mb-6 shadow-inner border border-slate-100">
                   <User size={48} className="text-slate-200" />
                 </div>
-                <h3 className="text-2xl font-black text-slate-800 tracking-tight">
-                  No Patient Loaded
-                </h3>
-                <p className="text-slate-500 max-w-sm mx-auto mt-2 font-medium leading-relaxed">
-                  Enter a query in the search bar above to retrieve records from
-                  the hospital's unified database.
-                </p>
+                <h3 className="text-2xl font-black text-slate-800 tracking-tight">{i18n.t("No Patient Loaded")}</h3>
+                <p className="text-slate-500 max-w-sm mx-auto mt-2 font-medium leading-relaxed">{i18n.t("Enter a query in the search bar above to retrieve records from the hospital's unified database.")}</p>
               </>
             )}
           </div>
@@ -305,27 +283,18 @@ const PatientSearch: React.FC = () => {
       <div className="bg-brand-primary rounded-[44px] p-10 text-white relative overflow-hidden group shadow-2xl">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-10">
           <div className="max-w-xl">
-            <h4 className="text-2xl font-black tracking-tight mb-4">
-              Master Index Integrity
-            </h4>
-            <p className="text-brand-active/70 text-sm leading-relaxed font-medium">
-              All searches are logged for clinical auditing purposes. Search
-              across MRN, Full Name, and Phone Number aliases. Patients not
-              found here should be enrolled via the{" "}
+            <h4 className="text-2xl font-black tracking-tight mb-4">{i18n.t("Master Index Integrity")}</h4>
+            <p className="text-brand-active/70 text-sm leading-relaxed font-medium">{i18n.t("All searches are logged for clinical auditing purposes. Search across MRN, Full Name, and Phone Number aliases. Patients not found here should be enrolled via the")}{" "}
               <span
                 className="text-white font-black italic underline cursor-pointer"
                 onClick={() => navigate("/patients/demographics")}
-              >
-                Registration
-              </span>{" "}
-              portal.
-            </p>
+              >{i18n.t("Registration")}</span>{" "}{i18n.t("portal.")}</p>
           </div>
           <div className="p-8 bg-white/10 rounded-[40px] border border-white/10 flex items-center justify-center backdrop-blur-sm group-hover:scale-105 transition-transform duration-700">
             <Activity size={64} className="text-brand-primary animate-pulse" />
           </div>
         </div>
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-brand-active0/10 rounded-full blur-3xl" />
+        <div className="absolute -top-24 -end-24 w-96 h-96 bg-brand-active0/10 rounded-full blur-3xl" />
       </div>
 
       {/* Action Modal (Grid Layout) */}
@@ -334,9 +303,7 @@ const PatientSearch: React.FC = () => {
           <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
             <div className="bg-slate-50 px-6 py-5 border-b border-slate-100 flex justify-between items-start sticky top-0 z-10">
               <div>
-                <h3 className="font-black text-slate-800 text-xl tracking-tight">
-                  Patient Actions
-                </h3>
+                <h3 className="font-black text-slate-800 text-xl tracking-tight">{i18n.t("Patient Actions")}</h3>
                 <p className="text-xs font-bold text-slate-500 mt-1 flex items-center gap-2">
                   <span className="px-2 py-0.5 bg-white border border-slate-200 rounded text-slate-700">
                     {activeActionModal.mrn}
@@ -362,7 +329,7 @@ const PatientSearch: React.FC = () => {
                   <div className="p-4 bg-slate-100 rounded-2xl group-hover:scale-110 transition-transform">
                     <Eye size={28} className="text-slate-600" />
                   </div>
-                  <span className="text-sm font-bold text-center">View Details</span>
+                  <span className="text-sm font-bold text-center">{i18n.t("View Details")}</span>
                 </button>
 
                 {/* View Documents */}
@@ -373,7 +340,7 @@ const PatientSearch: React.FC = () => {
                   <div className="p-4 bg-slate-100 rounded-2xl group-hover:scale-110 transition-transform text-slate-600">
                     <FileText size={28} />
                   </div>
-                  <span className="text-sm font-bold text-center">View Documents</span>
+                  <span className="text-sm font-bold text-center">{i18n.t("View Documents")}</span>
                 </button>
 
                 {/* Patient History */}
@@ -384,7 +351,7 @@ const PatientSearch: React.FC = () => {
                   <div className="p-4 bg-teal-100 rounded-2xl group-hover:scale-110 transition-transform text-teal-600">
                     <History size={28} />
                   </div>
-                  <span className="text-sm font-bold text-center">Patient History</span>
+                  <span className="text-sm font-bold text-center">{i18n.t("Patient History")}</span>
                 </button>
 
                 {/* Print Demographics */}
@@ -395,7 +362,7 @@ const PatientSearch: React.FC = () => {
                   <div className="p-4 bg-indigo-100 rounded-2xl group-hover:scale-110 transition-transform text-indigo-600">
                     <Printer size={28} />
                   </div>
-                  <span className="text-sm font-bold text-center">Print Demographics</span>
+                  <span className="text-sm font-bold text-center">{i18n.t("Print Demographics")}</span>
                 </button>
 
                 {/* Print Patient ID */}
@@ -406,7 +373,7 @@ const PatientSearch: React.FC = () => {
                   <div className="p-4 bg-purple-100 rounded-2xl group-hover:scale-110 transition-transform text-purple-600">
                     <IdCard size={28} />
                   </div>
-                  <span className="text-sm font-bold text-center">Print Patient ID</span>
+                  <span className="text-sm font-bold text-center">{i18n.t("Print Patient ID")}</span>
                 </button>
 
               </div>

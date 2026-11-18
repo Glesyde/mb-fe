@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { billingService } from '../../../services/billing.service';
 import { Loader2, AlertTriangle, Printer, Activity } from 'lucide-react';
+import { i18n } from "../../../i18n";
 
 const BRAND = '#2A157c';
 
@@ -36,7 +37,7 @@ const formatDate = (dateString: string | null | undefined) => {
 const InfoRow = ({ label, value }: { label: string; value?: string | number | null }) => (
   <div className="flex justify-between py-1 border-b border-slate-100 last:border-0 break-inside-avoid">
     <span className="text-xs text-slate-500 font-medium">{label}</span>
-    <span className="text-xs font-semibold text-slate-900 text-right">{fmt(value)}</span>
+    <span className="text-xs font-semibold text-slate-900 text-end">{fmt(value)}</span>
   </div>
 );
 
@@ -80,7 +81,7 @@ const IPDBillingPrintTemplate: React.FC = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50">
         <Loader2 size={40} className="animate-spin mb-4" style={{ color: BRAND }} />
-        <p className="text-sm font-medium text-slate-600 animate-pulse">Preparing provisional bill...</p>
+        <p className="text-sm font-medium text-slate-600 animate-pulse">{i18n.t("Preparing provisional bill...")}</p>
       </div>
     );
   }
@@ -90,7 +91,7 @@ const IPDBillingPrintTemplate: React.FC = () => {
       <div className="flex items-center justify-center min-h-screen bg-slate-50 p-6">
         <div className="bg-white p-8 rounded-2xl shadow-xl text-center max-w-sm w-full border border-red-100">
           <AlertTriangle size={40} className="text-red-500 mx-auto mb-4" />
-          <h3 className="text-lg font-bold text-slate-800 mb-2">Bill Unavailable</h3>
+          <h3 className="text-lg font-bold text-slate-800 mb-2">{i18n.t("Bill Unavailable")}</h3>
           <p className="text-sm text-slate-500">{error}</p>
         </div>
       </div>
@@ -107,27 +108,15 @@ const IPDBillingPrintTemplate: React.FC = () => {
       
       {/* ── CSS Override to remove browser URLs and force background colors ── */}
       <style>
-        {`
-          @media print {
-            @page {
-              margin: 0; /* Removes default browser headers/footers (URL, dates) */
-            }
-            body {
-              -webkit-print-color-adjust: exact;
-              print-color-adjust: exact;
-            }
-          }
-        `}
+        {"@media print { @page { margin: 0; /* Removes default browser headers/footers (URL, dates) */ } body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }"}
       </style>
 
       {/* ── Screen Preview Toolbar (Hidden on Print) ── */}
-      <div className="fixed top-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-6 md:px-12 print:hidden z-50 shadow-sm">
+      <div className="fixed top-0 start-0 end-0 h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-6 md:px-12 print:hidden z-50 shadow-sm">
         <div className="flex items-center gap-3">
           <Activity size={20} style={{ color: BRAND }} />
           <div>
-            <h2 className="font-bold text-slate-800 text-sm leading-tight">
-              IPD Provisional Bill Preview
-            </h2>
+            <h2 className="font-bold text-slate-800 text-sm leading-tight">{i18n.t("IPD Provisional Bill Preview")}</h2>
             <p className="text-[11px] text-slate-500 font-mono">{data.administrative?.encounter_no}</p>
           </div>
         </div>
@@ -136,8 +125,7 @@ const IPDBillingPrintTemplate: React.FC = () => {
           className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold text-white transition-all shadow-md hover:shadow-lg active:scale-95"
           style={{ backgroundColor: BRAND }}
         >
-          <Printer size={16} /> Print Bill
-        </button>
+          <Printer size={16} />{" "}{i18n.t("Print Bill")}</button>
       </div>
 
       {/* ── A4 Print Container ── */}
@@ -146,15 +134,13 @@ const IPDBillingPrintTemplate: React.FC = () => {
         {/* ── Brand Header ── */}
         <div className="flex justify-between items-start border-b-2 p-6" style={{ backgroundColor: BRAND }}>
           <div className="flex items-center gap-4">
-            <img src="/assets/logo-nobg.png" alt="Hospital Logo" className="w-[10em] h-auto object-contain" />
+            <img src="/assets/logo-nobg.png" alt={i18n.t("Hospital Logo")} className="w-[10em] h-auto object-contain" />
           </div>
-          <div className="text-right">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-white">
-              IPD Provisional Bill
-            </h2>
-            <p className="text-xs font-bold text-white mt-1">Ref: <span className="font-mono text-white">{data.administrative?.encounter_no || 'N/A'}</span></p>
+          <div className="text-end">
+            <h2 className="text-2xl font-black uppercase tracking-wider text-white">{i18n.t("IPD Provisional Bill")}</h2>
+            <p className="text-xs font-bold text-white mt-1">{i18n.t("Ref:")}{" "}<span className="font-mono text-white">{data.administrative?.encounter_no || i18n.t("N/A")}</span></p>
             <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-[10px] font-bold text-slate-700 uppercase">
-              {data.administrative?.status || 'UNKNOWN'}
+              {i18n.tv(data.administrative?.status) || i18n.t("UNKNOWN")}
             </div>
           </div>
         </div>
@@ -165,25 +151,25 @@ const IPDBillingPrintTemplate: React.FC = () => {
           {/* ── Patient & Clinical Info Grid ── */}
           <div className="grid grid-cols-2 gap-6 mb-8">
             <div className="border border-slate-200 rounded-lg p-4 bg-slate-50/50 break-inside-avoid">
-              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Patient & Clinical Details</h3>
+              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{i18n.t("Patient & Clinical Details")}</h3>
               <div className="space-y-1">
-                <InfoRow label="Patient Name" value={data.clinical_header?.patient_name} />
-                <InfoRow label="MRN (File No.)" value={data.clinical_header?.mrn} />
-                <InfoRow label="Age / Gender" value={`${fmt(age)} / ${fmt(gender)}`} />
-                <InfoRow label="Admitting Doctor" value={data.clinical_header?.admitting_dr} />
-                <InfoRow label="Ward Location" value={data.clinical_header?.ward_location} />
+                <InfoRow label={i18n.t("Patient Name")} value={data.clinical_header?.patient_name} />
+                <InfoRow label={i18n.t("MRN (File No.)")} value={data.clinical_header?.mrn} />
+                <InfoRow label={i18n.t("Age / Gender")} value={`${fmt(age)} / ${fmt(gender)}`} />
+                <InfoRow label={i18n.t("Admitting Doctor")} value={data.clinical_header?.admitting_dr} />
+                <InfoRow label={i18n.t("Ward Location")} value={data.clinical_header?.ward_location} />
               </div>
             </div>
 
             <div className="border border-slate-200 rounded-lg p-4 bg-slate-50/50 break-inside-avoid">
-              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Administrative Details</h3>
+              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{i18n.t("Administrative Details")}</h3>
               <div className="space-y-1">
-                <InfoRow label="Admission No." value={data.administrative?.admission_no} />
-                <InfoRow label="Encounter No." value={data.administrative?.encounter_no} />
-                <InfoRow label="Date Admitted" value={data.administrative?.date_admitted} />
-                <InfoRow label="Date Discharged" value={data.administrative?.date_discharged || 'Active'} />
-                <InfoRow label="Payer" value={data.administrative?.payer} />
-                <InfoRow label="Policy No." value={data.administrative?.policy_no} />
+                <InfoRow label={i18n.t("Admission No.")} value={data.administrative?.admission_no} />
+                <InfoRow label={i18n.t("Encounter No.")} value={data.administrative?.encounter_no} />
+                <InfoRow label={i18n.t("Date Admitted")} value={data.administrative?.date_admitted} />
+                <InfoRow label={i18n.t("Date Discharged")} value={data.administrative?.date_discharged || 'Active'} />
+                <InfoRow label={i18n.t("Payer")} value={data.administrative?.payer} />
+                <InfoRow label={i18n.t("Policy No.")} value={data.administrative?.policy_no} />
               </div>
             </div>
           </div>
@@ -191,7 +177,7 @@ const IPDBillingPrintTemplate: React.FC = () => {
           {/* ── Section C: Particulars (Grouped) ── */}
           {data.billing_groups && Object.keys(data.billing_groups).length > 0 && (
             <div className="mb-8">
-              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Bill Particulars</h3>
+              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">{i18n.t("Bill Particulars")}</h3>
               
               {Object.entries(data.billing_groups).map(([groupKey, group]: [string, any]) => (
                 <div key={groupKey} className="mb-4 break-inside-avoid rounded-lg overflow-hidden border border-slate-200">
@@ -203,16 +189,16 @@ const IPDBillingPrintTemplate: React.FC = () => {
                       {formatCurrency(group.dept_total)}
                     </span>
                   </div>
-                  <table className="w-full text-left text-xs">
+                  <table className="w-full text-start text-xs">
                     <thead>
                       <tr className="bg-slate-50 border-b border-slate-200">
                         <th className="py-2 px-3 font-semibold text-slate-600 w-8">#</th>
-                        <th className="py-2 px-3 font-semibold text-slate-600">Description</th>
-                        <th className="py-2 px-3 font-semibold text-slate-600 w-32">Date & Time</th>
-                        <th className="py-2 px-3 font-semibold text-slate-600 text-center w-12">Qty</th>
-                        <th className="py-2 px-3 font-semibold text-slate-600 text-right w-20">Rate</th>
-                        <th className="py-2 px-3 font-semibold text-slate-600 text-right w-20">Disc.</th>
-                        <th className="py-2 px-3 font-semibold text-slate-600 text-right w-24">Net Total</th>
+                        <th className="py-2 px-3 font-semibold text-slate-600">{i18n.t("Description")}</th>
+                        <th className="py-2 px-3 font-semibold text-slate-600 w-32">{i18n.t("Date & Time")}</th>
+                        <th className="py-2 px-3 font-semibold text-slate-600 text-center w-12">{i18n.t("Qty")}</th>
+                        <th className="py-2 px-3 font-semibold text-slate-600 text-end w-20">{i18n.t("Rate")}</th>
+                        <th className="py-2 px-3 font-semibold text-slate-600 text-end w-20">{i18n.t("Disc.")}</th>
+                        <th className="py-2 px-3 font-semibold text-slate-600 text-end w-24">{i18n.t("Net Total")}</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
@@ -251,20 +237,20 @@ const IPDBillingPrintTemplate: React.FC = () => {
                               {formatDate(row.date)}
                             </td>
                             <td className="py-2.5 px-3 text-slate-600 text-center">{row.nos}</td>
-                            <td className="py-2.5 px-3 text-slate-600 text-right">{formatCurrency(row.rate)}</td>
-                            <td className="py-2.5 px-3 text-right">
+                            <td className="py-2.5 px-3 text-slate-600 text-end">{formatCurrency(row.rate)}</td>
+                            <td className="py-2.5 px-3 text-end">
                               {row.parent_discount && row.parent_discount.amount > 0 ? (
                                 <div className="flex flex-col items-end leading-tight">
                                   <span className="font-semibold text-slate-700">-{formatCurrency(row.parent_discount.amount)}</span>
                                   <span className="text-[9px] text-slate-400">
-                                    {row.parent_discount.type === 'PERCENTAGE' ? `${row.parent_discount.value}%` : 'FLAT'}
+                                    {row.parent_discount.type === 'PERCENTAGE' ? `${row.parent_discount.value}%` : i18n.t("FLAT")}
                                   </span>
                                 </div>
                               ) : (
                                 <span className="text-slate-300">—</span>
                               )}
                             </td>
-                            <td className="py-2.5 px-3 font-bold text-right text-slate-900">
+                            <td className="py-2.5 px-3 font-bold text-end text-slate-900">
                               {row.parent_discount && row.parent_discount.amount > 0 ? (
                                 <div className="flex flex-col items-end leading-tight">
                                   <span className="line-through text-slate-400 font-normal text-[10px]">
@@ -281,7 +267,7 @@ const IPDBillingPrintTemplate: React.FC = () => {
                             <tr className="bg-slate-50/30">
                               <td></td>
                               <td colSpan={6} className="px-3 py-1">
-                                <div className="pl-3 border-l-2 ml-1 my-1" style={{ borderColor: `${BRAND}30` }}>
+                                <div className="ps-3 border-s-2 ms-1 my-1" style={{ borderColor: `${BRAND}30` }}>
                                   <table className="w-full text-[10px]">
                                     <tbody>
                                       {row.fee_breakdown.map((fee: any, fIdx: number) => (
@@ -290,7 +276,7 @@ const IPDBillingPrintTemplate: React.FC = () => {
                                             <span className="font-medium text-slate-700">{fee.component_name}</span>{' '}
                                             <span className="text-slate-400">({fee.component_type.replace(/_/g, ' ')})</span>
                                           </td>
-                                          <td className="py-0.5 text-right text-slate-600">{formatCurrency(fee.amount)}</td>
+                                          <td className="py-0.5 text-end text-slate-600">{formatCurrency(fee.amount)}</td>
                                         </tr>
                                       ))}
                                     </tbody>
@@ -312,53 +298,53 @@ const IPDBillingPrintTemplate: React.FC = () => {
           {fp && (
             <div className="flex justify-end mb-4 break-inside-avoid">
               <div className="w-3/4 min-w-[380px]">
-                <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 px-1 text-right">Financial Position</h3>
+                <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 px-1 text-end">{i18n.t("Financial Position")}</h3>
                 <div className="grid grid-cols-2 gap-3 rounded-lg border border-slate-200 bg-slate-50/50 p-4">
                   
                   {/* Regular Metrics */}
                   <div>
-                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1">Gross Current Bill</p>
+                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1">{i18n.t("Gross Current Bill")}</p>
                     <p className="text-sm font-black text-slate-800">{formatCurrency(fp.gross_current_bill)}</p>
                   </div>
                   <div>
-                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1">Total Discounts</p>
+                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1">{i18n.t("Total Discounts")}</p>
                     <p className="text-sm font-black text-red-600">- {formatCurrency(fp.total_discounts)}</p>
                   </div>
                   <div>
-                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1">Net Current Bill</p>
+                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1">{i18n.t("Net Current Bill")}</p>
                     <p className="text-sm font-black text-slate-800">{formatCurrency(fp.net_current_bill)}</p>
                   </div>
                   <div>
-                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1">Insurance Copay</p>
+                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1">{i18n.t("Insurance Copay")}</p>
                     <p className="text-sm font-black text-slate-800">{formatCurrency(fp.insurance_copay)}</p>
                   </div>
                   <div>
-                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1">Current Debt</p>
+                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1">{i18n.t("Current Debt")}</p>
                     <p className="text-sm font-black text-slate-800">{formatCurrency(fp.current_debt)}</p>
                   </div>
                   <div>
-                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1">Previous Debt</p>
+                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1">{i18n.t("Previous Debt")}</p>
                     <p className="text-sm font-black text-slate-800">{formatCurrency(fp.previous_debt)}</p>
                   </div>
                   <div>
-                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1">Total Patient Debt</p>
+                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1">{i18n.t("Total Patient Debt")}</p>
                     <p className="text-sm font-black text-slate-800">{formatCurrency(fp.total_patient_debt)}</p>
                   </div>
                   <div>
-                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1">Current Advance</p>
+                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1">{i18n.t("Current Advance")}</p>
                     <p className="text-sm font-black text-green-700">{formatCurrency(fp.current_advance)}</p>
                   </div>
 
                   {/* Highlight Metrics */}
                   <div className="col-span-2 rounded-md p-3 border mt-2" style={{ backgroundColor: `${BRAND}10`, borderColor: `${BRAND}30` }}>
                     <div className="flex justify-between items-center">
-                      <p className="text-[10px] text-slate-600 font-bold uppercase tracking-wider">Ledger Balance</p>
+                      <p className="text-[10px] text-slate-600 font-bold uppercase tracking-wider">{i18n.t("Ledger Balance")}</p>
                       <p className="text-lg font-black" style={{ color: BRAND }}>{formatCurrency(fp.ledger_balance)}</p>
                     </div>
                   </div>
                   <div className="col-span-2 rounded-md p-3 shadow-sm" style={{ backgroundColor: BRAND }}>
                     <div className="flex justify-between items-center">
-                      <p className="text-[10px] text-white/80 font-bold uppercase tracking-wider">Total Amount Payable</p>
+                      <p className="text-[10px] text-white/80 font-bold uppercase tracking-wider">{i18n.t("Total Amount Payable")}</p>
                       <p className="text-lg font-black text-white">{formatCurrency(fp.total_amount_payable)}</p>
                     </div>
                   </div>
@@ -376,32 +362,26 @@ const IPDBillingPrintTemplate: React.FC = () => {
           <div className="grid grid-cols-2 gap-12 mb-8 pt-4">
             <div className="text-center">
               <div className="border-b border-slate-300 pb-2 mb-2"></div>
-              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Cashier / Authorized Signatory</p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{i18n.t("Cashier / Authorized Signatory")}</p>
             </div>
             <div className="text-center">
               <div className="border-b border-slate-300 pb-2 mb-2"></div>
-              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Patient / Client Signature</p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{i18n.t("Patient / Client Signature")}</p>
             </div>
           </div>
 
           {/* Hospital Address and Document Meta */}
           <div className="border-t-2 border-slate-200 pt-4 text-center">
-            <h4 className="font-bold text-slate-800 text-[11px] uppercase tracking-widest mb-1">Medbookie Limited</h4>
-            <p className="text-[10px] text-slate-500">
-              Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos
-            </p>
-            <p className="text-[10px] text-slate-500 mt-0.5">
-              +234 705 648 2776 &nbsp;|&nbsp; finance@Medbookiehospital.com
-            </p>
+            <h4 className="font-bold text-slate-800 text-[11px] uppercase tracking-widest mb-1">{i18n.t("Medbookie Limited")}</h4>
+            <p className="text-[10px] text-slate-500">{i18n.t("Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos")}</p>
+            <p className="text-[10px] text-slate-500 mt-0.5">{i18n.t("+234 705 648 2776  |  finance@Medbookiehospital.com")}</p>
             
             <div className="flex justify-between items-center text-[9px] text-slate-400 mt-4 px-4">
-              <p>Generated electronically on {formatDate(new Date().toISOString())}</p>
-              <p className="font-mono font-bold text-slate-500">Encounter: {data.administrative?.encounter_no}</p>
+              <p>{i18n.t("Generated electronically on")}{" "}{formatDate(new Date().toISOString())}</p>
+              <p className="font-mono font-bold text-slate-500">{i18n.t("Encounter:")}{" "}{data.administrative?.encounter_no}</p>
             </div>
             
-            <p className="text-[8px] text-slate-300 text-center mt-2 uppercase tracking-widest">
-              Confidential Medical Document • Unauthorized Access Prohibited
-            </p>
+            <p className="text-[8px] text-slate-300 text-center mt-2 uppercase tracking-widest">{i18n.t("Confidential Medical Document • Unauthorized Access Prohibited")}</p>
           </div>
         </div>
 

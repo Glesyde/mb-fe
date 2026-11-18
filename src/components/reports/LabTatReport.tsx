@@ -8,6 +8,7 @@ import {
   buildTimeframeParams,
   ReportShell,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const LabTatReport: React.FC = () => {
   const [records, setRecords] = useState<any[]>([]);
@@ -50,8 +51,8 @@ const LabTatReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Lab Turnaround Time (TAT) Report"
-      subtitle="Order-to-collect, collect-to-result, and total turnaround times per test."
+      title={i18n.t("Lab Turnaround Time (TAT) Report")}
+      subtitle={i18n.t("Order-to-collect, collect-to-result, and total turnaround times per test.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -67,14 +68,14 @@ const LabTatReport: React.FC = () => {
       filters={
         <>
           <div className="relative lg:col-span-2">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input
               type="text"
-              placeholder="Search by MRN..."
+              placeholder={i18n.t("Search by MRN...")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               disabled={isLoading}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
+              className="w-full ps-10 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
             />
           </div>
           <TimeframeSelect value={timeframe} onChange={setTimeframe} disabled={isLoading} />
@@ -85,7 +86,7 @@ const LabTatReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              {[10, 25, 50, 100, 200].map((v) => <option key={v} value={v}>Limit {v}</option>)}
+              {[10, 25, 50, 100, 200].map((v) => <option key={v} value={v}>{i18n.t("Limit")}{" "}{v}</option>)}
             </select>
           </div>
           {timeframe === "custom" && (
@@ -95,41 +96,41 @@ const LabTatReport: React.FC = () => {
       }
     >
       <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 flex-1 min-h-[300px]">
-        <table className="w-full text-left text-sm whitespace-nowrap">
+        <table className="w-full text-start text-sm whitespace-nowrap">
           <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
             <tr>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Test Panel</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Patient</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Ordering Doctor</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Ordered</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Collected</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Completed</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Order→Collect (hrs)</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Collect→Result (hrs)</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Total TAT (hrs)</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Test Panel")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Patient")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Ordering Doctor")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Ordered")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Collected")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Completed")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Order→Collect (hrs)")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Collect→Result (hrs)")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Total TAT (hrs)")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {records.length > 0 ? (
               records.map((row, i) => (
                 <tr key={`${row.order_id}-${i}`} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="px-4 py-3.5 font-semibold text-slate-700 border-r border-slate-50">{renderValue(row.test_panel)}</td>
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 font-semibold text-slate-700 border-e border-slate-50">{renderValue(row.test_panel)}</td>
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <div className="font-semibold text-slate-700">{renderValue(row.patient_name)}</div>
-                    <div className="text-[11px] text-slate-400 font-mono">MRN: {renderValue(row.mrn)}</div>
+                    <div className="text-[11px] text-slate-400 font-mono">{i18n.t("MRN:")}{" "}{renderValue(row.mrn)}</div>
                   </td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.ordering_doctor)}</td>
-                  <td className="px-4 py-3.5 text-slate-500 border-r border-slate-50">{renderValue(row.ordered_at)}</td>
-                  <td className="px-4 py-3.5 text-slate-500 border-r border-slate-50">{renderValue(row.collected_at)}</td>
-                  <td className="px-4 py-3.5 text-slate-500 border-r border-slate-50">{renderValue(row.completed_at)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.order_to_collect_hrs)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.collect_to_result_hrs)}</td>
-                  <td className="px-4 py-3.5 font-bold text-slate-800 text-right">{renderValue(row.total_tat_hrs)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.ordering_doctor)}</td>
+                  <td className="px-4 py-3.5 text-slate-500 border-e border-slate-50">{renderValue(row.ordered_at)}</td>
+                  <td className="px-4 py-3.5 text-slate-500 border-e border-slate-50">{renderValue(row.collected_at)}</td>
+                  <td className="px-4 py-3.5 text-slate-500 border-e border-slate-50">{renderValue(row.completed_at)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.order_to_collect_hrs)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.collect_to_result_hrs)}</td>
+                  <td className="px-4 py-3.5 font-bold text-slate-800 text-end">{renderValue(row.total_tat_hrs)}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={9} className="px-4 py-12 text-center text-slate-400 italic">No TAT records found.</td>
+                <td colSpan={9} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No TAT records found.")}</td>
               </tr>
             )}
           </tbody>

@@ -8,6 +8,7 @@ import { BASE_URL } from "../../api/client";
 import apiClient from "../../api/client";
 import { patientService } from "../../services/patient.service";
 import { formDraftService } from "../../services/session-restore.service";
+import { i18n } from "../../i18n";
 
 interface DynamicConsentFormProps {
   slug: string;
@@ -355,7 +356,7 @@ const DynamicConsentForm: React.FC<DynamicConsentFormProps> = ({
           {hasSignature ? (
             <img src={getSigUrl(formData[id])} alt={label} className="max-h-full max-w-full object-contain" />
           ) : (
-            <span className="text-slate-300 font-bold uppercase text-xs">No Signature</span>
+            <span className="text-slate-300 font-bold uppercase text-xs">{i18n.t("No Signature")}</span>
           )}
         </div>
       );
@@ -367,11 +368,9 @@ const DynamicConsentForm: React.FC<DynamicConsentFormProps> = ({
           <img src={getSigUrl(formData[id])} alt={label} className="max-h-full max-w-full object-contain" />
           <button 
             onClick={() => handleInputChange(id, null)} 
-            className="absolute top-2 right-2 bg-red-100 text-red-600 px-3 py-1 rounded-lg text-[10px] font-black uppercase hover:bg-red-200 transition-colors opacity-0 group-hover:opacity-100 shadow-sm"
-            title="Clear Signature"
-          >
-            Clear
-          </button>
+            className="absolute top-2 end-2 bg-red-100 text-red-600 px-3 py-1 rounded-lg text-[10px] font-black uppercase hover:bg-red-200 transition-colors opacity-0 group-hover:opacity-100 shadow-sm"
+            title={i18n.t("Clear Signature")}
+          >{i18n.t("Clear")}</button>
         </div>
       );
     }
@@ -398,8 +397,8 @@ const DynamicConsentForm: React.FC<DynamicConsentFormProps> = ({
     return (
       <div className="bg-white rounded-3xl shadow-2xl p-16 flex flex-col items-center gap-4">
         <AlertCircle className="text-red-500" size={40} />
-        <p className="text-slate-600 font-bold">Failed to load consent template.</p>
-        <button onClick={onCancel} className="px-6 py-2 bg-slate-100 rounded-xl font-bold text-slate-600">Close</button>
+        <p className="text-slate-600 font-bold">{i18n.t("Failed to load consent template.")}</p>
+        <button onClick={onCancel} className="px-6 py-2 bg-slate-100 rounded-xl font-bold text-slate-600">{i18n.t("Close")}</button>
       </div>
     );
   }
@@ -420,7 +419,7 @@ const DynamicConsentForm: React.FC<DynamicConsentFormProps> = ({
         return <p key={field.label || field.content} className="text-xs text-slate-600 font-medium italic md:col-span-4">{field.content}</p>;
       }
       if (field.label) {
-        return <p key={field.id || field.label} className="text-[10px] font-black text-slate-500 uppercase tracking-widest md:col-span-4 mt-2">{field.label}</p>;
+        return <p key={field.id || field.label} className="text-[10px] font-black text-slate-500 uppercase tracking-widest md:col-span-4 mt-2">{i18n.tx(field.label)}</p>;
       }
       return null;
     }
@@ -513,7 +512,7 @@ const DynamicConsentForm: React.FC<DynamicConsentFormProps> = ({
     if (section.id === "patient_rights") {
       return (
         <div key={section.id} className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 bg-amber-200/50 px-4 py-1 rounded-bl-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">Patient Rights</div>
+          <div className="absolute top-0 end-0 bg-amber-200/50 px-4 py-1 rounded-es-xl text-[10px] font-black text-amber-800 uppercase tracking-wider">{i18n.t("Patient Rights")}</div>
           <p className="text-sm text-amber-900 font-medium leading-relaxed italic">"{section.content}"</p>
         </div>
       );
@@ -523,7 +522,7 @@ const DynamicConsentForm: React.FC<DynamicConsentFormProps> = ({
       return (
         <div key={section.id}>
           {section.title && (
-            <div className={`${ACCENTS[accent].bar} text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ml-4`}>{section.title}</div>
+            <div className={`${ACCENTS[accent].bar} text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ms-4`}>{i18n.tx(section.title)}</div>
           )}
           <div className="border-4 border-slate-900 rounded-3xl p-6 bg-slate-50">
             <p className="text-sm text-slate-700 font-medium leading-relaxed whitespace-pre-line">{section.content}</p>
@@ -536,14 +535,14 @@ const DynamicConsentForm: React.FC<DynamicConsentFormProps> = ({
       return (
         <div key={section.id}>
           {section.title && (
-            <div className={`${ACCENTS[accent].bar} text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ml-4`}>{section.title}</div>
+            <div className={`${ACCENTS[accent].bar} text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ms-4`}>{i18n.tx(section.title)}</div>
           )}
           <div className="border-4 border-slate-900 rounded-3xl overflow-hidden shadow-xl">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-start border-collapse">
               <thead className="bg-slate-900 text-white">
                 <tr>
                   {(section.columns || []).map((c) => (
-                    <th key={c} className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border-r border-slate-700 last:border-r-0">{titleCase(c)}</th>
+                    <th key={c} className="px-6 py-3 text-[10px] font-black uppercase tracking-widest border-e border-slate-700 last:border-e-0">{titleCase(c)}</th>
                   ))}
                 </tr>
               </thead>
@@ -551,7 +550,7 @@ const DynamicConsentForm: React.FC<DynamicConsentFormProps> = ({
                 {(section.rows || []).map((row, idx) => (
                   <tr key={idx} className={idx % 2 === 0 ? "bg-white" : "bg-slate-50"}>
                     {row.map((cell, ci) => (
-                      <td key={ci} className={`px-6 py-4 text-xs border-r border-slate-200 last:border-r-0 ${ci === 0 ? `font-black \${severityColor(cell)}` : "font-medium text-slate-600"}`}>{cell}</td>
+                      <td key={ci} className={`px-6 py-4 text-xs border-e border-slate-200 last:border-e-0 ${ci === 0 ? `font-black \${severityColor(cell)}` : "font-medium text-slate-600"}`}>{cell}</td>
                     ))}
                   </tr>
                 ))}
@@ -566,11 +565,11 @@ const DynamicConsentForm: React.FC<DynamicConsentFormProps> = ({
     return (
       <div key={section.id} className={section.id === "part_l" ? "bg-purple-50 border-4 border-purple-200 p-8 rounded-3xl" : "relative"}>
         {section.id !== "part_l" && section.title && (
-          <div className={`${ACCENTS[accent].bar} text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ml-4`}>{section.title}</div>
+          <div className={`${ACCENTS[accent].bar} text-white px-4 py-1 inline-block rounded-t-xl text-[10px] font-black uppercase tracking-widest mb-0 ms-4`}>{i18n.tx(section.title)}</div>
         )}
         {section.id === "part_l" && section.title && (
           <div className="flex items-center gap-3 mb-4">
-            <h4 className="font-black text-purple-900 uppercase tracking-widest text-[10px]">{section.title}</h4>
+            <h4 className="font-black text-purple-900 uppercase tracking-widest text-[10px]">{i18n.tx(section.title)}</h4>
           </div>
         )}
         <div className={section.id === "part_l" ? "grid grid-cols-1 md:grid-cols-4 gap-6" : "border-4 border-slate-900 rounded-3xl p-8 grid grid-cols-1 md:grid-cols-4 gap-6 bg-slate-50"}>
@@ -590,25 +589,24 @@ const DynamicConsentForm: React.FC<DynamicConsentFormProps> = ({
     <div className="bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[95vh] flex flex-col max-w-6xl mx-auto w-full">
       {/* Header */}
       <div className="bg-[#1e40af] text-white p-10 flex justify-between items-center relative overflow-hidden shrink-0">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[#1e40af]/30 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+        <div className="absolute top-0 end-0 w-64 h-64 bg-[#1e40af]/30 rounded-full -me-32 -mt-32 blur-3xl"></div>
         <div className="z-10">
           <div className="flex items-center gap-4 mb-2">
             <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center p-1">
-              <img src="/assets/login-bg.jpeg" alt="GSH Logo" className="w-full h-full object-contain" />
+              <img src="/assets/login-bg.jpeg" alt={i18n.t("GSH Logo")} className="w-full h-full object-contain" />
             </div>
             <div>
-              <h1 className="text-3xl font-black tracking-tighter">Procedure Consent Form</h1>
+              <h1 className="text-3xl font-black tracking-tighter">{i18n.t("Procedure Consent Form")}</h1>
               <p className="text-[#93c5fd] font-bold text-sm">{template.display_name}</p>
             </div>
           </div>
-          <p className="text-xs text-[#93c5fd]/80 font-medium">Policy Ref: {template.form_schema?.metadata?.policy || "GSH-T6"} Version {template.version}</p>
+          <p className="text-xs text-[#93c5fd]/80 font-medium">{i18n.t("Policy Ref:")}{" "}{template.form_schema?.metadata?.policy || i18n.t("GSH-T6")}{" "}{i18n.t("Version")}{" "}{template.version}</p>
         </div>
         <button
           onClick={onPrint}
           className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border border-white/20 transition-all z-10"
         >
-          <Printer size={14} /> Print Blank Form
-        </button>
+          <Printer size={14} />{" "}{i18n.t("Print Blank Form")}</button>
       </div>
 
       {/* Main Content */}
@@ -617,7 +615,7 @@ const DynamicConsentForm: React.FC<DynamicConsentFormProps> = ({
 
         {blackBoxSections.length > 0 && (
           <section className="space-y-8 bg-slate-900 p-10 rounded-[3rem] shadow-2xl">
-            <h3 className="text-center text-white font-black uppercase tracking-[0.3em] text-lg mb-6">Final Declarations & Signatures</h3>
+            <h3 className="text-center text-white font-black uppercase tracking-[0.3em] text-lg mb-6">{i18n.t("Final Declarations & Signatures")}</h3>
             {blackBoxSections.map((section) => {
               const accent = sectionAccent(section);
               if (section.id === "part_l") {
@@ -626,10 +624,10 @@ const DynamicConsentForm: React.FC<DynamicConsentFormProps> = ({
               return (
                 <div key={section.id} className={`bg-white rounded-3xl p-6 shadow-xl border-t-8 ${ACCENTS[accent].border} relative`}>
                   {section.title && (
-                    <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px] mb-4">{section.title}</h4>
+                    <h4 className="font-black text-slate-800 uppercase tracking-wider text-[10px] mb-4">{i18n.tx(section.title)}</h4>
                   )}
                   {section.content && (
-                    <p className="text-xs text-slate-600 font-bold mb-6 italic border-l-4 border-slate-200 pl-4">{section.content}</p>
+                    <p className="text-xs text-slate-600 font-bold mb-6 italic border-s-4 border-slate-200 ps-4">{section.content}</p>
                   )}
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                     {(section.fields || []).map((field) => renderField(field, accent))}
@@ -648,7 +646,7 @@ const DynamicConsentForm: React.FC<DynamicConsentFormProps> = ({
           disabled={submitting}
           className="px-8 py-3 rounded-2xl font-black text-slate-500 hover:bg-slate-200 transition-all uppercase tracking-widest text-sm"
         >
-          {readOnly ? "Close" : "Discard Form"}
+          {readOnly ? i18n.t("Close") : i18n.t("Discard Form")}
         </button>
         <div className="flex gap-4">
           {!readOnly && (
@@ -660,7 +658,7 @@ const DynamicConsentForm: React.FC<DynamicConsentFormProps> = ({
                 className="bg-amber-500 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-[0.1em] text-sm shadow-xl hover:bg-amber-600 transition-all flex items-center gap-2 disabled:opacity-50"
               >
                 {submitting ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
-                {submitting ? "Saving..." : "Save Draft"}
+                {submitting ? i18n.t("Saving...") : i18n.t("Save Draft")}
               </button>
 
               <button
@@ -669,7 +667,7 @@ const DynamicConsentForm: React.FC<DynamicConsentFormProps> = ({
                 className="bg-[#1e40af] text-white px-10 py-4 rounded-2xl font-black uppercase tracking-[0.2em] text-sm shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3 disabled:opacity-50 disabled:grayscale disabled:scale-100"
               >
                 {submitting ? <Loader2 className="animate-spin" size={20} /> : <CheckCircle size={20} />}
-                {submitting ? "Finalizing..." : "Submit Consent"}
+                {submitting ? i18n.t("Finalizing...") : i18n.t("Submit Consent")}
               </button>
             </>
           )}
@@ -678,8 +676,7 @@ const DynamicConsentForm: React.FC<DynamicConsentFormProps> = ({
               onClick={onPrint}
               className="bg-[#1e40af] text-white px-10 py-4 rounded-2xl font-black uppercase tracking-[0.2em] text-sm shadow-2xl transition-all flex items-center gap-3"
             >
-              <Printer size={20} /> View Full PDF
-            </button>
+              <Printer size={20} />{" "}{i18n.t("View Full PDF")}</button>
           )}
         </div>
       </div>

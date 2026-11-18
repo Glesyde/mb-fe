@@ -7,6 +7,7 @@ import {
   buildTimeframeParams,
   ReportShell,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const OtCancellationsReport: React.FC = () => {
   const [records, setRecords] = useState<any[]>([]);
@@ -52,8 +53,8 @@ const OtCancellationsReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="OT Cancellations Audit"
-      subtitle="Surgical cases requested then cancelled before completion."
+      title={i18n.t("OT Cancellations Audit")}
+      subtitle={i18n.t("Surgical cases requested then cancelled before completion.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -73,7 +74,7 @@ const OtCancellationsReport: React.FC = () => {
           <div>
             <input
               type="text"
-              placeholder="Assigned room"
+              placeholder={i18n.t("Assigned room")}
               value={assignedRoom}
               onChange={(e) => setAssignedRoom(e.target.value)}
               disabled={isLoading}
@@ -83,7 +84,7 @@ const OtCancellationsReport: React.FC = () => {
           <div>
             <input
               type="text"
-              placeholder="Lead surgeon"
+              placeholder={i18n.t("Lead surgeon")}
               value={leadSurgeon}
               onChange={(e) => setLeadSurgeon(e.target.value)}
               disabled={isLoading}
@@ -93,7 +94,7 @@ const OtCancellationsReport: React.FC = () => {
           <div>
             <input
               type="text"
-              placeholder="MRN"
+              placeholder={i18n.t("MRN")}
               value={mrn}
               onChange={(e) => setMrn(e.target.value)}
               disabled={isLoading}
@@ -107,37 +108,37 @@ const OtCancellationsReport: React.FC = () => {
       }
     >
       <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 flex-1 min-h-[300px]">
-        <table className="w-full text-left text-sm whitespace-nowrap">
+        <table className="w-full text-start text-sm whitespace-nowrap">
           <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
             <tr>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Surgery</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Type</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Patient</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Lead Surgeon</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Requested Date</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Cancelled Date</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Cancelled By</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Surgery")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Type")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Patient")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Lead Surgeon")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Requested Date")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Cancelled Date")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Cancelled By")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {records.length > 0 ? (
               records.map((row, i) => (
                 <tr key={`${row.case_id}-${i}`} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50 whitespace-normal min-w-[220px]">{renderValue(row.surgery_name)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.surgery_type)}</td>
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50 whitespace-normal min-w-[220px]">{renderValue(row.surgery_name)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.surgery_type)}</td>
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <div className="text-slate-700">{renderValue(row.patient_name)}</div>
-                    <div className="text-[11px] text-slate-400 font-mono">MRN: {renderValue(row.mrn)}</div>
+                    <div className="text-[11px] text-slate-400 font-mono">{i18n.t("MRN:")}{" "}{renderValue(row.mrn)}</div>
                   </td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.lead_surgeon)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.requested_date)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.cancelled_date)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.lead_surgeon)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.requested_date)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.cancelled_date)}</td>
                   <td className="px-4 py-3.5 text-slate-700">{renderValue(row.cancelled_by_user)}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={7} className="px-4 py-12 text-center text-slate-400 italic">No OT cancellation records found.</td>
+                <td colSpan={7} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No OT cancellation records found.")}</td>
               </tr>
             )}
           </tbody>

@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import { userService } from "../services/user.service";
 import { useNotification } from "../context/NotificationContext";
+import { i18n } from "../i18n";
 
 interface StaffUser {
   id: number;
@@ -216,11 +217,11 @@ const StaffDirectory: React.FC = () => {
       {/* Action Bar */}
       <div className="bg-white p-4 rounded-[32px] border border-slate-200 flex flex-col md:flex-row gap-4 items-center shadow-sm">
         <div className="relative flex-1 w-full group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-900 transition-colors" />
+          <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-900 transition-colors" />
           <input
             type="text"
-            placeholder="Search directory by username or name..."
-            className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:bg-white focus:ring-4 focus:ring-slate-900/5 outline-none transition-all font-bold"
+            placeholder={i18n.t("Search directory by username or name...")}
+            className="w-full ps-11 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:bg-white focus:ring-4 focus:ring-slate-900/5 outline-none transition-all font-bold"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -239,8 +240,7 @@ const StaffDirectory: React.FC = () => {
             }}
             className="bg-slate-900 text-white px-6 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-slate-800 transition-all shadow-lg active:scale-95 text-xs uppercase tracking-widest"
           >
-            <UserPlus size={18} /> Enroll Staff
-          </button>
+            <UserPlus size={18} />{" "}{i18n.t("Enroll Staff")}</button>
           <button
             onClick={() => {
               setIsDoctor(true);
@@ -248,8 +248,7 @@ const StaffDirectory: React.FC = () => {
             }}
             className="bg-brand-primary text-white px-6 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-brand-primary transition-all shadow-lg active:scale-95 text-xs uppercase tracking-widest"
           >
-            <Stethoscope size={18} /> Enroll Doctor
-          </button>
+            <Stethoscope size={18} />{" "}{i18n.t("Enroll Doctor")}</button>
         </div>
       </div>
 
@@ -257,13 +256,13 @@ const StaffDirectory: React.FC = () => {
         {/* User Table */}
         <div className="bg-white border border-slate-200 rounded-[40px] overflow-hidden shadow-sm h-fit">
           <div className="overflow-x-auto">
-            <table className="w-full text-left">
+            <table className="w-full text-start">
               <thead>
                 <tr className="bg-slate-50/50 border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                  <th className="px-8 py-5">Full Name</th>
-                  <th className="px-8 py-5">System Handle</th>
-                  <th className="px-8 py-5">Status</th>
-                  <th className="px-8 py-5 text-right">Operational Action</th>
+                  <th className="px-8 py-5">{i18n.t("Full Name")}</th>
+                  <th className="px-8 py-5">{i18n.t("System Handle")}</th>
+                  <th className="px-8 py-5">{i18n.t("Status")}</th>
+                  <th className="px-8 py-5 text-end">{i18n.t("Operational Action")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
@@ -274,9 +273,7 @@ const StaffDirectory: React.FC = () => {
                         size={32}
                         className="animate-spin text-brand-primary mx-auto mb-4"
                       />
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                        Syncing Identity Records...
-                      </p>
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Syncing Identity Records...")}</p>
                     </td>
                   </tr>
                 ) : (
@@ -310,13 +307,11 @@ const StaffDirectory: React.FC = () => {
                         ${user.is_active === 1 ? "bg-emerald-50 text-emerald-600 border-emerald-100" : "bg-red-50 text-red-600 border-red-100"}
                       `}
                         >
-                          {user.is_active === 1 ? "Active" : "Locked"}
+                          {user.is_active === 1 ? i18n.t("Active") : i18n.t("Locked")}
                         </span>
                       </td>
-                      <td className="px-8 py-5 text-right">
-                        <button className="text-[10px] font-black text-brand-primary uppercase hover:underline">
-                          View Profile
-                        </button>
+                      <td className="px-8 py-5 text-end">
+                        <button className="text-[10px] font-black text-brand-primary uppercase hover:underline">{i18n.t("View Profile")}</button>
                       </td>
                     </tr>
                   ))
@@ -343,8 +338,7 @@ const StaffDirectory: React.FC = () => {
                    <h3 className="text-3xl font-black text-slate-800 tracking-tight">
                      {selectedUser.first_name} {selectedUser.last_name}
                    </h3>
-                   <p className="text-xs font-bold text-brand-primary uppercase tracking-[0.2em] mt-1 bg-brand-active px-3 py-1 rounded inline-block border border-brand-active">
-                     SYSTEM ID: {selectedUser.username}
+                   <p className="text-xs font-bold text-brand-primary uppercase tracking-[0.2em] mt-1 bg-brand-active px-3 py-1 rounded inline-block border border-brand-active">{i18n.t("SYSTEM ID:")}{" "}{selectedUser.username}
                    </p>
                  </div>
               </div>
@@ -363,11 +357,9 @@ const StaffDirectory: React.FC = () => {
                     <Mail size={20} />
                   </div>
                   <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                      Email Address
-                    </p>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Email Address")}</p>
                     <p className="text-sm font-bold text-slate-700 truncate w-32 md:w-auto">
-                      {selectedUser.email || "Not Provided"}
+                      {selectedUser.email || i18n.t("Not Provided")}
                     </p>
                   </div>
                 </div>
@@ -376,9 +368,7 @@ const StaffDirectory: React.FC = () => {
                     <Phone size={20} />
                   </div>
                   <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                      Phone Number
-                    </p>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Phone Number")}</p>
                     <p className="text-sm font-bold text-slate-700">
                       {selectedUser.phone || "--"}
                     </p>
@@ -390,17 +380,13 @@ const StaffDirectory: React.FC = () => {
                   </div>
                   <div className="flex-1 flex justify-between items-center">
                       <div>
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                          Staff ID Position
-                        </p>
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Staff ID Position")}</p>
                         <p className="text-sm font-bold text-slate-700">
-                          {selectedUser.staff_id || "Global System Account"}
+                          {selectedUser.staff_id || i18n.t("Global System Account")}
                         </p>
                       </div>
-                      <div className="text-right">
-                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                            Date provisioned
-                         </p>
+                      <div className="text-end">
+                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Date provisioned")}</p>
                          <p className="text-xs font-black text-slate-600">
                             {new Date(selectedUser.created_at).toLocaleDateString()}
                          </p>
@@ -413,9 +399,7 @@ const StaffDirectory: React.FC = () => {
                 <div className="pt-6 border-t border-slate-100 space-y-4 animate-in fade-in duration-300">
                   <div className="bg-amber-50 border border-amber-100 p-4 rounded-2xl flex items-center gap-3">
                     <AlertCircle className="text-amber-600 flex-shrink-0" size={20} />
-                    <p className="text-[10px] text-amber-800 font-bold uppercase tracking-tight">
-                      Are you sure you want to {pendingLockAction} {selectedUser.first_name}'s account?
-                    </p>
+                    <p className="text-[10px] text-amber-800 font-bold uppercase tracking-tight">{i18n.t("Are you sure you want to")}{" "}{pendingLockAction} {selectedUser.first_name}{i18n.t("'s account?")}</p>
                   </div>
                   <div className="flex gap-3">
                     <button
@@ -423,9 +407,7 @@ const StaffDirectory: React.FC = () => {
                       onClick={() => setPendingLockAction(null)}
                       className="flex-1 py-4 bg-slate-50 hover:bg-slate-100 text-slate-500 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all"
                       disabled={isLocking}
-                    >
-                      Cancel
-                    </button>
+                    >{i18n.t("Cancel")}</button>
                     <button
                       type="button"
                       onClick={async () => {
@@ -440,7 +422,7 @@ const StaffDirectory: React.FC = () => {
                         }
                       `}
                     >
-                      {isLocking ? "Processing..." : `Yes, ${pendingLockAction}`}
+                      {isLocking ? i18n.t("Processing...") : `Yes, ${pendingLockAction}`}
                     </button>
                   </div>
                 </div>
@@ -450,8 +432,7 @@ const StaffDirectory: React.FC = () => {
                     onClick={() => window.open(`/print/staff-id/${selectedUser.id}`, '_blank')}
                     className="py-4 bg-[#2d258a] hover:bg-brand-primary text-white shadow-xl shadow-brand-active rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex justify-center items-center gap-2 active:scale-95"
                   >
-                    <Printer size={16} /> Print ID
-                  </button>
+                    <Printer size={16} />{" "}{i18n.t("Print ID")}</button>
                   <button
                     onClick={() => {
                       setResetPasswordValue("");
@@ -460,9 +441,7 @@ const StaffDirectory: React.FC = () => {
                       setShowResetModal(true);
                     }}
                     className="py-4 bg-slate-50 hover:bg-slate-100/80 text-brand-primary rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all"
-                  >
-                    Reset Password
-                  </button>
+                  >{i18n.t("Reset Password")}</button>
                   <button
                     onClick={() => setPendingLockAction(selectedUser.is_active === 1 ? "lock" : "unlock")}
                     className={`py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all
@@ -472,7 +451,7 @@ const StaffDirectory: React.FC = () => {
                       }
                     `}
                   >
-                    {selectedUser.is_active === 1 ? "Lock Account" : "Unlock Account"}
+                    {selectedUser.is_active === 1 ? i18n.t("Lock Account") : i18n.t("Unlock Account")}
                   </button>
                 </div>
               )}
@@ -498,9 +477,7 @@ const StaffDirectory: React.FC = () => {
                   <Lock size={24} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-black text-slate-800 tracking-tight uppercase">
-                    Reset Password
-                  </h2>
+                  <h2 className="text-xl font-black text-slate-800 tracking-tight uppercase">{i18n.t("Reset Password")}</h2>
                   <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">
                     {selectedUser.first_name} {selectedUser.last_name} ({selectedUser.username})
                   </p>
@@ -518,28 +495,26 @@ const StaffDirectory: React.FC = () => {
 
             <div className="p-10 space-y-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  New Password
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("New Password")}</label>
                 <div className="relative">
                   <Lock
                     size={16}
-                    className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300"
+                    className="absolute start-5 top-1/2 -translate-y-1/2 text-slate-300"
                   />
                   <input
                     required
                     type={showPasswordText ? "text" : "password"}
                     placeholder="••••••••"
-                    className="w-full pl-12 pr-24 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none transition-all"
+                    className="w-full ps-12 pe-24 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none transition-all"
                     value={resetPasswordValue}
                     onChange={(e) => setResetPasswordValue(e.target.value)}
                   />
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                  <div className="absolute end-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
                     <button
                       type="button"
                       onClick={() => setShowPasswordText(!showPasswordText)}
                       className="p-2 text-slate-400 hover:text-slate-600 transition-colors"
-                      title={showPasswordText ? "Hide Password" : "Show Password"}
+                      title={showPasswordText ? i18n.t("Hide Password") : i18n.t("Show Password")}
                     >
                       {showPasswordText ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
@@ -552,7 +527,7 @@ const StaffDirectory: React.FC = () => {
                           setTimeout(() => setCopied(false), 2000);
                         }}
                         className="p-2 text-slate-400 hover:text-slate-600 transition-colors"
-                        title="Copy Password"
+                        title={i18n.t("Copy Password")}
                       >
                         {copied ? <Check size={16} className="text-emerald-500" /> : <Copy size={16} />}
                       </button>
@@ -570,9 +545,7 @@ const StaffDirectory: React.FC = () => {
                     setShowPasswordText(true);
                   }}
                   className="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all"
-                >
-                  Generate Password
-                </button>
+                >{i18n.t("Generate Password")}</button>
               </div>
 
               <div className="bg-amber-50 border border-amber-100 p-6 rounded-[32px] flex items-start gap-4">
@@ -580,9 +553,7 @@ const StaffDirectory: React.FC = () => {
                   size={24}
                   className="text-amber-600 flex-shrink-0"
                 />
-                <p className="text-[10px] text-amber-800 font-bold uppercase tracking-tight leading-relaxed">
-                  Resetting the password takes effect immediately. Please copy or remember the password before saving.
-                </p>
+                <p className="text-[10px] text-amber-800 font-bold uppercase tracking-tight leading-relaxed">{i18n.t("Resetting the password takes effect immediately. Please copy or remember the password before saving.")}</p>
               </div>
             </div>
 
@@ -592,9 +563,7 @@ const StaffDirectory: React.FC = () => {
                 onClick={() => setShowResetModal(false)}
                 className="px-6 py-3 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-slate-800"
                 disabled={isResettingPassword}
-              >
-                Discard
-              </button>
+              >{i18n.t("Discard")}</button>
               <button
                 type="submit"
                 disabled={isResettingPassword}
@@ -605,7 +574,7 @@ const StaffDirectory: React.FC = () => {
                 ) : (
                   <Save size={18} />
                 )}
-                {isResettingPassword ? "Updating..." : "Save Password"}
+                {isResettingPassword ? i18n.t("Updating...") : i18n.t("Save Password")}
               </button>
             </div>
           </form>
@@ -635,12 +604,8 @@ const StaffDirectory: React.FC = () => {
                   )}
                 </div>
                 <div>
-                  <h2 className="text-xl font-black text-slate-800 tracking-tight uppercase">
-                    Provision {isDoctor ? "Doctor" : "Staff"} Node
-                  </h2>
-                  <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">
-                    Identity Enrollment Protocol
-                  </p>
+                  <h2 className="text-xl font-black text-slate-800 tracking-tight uppercase">{i18n.t("Provision")}{" "}{isDoctor ? i18n.t("Doctor") : i18n.t("Staff")}{" "}{i18n.t("Node")}</h2>
+                  <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">{i18n.t("Identity Enrollment Protocol")}</p>
                 </div>
               </div>
               <button
@@ -655,13 +620,11 @@ const StaffDirectory: React.FC = () => {
             <div className="p-10 space-y-6 max-h-[60vh] overflow-y-auto no-scrollbar">
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    Username (Login Handle)
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Username (Login Handle)")}</label>
                   <input
                     required
                     type="text"
-                    placeholder="e.g. jsmith"
+                    placeholder={i18n.t("e.g. jsmith")}
                     className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none transition-all"
                     value={formState.username}
                     onChange={(e) =>
@@ -670,9 +633,7 @@ const StaffDirectory: React.FC = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    Staff Role Level
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Staff Role Level")}</label>
                   <select
                     className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none appearance-none"
                     value={isDoctor ? 8 : formState.role_id}
@@ -684,7 +645,7 @@ const StaffDirectory: React.FC = () => {
                     }
                     disabled={isDoctor}
                   >
-                    <option value="">Select a role...</option>
+                    <option value="">{i18n.t("Select a role...")}</option>
                     {roles.length > 0 ? (
                       roles.map((role) => (
                         <option key={role.id} value={role.id}>
@@ -699,7 +660,7 @@ const StaffDirectory: React.FC = () => {
                         </option>
                       ))
                     ) : (
-                      <option disabled>Loading roles...</option>
+                      <option disabled>{i18n.t("Loading roles...")}</option>
                     )}
                   </select>
                 </div>
@@ -707,9 +668,7 @@ const StaffDirectory: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    First Name
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("First Name")}</label>
                   <input
                     required
                     type="text"
@@ -721,9 +680,7 @@ const StaffDirectory: React.FC = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    Last Name
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Last Name")}</label>
                   <input
                     required
                     type="text"
@@ -738,13 +695,11 @@ const StaffDirectory: React.FC = () => {
 
               {!isDoctor && (
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    Designation / Staff Title
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Designation / Staff Title")}</label>
                   <input
                     required
                     type="text"
-                    placeholder="e.g. Senior Medical Officer"
+                    placeholder={i18n.t("e.g. Senior Medical Officer")}
                     className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none transition-all"
                     value={formState.staff_id}
                     onChange={(e) =>
@@ -757,9 +712,7 @@ const StaffDirectory: React.FC = () => {
               {/* Standard Account Details (Required for both) */}
               <div className="grid grid-cols-2 gap-6 animate-in slide-in-from-bottom-2">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    Mobile Access Phone
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Mobile Access Phone")}</label>
                   <input
                     type="tel"
                     className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none"
@@ -770,9 +723,7 @@ const StaffDirectory: React.FC = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    Work Email
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Work Email")}</label>
                   <input
                     type="email"
                     className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none"
@@ -784,19 +735,17 @@ const StaffDirectory: React.FC = () => {
                 </div>
               </div>
               <div className="space-y-2 animate-in slide-in-from-bottom-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Access Password
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Access Password")}</label>
                 <div className="relative">
                   <Lock
                     size={16}
-                    className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300"
+                    className="absolute start-5 top-1/2 -translate-y-1/2 text-slate-300"
                   />
                   <input
                     required
                     type="password"
                     placeholder="••••••••"
-                    className="w-full pl-12 pr-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none"
+                    className="w-full ps-12 pe-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none"
                     value={formState.password}
                     onChange={(e) =>
                       setFormState({ ...formState, password: e.target.value })
@@ -808,14 +757,10 @@ const StaffDirectory: React.FC = () => {
               {/* Doctor Specific Fields */}
               {isDoctor && (
                 <div className="space-y-6 animate-in slide-in-from-bottom-2 p-6 bg-brand-active/50 rounded-[24px] border border-brand-active">
-                  <h3 className="text-xs font-black text-brand-primary uppercase tracking-widest">
-                    Clinical Profile
-                  </h3>
+                  <h3 className="text-xs font-black text-brand-primary uppercase tracking-widest">{i18n.t("Clinical Profile")}</h3>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                        Clinical Specialization
-                      </label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Clinical Specialization")}</label>
                       <select
                         required
                         className="w-full px-5 py-4 bg-white border border-brand-active rounded-2xl text-sm font-bold outline-none appearance-none focus:ring-4 focus:ring-brand-active0/10"
@@ -827,7 +772,7 @@ const StaffDirectory: React.FC = () => {
                           })
                         }
                       >
-                        <option value="">Select Specialization...</option>
+                        <option value="">{i18n.t("Select Specialization...")}</option>
                         {specializations.map((s) => (
                           <option key={s.id} value={s.id}>
                             {s.name}
@@ -836,13 +781,11 @@ const StaffDirectory: React.FC = () => {
                       </select>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                        Staff ID / Code
-                      </label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Staff ID / Code")}</label>
                       <input
                         required
                         type="text"
-                        placeholder="e.g. GSH-002"
+                        placeholder={i18n.t("e.g. GSH-002")}
                         className="w-full px-5 py-4 bg-white border border-brand-active rounded-2xl text-sm font-bold focus:ring-4 focus:ring-brand-active0/10 outline-none transition-all"
                         value={formState.staff_id}
                         onChange={(e) =>
@@ -862,11 +805,7 @@ const StaffDirectory: React.FC = () => {
                   size={24}
                   className="text-amber-600 flex-shrink-0"
                 />
-                <p className="text-[10px] text-amber-800 font-bold uppercase tracking-tight leading-relaxed">
-                  Accounts provisioned here are immediately logged in the
-                  forensic audit trail. Ensure credentials follow hospital
-                  security hardening standards.
-                </p>
+                <p className="text-[10px] text-amber-800 font-bold uppercase tracking-tight leading-relaxed">{i18n.t("Accounts provisioned here are immediately logged in the forensic audit trail. Ensure credentials follow hospital security hardening standards.")}</p>
               </div>
             </div>
 
@@ -875,9 +814,7 @@ const StaffDirectory: React.FC = () => {
                 type="button"
                 onClick={() => setShowAddModal(false)}
                 className="px-6 py-3 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-slate-800"
-              >
-                Discard
-              </button>
+              >{i18n.t("Discard")}</button>
               <button
                 type="submit"
                 disabled={isSubmitting}
@@ -890,7 +827,7 @@ const StaffDirectory: React.FC = () => {
                 ) : (
                   <Save size={18} />
                 )}
-                {isSubmitting ? "Syncing..." : "Provision Node"}
+                {isSubmitting ? i18n.t("Syncing...") : i18n.t("Provision Node")}
               </button>
             </div>
           </form>

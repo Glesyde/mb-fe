@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Search, Save, Filter, History, DollarSign, Activity } from 'lucide-react';
+import { i18n } from "../i18n";
 
 interface ServiceItem {
   id: string;
@@ -42,18 +43,16 @@ const PricingMaster: React.FC = () => {
           <h3 className="text-2xl font-black text-slate-800 tracking-tight flex items-center gap-3">
              <div className="p-2 bg-emerald-50 text-emerald-600 rounded-xl">
               <DollarSign size={24} />
-            </div>
-            Services & Pricing Master
-          </h3>
-          <p className="text-sm font-medium text-slate-500 mt-1">Configure global billable service items and standard hospital tariffs.</p>
+            </div>{i18n.t("Services & Pricing Master")}</h3>
+          <p className="text-sm font-medium text-slate-500 mt-1">{i18n.t("Configure global billable service items and standard hospital tariffs.")}</p>
         </div>
         <div className="flex items-center gap-3 w-full md:w-auto">
           <div className="relative flex-1 md:w-64">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input 
               type="text" 
-              placeholder="Search catalog..." 
-              className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none transition-all shadow-inner"
+              placeholder={i18n.t("Search catalog...")} 
+              className="w-full ps-11 pe-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none transition-all shadow-inner"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -65,13 +64,13 @@ const PricingMaster: React.FC = () => {
       </div>
 
       <div className="bg-white border border-slate-200 rounded-[44px] overflow-hidden shadow-sm">
-        <table className="w-full text-left">
+        <table className="w-full text-start">
           <thead>
             <tr className="bg-slate-50/50 border-b border-slate-100">
-              <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Service Description</th>
-              <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Category</th>
-              <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right">Standard Fee (₦)</th>
-              <th className="px-8 py-6 text-right text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Actions</th>
+              <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Service Description")}</th>
+              <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Category")}</th>
+              <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-end">{i18n.t("Standard Fee (₦)")}</th>
+              <th className="px-8 py-6 text-end text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Actions")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-50">
@@ -90,21 +89,20 @@ const PricingMaster: React.FC = () => {
                     {service.category}
                   </span>
                 </td>
-                <td className="px-8 py-6 text-right">
+                <td className="px-8 py-6 text-end">
                   <div className="relative inline-block">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xs font-black text-slate-300">₦</span>
+                    <span className="absolute start-4 top-1/2 -translate-y-1/2 text-xs font-black text-slate-300">₦</span>
                     <input 
                       type="number" 
-                      className="w-40 pl-8 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-black text-emerald-600 text-right outline-none focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/5 transition-all shadow-inner"
+                      className="w-40 ps-8 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-black text-emerald-600 text-end outline-none focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/5 transition-all shadow-inner"
                       value={service.price}
                       onChange={(e) => handlePriceChange(service.id, parseInt(e.target.value) || 0)}
                     />
                   </div>
                 </td>
-                <td className="px-8 py-6 text-right">
-                  <button className="text-[10px] font-black text-slate-300 hover:text-slate-800 uppercase tracking-widest flex items-center justify-end gap-2 ml-auto group/btn transition-colors">
-                    <History size={16} className="group-hover/btn:text-brand-active0" /> Log
-                  </button>
+                <td className="px-8 py-6 text-end">
+                  <button className="text-[10px] font-black text-slate-300 hover:text-slate-800 uppercase tracking-widest flex items-center justify-end gap-2 ms-auto group/btn transition-colors">
+                    <History size={16} className="group-hover/btn:text-brand-active0" />{" "}{i18n.t("Log")}</button>
                 </td>
               </tr>
             ))}
@@ -113,7 +111,7 @@ const PricingMaster: React.FC = () => {
         {filteredServices.length === 0 && (
           <div className="py-24 text-center">
             <Search className="mx-auto text-slate-200 mb-4" size={48} />
-            <p className="text-slate-400 font-bold uppercase tracking-widest">No matching service items</p>
+            <p className="text-slate-400 font-bold uppercase tracking-widest">{i18n.t("No matching service items")}</p>
           </div>
         )}
       </div>
@@ -121,13 +119,12 @@ const PricingMaster: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pt-8 border-t border-slate-100">
           <div className="flex items-center gap-3 text-amber-600 bg-amber-50 px-5 py-3 rounded-2xl border border-amber-100">
              <DollarSign size={18} />
-             <p className="text-[10px] font-black uppercase tracking-tight">Price changes take effect immediately on new draft invoices</p>
+             <p className="text-[10px] font-black uppercase tracking-tight">{i18n.t("Price changes take effect immediately on new draft invoices")}</p>
           </div>
           <div className="flex gap-4">
-            <button className="px-8 py-4 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-slate-600 transition-colors">Discard Draft</button>
+            <button className="px-8 py-4 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-slate-600 transition-colors">{i18n.t("Discard Draft")}</button>
             <button className="bg-slate-900 text-white px-12 py-5 rounded-[24px] font-black uppercase text-xs tracking-[0.2em] shadow-2xl shadow-slate-200 hover:bg-emerald-600 active:scale-95 transition-all flex items-center gap-3">
-              <Save size={20} /> Commit Master List
-            </button>
+              <Save size={20} />{" "}{i18n.t("Commit Master List")}</button>
           </div>
       </div>
     </div>

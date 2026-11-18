@@ -30,6 +30,7 @@ import {
   PatientDocumentType,
   PatientDocumentCategory,
 } from "../types";
+import { i18n } from "../i18n";
 
 const CATEGORIES: { id: PatientDocumentCategory; name: string }[] = [
   { id: "lab_result", name: "Lab Result" },
@@ -197,7 +198,7 @@ const PatientDocuments: React.FC = () => {
 
   const handleDelete = async (id: number) => {
     if (!mrn) return;
-    if (!window.confirm("Delete this document permanently?")) return;
+    if (!window.confirm(i18n.t("Delete this document permanently?"))) return;
 
     try {
       setDeleting(id);
@@ -258,24 +259,22 @@ const PatientDocuments: React.FC = () => {
           <div className="w-24 h-24 bg-slate-50 rounded-[40px] flex items-center justify-center mb-6 shadow-inner border border-slate-100">
             <Search size={48} className="text-slate-200" />
           </div>
-          <h3 className="text-3xl font-black text-slate-800 tracking-tight">No Patient Selected</h3>
-          <p className="text-slate-500 max-w-sm mx-auto mt-2 font-medium leading-relaxed">
-            Please search for a patient in the Master Index to view or manage their clinical documents.
-          </p>
+          <h3 className="text-3xl font-black text-slate-800 tracking-tight">{i18n.t("No Patient Selected")}</h3>
+          <p className="text-slate-500 max-w-sm mx-auto mt-2 font-medium leading-relaxed">{i18n.t("Please search for a patient in the Master Index to view or manage their clinical documents.")}</p>
 
           <div className="mt-10 w-full max-w-2xl relative">
             <div className="relative">
-              <Search className={`absolute left-6 top-1/2 -translate-y-1/2 transition-colors ${isSearchingPatient ? "text-brand-primary" : "text-slate-400"}`} size={24} />
+              <Search className={`absolute start-6 top-1/2 -translate-y-1/2 transition-colors ${isSearchingPatient ? "text-brand-primary" : "text-slate-400"}`} size={24} />
               <input
                 type="text"
-                placeholder="Search by Name, MRN or Phone..."
-                className="w-full pl-16 pr-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-[32px] text-lg font-bold text-slate-800 focus:bg-white focus:border-brand-active0 outline-none transition-all shadow-inner"
+                placeholder={i18n.t("Search by Name, MRN or Phone...")}
+                className="w-full ps-16 pe-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-[32px] text-lg font-bold text-slate-800 focus:bg-white focus:border-brand-active0 outline-none transition-all shadow-inner"
                 value={patientSearchTerm}
                 onChange={(e) => setPatientSearchTerm(e.target.value)}
                 autoFocus
               />
               {isSearchingPatient && (
-                <div className="absolute right-6 top-1/2 -translate-y-1/2">
+                <div className="absolute end-6 top-1/2 -translate-y-1/2">
                   <Loader2 size={24} className="text-brand-primary animate-spin" />
                 </div>
               )}
@@ -283,17 +282,17 @@ const PatientDocuments: React.FC = () => {
 
             {/* Results Dropdown */}
             {patientSearchResults.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-4 bg-white border border-slate-200 rounded-[32px] shadow-2xl z-50 overflow-hidden animate-in slide-in-from-top-4 duration-300">
+              <div className="absolute top-full start-0 end-0 mt-4 bg-white border border-slate-200 rounded-[32px] shadow-2xl z-50 overflow-hidden animate-in slide-in-from-top-4 duration-300">
                 <div className="p-4 bg-slate-50 border-b border-slate-100 flex justify-between items-center">
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Select Patient to Load Documents</span>
-                  <span className="text-[10px] font-black text-brand-primary uppercase tracking-widest">{patientSearchResults.length} found</span>
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Select Patient to Load Documents")}</span>
+                  <span className="text-[10px] font-black text-brand-primary uppercase tracking-widest">{patientSearchResults.length}{" "}{i18n.t("found")}</span>
                 </div>
                 <div className="max-h-96 overflow-y-auto no-scrollbar">
                   {patientSearchResults.map((p) => (
                     <button
                       key={p.id}
                       onClick={() => navigate(`/patients/documents?mrn=${p.mrn}`)}
-                      className="w-full flex items-center justify-between p-6 hover:bg-brand-active/30 transition-all border-b border-slate-50 last:border-0 group text-left"
+                      className="w-full flex items-center justify-between p-6 hover:bg-brand-active/30 transition-all border-b border-slate-50 last:border-0 group text-start"
                     >
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 rounded-2xl bg-white border border-slate-100 flex items-center justify-center font-black text-slate-500 group-hover:bg-brand-primary group-hover:text-white transition-all shadow-sm">
@@ -308,13 +307,13 @@ const PatientDocuments: React.FC = () => {
                               {p.mrn}
                             </span>
                             <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
-                              {p.age}Y / {p.demographics.gender}
+                              {p.age}{i18n.t("Y /")}{" "}{i18n.tv(p.demographics.gender)}
                             </span>
                           </div>
                         </div>
                       </div>
                       <div className="p-3 rounded-xl bg-slate-50 text-slate-400 group-hover:bg-brand-primary group-hover:text-white transition-all">
-                        <ChevronRight size={20} />
+                        <ChevronRight className="rtl:-scale-x-100" size={20} />
                       </div>
                     </button>
                   ))}
@@ -332,13 +331,10 @@ const PatientDocuments: React.FC = () => {
       {/* HEADER & ACTION BAR */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
-            Patient Documents
-            <span className="px-3 py-1 bg-brand-active text-brand-primary rounded-full text-[10px] uppercase font-black tracking-widest">
-              MRN {mrn}
+          <h2 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">{i18n.t("Patient Documents")}<span className="px-3 py-1 bg-brand-active text-brand-primary rounded-full text-[10px] uppercase font-black tracking-widest">{i18n.t("MRN")}{" "}{mrn}
             </span>
           </h2>
-          <p className="text-slate-500 text-sm font-bold mt-1">Manage, upload and archive clinical records</p>
+          <p className="text-slate-500 text-sm font-bold mt-1">{i18n.t("Manage, upload and archive clinical records")}</p>
         </div>
 
         <div className="flex items-center gap-3">
@@ -350,7 +346,7 @@ const PatientDocuments: React.FC = () => {
               }`}
           >
             <Search size={16} />
-            {showPatientSearch ? "Close Search" : "Search Patient"}
+            {showPatientSearch ? i18n.t("Close Search") : i18n.t("Search Patient")}
           </button>
 
           <button
@@ -361,7 +357,7 @@ const PatientDocuments: React.FC = () => {
               }`}
           >
             {showUploadArea ? <X size={16} /> : <Plus size={16} />}
-            {showUploadArea ? "Close Upload" : "Add Documents"}
+            {showUploadArea ? i18n.t("Close Upload") : i18n.t("Add Documents")}
           </button>
         </div>
       </div>
@@ -370,19 +366,19 @@ const PatientDocuments: React.FC = () => {
       {showPatientSearch && (
         <div className="bg-white border-2 border-brand-active rounded-[40px] p-8 shadow-2xl shadow-brand-active/20 animate-in slide-in-from-top-4 duration-500">
           <div className="max-w-2xl mx-auto relative">
-            <h4 className="text-[10px] font-black text-brand-primary uppercase tracking-[0.2em] mb-4 text-center">Global Patient Search</h4>
+            <h4 className="text-[10px] font-black text-brand-primary uppercase tracking-[0.2em] mb-4 text-center">{i18n.t("Global Patient Search")}</h4>
             <div className="relative">
-              <Search className={`absolute left-6 top-1/2 -translate-y-1/2 transition-colors ${isSearchingPatient ? "text-brand-primary" : "text-slate-400"}`} size={24} />
+              <Search className={`absolute start-6 top-1/2 -translate-y-1/2 transition-colors ${isSearchingPatient ? "text-brand-primary" : "text-slate-400"}`} size={24} />
               <input
                 type="text"
-                placeholder="Search by Name, MRN or Phone..."
-                className="w-full pl-16 pr-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-[32px] text-lg font-bold text-slate-800 focus:bg-white focus:border-brand-active0 outline-none transition-all shadow-inner"
+                placeholder={i18n.t("Search by Name, MRN or Phone...")}
+                className="w-full ps-16 pe-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-[32px] text-lg font-bold text-slate-800 focus:bg-white focus:border-brand-active0 outline-none transition-all shadow-inner"
                 value={patientSearchTerm}
                 onChange={(e) => setPatientSearchTerm(e.target.value)}
                 autoFocus
               />
               {isSearchingPatient && (
-                <div className="absolute right-6 top-1/2 -translate-y-1/2">
+                <div className="absolute end-6 top-1/2 -translate-y-1/2">
                   <Loader2 size={24} className="text-brand-primary animate-spin" />
                 </div>
               )}
@@ -390,7 +386,7 @@ const PatientDocuments: React.FC = () => {
 
             {/* Results Dropdown */}
             {patientSearchResults.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-4 bg-white border border-slate-200 rounded-[32px] shadow-2xl z-50 overflow-hidden animate-in slide-in-from-top-4 duration-300">
+              <div className="absolute top-full start-0 end-0 mt-4 bg-white border border-slate-200 rounded-[32px] shadow-2xl z-50 overflow-hidden animate-in slide-in-from-top-4 duration-300">
                 <div className="max-h-80 overflow-y-auto no-scrollbar">
                   {patientSearchResults.map((p) => (
                     <button
@@ -401,7 +397,7 @@ const PatientDocuments: React.FC = () => {
                         setPatientSearchTerm("");
                         setPatientSearchResults([]);
                       }}
-                      className="w-full flex items-center justify-between p-6 hover:bg-brand-active/30 transition-all border-b border-slate-50 last:border-0 group text-left"
+                      className="w-full flex items-center justify-between p-6 hover:bg-brand-active/30 transition-all border-b border-slate-50 last:border-0 group text-start"
                     >
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 rounded-2xl bg-white border border-slate-100 flex items-center justify-center font-black text-slate-500 group-hover:bg-brand-primary group-hover:text-white transition-all shadow-sm">
@@ -416,12 +412,12 @@ const PatientDocuments: React.FC = () => {
                               {p.mrn}
                             </span>
                             <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
-                              {p.age}Y / {p.demographics.gender}
+                              {p.age}{i18n.t("Y /")}{" "}{i18n.tv(p.demographics.gender)}
                             </span>
                           </div>
                         </div>
                       </div>
-                      <ChevronRight size={20} className="text-slate-300 group-hover:text-brand-primary group-hover:translate-x-1 transition-all" />
+                      <ChevronRight size={20} className="text-slate-300 group-hover:text-brand-primary group-hover:translate-x-1 transition-all rtl:-scale-x-100" />
                     </button>
                   ))}
                 </div>
@@ -437,25 +433,25 @@ const PatientDocuments: React.FC = () => {
           <div className="grid grid-cols-12 gap-8">
             {/* Upload Settings */}
             <div className="col-span-12 lg:col-span-4 space-y-4">
-              <h4 className="text-[10px] font-black text-brand-primary uppercase tracking-[0.2em]">Upload Settings</h4>
+              <h4 className="text-[10px] font-black text-brand-primary uppercase tracking-[0.2em]">{i18n.t("Upload Settings")}</h4>
 
               <div className="space-y-3">
                 <div className="space-y-1.5">
-                  <label className="text-[9px] font-black text-slate-400 uppercase ml-1">Document Type</label>
+                  <label className="text-[9px] font-black text-slate-400 uppercase ms-1">{i18n.t("Document Type")}</label>
                   <select
                     value={uploadForm.fileType}
                     onChange={(e) => setUploadForm({ ...uploadForm, fileType: e.target.value as PatientDocumentType })}
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-xs font-black text-slate-700 outline-none focus:border-brand-primary"
                   >
-                    <option value="DOCUMENT">Standard Document</option>
-                    <option value="LAB">Laboratory Result</option>
-                    <option value="RADIOLOGY">Radiology Report</option>
-                    <option value="IMAGE">Medical Image</option>
+                    <option value="DOCUMENT">{i18n.t("Standard Document")}</option>
+                    <option value="LAB">{i18n.t("Laboratory Result")}</option>
+                    <option value="RADIOLOGY">{i18n.t("Radiology Report")}</option>
+                    <option value="IMAGE">{i18n.t("Medical Image")}</option>
                   </select>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[9px] font-black text-slate-400 uppercase ml-1">Clinical Category</label>
+                  <label className="text-[9px] font-black text-slate-400 uppercase ms-1">{i18n.t("Clinical Category")}</label>
                   <select
                     value={uploadForm.category}
                     onChange={(e) => setUploadForm({ ...uploadForm, category: e.target.value as PatientDocumentCategory })}
@@ -466,11 +462,11 @@ const PatientDocuments: React.FC = () => {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[9px] font-black text-slate-400 uppercase ml-1">Batch Description</label>
+                  <label className="text-[9px] font-black text-slate-400 uppercase ms-1">{i18n.t("Batch Description")}</label>
                   <textarea
                     value={uploadForm.description}
                     onChange={(e) => setUploadForm({ ...uploadForm, description: e.target.value })}
-                    placeholder="E.g. Full blood count results from last week"
+                    placeholder={i18n.t("E.g. Full blood count results from last week")}
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-xs font-black text-slate-700 outline-none focus:border-brand-primary resize-none h-24"
                   />
                 </div>
@@ -479,7 +475,7 @@ const PatientDocuments: React.FC = () => {
 
             {/* Drop Zone */}
             <div className="col-span-12 lg:col-span-8 flex flex-col gap-4">
-              <h4 className="text-[10px] font-black text-brand-primary uppercase tracking-[0.2em]">Select Files</h4>
+              <h4 className="text-[10px] font-black text-brand-primary uppercase tracking-[0.2em]">{i18n.t("Select Files")}</h4>
               <div
                 onClick={() => fileInputRef.current?.click()}
                 className="flex-1 border-4 border-dashed border-brand-active bg-brand-active/10 rounded-[32px] flex flex-col items-center justify-center p-12 group cursor-pointer hover:bg-brand-active/30 hover:border-brand-active transition-all"
@@ -487,8 +483,8 @@ const PatientDocuments: React.FC = () => {
                 <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform mb-4 text-brand-primary">
                   <FileUp size={32} />
                 </div>
-                <p className="text-sm font-black text-slate-700 uppercase tracking-widest">Drop files or click to browse</p>
-                <p className="text-[10px] text-slate-400 font-bold mt-2">PDF, PNG, JPG, JPEG (Max 20MB per file)</p>
+                <p className="text-sm font-black text-slate-700 uppercase tracking-widest">{i18n.t("Drop files or click to browse")}</p>
+                <p className="text-[10px] text-slate-400 font-bold mt-2">{i18n.t("PDF, PNG, JPG, JPEG (Max 20MB per file)")}</p>
                 <input
                   type="file"
                   ref={fileInputRef}
@@ -518,16 +514,14 @@ const PatientDocuments: React.FC = () => {
                 <button
                   onClick={() => setPendingFiles([])}
                   className="px-6 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest text-slate-400 hover:bg-slate-50 transition-all"
-                >
-                  Clear All
-                </button>
+                >{i18n.t("Clear All")}</button>
                 <button
                   onClick={handleBulkUpload}
                   disabled={uploading || pendingFiles.length === 0}
                   className="flex items-center gap-2 px-8 py-3 bg-brand-primary text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-brand-active hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100 transition-all"
                 >
                   {uploading ? <Loader2 size={14} className="animate-spin" /> : <CheckCircle size={14} />}
-                  {uploading ? "Uploading..." : `Upload ${pendingFiles.length} Documents`}
+                  {uploading ? i18n.t("Uploading...") : `Upload ${pendingFiles.length} Documents`}
                 </button>
               </div>
             </div>
@@ -538,26 +532,26 @@ const PatientDocuments: React.FC = () => {
       {/* FILTER BAR */}
       <div className="flex flex-col sm:flex-row gap-3 items-center">
         <div className="relative flex-1 group w-full">
-          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-brand-active0 transition-colors" size={18} />
+          <Search className="absolute start-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-brand-active0 transition-colors" size={18} />
           <input
             type="text"
-            placeholder="Search by name or description..."
+            placeholder={i18n.t("Search by name or description...")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-14 pr-6 py-4 bg-white border border-slate-200 rounded-[28px] text-sm font-bold text-slate-700 outline-none focus:border-brand-primary focus:shadow-xl focus:shadow-brand-active/20 transition-all"
+            className="w-full ps-14 pe-6 py-4 bg-white border border-slate-200 rounded-[28px] text-sm font-bold text-slate-700 outline-none focus:border-brand-primary focus:shadow-xl focus:shadow-brand-active/20 transition-all"
           />
         </div>
 
         <div className="flex items-center gap-2 p-1.5 bg-white border border-slate-200 rounded-[28px] w-full sm:w-auto">
-          <div className="pl-4 pr-2 text-slate-300">
+          <div className="ps-4 pe-2 text-slate-300">
             <Filter size={18} />
           </div>
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value as any)}
-            className="bg-transparent text-sm font-black text-slate-600 outline-none pr-6 py-2.5 cursor-pointer uppercase tracking-widest"
+            className="bg-transparent text-sm font-black text-slate-600 outline-none pe-6 py-2.5 cursor-pointer uppercase tracking-widest"
           >
-            <option value="all">All Categories</option>
+            <option value="all">{i18n.t("All Categories")}</option>
             {CATEGORIES.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
         </div>
@@ -567,12 +561,12 @@ const PatientDocuments: React.FC = () => {
       {loading ? (
         <div className="flex flex-col items-center justify-center py-32 space-y-4">
           <div className="w-12 h-12 border-4 border-brand-primary/10 border-t-brand-primary rounded-full animate-spin"></div>
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Optimizing View...</p>
+          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Optimizing View...")}</p>
         </div>
       ) : filteredDocuments.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-32 bg-slate-50/50 rounded-[40px] border-2 border-dashed border-slate-200">
           <Layers size={40} className="text-slate-200 mb-4" />
-          <p className="text-sm font-black text-slate-400 uppercase tracking-widest">No documents matching your criteria</p>
+          <p className="text-sm font-black text-slate-400 uppercase tracking-widest">{i18n.t("No documents matching your criteria")}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
@@ -582,7 +576,7 @@ const PatientDocuments: React.FC = () => {
               className="group relative bg-white border border-slate-100 rounded-[32px] p-6 hover:border-brand-active hover:shadow-2xl hover:shadow-brand-active/50 transition-all duration-300"
             >
               {/* Type Accent */}
-              <div className={`absolute top-0 right-0 w-32 h-32 opacity-[0.03] -mr-8 -mt-8 pointer-events-none group-hover:opacity-[0.08] transition-opacity`}>
+              <div className={`absolute top-0 end-0 w-32 h-32 opacity-[0.03] -me-8 -mt-8 pointer-events-none group-hover:opacity-[0.08] transition-opacity`}>
                 <File className="w-full h-full rotate-12" />
               </div>
 
@@ -596,14 +590,14 @@ const PatientDocuments: React.FC = () => {
                 </div>
 
                 <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button className="p-2 hover:bg-slate-50 rounded-xl text-slate-400 hover:text-brand-primary transition-colors" title="View Preview">
+                  <button className="p-2 hover:bg-slate-50 rounded-xl text-slate-400 hover:text-brand-primary transition-colors" title={i18n.t("View Preview")}>
                     <Eye size={16} />
                   </button>
                   <button
                     onClick={() => handleDelete(doc.id)}
                     disabled={deleting === doc.id}
                     className="p-2 hover:bg-rose-50 rounded-xl text-slate-400 hover:text-rose-600 transition-colors"
-                    title="Remove"
+                    title={i18n.t("Remove")}
                   >
                     {deleting === doc.id ? <Loader2 size={16} className="animate-spin" /> : <Trash2 size={16} />}
                   </button>
@@ -623,7 +617,7 @@ const PatientDocuments: React.FC = () => {
                     {doc.original_name}
                   </h3>
                   <p className="text-[11px] font-bold text-slate-400 line-clamp-2 leading-relaxed">
-                    {doc.description || "No description provided"}
+                    {i18n.tx(doc.description) || i18n.t("No description provided")}
                   </p>
                 </div>
 
@@ -640,8 +634,7 @@ const PatientDocuments: React.FC = () => {
                   <button
                     onClick={() => setPreviewDoc(doc)}
                     className="flex items-center gap-2 px-4 py-2 bg-slate-50 hover:bg-brand-primary hover:text-white text-slate-600 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all"
-                  >
-                    Preview <Eye size={12} />
+                  >{i18n.t("Preview")}{" "}<Eye size={12} />
                   </button>
                 </div>
               </div>
@@ -655,8 +648,8 @@ const PatientDocuments: React.FC = () => {
         <div className="fixed inset-0 z-[60] flex flex-col animate-in fade-in duration-300" style={{ background: '#0f172a' }}>
           {/* Top Bar */}
           <div className="bg-[#1e1b4b] text-white px-8 py-5 flex justify-between items-center relative overflow-hidden shrink-0 shadow-2xl">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-brand-active0/10 rounded-full -mr-32 -mt-32 blur-3xl pointer-events-none"></div>
-            <div className="z-10 min-w-0 flex-1 pr-6">
+            <div className="absolute top-0 end-0 w-64 h-64 bg-brand-active0/10 rounded-full -me-32 -mt-32 blur-3xl pointer-events-none"></div>
+            <div className="z-10 min-w-0 flex-1 pe-6">
               <h3 className="text-lg font-black tracking-tight uppercase italic truncate">{previewDoc.original_name}</h3>
               <p className="text-brand-primary text-[10px] font-black uppercase tracking-widest mt-0.5">
                 {previewDoc.category.replace(/_/g, ' ')} &bull; {formatFileSize(previewDoc.file_size)}
@@ -670,12 +663,11 @@ const PatientDocuments: React.FC = () => {
                 rel="noreferrer"
                 className="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all border border-white/20 flex items-center gap-2"
               >
-                <Download size={14} /> Download File
-              </a>
+                <Download size={14} />{" "}{i18n.t("Download File")}</a>
               <button
                 onClick={() => setPreviewDoc(null)}
                 className="bg-white/10 hover:bg-rose-500 text-white p-3 rounded-2xl transition-all border border-white/20"
-                title="Close Preview"
+                title={i18n.t("Close Preview")}
               >
                 <X size={20} />
               </button>
@@ -696,7 +688,7 @@ const PatientDocuments: React.FC = () => {
               <iframe
                 src={previewDoc.file_path.startsWith('http') ? previewDoc.file_path : `${BASE_URL.replace(/\/$/, '')}/${previewDoc.file_path.replace(/^\//, '')}`}
                 className="w-full h-full border-0"
-                title="PDF Preview"
+                title={i18n.t("PDF Preview")}
               />
             ) : (
               <div className="flex items-center justify-center w-full h-full">
@@ -705,19 +697,15 @@ const PatientDocuments: React.FC = () => {
                     <FileText size={48} />
                   </div>
                   <div>
-                    <h4 className="text-xl font-black text-white uppercase italic tracking-tight">Preview Not Available</h4>
-                    <p className="text-slate-400 font-bold mt-2">
-                      This file type ({getFriendlyTypeName(previewDoc.mime_type, previewDoc.original_name)}) cannot be previewed directly in the browser.
-                      Please download it to view on your device.
-                    </p>
+                    <h4 className="text-xl font-black text-white uppercase italic tracking-tight">{i18n.t("Preview Not Available")}</h4>
+                    <p className="text-slate-400 font-bold mt-2">{i18n.t("This file type (")}{getFriendlyTypeName(previewDoc.mime_type, previewDoc.original_name)}{i18n.t(") cannot be previewed directly in the browser. Please download it to view on your device.")}</p>
                   </div>
                   <a
                     href={previewDoc.file_path.startsWith('http') ? previewDoc.file_path : `${BASE_URL.replace(/\/$/, '')}/${previewDoc.file_path.replace(/^\//, '')}`}
                     download={previewDoc.original_name}
                     className="inline-flex items-center gap-3 px-10 py-5 bg-brand-primary text-white rounded-3xl font-black text-xs uppercase tracking-[0.2em] shadow-2xl shadow-brand-active hover:scale-105 active:scale-95 transition-all"
                   >
-                    <Download size={18} /> Download Now
-                  </a>
+                    <Download size={18} />{" "}{i18n.t("Download Now")}</a>
                 </div>
               </div>
             )}
@@ -725,7 +713,7 @@ const PatientDocuments: React.FC = () => {
 
           {/* Slim footer */}
           <div className="py-2 px-8 bg-[#1e1b4b]/80 border-t border-white/5 flex justify-center shrink-0">
-            <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest italic">Medbookie Secure Clinical Document Viewer</p>
+            <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest italic">{i18n.t("Medbookie Secure Clinical Document Viewer")}</p>
           </div>
         </div>
       )}

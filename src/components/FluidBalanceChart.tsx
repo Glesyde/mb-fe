@@ -5,6 +5,7 @@ import { useNotification } from "../context/NotificationContext";
 import InfusionPanel from "./InfusionPanel";
 import MARPanel from "./MARPanel";
 import TransfusionPanel from "./TransfusionPanel";
+import { i18n } from "../i18n";
 
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -291,16 +292,16 @@ const IOModal: React.FC<IOModalProps> = ({ isOpen, onClose, type, category, enco
 
   return (
     <div style={modalOverlay}><div style={modalCard}><div style={modalHeader}>
-      <div><h3 style={{ margin: 0, fontSize: "15px", fontWeight: 800, color: "#1c2b4a" }}>Add {type === "INTAKE" ? "Input" : "Output"}</h3><p style={{ margin: "3px 0 0", fontSize: "10px", fontWeight: 700, color: "#8a94ad", textTransform: "uppercase", letterSpacing: "0.8px" }}>{category}</p></div>
+      <div><h3 style={{ margin: 0, fontSize: "15px", fontWeight: 800, color: "#1c2b4a" }}>{i18n.t("Add")}{" "}{type === "INTAKE" ? i18n.t("Input") : i18n.t("Output")}</h3><p style={{ margin: "3px 0 0", fontSize: "10px", fontWeight: 700, color: "#8a94ad", textTransform: "uppercase", letterSpacing: "0.8px" }}>{category}</p></div>
       <button type="button" onClick={onClose} style={iconBtn}><X size={18} color="#6b7a9a" /></button>
     </div>
     <form onSubmit={handleSubmit} style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "14px" }}>
       {!isCurrentHour && (
-        <div><label style={fieldLabel}>Recorded At</label><input type="datetime-local" required min={minTime} max={maxTime} value={recordedAt} onChange={(e) => setRecordedAt(e.target.value)} style={fieldInput} /></div>
+        <div><label style={fieldLabel}>{i18n.t("Recorded At")}</label><input type="datetime-local" required min={minTime} max={maxTime} value={recordedAt} onChange={(e) => setRecordedAt(e.target.value)} style={fieldInput} /></div>
       )}
     
     <div>
-  <label style={fieldLabel}>Volume (ml)</label>
+  <label style={fieldLabel}>{i18n.t("Volume (ml)")}</label>
   <input 
     type="number" 
     required 
@@ -310,12 +311,12 @@ const IOModal: React.FC<IOModalProps> = ({ isOpen, onClose, type, category, enco
     value={volume} 
     onChange={(e) => setVolume(e.target.value)} 
     style={fieldInput} 
-    placeholder="e.g. 250" 
+    placeholder={i18n.t("e.g. 250")} 
   />
 </div>
       {/* <div><label style={fieldLabel}>Volume (ml)</label><input type="number" required min="0.1" autoFocus value={volume} onChange={(e) => setVolume(e.target.value)} style={fieldInput} placeholder="e.g. 250" /></div> */}
-      <div><label style={fieldLabel}>Remarks <span style={{ color: "#aaa", fontWeight: 400 }}>(optional)</span></label><input type="text" value={remarks} onChange={(e) => setRemarks(e.target.value)} style={fieldInput} placeholder="e.g. Tea, Post-op drain" /></div>
-      <div style={{ display: "flex", gap: "10px", marginTop: "6px" }}><button type="button" onClick={onClose} style={cancelBtn}>Cancel</button><button type="submit" disabled={isSubmitting} style={primaryBtn}>{isSubmitting ? <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> : <Save size={14} />}Save Entry</button></div>
+      <div><label style={fieldLabel}>{i18n.t("Remarks")}{" "}<span style={{ color: "#aaa", fontWeight: 400 }}>{i18n.t("(optional)")}</span></label><input type="text" value={remarks} onChange={(e) => setRemarks(e.target.value)} style={fieldInput} placeholder={i18n.t("e.g. Tea, Post-op drain")} /></div>
+      <div style={{ display: "flex", gap: "10px", marginTop: "6px" }}><button type="button" onClick={onClose} style={cancelBtn}>{i18n.t("Cancel")}</button><button type="submit" disabled={isSubmitting} style={primaryBtn}>{isSubmitting ? <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> : <Save size={14} />}{i18n.t("Save Entry")}</button></div>
     </form></div></div>
   );
 };
@@ -376,14 +377,14 @@ const CorrectModal: React.FC<CorrectModalProps> = ({ isOpen, onClose, entry, onS
   // };
   return (
     <div style={modalOverlay}><div style={modalCard}><div style={{ ...modalHeader, background: "#fff8e1" }}>
-      <div><h3 style={{ margin: 0, fontSize: "15px", fontWeight: 800, color: "#7a5a00" }}>Correct Entry</h3><p style={{ margin: "3px 0 0", fontSize: "10px", fontWeight: 700, color: "#a07a20", textTransform: "uppercase", letterSpacing: "0.8px" }}>{entry.category} · Entry #{entry.id}</p></div>
+      <div><h3 style={{ margin: 0, fontSize: "15px", fontWeight: 800, color: "#7a5a00" }}>{i18n.t("Correct Entry")}</h3><p style={{ margin: "3px 0 0", fontSize: "10px", fontWeight: 700, color: "#a07a20", textTransform: "uppercase", letterSpacing: "0.8px" }}>{entry.category}{" "}{i18n.t("· Entry #")}{entry.id}</p></div>
       <button onClick={onClose} style={iconBtn}><X size={18} color="#7a5a00" /></button>
     </div>
     <form onSubmit={handleSubmit} style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "14px" }}>
-      <div><label style={fieldLabel}>Corrected Volume (ml)</label><input type="number" required min="0" step="any" value={volume} autoFocus onChange={(e) => setVolume(e.target.value)} style={fieldInput} /></div>
-      <div><label style={fieldLabel}>Correction Reason <span style={{ color: "#e67e22" }}>*</span></label><input type="text" required value={reason} onChange={(e) => setReason(e.target.value)} style={fieldInput} placeholder="e.g. Entry Mistake" /></div>
-      <div><label style={fieldLabel}>Remarks <span style={{ color: "#aaa", fontWeight: 400 }}>(optional)</span></label><input type="text" value={remarks} onChange={(e) => setRemarks(e.target.value)} style={fieldInput} placeholder="Additional notes" /></div>
-      <div style={{ display: "flex", gap: "10px", marginTop: "6px" }}><button type="button" onClick={onClose} style={cancelBtn}>Cancel</button><button type="submit" disabled={isSubmitting} style={{ ...primaryBtn, background: "#d97706" }}>{isSubmitting ? <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> : <Edit3 size={14} />}Save Correction</button></div>
+      <div><label style={fieldLabel}>{i18n.t("Corrected Volume (ml)")}</label><input type="number" required min="0" step="any" value={volume} autoFocus onChange={(e) => setVolume(e.target.value)} style={fieldInput} /></div>
+      <div><label style={fieldLabel}>{i18n.t("Correction Reason")}{" "}<span style={{ color: "#e67e22" }}>*</span></label><input type="text" required value={reason} onChange={(e) => setReason(e.target.value)} style={fieldInput} placeholder={i18n.t("e.g. Entry Mistake")} /></div>
+      <div><label style={fieldLabel}>{i18n.t("Remarks")}{" "}<span style={{ color: "#aaa", fontWeight: 400 }}>{i18n.t("(optional)")}</span></label><input type="text" value={remarks} onChange={(e) => setRemarks(e.target.value)} style={fieldInput} placeholder={i18n.t("Additional notes")} /></div>
+      <div style={{ display: "flex", gap: "10px", marginTop: "6px" }}><button type="button" onClick={onClose} style={cancelBtn}>{i18n.t("Cancel")}</button><button type="submit" disabled={isSubmitting} style={{ ...primaryBtn, background: "#d97706" }}>{isSubmitting ? <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> : <Edit3 size={14} />}{i18n.t("Save Correction")}</button></div>
     </form></div></div>
   );
 };
@@ -409,12 +410,12 @@ const CancelModal: React.FC<CancelModalProps> = ({ isOpen, onClose, entry, onSav
   };
   return (
     <div style={modalOverlay}><div style={{ ...modalCard, maxWidth: "400px" }}><div style={{ ...modalHeader, background: "#fef2f2" }}>
-      <div><h3 style={{ margin: 0, fontSize: "15px", fontWeight: 800, color: "#991b1b" }}>Cancel Entry</h3><p style={{ margin: "3px 0 0", fontSize: "10px", fontWeight: 700, color: "#b91c1c", textTransform: "uppercase", letterSpacing: "0.8px" }}>{entry.category} — {entry.volume} ml · Entry #{entry.id}</p></div>
+      <div><h3 style={{ margin: 0, fontSize: "15px", fontWeight: 800, color: "#991b1b" }}>{i18n.t("Cancel Entry")}</h3><p style={{ margin: "3px 0 0", fontSize: "10px", fontWeight: 700, color: "#b91c1c", textTransform: "uppercase", letterSpacing: "0.8px" }}>{entry.category} — {entry.volume}{" "}{i18n.t("ml · Entry #")}{entry.id}</p></div>
       <button onClick={onClose} style={iconBtn}><X size={18} color="#991b1b" /></button>
     </div>
     <form onSubmit={handleSubmit} style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "14px" }}>
-      <div><label style={fieldLabel}>Reason for Cancellation <span style={{ color: "#e11d48" }}>*</span></label><input type="text" required autoFocus value={reason} onChange={(e) => setReason(e.target.value)} style={fieldInput} placeholder="e.g. Entry Mistake" /></div>
-      <div style={{ display: "flex", gap: "10px", marginTop: "6px" }}><button type="button" onClick={onClose} style={cancelBtn}>Back</button><button type="submit" disabled={isSubmitting} style={{ ...primaryBtn, background: "#dc2626" }}>{isSubmitting ? <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> : <XCircle size={14} />}Confirm Cancel</button></div>
+      <div><label style={fieldLabel}>{i18n.t("Reason for Cancellation")}{" "}<span style={{ color: "#e11d48" }}>*</span></label><input type="text" required autoFocus value={reason} onChange={(e) => setReason(e.target.value)} style={fieldInput} placeholder={i18n.t("e.g. Entry Mistake")} /></div>
+      <div style={{ display: "flex", gap: "10px", marginTop: "6px" }}><button type="button" onClick={onClose} style={cancelBtn}>{i18n.t("Back")}</button><button type="submit" disabled={isSubmitting} style={{ ...primaryBtn, background: "#dc2626" }}>{isSubmitting ? <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> : <XCircle size={14} />}{i18n.t("Confirm Cancel")}</button></div>
     </form></div></div>
   );
 };
@@ -449,8 +450,8 @@ const EntryCell: React.FC<EntryCellProps> = ({
   if (!entry) {
     return (
       <td style={{ ...tdBase, background: hourState === "current" ? "#f0f7ff" : "transparent", padding: 0 }}>
-        <button type="button" onClick={() => !isReadOnly && onActionClick()} disabled={isReadOnly} style={addCellBtn} title="Click to add entry">
-          <span style={{ color: hourState === "current" ? "#c0cfe8" : "#e0e4ef", fontSize: "11px" }}>ml</span>
+        <button type="button" onClick={() => !isReadOnly && onActionClick()} disabled={isReadOnly} style={addCellBtn} title={i18n.t("Click to add entry")}>
+          <span style={{ color: hourState === "current" ? "#c0cfe8" : "#e0e4ef", fontSize: "11px" }}>{i18n.t("ml")}</span>
         </button>
       </td>
     );
@@ -480,26 +481,26 @@ const EntryCell: React.FC<EntryCellProps> = ({
             <div style={{ fontWeight: 800, fontSize: "12px", marginBottom: "7px", color: tooltipColor }}>{entry.category}</div>
             <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", gap: "10px" }}>
-                <span style={{ color: "#8fa3c8" }}>Volume</span>
-                <span style={{ fontWeight: 700 }}>{entry.volume} ml</span>
+                <span style={{ color: "#8fa3c8" }}>{i18n.t("Volume")}</span>
+                <span style={{ fontWeight: 700 }}>{entry.volume}{" "}{i18n.t("ml")}</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", gap: "10px" }}>
-                <span style={{ color: "#8fa3c8" }}>Time</span>
+                <span style={{ color: "#8fa3c8" }}>{i18n.t("Time")}</span>
                 <span style={{ fontWeight: 700 }}>{fmt(entry.recorded_at) || "—"}</span>
               </div>
               {sourceLabel && (
                 <div style={{ display: "flex", justifyContent: "space-between", gap: "10px" }}>
-                  <span style={{ color: "#8fa3c8" }}>Source</span>
+                  <span style={{ color: "#8fa3c8" }}>{i18n.t("Source")}</span>
                   <span style={{ fontWeight: 600, textTransform: "capitalize", fontSize: "10px" }}>{sourceLabel}</span>
                 </div>
               )}
               <div style={{ display: "flex", justifyContent: "space-between", gap: "10px" }}>
-                <span style={{ color: "#8fa3c8" }}>Recorded by</span>
+                <span style={{ color: "#8fa3c8" }}>{i18n.t("Recorded by")}</span>
                 <span style={{ fontWeight: 600, fontSize: "10px", textAlign: "right", maxWidth: "120px", wordBreak: "break-word" }}>{entry.recorded_by_name || "—"}</span>
               </div>
               {hasRemarks && (
                 <div style={{ marginTop: "6px", paddingTop: "7px", borderTop: "1px solid rgba(255,255,255,0.12)" }}>
-                  <div style={{ color: "#8fa3c8", fontSize: "9px", marginBottom: "3px", textTransform: "uppercase", letterSpacing: "0.5px" }}>Remarks</div>
+                  <div style={{ color: "#8fa3c8", fontSize: "9px", marginBottom: "3px", textTransform: "uppercase", letterSpacing: "0.5px" }}>{i18n.t("Remarks")}</div>
                   <div style={{ fontWeight: 600, fontSize: "11px", color: "#fde68a", wordBreak: "break-word" }}>{entry.remarks}</div>
                 </div>
               )}
@@ -523,18 +524,18 @@ const EntryCell: React.FC<EntryCellProps> = ({
 
         {!isReadOnly && entry.id != null && (
           <div ref={menuOpen ? menuRef : undefined} style={{ position: "relative" }}>
-            <button onClick={() => setMenuOpen(o => !o)} style={{ background: "none", border: "none", cursor: "pointer", padding: "1px", borderRadius: "3px", color: "#8a94ad", lineHeight: 1 }} title="Options"><MoreVertical size={11} /></button>
+            <button onClick={() => setMenuOpen(o => !o)} style={{ background: "none", border: "none", cursor: "pointer", padding: "1px", borderRadius: "3px", color: "#8a94ad", lineHeight: 1 }} title={i18n.t("Options")}><MoreVertical size={11} /></button>
             {menuOpen && (
               <div style={{ position: "absolute", right: 0, top: "100%", zIndex: 100, background: "#fff", border: "1px solid #e0e4ef", borderRadius: "8px", boxShadow: "0 4px 16px rgba(0,0,0,0.12)", minWidth: "170px", overflow: "hidden" }}>
                 <div style={{ padding: "8px 12px", borderBottom: "1px solid #f0f2f8", background: "#f8f9fc" }}>
                   <div style={{ fontSize: "10px", fontWeight: 700, color: "#1c2b4a" }}>{entry.category}</div>
-                  <div style={{ fontSize: "9px", color: "#8a94ad" }}>{entry.volume} ml · {fmt(entry.recorded_at)}<br />by {entry.recorded_by_name || "—"}</div>
+                  <div style={{ fontSize: "9px", color: "#8a94ad" }}>{entry.volume}{" "}{i18n.t("ml ·")}{" "}{fmt(entry.recorded_at)}<br />{i18n.t("by")}{" "}{entry.recorded_by_name || "—"}</div>
                   {hasRemarks && (
                     <div style={{ fontSize: "9px", color: "#d97706", marginTop: "4px", fontStyle: "italic", wordBreak: "break-word" }}>"{entry.remarks}"</div>
                   )}
                 </div>
-                <button onClick={() => { setMenuOpen(false); onCorrect(entry); }} style={menuItemBtn("#d97706")}><Edit3 size={11} /> Correct Entry</button>
-                <button onClick={() => { setMenuOpen(false); onCancel(entry); }} style={menuItemBtn("#dc2626")}><XCircle size={11} /> Cancel Entry</button>
+                <button onClick={() => { setMenuOpen(false); onCorrect(entry); }} style={menuItemBtn("#d97706")}><Edit3 size={11} />{" "}{i18n.t("Correct Entry")}</button>
+                <button onClick={() => { setMenuOpen(false); onCancel(entry); }} style={menuItemBtn("#dc2626")}><XCircle size={11} />{" "}{i18n.t("Cancel Entry")}</button>
               </div>
             )}
           </div>
@@ -711,9 +712,7 @@ export default function FluidBalanceChart({
   if (loading) {
     return (
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "400px", color: "#6b7a9a", fontSize: "14px", gap: "8px" }}>
-        <Loader2 size={20} style={{ animation: "spin 1s linear infinite", color: "#1c3d7a" }} />
-        Loading fluid balance chart…
-      </div>
+        <Loader2 size={20} style={{ animation: "spin 1s linear infinite", color: "#1c3d7a" }} />{i18n.t("Loading fluid balance chart…")}</div>
     );
   }
 
@@ -789,14 +788,12 @@ export default function FluidBalanceChart({
       <IOModal isOpen={ioModal.isOpen} onClose={() => setIoModal({ ...ioModal, isOpen: false })} type={ioModal.type} category={ioModal.category} encounterNumber={encounterNumber} onSave={fetchChart} hour={ioModal.hour} windowStart={windowStart} />
       <CorrectModal isOpen={correctModal.isOpen} entry={correctModal.entry} onClose={() => setCorrectModal({ isOpen: false, entry: null })} onSave={fetchChart} />
       <CancelModal isOpen={cancelModal.isOpen} entry={cancelModal.entry} onClose={() => setCancelModal({ isOpen: false, entry: null })} onSave={fetchChart} />
-      <h2 className="sr-only">24-hour fluid balance chart</h2>
+      <h2 className="sr-only">{i18n.t("24-hour fluid balance chart")}</h2>
 
       <div style={s.topbar}>
-        <span style={s.chartTitle}>Fluid Balance Chart</span>
+        <span style={s.chartTitle}>{i18n.t("Fluid Balance Chart")}</span>
         {isHistorical && (
-          <span style={{ background: "#fef2f2", color: "#991b1b", fontSize: "11px", fontWeight: 800, textTransform: "uppercase", padding: "4px 10px", borderRadius: "6px", border: "1px solid #fecaca" }}>
-            Viewing historical data — read only
-          </span>
+          <span style={{ background: "#fef2f2", color: "#991b1b", fontSize: "11px", fontWeight: 800, textTransform: "uppercase", padding: "4px 10px", borderRadius: "6px", border: "1px solid #fecaca" }}>{i18n.t("Viewing historical data — read only")}</span>
         )}
         {/* {[["Patient", p.full_name || "—"], ["MRN", p.mrn || "—"], ["Age / Sex", p.age ? `${p.age}y / ${p.gender?.[0] || "—"}` : "—"], ["Ward", c.ward || "—"], ["Encounter", e.encounter_number || "—"]].map(([label, val]) => (
           <div key={label} style={{ display: "flex", flexDirection: "column", fontSize: "11px", color: "#6b7a9a", gap: "1px", minWidth: "70px" }}>
@@ -804,41 +801,35 @@ export default function FluidBalanceChart({
           </div>
         ))} */}
         {isReadOnly && !isHistorical && (
-          <span style={{ background: "#fef3c7", color: "#92400e", fontSize: "10px", fontWeight: 800, textTransform: "uppercase", padding: "4px 10px", borderRadius: "6px", marginLeft: "auto", display: "flex", alignItems: "center", gap: "4px" }}><AlertCircle size={12} /> Read Only</span>
+          <span style={{ background: "#fef3c7", color: "#92400e", fontSize: "10px", fontWeight: 800, textTransform: "uppercase", padding: "4px 10px", borderRadius: "6px", marginLeft: "auto", display: "flex", alignItems: "center", gap: "4px" }}><AlertCircle size={12} />{" "}{i18n.t("Read Only")}</span>
         )}
         {!isHistorical && (
           <>
-            <button onClick={() => setShowTransfusionModal(true)} style={{ ...s.detailsBtn, background: "#b91c1c" }}>
-              Blood Transfusion
-            </button>
-            <button onClick={() => setShowInfusionModal(true)} style={{ ...s.detailsBtn, background: "#5b21b6" }}>
-              Active Infusions
-            </button>
-            <button onClick={() => setShowMARModal(true)} style={{ ...s.detailsBtn, background: "#0d9488" }}>
-              Medication Administration
-            </button>
+            <button onClick={() => setShowTransfusionModal(true)} style={{ ...s.detailsBtn, background: "#b91c1c" }}>{i18n.t("Blood Transfusion")}</button>
+            <button onClick={() => setShowInfusionModal(true)} style={{ ...s.detailsBtn, background: "#5b21b6" }}>{i18n.t("Active Infusions")}</button>
+            <button onClick={() => setShowMARModal(true)} style={{ ...s.detailsBtn, background: "#0d9488" }}>{i18n.t("Medication Administration")}</button>
           </>
         )}
-        <button style={s.detailsBtn}>Patient details</button>
+        <button style={s.detailsBtn}>{i18n.t("Patient details")}</button>
       </div>
 
       <div style={s.metaBar}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <span style={s.metaLabel}>Chart start</span>
+          <span style={s.metaLabel}>{i18n.t("Chart start")}</span>
           <input style={s.metaInput} value={displayChartDate} readOnly />
           <input style={{ ...s.metaInput, minWidth: "60px" }} value={displayChartTime} readOnly />
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "6px", marginLeft: "auto" }}>
-          <span style={s.metaLabel}>View date:</span>
-          <button onClick={goToPrevDay} style={{ ...navBtn, borderRadius: "6px 0 0 6px" }} title="Previous day">‹</button>
+          <span style={s.metaLabel}>{i18n.t("View date:")}</span>
+          <button onClick={goToPrevDay} style={{ ...navBtn, borderRadius: "6px 0 0 6px" }} title={i18n.t("Previous day")}>‹</button>
           <input type="date" value={selectedDateStr} onChange={(e) => setSelectedDateStr(e.target.value)} style={{ ...s.metaInput, minWidth: "130px", borderRadius: 0, borderLeft: "none", borderRight: "none", textAlign: "center" }} />
-          <button onClick={goToNextDay} disabled={!isHistorical} style={{ ...navBtn, borderRadius: "0 6px 6px 0", opacity: !isHistorical ? 0.4 : 1 }} title="Next day">›</button>
+          <button onClick={goToNextDay} disabled={!isHistorical} style={{ ...navBtn, borderRadius: "0 6px 6px 0", opacity: !isHistorical ? 0.4 : 1 }} title={i18n.t("Next day")}>›</button>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <span style={s.metaLabel}>Fluid restriction</span><input style={s.metaInput} defaultValue={isFluidRestricted ? `${fluidRestrictionLimit} ml / 24 hrs` : "No restriction"} readOnly />
+          <span style={s.metaLabel}>{i18n.t("Fluid restriction")}</span><input style={s.metaInput} defaultValue={isFluidRestricted ? `${fluidRestrictionLimit} ml / 24 hrs` : "No restriction"} readOnly />
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <span style={s.metaLabel}>IV fluid plan</span><input style={{ ...s.metaInput, minWidth: "180px" }} value={ivPlan} readOnly />
+          <span style={s.metaLabel}>{i18n.t("IV fluid plan")}</span><input style={{ ...s.metaInput, minWidth: "180px" }} value={ivPlan} readOnly />
         </div>
       </div>
 
@@ -849,11 +840,11 @@ export default function FluidBalanceChart({
             <table style={{ width: "100%", borderCollapse: "collapse", tableLayout: "fixed", minWidth: "620px" }}>
               <colgroup><col style={{ width: "94px" }} />{INPUT_COLS.map((c) => <col key={c} style={{ width: "70px" }} />)}<col style={{ width: "72px" }} /></colgroup>
               <thead>
-                <tr><th style={s.th("#1c3d7a")} colSpan={INPUT_COLS.length + 2}>INPUT (ml)</th></tr>
+                <tr><th style={s.th("#1c3d7a")} colSpan={INPUT_COLS.length + 2}>{i18n.t("INPUT (ml)")}</th></tr>
                 <tr>
-                  <th style={{ ...s.thCell("#2a5298"), textAlign: "left", padding: "6px 10px" }}>Time</th>
+                  <th style={{ ...s.thCell("#2a5298"), textAlign: "left", padding: "6px 10px" }}>{i18n.t("Time")}</th>
                   {INPUT_COLS.map((col) => <th key={col} style={s.thCell("#2a5298")}>{col}</th>)}
-                  <th style={{ ...s.thCell("#2a5298"), color: "#93c5fd" }}>Hourly ∑</th>
+                  <th style={{ ...s.thCell("#2a5298"), color: "#93c5fd" }}>{i18n.t("Hourly ∑")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -875,7 +866,7 @@ export default function FluidBalanceChart({
                   );
                 })}
                 <tr style={s.trTotal}>
-                  <td style={{ padding: "7px 10px", fontSize: "12px", fontWeight: 800, color: "#fff", border: "1px solid rgba(255,255,255,0.1)" }}>TOTAL (ml)</td>
+                  <td style={{ padding: "7px 10px", fontSize: "12px", fontWeight: 800, color: "#fff", border: "1px solid rgba(255,255,255,0.1)" }}>{i18n.t("TOTAL (ml)")}</td>
                   {inputTotals.map((t, i) => <td key={i} style={{ padding: "7px 5px", textAlign: "right", fontSize: "12px", fontWeight: 700, color: t ? "#93c5fd" : "#6b7a9a", border: "1px solid rgba(255,255,255,0.1)" }}>{t || "0"}</td>)}
                   <td style={{ padding: "7px 8px", textAlign: "right", fontSize: "13px", fontWeight: 900, color: "#93c5fd", border: "1px solid rgba(255,255,255,0.1)" }}>{totalIntake24h}</td>
                 </tr>
@@ -888,11 +879,11 @@ export default function FluidBalanceChart({
             <table style={{ width: "100%", borderCollapse: "collapse", tableLayout: "fixed", minWidth: "680px" }}>
               <colgroup><col style={{ width: "94px" }} />{OUTPUT_COLS.map((c) => <col key={c} style={{ width: "68px" }} />)}<col style={{ width: "72px" }} /></colgroup>
               <thead>
-                <tr><th style={s.th("#1b6e4a")} colSpan={OUTPUT_COLS.length + 2}>OUTPUT (ml)</th></tr>
+                <tr><th style={s.th("#1b6e4a")} colSpan={OUTPUT_COLS.length + 2}>{i18n.t("OUTPUT (ml)")}</th></tr>
                 <tr>
-                  <th style={{ ...s.thCell("#238a5e"), textAlign: "left", padding: "6px 10px" }}>Time</th>
+                  <th style={{ ...s.thCell("#238a5e"), textAlign: "left", padding: "6px 10px" }}>{i18n.t("Time")}</th>
                   {OUTPUT_COLS.map((col) => <th key={col} style={s.thCell("#238a5e")}>{col}</th>)}
-                  <th style={{ ...s.thCell("#238a5e"), color: "#6ee7b7" }}>Hourly ∑</th>
+                  <th style={{ ...s.thCell("#238a5e"), color: "#6ee7b7" }}>{i18n.t("Hourly ∑")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -914,7 +905,7 @@ export default function FluidBalanceChart({
                   );
                 })}
                 <tr style={s.trTotalGreen}>
-                  <td style={{ padding: "7px 10px", fontSize: "12px", fontWeight: 800, color: "#fff", border: "1px solid rgba(255,255,255,0.1)" }}>TOTAL (ml)</td>
+                  <td style={{ padding: "7px 10px", fontSize: "12px", fontWeight: 800, color: "#fff", border: "1px solid rgba(255,255,255,0.1)" }}>{i18n.t("TOTAL (ml)")}</td>
                   {outputTotals.map((t, i) => <td key={i} style={{ padding: "7px 5px", textAlign: "right", fontSize: "12px", fontWeight: 700, color: t ? "#6ee7b7" : "#6b7a9a", border: "1px solid rgba(255,255,255,0.1)" }}>{t || "0"}</td>)}
                   <td style={{ padding: "7px 8px", textAlign: "right", fontSize: "13px", fontWeight: 900, color: "#6ee7b7", border: "1px solid rgba(255,255,255,0.1)" }}>{totalOutput24h}</td>
                 </tr>
@@ -928,27 +919,27 @@ export default function FluidBalanceChart({
           
           {/* Fluid Balance Summary */}
           <div style={s.sideCard}>
-            <div style={s.sideHead("#1c3d7a")}>Fluid Balance Summary</div>
+            <div style={s.sideHead("#1c3d7a")}>{i18n.t("Fluid Balance Summary")}</div>
             <div style={s.sideBody}>
               
               {/* 24 Hour Totals */}
-              <div style={{ fontSize: "10px", fontWeight: 800, color: "#1c2b4a", marginBottom: "6px" }}>24 HOUR TOTALS ({displayChartTime} – {displayChartTime})</div>
+              <div style={{ fontSize: "10px", fontWeight: 800, color: "#1c2b4a", marginBottom: "6px" }}>{i18n.t("24 HOUR TOTALS (")}{displayChartTime} – {displayChartTime})</div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "6px", marginBottom: "16px" }}>
                 {([["Total Input", totalIntake24h, "#1c6dd6"], ["Total Output", totalOutput24h, "#1b6e4a"], ["Net Balance", netBalance24h, netBalance24h >= 0 ? "#1c6dd6" : "#b91c1c"]] as [string, number, string][]).map(([label, val, color]) => (
                   <div key={label} style={s.metricBox}>
                     <div style={s.metricLabel}>{label}</div>
-                    <div style={s.metricVal(color)}>{label === "Net Balance" && val > 0 ? "+" : ""}{val} <span style={{ fontSize: "10px", fontWeight: 600 }}>ml</span></div>
+                    <div style={s.metricVal(color)}>{label === "Net Balance" && val > 0 ? "+" : ""}{val} <span style={{ fontSize: "10px", fontWeight: 600 }}>{i18n.t("ml")}</span></div>
                   </div>
                 ))}
               </div>
 
               {/* All Time Totals */}
-              <div style={{ fontSize: "10px", fontWeight: 800, color: "#1c2b4a", borderTop: "1px dashed #d0d6e6", paddingTop: "12px", marginBottom: "6px" }}>ALL TIME TOTALS</div>
+              <div style={{ fontSize: "10px", fontWeight: 800, color: "#1c2b4a", borderTop: "1px dashed #d0d6e6", paddingTop: "12px", marginBottom: "6px" }}>{i18n.t("ALL TIME TOTALS")}</div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "6px" }}>
                 {([["Total Input", allTimeIntake, "#1c6dd6"], ["Total Output", allTimeOutput, "#1b6e4a"], ["Net Balance", allTimeBalance, allTimeBalance >= 0 ? "#1c6dd6" : "#b91c1c"]] as [string, number, string][]).map(([label, val, color]) => (
                   <div key={label} style={{ ...s.metricBox, background: "#f8f9fc" }}>
                     <div style={s.metricLabel}>{label}</div>
-                    <div style={s.metricVal(color)}>{label === "Net Balance" && val > 0 ? "+" : ""}{val} <span style={{ fontSize: "10px", fontWeight: 600 }}>ml</span></div>
+                    <div style={s.metricVal(color)}>{label === "Net Balance" && val > 0 ? "+" : ""}{val} <span style={{ fontSize: "10px", fontWeight: 600 }}>{i18n.t("ml")}</span></div>
                   </div>
                 ))}
               </div>
@@ -960,16 +951,14 @@ export default function FluidBalanceChart({
 
           {/* Urine Output */}
           <div style={s.sideCard}>
-            <div style={s.sideHead("#0f6e56")}>Urine Output</div>
+            <div style={s.sideHead("#0f6e56")}>{i18n.t("Urine Output")}</div>
             <div style={s.sideBody}>
               <div style={{ fontSize: "11px", color: "#6b7a9a", marginBottom: "4px" }}>
-                {totalUrine} ml total · {actualWeight} kg · {hrsSinceStart.toFixed(1)} hrs
-              </div>
+                {totalUrine}{" "}{i18n.t("ml total ·")}{" "}{actualWeight}{" "}{i18n.t("kg ·")}{" "}{hrsSinceStart.toFixed(1)}{" "}{i18n.t("hrs")}</div>
               <div style={{ fontSize: "28px", fontWeight: 900, color: isTargetMet ? "#1b7a4a" : "#c0392b", marginBottom: "3px" }}>
-                {isNaN(urineRate) ? "—" : urineRate.toFixed(2)} <span style={{ fontSize: "13px", fontWeight: 600 }}>ml/kg/hr</span>
+                {isNaN(urineRate) ? "—" : urineRate.toFixed(2)} <span style={{ fontSize: "13px", fontWeight: 600 }}>{i18n.t("ml/kg/hr")}</span>
               </div>
-              <div style={{ fontSize: "11px", color: "#6b7a9a", display: "flex", alignItems: "center", gap: "6px" }}>
-                Target ≥ {targetUrineRate} ml/kg/hr {isTargetMet ? <span style={{ color: "#1b7a4a", fontWeight: 800 }}>✓</span> : <span style={{ color: "#c0392b", fontWeight: 800 }}>✗</span>}
+              <div style={{ fontSize: "11px", color: "#6b7a9a", display: "flex", alignItems: "center", gap: "6px" }}>{i18n.t("Target ≥")}{" "}{targetUrineRate}{" "}{i18n.t("ml/kg/hr")}{" "}{isTargetMet ? <span style={{ color: "#1b7a4a", fontWeight: 800 }}>✓</span> : <span style={{ color: "#c0392b", fontWeight: 800 }}>✗</span>}
               </div>
             </div>
           </div>
@@ -987,31 +976,31 @@ export default function FluidBalanceChart({
           
           {/* Fluid Restriction */}
           <div style={s.sideCard}>
-            <div style={s.sideHead("#5a3e9c")}>Fluid Restriction</div>
+            <div style={s.sideHead("#5a3e9c")}>{i18n.t("Fluid Restriction")}</div>
             <div style={s.sideBody}>
-              <div style={{ fontSize: "14px", fontWeight: 700, color: "#1c2b4a", marginBottom: "4px" }}>{isFluidRestricted ? `${fluidRestrictionLimit} ml / 24 hrs` : "None"}</div>
+              <div style={{ fontSize: "14px", fontWeight: 700, color: "#1c2b4a", marginBottom: "4px" }}>{isFluidRestricted ? `${fluidRestrictionLimit} ml / 24 hrs` : i18n.t("None")}</div>
               {isFluidRestricted && remaining !== null && (
                 <>
-                  <div style={{ fontSize: "11px", color: "#6b7a9a", marginBottom: "6px" }}>Remaining allowance</div>
-                  <div style={{ fontSize: "24px", fontWeight: 900, color: remaining < 300 ? "#c0392b" : "#1c6dd6", marginBottom: "8px" }}>{remaining} <span style={{ fontSize: "13px", fontWeight: 600 }}>ml</span></div>
+                  <div style={{ fontSize: "11px", color: "#6b7a9a", marginBottom: "6px" }}>{i18n.t("Remaining allowance")}</div>
+                  <div style={{ fontSize: "24px", fontWeight: 900, color: remaining < 300 ? "#c0392b" : "#1c6dd6", marginBottom: "8px" }}>{remaining} <span style={{ fontSize: "13px", fontWeight: 600 }}>{i18n.t("ml")}</span></div>
                   <div style={{ background: "#e8eaf2", borderRadius: "6px", height: "10px", overflow: "hidden", marginBottom: "6px" }}><div style={{ width: `${usedPct}%`, height: "100%", borderRadius: "6px", transition: "width 0.4s", background: usedPct > 90 ? "#c0392b" : usedPct > 70 ? "#e67e22" : "#1c6dd6" }} /></div>
-                  <div style={{ fontSize: "11px", color: "#6b7a9a", textAlign: "right" }}>{usedPct}% used</div>
+                  <div style={{ fontSize: "11px", color: "#6b7a9a", textAlign: "right" }}>{usedPct}{i18n.t("% used")}</div>
                 </>
               )}
-              {!isFluidRestricted && <div style={{ fontSize: "11px", color: "#6b7a9a" }}>Consumed: <strong style={{ color: "#1c6dd6" }}>{consumedMl} ml</strong></div>}
+              {!isFluidRestricted && <div style={{ fontSize: "11px", color: "#6b7a9a" }}>{i18n.t("Consumed:")}{" "}<strong style={{ color: "#1c6dd6" }}>{consumedMl}{" "}{i18n.t("ml")}</strong></div>}
             </div>
           </div>
           
           {/* Alerts */}
           <div style={s.sideCard}>
-            <div style={s.sideHead("#7a4a00")}>Alerts</div>
+            <div style={s.sideHead("#7a4a00")}>{i18n.t("Alerts")}</div>
             <div style={s.sideBody}>
               {chartData?.alerts?.length > 0 ? chartData.alerts.map((alert: any, idx: number) => (
                 <div key={idx} style={{ display: "flex", alignItems: "flex-start", gap: "8px", padding: "8px 10px", background: alert.severity === "WARNING" || alert.severity === "CRITICAL" ? "#fff8e1" : "#e8f4ff", borderRadius: "8px", marginBottom: "6px", fontSize: "11px", color: alert.severity === "WARNING" || alert.severity === "CRITICAL" ? "#7a5a00" : "#0a4480", border: `1px solid ${alert.severity === "WARNING" || alert.severity === "CRITICAL" ? "#fde68a" : "#bfdbfe"}` }}>
                   <span style={{ fontSize: "14px", lineHeight: 1 }}>{alert.severity === "INFO" ? "ℹ" : "⚠"}</span>
                   <div><div style={{ fontWeight: 700, fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "2px" }}>{alert.severity}</div>{alert.message}</div>
                 </div>
-              )) : <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "8px 10px", background: "#e8f4ff", borderRadius: "8px", fontSize: "11px", color: "#0a4480" }}><span>ℹ</span> All parameters normal</div>}
+              )) : <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "8px 10px", background: "#e8f4ff", borderRadius: "8px", fontSize: "11px", color: "#0a4480" }}><span>ℹ</span>{" "}{i18n.t("All parameters normal")}</div>}
             </div>
           </div>
         </div>
@@ -1057,21 +1046,21 @@ export default function FluidBalanceChart({
       )}
 
       <div style={s.quickRow}>
-        <span style={s.quickLabel}>QUICK ADD</span>
+        <span style={s.quickLabel}>{i18n.t("QUICK ADD")}</span>
         {([["+ Oral", "#1c6dd6", "INTAKE", "Oral"], ["+ IV Fluid", "#1c6dd6", "INTAKE", "IV Fluids"], ["+ IV Drug", "#1c6dd6", "INTAKE", "IV Drugs"], ["+ Blood", "#b91c1c", "INTAKE", "Blood Products"], ["+ NG Feed", "#1c6dd6", "INTAKE", "NG/PEG Feed"], ["+ Flush", "#1c6dd6", "INTAKE", "Flushes"], ["+ TPN", "#7c3aed", "INTAKE", "TPN"], ["+ Other Input", "#6b7a9a", "INTAKE", "Other Input"], ["+ Other Output", "#1b6e4a", "OUTPUT", "Other Output"]] as [string, string, "INTAKE" | "OUTPUT", string][]).map(([label, color, type, cat]) => (
           <button key={label} disabled={isViewOnly} style={s.quickBtn(color)} onClick={() => handleActionClick(type, cat)}>{label}</button>
         ))}
-        <button disabled={isViewOnly} style={{ ...s.quickBtn("#6b7a9a"), marginLeft: "auto" }}>••• More</button>
+        <button disabled={isViewOnly} style={{ ...s.quickBtn("#6b7a9a"), marginLeft: "auto" }}>{i18n.t("••• More")}</button>
       </div>
 
       <div style={s.footBar}>
         <div style={{ fontSize: "11px", color: "#6b7a9a" }}>
-          <span>Next review due: &nbsp;<strong>{new Date(Date.now() + 3600000).toLocaleDateString("en-GB")} {new Date(Date.now() + 3600000).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}</strong></span>
-          &nbsp;&nbsp;<span>Last updated: &nbsp;<strong>{lastUpdatedStr}</strong></span>
+          <span>{i18n.t("Next review due:")}<strong>{new Date(Date.now() + 3600000).toLocaleDateString("en-GB")} {new Date(Date.now() + 3600000).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}</strong></span>
+          &nbsp;&nbsp;<span>{i18n.t("Last updated:")}<strong>{lastUpdatedStr}</strong></span>
         </div>
         <div style={{ display: "flex", gap: "10px" }}>
-          <button style={{ border: "1px solid #d0d6e6", background: "#fff", color: "#4a5568", borderRadius: "7px", padding: "8px 22px", fontSize: "13px", fontWeight: 700, cursor: "pointer" }}>CANCEL</button>
-          <button disabled={isViewOnly} onClick={fetchChart} style={{ background: "#1c3d7a", color: "#fff", border: "none", borderRadius: "7px", padding: "8px 22px", fontSize: "13px", fontWeight: 700, cursor: isViewOnly ? "not-allowed" : "pointer", opacity: isViewOnly ? 0.5 : 1 }}>REFRESH</button>
+          <button style={{ border: "1px solid #d0d6e6", background: "#fff", color: "#4a5568", borderRadius: "7px", padding: "8px 22px", fontSize: "13px", fontWeight: 700, cursor: "pointer" }}>{i18n.t("CANCEL")}</button>
+          <button disabled={isViewOnly} onClick={fetchChart} style={{ background: "#1c3d7a", color: "#fff", border: "none", borderRadius: "7px", padding: "8px 22px", fontSize: "13px", fontWeight: 700, cursor: isViewOnly ? "not-allowed" : "pointer", opacity: isViewOnly ? 0.5 : 1 }}>{i18n.t("REFRESH")}</button>
         </div>
       </div>
     </div>

@@ -8,6 +8,7 @@ import { labService } from "../services/lab.service";
 import { useNotification } from "../context/NotificationContext";
 import { createPortal } from "react-dom";
 import { getFlagBadgeClass, getFlagLabel } from "../utils/flagColors";
+import { i18n } from "../i18n";
 
 interface ResultParameter {
   id: number;
@@ -399,19 +400,14 @@ const LabVerification: React.FC = () => {
       {/* Header and Sync Actions */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h2 className="text-3xl font-black text-slate-800 tracking-tight flex items-center gap-3">
-            Result Auditing & Verification
-          </h2>
-          <p className="text-slate-500 font-medium mt-1">
-            Pathologist Portal: Review diagnostic profiles, approve clinical values, amend discrepancies, and dispatch final reports.
-          </p>
+          <h2 className="text-3xl font-black text-slate-800 tracking-tight flex items-center gap-3">{i18n.t("Result Auditing & Verification")}</h2>
+          <p className="text-slate-500 font-medium mt-1">{i18n.t("Pathologist Portal: Review diagnostic profiles, approve clinical values, amend discrepancies, and dispatch final reports.")}</p>
         </div>
         <button
           onClick={syncAfterAction}
           className="flex items-center gap-2 px-5 py-3 text-slate-700 bg-white border border-slate-200 rounded-2xl text-sm font-bold shadow-sm hover:shadow-md hover:bg-slate-50 transition-all self-end md:self-auto"
         >
-          <RefreshCw size={16} /> Refresh Workspace
-        </button>
+          <RefreshCw size={16} />{" "}{i18n.t("Refresh Workspace")}</button>
       </div>
 
       {/* Main Panel */}
@@ -427,8 +423,7 @@ const LabVerification: React.FC = () => {
                   ? "bg-white text-purple-600 shadow-sm border border-slate-200/50"
                   : "text-slate-500 hover:text-slate-800"
                   }`}
-              >
-                Needs Verification ({tabCounts.pending})
+              >{i18n.t("Needs Verification (")}{tabCounts.pending})
               </button>
               <button
                 onClick={() => setActiveTab("verified")}
@@ -436,8 +431,7 @@ const LabVerification: React.FC = () => {
                   ? "bg-white text-blue-600 shadow-sm border border-slate-200/50"
                   : "text-slate-500 hover:text-slate-800"
                   }`}
-              >
-                Verified ({tabCounts.verified})
+              >{i18n.t("Verified (")}{tabCounts.verified})
               </button>
               <button
                 onClick={() => setActiveTab("completed")}
@@ -445,8 +439,7 @@ const LabVerification: React.FC = () => {
                   ? "bg-white text-teal-600 shadow-sm border border-slate-200/50"
                   : "text-slate-500 hover:text-slate-800"
                   }`}
-              >
-                Completed ({tabCounts.completed})
+              >{i18n.t("Completed (")}{tabCounts.completed})
               </button>
               <button
                 onClick={() => setActiveTab("released")}
@@ -454,8 +447,7 @@ const LabVerification: React.FC = () => {
                   ? "bg-white text-emerald-600 shadow-sm border border-slate-200/50"
                   : "text-slate-500 hover:text-slate-800"
                   }`}
-              >
-                Released ({tabCounts.released})
+              >{i18n.t("Released (")}{tabCounts.released})
               </button>
               <button
                 onClick={() => setActiveTab("all")}
@@ -463,18 +455,17 @@ const LabVerification: React.FC = () => {
                   ? "bg-white text-slate-700 shadow-sm border border-slate-200/50"
                   : "text-slate-500 hover:text-slate-800"
                   }`}
-              >
-                All Records ({tabCounts.all})
+              >{i18n.t("All Records (")}{tabCounts.all})
               </button>
             </div>
 
             {/* Search Inputs */}
             <div className="relative max-w-md w-full">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+              <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
               <input
                 type="text"
-                placeholder="Search by Patient, MRN, Ref No, Panel..."
-                className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm font-semibold outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 transition-all"
+                placeholder={i18n.t("Search by Patient, MRN, Ref No, Panel...")}
+                className="w-full ps-11 pe-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm font-semibold outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 transition-all"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -484,73 +475,73 @@ const LabVerification: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 pt-2">
             {/* Status Filter */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-1">Workflow Status</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ms-1">{i18n.t("Workflow Status")}</label>
               <select
                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all disabled:opacity-50 disabled:bg-slate-100"
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
                 disabled={activeTab !== "all"}
               >
-                <option value="ALL">All Statuses</option>
-                <option value="PENDING">Pending Entry</option>
-                <option value="TECH_REVIEW">Tech Review</option>
-                <option value="VERIFIED">Verified</option>
-                <option value="RELEASED">Released/Dispatched</option>
-                <option value="REOPENED">Reopened</option>
+                <option value="ALL">{i18n.t("All Statuses")}</option>
+                <option value="PENDING">{i18n.t("Pending Entry")}</option>
+                <option value="TECH_REVIEW">{i18n.t("Tech Review")}</option>
+                <option value="VERIFIED">{i18n.t("Verified")}</option>
+                <option value="RELEASED">{i18n.t("Released/Dispatched")}</option>
+                <option value="REOPENED">{i18n.t("Reopened")}</option>
               </select>
             </div>
 
             {/* Priority Filter */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-1">Urgency</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ms-1">{i18n.t("Urgency")}</label>
               <select
                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all"
                 value={priorityFilter}
                 onChange={(e) => setPriorityFilter(e.target.value)}
               >
-                <option value="ALL">All Priorities</option>
-                <option value="Stat">Stat (Urgent)</option>
-                <option value="Routine">Routine</option>
+                <option value="ALL">{i18n.t("All Priorities")}</option>
+                <option value="Stat">{i18n.t("Stat (Urgent)")}</option>
+                <option value="Routine">{i18n.t("Routine")}</option>
               </select>
             </div>
 
             {/* Date Type Filter */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-1">Date Type</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ms-1">{i18n.t("Date Type")}</label>
               <select
                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all"
                 value={dateTypeFilter}
                 onChange={(e) => setDateTypeFilter(e.target.value as "collected_at" | "ordered_at")}
               >
-                <option value="collected_at">Collected At</option>
-                <option value="ordered_at">Ordered At</option>
+                <option value="collected_at">{i18n.t("Collected At")}</option>
+                <option value="ordered_at">{i18n.t("Ordered At")}</option>
               </select>
             </div>
 
             {/* Date Filter */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-1">Order Date</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ms-1">{i18n.t("Order Date")}</label>
               <select
                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all"
                 value={dateFilter}
                 onChange={(e) => setDateFilter(e.target.value)}
               >
-                <option value="ALL">All Dates</option>
-                <option value="TODAY">Today</option>
-                <option value="YESTERDAY">Yesterday</option>
-                <option value="WEEK">Last 7 Days</option>
+                <option value="ALL">{i18n.t("All Dates")}</option>
+                <option value="TODAY">{i18n.t("Today")}</option>
+                <option value="YESTERDAY">{i18n.t("Yesterday")}</option>
+                <option value="WEEK">{i18n.t("Last 7 Days")}</option>
               </select>
             </div>
 
             {/* Service/Panel Filter */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-1">Service / Panel</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ms-1">{i18n.t("Service / Panel")}</label>
               <select
                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all"
                 value={serviceFilter}
                 onChange={(e) => setServiceFilter(e.target.value)}
               >
-                <option value="ALL">All Panels</option>
+                <option value="ALL">{i18n.t("All Panels")}</option>
                 {uniqueServices.map((srv: any, idx) => (
                   <option key={idx} value={srv}>{srv}</option>
                 ))}
@@ -561,15 +552,15 @@ const LabVerification: React.FC = () => {
 
         {/* Data Table */}
         <div className="overflow-x-auto pb-32">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-start border-collapse">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-100">
-                <th className="p-5 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Order / Ref No</th>
-                <th className="p-5 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Patient Context</th>
-                <th className="p-5 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Service / Panel</th>
-                <th className="p-5 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Dates</th>
-                <th className="p-5 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Workflow Status</th>
-                <th className="p-5 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap text-right">Actions</th>
+                <th className="p-5 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">{i18n.t("Order / Ref No")}</th>
+                <th className="p-5 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">{i18n.t("Patient Context")}</th>
+                <th className="p-5 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">{i18n.t("Service / Panel")}</th>
+                <th className="p-5 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">{i18n.t("Dates")}</th>
+                <th className="p-5 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">{i18n.t("Workflow Status")}</th>
+                <th className="p-5 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap text-end">{i18n.t("Actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -577,15 +568,15 @@ const LabVerification: React.FC = () => {
                 <tr>
                   <td colSpan={6} className="p-16 text-center">
                     <Loader2 className="animate-spin mx-auto text-purple-600 mb-2" size={28} />
-                    <p className="text-sm text-slate-500 font-bold">Synchronizing ledger audit records...</p>
+                    <p className="text-sm text-slate-500 font-bold">{i18n.t("Synchronizing ledger audit records...")}</p>
                   </td>
                 </tr>
               ) : samples.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="p-20 text-center">
                     <Microscope size={64} className="mx-auto text-slate-200 mb-4" />
-                    <p className="text-xl font-black text-slate-700">No matching audit files</p>
-                    <p className="text-sm text-slate-400 mt-1">Adjust filters or check back later</p>
+                    <p className="text-xl font-black text-slate-700">{i18n.t("No matching audit files")}</p>
+                    <p className="text-sm text-slate-400 mt-1">{i18n.t("Adjust filters or check back later")}</p>
                   </td>
                 </tr>
               ) : (
@@ -594,14 +585,14 @@ const LabVerification: React.FC = () => {
                     <td className="p-5">
                       <div className="flex flex-col">
                         <span className="text-sm font-black text-slate-800 tracking-tight">{sample.reference_no || "-"}</span>
-                        <span className="text-[10px] font-mono font-bold text-slate-400 mt-0.5">ID: {sample.id || sample.order_id}</span>
+                        <span className="text-[10px] font-mono font-bold text-slate-400 mt-0.5">{i18n.t("ID:")}{" "}{sample.id || sample.order_id}</span>
                       </div>
                     </td>
                     <td className="p-5">
                       <div className="flex flex-col">
                         <span className="text-sm font-black text-slate-800">{sample.patient_name}</span>
                         <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-[10px] font-mono font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">MRN: {sample.mrn}</span>
+                          <span className="text-[10px] font-mono font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">{i18n.t("MRN:")}{" "}{sample.mrn}</span>
                         </div>
                       </div>
                     </td>
@@ -615,8 +606,7 @@ const LabVerification: React.FC = () => {
                           </div>
                         )}
                         {sample.summary && (
-                          <span className="text-[10px] text-slate-400 font-semibold mt-0.5">
-                            Total: {sample.summary.total_parameters} | Critical: {sample.summary.critical_results}
+                          <span className="text-[10px] text-slate-400 font-semibold mt-0.5">{i18n.t("Total:")}{" "}{sample.summary.total_parameters}{" "}{i18n.t("| Critical:")}{" "}{sample.summary.critical_results}
                           </span>
                         )}
                       </div>
@@ -625,13 +615,13 @@ const LabVerification: React.FC = () => {
                       <div className="flex flex-col gap-1">
                         {sample.ordered_at && (
                           <div className="text-xs text-slate-600 font-medium">
-                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">Ordered</span>
+                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">{i18n.t("Ordered")}</span>
                             {new Date(sample.ordered_at).toLocaleString()}
                           </div>
                         )}
                         {sample.collected_at && (
                           <div className="text-xs text-slate-600 font-medium mt-1">
-                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">Collected</span>
+                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">{i18n.t("Collected")}</span>
                             {new Date(sample.collected_at).toLocaleString()}
                           </div>
                         )}
@@ -650,15 +640,15 @@ const LabVerification: React.FC = () => {
                                   ? "bg-teal-50 text-teal-700 border-teal-200"
                                   : "bg-amber-50 text-amber-700 border-amber-200"
                         }`}>
-                        {sample.workflow_status === "TECH_REVIEW" ? "Tech Review" : sample.workflow_status === "RELEASED" ? "Dispatched" : (sample.workflow_status || "PENDING")}
+                        {sample.workflow_status === "TECH_REVIEW" ? i18n.t("Tech Review") : sample.workflow_status === "RELEASED" ? i18n.t("Dispatched") : (i18n.tv(sample.workflow_status) || i18n.t("PENDING"))}
                       </span>
                     </td>
-                    <td className="p-5 text-right relative">
+                    <td className="p-5 text-end relative">
                       <div className="flex items-center justify-end gap-1.5">
-                        <button onClick={() => handleOpenDetailModal(sample)} className="p-2 text-slate-500 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all" title="View Parameters">
+                        <button onClick={() => handleOpenDetailModal(sample)} className="p-2 text-slate-500 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all" title={i18n.t("View Parameters")}>
                           <Eye size={18} />
                         </button>
-                        <button onClick={() => handlePrintPreview(sample)} className="p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-all" title="Print Report">
+                        <button onClick={() => handlePrintPreview(sample)} className="p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-all" title={i18n.t("Print Report")}>
                           <Printer size={18} />
                         </button>
                         <button
@@ -674,37 +664,31 @@ const LabVerification: React.FC = () => {
 
                       {/* Dropdown Menu */}
                       {activeMenu === (sample.id || sample.order_id) && (
-                        <div className="absolute right-6 top-14 w-52 bg-white rounded-2xl shadow-xl border border-slate-100 py-2.5 z-30 animate-in fade-in slide-in-from-top-2">
+                        <div className="absolute end-6 top-14 w-52 bg-white rounded-2xl shadow-xl border border-slate-100 py-2.5 z-30 animate-in fade-in slide-in-from-top-2">
                           {(sample.workflow_status === "TECH_REVIEW" || sample.workflow_status === "PENDING" || !sample.workflow_status) && (
-                            <button onClick={() => handleOpenVerifyModal(sample)} className="w-full text-left px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-purple-600 flex items-center gap-2">
-                              <ShieldCheck size={16} /> Audit & Verify
-                            </button>
+                            <button onClick={() => handleOpenVerifyModal(sample)} className="w-full text-start px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-purple-600 flex items-center gap-2">
+                              <ShieldCheck size={16} />{" "}{i18n.t("Audit & Verify")}</button>
                           )}
                           {sample.workflow_status === "VERIFIED" && (
-                            <button onClick={() => handleComplete(sample)} className="w-full text-left px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-teal-600 flex items-center gap-2">
-                              <CheckCircle2 size={16} /> Complete Result
-                            </button>
+                            <button onClick={() => handleComplete(sample)} className="w-full text-start px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-teal-600 flex items-center gap-2">
+                              <CheckCircle2 size={16} />{" "}{i18n.t("Complete Result")}</button>
                           )}
                           {sample.workflow_status === "COMPLETED" && (
-                            <button onClick={() => handleRelease(sample)} className="w-full text-left px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-emerald-600 flex items-center gap-2">
-                              <Send size={16} /> Release to Patient
-                            </button>
+                            <button onClick={() => handleRelease(sample)} className="w-full text-start px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-emerald-600 flex items-center gap-2">
+                              <Send size={16} />{" "}{i18n.t("Release to Patient")}</button>
                           )}
                           {sample.workflow_status && sample.workflow_status !== "RELEASED" && sample.workflow_status !== "PENDING" && (
-                            <button onClick={() => handleOpenReopenModal(sample)} className="w-full text-left px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-amber-600 flex items-center gap-2">
-                              <Undo size={16} /> Reopen / Correct
-                            </button>
+                            <button onClick={() => handleOpenReopenModal(sample)} className="w-full text-start px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-amber-600 flex items-center gap-2">
+                              <Undo size={16} />{" "}{i18n.t("Reopen / Correct")}</button>
                           )}
                           {sample.workflow_status && sample.workflow_status !== "PENDING" && (
-                            <button onClick={() => handleOpenAmendModal(sample)} className="w-full text-left px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-indigo-600 flex items-center gap-2">
-                              <Edit3 size={16} /> Amend Values
-                            </button>
+                            <button onClick={() => handleOpenAmendModal(sample)} className="w-full text-start px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-indigo-600 flex items-center gap-2">
+                              <Edit3 size={16} />{" "}{i18n.t("Amend Values")}</button>
                           )}
 
                           {sample.workflow_status && sample.workflow_status !== "PENDING" && (
-                            <button onClick={() => handleOpenReverseModal(sample)} className="w-full text-left px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-rose-600 flex items-center gap-2">
-                              <RotateCcw size={16} /> Reverse to Pending
-                            </button>
+                            <button onClick={() => handleOpenReverseModal(sample)} className="w-full text-start px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-rose-600 flex items-center gap-2">
+                              <RotateCcw size={16} />{" "}{i18n.t("Reverse to Pending")}</button>
                           )}
                         </div>
                       )}
@@ -719,21 +703,19 @@ const LabVerification: React.FC = () => {
         {/* Server-Side Pagination Footer */}
         {!loading && samples.length > 0 && (
           <div className="p-5 border-t border-slate-100 bg-slate-50 flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500">
-              Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
-              {Math.min(currentPage * itemsPerPage, totalItems)} of{" "}
-              {totalItems} audits
-            </span>
+            <span className="text-xs font-semibold text-slate-500">{i18n.t("Showing")}{" "}{(currentPage - 1) * itemsPerPage + 1}{" "}{i18n.t("to")}{" "}
+              {Math.min(currentPage * itemsPerPage, totalItems)}{" "}{i18n.t("of")}{" "}
+              {totalItems}{" "}{i18n.t("audits")}</span>
             <div className="flex items-center gap-4">
               <select 
                   value={itemsPerPage} 
                   onChange={(e) => { setItemsPerPage(Number(e.target.value)); setCurrentPage(1); }}
                   className="px-3 py-1.5 text-xs font-bold border border-slate-200 rounded-xl outline-none bg-white text-slate-600 shadow-sm"
               >
-                  <option value={10}>10 / page</option>
-                  <option value={20}>20 / page</option>
-                  <option value={50}>50 / page</option>
-                  <option value={100}>100 / page</option>
+                  <option value={10}>{i18n.t("10 / page")}</option>
+                  <option value={20}>{i18n.t("20 / page")}</option>
+                  <option value={50}>{i18n.t("50 / page")}</option>
+                  <option value={100}>{i18n.t("100 / page")}</option>
               </select>
               <div className="flex items-center gap-2">
                 <button
@@ -741,17 +723,16 @@ const LabVerification: React.FC = () => {
                   disabled={currentPage === 1}
                   className="p-2 rounded-xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
-                  <ChevronLeft size={16} />
+                  <ChevronLeft className="rtl:-scale-x-100" size={16} />
                 </button>
-                <span className="text-xs font-bold text-slate-700 px-3">
-                  Page {currentPage} of {totalPages}
+                <span className="text-xs font-bold text-slate-700 px-3">{i18n.t("Page")}{" "}{currentPage}{" "}{i18n.t("of")}{" "}{totalPages}
                 </span>
                 <button
                   onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                   disabled={currentPage === totalPages}
                   className="p-2 rounded-xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
-                  <ChevronRight size={16} />
+                  <ChevronRight className="rtl:-scale-x-100" size={16} />
                 </button>
               </div>
             </div>
@@ -771,7 +752,7 @@ const LabVerification: React.FC = () => {
                   <FileText size={22} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-black text-slate-800">Sample Results Auditing</h3>
+                  <h3 className="text-lg font-black text-slate-800">{i18n.t("Sample Results Auditing")}</h3>
                   <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">{selectedSample.patient_name} • {selectedSample.reference_no}</p>
                 </div>
               </div>
@@ -779,17 +760,17 @@ const LabVerification: React.FC = () => {
             </div>
             <div className="p-6 overflow-y-auto flex-1 space-y-6">
               {detailLoading ? (
-                <div className="py-20 text-center"><Loader2 className="animate-spin mx-auto text-purple-600 mb-2" size={24} /><p className="text-xs text-slate-400 font-bold">Synchronizing parameters...</p></div>
+                <div className="py-20 text-center"><Loader2 className="animate-spin mx-auto text-purple-600 mb-2" size={24} /><p className="text-xs text-slate-400 font-bold">{i18n.t("Synchronizing parameters...")}</p></div>
               ) : detailedResult?.results ? (
                 <div className="border border-slate-200 rounded-2xl overflow-hidden">
-                  <table className="w-full text-left">
+                  <table className="w-full text-start">
                     <thead className="bg-slate-50 border-b border-slate-200">
                       <tr>
-                        <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Parameter</th>
-                        <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Result</th>
-                        <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Unit</th>
-                        <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Reference Range</th>
-                        <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Interpretation</th>
+                        <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Parameter")}</th>
+                        <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Result")}</th>
+                        <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Unit")}</th>
+                        <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Reference Range")}</th>
+                        <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Interpretation")}</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
@@ -805,10 +786,10 @@ const LabVerification: React.FC = () => {
                     </tbody>
                   </table>
                 </div>
-              ) : (<p className="text-center text-sm font-bold text-slate-400">Failed to render parameter schema.</p>)}
+              ) : (<p className="text-center text-sm font-bold text-slate-400">{i18n.t("Failed to render parameter schema.")}</p>)}
             </div>
             <div className="p-5 border-t border-slate-100 bg-slate-50 flex justify-end">
-              <button onClick={() => setIsDetailModalOpen(false)} className="px-6 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">Close Audit</button>
+              <button onClick={() => setIsDetailModalOpen(false)} className="px-6 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">{i18n.t("Close Audit")}</button>
             </div>
           </div>
         </div>, document.body
@@ -823,7 +804,7 @@ const LabVerification: React.FC = () => {
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-purple-600 text-white flex items-center justify-center"><ShieldCheck size={22} /></div>
                 <div>
-                  <h3 className="text-lg font-black text-slate-800">Verify Laboratory Results</h3>
+                  <h3 className="text-lg font-black text-slate-800">{i18n.t("Verify Laboratory Results")}</h3>
                   <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">{selectedSample.patient_name} • {selectedSample.reference_no}</p>
                 </div>
               </div>
@@ -831,15 +812,15 @@ const LabVerification: React.FC = () => {
             </div>
             <div className="p-6 overflow-y-auto flex-1 space-y-6">
               {detailLoading ? (
-                <div className="py-10 text-center"><Loader2 className="animate-spin mx-auto text-purple-600 mb-2" size={24} /><p className="text-xs text-slate-400 font-bold">Synchronizing parameters...</p></div>
+                <div className="py-10 text-center"><Loader2 className="animate-spin mx-auto text-purple-600 mb-2" size={24} /><p className="text-xs text-slate-400 font-bold">{i18n.t("Synchronizing parameters...")}</p></div>
               ) : detailedResult?.results ? (
                 <div className="border border-slate-200 rounded-2xl overflow-hidden">
-                  <table className="w-full text-left">
+                  <table className="w-full text-start">
                     <thead className="bg-slate-50 border-b border-slate-200">
                       <tr>
-                        <th className="px-4 py-2.5 text-[9px] font-black text-slate-500 uppercase tracking-widest">Parameter</th>
-                        <th className="px-4 py-2.5 text-[9px] font-black text-slate-500 uppercase tracking-widest">Result</th>
-                        <th className="px-4 py-2.5 text-[9px] font-black text-slate-500 uppercase tracking-widest">Interpretation</th>
+                        <th className="px-4 py-2.5 text-[9px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Parameter")}</th>
+                        <th className="px-4 py-2.5 text-[9px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Result")}</th>
+                        <th className="px-4 py-2.5 text-[9px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Interpretation")}</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
@@ -855,20 +836,18 @@ const LabVerification: React.FC = () => {
                 </div>
               ) : null}
               <div className="space-y-2">
-                <label className="text-xs font-black text-slate-500 uppercase tracking-widest">Pathologist Verification Comment</label>
-                <textarea rows={3} placeholder="Enter audit/verification notes here..." className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold outline-none focus:border-purple-500 focus:bg-white focus:ring-4 focus:ring-purple-500/10 transition-all" value={verificationComment} onChange={(e) => setVerificationComment(e.target.value)} />
+                <label className="text-xs font-black text-slate-500 uppercase tracking-widest">{i18n.t("Pathologist Verification Comment")}</label>
+                <textarea rows={3} placeholder={i18n.t("Enter audit/verification notes here...")} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold outline-none focus:border-purple-500 focus:bg-white focus:ring-4 focus:ring-purple-500/10 transition-all" value={verificationComment} onChange={(e) => setVerificationComment(e.target.value)} />
               </div>
             </div>
             <div className="p-5 border-t border-slate-100 bg-slate-50 flex items-center justify-between">
-              <span className="text-xs text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-100 font-bold flex items-center gap-1.5"><AlertCircle size={14} /> Confirms clinical approval</span>
+              <span className="text-xs text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-100 font-bold flex items-center gap-1.5"><AlertCircle size={14} />{" "}{i18n.t("Confirms clinical approval")}</span>
               <div className="flex items-center gap-3">
-                <button onClick={() => setIsVerifyModalOpen(false)} className="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">Cancel</button>
+                <button onClick={() => setIsVerifyModalOpen(false)} className="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">{i18n.t("Cancel")}</button>
                 <button onClick={() => handleComplete()} disabled={isActionSubmitting} className="px-5 py-2.5 text-sm font-bold text-white bg-teal-600 rounded-xl hover:bg-teal-700 shadow-lg shadow-teal-100 transition-all flex items-center gap-1.5 disabled:opacity-50">
-                  {isActionSubmitting ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />} Complete Result
-                </button>
+                  {isActionSubmitting ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />}{" "}{i18n.t("Complete Result")}</button>
                 <button onClick={handleVerify} disabled={isActionSubmitting} className="px-5 py-2.5 text-sm font-bold text-white bg-purple-600 rounded-xl hover:bg-purple-700 shadow-lg shadow-purple-100 transition-all flex items-center gap-1.5 disabled:opacity-50">
-                  {isActionSubmitting ? <Loader2 size={16} className="animate-spin" /> : <ShieldCheck size={16} />} Verify Report
-                </button>
+                  {isActionSubmitting ? <Loader2 size={16} className="animate-spin" /> : <ShieldCheck size={16} />}{" "}{i18n.t("Verify Report")}</button>
               </div>
             </div>
           </div>
@@ -884,7 +863,7 @@ const LabVerification: React.FC = () => {
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center"><Undo size={22} /></div>
                 <div>
-                  <h3 className="text-lg font-black text-slate-800">Reopen Lab Result</h3>
+                  <h3 className="text-lg font-black text-slate-800">{i18n.t("Reopen Lab Result")}</h3>
                   <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">{selectedSample.reference_no}</p>
                 </div>
               </div>
@@ -893,18 +872,17 @@ const LabVerification: React.FC = () => {
             <div className="p-6 space-y-4">
               <div className="p-4 bg-amber-50 border border-amber-100 rounded-2xl flex items-start gap-3">
                 <AlertCircle className="text-amber-600 shrink-0 mt-0.5" size={18} />
-                <p className="text-xs text-amber-800 font-semibold leading-relaxed">Reopening will reset the status of this result and return it to Draft/Pending status. You must provide a valid correction or retesting reason.</p>
+                <p className="text-xs text-amber-800 font-semibold leading-relaxed">{i18n.t("Reopening will reset the status of this result and return it to Draft/Pending status. You must provide a valid correction or retesting reason.")}</p>
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-black text-slate-500 uppercase tracking-widest">Reason for Reopening</label>
-                <textarea rows={3} placeholder="Enter reason..." className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/10 transition-all" value={reopenReason} onChange={(e) => setReopenReason(e.target.value)} />
+                <label className="text-xs font-black text-slate-500 uppercase tracking-widest">{i18n.t("Reason for Reopening")}</label>
+                <textarea rows={3} placeholder={i18n.t("Enter reason...")} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold outline-none focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-500/10 transition-all" value={reopenReason} onChange={(e) => setReopenReason(e.target.value)} />
               </div>
             </div>
             <div className="p-5 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
-              <button onClick={() => setIsReopenModalOpen(false)} className="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">Cancel</button>
+              <button onClick={() => setIsReopenModalOpen(false)} className="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">{i18n.t("Cancel")}</button>
               <button onClick={handleReopen} disabled={isActionSubmitting} className="px-5 py-2.5 text-sm font-bold text-white bg-amber-600 rounded-xl hover:bg-amber-700 shadow-lg shadow-amber-100 transition-all flex items-center gap-1.5 disabled:opacity-50">
-                {isActionSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Undo size={16} />} Confirm Reopen
-              </button>
+                {isActionSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Undo size={16} />}{" "}{i18n.t("Confirm Reopen")}</button>
             </div>
           </div>
         </div>, document.body
@@ -919,7 +897,7 @@ const LabVerification: React.FC = () => {
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center"><Edit3 size={22} /></div>
                 <div>
-                  <h3 className="text-lg font-black text-slate-800">Amend Result Values</h3>
+                  <h3 className="text-lg font-black text-slate-800">{i18n.t("Amend Result Values")}</h3>
                   <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">{selectedSample.patient_name} • {selectedSample.reference_no}</p>
                 </div>
               </div>
@@ -927,17 +905,17 @@ const LabVerification: React.FC = () => {
             </div>
             <div className="p-6 overflow-y-auto flex-1 space-y-6">
               {detailLoading ? (
-                <div className="py-10 text-center"><Loader2 className="animate-spin mx-auto text-indigo-600 mb-2" size={24} /><p className="text-xs text-slate-400 font-bold">Synchronizing parameters...</p></div>
+                <div className="py-10 text-center"><Loader2 className="animate-spin mx-auto text-indigo-600 mb-2" size={24} /><p className="text-xs text-slate-400 font-bold">{i18n.t("Synchronizing parameters...")}</p></div>
               ) : detailedResult?.results ? (
                 <div className="space-y-6">
                   <div className="border border-slate-200 rounded-2xl overflow-hidden">
-                    <table className="w-full text-left">
+                    <table className="w-full text-start">
                       <thead className="bg-slate-50 border-b border-slate-200">
                         <tr>
-                          <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Parameter</th>
-                          <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Unit</th>
-                          <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Reference Range</th>
-                          <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest w-40">Amended Value</th>
+                          <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Parameter")}</th>
+                          <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Unit")}</th>
+                          <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Reference Range")}</th>
+                          <th className="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest w-40">{i18n.t("Amended Value")}</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100">
@@ -955,17 +933,16 @@ const LabVerification: React.FC = () => {
                     </table>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-black text-slate-500 uppercase tracking-widest">Amendment Reason</label>
-                    <textarea rows={2} placeholder="Provide reasoning..." className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold outline-none focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 transition-all" value={amendmentReason} onChange={(e) => setAmendmentReason(e.target.value)} />
+                    <label className="text-xs font-black text-slate-500 uppercase tracking-widest">{i18n.t("Amendment Reason")}</label>
+                    <textarea rows={2} placeholder={i18n.t("Provide reasoning...")} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold outline-none focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 transition-all" value={amendmentReason} onChange={(e) => setAmendmentReason(e.target.value)} />
                   </div>
                 </div>
               ) : null}
             </div>
             <div className="p-5 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
-              <button onClick={() => setIsAmendModalOpen(false)} className="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">Cancel</button>
+              <button onClick={() => setIsAmendModalOpen(false)} className="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">{i18n.t("Cancel")}</button>
               <button onClick={handleAmend} disabled={isActionSubmitting} className="px-5 py-2.5 text-sm font-bold text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 shadow-lg shadow-indigo-100 transition-all flex items-center gap-1.5 disabled:opacity-50">
-                {isActionSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Edit3 size={16} />} Save Amendment
-              </button>
+                {isActionSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Edit3 size={16} />}{" "}{i18n.t("Save Amendment")}</button>
             </div>
           </div>
         </div>, document.body
@@ -980,7 +957,7 @@ const LabVerification: React.FC = () => {
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center"><RotateCcw size={22} /></div>
                 <div>
-                  <h3 className="text-lg font-black text-slate-800">Reverse</h3>
+                  <h3 className="text-lg font-black text-slate-800">{i18n.t("Reverse")}</h3>
                   <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">{selectedSample.reference_no}</p>
                 </div>
               </div>
@@ -989,20 +966,17 @@ const LabVerification: React.FC = () => {
             <div className="p-6 space-y-4">
               <div className="p-4 bg-rose-50 border border-rose-100 rounded-2xl flex items-start gap-3">
                 <AlertCircle className="text-rose-600 shrink-0 mt-0.5" size={18} />
-                <p className="text-xs text-rose-800 font-semibold leading-relaxed">
-                  Reversing will completely reset the workflow status back to <strong>PENDING</strong>. The result values will be retained, but the sample will need to be re-processed from the beginning.
-                </p>
+                <p className="text-xs text-rose-800 font-semibold leading-relaxed">{i18n.t("Reversing will completely reset the workflow status back to")}{" "}<strong>{i18n.t("PENDING")}</strong>{i18n.t(". The result values will be retained, but the sample will need to be re-processed from the beginning.")}</p>
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-black text-slate-500 uppercase tracking-widest">Reversal Reason</label>
-                <textarea rows={3} placeholder="Provide reasoning for reversal..." className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold outline-none focus:border-rose-500 focus:bg-white focus:ring-4 focus:ring-rose-500/10 transition-all" value={reverseReason} onChange={(e) => setReverseReason(e.target.value)} />
+                <label className="text-xs font-black text-slate-500 uppercase tracking-widest">{i18n.t("Reversal Reason")}</label>
+                <textarea rows={3} placeholder={i18n.t("Provide reasoning for reversal...")} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold outline-none focus:border-rose-500 focus:bg-white focus:ring-4 focus:ring-rose-500/10 transition-all" value={reverseReason} onChange={(e) => setReverseReason(e.target.value)} />
               </div>
             </div>
             <div className="p-5 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
-              <button onClick={() => setIsReverseModalOpen(false)} className="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">Cancel</button>
+              <button onClick={() => setIsReverseModalOpen(false)} className="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">{i18n.t("Cancel")}</button>
               <button onClick={handleReverse} disabled={isActionSubmitting} className="px-5 py-2.5 text-sm font-bold text-white bg-rose-600 rounded-xl hover:bg-rose-700 shadow-lg shadow-rose-100 transition-all flex items-center gap-1.5 disabled:opacity-50">
-                {isActionSubmitting ? <Loader2 size={16} className="animate-spin" /> : <RotateCcw size={16} />} Confirm Reversal
-              </button>
+                {isActionSubmitting ? <Loader2 size={16} className="animate-spin" /> : <RotateCcw size={16} />}{" "}{i18n.t("Confirm Reversal")}</button>
             </div>
           </div>
         </div>, document.body

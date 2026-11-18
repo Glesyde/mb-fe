@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { billingService } from '../../../services/billing.service';
 import { Loader2, AlertTriangle, Printer, User, Calendar, CreditCard, Activity, FileText } from 'lucide-react';
+import { i18n } from "../../../i18n";
 
 const OPDBillingPrintTemplate: React.FC = () => {
   const { encounterNumber } = useParams<{ encounterNumber: string }>();
@@ -71,7 +72,7 @@ const OPDBillingPrintTemplate: React.FC = () => {
   // Compact form field — matches IPDBillingPrintTemplate.tsx sizing exactly
   const FormField = ({ label, value, colSpan = 1 }: { label: string; value?: string; colSpan?: number }) => (
     <div className={`col-span-${colSpan} mb-2`}>
-      <p className="text-[7.5px] font-bold text-slate-500 uppercase tracking-widest mb-1 ml-0.5">
+      <p className="text-[7.5px] font-bold text-slate-500 uppercase tracking-widest mb-1 ms-0.5">
         {label}
       </p>
       <div className="w-full h-7 border border-slate-200 bg-slate-50/50 rounded flex items-center px-2 shadow-sm">
@@ -83,10 +84,10 @@ const OPDBillingPrintTemplate: React.FC = () => {
   // Section header — matches IPDBillingPrintTemplate.tsx sizing exactly
   const SectionHeader = ({ char, title }: { char: string; title: string }) => (
     <div className="w-full bg-[#3B309A] flex items-center mb-3 mt-4 rounded-sm">
-      <div className="w-9 h-6 flex items-center justify-center text-white font-extrabold text-[11px] border-r border-[#4c3fbf]">
+      <div className="w-9 h-6 flex items-center justify-center text-white font-extrabold text-[11px] border-e border-[#4c3fbf]">
         {char}
       </div>
-      <div className="pl-3 text-white font-extrabold text-[10px] uppercase tracking-widest">
+      <div className="ps-3 text-white font-extrabold text-[10px] uppercase tracking-widest">
         {title}
       </div>
     </div>
@@ -102,75 +103,74 @@ const OPDBillingPrintTemplate: React.FC = () => {
       className="fixed inset-0 bg-slate-100 overflow-y-auto px-4 py-20 print:static print:bg-white print:p-0"
       style={{ WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' }}
     >
-      <div className="fixed top-0 left-0 right-0 h-16 bg-slate-900 text-white flex items-center justify-between px-8 print:hidden z-[100] shadow-md">
-        <p className="font-bold text-sm">OPD {printType === 'receipt' ? 'Payment Receipt' : 'Provisional Bill'} Preview</p>
+      <div className="fixed top-0 start-0 end-0 h-16 bg-slate-900 text-white flex items-center justify-between px-8 print:hidden z-[100] shadow-md">
+        <p className="font-bold text-sm">{i18n.t("OPD")}{" "}{printType === 'receipt' ? i18n.t("Payment Receipt") : i18n.t("Provisional Bill")}{" "}{i18n.t("Preview")}</p>
         <button onClick={() => window.print()} className="bg-[#3B309A] hover:bg-brand-primary text-white px-6 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center gap-2 transition-all">
-          <Printer size={16} /> Print {printType === 'receipt' ? 'Receipt' : 'Bill'}
+          <Printer size={16} />{" "}{i18n.t("Print")}{" "}{printType === 'receipt' ? i18n.t("Receipt") : i18n.t("Bill")}
         </button>
       </div>
 
-      <style>{`@page { size: A4; margin: 8mm; }`}</style>
+      <style>{"@page { size: A4; margin: 8mm; }"}</style>
       <div
         className="w-[210mm] min-h-[297mm] bg-white shadow-2xl print:shadow-none print:m-0 print:border-none print:w-full border border-slate-200 mx-auto transform-gpu transition-all"
         style={{ padding: '8mm 10mm' }}
       >
         {/* Header Block */}
         <div className="w-full bg-[#3B309A] flex items-center" style={{ padding: '5mm 6mm', minHeight: '22mm' }}>
-          <div className="flex items-center justify-center border-r-[1.5px] border-[#4c3fbf]" style={{ width: '44mm', paddingRight: '5mm' }}>
-            <img src="/assets/login-bg.jpeg" alt="Medbookie Logo" style={{ width: '40mm', height: 'auto', objectFit: 'contain' }} />
+          <div className="flex items-center justify-center border-e-[1.5px] border-[#4c3fbf]" style={{ width: '44mm', paddingRight: '5mm' }}>
+            <img src="/assets/login-bg.jpeg" alt={i18n.t("Medbookie Logo")} style={{ width: '40mm', height: 'auto', objectFit: 'contain' }} />
           </div>
           <div className="flex flex-col justify-center" style={{ paddingLeft: '6mm' }}>
-            <h1 className="text-white font-extrabold leading-none tracking-tight uppercase" style={{ fontSize: '20pt', marginBottom: '3px' }}>
-              OPD {printType === 'receipt' ? 'Payment Receipt' : 'Provisional Bill'}
+            <h1 className="text-white font-extrabold leading-none tracking-tight uppercase" style={{ fontSize: '20pt', marginBottom: '3px' }}>{i18n.t("OPD")}{" "}{printType === 'receipt' ? i18n.t("Payment Receipt") : i18n.t("Provisional Bill")}
             </h1>
-            <p className="text-brand-active" style={{ fontSize: '7.5pt', lineHeight: 1.3 }}>Patient encounter details and bill particulars. Authorized medical utility only.</p>
+            <p className="text-brand-active" style={{ fontSize: '7.5pt', lineHeight: 1.3 }}>{i18n.t("Patient encounter details and bill particulars. Authorized medical utility only.")}</p>
           </div>
         </div>
 
         {/* Address Bar */}
         <div className="w-full text-center border-b border-slate-200" style={{ padding: '3px 0 4px' }}>
-          <p style={{ fontSize: '6.5pt', color: '#94a3b8' }}>Head Office: Medbookie Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@Medbookiehospital.com</p>
+          <p style={{ fontSize: '6.5pt', color: '#94a3b8' }}>{i18n.t("Head Office: Medbookie Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria  •  +234 705 648 2776  •  info@Medbookiehospital.com")}</p>
         </div>
 
         {/* Sections A & B side by side — matches IPDBillingPrintTemplate.tsx layout */}
         <div className="grid grid-cols-2 gap-x-5 mt-1">
           {/* LEFT — Section A: Patient Information */}
           <div>
-            <SectionHeader char="A" title="PATIENT INFORMATION" />
+            <SectionHeader char="A" title={i18n.t("PATIENT INFORMATION")} />
             <div className="grid grid-cols-4 gap-x-2">
-              <FormField label="PATIENT NAME" colSpan={4} value={data.patient_details?.full_name} />
-              <FormField label="MRN" colSpan={2} value={data.patient_details?.mrn} />
-              <FormField label="AGE" colSpan={1} value={age} />
-              <FormField label="GENDER" colSpan={1} value={gender} />
-              <FormField label="LAST VISIT" colSpan={2} value={data.patient_details?.last_visit?.date} />
-              <FormField label="VISIT REASON" colSpan={2} value={data.patient_details?.last_visit?.reason} />
+              <FormField label={i18n.t("PATIENT NAME")} colSpan={4} value={data.patient_details?.full_name} />
+              <FormField label={i18n.t("MRN")} colSpan={2} value={data.patient_details?.mrn} />
+              <FormField label={i18n.t("AGE")} colSpan={1} value={age} />
+              <FormField label={i18n.t("GENDER")} colSpan={1} value={gender} />
+              <FormField label={i18n.t("LAST VISIT")} colSpan={2} value={data.patient_details?.last_visit?.date} />
+              <FormField label={i18n.t("VISIT REASON")} colSpan={2} value={data.patient_details?.last_visit?.reason} />
             </div>
           </div>
 
           {/* RIGHT — Section B: Visit & Encounter Detail */}
           <div>
-            <SectionHeader char="B" title="VISIT & ENCOUNTER DETAIL" />
+            <SectionHeader char="B" title={i18n.t("VISIT & ENCOUNTER DETAIL")} />
             <div className="grid grid-cols-4 gap-x-2">
-              <FormField label="ENCOUNTER NO" colSpan={2} value={encounterNumber} />
-              <FormField label="DOCTOR" colSpan={2} value={data.visit_details?.doctor_name} />
-              <FormField label="SPECIALIZATION" colSpan={2} value={data.visit_details?.specialization} />
-              <FormField label="PAYER" colSpan={2} value={data.payer_details?.payer_name} />
-              <FormField label="PAYER CATEGORY" colSpan={4} value={data.payer_details?.category} />
+              <FormField label={i18n.t("ENCOUNTER NO")} colSpan={2} value={encounterNumber} />
+              <FormField label={i18n.t("DOCTOR")} colSpan={2} value={data.visit_details?.doctor_name} />
+              <FormField label={i18n.t("SPECIALIZATION")} colSpan={2} value={data.visit_details?.specialization} />
+              <FormField label={i18n.t("PAYER")} colSpan={2} value={data.payer_details?.payer_name} />
+              <FormField label={i18n.t("PAYER CATEGORY")} colSpan={4} value={data.payer_details?.category} />
             </div>
           </div>
         </div>
 
         {/* Particulars Table */}
-        <SectionHeader char="C" title="BILL PARTICULARS & PRESCRIPTIONS" />
-        <table className="w-full text-left border-x border-b border-slate-200">
+        <SectionHeader char="C" title={i18n.t("BILL PARTICULARS & PRESCRIPTIONS")} />
+        <table className="w-full text-start border-x border-b border-slate-200">
           <thead>
             <tr className="bg-slate-50 border-b border-slate-200">
               <th className="py-1.5 px-2 font-black text-slate-500 uppercase tracking-widest w-8" style={{ fontSize: '7pt' }}>#</th>
-              <th className="py-1.5 px-2 font-black text-slate-500 uppercase tracking-widest" style={{ fontSize: '7pt' }}>DESCRIPTION</th>
-              <th className="py-1.5 px-2 font-black text-slate-500 uppercase tracking-widest text-center w-20" style={{ fontSize: '7pt' }}>CODE</th>
-              <th className="py-1.5 px-2 font-black text-slate-500 uppercase tracking-widest text-center w-10" style={{ fontSize: '7pt' }}>QTY</th>
-              <th className="py-1.5 px-2 font-black text-slate-500 uppercase tracking-widest text-right w-24" style={{ fontSize: '7pt' }}>RATE</th>
-              <th className="py-1.5 px-2 font-black text-slate-500 uppercase tracking-widest text-right w-28" style={{ fontSize: '7pt' }}>AMOUNT</th>
+              <th className="py-1.5 px-2 font-black text-slate-500 uppercase tracking-widest" style={{ fontSize: '7pt' }}>{i18n.t("DESCRIPTION")}</th>
+              <th className="py-1.5 px-2 font-black text-slate-500 uppercase tracking-widest text-center w-20" style={{ fontSize: '7pt' }}>{i18n.t("CODE")}</th>
+              <th className="py-1.5 px-2 font-black text-slate-500 uppercase tracking-widest text-center w-10" style={{ fontSize: '7pt' }}>{i18n.t("QTY")}</th>
+              <th className="py-1.5 px-2 font-black text-slate-500 uppercase tracking-widest text-end w-24" style={{ fontSize: '7pt' }}>{i18n.t("RATE")}</th>
+              <th className="py-1.5 px-2 font-black text-slate-500 uppercase tracking-widest text-end w-28" style={{ fontSize: '7pt' }}>{i18n.t("AMOUNT")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -179,11 +179,11 @@ const OPDBillingPrintTemplate: React.FC = () => {
                 {/* Main Item Row */}
                 <tr className={item.children?.length ? "bg-slate-100/60" : "even:bg-slate-50/40"}>
                   <td className="py-1.5 px-2 text-slate-500 align-top" style={{ fontSize: '8pt' }}>{idx + 1}</td>
-                  <td className="py-1.5 px-2 font-bold text-slate-800 uppercase align-top" style={{ fontSize: '8pt' }}>{item.description}</td>
-                  <td className="py-1.5 px-2 text-slate-500 text-center uppercase align-top" style={{ fontSize: '8pt' }}>{item.service_code || 'N/A'}</td>
+                  <td className="py-1.5 px-2 font-bold text-slate-800 uppercase align-top" style={{ fontSize: '8pt' }}>{i18n.tx(item.description)}</td>
+                  <td className="py-1.5 px-2 text-slate-500 text-center uppercase align-top" style={{ fontSize: '8pt' }}>{item.service_code || i18n.t("N/A")}</td>
                   <td className="py-1.5 px-2 text-slate-600 text-center align-top" style={{ fontSize: '8pt' }}>{item.quantity}</td>
-                  <td className="py-1.5 px-2 text-slate-600 text-right align-top" style={{ fontSize: '8pt' }}>{formatCurrency(item.unit_price)}</td>
-                  <td className="py-1.5 px-2 font-bold text-[#3B309A] text-right align-top" style={{ fontSize: '8pt' }}>{formatCurrency(item.line_total)}</td>
+                  <td className="py-1.5 px-2 text-slate-600 text-end align-top" style={{ fontSize: '8pt' }}>{formatCurrency(item.unit_price)}</td>
+                  <td className="py-1.5 px-2 font-bold text-[#3B309A] text-end align-top" style={{ fontSize: '8pt' }}>{formatCurrency(item.line_total)}</td>
                 </tr>
 
                 {/* Sub-items (Prescriptions details inside Pharmacy) */}
@@ -191,22 +191,22 @@ const OPDBillingPrintTemplate: React.FC = () => {
                   <tr key={`child-${idx}-${cIdx}`} className="border-b border-slate-50 border-dashed bg-white">
                     <td className="py-1.5 px-2"></td>
                     <td className="py-1.5 px-2" colSpan={2}>
-                      <div className="pl-3 border-l-2 border-indigo-200">
-                        <div className="font-bold text-slate-700" style={{ fontSize: '7.5pt' }}>{child.description}</div>
+                      <div className="ps-3 border-s-2 border-indigo-200">
+                        <div className="font-bold text-slate-700" style={{ fontSize: '7.5pt' }}>{i18n.tx(child.description)}</div>
                         {child.prescription_info && (
                           <div className="text-slate-500 mt-0.5" style={{ fontSize: '6.5pt' }}>
-                            <span className="font-semibold text-slate-600">Sig:</span> {child.prescription_info.clinical_dose} • {child.prescription_info.frequency} • {child.prescription_info.duration} • {child.prescription_info.route}
+                            <span className="font-semibold text-slate-600">{i18n.t("Sig:")}</span> {child.prescription_info.clinical_dose} • {child.prescription_info.frequency} • {child.prescription_info.duration} • {child.prescription_info.route}
                             {child.prescription_info.instructions ? ` • ${child.prescription_info.instructions}` : ''}
                           </div>
                         )}
                       </div>
                     </td>
                     <td className="py-1.5 px-2 text-slate-600 text-center align-top" style={{ fontSize: '7.5pt' }}>{child.quantity}</td>
-                    <td className="py-1.5 px-2 text-slate-500 text-right align-top" style={{ fontSize: '7.5pt' }}>
+                    <td className="py-1.5 px-2 text-slate-500 text-end align-top" style={{ fontSize: '7.5pt' }}>
                       {/* Deriving Unit Price from line total and qty if missing */}
                       {formatCurrency(child.unit_price || (child.line_total / child.quantity))}
                     </td>
-                    <td className="py-1.5 px-2 font-bold text-slate-600 text-right align-top" style={{ fontSize: '7.5pt' }}>{formatCurrency(child.line_total)}</td>
+                    <td className="py-1.5 px-2 font-bold text-slate-600 text-end align-top" style={{ fontSize: '7.5pt' }}>{formatCurrency(child.line_total)}</td>
                   </tr>
                 ))}
               </React.Fragment>
@@ -216,34 +216,34 @@ const OPDBillingPrintTemplate: React.FC = () => {
 
         {/* Financial Position */}
         <div>
-          <SectionHeader char="D" title="FINANCIAL POSITION" />
+          <SectionHeader char="D" title={i18n.t("FINANCIAL POSITION")} />
           <div
             className="grid gap-x-2 gap-y-1.5 rounded border border-slate-200 bg-slate-50/40"
             style={{ gridTemplateColumns: 'repeat(4, 1fr)', padding: '6px 8px 8px' }}
           >
             <div className="col-span-1">
-              <p style={{ fontSize: '6.5pt' }} className="text-slate-500 font-bold uppercase tracking-wider mb-0.5">Previous Outstanding</p>
+              <p style={{ fontSize: '6.5pt' }} className="text-slate-500 font-bold uppercase tracking-wider mb-0.5">{i18n.t("Previous Outstanding")}</p>
               <p style={{ fontSize: '9pt' }} className="font-black text-slate-800">{formatCurrency(data.financial_position?.previous_outstanding)}</p>
             </div>
             <div className="col-span-1">
-              <p style={{ fontSize: '6.5pt' }} className="text-slate-500 font-bold uppercase tracking-wider mb-0.5">Available Advance</p>
+              <p style={{ fontSize: '6.5pt' }} className="text-slate-500 font-bold uppercase tracking-wider mb-0.5">{i18n.t("Available Advance")}</p>
               <p style={{ fontSize: '9pt' }} className="font-black text-green-700">{formatCurrency(data.financial_position?.available_advance)}</p>
             </div>
             <div className="col-span-1">
-              <p style={{ fontSize: '6.5pt' }} className="text-slate-500 font-bold uppercase tracking-wider mb-0.5">Net Balance</p>
+              <p style={{ fontSize: '6.5pt' }} className="text-slate-500 font-bold uppercase tracking-wider mb-0.5">{i18n.t("Net Balance")}</p>
               <p style={{ fontSize: '9pt' }} className="font-black text-slate-800">{formatCurrency(data.financial_position?.net_balance)}</p>
             </div>
             <div className="col-span-1">
-              <p style={{ fontSize: '6.5pt' }} className="text-slate-500 font-bold uppercase tracking-wider mb-0.5">Gross Current Bill</p>
+              <p style={{ fontSize: '6.5pt' }} className="text-slate-500 font-bold uppercase tracking-wider mb-0.5">{i18n.t("Gross Current Bill")}</p>
               <p style={{ fontSize: '9pt' }} className="font-black text-slate-800">{formatCurrency(data.gross_bill)}</p>
             </div>
 
             <div className="col-span-2 bg-[#3B309A]/8 rounded p-1.5 border border-[#3B309A]/20 mt-1">
-              <p style={{ fontSize: '6.5pt' }} className="text-slate-500 font-bold uppercase tracking-wider mb-0.5">Total Current Bill</p>
+              <p style={{ fontSize: '6.5pt' }} className="text-slate-500 font-bold uppercase tracking-wider mb-0.5">{i18n.t("Total Current Bill")}</p>
               <p style={{ fontSize: '10pt' }} className="font-black text-[#3B309A]">{formatCurrency(data.total_current_bill)}</p>
             </div>
             <div className="col-span-2 bg-[#3B309A] rounded p-1.5 mt-1">
-              <p style={{ fontSize: '6.5pt' }} className="text-white/70 font-bold uppercase tracking-wider mb-0.5">Estimated Final Balance</p>
+              <p style={{ fontSize: '6.5pt' }} className="text-white/70 font-bold uppercase tracking-wider mb-0.5">{i18n.t("Estimated Final Balance")}</p>
               <p style={{ fontSize: '10pt' }} className="font-black text-white">{formatCurrency(data.estimated_final_balance)}</p>
             </div>
           </div>
@@ -253,17 +253,17 @@ const OPDBillingPrintTemplate: React.FC = () => {
         <div className="grid grid-cols-2 gap-12 mt-8 px-8">
           <div className="text-center">
             <div className="border-b border-slate-300 pb-2 mb-2"></div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Authorized Hospital Staff</p>
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{i18n.t("Authorized Hospital Staff")}</p>
           </div>
           <div className="text-center">
             <div className="border-b border-slate-300 pb-2 mb-2"></div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Patient / Client Signature</p>
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{i18n.t("Patient / Client Signature")}</p>
           </div>
         </div>
 
         {/* Footer */}
         <div className="mt-16 text-center border-t border-slate-200 pt-6">
-          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest tracking-[0.2em]">Confidential Medical Record • Medbookie • {new Date().toLocaleDateString()}</p>
+          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest tracking-[0.2em]">{i18n.t("Confidential Medical Record • Medbookie •")}{" "}{new Date().toLocaleDateString()}</p>
         </div>
       </div>
     </div>

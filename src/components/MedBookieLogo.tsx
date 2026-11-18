@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLanguage } from '../i18n';
 
 /**
  * MedBookie wordmark ("MedBookie | Health Information Software"), drawn as text
@@ -24,7 +25,7 @@ const MedBookieLogo: React.FC<MedBookieLogoProps> = ({
   size = 'lg',
   className = '',
 }) => {
-  const t = (text: string) => text;
+  const { t } = useLanguage();
   const onDark = variant === 'onDark';
   const medColor = onDark ? 'text-white' : 'text-brand-primary';
   const bookieColor = onDark ? 'text-white/90' : 'text-brand-dark';

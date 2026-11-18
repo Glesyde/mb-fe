@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { patientService } from '../../../services/patient.service';
 import { Loader2, AlertTriangle, Printer } from 'lucide-react';
+import { i18n } from "../../../i18n";
 
 const PatientCardPrintTemplate: React.FC = () => {
   const { mrn } = useParams<{ mrn: string }>();
@@ -55,11 +56,10 @@ const PatientCardPrintTemplate: React.FC = () => {
       className="fixed inset-0 bg-slate-100 overflow-y-auto px-4 py-20 print:static print:bg-white print:p-0 font-sans"
       style={{ WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' }}
     >
-      <div className="fixed top-0 left-0 right-0 h-16 bg-slate-900 text-white flex items-center justify-between px-8 print:hidden z-[100] shadow-md">
-        <p className="font-bold text-sm">Patient ID Card Preview</p>
+      <div className="fixed top-0 start-0 end-0 h-16 bg-slate-900 text-white flex items-center justify-between px-8 print:hidden z-[100] shadow-md">
+        <p className="font-bold text-sm">{i18n.t("Patient ID Card Preview")}</p>
         <button onClick={() => window.print()} className="bg-[#2d258a] hover:bg-brand-primary text-white px-6 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center gap-2 transition-all">
-          <Printer size={16} /> Print Card
-        </button>
+          <Printer size={16} />{" "}{i18n.t("Print Card")}</button>
       </div>
 
       {/* Wrap cards for printing */}
@@ -68,18 +68,18 @@ const PatientCardPrintTemplate: React.FC = () => {
         {/* FRONT OF CARD */}
         <div className="w-[85.6mm] h-[53.98mm] bg-white rounded-[20px] shadow-2xl overflow-hidden print:shadow-none border border-slate-200 relative transform-gpu hover:scale-105 transition-transform duration-500">
           {/* Top Branding Bar */}
-          <div className="absolute top-0 right-0 left-0 h-[18mm] bg-[#3B309A] flex items-center justify-between px-5">
+          <div className="absolute top-0 end-0 start-0 h-[18mm] bg-[#3B309A] flex items-center justify-between px-5">
              <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center p-1.5 shadow-lg border border-white/20">
-                    <img src="/assets/login-bg.jpeg" alt="Logo" className="w-full h-full object-contain" />
+                    <img src="/assets/login-bg.jpeg" alt={i18n.t("Logo")} className="w-full h-full object-contain" />
                 </div>
                 <div>
-                   <h2 className="text-white font-black text-[11px] leading-none uppercase tracking-tighter">Medbookie</h2>
-                   <p className="text-brand-active text-[7px] font-black uppercase tracking-[0.15em] mt-0.5">Medical Center</p>
+                   <h2 className="text-white font-black text-[11px] leading-none uppercase tracking-tighter">{i18n.t("Medbookie")}</h2>
+                   <p className="text-brand-active text-[7px] font-black uppercase tracking-[0.15em] mt-0.5">{i18n.t("Medical Center")}</p>
                 </div>
              </div>
-             <div className="text-right">
-                <p className="text-white/40 text-[6px] font-black uppercase tracking-widest">Medical Record No.</p>
+             <div className="text-end">
+                <p className="text-white/40 text-[6px] font-black uppercase tracking-widest">{i18n.t("Medical Record No.")}</p>
                 <p className="text-white font-mono text-[11px] font-black tracking-wider">{mrn}</p>
              </div>
           </div>
@@ -89,13 +89,13 @@ const PatientCardPrintTemplate: React.FC = () => {
              {/* Photo Placeholder */}
              <div className="w-[22mm] h-[28mm] bg-slate-100 rounded-2xl border-2 border-slate-200 shrink-0 overflow-hidden shadow-inner relative group">
                 {data.demographics?.photo_url ? (
-                   <img src={data.demographics.photo_url} alt="Profile" className="w-full h-full object-cover" />
+                   <img src={data.demographics.photo_url} alt={i18n.t("Profile")} className="w-full h-full object-cover" />
                 ) : (
                    <div className="w-full h-full flex flex-col items-center justify-center text-slate-300">
                       <div className="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center mb-1">
                         <Printer size={16} />
                       </div>
-                      <span className="text-[6px] font-black">NO IMAGE</span>
+                      <span className="text-[6px] font-black">{i18n.t("NO IMAGE")}</span>
                    </div>
                 )}
                 <div className="absolute inset-x-0 bottom-0 h-1 bg-[#3B309A]/20"></div>
@@ -104,28 +104,28 @@ const PatientCardPrintTemplate: React.FC = () => {
              {/* Bio Info */}
              <div className="flex-1 flex flex-col justify-between py-0.5">
                 <div>
-                   <p className="text-[7px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Patient Full Name</p>
+                   <p className="text-[7px] font-black text-slate-400 uppercase tracking-widest mb-0.5">{i18n.t("Patient Full Name")}</p>
                    <p className="text-[12px] font-black text-slate-800 leading-tight uppercase truncate tracking-tight">{data.demographics?.last_name}, {data.demographics?.first_name} {data.demographics?.middle_name}</p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2 mt-auto">
                    <div>
-                      <p className="text-[6px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Birth Date</p>
+                      <p className="text-[6px] font-black text-slate-400 uppercase tracking-widest mb-0.5">{i18n.t("Birth Date")}</p>
                       <p className="text-[9px] font-bold text-slate-700">{data.demographics?.date_of_birth}</p>
                    </div>
                    <div>
-                      <p className="text-[6px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Gender</p>
-                      <p className="text-[9px] font-bold text-slate-700">{data.demographics?.gender === 'Male' ? 'MALE' : 'FEMALE'}</p>
+                      <p className="text-[6px] font-black text-slate-400 uppercase tracking-widest mb-0.5">{i18n.t("Gender")}</p>
+                      <p className="text-[9px] font-bold text-slate-700">{data.demographics?.gender === 'Male' ? i18n.t("MALE") : i18n.t("FEMALE")}</p>
                    </div>
                 </div>
 
                 <div className="flex items-center gap-3 mt-1.5 pt-1.5 border-t border-slate-100">
                    <div className="flex items-center gap-1">
-                      <span className="text-[6px] font-black text-slate-400 uppercase">Blood:</span>
+                      <span className="text-[6px] font-black text-slate-400 uppercase">{i18n.t("Blood:")}</span>
                       <span className="text-[9px] font-black text-rose-600">{data.medical_profile?.blood_group || '--'}</span>
                    </div>
                    <div className="flex items-center gap-1">
-                      <span className="text-[6px] font-black text-slate-400 uppercase">Genotype:</span>
+                      <span className="text-[6px] font-black text-slate-400 uppercase">{i18n.t("Genotype:")}</span>
                       <span className="text-[9px] font-black text-[#3B309A]">{data.medical_profile?.genotype || '--'}</span>
                    </div>
                 </div>
@@ -133,7 +133,7 @@ const PatientCardPrintTemplate: React.FC = () => {
           </div>
           
           {/* Accent Decoration */}
-          <div className="absolute right-[-10mm] bottom-[-10mm] w-20 h-20 bg-[#3B309A]/5 rounded-full blur-2xl"></div>
+          <div className="absolute end-[-10mm] bottom-[-10mm] w-20 h-20 bg-[#3B309A]/5 rounded-full blur-2xl"></div>
         </div>
 
         {/* BACK OF CARD */}
@@ -142,13 +142,13 @@ const PatientCardPrintTemplate: React.FC = () => {
               <div className="flex gap-1.5">
                  {[1, 2, 3].map(i => <div key={i} className="w-1.5 h-1.5 rounded-full bg-brand-active/20"></div>)}
               </div>
-              <p className="text-[7px] font-black text-brand-active uppercase tracking-[0.2em]">Safety & Emergency Record</p>
+              <p className="text-[7px] font-black text-brand-active uppercase tracking-[0.2em]">{i18n.t("Safety & Emergency Record")}</p>
            </div>
 
            <div className="space-y-4 flex-1">
               {nok?.full_name ? (
                 <div className="bg-white/5 border border-white/10 rounded-xl p-3 backdrop-blur-sm">
-                   <p className="text-[6px] font-black text-brand-active uppercase tracking-widest mb-1.5">Primary Emergency Contact</p>
+                   <p className="text-[6px] font-black text-brand-active uppercase tracking-widest mb-1.5">{i18n.t("Primary Emergency Contact")}</p>
                    <div className="flex justify-between items-end">
                       <div>
                          <p className="text-[10px] font-black uppercase truncate max-w-[40mm]">{nok.full_name}</p>
@@ -159,23 +159,21 @@ const PatientCardPrintTemplate: React.FC = () => {
                 </div>
               ) : (
                 <div className="h-12 border border-dashed border-white/10 rounded-xl flex items-center justify-center">
-                   <p className="text-[7px] text-white/30 uppercase font-black tracking-widest">No Emergency Contact Linked</p>
+                   <p className="text-[7px] text-white/30 uppercase font-black tracking-widest">{i18n.t("No Emergency Contact Linked")}</p>
                 </div>
               )}
 
               <div className="space-y-1.5">
-                 <p className="text-[6px] text-white/40 leading-tight uppercase font-medium tracking-tight">
-                    This document is property of Medbookie. If found, please return to any hospital branch or call +234 705 648 2776. Presentation of this card is mandatory for all clinical encounters.
-                 </p>
-                 <p className="text-[6px] text-brand-active/40 font-black uppercase tracking-widest italic pt-1">Medical Facility Utility Only • Rev 2.1</p>
+                 <p className="text-[6px] text-white/40 leading-tight uppercase font-medium tracking-tight">{i18n.t("This document is property of Medbookie. If found, please return to any hospital branch or call +234 705 648 2776. Presentation of this card is mandatory for all clinical encounters.")}</p>
+                 <p className="text-[6px] text-brand-active/40 font-black uppercase tracking-widest italic pt-1">{i18n.t("Medical Facility Utility Only • Rev 2.1")}</p>
               </div>
            </div>
 
            {/* QR / Barcode Mock */}
            <div className="mt-auto flex items-end justify-between">
               <div className="flex flex-col gap-0.5">
-                 <p className="text-[5px] text-white/30 uppercase font-black">Authorized Signature</p>
-                 <div className="w-24 h-4 border-b border-white/20 italic text-[7px] font-serif text-white/40 pt-1">Medical Admin</div>
+                 <p className="text-[5px] text-white/30 uppercase font-black">{i18n.t("Authorized Signature")}</p>
+                 <div className="w-24 h-4 border-b border-white/20 italic text-[7px] font-serif text-white/40 pt-1">{i18n.t("Medical Admin")}</div>
               </div>
               <div className="w-24 h-6 bg-white rounded-sm p-1 flex gap-[0.5px]">
                  {[...Array(40)].map((_, i) => (

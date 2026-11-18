@@ -17,6 +17,7 @@ import {
   CreditCard,
   Banknote
 } from 'lucide-react';
+import { i18n } from "../i18n";
 
 interface PaymentReceipt {
   id: string;
@@ -45,10 +46,8 @@ const ReceiptHistory: React.FC = () => {
           <h1 className="text-3xl font-black text-slate-800 tracking-tight flex items-center gap-3">
              <div className="p-2 bg-brand-active text-brand-primary rounded-xl">
               <History size={28} />
-            </div>
-            Payment Receipt Registry
-          </h1>
-          <p className="text-slate-500 font-medium">Search, reprint, and verify historical payment transactions.</p>
+            </div>{i18n.t("Payment Receipt Registry")}</h1>
+          <p className="text-slate-500 font-medium">{i18n.t("Search, reprint, and verify historical payment transactions.")}</p>
         </div>
       </div>
 
@@ -57,40 +56,36 @@ const ReceiptHistory: React.FC = () => {
            <div className="relative group">
               <div className="absolute inset-0 bg-brand-primary/5 blur-2xl rounded-full opacity-0 group-focus-within:opacity-100 transition-opacity" />
               <div className="relative flex items-center gap-3 bg-slate-50 border-2 border-slate-100 p-2 rounded-[32px] group-focus-within:border-brand-active0 focus-within:bg-white transition-all">
-                <div className="pl-5 text-slate-400"><Search size={22} /></div>
+                <div className="ps-5 text-slate-400"><Search size={22} /></div>
                 <input 
                   type="text" 
-                  placeholder="Enter Receipt ID, Patient Name or MRN..."
+                  placeholder={i18n.t("Enter Receipt ID, Patient Name or MRN...")}
                   className="flex-1 py-4 bg-transparent text-lg font-bold text-slate-800 outline-none"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <button className="bg-slate-900 text-white px-8 py-4 rounded-[24px] font-black text-sm uppercase tracking-widest hover:bg-slate-800 transition-all">
-                   Locate Records
-                </button>
+                <button className="bg-slate-900 text-white px-8 py-4 rounded-[24px] font-black text-sm uppercase tracking-widest hover:bg-slate-800 transition-all">{i18n.t("Locate Records")}</button>
               </div>
            </div>
            <div className="flex items-center justify-center gap-4">
               <button className="px-5 py-2.5 rounded-2xl bg-white border border-slate-200 text-xs font-black text-slate-500 hover:text-brand-primary hover:bg-brand-active transition-all flex items-center gap-2">
-                 <Calendar size={14} /> Custom Date Range
-              </button>
+                 <Calendar size={14} />{" "}{i18n.t("Custom Date Range")}</button>
               <button className="px-5 py-2.5 rounded-2xl bg-white border border-slate-200 text-xs font-black text-slate-500 hover:text-brand-primary hover:bg-brand-active transition-all flex items-center gap-2">
-                 <Filter size={14} /> Filter by Mode
-              </button>
+                 <Filter size={14} />{" "}{i18n.t("Filter by Mode")}</button>
            </div>
         </div>
       </div>
 
       <div className="bg-white border border-slate-200 rounded-[40px] shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="w-full text-start">
             <thead>
               <tr className="bg-slate-50/50 border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                <th className="px-8 py-5">Receipt ID</th>
-                <th className="px-8 py-5">Date & Time</th>
-                <th className="px-8 py-5">Patient Details</th>
-                <th className="px-8 py-5">Payment Details</th>
-                <th className="px-8 py-5 text-right">Actions</th>
+                <th className="px-8 py-5">{i18n.t("Receipt ID")}</th>
+                <th className="px-8 py-5">{i18n.t("Date & Time")}</th>
+                <th className="px-8 py-5">{i18n.t("Patient Details")}</th>
+                <th className="px-8 py-5">{i18n.t("Payment Details")}</th>
+                <th className="px-8 py-5 text-end">{i18n.t("Actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -111,7 +106,7 @@ const ReceiptHistory: React.FC = () => {
                       </div>
                       <div>
                         <p className="text-sm font-black text-slate-800">{rc.patient}</p>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{rc.mrn} • {rc.type} Billing</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{rc.mrn} • {rc.type}{" "}{i18n.t("Billing")}</p>
                       </div>
                     </div>
                   </td>
@@ -124,15 +119,15 @@ const ReceiptHistory: React.FC = () => {
                        </span>
                     </div>
                   </td>
-                  <td className="px-8 py-5 text-right">
+                  <td className="px-8 py-5 text-end">
                     <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-brand-primary hover:bg-brand-active transition-all shadow-sm" title="Reprint">
+                      <button className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-brand-primary hover:bg-brand-active transition-all shadow-sm" title={i18n.t("Reprint")}>
                         <Printer size={16} />
                       </button>
-                      <button className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-brand-primary hover:bg-brand-active transition-all shadow-sm" title="Email">
+                      <button className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-brand-primary hover:bg-brand-active transition-all shadow-sm" title={i18n.t("Email")}>
                         <Mail size={16} />
                       </button>
-                      <button className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-brand-primary hover:bg-brand-active transition-all shadow-sm" title="View PDF">
+                      <button className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-brand-primary hover:bg-brand-active transition-all shadow-sm" title={i18n.t("View PDF")}>
                         <Eye size={16} />
                       </button>
                     </div>

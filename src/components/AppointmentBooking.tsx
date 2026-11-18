@@ -17,6 +17,7 @@ import {
 import { appointmentService } from "../services/appointment.service";
 import { patientService } from "../services/patient.service";
 import { useNotification } from "../context/NotificationContext";
+import { i18n } from "../i18n";
 
 const AppointmentBooking: React.FC = () => {
   const navigate = useNavigate();
@@ -172,12 +173,8 @@ const AppointmentBooking: React.FC = () => {
               <Calendar size={24} />
             </div>
             <div>
-              <h1 className="text-2xl font-black text-slate-800 tracking-tight">
-                Create New Appointment
-              </h1>
-              <p className="text-slate-500 font-medium">
-                Reserve a consultation slot in the clinical registry.
-              </p>
+              <h1 className="text-2xl font-black text-slate-800 tracking-tight">{i18n.t("Create New Appointment")}</h1>
+              <p className="text-slate-500 font-medium">{i18n.t("Reserve a consultation slot in the clinical registry.")}</p>
             </div>
           </div>
           <button
@@ -191,28 +188,26 @@ const AppointmentBooking: React.FC = () => {
         <div className="p-10 space-y-10">
           {/* Patient Search Section */}
           <div className="space-y-3 relative z-20">
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-              Patient Search (Registry Index) *
-            </label>
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Patient Search (Registry Index) *")}</label>
             {!selectedPatient ? (
               <div className="relative group">
-                <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-brand-primary transition-colors" />
+                <Search className="absolute start-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-brand-primary transition-colors" />
                 <input
                   type="text"
-                  placeholder="Search by Patient MRN, Name or Phone..."
-                  className="w-full pl-14 pr-4 py-5 bg-slate-50 border border-slate-200 rounded-3xl text-sm font-bold text-slate-800 focus:bg-white focus:ring-4 focus:ring-brand-active0/10 focus:border-brand-active0 outline-none transition-all"
+                  placeholder={i18n.t("Search by Patient MRN, Name or Phone...")}
+                  className="w-full ps-14 pe-4 py-5 bg-slate-50 border border-slate-200 rounded-3xl text-sm font-bold text-slate-800 focus:bg-white focus:ring-4 focus:ring-brand-active0/10 focus:border-brand-active0 outline-none transition-all"
                   value={patientSearch}
                   onChange={(e) => setPatientSearch(e.target.value)}
                 />
                 {searchingPatients && (
-                  <div className="absolute right-5 top-1/2 -translate-y-1/2">
+                  <div className="absolute end-5 top-1/2 -translate-y-1/2">
                     <Loader2 className="animate-spin text-brand-primary" size={20} />
                   </div>
                 )}
 
                 {/* Search Results Dropdown */}
                 {patientResults.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-100 rounded-3xl shadow-2xl overflow-hidden max-h-60 overflow-y-auto z-50">
+                  <div className="absolute top-full start-0 end-0 mt-2 bg-white border border-slate-100 rounded-3xl shadow-2xl overflow-hidden max-h-60 overflow-y-auto z-50">
                     {patientResults.map((patient) => (
                       <div
                         key={patient.id}
@@ -243,16 +238,13 @@ const AppointmentBooking: React.FC = () => {
                       {selectedPatient.demographics.last_name}
                     </p>
                     <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">
-                      {selectedPatient.mrn} • Verified
-                    </p>
+                      {selectedPatient.mrn}{" "}{i18n.t("• Verified")}</p>
                   </div>
                 </div>
                 <button
                   onClick={clearPatient}
                   className="text-emerald-600 text-xs font-black uppercase hover:underline p-2"
-                >
-                  Change
-                </button>
+                >{i18n.t("Change")}</button>
               </div>
             )}
           </div>
@@ -260,13 +252,11 @@ const AppointmentBooking: React.FC = () => {
           {/* Configuration */}
           <div className="space-y-6">
             <div className="space-y-3">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                Consulting Doctor *
-              </label>
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Consulting Doctor *")}</label>
               <div className="relative">
-                <Stethoscope className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                <Stethoscope className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
                 <select
-                  className="w-full pl-11 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none appearance-none cursor-pointer focus:bg-white focus:border-brand-active0 transition-all"
+                  className="w-full ps-11 pe-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none appearance-none cursor-pointer focus:bg-white focus:border-brand-active0 transition-all"
                   value={bookingForm.doctor_id}
                   onChange={(e) =>
                     setBookingForm({
@@ -277,12 +267,11 @@ const AppointmentBooking: React.FC = () => {
                   disabled={loadingDoctors}
                 >
                   <option value="">
-                    {loadingDoctors ? "Loading..." : "Select Doctor"}
+                    {loadingDoctors ? i18n.t("Loading...") : i18n.t("Select Doctor")}
                   </option>
                   {doctors.map((doc) => (
-                    <option key={doc.doctor_id} value={doc.doctor_id}>
-                      Dr. {doc.first_name} {doc.last_name} (
-                      {doc.specialization_name || "General"})
+                    <option key={doc.doctor_id} value={doc.doctor_id}>{i18n.t("Dr.")}{" "}{doc.first_name} {doc.last_name} (
+                      {doc.specialization_name || i18n.t("General")})
                     </option>
                   ))}
                 </select>
@@ -291,14 +280,12 @@ const AppointmentBooking: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-3">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                Appointment Date *
-              </label>
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Appointment Date *")}</label>
               <div className="relative">
-                <CalendarDays className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                <CalendarDays className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
                 <input
                   type="date"
-                  className="w-full pl-11 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 outline-none focus:bg-white focus:border-brand-active0 transition-all"
+                  className="w-full ps-11 pe-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 outline-none focus:bg-white focus:border-brand-active0 transition-all"
                   value={bookingForm.appointment_date}
                   onChange={(e) =>
                     setBookingForm({
@@ -311,14 +298,12 @@ const AppointmentBooking: React.FC = () => {
             </div>
 
             <div className="space-y-3">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                Time Slot *
-              </label>
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Time Slot *")}</label>
               <div className="relative">
-                <Clock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                <Clock className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
                 <input
                   type="time"
-                  className="w-full pl-11 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 outline-none focus:bg-white focus:border-brand-active0 transition-all"
+                  className="w-full ps-11 pe-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 outline-none focus:bg-white focus:border-brand-active0 transition-all"
                   value={bookingForm.appointment_time}
                   onChange={(e) =>
                     setBookingForm({
@@ -333,9 +318,7 @@ const AppointmentBooking: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-3">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                Booking Type
-              </label>
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Booking Type")}</label>
               <div className="flex p-1.5 bg-slate-50 border border-slate-200 rounded-2xl">
                 {["PRE_BOOKED", "WALK_IN"].map((type) => (
                   <button
@@ -353,13 +336,11 @@ const AppointmentBooking: React.FC = () => {
             </div>
 
             <div className="space-y-3">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                Duration (Minutes)
-              </label>
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Duration (Minutes)")}</label>
               <div className="relative">
-                <Clock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                <Clock className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
                 <select
-                  className="w-full pl-11 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none appearance-none cursor-pointer focus:bg-white focus:border-brand-active0 transition-all"
+                  className="w-full ps-11 pe-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none appearance-none cursor-pointer focus:bg-white focus:border-brand-active0 transition-all"
                   value={bookingForm.duration}
                   onChange={(e) =>
                     setBookingForm({
@@ -368,23 +349,22 @@ const AppointmentBooking: React.FC = () => {
                     })
                   }
                 >
-                  <option value={15}>15 Minutes</option>
-                  <option value={30}>30 Minutes</option>
-                  <option value={45}>45 Minutes</option>
-                  <option value={60}>60 Minutes</option>
-                  <option value={90}>90 Minutes</option>
+                  <option value={15}>{i18n.t("15 Minutes")}</option>
+                  <option value={30}>{i18n.t("30 Minutes")}</option>
+                  <option value={45}>{i18n.t("45 Minutes")}</option>
+                  <option value={60}>{i18n.t("60 Minutes")}</option>
+                  <option value={90}>{i18n.t("90 Minutes")}</option>
                 </select>
               </div>
             </div>
           </div>
 
           <div className="space-y-3">
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-2">
-              <FileText size={12} /> Reason for Visit
-            </label>
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1 flex items-center gap-2">
+              <FileText size={12} />{" "}{i18n.t("Reason for Visit")}</label>
             <textarea
               rows={4}
-              placeholder="Brief summary of primary complaint..."
+              placeholder={i18n.t("Brief summary of primary complaint...")}
               className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-3xl text-sm font-medium text-slate-800 outline-none focus:bg-white focus:border-brand-active0 transition-all resize-none"
               value={bookingForm.reason_for_visit}
               onChange={(e) =>
@@ -398,10 +378,7 @@ const AppointmentBooking: React.FC = () => {
 
           <div className="bg-amber-50 border border-amber-100 p-6 rounded-[32px] flex items-start gap-4">
             <AlertCircle className="text-amber-600 flex-shrink-0" size={20} />
-            <p className="text-xs text-amber-700 leading-relaxed font-medium">
-              An appointment notification will be sent to the patient's
-              registered mobile number via SMS and Email upon confirmation.
-            </p>
+            <p className="text-xs text-amber-700 leading-relaxed font-medium">{i18n.t("An appointment notification will be sent to the patient's registered mobile number via SMS and Email upon confirmation.")}</p>
           </div>
           </div>
         </div>
@@ -413,8 +390,7 @@ const AppointmentBooking: React.FC = () => {
             disabled={isSubmitting}
             className="flex items-center gap-2 text-sm font-black text-slate-400 hover:text-slate-800 transition-colors uppercase tracking-widest"
           >
-            <ChevronLeft size={18} /> Discard Request
-          </button>
+            <ChevronLeft className="rtl:-scale-x-100" size={18} />{" "}{i18n.t("Discard Request")}</button>
           <button
             onClick={handleConfirm}
             disabled={isSubmitting}
@@ -424,9 +400,7 @@ const AppointmentBooking: React.FC = () => {
               <Loader2 className="animate-spin" size={20} />
             ) : (
               <CheckCircle2 size={20} />
-            )}
-            Confirm Appointment
-          </button>
+            )}{i18n.t("Confirm Appointment")}</button>
         </div>
       </div>
     </div>

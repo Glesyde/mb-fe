@@ -3,6 +3,7 @@ import { X, Printer, Activity, AlertTriangle, Stethoscope, Loader2, Pill, FileTe
 import { wardService } from '../services/ward.service';
 import { erdService } from '../services/erd.service';
 import { useNotification } from '../context/NotificationContext';
+import { i18n } from "../i18n";
 
 interface DischargeSummaryModalProps {
   isOpen: boolean;
@@ -116,8 +117,8 @@ const DischargeSummaryModal: React.FC<DischargeSummaryModalProps> = ({ isOpen, o
               <FileText size={24} />
             </div>
             <div>
-              <h2 className="text-2xl font-black text-slate-800 tracking-tight">Discharge Summary</h2>
-              <p className="text-sm font-bold text-slate-400 mt-0.5">Comprehensive Patient Report</p>
+              <h2 className="text-2xl font-black text-slate-800 tracking-tight">{i18n.t("Discharge Summary")}</h2>
+              <p className="text-sm font-bold text-slate-400 mt-0.5">{i18n.t("Comprehensive Patient Report")}</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -126,9 +127,7 @@ const DischargeSummaryModal: React.FC<DischargeSummaryModalProps> = ({ isOpen, o
               disabled={loading || !data}
               className="flex items-center gap-2 px-6 py-3 bg-slate-800 text-white rounded-2xl text-sm font-black hover:bg-slate-700 transition-colors disabled:opacity-50 shadow-lg shadow-slate-200"
             >
-              <Printer size={18} />
-              Print Summary
-            </button>
+              <Printer size={18} />{i18n.t("Print Summary")}</button>
             <button
               onClick={onClose}
               className="p-3 hover:bg-slate-100 rounded-full transition-colors text-slate-400"
@@ -143,12 +142,12 @@ const DischargeSummaryModal: React.FC<DischargeSummaryModalProps> = ({ isOpen, o
           {loading ? (
             <div className="flex flex-col items-center justify-center h-64 text-slate-400 space-y-4">
               <Loader2 size={48} className="animate-spin text-brand-primary" />
-              <p className="font-bold text-lg tracking-widest uppercase">Compiling Summary...</p>
+              <p className="font-bold text-lg tracking-widest uppercase">{i18n.t("Compiling Summary...")}</p>
             </div>
           ) : !data ? (
             <div className="flex flex-col items-center justify-center h-64 text-slate-400">
               <FileText size={48} className="mb-4 opacity-50" />
-              <p className="font-bold text-lg">No summary data available.</p>
+              <p className="font-bold text-lg">{i18n.t("No summary data available.")}</p>
             </div>
           ) : (
             <>
@@ -163,8 +162,7 @@ const DischargeSummaryModal: React.FC<DischargeSummaryModalProps> = ({ isOpen, o
                       {patientName}
                     </h1>
                     <div className="flex flex-wrap items-center gap-3 mt-2 text-sm font-bold text-slate-600 print:text-slate-800">
-                      <span className="bg-white px-3 py-1 rounded-lg text-brand-primary border border-brand-primary/20 print:border-slate-300 print:text-black">
-                        MRN: {header.mrn || data.mrn || '-'}
+                      <span className="bg-white px-3 py-1 rounded-lg text-brand-primary border border-brand-primary/20 print:border-slate-300 print:text-black">{i18n.t("MRN:")}{" "}{header.mrn || data.mrn || '-'}
                       </span>
                       <span>{ageGender}</span>
                     </div>
@@ -173,30 +171,30 @@ const DischargeSummaryModal: React.FC<DischargeSummaryModalProps> = ({ isOpen, o
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 w-full md:w-auto">
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-brand-primary/60 print:text-slate-500">Admitted</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-brand-primary/60 print:text-slate-500">{i18n.t("Admitted")}</p>
                     <p className="text-sm font-bold text-slate-800 mt-1">{admittedAt}</p>
                   </div>
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-brand-primary/60 print:text-slate-500">Discharged</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-brand-primary/60 print:text-slate-500">{i18n.t("Discharged")}</p>
                     <p className="text-sm font-bold text-slate-800 mt-1">{dischargedAt}</p>
                   </div>
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-brand-primary/60 print:text-slate-500">Attending</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-brand-primary/60 print:text-slate-500">{i18n.t("Attending")}</p>
                     <p className="text-sm font-bold text-slate-800 mt-1">{attending}</p>
                   </div>
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-brand-primary/60 print:text-slate-500">Location</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-brand-primary/60 print:text-slate-500">{i18n.t("Location")}</p>
                     <p className="text-sm font-bold text-slate-800 mt-1">{location}</p>
                   </div>
                   {header.admission_reason && (
                     <div className="col-span-2 md:col-span-2 break-words">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-brand-primary/60 print:text-slate-500">Admission Reason</p>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-brand-primary/60 print:text-slate-500">{i18n.t("Admission Reason")}</p>
                       <p className="text-sm font-bold text-slate-800 mt-1">{header.admission_reason}</p>
                     </div>
                   )}
                   {header.discharge_reason_name && (
                     <div className="col-span-2 md:col-span-2 break-words">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-brand-primary/60 print:text-slate-500">Discharge Outcome</p>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-brand-primary/60 print:text-slate-500">{i18n.t("Discharge Outcome")}</p>
                       <p className="text-sm font-bold text-slate-800 mt-1">{header.discharge_reason_name}</p>
                     </div>
                   )}
@@ -207,12 +205,12 @@ const DischargeSummaryModal: React.FC<DischargeSummaryModalProps> = ({ isOpen, o
               <div className="bg-white rounded-3xl border border-slate-100 p-8 shadow-sm">
                 <div className="flex items-center gap-3 mb-6">
                   <Activity className="text-rose-500" size={24} />
-                  <h3 className="text-lg font-black text-slate-800">Vitals Comparison</h3>
+                  <h3 className="text-lg font-black text-slate-800">{i18n.t("Vitals Comparison")}</h3>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {/* Admission Vitals */}
                   <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
-                    <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 pb-4 border-b border-slate-200">Upon Admission</p>
+                    <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 pb-4 border-b border-slate-200">{i18n.t("Upon Admission")}</p>
                     <div className="space-y-4">
                       {(['BP', 'Pulse', 'Temp', 'SpO2'] as const).map(v => (
                         <div key={v} className="flex justify-between items-center">
@@ -226,7 +224,7 @@ const DischargeSummaryModal: React.FC<DischargeSummaryModalProps> = ({ isOpen, o
                   </div>
                   {/* Discharge Vitals */}
                   <div className="bg-rose-50/30 rounded-2xl p-6 border border-rose-100">
-                    <p className="text-xs font-black uppercase tracking-widest text-rose-400 mb-4 pb-4 border-b border-rose-200">Upon Discharge</p>
+                    <p className="text-xs font-black uppercase tracking-widest text-rose-400 mb-4 pb-4 border-b border-rose-200">{i18n.t("Upon Discharge")}</p>
                     <div className="space-y-4">
                       {(['BP', 'Pulse', 'Temp', 'SpO2'] as const).map(v => (
                         <div key={v} className="flex justify-between items-center">
@@ -246,7 +244,7 @@ const DischargeSummaryModal: React.FC<DischargeSummaryModalProps> = ({ isOpen, o
                 <div>
                   <div className="flex items-center gap-3 mb-4">
                     <Stethoscope className="text-brand-primary" size={20} />
-                    <h3 className="text-lg font-black text-slate-800">Diagnoses</h3>
+                    <h3 className="text-lg font-black text-slate-800">{i18n.t("Diagnoses")}</h3>
                   </div>
                   {data.diagnoses?.length > 0 ? (
                     <ul className="space-y-3">
@@ -270,14 +268,14 @@ const DischargeSummaryModal: React.FC<DischargeSummaryModalProps> = ({ isOpen, o
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-sm font-medium text-slate-400 italic">No diagnoses recorded.</p>
+                    <p className="text-sm font-medium text-slate-400 italic">{i18n.t("No diagnoses recorded.")}</p>
                   )}
                 </div>
 
                 <div>
                   <div className="flex items-center gap-3 mb-4">
                     <AlertTriangle className="text-amber-500" size={20} />
-                    <h3 className="text-lg font-black text-slate-800">Allergies</h3>
+                    <h3 className="text-lg font-black text-slate-800">{i18n.t("Allergies")}</h3>
                   </div>
                   {data.allergies?.length > 0 ? (
                     <div className="flex flex-wrap gap-2">
@@ -288,7 +286,7 @@ const DischargeSummaryModal: React.FC<DischargeSummaryModalProps> = ({ isOpen, o
                       ))}
                     </div>
                   ) : (
-                    <p className="text-sm font-medium text-slate-400 italic">No known allergies.</p>
+                    <p className="text-sm font-medium text-slate-400 italic">{i18n.t("No known allergies.")}</p>
                   )}
                 </div>
               </div>
@@ -297,14 +295,14 @@ const DischargeSummaryModal: React.FC<DischargeSummaryModalProps> = ({ isOpen, o
               <div className="bg-white rounded-3xl border border-slate-100 p-8 shadow-sm">
                 <div className="flex items-center gap-3 mb-6">
                   <Activity className="text-emerald-500" size={20} />
-                  <h3 className="text-lg font-black text-slate-800">Procedures Performed</h3>
+                  <h3 className="text-lg font-black text-slate-800">{i18n.t("Procedures Performed")}</h3>
                 </div>
                 {procedures.length > 0 ? (
                   <div className="space-y-5">
                     {procedures.map((p: any, i: number) => (
                       <div key={i} className="bg-emerald-50/50 p-5 rounded-2xl border border-emerald-100">
                         <div className="flex items-center justify-between gap-2 flex-wrap">
-                          <p className="text-base font-black text-slate-800 min-w-0 break-words">{p.surgery_name || p.name || (typeof p === "string" ? p : "Unspecified procedure")}</p>
+                          <p className="text-base font-black text-slate-800 min-w-0 break-words">{p.surgery_name || p.name || (typeof p === "string" ? p : i18n.t("Unspecified procedure"))}</p>
                           {p.surgery_type && (
                             <span className="text-[9px] font-black uppercase tracking-widest text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-md shrink-0">{p.surgery_type}</span>
                           )}
@@ -315,38 +313,38 @@ const DischargeSummaryModal: React.FC<DischargeSummaryModalProps> = ({ isOpen, o
                           </p>
                         )}
                         {p.surgeon_name && (
-                          <p className="text-xs font-bold text-slate-500 mt-1">Surgeon: <span className="font-medium text-slate-600">{p.surgeon_name}</span></p>
+                          <p className="text-xs font-bold text-slate-500 mt-1">{i18n.t("Surgeon:")}{" "}<span className="font-medium text-slate-600">{p.surgeon_name}</span></p>
                         )}
 
                         {(p.postop_diagnosis || p.complications || p.operative_findings || p.postop_instructions || p.discharge_instructions) && (
                           <div className="mt-4 pt-4 border-t border-emerald-100 space-y-3">
                             {p.postop_diagnosis && (
                               <div>
-                                <p className="text-[10px] font-black uppercase tracking-widest text-emerald-700/70">Post-op Diagnosis</p>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-emerald-700/70">{i18n.t("Post-op Diagnosis")}</p>
                                 <p className="text-xs font-medium text-slate-600 mt-1 leading-relaxed break-words">{p.postop_diagnosis}</p>
                               </div>
                             )}
                             {p.complications && (
                               <div>
-                                <p className="text-[10px] font-black uppercase tracking-widest text-emerald-700/70">Complications</p>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-emerald-700/70">{i18n.t("Complications")}</p>
                                 <p className="text-xs font-medium text-slate-600 mt-1 leading-relaxed break-words">{p.complications}</p>
                               </div>
                             )}
                             {p.operative_findings && (
                               <div>
-                                <p className="text-[10px] font-black uppercase tracking-widest text-emerald-700/70">Operative Findings</p>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-emerald-700/70">{i18n.t("Operative Findings")}</p>
                                 <p className="text-xs font-medium text-slate-600 mt-1 leading-relaxed break-words">{p.operative_findings}</p>
                               </div>
                             )}
                             {p.postop_instructions && (
                               <div>
-                                <p className="text-[10px] font-black uppercase tracking-widest text-emerald-700/70">Post-op Instructions</p>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-emerald-700/70">{i18n.t("Post-op Instructions")}</p>
                                 <p className="text-xs font-medium text-slate-600 mt-1 leading-relaxed break-words">{p.postop_instructions}</p>
                               </div>
                             )}
                             {p.discharge_instructions && (
                               <div>
-                                <p className="text-[10px] font-black uppercase tracking-widest text-emerald-700/70">Discharge Instructions</p>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-emerald-700/70">{i18n.t("Discharge Instructions")}</p>
                                 <p className="text-xs font-medium text-slate-600 mt-1 leading-relaxed break-words">{p.discharge_instructions}</p>
                               </div>
                             )}
@@ -356,7 +354,7 @@ const DischargeSummaryModal: React.FC<DischargeSummaryModalProps> = ({ isOpen, o
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm font-medium text-slate-400 italic">No procedures recorded.</p>
+                  <p className="text-sm font-medium text-slate-400 italic">{i18n.t("No procedures recorded.")}</p>
                 )}
               </div>
 
@@ -364,18 +362,18 @@ const DischargeSummaryModal: React.FC<DischargeSummaryModalProps> = ({ isOpen, o
               <div className="bg-white rounded-3xl border border-slate-100 p-8 shadow-sm overflow-hidden">
                 <div className="flex items-center gap-3 mb-6">
                   <Pill className="text-indigo-500" size={24} />
-                  <h3 className="text-lg font-black text-slate-800">Medications</h3>
+                  <h3 className="text-lg font-black text-slate-800">{i18n.t("Medications")}</h3>
                 </div>
                 {dischargeMedications.length > 0 ? (
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
+                    <table className="w-full text-start border-collapse">
                       <thead>
                         <tr className="border-b border-slate-200">
-                          <th className="py-4 px-4 text-xs font-black text-slate-400 uppercase tracking-widest">Medication</th>
-                          <th className="py-4 px-4 text-xs font-black text-slate-400 uppercase tracking-widest">Dosage</th>
-                          <th className="py-4 px-4 text-xs font-black text-slate-400 uppercase tracking-widest">Route</th>
-                          <th className="py-4 px-4 text-xs font-black text-slate-400 uppercase tracking-widest">Frequency</th>
-                          <th className="py-4 px-4 text-xs font-black text-slate-400 uppercase tracking-widest">Duration</th>
+                          <th className="py-4 px-4 text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("Medication")}</th>
+                          <th className="py-4 px-4 text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("Dosage")}</th>
+                          <th className="py-4 px-4 text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("Route")}</th>
+                          <th className="py-4 px-4 text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("Frequency")}</th>
+                          <th className="py-4 px-4 text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("Duration")}</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100">
@@ -398,17 +396,15 @@ const DischargeSummaryModal: React.FC<DischargeSummaryModalProps> = ({ isOpen, o
                         className="w-full flex items-center justify-center gap-2 py-3 mt-2 text-sm font-bold text-brand-primary hover:bg-brand-active rounded-xl transition-colors"
                       >
                         {showAllMeds ? (
-                          <>Show Less <ChevronUp size={16} /></>
+                          <>{i18n.t("Show Less")}{" "}<ChevronUp size={16} /></>
                         ) : (
-                          <>See {dischargeMedications.length - VISIBLE_ROWS} More <ChevronDown size={16} /></>
+                          <>{i18n.t("See")}{" "}{dischargeMedications.length - VISIBLE_ROWS}{" "}{i18n.t("More")}{" "}<ChevronDown size={16} /></>
                         )}
                       </button>
                     )}
                   </div>
                 ) : (
-                  <p className="text-sm font-medium text-slate-400 italic bg-slate-50 p-6 rounded-2xl border border-slate-100 text-center">
-                    No discharge medications prescribed.
-                  </p>
+                  <p className="text-sm font-medium text-slate-400 italic bg-slate-50 p-6 rounded-2xl border border-slate-100 text-center">{i18n.t("No discharge medications prescribed.")}</p>
                 )}
               </div>
 
@@ -461,14 +457,14 @@ const DischargeSummaryModal: React.FC<DischargeSummaryModalProps> = ({ isOpen, o
 
               {/* Discharge Notes / Final Remarks */}
               <div className="bg-slate-800 rounded-3xl p-8 shadow-sm text-white print:bg-white print:text-black print:border print:border-slate-200">
-                <h3 className="text-lg font-black mb-4">Doctor's Discharge Notes</h3>
+                <h3 className="text-lg font-black mb-4">{i18n.t("Doctor's Discharge Notes")}</h3>
                 <p className="text-slate-300 font-medium leading-relaxed break-words print:text-slate-700">
-                  {header.discharge_notes || data.discharge_notes || data.remarks || "Patient discharged without specific clinical notes."}
+                  {header.discharge_notes || data.discharge_notes || data.remarks || i18n.t("Patient discharged without specific clinical notes.")}
                 </p>
                 
                 {data.follow_up_date && (
                   <div className="mt-6 pt-6 border-t border-slate-700 print:border-slate-200">
-                    <p className="text-xs font-black uppercase tracking-widest text-brand-primary mb-1">Follow-up Appointment</p>
+                    <p className="text-xs font-black uppercase tracking-widest text-brand-primary mb-1">{i18n.t("Follow-up Appointment")}</p>
                     <p className="font-bold text-lg">{data.follow_up_date}</p>
                   </div>
                 )}

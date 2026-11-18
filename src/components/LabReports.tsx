@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import { labService } from '../services/lab.service';
 import { useNotification } from '../context/NotificationContext';
+import { i18n } from "../i18n";
 
 // Robust extractor for nested paginated responses from PHP/Axios
 const extractPaginatedData = (res: any) => {
@@ -92,16 +93,16 @@ const LabReports: React.FC = () => {
       <div className="bg-emerald-600 rounded-[48px] p-12 text-white shadow-xl shadow-emerald-100 relative overflow-hidden group">
         <div className="relative z-10 max-w-3xl mx-auto text-center space-y-8">
            <div>
-              <h2 className="text-3xl font-black tracking-tight">Finalized Result Archive</h2>
-              <p className="text-emerald-100 font-medium mt-2">Secure access to published clinical investigations and patient reports.</p>
+              <h2 className="text-3xl font-black tracking-tight">{i18n.t("Finalized Result Archive")}</h2>
+              <p className="text-emerald-100 font-medium mt-2">{i18n.t("Secure access to published clinical investigations and patient reports.")}</p>
            </div>
            
            <div className="relative group/input">
-              <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-emerald-400 group-focus-within/input:text-emerald-600 transition-colors" size={24} />
+              <Search className="absolute start-6 top-1/2 -translate-y-1/2 text-emerald-400 group-focus-within/input:text-emerald-600 transition-colors" size={24} />
               <input 
                 type="text" 
-                placeholder="Search by Patient Name, Lab Ref or Test..."
-                className="w-full pl-16 pr-6 py-6 bg-white/10 border-2 border-white/20 rounded-[32px] text-lg font-bold text-white placeholder:text-emerald-200 outline-none focus:bg-white focus:text-emerald-900 focus:border-white transition-all shadow-2xl"
+                placeholder={i18n.t("Search by Patient Name, Lab Ref or Test...")}
+                className="w-full ps-16 pe-6 py-6 bg-white/10 border-2 border-white/20 rounded-[32px] text-lg font-bold text-white placeholder:text-emerald-200 outline-none focus:bg-white focus:text-emerald-900 focus:border-white transition-all shadow-2xl"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -109,7 +110,7 @@ const LabReports: React.FC = () => {
         </div>
         
         {/* Decorative background blur */}
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-white/10 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700" />
+        <div className="absolute -top-24 -start-24 w-96 h-96 bg-white/10 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700" />
       </div>
 
       <div className="bg-white border border-slate-200 rounded-[44px] shadow-sm overflow-hidden flex flex-col h-full">
@@ -119,33 +120,33 @@ const LabReports: React.FC = () => {
                      <CheckCircle2 size={24} />
                   </div>
                   <div>
-                    <h3 className="text-xl font-black text-slate-800 tracking-tight">Published Reports</h3>
-                    <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-0.5">Clinical Ledger View</p>
+                    <h3 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Published Reports")}</h3>
+                    <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-0.5">{i18n.t("Clinical Ledger View")}</p>
                   </div>
                </div>
             </div>
 
             <div className="overflow-x-auto">
-               <table className="w-full text-left">
+               <table className="w-full text-start">
                   <thead>
                     <tr className="bg-white border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
-                       <th className="px-8 py-5">Published Date</th>
-                       <th className="px-8 py-5">Reference No</th>
-                       <th className="px-8 py-5">Patient Name</th>
-                       <th className="px-8 py-5">Investigation</th>
-                       <th className="px-8 py-5 text-right">Action</th>
+                       <th className="px-8 py-5">{i18n.t("Published Date")}</th>
+                       <th className="px-8 py-5">{i18n.t("Reference No")}</th>
+                       <th className="px-8 py-5">{i18n.t("Patient Name")}</th>
+                       <th className="px-8 py-5">{i18n.t("Investigation")}</th>
+                       <th className="px-8 py-5 text-end">{i18n.t("Action")}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-50">
                     {loading ? (
                        <tr>
-                          <td colSpan={5} className="py-20 text-center"><Loader2 className="animate-spin mx-auto text-emerald-600 mb-2"/> <p className="text-xs font-bold text-slate-400">Loading Archive...</p></td>
+                          <td colSpan={5} className="py-20 text-center"><Loader2 className="animate-spin mx-auto text-emerald-600 mb-2"/> <p className="text-xs font-bold text-slate-400">{i18n.t("Loading Archive...")}</p></td>
                        </tr>
                     ) : reports.length === 0 ? (
                       <tr>
                           <td colSpan={5} className="py-20 text-center opacity-30">
                             <Activity size={48} className="text-slate-400 mb-4 mx-auto" />
-                            <p className="text-xs font-black uppercase tracking-widest">No matching records found</p>
+                            <p className="text-xs font-black uppercase tracking-widest">{i18n.t("No matching records found")}</p>
                           </td>
                       </tr>
                     ) : reports.map((row) => (
@@ -174,10 +175,10 @@ const LabReports: React.FC = () => {
                               </div>
                            )}
                         </td>
-                        <td className="px-8 py-6 text-right">
+                        <td className="px-8 py-6 text-end">
                            <button 
                             onClick={() => handlePrintPreview(row)}
-                            className="p-3 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-2xl transition-all" title="View & Print"
+                            className="p-3 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-2xl transition-all" title={i18n.t("View & Print")}
                            >
                               <Printer size={20}/>
                            </button>
@@ -191,21 +192,19 @@ const LabReports: React.FC = () => {
             {/* Server-Side Pagination Footer */}
             {!loading && reports.length > 0 && (
               <div className="p-8 border-t border-slate-100 bg-slate-50 flex items-center justify-between">
-                <span className="text-xs font-semibold text-slate-500">
-                  Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
-                  {Math.min(currentPage * itemsPerPage, totalItems)} of{" "}
-                  {totalItems} reports
-                </span>
+                <span className="text-xs font-semibold text-slate-500">{i18n.t("Showing")}{" "}{(currentPage - 1) * itemsPerPage + 1}{" "}{i18n.t("to")}{" "}
+                  {Math.min(currentPage * itemsPerPage, totalItems)}{" "}{i18n.t("of")}{" "}
+                  {totalItems}{" "}{i18n.t("reports")}</span>
                 <div className="flex items-center gap-4">
                   <select 
                       value={itemsPerPage} 
                       onChange={(e) => { setItemsPerPage(Number(e.target.value)); setCurrentPage(1); }}
                       className="px-3 py-1.5 text-xs font-bold border border-slate-200 rounded-xl outline-none bg-white text-slate-600 shadow-sm"
                   >
-                      <option value={10}>10 / page</option>
-                      <option value={20}>20 / page</option>
-                      <option value={50}>50 / page</option>
-                      <option value={100}>100 / page</option>
+                      <option value={10}>{i18n.t("10 / page")}</option>
+                      <option value={20}>{i18n.t("20 / page")}</option>
+                      <option value={50}>{i18n.t("50 / page")}</option>
+                      <option value={100}>{i18n.t("100 / page")}</option>
                   </select>
                   <div className="flex items-center gap-2">
                     <button
@@ -213,17 +212,16 @@ const LabReports: React.FC = () => {
                       disabled={currentPage === 1}
                       className="p-2 rounded-xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
-                      <ChevronLeft size={16} />
+                      <ChevronLeft className="rtl:-scale-x-100" size={16} />
                     </button>
-                    <span className="text-xs font-bold text-slate-700 px-3">
-                      Page {currentPage} of {totalPages}
+                    <span className="text-xs font-bold text-slate-700 px-3">{i18n.t("Page")}{" "}{currentPage}{" "}{i18n.t("of")}{" "}{totalPages}
                     </span>
                     <button
                       onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                       disabled={currentPage === totalPages}
                       className="p-2 rounded-xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
-                      <ChevronRight size={16} />
+                      <ChevronRight className="rtl:-scale-x-100" size={16} />
                     </button>
                   </div>
                 </div>

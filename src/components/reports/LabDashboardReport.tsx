@@ -15,6 +15,7 @@ import {
   Pagination,
   usePagedRows,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const LabDashboardReport: React.FC = () => {
   const [metadata, setMetadata] = useState<any>(null);
@@ -102,8 +103,8 @@ const LabDashboardReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Laboratory Report"
-      subtitle="Enterprise laboratory dashboard — yield, top panels, referrers, workload, and backlog."
+      title={i18n.t("Laboratory Report")}
+      subtitle={i18n.t("Enterprise laboratory dashboard — yield, top panels, referrers, workload, and backlog.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.report_period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -129,13 +130,13 @@ const LabDashboardReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="">All Statuses</option>
-              <option value="PENDING">Pending</option>
-              <option value="SAMPLE_COLLECTED">Sample Collected</option>
-              <option value="PROCESSING">Processing</option>
-              <option value="VERIFIED">Verified</option>
-              <option value="RELEASED">Released</option>
-              <option value="CANCELLED">Cancelled</option>
+              <option value="">{i18n.t("All Statuses")}</option>
+              <option value="PENDING">{i18n.t("Pending")}</option>
+              <option value="SAMPLE_COLLECTED">{i18n.t("Sample Collected")}</option>
+              <option value="PROCESSING">{i18n.t("Processing")}</option>
+              <option value="VERIFIED">{i18n.t("Verified")}</option>
+              <option value="RELEASED">{i18n.t("Released")}</option>
+              <option value="CANCELLED">{i18n.t("Cancelled")}</option>
             </select>
           </div>
 
@@ -146,7 +147,7 @@ const LabDashboardReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="">All Specializations</option>
+              <option value="">{i18n.t("All Specializations")}</option>
               {specializations.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
             </select>
           </div>
@@ -158,7 +159,7 @@ const LabDashboardReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="">All Doctors</option>
+              <option value="">{i18n.t("All Doctors")}</option>
               {doctors.map((d) => <option key={d.doctor_id} value={d.doctor_id}>{d.first_name} {d.last_name}</option>)}
             </select>
           </div>
@@ -170,7 +171,7 @@ const LabDashboardReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="">All Payers</option>
+              <option value="">{i18n.t("All Payers")}</option>
               {payerTypes.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
             </select>
           </div>
@@ -182,33 +183,33 @@ const LabDashboardReport: React.FC = () => {
       }
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <KpiCard icon={FlaskConical} label="Total Lab Orders" value={kpis?.total_lab_orders ?? 0} colorClass="bg-blue-50 border-blue-100 text-blue-900" />
-        <KpiCard icon={TrendingUp} label="Total Gross Revenue" value={formatCurrency(kpis?.total_gross_revenue)} colorClass="bg-emerald-50 border-emerald-100 text-emerald-900" />
-        <KpiCard icon={AlertTriangle} label="Active Bottlenecks" value={kpis?.active_bottlenecks ?? 0} colorClass="bg-red-50 border-red-100 text-red-900" />
+        <KpiCard icon={FlaskConical} label={i18n.t("Total Lab Orders")} value={kpis?.total_lab_orders ?? 0} colorClass="bg-blue-50 border-blue-100 text-blue-900" />
+        <KpiCard icon={TrendingUp} label={i18n.t("Total Gross Revenue")} value={formatCurrency(kpis?.total_gross_revenue)} colorClass="bg-emerald-50 border-emerald-100 text-emerald-900" />
+        <KpiCard icon={AlertTriangle} label={i18n.t("Active Bottlenecks")} value={kpis?.active_bottlenecks ?? 0} colorClass="bg-red-50 border-red-100 text-red-900" />
       </div>
 
       <div className="mt-6">
-        <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">Sub-Department Yield</h3>
+        <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">{i18n.t("Sub-Department Yield")}</h3>
         <div className="overflow-x-auto rounded-xl border border-slate-200">
-          <table className="w-full text-left text-sm whitespace-nowrap">
+          <table className="w-full text-start text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200">
               <tr>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Sub-Department</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Tests Ordered</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Tests Completed</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Gross Expected Revenue</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Sub-Department")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Tests Ordered")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Tests Completed")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Gross Expected Revenue")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {subDepartmentYieldPage.pageRows.length > 0 ? subDepartmentYieldPage.pageRows.map((row, i) => (
                 <tr key={i} className="hover:bg-slate-50/80 transition-colors">
                   <td className="px-4 py-3 font-bold text-slate-800">{renderValue(row.sub_department)}</td>
-                  <td className="px-4 py-3 text-slate-700 text-right">{renderValue(row.total_tests_ordered)}</td>
-                  <td className="px-4 py-3 text-slate-700 text-right">{renderValue(row.tests_completed)}</td>
-                  <td className="px-4 py-3 font-bold text-slate-800 text-right">{formatCurrency(row.gross_expected_revenue)}</td>
+                  <td className="px-4 py-3 text-slate-700 text-end">{renderValue(row.total_tests_ordered)}</td>
+                  <td className="px-4 py-3 text-slate-700 text-end">{renderValue(row.tests_completed)}</td>
+                  <td className="px-4 py-3 font-bold text-slate-800 text-end">{formatCurrency(row.gross_expected_revenue)}</td>
                 </tr>
               )) : (
-                <tr><td colSpan={4} className="px-4 py-8 text-center text-slate-400 italic">No sub-department yield data.</td></tr>
+                <tr><td colSpan={4} className="px-4 py-8 text-center text-slate-400 italic">{i18n.t("No sub-department yield data.")}</td></tr>
               )}
             </tbody>
           </table>
@@ -230,25 +231,25 @@ const LabDashboardReport: React.FC = () => {
 
       <div className="mt-6">
         <div>
-          <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">Top Diagnostic Panels</h3>
+          <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">{i18n.t("Top Diagnostic Panels")}</h3>
           <div className="overflow-x-auto rounded-xl border border-slate-200">
-            <table className="w-full text-left text-sm whitespace-nowrap">
+            <table className="w-full text-start text-sm whitespace-nowrap">
               <thead className="bg-slate-50 border-b border-slate-200">
                 <tr>
-                  <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Test Panel</th>
-                  <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Volume</th>
-                  <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Revenue</th>
+                  <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Test Panel")}</th>
+                  <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Volume")}</th>
+                  <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Revenue")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {topDiagnosticPanelsPage.pageRows.length > 0 ? topDiagnosticPanelsPage.pageRows.map((row, i) => (
                   <tr key={i} className="hover:bg-slate-50/80 transition-colors">
                     <td className="px-4 py-3 font-semibold text-slate-700">{renderValue(row.test_panel)}</td>
-                    <td className="px-4 py-3 text-slate-700 text-right">{renderValue(row.total_volume)}</td>
-                    <td className="px-4 py-3 font-bold text-slate-800 text-right">{formatCurrency(row.revenue_generated)}</td>
+                    <td className="px-4 py-3 text-slate-700 text-end">{renderValue(row.total_volume)}</td>
+                    <td className="px-4 py-3 font-bold text-slate-800 text-end">{formatCurrency(row.revenue_generated)}</td>
                   </tr>
                 )) : (
-                  <tr><td colSpan={3} className="px-4 py-6 text-center text-slate-400 italic">No data.</td></tr>
+                  <tr><td colSpan={3} className="px-4 py-6 text-center text-slate-400 italic">{i18n.t("No data.")}</td></tr>
                 )}
               </tbody>
             </table>
@@ -271,25 +272,25 @@ const LabDashboardReport: React.FC = () => {
 
       <div className="mt-6">
         <div>
-          <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">Top Referring Doctors</h3>
+          <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">{i18n.t("Top Referring Doctors")}</h3>
           <div className="overflow-x-auto rounded-xl border border-slate-200">
-            <table className="w-full text-left text-sm whitespace-nowrap">
+            <table className="w-full text-start text-sm whitespace-nowrap">
               <thead className="bg-slate-50 border-b border-slate-200">
                 <tr>
-                  <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Referring Doctor</th>
-                  <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Referrals</th>
-                  <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Revenue</th>
+                  <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Referring Doctor")}</th>
+                  <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Referrals")}</th>
+                  <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Revenue")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {topReferringDoctorsPage.pageRows.length > 0 ? topReferringDoctorsPage.pageRows.map((row, i) => (
                   <tr key={i} className="hover:bg-slate-50/80 transition-colors">
                     <td className="px-4 py-3 font-semibold text-slate-700">{renderValue(row.referring_doctor)}</td>
-                    <td className="px-4 py-3 text-slate-700 text-right">{renderValue(row.total_referrals)}</td>
-                    <td className="px-4 py-3 font-bold text-slate-800 text-right">{formatCurrency(row.revenue_generated)}</td>
+                    <td className="px-4 py-3 text-slate-700 text-end">{renderValue(row.total_referrals)}</td>
+                    <td className="px-4 py-3 font-bold text-slate-800 text-end">{formatCurrency(row.revenue_generated)}</td>
                   </tr>
                 )) : (
-                  <tr><td colSpan={3} className="px-4 py-6 text-center text-slate-400 italic">No data.</td></tr>
+                  <tr><td colSpan={3} className="px-4 py-6 text-center text-slate-400 italic">{i18n.t("No data.")}</td></tr>
                 )}
               </tbody>
             </table>
@@ -311,25 +312,25 @@ const LabDashboardReport: React.FC = () => {
       </div>
 
       <div className="mt-6">
-        <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">Workload Distribution</h3>
+        <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">{i18n.t("Workload Distribution")}</h3>
         <div className="overflow-x-auto rounded-xl border border-slate-200">
-          <table className="w-full text-left text-sm whitespace-nowrap">
+          <table className="w-full text-start text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200">
               <tr>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Patient Origin</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Test Volume</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Revenue</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Patient Origin")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Test Volume")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Revenue")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {workloadDistributionPage.pageRows.length > 0 ? workloadDistributionPage.pageRows.map((row, i) => (
                 <tr key={i} className="hover:bg-slate-50/80 transition-colors">
                   <td className="px-4 py-3 font-bold text-slate-800">{renderValue(row.patient_origin)}</td>
-                  <td className="px-4 py-3 text-slate-700 text-right">{renderValue(row.test_volume)}</td>
-                  <td className="px-4 py-3 font-bold text-slate-800 text-right">{formatCurrency(row.revenue_generated)}</td>
+                  <td className="px-4 py-3 text-slate-700 text-end">{renderValue(row.test_volume)}</td>
+                  <td className="px-4 py-3 font-bold text-slate-800 text-end">{formatCurrency(row.revenue_generated)}</td>
                 </tr>
               )) : (
-                <tr><td colSpan={3} className="px-4 py-8 text-center text-slate-400 italic">No workload data.</td></tr>
+                <tr><td colSpan={3} className="px-4 py-8 text-center text-slate-400 italic">{i18n.t("No workload data.")}</td></tr>
               )}
             </tbody>
           </table>
@@ -350,17 +351,17 @@ const LabDashboardReport: React.FC = () => {
       </div>
 
       <div className="mt-6">
-        <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">Active Pending Backlog</h3>
+        <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-3">{i18n.t("Active Pending Backlog")}</h3>
         <div className="overflow-x-auto rounded-xl border border-slate-200">
-          <table className="w-full text-left text-sm whitespace-nowrap">
+          <table className="w-full text-start text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200">
               <tr>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Ordered At</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Requested Test</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Patient</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Ordering Doctor</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Status</th>
-                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Days Waiting</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Ordered At")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Requested Test")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Patient")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Ordering Doctor")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Status")}</th>
+                <th className="px-4 py-3 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Days Waiting")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -370,7 +371,7 @@ const LabDashboardReport: React.FC = () => {
                   <td className="px-4 py-3 font-semibold text-slate-700">{renderValue(row.requested_test)}</td>
                   <td className="px-4 py-3">
                     <div className="font-semibold text-slate-700">{renderValue(row.patient_name)}</div>
-                    <div className="text-[11px] text-slate-400 font-mono">MRN: {renderValue(row.mrn)}</div>
+                    <div className="text-[11px] text-slate-400 font-mono">{i18n.t("MRN:")}{" "}{renderValue(row.mrn)}</div>
                   </td>
                   <td className="px-4 py-3 text-slate-700">{renderValue(row.ordering_doctor)}</td>
                   <td className="px-4 py-3">
@@ -378,10 +379,10 @@ const LabDashboardReport: React.FC = () => {
                       {renderValue(row.workflow_status)}
                     </span>
                   </td>
-                  <td className="px-4 py-3 font-bold text-red-600 text-right">{renderValue(row.days_waiting)}</td>
+                  <td className="px-4 py-3 font-bold text-red-600 text-end">{renderValue(row.days_waiting)}</td>
                 </tr>
               )) : (
-                <tr><td colSpan={6} className="px-4 py-8 text-center text-slate-400 italic">No pending backlog.</td></tr>
+                <tr><td colSpan={6} className="px-4 py-8 text-center text-slate-400 italic">{i18n.t("No pending backlog.")}</td></tr>
               )}
             </tbody>
           </table>

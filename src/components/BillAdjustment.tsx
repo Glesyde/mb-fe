@@ -15,6 +15,7 @@ import {
   Save,
   ArrowRight
 } from 'lucide-react';
+import { i18n } from "../i18n";
 
 interface Invoice {
   id: string;
@@ -53,7 +54,7 @@ const BillAdjustment: React.FC = () => {
 
   const handleAction = () => {
     if (!reason) {
-      alert("A reason for adjustment is mandatory for the audit trail.");
+      alert(i18n.t("A reason for adjustment is mandatory for the audit trail."));
       return;
     }
     alert(`${mode === 'void' ? 'Invoice Voided' : 'Bill Adjusted'} successfully.`);
@@ -69,22 +70,20 @@ const BillAdjustment: React.FC = () => {
           <h1 className="text-3xl font-black text-slate-800 tracking-tight flex items-center gap-3">
              <div className="p-2 bg-brand-active text-brand-primary rounded-xl">
               <Wrench size={28} />
-            </div>
-            Bill Adjustment Tool
-          </h1>
-          <p className="text-slate-500 font-medium">Rectify ledger errors or void incorrectly generated finalized invoices.</p>
+            </div>{i18n.t("Bill Adjustment Tool")}</h1>
+          <p className="text-slate-500 font-medium">{i18n.t("Rectify ledger errors or void incorrectly generated finalized invoices.")}</p>
         </div>
       </div>
 
       {/* Search Header */}
       <div className="bg-white border border-slate-200 rounded-[40px] p-10 shadow-sm">
         <form onSubmit={handleSearch} className="max-w-2xl mx-auto space-y-4">
-          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 text-center block">Search Finalized Invoice ID</label>
+          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1 text-center block">{i18n.t("Search Finalized Invoice ID")}</label>
           <div className="relative flex items-center gap-3 p-2 bg-slate-50 border-2 border-slate-100 rounded-3xl focus-within:border-brand-active0 transition-all">
-            <div className="pl-4 text-slate-400"><Search size={20} /></div>
+            <div className="ps-4 text-slate-400"><Search size={20} /></div>
             <input 
               type="text" 
-              placeholder="e.g. INV-77281-25"
+              placeholder={i18n.t("e.g. INV-77281-25")}
               className="flex-1 py-3 bg-transparent text-lg font-bold text-slate-800 outline-none"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -93,7 +92,7 @@ const BillAdjustment: React.FC = () => {
               disabled={searching || !query}
               className="bg-slate-900 text-white px-8 py-4 rounded-[20px] font-black text-sm uppercase tracking-widest hover:bg-slate-800 disabled:opacity-50 transition-all"
             >
-              {searching ? 'Locating...' : 'Load Invoice'}
+              {searching ? i18n.t("Locating...") : i18n.t("Load Invoice")}
             </button>
           </div>
         </form>
@@ -111,23 +110,23 @@ const BillAdjustment: React.FC = () => {
                      </div>
                      <div>
                         <h3 className="font-black text-slate-800">{invoice.patient}</h3>
-                        <p className="text-xs text-slate-500 font-medium">{invoice.id} • Finalized on {invoice.date}</p>
+                        <p className="text-xs text-slate-500 font-medium">{invoice.id}{" "}{i18n.t("• Finalized on")}{" "}{invoice.date}</p>
                      </div>
                   </div>
-                  <div className="text-right">
-                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total Value</p>
+                  <div className="text-end">
+                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Total Value")}</p>
                      <p className="text-2xl font-black text-slate-900">₦{invoice.total.toLocaleString()}</p>
                   </div>
                </div>
 
                <div className="p-8">
-                  <table className="w-full text-left">
+                  <table className="w-full text-start">
                     <thead>
                        <tr className="text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">
-                          <th className="pb-4 px-2">Service Description</th>
-                          <th className="pb-4 px-2 text-center">Qty</th>
-                          <th className="pb-4 px-2 text-right">Price</th>
-                          <th className="pb-4 px-2 text-right">Total</th>
+                          <th className="pb-4 px-2">{i18n.t("Service Description")}</th>
+                          <th className="pb-4 px-2 text-center">{i18n.t("Qty")}</th>
+                          <th className="pb-4 px-2 text-end">{i18n.t("Price")}</th>
+                          <th className="pb-4 px-2 text-end">{i18n.t("Total")}</th>
                        </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-50">
@@ -137,8 +136,8 @@ const BillAdjustment: React.FC = () => {
                                <p className="text-sm font-bold text-slate-700">{item.name}</p>
                             </td>
                             <td className="py-4 px-2 text-center text-sm font-medium text-slate-500">{item.qty}</td>
-                            <td className="py-4 px-2 text-right text-sm font-medium text-slate-500">₦{item.price.toLocaleString()}</td>
-                            <td className="py-4 px-2 text-right text-sm font-black text-slate-900">₦{(item.price * item.qty).toLocaleString()}</td>
+                            <td className="py-4 px-2 text-end text-sm font-medium text-slate-500">₦{item.price.toLocaleString()}</td>
+                            <td className="py-4 px-2 text-end text-sm font-black text-slate-900">₦{(item.price * item.qty).toLocaleString()}</td>
                          </tr>
                        ))}
                     </tbody>
@@ -157,7 +156,7 @@ const BillAdjustment: React.FC = () => {
                 <div className={`p-4 rounded-2xl ${mode === 'modify' ? 'bg-brand-primary text-white' : 'bg-slate-50'}`}>
                    <Edit3 size={28} />
                 </div>
-                <span className="font-black uppercase tracking-widest text-xs">Modify Line Items</span>
+                <span className="font-black uppercase tracking-widest text-xs">{i18n.t("Modify Line Items")}</span>
               </button>
               <button 
                 onClick={() => setMode('void')}
@@ -168,7 +167,7 @@ const BillAdjustment: React.FC = () => {
                 <div className={`p-4 rounded-2xl ${mode === 'void' ? 'bg-rose-600 text-white' : 'bg-slate-50'}`}>
                    <Ban size={28} />
                 </div>
-                <span className="font-black uppercase tracking-widest text-xs">Void Full Invoice</span>
+                <span className="font-black uppercase tracking-widest text-xs">{i18n.t("Void Full Invoice")}</span>
               </button>
             </div>
           </div>
@@ -179,15 +178,15 @@ const BillAdjustment: React.FC = () => {
                   <div className="p-2 bg-amber-500 rounded-xl">
                     <ShieldAlert size={20} className="text-slate-900" />
                   </div>
-                  <h3 className="text-lg font-bold">Audit Authorization</h3>
+                  <h3 className="text-lg font-bold">{i18n.t("Audit Authorization")}</h3>
                 </div>
 
                 <div className="space-y-6 flex-1">
                    <div className="space-y-3">
-                      <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Reason for Adjustment *</label>
+                      <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ms-1">{i18n.t("Reason for Adjustment *")}</label>
                       <textarea 
                         rows={5}
-                        placeholder="Detailed explanation of the error or requirement for modification..."
+                        placeholder={i18n.t("Detailed explanation of the error or requirement for modification...")}
                         className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-3xl text-sm font-medium outline-none focus:border-white/20 transition-all resize-none"
                         value={reason}
                         onChange={(e) => setReason(e.target.value)}
@@ -196,12 +195,12 @@ const BillAdjustment: React.FC = () => {
 
                    <div className="p-5 bg-white/5 border border-white/10 rounded-3xl space-y-2">
                       <div className="flex justify-between items-center text-xs">
-                        <span className="text-slate-500 uppercase font-bold">Logged User</span>
-                        <span className="font-black">Admin Jane</span>
+                        <span className="text-slate-500 uppercase font-bold">{i18n.t("Logged User")}</span>
+                        <span className="font-black">{i18n.t("Admin Jane")}</span>
                       </div>
                       <div className="flex justify-between items-center text-xs">
-                        <span className="text-slate-500 uppercase font-bold">Timestamp</span>
-                        <span className="font-black">Auto-generated</span>
+                        <span className="text-slate-500 uppercase font-bold">{i18n.t("Timestamp")}</span>
+                        <span className="font-black">{i18n.t("Auto-generated")}</span>
                       </div>
                    </div>
                 </div>
@@ -214,15 +213,13 @@ const BillAdjustment: React.FC = () => {
                   `}
                 >
                   {mode === 'void' ? <Ban size={18} /> : <Save size={18} />}
-                  {mode === 'void' ? 'Confirm Void Session' : mode === 'modify' ? 'Apply Adjustments' : 'Select Action'}
+                  {mode === 'void' ? i18n.t("Confirm Void Session") : mode === 'modify' ? i18n.t("Apply Adjustments") : i18n.t("Select Action")}
                 </button>
              </div>
 
              <div className="bg-brand-active border border-brand-active p-6 rounded-[32px] flex items-start gap-4">
                 <AlertCircle className="text-brand-primary flex-shrink-0" size={24} />
-                <p className="text-[10px] text-brand-primary font-bold leading-relaxed uppercase">
-                  Adjustments are irreversible once authorized. A credit note will be automatically generated if the original amount changes.
-                </p>
+                <p className="text-[10px] text-brand-primary font-bold leading-relaxed uppercase">{i18n.t("Adjustments are irreversible once authorized. A credit note will be automatically generated if the original amount changes.")}</p>
              </div>
           </div>
         </div>

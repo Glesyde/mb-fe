@@ -7,6 +7,7 @@
 import React, { useState } from "react";
 import { StageFormProps } from "../types/ot-checklist.types";
 import { AlertCircle, X } from "lucide-react";
+import { i18n } from "../i18n";
 
 interface SignInFormData {
   identity?: number;
@@ -55,11 +56,9 @@ const OTChecklistSignIn: React.FC<StageFormProps> = ({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-orange-50 border-l-4 border-orange-500 p-4 rounded">
-        <h3 className="font-bold text-orange-900">SIGN IN</h3>
-        <p className="text-sm text-orange-700">
-          Before Induction of Anaesthesia
-        </p>
+      <div className="bg-orange-50 border-s-4 border-orange-500 p-4 rounded">
+        <h3 className="font-bold text-orange-900">{i18n.t("SIGN IN")}</h3>
+        <p className="text-sm text-orange-700">{i18n.t("Before Induction of Anaesthesia")}</p>
       </div>
 
       {/* Basic Checks */}
@@ -74,12 +73,10 @@ const OTChecklistSignIn: React.FC<StageFormProps> = ({
               disabled={disabled}
               className="w-5 h-5 rounded text-orange-600"
             />
-            <span className="font-semibold text-gray-900">
-              Patient identity confirmed
-            </span>
+            <span className="font-semibold text-gray-900">{i18n.t("Patient identity confirmed")}</span>
           </label>
           {errors.identity && (
-            <div className="flex items-center gap-2 mt-2 ml-8 text-red-600 text-sm">
+            <div className="flex items-center gap-2 mt-2 ms-8 text-red-600 text-sm">
               <AlertCircle size={16} />
               {errors.identity}
             </div>
@@ -96,12 +93,10 @@ const OTChecklistSignIn: React.FC<StageFormProps> = ({
               disabled={disabled}
               className="w-5 h-5 rounded text-orange-600"
             />
-            <span className="font-semibold text-gray-900">
-              Surgical site is marked
-            </span>
+            <span className="font-semibold text-gray-900">{i18n.t("Surgical site is marked")}</span>
           </label>
           {errors.site_marked && (
-            <div className="flex items-center gap-2 mt-2 ml-8 text-red-600 text-sm">
+            <div className="flex items-center gap-2 mt-2 ms-8 text-red-600 text-sm">
               <AlertCircle size={16} />
               {errors.site_marked}
             </div>
@@ -118,12 +113,10 @@ const OTChecklistSignIn: React.FC<StageFormProps> = ({
               disabled={disabled}
               className="w-5 h-5 rounded text-orange-600"
             />
-            <span className="font-semibold text-gray-900">
-              Anaesthesia and medication check complete
-            </span>
+            <span className="font-semibold text-gray-900">{i18n.t("Anaesthesia and medication check complete")}</span>
           </label>
           {errors.anaesthesia && (
-            <div className="flex items-center gap-2 mt-2 ml-8 text-red-600 text-sm">
+            <div className="flex items-center gap-2 mt-2 ms-8 text-red-600 text-sm">
               <AlertCircle size={16} />
               {errors.anaesthesia}
             </div>
@@ -133,7 +126,7 @@ const OTChecklistSignIn: React.FC<StageFormProps> = ({
 
       {/* Airway Risk Assessment */}
       <div className="border rounded-lg p-4 bg-brand-active">
-        <h4 className="font-bold text-gray-900 mb-3">Airway Risk Assessment</h4>
+        <h4 className="font-bold text-gray-900 mb-3">{i18n.t("Airway Risk Assessment")}</h4>
         <div className="space-y-3">
           <div className="flex items-center gap-4">
             <label className="flex items-center gap-2 cursor-pointer">
@@ -146,7 +139,7 @@ const OTChecklistSignIn: React.FC<StageFormProps> = ({
                 disabled={disabled}
                 className="w-4 h-4"
               />
-              <span className="font-semibold">Yes - Difficult Airway</span>
+              <span className="font-semibold">{i18n.t("Yes - Difficult Airway")}</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer">
               <input
@@ -158,7 +151,7 @@ const OTChecklistSignIn: React.FC<StageFormProps> = ({
                 disabled={disabled}
                 className="w-4 h-4"
               />
-              <span className="font-semibold">No</span>
+              <span className="font-semibold">{i18n.t("No")}</span>
             </label>
           </div>
           {errors.airway_risk && (
@@ -181,9 +174,7 @@ const OTChecklistSignIn: React.FC<StageFormProps> = ({
                 disabled={disabled}
                 className="w-5 h-5 rounded text-brand-primary"
               />
-              <span className="text-gray-900">
-                Airway management equipment prepared
-              </span>
+              <span className="text-gray-900">{i18n.t("Airway management equipment prepared")}</span>
             </label>
           </div>
         )}
@@ -191,7 +182,7 @@ const OTChecklistSignIn: React.FC<StageFormProps> = ({
 
       {/* Allergies */}
       <div className="border rounded-lg p-4 bg-red-50">
-        <h4 className="font-bold text-gray-900 mb-3">Known Allergies</h4>
+        <h4 className="font-bold text-gray-900 mb-3">{i18n.t("Known Allergies")}</h4>
         <div className="space-y-3">
           <label className="flex items-center gap-2 cursor-pointer">
             <input
@@ -201,11 +192,11 @@ const OTChecklistSignIn: React.FC<StageFormProps> = ({
               disabled={disabled}
               className="w-5 h-5 rounded text-red-600"
             />
-            <span className="font-semibold">Patient has known allergies</span>
+            <span className="font-semibold">{i18n.t("Patient has known allergies")}</span>
           </label>
 
           {formData.has_allergy === 1 && (
-            <div className="ml-7 space-y-3">
+            <div className="ms-7 space-y-3">
               {/* Allergy Tags */}
               {formData.allergies && formData.allergies.length > 0 && (
                 <div className="flex flex-wrap gap-2">
@@ -241,15 +232,13 @@ const OTChecklistSignIn: React.FC<StageFormProps> = ({
                         e.preventDefault();
                       }
                     }}
-                    placeholder="e.g., Penicillin"
+                    placeholder={i18n.t("e.g., Penicillin")}
                     className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 outline-none"
                   />
                   <button
                     onClick={addAllergy}
                     className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 font-semibold"
-                  >
-                    Add
-                  </button>
+                  >{i18n.t("Add")}</button>
                 </div>
               )}
             </div>
@@ -259,9 +248,7 @@ const OTChecklistSignIn: React.FC<StageFormProps> = ({
 
       {/* Implants */}
       <div className="border rounded-lg p-4 bg-purple-50">
-        <h4 className="font-bold text-gray-900 mb-3">
-          Metal Work / Implant / Pacemaker
-        </h4>
+        <h4 className="font-bold text-gray-900 mb-3">{i18n.t("Metal Work / Implant / Pacemaker")}</h4>
         <div className="space-y-3">
           <label className="flex items-center gap-2 cursor-pointer">
             <input
@@ -271,16 +258,16 @@ const OTChecklistSignIn: React.FC<StageFormProps> = ({
               disabled={disabled}
               className="w-5 h-5 rounded text-purple-600"
             />
-            <span className="font-semibold">Patient has implant/metalwork</span>
+            <span className="font-semibold">{i18n.t("Patient has implant/metalwork")}</span>
           </label>
 
           {formData.has_implant === 1 && (
-            <div className="ml-7">
+            <div className="ms-7">
               <textarea
                 value={formData.implant_details || ""}
                 onChange={(e) => onChange("implant_details", e.target.value)}
                 disabled={disabled}
-                placeholder="e.g., Pacemaker in situ, details..."
+                placeholder={i18n.t("e.g., Pacemaker in situ, details...")}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none disabled:bg-gray-100 resize-none"
                 rows={3}
               />
@@ -291,9 +278,7 @@ const OTChecklistSignIn: React.FC<StageFormProps> = ({
 
       {/* Blood Loss Risk */}
       <div className="border rounded-lg p-4 bg-amber-50">
-        <h4 className="font-bold text-gray-900 mb-3">
-          Blood Loss Risk &gt; 500mls
-        </h4>
+        <h4 className="font-bold text-gray-900 mb-3">{i18n.t("Blood Loss Risk > 500mls")}</h4>
         <div className="space-y-3">
           <label className="flex items-center gap-2 cursor-pointer">
             <input
@@ -303,13 +288,11 @@ const OTChecklistSignIn: React.FC<StageFormProps> = ({
               disabled={disabled}
               className="w-5 h-5 rounded text-amber-600"
             />
-            <span className="font-semibold">
-              Risk of blood loss &gt; 500mls
-            </span>
+            <span className="font-semibold">{i18n.t("Risk of blood loss > 500mls")}</span>
           </label>
 
           {formData.blood_risk === 1 && (
-            <div className="ml-7">
+            <div className="ms-7">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
@@ -320,9 +303,7 @@ const OTChecklistSignIn: React.FC<StageFormProps> = ({
                   disabled={disabled}
                   className="w-5 h-5 rounded text-amber-600"
                 />
-                <span>
-                  Adequate IV access and fluids/blood products available
-                </span>
+                <span>{i18n.t("Adequate IV access and fluids/blood products available")}</span>
               </label>
             </div>
           )}

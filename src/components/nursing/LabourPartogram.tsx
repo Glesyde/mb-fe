@@ -18,6 +18,7 @@ import AddCtgObservationModal from "./AddCtgObservationModal";
 import EditCtgObservationModal from "./EditCtgObservationModal";
 import DeleteCtgObservationModal from "./DeleteCtgObservationModal";
 import { useNotification } from "../../context/NotificationContext";
+import { i18n } from "../../i18n";
 
 const LabourPartogram: React.FC = () => {
   const { sessionId } = useParams<{ sessionId: string }>();
@@ -132,7 +133,7 @@ const LabourPartogram: React.FC = () => {
       <div className="h-full flex items-center justify-center bg-white rounded-[40px] shadow-sm border border-slate-200 min-h-[400px]">
         <div className="flex flex-col items-center">
           <Loader2 className="w-10 h-10 animate-spin text-brand-primary mb-4" />
-          <p className="text-sm font-bold text-slate-400">Loading session data...</p>
+          <p className="text-sm font-bold text-slate-400">{i18n.t("Loading session data...")}</p>
         </div>
       </div>
     );
@@ -142,14 +143,12 @@ const LabourPartogram: React.FC = () => {
     return (
       <div className="h-full flex flex-col items-center justify-center bg-white rounded-[40px] shadow-sm border border-slate-200 min-h-[400px] p-6 text-center">
         <Activity className="w-12 h-12 text-slate-300 mb-4" />
-        <h2 className="text-xl font-bold text-slate-800">Session Not Found</h2>
-        <p className="text-sm font-medium text-slate-400 mt-2 mb-6">The labour session you are looking for does not exist or has been removed.</p>
+        <h2 className="text-xl font-bold text-slate-800">{i18n.t("Session Not Found")}</h2>
+        <p className="text-sm font-medium text-slate-400 mt-2 mb-6">{i18n.t("The labour session you are looking for does not exist or has been removed.")}</p>
         <button
           onClick={() => navigate("/nursing/admissions")}
           className="px-6 py-2.5 bg-slate-100 text-slate-600 rounded-xl hover:bg-slate-200 transition-colors font-bold text-sm"
-        >
-          Back to Admissions
-        </button>
+        >{i18n.t("Back to Admissions")}</button>
       </div>
     );
   }
@@ -164,20 +163,20 @@ const LabourPartogram: React.FC = () => {
             onClick={() => navigate("/nursing/admissions")}
             className="p-2.5 bg-white border border-slate-200 text-slate-400 hover:text-brand-primary hover:bg-brand-active hover:border-brand-active rounded-xl transition-all shadow-sm"
           >
-            <ChevronLeft className="w-5 h-5" />
+            <ChevronLeft className="w-5 h-5 rtl:-scale-x-100" />
           </button>
           <div>
             <h2 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight flex items-center gap-3">
-              <span className="truncate">Labour Partogram</span>
+              <span className="truncate">{i18n.t("Labour Partogram")}</span>
             </h2>
             <div className="flex flex-wrap items-center gap-2 mt-1.5">
               <span className="text-xs font-bold text-brand-primary bg-brand-active px-2.5 py-1 rounded-md border border-brand-active">
                 {session.patient_name}
               </span>
-              <span className="text-[10px] font-bold text-slate-400 tracking-wider uppercase">MRN: {session.patient_mrn}</span>
+              <span className="text-[10px] font-bold text-slate-400 tracking-wider uppercase">{i18n.t("MRN:")}{" "}{session.patient_mrn}</span>
               <span className="hidden md:inline text-slate-300">•</span>
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[9.5px] font-bold uppercase tracking-widest bg-emerald-50 text-emerald-600 border border-emerald-100">
-                {session.status}
+                {i18n.tv(session.status)}
               </span>
             </div>
           </div>
@@ -188,20 +187,20 @@ const LabourPartogram: React.FC = () => {
           className="px-5 py-2.5 bg-brand-primary text-white rounded-xl shadow-sm hover:bg-brand-secondary transition-all flex items-center gap-2 font-bold text-sm shrink-0"
         >
           <Plus className="w-4 h-4" />
-          <span>Add Observation</span>
+          <span>{i18n.t("Add Observation")}</span>
         </button>
       </div>
 
       {/* Patient Demographics & Session Info Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
-        <InfoCard label="Gravida" value={session.gravida.toString()} />
-        <InfoCard label="Para" value={session.para.toString()} />
-        <InfoCard label="Gestational Age" value={`${session.gestational_age_weeks} wks`} />
-        <InfoCard label="Membranes" value={session.membranes_state} />
-        <InfoCard label="Blood Group" value={session.blood_group} />
-        <InfoCard label="GBS Status" value={session.gbs_status} />
-        <InfoCard label="HIV Status" value={session.hiv_status} />
-        <InfoCard label="Analgesia" value={session.analgesia_plan} />
+        <InfoCard label={i18n.t("Gravida")} value={session.gravida.toString()} />
+        <InfoCard label={i18n.t("Para")} value={session.para.toString()} />
+        <InfoCard label={i18n.t("Gestational Age")} value={`${session.gestational_age_weeks} wks`} />
+        <InfoCard label={i18n.t("Membranes")} value={session.membranes_state} />
+        <InfoCard label={i18n.t("Blood Group")} value={session.blood_group} />
+        <InfoCard label={i18n.t("GBS Status")} value={session.gbs_status} />
+        <InfoCard label={i18n.t("HIV Status")} value={session.hiv_status} />
+        <InfoCard label={i18n.t("Analgesia")} value={session.analgesia_plan} />
       </div>
 
       {/* Chart Section */}
@@ -220,19 +219,17 @@ const LabourPartogram: React.FC = () => {
             </div>
             <div>
               <h3 className={`font-black text-slate-800 tracking-tight flex items-center gap-2 ${isFullscreen ? 'text-xl md:text-2xl' : 'uppercase tracking-wide text-xs'}`}>
-                {!isFullscreen && <Activity className="w-4 h-4 text-brand-primary" />}
-                WHO Partograph {isFullscreen && '- Full Screen'}
+                {!isFullscreen && <Activity className="w-4 h-4 text-brand-primary" />}{i18n.t("WHO Partograph")}{" "}{isFullscreen && i18n.t("- Full Screen")}
               </h3>
               {isFullscreen && session && (
-                 <p className="text-xs font-bold text-slate-400 mt-0.5">{session.patient_name} • MRN: {session.patient_mrn}</p>
+                 <p className="text-xs font-bold text-slate-400 mt-0.5">{session.patient_name}{" "}{i18n.t("• MRN:")}{" "}{session.patient_mrn}</p>
               )}
             </div>
           </div>
 
           <div className="flex items-center gap-3">
             {!isFullscreen && (
-              <span className="text-[10px] font-bold text-slate-400 bg-white border border-slate-100 px-3 py-1.5 rounded-lg shadow-sm">
-                Started: {new Date(session.created_at).toLocaleString()}
+              <span className="text-[10px] font-bold text-slate-400 bg-white border border-slate-100 px-3 py-1.5 rounded-lg shadow-sm">{i18n.t("Started:")}{" "}{new Date(session.created_at).toLocaleString()}
               </span>
             )}
             <button 
@@ -242,9 +239,9 @@ const LabourPartogram: React.FC = () => {
                  ? 'px-4 py-2 bg-white border border-slate-200 text-slate-500 hover:bg-slate-100 rounded-xl font-bold text-sm'
                  : 'p-1.5 text-slate-400 hover:text-brand-primary hover:bg-brand-active rounded-lg border border-transparent hover:border-brand-primary/20'
               }`}
-              title={isFullscreen ? "Exit Full Screen" : "View Full Screen"}
+              title={isFullscreen ? i18n.t("Exit Full Screen") : i18n.t("View Full Screen")}
             >
-              {isFullscreen ? <><Minimize2 className="w-4 h-4" /> Close</> : <Maximize className="w-4 h-4" />}
+              {isFullscreen ? <><Minimize2 className="w-4 h-4" />{" "}{i18n.t("Close")}</> : <Maximize className="w-4 h-4" />}
             </button>
           </div>
         </div>
@@ -266,9 +263,7 @@ const LabourPartogram: React.FC = () => {
                 ? "border-brand-primary text-brand-primary bg-white"
                 : "border-transparent text-slate-400 hover:text-slate-600 hover:bg-slate-50"
             }`}
-          >
-            Partogram Logs
-          </button>
+          >{i18n.t("Partogram Logs")}</button>
           <button
             onClick={() => setActiveTab("ctg")}
             className={`px-6 py-5 text-xs font-black uppercase tracking-widest border-b-2 transition-colors ${
@@ -276,23 +271,21 @@ const LabourPartogram: React.FC = () => {
                 ? "border-emerald-500 text-emerald-600 bg-white"
                 : "border-transparent text-slate-400 hover:text-slate-600 hover:bg-slate-50"
             }`}
-          >
-            CTG Logs
-          </button>
+          >{i18n.t("CTG Logs")}</button>
         </div>
         <div className="overflow-x-auto">
           {activeTab === "partogram" ? (
-            <table className="w-full text-left">
+            <table className="w-full text-start">
               <thead>
                 <tr className="bg-slate-50/50 border-b border-slate-100">
-                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Time</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Hr of Labour</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Dilation</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Descent</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">FHR (bpm)</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Contractions</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Liquor</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap text-right">Recorded By</th>
+                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">{i18n.t("Time")}</th>
+                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">{i18n.t("Hr of Labour")}</th>
+                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">{i18n.t("Dilation")}</th>
+                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">{i18n.t("Descent")}</th>
+                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">{i18n.t("FHR (bpm)")}</th>
+                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">{i18n.t("Contractions")}</th>
+                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">{i18n.t("Liquor")}</th>
+                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap text-end">{i18n.t("Recorded By")}</th>
                   <th className="px-6 py-5 w-16"></th>
                 </tr>
               </thead>
@@ -300,14 +293,14 @@ const LabourPartogram: React.FC = () => {
                 {observations.length === 0 ? (
                   <tr>
                     <td colSpan={9} className="py-12 text-center">
-                      <p className="text-sm font-bold text-slate-400">No partogram observations recorded yet.</p>
+                      <p className="text-sm font-bold text-slate-400">{i18n.t("No partogram observations recorded yet.")}</p>
                     </td>
                   </tr>
                 ) : (
                   observations.map((obs) => (
                     <tr key={obs.id} className="hover:bg-slate-50/30 transition-colors group cursor-pointer">
                       <td className="px-6 py-4 text-xs font-black text-slate-800 whitespace-nowrap">{obs.observation_time}</td>
-                      <td className="px-6 py-4 text-xs font-bold text-slate-600">Hour {obs.hour_of_labour}</td>
+                      <td className="px-6 py-4 text-xs font-bold text-slate-600">{i18n.t("Hour")}{" "}{obs.hour_of_labour}</td>
                       <td className="px-6 py-4 text-xs font-bold text-slate-600">{obs.cervical_dilation_display}</td>
                       <td className="px-6 py-4 text-xs font-bold text-slate-600">{obs.fetal_descent_fifths}</td>
                       <td className="px-6 py-4">
@@ -320,11 +313,11 @@ const LabourPartogram: React.FC = () => {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-xs font-bold text-slate-600 whitespace-nowrap">
-                        {obs.contractions_frequency}/10m <span className="text-[10px] font-medium text-slate-400 ml-1">({obs.contractions_duration_label})</span>
+                        {obs.contractions_frequency}{i18n.t("/10m")}{" "}<span className="text-[10px] font-medium text-slate-400 ms-1">({obs.contractions_duration_label})</span>
                       </td>
                       <td className="px-6 py-4 text-xs font-bold text-slate-600">{obs.liquor_state}</td>
-                      <td className="px-6 py-4 text-[10px] font-bold text-slate-400 text-right">{obs.recorded_by_display}</td>
-                      <td className="px-6 py-4 text-right relative">
+                      <td className="px-6 py-4 text-[10px] font-bold text-slate-400 text-end">{obs.recorded_by_display}</td>
+                      <td className="px-6 py-4 text-end relative">
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
@@ -336,27 +329,25 @@ const LabourPartogram: React.FC = () => {
                         </button>
   
                         {activeObsMenu === obs.id && (
-                          <div className="absolute right-8 top-10 w-36 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-10 animate-in fade-in slide-in-from-top-2 text-left">
+                          <div className="absolute end-8 top-10 w-36 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-10 animate-in fade-in slide-in-from-top-2 text-start">
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setActiveObsMenu(null);
                                 setSelectedObsForEdit(obs);
                               }}
-                              className="w-full text-left px-4 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 hover:text-amber-600 flex items-center gap-2"
+                              className="w-full text-start px-4 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 hover:text-amber-600 flex items-center gap-2"
                             >
-                              <Edit size={14} /> Edit
-                            </button>
+                              <Edit size={14} />{" "}{i18n.t("Edit")}</button>
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setActiveObsMenu(null);
                                 setSelectedObsForDelete(obs.id);
                               }}
-                              className="w-full text-left px-4 py-2 text-xs font-bold text-slate-700 hover:bg-red-50 hover:text-red-600 flex items-center gap-2 border-t border-slate-100"
+                              className="w-full text-start px-4 py-2 text-xs font-bold text-slate-700 hover:bg-red-50 hover:text-red-600 flex items-center gap-2 border-t border-slate-100"
                             >
-                              <Trash2 size={14} /> Delete
-                            </button>
+                              <Trash2 size={14} />{" "}{i18n.t("Delete")}</button>
                           </div>
                         )}
                       </td>
@@ -366,14 +357,14 @@ const LabourPartogram: React.FC = () => {
               </tbody>
             </table>
           ) : (
-            <table className="w-full text-left">
+            <table className="w-full text-start">
               <thead>
                 <tr className="bg-slate-50/50 border-b border-slate-100">
-                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Time</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">FHR (bpm)</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Contractions</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Comment</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap text-right">Recorded By</th>
+                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">{i18n.t("Time")}</th>
+                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">{i18n.t("FHR (bpm)")}</th>
+                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">{i18n.t("Contractions")}</th>
+                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">{i18n.t("Comment")}</th>
+                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap text-end">{i18n.t("Recorded By")}</th>
                   <th className="px-6 py-5 w-16"></th>
                 </tr>
               </thead>
@@ -381,7 +372,7 @@ const LabourPartogram: React.FC = () => {
                 {ctgObservations.length === 0 ? (
                   <tr>
                     <td colSpan={6} className="py-12 text-center">
-                      <p className="text-sm font-bold text-slate-400">No CTG observations recorded yet.</p>
+                      <p className="text-sm font-bold text-slate-400">{i18n.t("No CTG observations recorded yet.")}</p>
                     </td>
                   </tr>
                 ) : (
@@ -400,13 +391,13 @@ const LabourPartogram: React.FC = () => {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-xs font-bold text-slate-600 whitespace-nowrap">
-                        {obs.contractions_frequency}/10m <span className="text-[10px] font-medium text-slate-400 ml-1">({obs.contractions_duration})</span>
+                        {obs.contractions_frequency}{i18n.t("/10m")}{" "}<span className="text-[10px] font-medium text-slate-400 ms-1">({obs.contractions_duration})</span>
                       </td>
                       <td className="px-6 py-4 text-xs font-bold text-slate-600 max-w-xs truncate">
                         {obs.comment || "-"}
                       </td>
-                      <td className="px-6 py-4 text-[10px] font-bold text-slate-400 text-right">{obs.recorded_by_name}</td>
-                      <td className="px-6 py-4 text-right relative">
+                      <td className="px-6 py-4 text-[10px] font-bold text-slate-400 text-end">{obs.recorded_by_name}</td>
+                      <td className="px-6 py-4 text-end relative">
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
@@ -418,27 +409,25 @@ const LabourPartogram: React.FC = () => {
                         </button>
   
                         {activeCtgMenu === obs.id && (
-                          <div className="absolute right-8 top-10 w-36 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-10 animate-in fade-in slide-in-from-top-2 text-left">
+                          <div className="absolute end-8 top-10 w-36 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-10 animate-in fade-in slide-in-from-top-2 text-start">
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setActiveCtgMenu(null);
                                 setSelectedCtgForEdit(obs);
                               }}
-                              className="w-full text-left px-4 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 hover:text-amber-600 flex items-center gap-2"
+                              className="w-full text-start px-4 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 hover:text-amber-600 flex items-center gap-2"
                             >
-                              <Edit size={14} /> Edit
-                            </button>
+                              <Edit size={14} />{" "}{i18n.t("Edit")}</button>
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setActiveCtgMenu(null);
                                 setSelectedCtgForDelete(obs.id);
                               }}
-                              className="w-full text-left px-4 py-2 text-xs font-bold text-slate-700 hover:bg-red-50 hover:text-red-600 flex items-center gap-2 border-t border-slate-100"
+                              className="w-full text-start px-4 py-2 text-xs font-bold text-slate-700 hover:bg-red-50 hover:text-red-600 flex items-center gap-2 border-t border-slate-100"
                             >
-                              <Trash2 size={14} /> Delete
-                            </button>
+                              <Trash2 size={14} />{" "}{i18n.t("Delete")}</button>
                           </div>
                         )}
                       </td>

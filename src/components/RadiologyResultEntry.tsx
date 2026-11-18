@@ -7,6 +7,7 @@ import {
 import { radiologyService } from '../services/radiology.service';
 import { useNotification } from '../context/NotificationContext';
 import { createPortal } from 'react-dom';
+import { i18n } from "../i18n";
 
 const RadiologyResultEntry: React.FC = () => {
   const { notify } = useNotification();
@@ -165,8 +166,8 @@ const RadiologyResultEntry: React.FC = () => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-black text-slate-800 tracking-tight">Radiology Results</h2>
-          <p className="text-sm text-slate-500 font-medium mt-1">Manage and enter radiology diagnostic reports</p>
+          <h2 className="text-2xl font-black text-slate-800 tracking-tight">{i18n.t("Radiology Results")}</h2>
+          <p className="text-sm text-slate-500 font-medium mt-1">{i18n.t("Manage and enter radiology diagnostic reports")}</p>
         </div>
       </div>
 
@@ -175,33 +176,32 @@ const RadiologyResultEntry: React.FC = () => {
         {/* Search & Filter Bar */}
         <div className="p-6 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="relative max-w-md w-full">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input 
               type="text" 
-              placeholder="Search by Patient, MRN, Service, Order No..."
-              className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm font-medium outline-none focus:border-slate-500 focus:ring-4 focus:ring-slate-500/10 transition-all"
+              placeholder={i18n.t("Search by Patient, MRN, Service, Order No...")}
+              className="w-full ps-11 pe-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm font-medium outline-none focus:border-slate-500 focus:ring-4 focus:ring-slate-500/10 transition-all"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-xs font-bold text-slate-500 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm">
-              Total: {filteredQueue.length}
+            <span className="text-xs font-bold text-slate-500 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm">{i18n.t("Total:")}{" "}{filteredQueue.length}
             </span>
           </div>
         </div>
 
         {/* Table Section */}
         <div className="overflow-x-auto pb-24">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-start border-collapse">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-100">
-                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Order / Ref No</th>
-                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Patient Details</th>
-                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Service</th>
-                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Processed At</th>
-                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Status</th>
-                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap text-right">Actions</th>
+                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">{i18n.t("Order / Ref No")}</th>
+                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">{i18n.t("Patient Details")}</th>
+                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">{i18n.t("Service")}</th>
+                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">{i18n.t("Processed At")}</th>
+                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">{i18n.t("Status")}</th>
+                <th className="p-4 text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap text-end">{i18n.t("Actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -209,15 +209,15 @@ const RadiologyResultEntry: React.FC = () => {
                 <tr>
                   <td colSpan={6} className="p-8 text-center">
                     <Loader2 className="animate-spin mx-auto text-slate-600 mb-2" size={24} />
-                    <p className="text-sm text-slate-500 font-medium">Loading radiology queue...</p>
+                    <p className="text-sm text-slate-500 font-medium">{i18n.t("Loading radiology queue...")}</p>
                   </td>
                 </tr>
               ) : paginatedQueue.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="p-12 text-center">
                     <Scan size={48} className="mx-auto text-slate-300 mb-4" />
-                    <p className="text-lg font-bold text-slate-700">No scans found</p>
-                    <p className="text-sm text-slate-500 mt-1">Try adjusting your search criteria</p>
+                    <p className="text-lg font-bold text-slate-700">{i18n.t("No scans found")}</p>
+                    <p className="text-sm text-slate-500 mt-1">{i18n.t("Try adjusting your search criteria")}</p>
                   </td>
                 </tr>
               ) : (
@@ -226,15 +226,15 @@ const RadiologyResultEntry: React.FC = () => {
                     <td className="p-4">
                       <div className="flex flex-col">
                         <span className="text-sm font-bold text-slate-800">{c.reference_no || '-'}</span>
-                        <span className="text-[10px] font-mono text-slate-500 mt-0.5">Order ID: {c.order_id}</span>
+                        <span className="text-[10px] font-mono text-slate-500 mt-0.5">{i18n.t("Order ID:")}{" "}{c.order_id}</span>
                       </div>
                     </td>
                     <td className="p-4">
                       <div className="flex flex-col">
                         <span className="text-sm font-bold text-slate-800">{c.first_name} {c.last_name}</span>
                         <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-[10px] font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">MRN: {c.mrn}</span>
-                          <span className="text-[10px] text-slate-500">{c.phone || 'No Phone'}</span>
+                          <span className="text-[10px] font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">{i18n.t("MRN:")}{" "}{c.mrn}</span>
+                          <span className="text-[10px] text-slate-500">{c.phone || i18n.t("No Phone")}</span>
                         </div>
                       </div>
                     </td>
@@ -243,21 +243,21 @@ const RadiologyResultEntry: React.FC = () => {
                     </td>
                     <td className="p-4">
                       <span className="text-xs text-slate-600 font-medium">
-                        {c.processed_at ? new Date(c.processed_at).toLocaleString() : 'N/A'}
+                        {c.processed_at ? new Date(c.processed_at).toLocaleString() : i18n.t("N/A")}
                       </span>
                     </td>
                     <td className="p-4">
                       {c.status === 'REPORTED' || c.status === 'COMPLETED' ? (
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-black uppercase tracking-widest border border-emerald-200">
-                          <CheckCircle2 size={12} /> {c.status}
+                          <CheckCircle2 size={12} /> {i18n.tv(c.status)}
                         </span>
                       ) : (
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 text-[10px] font-black uppercase tracking-widest border border-amber-200">
-                          <AlertCircle size={12} /> {c.status}
+                          <AlertCircle size={12} /> {i18n.tv(c.status)}
                         </span>
                       )}
                     </td>
-                    <td className="p-4 text-right relative">
+                    <td className="p-4 text-end relative">
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
@@ -269,31 +269,29 @@ const RadiologyResultEntry: React.FC = () => {
                       </button>
                       
                       {activeMenu === c.id && (
-                        <div className="absolute right-8 top-10 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-10 animate-in fade-in slide-in-from-top-2">
+                        <div className="absolute end-8 top-10 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-10 animate-in fade-in slide-in-from-top-2">
                           
                           {c.study_instance_uid && (
                              <NavLink 
                                to={`/radiology/view?uid=${c.study_instance_uid}`}
-                               className="w-full text-left px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 flex items-center gap-2 border-b border-slate-100"
+                               className="w-full text-start px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 flex items-center gap-2 border-b border-slate-100"
                              >
-                               <MonitorPlay size={16} /> Open in Viewer
-                             </NavLink>
+                               <MonitorPlay size={16} />{" "}{i18n.t("Open in Viewer")}</NavLink>
                           )}
 
                           {c.status !== 'COMPLETED' && (
                             <button 
                               onClick={() => handleOpenModal(c, c.findings ? 'update' : 'enter')}
-                              className="w-full text-left px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-slate-900 flex items-center gap-2"
+                              className="w-full text-start px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-slate-900 flex items-center gap-2"
                             >
-                              <Edit3 size={16} /> {c.findings ? 'Update Result' : 'Enter Result'}
+                              <Edit3 size={16} /> {c.findings ? i18n.t("Update Result") : i18n.t("Enter Result")}
                             </button>
                           )}
                           <button 
                             onClick={() => handleOpenModal(c, 'view')}
-                            className="w-full text-left px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-brand-primary flex items-center gap-2"
+                            className="w-full text-start px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-brand-primary flex items-center gap-2"
                           >
-                            <Eye size={16} /> View Details
-                          </button>
+                            <Eye size={16} />{" "}{i18n.t("View Details")}</button>
                         </div>
                       )}
                     </td>
@@ -307,26 +305,23 @@ const RadiologyResultEntry: React.FC = () => {
         {/* Pagination */}
         {!loading && filteredQueue.length > 0 && (
           <div className="p-4 border-t border-slate-100 bg-slate-50 flex items-center justify-between">
-            <span className="text-xs font-medium text-slate-500">
-              Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, filteredQueue.length)} of {filteredQueue.length} entries
-            </span>
+            <span className="text-xs font-medium text-slate-500">{i18n.t("Showing")}{" "}{(currentPage - 1) * itemsPerPage + 1}{" "}{i18n.t("to")}{" "}{Math.min(currentPage * itemsPerPage, filteredQueue.length)}{" "}{i18n.t("of")}{" "}{filteredQueue.length}{" "}{i18n.t("entries")}</span>
             <div className="flex items-center gap-2">
               <button 
                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
                 className="p-1.5 rounded-lg border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
-                <ChevronLeft size={16} />
+                <ChevronLeft className="rtl:-scale-x-100" size={16} />
               </button>
-              <span className="text-xs font-bold text-slate-700 px-2">
-                Page {currentPage} of {totalPages}
+              <span className="text-xs font-bold text-slate-700 px-2">{i18n.t("Page")}{" "}{currentPage}{" "}{i18n.t("of")}{" "}{totalPages}
               </span>
               <button 
                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
                 className="p-1.5 rounded-lg border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
-                <ChevronRight size={16} />
+                <ChevronRight className="rtl:-scale-x-100" size={16} />
               </button>
             </div>
           </div>
@@ -348,7 +343,7 @@ const RadiologyResultEntry: React.FC = () => {
                  </div>
                  <div>
                    <h2 className="text-xl font-black text-slate-800 tracking-tight">
-                     {modalMode === 'enter' ? 'Enter Radiology Results' : 'View Radiology Results'}
+                     {modalMode === 'enter' ? i18n.t("Enter Radiology Results") : i18n.t("View Radiology Results")}
                    </h2>
                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 text-sm font-medium text-slate-500">
                      <span className="font-bold text-slate-700">{selectedCase.service_name}</span>
@@ -370,22 +365,22 @@ const RadiologyResultEntry: React.FC = () => {
              {/* Modal Body / Inputs */}
              <div className="p-6 sm:p-8 overflow-y-auto flex-1 space-y-6">
                <div className="space-y-1.5">
-                 <label className="text-[10px] font-bold text-slate-500 uppercase ml-1">Reference No (from Scan)</label>
+                 <label className="text-[10px] font-bold text-slate-500 uppercase ms-1">{i18n.t("Reference No (from Scan)")}</label>
                  <input 
                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold outline-none focus:border-slate-500 focus:bg-white transition-all disabled:opacity-70 disabled:cursor-not-allowed"
                    value={referenceNo}
                    onChange={e => setReferenceNo(e.target.value)}
-                   placeholder="Enter Reference No (e.g. RAD-2026...)"
+                   placeholder={i18n.t("Enter Reference No (e.g. RAD-2026...)")}
                    disabled={modalMode === 'view'}
                  />
                </div>
 
                <div className="space-y-1.5">
-                 <label className="text-[10px] font-bold text-slate-500 uppercase ml-1">Findings</label>
+                 <label className="text-[10px] font-bold text-slate-500 uppercase ms-1">{i18n.t("Findings")}</label>
                  <textarea 
                    rows={6} 
                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium outline-none focus:bg-white focus:border-slate-500 transition-all resize-none leading-relaxed disabled:opacity-70 disabled:cursor-not-allowed" 
-                   placeholder="Enter detailed clinical findings..."
+                   placeholder={i18n.t("Enter detailed clinical findings...")}
                    value={report}
                    onChange={e => setReport(e.target.value)}
                    disabled={modalMode === 'view'}
@@ -393,11 +388,11 @@ const RadiologyResultEntry: React.FC = () => {
                </div>
 
                <div className="space-y-1.5">
-                 <label className="text-[10px] font-bold text-slate-500 uppercase ml-1">Impression</label>
+                 <label className="text-[10px] font-bold text-slate-500 uppercase ms-1">{i18n.t("Impression")}</label>
                  <textarea 
                    rows={4} 
                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium outline-none focus:bg-white focus:border-slate-500 transition-all resize-none leading-relaxed disabled:opacity-70 disabled:cursor-not-allowed" 
-                   placeholder="Enter impression / conclusion..."
+                   placeholder={i18n.t("Enter impression / conclusion...")}
                    value={impression}
                    onChange={e => setImpression(e.target.value)}
                    disabled={modalMode === 'view'}
@@ -406,24 +401,23 @@ const RadiologyResultEntry: React.FC = () => {
 
                {/* File Upload Section */}
                <div className="space-y-2">
-                 <label className="text-[10px] font-bold text-slate-500 uppercase ml-1 flex items-center gap-2">
-                   <ImageIcon size={14} /> Imaging Attachment (DICOM/PNG/JPG)
-                 </label>
+                 <label className="text-[10px] font-bold text-slate-500 uppercase ms-1 flex items-center gap-2">
+                   <ImageIcon size={14} />{" "}{i18n.t("Imaging Attachment (DICOM/PNG/JPG)")}</label>
                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                    {images.map((img, i) => (
                      <div key={i} className="aspect-square bg-slate-50 rounded-xl border border-slate-200 flex flex-col items-center justify-center text-slate-400 relative group overflow-hidden">
                        {img.startsWith('blob:') || img.match(/\.(jpeg|jpg|png)$/i) ? (
-                         <img src={img.startsWith('blob') ? img : `/${img}`} alt="Scan" className="w-full h-full object-cover" />
+                         <img src={img.startsWith('blob') ? img : `/${img}`} alt={i18n.t("Scan")} className="w-full h-full object-cover" />
                        ) : (
                          <>
                            <ImageIcon size={24} />
-                           <span className="text-[10px] mt-2 font-bold truncate w-full px-2 text-center">DICOM File</span>
+                           <span className="text-[10px] mt-2 font-bold truncate w-full px-2 text-center">{i18n.t("DICOM File")}</span>
                          </>
                        )}
                        {modalMode !== 'view' && (
                          <button 
                            onClick={() => handleRemoveImage(i)} 
-                           className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                           className="absolute top-2 end-2 p-1 bg-red-500 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
                          >
                            <X size={12}/>
                          </button>
@@ -433,7 +427,7 @@ const RadiologyResultEntry: React.FC = () => {
                    {modalMode !== 'view' && (
                      <label className="aspect-square border-2 border-dashed border-slate-200 rounded-xl flex flex-col items-center justify-center text-slate-400 hover:border-slate-400 hover:bg-slate-50 transition-all cursor-pointer group">
                        <Upload size={24} className="group-hover:scale-110 transition-transform" />
-                       <span className="text-[10px] font-bold uppercase mt-2 text-center px-2">Upload File</span>
+                       <span className="text-[10px] font-bold uppercase mt-2 text-center px-2">{i18n.t("Upload File")}</span>
                        <input type="file" multiple className="hidden" accept="image/*,.dcm" onChange={handleImageUpload} />
                      </label>
                    )}
@@ -447,7 +441,7 @@ const RadiologyResultEntry: React.FC = () => {
                 <>
                   <div className="flex items-center gap-2 text-slate-500 bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm">
                     <AlertCircle size={16} />
-                    <span className="text-xs font-bold">Review PACS integration before finalizing</span>
+                    <span className="text-xs font-bold">{i18n.t("Review PACS integration before finalizing")}</span>
                   </div>
                   <div className="flex items-center gap-3 w-full sm:w-auto">
                     <button 
@@ -455,17 +449,13 @@ const RadiologyResultEntry: React.FC = () => {
                       disabled={submitting}
                       className="flex-1 sm:flex-none px-6 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
                     >
-                      {submitting ? <Loader2 size={16} className="animate-spin" /> : null}
-                      Save Draft
-                    </button>
+                      {submitting ? <Loader2 size={16} className="animate-spin" /> : null}{i18n.t("Save Draft")}</button>
                     <button 
                       onClick={() => handlePublish(true)}
                       disabled={submitting}
                       className="flex-1 sm:flex-none px-6 py-2.5 text-sm font-bold text-white bg-slate-800 rounded-xl hover:bg-slate-900 shadow-lg shadow-slate-200 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                     >
-                      {submitting ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />} 
-                      Publish Report
-                    </button>
+                      {submitting ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />}{i18n.t("Publish Report")}</button>
                   </div>
                 </>
               ) : (
@@ -473,9 +463,7 @@ const RadiologyResultEntry: React.FC = () => {
                   <button 
                     onClick={handleCloseModal}
                     className="px-6 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors"
-                  >
-                    Close
-                  </button>
+                  >{i18n.t("Close")}</button>
                 </div>
               )}
              </div>

@@ -6,6 +6,7 @@ import { NAV_PERMISSION_RULES } from "../services/constants";
 import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
 import { UserRole, NavItem } from "../types";
 import { useAuth } from "../context/AuthContext";
+import { useLanguage } from "../i18n";
 import MedBookieLogo from "./MedBookieLogo";
 
 interface SidebarProps {
@@ -23,6 +24,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const location = useLocation();
   const { hasAnyPermission, roles, modules } = useAuth();
+  const { t, tv, isRTL } = useLanguage();
 
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
   const [sidebarWidth, setSidebarWidth] = useState(260);
@@ -217,7 +219,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   const resize = useCallback(
     (e: MouseEvent) => {
       if (isResizing) {
-        const newWidth = e.clientX;
+        const newWidth = isRTL ? window.innerWidth - e.clientX : e.clientX;
         if (newWidth < 120) {
           setIsCollapsed(true);
           setSidebarWidth(MIN_WIDTH);
@@ -229,7 +231,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         }
       }
     },
-    [isResizing, setIsCollapsed]
+    [isResizing, setIsCollapsed, isRTL]
   );
 
   useEffect(() => {
@@ -266,8 +268,8 @@ const Sidebar: React.FC<SidebarProps> = ({
             />
             {!isCollapsed && (
               <>
-                <span className="text-sm font-medium flex-1 text-left whitespace-nowrap overflow-hidden text-ellipsis">
-                  {item.label}
+                <span className="text-sm font-medium flex-1 text-start whitespace-nowrap overflow-hidden text-ellipsis">
+                  {t(item.label)}
                 </span>
                 <ChevronDown
                   size={14}
@@ -287,12 +289,12 @@ const Sidebar: React.FC<SidebarProps> = ({
               ${isActive ? "bg-gray-100 text-black shadow-sm font-medium" : "text-gray-600 hover:bg-gray-50 hover:text-black"}
               ${isSubItem ? "px-3 py-2 text-sm" : "px-3 py-2.5"} 
             `}
-            title={isCollapsed ? item.label : undefined}
+            title={isCollapsed ? t(item.label) : undefined}
           >
             {({ isActive }) => (
               <>
                 {isActive && (
-                  <div className="absolute left-0 top-2 bottom-2 w-[3px] bg-black rounded-r-full" />
+                  <div className="absolute start-0 top-2 bottom-2 w-[3px] bg-black rounded-e-full" />
                 )}
 
                 <Icon
@@ -304,10 +306,10 @@ const Sidebar: React.FC<SidebarProps> = ({
                 {!isCollapsed && (
                   <div className="flex flex-1 items-center justify-between overflow-hidden">
                     <span className="text-sm whitespace-nowrap text-ellipsis overflow-hidden">
-                      {item.label}
+                      {t(item.label)}
                     </span>
                     {item.badge && (
-                      <span className="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold ml-2">
+                      <span className="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold ms-2">
                         {item.badge}
                       </span>
                     )}
@@ -320,11 +322,11 @@ const Sidebar: React.FC<SidebarProps> = ({
 
         {!isCollapsed && hasSubItems && isExpanded && (
           <div className="relative mt-1 mb-2">
-            <div className="absolute left-[22px] top-0 bottom-4 w-[1px] bg-gray-200" />
+            <div className="absolute start-[22px] top-0 bottom-4 w-[1px] bg-gray-200" />
             <div className="space-y-1 flex flex-col animate-in slide-in-from-top-2 duration-200">
               {item.subItems?.map((subItem) => (
-                <div key={subItem.id} className="relative pl-9 pr-2 w-full">
-                  <div className="absolute left-[22px] top-1/2 -translate-y-1/2 w-[14px] h-[1px] bg-gray-200 pointer-events-none" />
+                <div key={subItem.id} className="relative ps-9 pe-2 w-full">
+                  <div className="absolute start-[22px] top-1/2 -translate-y-1/2 w-[14px] h-[1px] bg-gray-200 pointer-events-none" />
                   {renderNavItem(subItem, true)}
                 </div>
               ))}
@@ -339,7 +341,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     <aside
       style={{ width: isCollapsed ? 80 : sidebarWidth }}
       className={`
-        relative h-screen bg-white border-r border-gray-200 flex flex-col z-50
+        relative h-screen bg-white border-e border-gray-200 flex flex-col z-50
         ${!isResizing ? "transition-all duration-300 ease-in-out" : ""} 
       `}
     >
@@ -368,7 +370,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         ) : (
           <div className="px-4 py-8 text-center">
             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-              No access configured for role: {userRole}
+              {t("No access configured for role: {role}", { role: tv(userRole) })}
             </p>
           </div>
         )}
@@ -376,15 +378,17 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       <button
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className="absolute -right-3 top-20 bg-white border border-gray-200 text-gray-600 rounded-full p-1 shadow-md hover:bg-gray-50 transition-colors hidden md:block z-10"
+        title={isCollapsed ? t("Expand sidebar") : t("Collapse sidebar")}
+        aria-label={isCollapsed ? t("Expand sidebar") : t("Collapse sidebar")}
+        className="absolute -end-3 top-20 bg-white border border-gray-200 text-gray-600 rounded-full p-1 shadow-md hover:bg-gray-50 transition-colors hidden md:block z-10"
       >
-        {isCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+        {isCollapsed ? <ChevronRight size={14} className="rtl:rotate-180" /> : <ChevronLeft size={14} className="rtl:rotate-180" />}
       </button>
 
       {!isCollapsed && (
         <div
           onMouseDown={startResizing}
-          className="absolute top-0 right-0 w-2 h-full cursor-col-resize hover:bg-gray-100 active:bg-gray-200 transition-colors z-0"
+          className="absolute top-0 end-0 w-2 h-full cursor-col-resize hover:bg-gray-100 active:bg-gray-200 transition-colors z-0"
         />
       )}
 
@@ -393,14 +397,14 @@ const Sidebar: React.FC<SidebarProps> = ({
           <div className="flex items-center gap-2 mb-2">
             <div className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]"></div>
             <span className="text-[11px] tracking-wider truncate">
-              Access: {displayRole}
+              {t("Access: {role}", { role: tv(displayRole) })}
             </span>
           </div>
           <p className="text-[7px] text-gray-500">
-            Ver 0.0.3 | Electronic Hospitals Record
+            {t("Ver 0.0.3 | Electronic Hospitals Record")}
           </p>
           <p className="text-[7px] text-gray-500">
-            © 2026 Medbookie Limited
+            {t("© 2026 Medbookie Limited")}
           </p>
         </div>
       )}

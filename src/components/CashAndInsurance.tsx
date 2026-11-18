@@ -17,6 +17,7 @@ import {
   TrendingUp,
   Receipt
 } from 'lucide-react';
+import { i18n } from "../i18n";
 
 interface CashTransaction {
   id: string;
@@ -56,24 +57,18 @@ const CashAndInsurance: React.FC = () => {
           <h1 className="text-3xl font-black text-slate-800 tracking-tight flex items-center gap-3">
              <div className="p-2 bg-emerald-50 text-emerald-600 rounded-xl">
               <Coins size={28} />
-            </div>
-            Cash & Insurance Reconciliation
-          </h1>
-          <p className="text-slate-500 font-medium">Monitor liquid collection and verify HMO claim batches.</p>
+            </div>{i18n.t("Cash & Insurance Reconciliation")}</h1>
+          <p className="text-slate-500 font-medium">{i18n.t("Monitor liquid collection and verify HMO claim batches.")}</p>
         </div>
         <div className="flex bg-slate-100 p-1 rounded-2xl">
           <button 
             onClick={() => setView('cash')}
             className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${view === 'cash' ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-500'}`}
-          >
-            Daily Cash Report
-          </button>
+          >{i18n.t("Daily Cash Report")}</button>
           <button 
             onClick={() => setView('insurance')}
             className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${view === 'insurance' ? 'bg-white text-brand-primary shadow-sm' : 'text-slate-500'}`}
-          >
-            Insurance Claims
-          </button>
+          >{i18n.t("Insurance Claims")}</button>
         </div>
       </div>
 
@@ -82,25 +77,24 @@ const CashAndInsurance: React.FC = () => {
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-white border border-slate-200 rounded-[40px] shadow-sm overflow-hidden">
                <div className="p-8 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
-                  <h3 className="text-lg font-black text-slate-800">Daily Collection Ledger</h3>
+                  <h3 className="text-lg font-black text-slate-800">{i18n.t("Daily Collection Ledger")}</h3>
                   <button className="text-[10px] font-black text-emerald-600 uppercase tracking-widest flex items-center gap-2 hover:underline">
-                    <TrendingUp size={14} /> Full Analytics
-                  </button>
+                    <TrendingUp size={14} />{" "}{i18n.t("Full Analytics")}</button>
                </div>
                <div className="overflow-x-auto">
-                  <table className="w-full text-left">
+                  <table className="w-full text-start">
                     <thead>
                       <tr className="bg-white border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                        <th className="px-8 py-5">Receipt & Time</th>
-                        <th className="px-8 py-5">Patient Name</th>
-                        <th className="px-8 py-5">Mode</th>
-                        <th className="px-8 py-5 text-right">Amount Collected</th>
+                        <th className="px-8 py-5">{i18n.t("Receipt & Time")}</th>
+                        <th className="px-8 py-5">{i18n.t("Patient Name")}</th>
+                        <th className="px-8 py-5">{i18n.t("Mode")}</th>
+                        <th className="px-8 py-5 text-end">{i18n.t("Amount Collected")}</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-50">
                       {MOCK_CASH.map(tx => (
                         <tr key={tx.id} className="hover:bg-slate-50/50 transition-colors">
-                          <td className="px-8 py-5 font-mono text-xs font-bold text-brand-primary uppercase">{tx.id} <span className="text-slate-300 font-normal ml-2">{tx.time}</span></td>
+                          <td className="px-8 py-5 font-mono text-xs font-bold text-brand-primary uppercase">{tx.id} <span className="text-slate-300 font-normal ms-2">{tx.time}</span></td>
                           <td className="px-8 py-5 text-sm font-black text-slate-800">{tx.patient}</td>
                           <td className="px-8 py-5">
                             <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-black uppercase border
@@ -110,7 +104,7 @@ const CashAndInsurance: React.FC = () => {
                               {tx.mode}
                             </span>
                           </td>
-                          <td className="px-8 py-5 text-right font-black text-slate-900 text-base">₦{tx.amount.toLocaleString()}</td>
+                          <td className="px-8 py-5 text-end font-black text-slate-900 text-base">₦{tx.amount.toLocaleString()}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -121,39 +115,37 @@ const CashAndInsurance: React.FC = () => {
 
           <div className="space-y-6">
              <div className="bg-slate-900 rounded-[40px] p-8 text-white shadow-xl flex flex-col h-full">
-                <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-8">Daily Reconciliation</h3>
+                <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-8">{i18n.t("Daily Reconciliation")}</h3>
                 <div className="space-y-6 flex-1">
                    <div className="p-5 bg-white/5 border border-white/10 rounded-3xl flex items-center justify-between">
                       <div className="flex items-center gap-3">
                          <div className="p-2 bg-emerald-500 rounded-xl"><Banknote size={18} className="text-slate-900" /></div>
-                         <span className="text-xs font-bold text-slate-400">Total Cash</span>
+                         <span className="text-xs font-bold text-slate-400">{i18n.t("Total Cash")}</span>
                       </div>
                       <span className="font-black">₦42,500</span>
                    </div>
                    <div className="p-5 bg-white/5 border border-white/10 rounded-3xl flex items-center justify-between">
                       <div className="flex items-center gap-3">
                          <div className="p-2 bg-brand-active0 rounded-xl"><CreditCard size={18} className="text-slate-900" /></div>
-                         <span className="text-xs font-bold text-slate-400">Total POS</span>
+                         <span className="text-xs font-bold text-slate-400">{i18n.t("Total POS")}</span>
                       </div>
                       <span className="font-black">₦128,000</span>
                    </div>
                    <div className="p-5 bg-white/5 border border-white/10 rounded-3xl flex items-center justify-between">
                       <div className="flex items-center gap-3">
                          <div className="p-2 bg-purple-500 rounded-xl"><Smartphone size={18} className="text-slate-900" /></div>
-                         <span className="text-xs font-bold text-slate-400">Total Transfer</span>
+                         <span className="text-xs font-bold text-slate-400">{i18n.t("Total Transfer")}</span>
                       </div>
                       <span className="font-black">₦15,000</span>
                    </div>
                 </div>
 
                 <div className="mt-10 pt-8 border-t border-slate-800">
-                   <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Grand Collection Total</p>
+                   <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">{i18n.t("Grand Collection Total")}</p>
                    <p className="text-4xl font-black text-white">₦185,500</p>
                 </div>
 
-                <button className="w-full mt-10 py-4 bg-emerald-600 hover:bg-emerald-700 rounded-2xl font-black uppercase text-xs shadow-lg active:scale-95 transition-all">
-                  Close Daily Account
-                </button>
+                <button className="w-full mt-10 py-4 bg-emerald-600 hover:bg-emerald-700 rounded-2xl font-black uppercase text-xs shadow-lg active:scale-95 transition-all">{i18n.t("Close Daily Account")}</button>
              </div>
           </div>
         </div>
@@ -161,20 +153,19 @@ const CashAndInsurance: React.FC = () => {
         <div className="space-y-6 animate-in slide-in-from-right-4">
            <div className="bg-white border border-slate-200 rounded-[40px] shadow-sm overflow-hidden">
              <div className="p-8 border-b border-slate-100 bg-brand-active/30 flex items-center justify-between">
-                <h3 className="text-lg font-black text-slate-800">Pending HMO Submission Queue</h3>
+                <h3 className="text-lg font-black text-slate-800">{i18n.t("Pending HMO Submission Queue")}</h3>
                 <button className="bg-brand-primary text-white px-6 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 hover:bg-brand-primary transition-all">
-                   <Send size={16} /> Batch Submit Claims
-                </button>
+                   <Send size={16} />{" "}{i18n.t("Batch Submit Claims")}</button>
              </div>
              <div className="overflow-x-auto">
-                <table className="w-full text-left">
+                <table className="w-full text-start">
                    <thead>
                       <tr className="bg-white border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                         <th className="px-8 py-5">Claim Reference</th>
-                         <th className="px-8 py-5">Patient Details</th>
-                         <th className="px-8 py-5">HMO Provider</th>
-                         <th className="px-8 py-5">Claim Amount</th>
-                         <th className="px-8 py-5 text-right">Action</th>
+                         <th className="px-8 py-5">{i18n.t("Claim Reference")}</th>
+                         <th className="px-8 py-5">{i18n.t("Patient Details")}</th>
+                         <th className="px-8 py-5">{i18n.t("HMO Provider")}</th>
+                         <th className="px-8 py-5">{i18n.t("Claim Amount")}</th>
+                         <th className="px-8 py-5 text-end">{i18n.t("Action")}</th>
                       </tr>
                    </thead>
                    <tbody className="divide-y divide-slate-50">
@@ -186,11 +177,11 @@ const CashAndInsurance: React.FC = () => {
                               <span className="text-xs font-bold text-slate-600 bg-slate-100 px-3 py-1 rounded-lg">{claim.hmo}</span>
                            </td>
                            <td className="px-8 py-5 font-black text-slate-900">₦{claim.amount.toLocaleString()}</td>
-                           <td className="px-8 py-5 text-right">
+                           <td className="px-8 py-5 text-end">
                               {claim.status === 'Ready' ? (
-                                <button className="text-[10px] font-black text-brand-primary uppercase tracking-widest hover:underline">Ready to Post</button>
+                                <button className="text-[10px] font-black text-brand-primary uppercase tracking-widest hover:underline">{i18n.t("Ready to Post")}</button>
                               ) : (
-                                <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest flex items-center justify-end gap-1"><CheckCircle2 size={14}/> Submitted</span>
+                                <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest flex items-center justify-end gap-1"><CheckCircle2 size={14}/>{" "}{i18n.t("Submitted")}</span>
                               )}
                            </td>
                         </tr>

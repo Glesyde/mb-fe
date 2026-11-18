@@ -10,6 +10,7 @@ import {
   Pagination,
   KpiCard,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const OpdFunnelReport: React.FC = () => {
   const [records, setRecords] = useState<any[]>([]);
@@ -61,8 +62,8 @@ const OpdFunnelReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="OPD Patient Funnel Analysis"
-      subtitle="Daily check-in-to-invoice conversion funnel for outpatient visits."
+      title={i18n.t("OPD Patient Funnel Analysis")}
+      subtitle={i18n.t("Daily check-in-to-invoice conversion funnel for outpatient visits.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -83,37 +84,37 @@ const OpdFunnelReport: React.FC = () => {
       }
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <KpiCard icon={Users} label="Total OPD Encounters" value={renderValue(aggregates?.total_opd_encounters)} colorClass="bg-blue-50 border-blue-100 text-blue-900" />
-        <KpiCard icon={CheckCircle2} label="Total Completed" value={renderValue(aggregates?.total_completed)} colorClass="bg-emerald-50 border-emerald-100 text-emerald-900" />
+        <KpiCard icon={Users} label={i18n.t("Total OPD Encounters")} value={renderValue(aggregates?.total_opd_encounters)} colorClass="bg-blue-50 border-blue-100 text-blue-900" />
+        <KpiCard icon={CheckCircle2} label={i18n.t("Total Completed")} value={renderValue(aggregates?.total_completed)} colorClass="bg-emerald-50 border-emerald-100 text-emerald-900" />
       </div>
 
       <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 flex-1 min-h-[300px] mt-6">
-        <table className="w-full text-left text-sm whitespace-nowrap">
+        <table className="w-full text-start text-sm whitespace-nowrap">
           <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
             <tr>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Date</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Total Check-ins</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Vitals Taken</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Doctor Seen</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Prescriptions Issued</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Invoices Generated</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Date")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Total Check-ins")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Vitals Taken")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Doctor Seen")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Prescriptions Issued")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Invoices Generated")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {records.length > 0 ? (
               records.map((row, i) => (
                 <tr key={`${row.date}-${i}`} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50">{renderValue(row.date)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.total_checkins)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.vitals_taken)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.doctor_seen)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.prescriptions_issued)}</td>
-                  <td className="px-4 py-3.5 font-bold text-slate-800 text-right">{renderValue(row.invoices_generated)}</td>
+                  <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50">{renderValue(row.date)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.total_checkins)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.vitals_taken)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.doctor_seen)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.prescriptions_issued)}</td>
+                  <td className="px-4 py-3.5 font-bold text-slate-800 text-end">{renderValue(row.invoices_generated)}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="px-4 py-12 text-center text-slate-400 italic">No funnel records found.</td>
+                <td colSpan={6} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No funnel records found.")}</td>
               </tr>
             )}
           </tbody>

@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { useNotification } from "../../context/NotificationContext";
 import apiClient from "../../api/client";
+import { i18n } from "../../i18n";
 
 interface CCUPandemicModalProps {
   isOpen: boolean;
@@ -227,22 +228,21 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
         <div className="bg-[#2A157c] px-6 py-3 border-b border-[#2A157c] flex justify-between items-center shrink-0 shadow-md">
           <div className="flex items-center gap-4">
             <div className="relative w-[80px] h-[70px] flex items-center shrink-0">
-               <img src="/assets/logo-nobg.png" alt="Logo" width={80} height={70} className="object-contain" />
+               <img src="/assets/logo-nobg.png" alt={i18n.t("Logo")} width={80} height={70} className="object-contain" />
             </div>
             <div>
               <h2 className="text-white font-black text-base md:text-lg flex items-center gap-2 tracking-wide">
-                <ShieldAlert className="text-red-400" size={20} /> CRITICAL CARE UNIT PANDEMIC CHART
-                {loading && <Loader2 size={16} className="animate-spin text-white ml-2" />}
+                <ShieldAlert className="text-red-400" size={20} />{" "}{i18n.t("CRITICAL CARE UNIT PANDEMIC CHART")}{loading && <Loader2 size={16} className="animate-spin text-white ms-2" />}
               </h2>
               <p className="text-indigo-200 text-xs mt-0.5 font-medium leading-relaxed">
-                <span className="font-bold text-white">MRN:</span> {normalizedPatient.mrn} &nbsp;|&nbsp; 
-                <span className="font-bold text-white"> PATIENT:</span> {normalizedPatient.fullName} &nbsp;|&nbsp; 
-                <span className="font-bold text-white"> GENDER:</span> {normalizedPatient.gender} &nbsp;|&nbsp; 
-                <span className="font-bold text-white"> AGE:</span> {normalizedPatient.age} &nbsp;|&nbsp; 
-                <span className="font-bold text-white"> WEIGHT:</span> {normalizedPatient.weight ? `${normalizedPatient.weight} kg` : "N/A"} &nbsp;|&nbsp; 
-                <span className="font-bold text-white"> START:</span> {masterData.patient_details.start_date || "N/A"} {masterData.patient_details.start_time || ""} &nbsp;|&nbsp; 
-                <span className="font-bold text-white"> CONSULTANT:</span> {masterData.patient_details.consultant || "N/A"} &nbsp;|&nbsp; 
-                <span className="font-bold text-red-300"> ALLERGIES:</span> {masterData.patient_details.allergies || normalizedPatient.knownAllergies || "No Known Allergies"}
+                <span className="font-bold text-white">{i18n.t("MRN:")}</span> {normalizedPatient.mrn} &nbsp;|&nbsp; 
+                <span className="font-bold text-white">{" "}{i18n.t("PATIENT:")}</span> {normalizedPatient.fullName} &nbsp;|&nbsp; 
+                <span className="font-bold text-white">{" "}{i18n.t("GENDER:")}</span> {i18n.tv(normalizedPatient.gender)} &nbsp;|&nbsp; 
+                <span className="font-bold text-white">{" "}{i18n.t("AGE:")}</span> {normalizedPatient.age} &nbsp;|&nbsp; 
+                <span className="font-bold text-white">{" "}{i18n.t("WEIGHT:")}</span> {normalizedPatient.weight ? `${normalizedPatient.weight} kg` : i18n.t("N/A")} &nbsp;|&nbsp; 
+                <span className="font-bold text-white">{" "}{i18n.t("START:")}</span> {masterData.patient_details.start_date || i18n.t("N/A")} {masterData.patient_details.start_time || ""} &nbsp;|&nbsp; 
+                <span className="font-bold text-white">{" "}{i18n.t("CONSULTANT:")}</span> {masterData.patient_details.consultant || i18n.t("N/A")} &nbsp;|&nbsp; 
+                <span className="font-bold text-red-300">{" "}{i18n.t("ALLERGIES:")}</span> {masterData.patient_details.allergies || normalizedPatient.knownAllergies || i18n.t("No Known Allergies")}
               </p>
             </div>
           </div>
@@ -253,13 +253,12 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
               disabled={saving} 
               className="bg-brand-primary text-white hover:bg-brand-active px-5 py-2 rounded-lg font-bold text-xs flex items-center gap-2 shadow-md transition-colors disabled:opacity-50"
             >
-              {saving ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />} Save Record
-            </button>
+              {saving ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}{" "}{i18n.t("Save Record")}</button>
             <div className="h-6 w-px bg-indigo-800 mx-1"></div>
-            <button onClick={toggleFullscreen} className="p-2 text-indigo-200 hover:text-white rounded transition-colors" title="Toggle Fullscreen">
+            <button onClick={toggleFullscreen} className="p-2 text-indigo-200 hover:text-white rounded transition-colors" title={i18n.t("Toggle Fullscreen")}>
               {isFullscreen ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
             </button>
-            <button onClick={onClose} className="p-2 text-indigo-200 hover:text-red-400 rounded transition-colors" title="Close">
+            <button onClick={onClose} className="p-2 text-indigo-200 hover:text-red-400 rounded transition-colors" title={i18n.t("Close")}>
               <X size={22} />
             </button>
           </div>
@@ -267,22 +266,22 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
 
         {/* BODY */}
         <div className="flex flex-1 overflow-hidden bg-white">
-          <div className="w-56 bg-slate-50 border-r border-slate-200 p-3 space-y-1 overflow-y-auto shrink-0">
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-2 pt-2 pb-1">Medications</p>
-            <button onClick={() => setActiveTab("fluids")} className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === "fluids" ? "bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-sm" : "text-slate-600 hover:bg-white"}`}><Droplets size={15}/> Fluids & Flushes</button>
-            <button onClick={() => setActiveTab("supplements")} className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === "supplements" ? "bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-sm" : "text-slate-600 hover:bg-white"}`}><FlaskConical size={15}/> Supplements</button>
-            <button onClick={() => setActiveTab("cv_diuretics")} className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === "cv_diuretics" ? "bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-sm" : "text-slate-600 hover:bg-white"}`}><HeartPulse size={15}/> CV & Diuretics</button>
-            <button onClick={() => setActiveTab("sedation")} className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === "sedation" ? "bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-sm" : "text-slate-600 hover:bg-white"}`}><Activity size={15}/> Sedation & Analgesia</button>
-            <button onClick={() => setActiveTab("other")} className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === "other" ? "bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-sm" : "text-slate-600 hover:bg-white"}`}><Syringe size={15}/> Other & Syringes</button>
+          <div className="w-56 bg-slate-50 border-e border-slate-200 p-3 space-y-1 overflow-y-auto shrink-0">
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest ps-2 pt-2 pb-1">{i18n.t("Medications")}</p>
+            <button onClick={() => setActiveTab("fluids")} className={`w-full text-start px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === "fluids" ? "bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-sm" : "text-slate-600 hover:bg-white"}`}><Droplets size={15}/>{" "}{i18n.t("Fluids & Flushes")}</button>
+            <button onClick={() => setActiveTab("supplements")} className={`w-full text-start px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === "supplements" ? "bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-sm" : "text-slate-600 hover:bg-white"}`}><FlaskConical size={15}/>{" "}{i18n.t("Supplements")}</button>
+            <button onClick={() => setActiveTab("cv_diuretics")} className={`w-full text-start px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === "cv_diuretics" ? "bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-sm" : "text-slate-600 hover:bg-white"}`}><HeartPulse size={15}/>{" "}{i18n.t("CV & Diuretics")}</button>
+            <button onClick={() => setActiveTab("sedation")} className={`w-full text-start px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === "sedation" ? "bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-sm" : "text-slate-600 hover:bg-white"}`}><Activity size={15}/>{" "}{i18n.t("Sedation & Analgesia")}</button>
+            <button onClick={() => setActiveTab("other")} className={`w-full text-start px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === "other" ? "bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-sm" : "text-slate-600 hover:bg-white"}`}><Syringe size={15}/>{" "}{i18n.t("Other & Syringes")}</button>
             
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-2 pt-4 pb-1 border-t border-slate-200 mt-2">Flowsheets</p>
-            <button onClick={() => setActiveTab("haemodynamics")} className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === "haemodynamics" ? "bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-sm" : "text-slate-600 hover:bg-white"}`}><HeartPulse size={15}/> Haemodynamics</button>
-            <button onClick={() => setActiveTab("neuro")} className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === "neuro" ? "bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-sm" : "text-slate-600 hover:bg-white"}`}><Brain size={15}/> GCS Score</button>
-            <button onClick={() => setActiveTab("ventilation")} className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === "ventilation" ? "bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-sm" : "text-slate-600 hover:bg-white"}`}><Wind size={15}/> Ventilation</button>
-            <button onClick={() => setActiveTab("abg")} className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === "abg" ? "bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-sm" : "text-slate-600 hover:bg-white"}`}><Droplets size={15}/> Blood Gases</button>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest ps-2 pt-4 pb-1 border-t border-slate-200 mt-2">{i18n.t("Flowsheets")}</p>
+            <button onClick={() => setActiveTab("haemodynamics")} className={`w-full text-start px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === "haemodynamics" ? "bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-sm" : "text-slate-600 hover:bg-white"}`}><HeartPulse size={15}/>{" "}{i18n.t("Haemodynamics")}</button>
+            <button onClick={() => setActiveTab("neuro")} className={`w-full text-start px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === "neuro" ? "bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-sm" : "text-slate-600 hover:bg-white"}`}><Brain size={15}/>{" "}{i18n.t("GCS Score")}</button>
+            <button onClick={() => setActiveTab("ventilation")} className={`w-full text-start px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === "ventilation" ? "bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-sm" : "text-slate-600 hover:bg-white"}`}><Wind size={15}/>{" "}{i18n.t("Ventilation")}</button>
+            <button onClick={() => setActiveTab("abg")} className={`w-full text-start px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === "abg" ? "bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-sm" : "text-slate-600 hover:bg-white"}`}><Droplets size={15}/>{" "}{i18n.t("Blood Gases")}</button>
             
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-2 pt-4 pb-1 border-t border-slate-200 mt-2">Administration</p>
-            <button onClick={() => setActiveTab("general")} className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === "general" ? "bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-sm" : "text-slate-600 hover:bg-white"}`}><FileText size={15}/> Case Metadata</button>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest ps-2 pt-4 pb-1 border-t border-slate-200 mt-2">{i18n.t("Administration")}</p>
+            <button onClick={() => setActiveTab("general")} className={`w-full text-start px-3.5 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeTab === "general" ? "bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-sm" : "text-slate-600 hover:bg-white"}`}><FileText size={15}/>{" "}{i18n.t("Case Metadata")}</button>
           </div>
 
           <div className="flex-1 overflow-y-auto bg-slate-100/50 p-6">
@@ -293,25 +292,24 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                 {/* FLUSH BAGS */}
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                   <div className="bg-slate-50 p-3.5 border-b border-slate-200 flex justify-between items-center">
-                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">FLUSH BAG (ARTERIAL AND VENOUS LINES)</h4>
+                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">{i18n.t("FLUSH BAG (ARTERIAL AND VENOUS LINES)")}</h4>
                     <button 
                       onClick={() => addArrayItem("flush_bags", { type: "SODIUM CHLORIDE 0.9%", volume: "500ml", rate: "", prescriber: "", date2: new Date().toISOString().split('T')[0], time2: new Date().toTimeString().slice(0, 5), line_type: "ART" })} 
                       className="text-xs bg-white border border-slate-300 px-3 py-1.5 rounded hover:bg-slate-100 font-bold flex items-center gap-1 shadow-sm"
                     >
-                      <Plus size={14}/> Add Flush
-                    </button>
+                      <Plus size={14}/>{" "}{i18n.t("Add Flush")}</button>
                   </div>
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs min-w-[1050px]">
+                    <table className="w-full text-start text-xs min-w-[1050px]">
                       <thead className="bg-slate-50/80 border-b border-slate-200 text-slate-500 uppercase text-[10px]">
                         <tr>
-                          <th className="p-2.5 w-44">PRESCRIBED (DATE & TIME)</th>
-                          <th className="p-2.5">TYPE OF FLUID</th>
-                          <th className="p-2.5 w-24">VOLUME</th>
-                          <th className="p-2.5 w-24">RATE (ml/hr)</th>
-                          <th className="p-2.5 w-32">PRESCRIBER SIG</th>
-                          <th className="p-2.5 w-44">ADMINISTERED (DATE & TIME)</th>
-                          <th className="p-2.5 w-32">LINE TYPE</th>
+                          <th className="p-2.5 w-44">{i18n.t("PRESCRIBED (DATE & TIME)")}</th>
+                          <th className="p-2.5">{i18n.t("TYPE OF FLUID")}</th>
+                          <th className="p-2.5 w-24">{i18n.t("VOLUME")}</th>
+                          <th className="p-2.5 w-24">{i18n.t("RATE (ml/hr)")}</th>
+                          <th className="p-2.5 w-32">{i18n.t("PRESCRIBER SIG")}</th>
+                          <th className="p-2.5 w-44">{i18n.t("ADMINISTERED (DATE & TIME)")}</th>
+                          <th className="p-2.5 w-32">{i18n.t("LINE TYPE")}</th>
                           <th className="p-2.5 w-10 text-center"></th>
                         </tr>
                       </thead>
@@ -327,7 +325,7 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                             <td className="p-2"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-slate-700" value={item.type || ""} onChange={e => updateArrayItem("flush_bags", i, "type", e.target.value)} /></td>
                             <td className="p-2"><input type="text" className="w-full p-1.5 border rounded text-xs" value={item.volume || ""} onChange={e => updateArrayItem("flush_bags", i, "volume", e.target.value)} /></td>
                             <td className="p-2"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold" value={item.rate || ""} onChange={e => updateArrayItem("flush_bags", i, "rate", e.target.value)} /></td>
-                            <td className="p-2"><input type="text" placeholder="Sig" className="w-full p-1.5 border rounded text-xs" value={item.prescriber || ""} onChange={e => updateArrayItem("flush_bags", i, "prescriber", e.target.value)} /></td>
+                            <td className="p-2"><input type="text" placeholder={i18n.t("Sig")} className="w-full p-1.5 border rounded text-xs" value={item.prescriber || ""} onChange={e => updateArrayItem("flush_bags", i, "prescriber", e.target.value)} /></td>
                             <td className="p-2">
                               <div className="grid grid-cols-2 gap-1">
                                 <input type="date" className="p-1.5 border rounded text-xs bg-white font-medium" value={item.date2 || ""} onChange={e => updateArrayItem("flush_bags", i, "date2", e.target.value)} />
@@ -336,16 +334,16 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                             </td>
                             <td className="p-2">
                               <select className="w-full p-1.5 border rounded text-xs font-bold text-indigo-700 bg-white" value={item.line_type || ""} onChange={e => updateArrayItem("flush_bags", i, "line_type", e.target.value)}>
-                                <option value="">Select...</option>
-                                <option>ART</option>
-                                <option>CVC</option>
-                                <option>PA/PICCO</option>
+                                <option value="">{i18n.t("Select...")}</option>
+                                <option>{i18n.t("ART")}</option>
+                                <option>{i18n.t("CVC")}</option>
+                                <option>{i18n.t("PA/PICCO")}</option>
                               </select>
                             </td>
                             <td className="p-2 text-center"><button onClick={() => removeArrayItem("flush_bags", i)} className="p-1 text-red-400 hover:bg-red-50 rounded"><Trash2 size={15}/></button></td>
                           </tr>
                         ))}
-                        {(!masterData.flush_bags || masterData.flush_bags.length === 0) && <tr><td colSpan={8} className="p-4 text-center text-slate-400 text-xs">No flush bags recorded.</td></tr>}
+                        {(!masterData.flush_bags || masterData.flush_bags.length === 0) && <tr><td colSpan={8} className="p-4 text-center text-slate-400 text-xs">{i18n.t("No flush bags recorded.")}</td></tr>}
                       </tbody>
                     </table>
                   </div>
@@ -354,27 +352,26 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                 {/* IV FLUIDS */}
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                   <div className="bg-slate-50 p-3.5 border-b border-slate-200 flex justify-between items-center">
-                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">INTRAVENOUS CRYSTALLOID / COLLOID</h4>
+                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">{i18n.t("INTRAVENOUS CRYSTALLOID / COLLOID")}</h4>
                     <button 
                       onClick={() => addArrayItem("crystalloid_colloid", { fluid_type: "", volume: "", rate: "", criteria: "", prescriber: "", batch: "", date2: new Date().toISOString().split('T')[0], time2: new Date().toTimeString().slice(0, 5), sig: "" })} 
                       className="text-xs bg-white border border-slate-300 px-3 py-1.5 rounded hover:bg-slate-100 font-bold flex items-center gap-1 shadow-sm"
                     >
-                      <Plus size={14}/> Add IV Fluid
-                    </button>
+                      <Plus size={14}/>{" "}{i18n.t("Add IV Fluid")}</button>
                   </div>
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs min-w-[1200px]">
+                    <table className="w-full text-start text-xs min-w-[1200px]">
                       <thead className="bg-slate-50/80 border-b border-slate-200 text-slate-500 uppercase text-[10px]">
                         <tr>
-                          <th className="p-2.5 w-44">PRESCRIBED (DATE & TIME)</th>
-                          <th className="p-2.5">TYPE OF INTRAVENOUS FLUID</th>
-                          <th className="p-2.5 w-20">VOLUME</th>
-                          <th className="p-2.5 w-20">RATE</th>
-                          <th className="p-2.5">CRITERIA</th>
-                          <th className="p-2.5 w-24">PRESCRIBER</th>
-                          <th className="p-2.5 w-24">BATCH #</th>
-                          <th className="p-2.5 w-44">ADMINISTERED (DATE & TIME)</th>
-                          <th className="p-2.5 w-20">SIG</th>
+                          <th className="p-2.5 w-44">{i18n.t("PRESCRIBED (DATE & TIME)")}</th>
+                          <th className="p-2.5">{i18n.t("TYPE OF INTRAVENOUS FLUID")}</th>
+                          <th className="p-2.5 w-20">{i18n.t("VOLUME")}</th>
+                          <th className="p-2.5 w-20">{i18n.t("RATE")}</th>
+                          <th className="p-2.5">{i18n.t("CRITERIA")}</th>
+                          <th className="p-2.5 w-24">{i18n.t("PRESCRIBER")}</th>
+                          <th className="p-2.5 w-24">{i18n.t("BATCH #")}</th>
+                          <th className="p-2.5 w-44">{i18n.t("ADMINISTERED (DATE & TIME)")}</th>
+                          <th className="p-2.5 w-20">{i18n.t("SIG")}</th>
                           <th className="p-2.5 w-10 text-center"></th>
                         </tr>
                       </thead>
@@ -387,23 +384,23 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                                 <input type="time" className="p-1.5 border rounded text-xs font-medium" value={item.time || ""} onChange={e => updateArrayItem("crystalloid_colloid", i, "time", e.target.value)} />
                               </div>
                             </td>
-                            <td className="p-2"><input type="text" placeholder="Fluid Name" className="w-full p-1.5 border rounded text-xs font-bold" value={item.fluid_type || ""} onChange={e => updateArrayItem("crystalloid_colloid", i, "fluid_type", e.target.value)} /></td>
-                            <td className="p-2"><input type="text" placeholder="Vol" className="w-full p-1.5 border rounded text-xs" value={item.volume || ""} onChange={e => updateArrayItem("crystalloid_colloid", i, "volume", e.target.value)} /></td>
-                            <td className="p-2"><input type="text" placeholder="Rate" className="w-full p-1.5 border rounded text-xs font-bold" value={item.rate || ""} onChange={e => updateArrayItem("crystalloid_colloid", i, "rate", e.target.value)} /></td>
-                            <td className="p-2"><input type="text" placeholder="Criteria" className="w-full p-1.5 border rounded text-xs" value={item.criteria || ""} onChange={e => updateArrayItem("crystalloid_colloid", i, "criteria", e.target.value)} /></td>
-                            <td className="p-2"><input type="text" placeholder="Prescriber" className="w-full p-1.5 border rounded text-xs" value={item.prescriber || ""} onChange={e => updateArrayItem("crystalloid_colloid", i, "prescriber", e.target.value)} /></td>
-                            <td className="p-2"><input type="text" placeholder="Batch" className="w-full p-1.5 border rounded text-xs" value={item.batch || ""} onChange={e => updateArrayItem("crystalloid_colloid", i, "batch", e.target.value)} /></td>
+                            <td className="p-2"><input type="text" placeholder={i18n.t("Fluid Name")} className="w-full p-1.5 border rounded text-xs font-bold" value={item.fluid_type || ""} onChange={e => updateArrayItem("crystalloid_colloid", i, "fluid_type", e.target.value)} /></td>
+                            <td className="p-2"><input type="text" placeholder={i18n.t("Vol")} className="w-full p-1.5 border rounded text-xs" value={item.volume || ""} onChange={e => updateArrayItem("crystalloid_colloid", i, "volume", e.target.value)} /></td>
+                            <td className="p-2"><input type="text" placeholder={i18n.t("Rate")} className="w-full p-1.5 border rounded text-xs font-bold" value={item.rate || ""} onChange={e => updateArrayItem("crystalloid_colloid", i, "rate", e.target.value)} /></td>
+                            <td className="p-2"><input type="text" placeholder={i18n.t("Criteria")} className="w-full p-1.5 border rounded text-xs" value={item.criteria || ""} onChange={e => updateArrayItem("crystalloid_colloid", i, "criteria", e.target.value)} /></td>
+                            <td className="p-2"><input type="text" placeholder={i18n.t("Prescriber")} className="w-full p-1.5 border rounded text-xs" value={item.prescriber || ""} onChange={e => updateArrayItem("crystalloid_colloid", i, "prescriber", e.target.value)} /></td>
+                            <td className="p-2"><input type="text" placeholder={i18n.t("Batch")} className="w-full p-1.5 border rounded text-xs" value={item.batch || ""} onChange={e => updateArrayItem("crystalloid_colloid", i, "batch", e.target.value)} /></td>
                             <td className="p-2">
                               <div className="grid grid-cols-2 gap-1">
                                 <input type="date" className="p-1.5 border rounded text-xs font-medium" value={item.date2 || ""} onChange={e => updateArrayItem("crystalloid_colloid", i, "date2", e.target.value)} />
                                 <input type="time" className="p-1.5 border rounded text-xs font-medium" value={item.time2 || ""} onChange={e => updateArrayItem("crystalloid_colloid", i, "time2", e.target.value)} />
                               </div>
                             </td>
-                            <td className="p-2"><input type="text" placeholder="Sig" className="w-full p-1.5 border rounded text-xs" value={item.sig || ""} onChange={e => updateArrayItem("crystalloid_colloid", i, "sig", e.target.value)} /></td>
+                            <td className="p-2"><input type="text" placeholder={i18n.t("Sig")} className="w-full p-1.5 border rounded text-xs" value={item.sig || ""} onChange={e => updateArrayItem("crystalloid_colloid", i, "sig", e.target.value)} /></td>
                             <td className="p-2 text-center"><button onClick={() => removeArrayItem("crystalloid_colloid", i)} className="text-red-400 hover:bg-red-50 rounded p-1"><Trash2 size={15}/></button></td>
                           </tr>
                         ))}
-                        {(!masterData.crystalloid_colloid || masterData.crystalloid_colloid.length === 0) && <tr><td colSpan={10} className="p-4 text-center text-slate-400 text-xs">No IV fluids recorded.</td></tr>}
+                        {(!masterData.crystalloid_colloid || masterData.crystalloid_colloid.length === 0) && <tr><td colSpan={10} className="p-4 text-center text-slate-400 text-xs">{i18n.t("No IV fluids recorded.")}</td></tr>}
                       </tbody>
                     </table>
                   </div>
@@ -416,26 +413,25 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
               <div className="space-y-6 max-w-full">
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                   <div className="bg-slate-50 p-3.5 border-b border-slate-200 flex justify-between items-center">
-                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">ELECTROLYTE & MINERAL SUPPLEMENTS</h4>
+                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">{i18n.t("ELECTROLYTE & MINERAL SUPPLEMENTS")}</h4>
                     <button 
                       onClick={() => addArrayItem("supplements", { drug: "", dose: "", diluent: "", vol: "", rate: "", route: "I.V.", sig: "", sig_date: new Date().toISOString().split('T')[0], sig_time: new Date().toTimeString().slice(0, 5), target_label: "Maintain target at:", target_value: "", unit: "mmol/L" })} 
                       className="text-xs bg-white border border-slate-300 px-3 py-1.5 rounded hover:bg-slate-100 font-bold flex items-center gap-1 shadow-sm"
                     >
-                      <Plus size={14}/> Add Supplement
-                    </button>
+                      <Plus size={14}/>{" "}{i18n.t("Add Supplement")}</button>
                   </div>
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs min-w-[1250px]">
+                    <table className="w-full text-start text-xs min-w-[1250px]">
                       <thead className="bg-slate-50/80 border-b border-slate-200 text-slate-500 uppercase text-[10px]">
                         <tr>
-                          <th className="p-2.5 w-44">PRESCRIBED (DATE & TIME)</th>
-                          <th className="p-2.5 w-56">DRUG</th>
-                          <th className="p-2.5 w-28">DOSE</th>
-                          <th className="p-2.5 w-36">DILUENT</th>
-                          <th className="p-2.5 w-20">TOTAL VOL</th>
-                          <th className="p-2.5 w-24">RATE (ml/hr)</th>
-                          <th className="p-2.5 w-48">ROUTE / SIG / TIMESTAMP</th>
-                          <th className="p-2.5">TARGET MONITORING</th>
+                          <th className="p-2.5 w-44">{i18n.t("PRESCRIBED (DATE & TIME)")}</th>
+                          <th className="p-2.5 w-56">{i18n.t("DRUG")}</th>
+                          <th className="p-2.5 w-28">{i18n.t("DOSE")}</th>
+                          <th className="p-2.5 w-36">{i18n.t("DILUENT")}</th>
+                          <th className="p-2.5 w-20">{i18n.t("TOTAL VOL")}</th>
+                          <th className="p-2.5 w-24">{i18n.t("RATE (ml/hr)")}</th>
+                          <th className="p-2.5 w-48">{i18n.t("ROUTE / SIG / TIMESTAMP")}</th>
+                          <th className="p-2.5">{i18n.t("TARGET MONITORING")}</th>
                           <th className="p-2.5 w-10 text-center"></th>
                         </tr>
                       </thead>
@@ -449,33 +445,33 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                               </div>
                             </td>
                             <td className="p-2 align-top">
-                              <input type="text" placeholder="Drug Name" className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.drug || ""} onChange={e => updateArrayItem("supplements", i, "drug", e.target.value)} />
+                              <input type="text" placeholder={i18n.t("Drug Name")} className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.drug || ""} onChange={e => updateArrayItem("supplements", i, "drug", e.target.value)} />
                             </td>
                             <td className="p-2 align-top">
-                              <input type="text" placeholder="Dose" className="w-full p-1.5 border rounded text-xs font-bold text-slate-700" value={item.dose || ""} onChange={e => updateArrayItem("supplements", i, "dose", e.target.value)} />
+                              <input type="text" placeholder={i18n.t("Dose")} className="w-full p-1.5 border rounded text-xs font-bold text-slate-700" value={item.dose || ""} onChange={e => updateArrayItem("supplements", i, "dose", e.target.value)} />
                             </td>
                             <td className="p-2 align-top">
-                              <input type="text" placeholder="Diluent" className="w-full p-1.5 border rounded text-xs text-slate-600 font-medium" value={item.diluent || ""} onChange={e => updateArrayItem("supplements", i, "diluent", e.target.value)} />
+                              <input type="text" placeholder={i18n.t("Diluent")} className="w-full p-1.5 border rounded text-xs text-slate-600 font-medium" value={item.diluent || ""} onChange={e => updateArrayItem("supplements", i, "diluent", e.target.value)} />
                             </td>
                             <td className="p-2 align-top">
-                              <input type="text" placeholder="Vol" className="w-full p-1.5 border rounded text-xs font-medium" value={item.vol || ""} onChange={e => updateArrayItem("supplements", i, "vol", e.target.value)} />
+                              <input type="text" placeholder={i18n.t("Vol")} className="w-full p-1.5 border rounded text-xs font-medium" value={item.vol || ""} onChange={e => updateArrayItem("supplements", i, "vol", e.target.value)} />
                             </td>
                             <td className="p-2 align-top">
-                              <input type="text" placeholder="Rate" className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.rate || ""} onChange={e => updateArrayItem("supplements", i, "rate", e.target.value)} />
+                              <input type="text" placeholder={i18n.t("Rate")} className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.rate || ""} onChange={e => updateArrayItem("supplements", i, "rate", e.target.value)} />
                             </td>
                             <td className="p-2 align-top space-y-1">
-                              <input type="text" placeholder="Route (e.g. I.V.)" className="w-full p-1.5 border rounded text-xs font-bold text-indigo-800" value={item.route || ""} onChange={e => updateArrayItem("supplements", i, "route", e.target.value)} />
-                              <input type="text" placeholder="Prescriber Sig" className="w-full p-1 border rounded text-xs bg-white" value={item.sig || ""} onChange={e => updateArrayItem("supplements", i, "sig", e.target.value)} />
+                              <input type="text" placeholder={i18n.t("Route (e.g. I.V.)")} className="w-full p-1.5 border rounded text-xs font-bold text-indigo-800" value={item.route || ""} onChange={e => updateArrayItem("supplements", i, "route", e.target.value)} />
+                              <input type="text" placeholder={i18n.t("Prescriber Sig")} className="w-full p-1 border rounded text-xs bg-white" value={item.sig || ""} onChange={e => updateArrayItem("supplements", i, "sig", e.target.value)} />
                               <div className="grid grid-cols-2 gap-1 pt-0.5">
                                 <input type="date" className="p-1 border rounded text-[10px] bg-white font-medium" value={item.sig_date || ""} onChange={e => updateArrayItem("supplements", i, "sig_date", e.target.value)} />
                                 <input type="time" className="p-1 border rounded text-[10px] bg-white font-medium" value={item.sig_time || ""} onChange={e => updateArrayItem("supplements", i, "sig_time", e.target.value)} />
                               </div>
                             </td>
                             <td className="p-2 align-top bg-slate-50/60 rounded-lg">
-                              <input type="text" placeholder="Target Label" className="w-full p-1 border rounded text-[10px] text-slate-600 font-bold mb-1 bg-white" value={item.target_label || ""} onChange={e => updateArrayItem("supplements", i, "target_label", e.target.value)} />
+                              <input type="text" placeholder={i18n.t("Target Label")} className="w-full p-1 border rounded text-[10px] text-slate-600 font-bold mb-1 bg-white" value={item.target_label || ""} onChange={e => updateArrayItem("supplements", i, "target_label", e.target.value)} />
                               <div className="flex items-center gap-1">
-                                <input type="text" placeholder="Value" className="w-20 p-1 border rounded text-xs font-bold text-center bg-white" value={item.target_value || ""} onChange={e => updateArrayItem("supplements", i, "target_value", e.target.value)} />
-                                <input type="text" placeholder="Unit" className="w-16 p-1 border rounded text-xs text-slate-500 font-bold text-center bg-white" value={item.unit || "mmol/L"} onChange={e => updateArrayItem("supplements", i, "unit", e.target.value)} />
+                                <input type="text" placeholder={i18n.t("Value")} className="w-20 p-1 border rounded text-xs font-bold text-center bg-white" value={item.target_value || ""} onChange={e => updateArrayItem("supplements", i, "target_value", e.target.value)} />
+                                <input type="text" placeholder={i18n.t("Unit")} className="w-16 p-1 border rounded text-xs text-slate-500 font-bold text-center bg-white" value={item.unit || "mmol/L"} onChange={e => updateArrayItem("supplements", i, "unit", e.target.value)} />
                               </div>
                             </td>
                             <td className="p-2 align-top text-center">
@@ -491,35 +487,34 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                 {/* POTASSIUM ADMIN LOG */}
                 <div className="bg-white rounded-2xl shadow-sm border border-red-200 overflow-hidden max-w-4xl">
                   <div className="bg-red-50 p-3.5 border-b border-red-200 flex justify-between items-center">
-                    <h4 className="font-black text-red-900 uppercase text-xs tracking-wider">RECORD OF POTASSIUM ADMINISTERED:</h4>
+                    <h4 className="font-black text-red-900 uppercase text-xs tracking-wider">{i18n.t("RECORD OF POTASSIUM ADMINISTERED:")}</h4>
                     <button 
                       onClick={() => addArrayItem("potassium_log", { dose: "", sig: "" })} 
                       className="text-xs bg-white border border-red-300 text-red-800 px-3 py-1.5 rounded hover:bg-red-100 font-bold flex items-center gap-1 shadow-sm"
                     >
-                      <Plus size={14}/> Add K+ Dose
-                    </button>
+                      <Plus size={14}/>{" "}{i18n.t("Add K+ Dose")}</button>
                   </div>
-                  <table className="w-full text-left text-xs">
+                  <table className="w-full text-start text-xs">
                     <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase text-[10px]">
                       <tr>
-                        <th className="p-2.5">DOSE</th>
-                        <th className="p-2.5 w-44">ADMIN DATE</th>
-                        <th className="p-2.5 w-32">ADMIN TIME</th>
-                        <th className="p-2.5 w-36">SIG / INITIALS</th>
+                        <th className="p-2.5">{i18n.t("DOSE")}</th>
+                        <th className="p-2.5 w-44">{i18n.t("ADMIN DATE")}</th>
+                        <th className="p-2.5 w-32">{i18n.t("ADMIN TIME")}</th>
+                        <th className="p-2.5 w-36">{i18n.t("SIG / INITIALS")}</th>
                         <th className="p-2.5 w-10 text-center"></th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
                       {masterData.potassium_log?.map((item: any, i: number) => (
                         <tr key={item.id} className="hover:bg-slate-50">
-                          <td className="p-2"><input type="text" placeholder="e.g. 20 mmol" className="w-full p-1.5 border border-red-100 rounded text-xs font-bold" value={item.dose || ""} onChange={e => updateArrayItem("potassium_log", i, "dose", e.target.value)} /></td>
+                          <td className="p-2"><input type="text" placeholder={i18n.t("e.g. 20 mmol")} className="w-full p-1.5 border border-red-100 rounded text-xs font-bold" value={item.dose || ""} onChange={e => updateArrayItem("potassium_log", i, "dose", e.target.value)} /></td>
                           <td className="p-2"><input type="date" className="w-full p-1.5 border border-red-100 rounded text-xs font-medium" value={item.date || ""} onChange={e => updateArrayItem("potassium_log", i, "date", e.target.value)} /></td>
                           <td className="p-2"><input type="time" className="w-full p-1.5 border border-red-100 rounded text-xs font-medium" value={item.time || ""} onChange={e => updateArrayItem("potassium_log", i, "time", e.target.value)} /></td>
-                          <td className="p-2"><input type="text" placeholder="Initials" className="w-full p-1.5 border border-red-100 rounded text-xs" value={item.sig || ""} onChange={e => updateArrayItem("potassium_log", i, "sig", e.target.value)} /></td>
+                          <td className="p-2"><input type="text" placeholder={i18n.t("Initials")} className="w-full p-1.5 border border-red-100 rounded text-xs" value={item.sig || ""} onChange={e => updateArrayItem("potassium_log", i, "sig", e.target.value)} /></td>
                           <td className="p-2 text-center"><button onClick={() => removeArrayItem("potassium_log", i)} className="p-1 text-red-400 hover:bg-red-50 rounded"><Trash2 size={15}/></button></td>
                         </tr>
                       ))}
-                      {(!masterData.potassium_log || masterData.potassium_log.length === 0) && <tr><td colSpan={5} className="p-4 text-center text-slate-400 text-xs">No potassium doses recorded.</td></tr>}
+                      {(!masterData.potassium_log || masterData.potassium_log.length === 0) && <tr><td colSpan={5} className="p-4 text-center text-slate-400 text-xs">{i18n.t("No potassium doses recorded.")}</td></tr>}
                     </tbody>
                   </table>
                 </div>
@@ -532,26 +527,25 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                 {/* DIURETICS */}
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                   <div className="bg-slate-50 p-3.5 border-b border-slate-200 flex justify-between items-center">
-                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">DIURETICS</h4>
+                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">{i18n.t("DIURETICS")}</h4>
                     <button 
                       onClick={() => addArrayItem("diuretics", { drug: "FUROSEMIDE", dose: "50mg", diluent: "SODIUM CHLORIDE 0.9%", vol: "50 ml", rate: "", route: "I.V.", sig: "", sig_date: new Date().toISOString().split('T')[0], sig_time: new Date().toTimeString().slice(0, 5) })} 
                       className="text-xs bg-white border border-slate-300 px-3 py-1.5 rounded hover:bg-slate-100 font-bold flex items-center gap-1 shadow-sm"
                     >
-                      <Plus size={14}/> Add Diuretic
-                    </button>
+                      <Plus size={14}/>{" "}{i18n.t("Add Diuretic")}</button>
                   </div>
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs min-w-[1150px]">
+                    <table className="w-full text-start text-xs min-w-[1150px]">
                       <thead className="bg-slate-50/80 border-b border-slate-200 text-slate-500 uppercase text-[10px]">
                         <tr>
-                          <th className="p-2.5 w-44">PRESCRIBED (DATE & TIME)</th>
-                          <th className="p-2.5 w-48">DRUG</th>
-                          <th className="p-2.5 w-28">DOSE</th>
-                          <th className="p-2.5 w-40">DILUENT</th>
-                          <th className="p-2.5 w-24">TOTAL VOL</th>
-                          <th className="p-2.5 w-28">RATE (ml/hr)</th>
-                          <th className="p-2.5 w-28">ROUTE</th>
-                          <th className="p-2.5 w-52">PRESCRIBER SIG & TIMESTAMP</th>
+                          <th className="p-2.5 w-44">{i18n.t("PRESCRIBED (DATE & TIME)")}</th>
+                          <th className="p-2.5 w-48">{i18n.t("DRUG")}</th>
+                          <th className="p-2.5 w-28">{i18n.t("DOSE")}</th>
+                          <th className="p-2.5 w-40">{i18n.t("DILUENT")}</th>
+                          <th className="p-2.5 w-24">{i18n.t("TOTAL VOL")}</th>
+                          <th className="p-2.5 w-28">{i18n.t("RATE (ml/hr)")}</th>
+                          <th className="p-2.5 w-28">{i18n.t("ROUTE")}</th>
+                          <th className="p-2.5 w-52">{i18n.t("PRESCRIBER SIG & TIMESTAMP")}</th>
                           <th className="p-2.5 w-10 text-center"></th>
                         </tr>
                       </thead>
@@ -571,7 +565,7 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                             <td className="p-2 align-top"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.rate || ""} onChange={e => updateArrayItem("diuretics", i, "rate", e.target.value)} /></td>
                             <td className="p-2 align-top"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-indigo-700" value={item.route || ""} onChange={e => updateArrayItem("diuretics", i, "route", e.target.value)} /></td>
                             <td className="p-2 align-top space-y-1">
-                              <input type="text" placeholder="Sig" className="w-full p-1.5 border rounded text-xs bg-white" value={item.sig || ""} onChange={e => updateArrayItem("diuretics", i, "sig", e.target.value)} />
+                              <input type="text" placeholder={i18n.t("Sig")} className="w-full p-1.5 border rounded text-xs bg-white" value={item.sig || ""} onChange={e => updateArrayItem("diuretics", i, "sig", e.target.value)} />
                               <div className="grid grid-cols-2 gap-1">
                                 <input type="date" className="p-1 border rounded text-[10px] bg-white font-medium" value={item.sig_date || ""} onChange={e => updateArrayItem("diuretics", i, "sig_date", e.target.value)} />
                                 <input type="time" className="p-1 border rounded text-[10px] bg-white font-medium" value={item.sig_time || ""} onChange={e => updateArrayItem("diuretics", i, "sig_time", e.target.value)} />
@@ -580,7 +574,7 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                             <td className="p-2 align-top text-center"><button onClick={() => removeArrayItem("diuretics", i)} className="p-1 text-red-400 hover:bg-red-50 rounded"><Trash2 size={15}/></button></td>
                           </tr>
                         ))}
-                        {(!masterData.diuretics || masterData.diuretics.length === 0) && <tr><td colSpan={9} className="p-4 text-center text-slate-400 text-xs">No diuretics recorded.</td></tr>}
+                        {(!masterData.diuretics || masterData.diuretics.length === 0) && <tr><td colSpan={9} className="p-4 text-center text-slate-400 text-xs">{i18n.t("No diuretics recorded.")}</td></tr>}
                       </tbody>
                     </table>
                   </div>
@@ -589,14 +583,14 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                 {/* CARDIOVASCULAR */}
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                   <div className="bg-slate-50 p-3.5 border-b border-slate-200 flex justify-between items-center">
-                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">CARDIOVASCULAR</h4>
+                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">{i18n.t("CARDIOVASCULAR")}</h4>
                     <div className="flex gap-2">
                       <select id="cvSelect" className="text-xs bg-white border border-slate-300 px-2 py-1.5 rounded font-medium">
-                        <option value="ADRENALINE 1:1000|10mg|DEXTROSE 5%|100 ml|Central Access only|">Adrenaline (10mg/100ml)</option>
-                        <option value="NORADRENALINE 1:1000|8 mg|DEXTROSE 5%|100 ml|Central Access only|For rate up to 20ml/hr">Norad (8mg/100ml - ≤20ml/hr)</option>
-                        <option value="NORADRENALINE 1:1000|20mg|DEXTROSE 5%|250ml|Central Access only|For rate more than 20ml/hr">Norad (20mg/250ml - &gt;20ml/hr)</option>
-                        <option value="METARAMINOL|20mg|SODIUM CHLORIDE 0.9%|40ml|I.V or Central Access|">Metaraminol (20mg/40ml)</option>
-                        <option value="VASOPRESSIN|20 units|DEXTROSE 5%|20ml|Central Access only|">Vasopressin (20u/20ml)</option>
+                        <option value="ADRENALINE 1:1000|10mg|DEXTROSE 5%|100 ml|Central Access only|">{i18n.t("Adrenaline (10mg/100ml)")}</option>
+                        <option value="NORADRENALINE 1:1000|8 mg|DEXTROSE 5%|100 ml|Central Access only|For rate up to 20ml/hr">{i18n.t("Norad (8mg/100ml - ≤20ml/hr)")}</option>
+                        <option value="NORADRENALINE 1:1000|20mg|DEXTROSE 5%|250ml|Central Access only|For rate more than 20ml/hr">{i18n.t("Norad (20mg/250ml - >20ml/hr)")}</option>
+                        <option value="METARAMINOL|20mg|SODIUM CHLORIDE 0.9%|40ml|I.V or Central Access|">{i18n.t("Metaraminol (20mg/40ml)")}</option>
+                        <option value="VASOPRESSIN|20 units|DEXTROSE 5%|20ml|Central Access only|">{i18n.t("Vasopressin (20u/20ml)")}</option>
                       </select>
                       <button 
                         onClick={() => {
@@ -604,29 +598,25 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                           addArrayItem("cardiovascular", { drug: val[0], dose: val[1], diluent: val[2], vol: val[3], rate: "", route: val[4], note: val[5], sig: "", sig_date: new Date().toISOString().split('T')[0], sig_time: new Date().toTimeString().slice(0, 5) });
                         }} 
                         className="text-xs bg-brand-primary text-white px-3 py-1.5 rounded hover:bg-brand-active font-bold"
-                      >
-                        Add Pre-Set
-                      </button>
+                      >{i18n.t("Add Pre-Set")}</button>
                       <button 
                         onClick={() => addArrayItem("cardiovascular", { drug: "", dose: "", diluent: "", vol: "", rate: "", route: "Central Access only", note: "", sig: "", sig_date: new Date().toISOString().split('T')[0], sig_time: new Date().toTimeString().slice(0, 5) })} 
                         className="text-xs bg-white border border-slate-300 px-3 py-1.5 rounded hover:bg-slate-100 font-bold"
-                      >
-                        + Blank Row
-                      </button>
+                      >{i18n.t("+ Blank Row")}</button>
                     </div>
                   </div>
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs min-w-[1250px]">
+                    <table className="w-full text-start text-xs min-w-[1250px]">
                       <thead className="bg-slate-50/80 border-b border-slate-200 text-slate-500 uppercase text-[10px]">
                         <tr>
-                          <th className="p-2.5 w-44">PRESCRIBED (DATE & TIME)</th>
-                          <th className="p-2.5 w-56">DRUG & CLINICAL NOTE</th>
-                          <th className="p-2.5 w-28">DOSE</th>
-                          <th className="p-2.5 w-36">DILUENT</th>
-                          <th className="p-2.5 w-24">TOTAL VOL</th>
-                          <th className="p-2.5 w-28">RATE (ml/hr)</th>
-                          <th className="p-2.5 w-36">ROUTE</th>
-                          <th className="p-2.5 w-52">PRESCRIBER SIG & TIMESTAMP</th>
+                          <th className="p-2.5 w-44">{i18n.t("PRESCRIBED (DATE & TIME)")}</th>
+                          <th className="p-2.5 w-56">{i18n.t("DRUG & CLINICAL NOTE")}</th>
+                          <th className="p-2.5 w-28">{i18n.t("DOSE")}</th>
+                          <th className="p-2.5 w-36">{i18n.t("DILUENT")}</th>
+                          <th className="p-2.5 w-24">{i18n.t("TOTAL VOL")}</th>
+                          <th className="p-2.5 w-28">{i18n.t("RATE (ml/hr)")}</th>
+                          <th className="p-2.5 w-36">{i18n.t("ROUTE")}</th>
+                          <th className="p-2.5 w-52">{i18n.t("PRESCRIBER SIG & TIMESTAMP")}</th>
                           <th className="p-2.5 w-10 text-center"></th>
                         </tr>
                       </thead>
@@ -640,16 +630,16 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                               </div>
                             </td>
                             <td className="p-2 align-top space-y-1">
-                              <input type="text" placeholder="Drug Name" className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.drug || ""} onChange={e => updateArrayItem("cardiovascular", i, "drug", e.target.value)} />
-                              <input type="text" placeholder="Clinical Note" className="w-full p-1 border border-red-100 text-red-600 rounded text-[10px]" value={item.note || ""} onChange={e => updateArrayItem("cardiovascular", i, "note", e.target.value)} />
+                              <input type="text" placeholder={i18n.t("Drug Name")} className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.drug || ""} onChange={e => updateArrayItem("cardiovascular", i, "drug", e.target.value)} />
+                              <input type="text" placeholder={i18n.t("Clinical Note")} className="w-full p-1 border border-red-100 text-red-600 rounded text-[10px]" value={item.note || ""} onChange={e => updateArrayItem("cardiovascular", i, "note", e.target.value)} />
                             </td>
-                            <td className="p-2 align-top"><input type="text" placeholder="Dose" className="w-full p-1.5 border rounded text-xs font-bold text-slate-700" value={item.dose || ""} onChange={e => updateArrayItem("cardiovascular", i, "dose", e.target.value)} /></td>
-                            <td className="p-2 align-top"><input type="text" placeholder="Diluent" className="w-full p-1.5 border rounded text-xs font-medium" value={item.diluent || ""} onChange={e => updateArrayItem("cardiovascular", i, "diluent", e.target.value)} /></td>
-                            <td className="p-2 align-top"><input type="text" placeholder="Vol" className="w-full p-1.5 border rounded text-xs font-medium" value={item.vol || ""} onChange={e => updateArrayItem("cardiovascular", i, "vol", e.target.value)} /></td>
-                            <td className="p-2 align-top"><input type="text" placeholder="Rate" className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.rate || ""} onChange={e => updateArrayItem("cardiovascular", i, "rate", e.target.value)} /></td>
-                            <td className="p-2 align-top"><input type="text" placeholder="Route" className="w-full p-1.5 border rounded text-xs font-bold text-indigo-700" value={item.route || ""} onChange={e => updateArrayItem("cardiovascular", i, "route", e.target.value)} /></td>
+                            <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Dose")} className="w-full p-1.5 border rounded text-xs font-bold text-slate-700" value={item.dose || ""} onChange={e => updateArrayItem("cardiovascular", i, "dose", e.target.value)} /></td>
+                            <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Diluent")} className="w-full p-1.5 border rounded text-xs font-medium" value={item.diluent || ""} onChange={e => updateArrayItem("cardiovascular", i, "diluent", e.target.value)} /></td>
+                            <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Vol")} className="w-full p-1.5 border rounded text-xs font-medium" value={item.vol || ""} onChange={e => updateArrayItem("cardiovascular", i, "vol", e.target.value)} /></td>
+                            <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Rate")} className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.rate || ""} onChange={e => updateArrayItem("cardiovascular", i, "rate", e.target.value)} /></td>
+                            <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Route")} className="w-full p-1.5 border rounded text-xs font-bold text-indigo-700" value={item.route || ""} onChange={e => updateArrayItem("cardiovascular", i, "route", e.target.value)} /></td>
                             <td className="p-2 align-top space-y-1">
-                              <input type="text" placeholder="Sig" className="w-full p-1.5 border rounded text-xs bg-white" value={item.sig || ""} onChange={e => updateArrayItem("cardiovascular", i, "sig", e.target.value)} />
+                              <input type="text" placeholder={i18n.t("Sig")} className="w-full p-1.5 border rounded text-xs bg-white" value={item.sig || ""} onChange={e => updateArrayItem("cardiovascular", i, "sig", e.target.value)} />
                               <div className="grid grid-cols-2 gap-1">
                                 <input type="date" className="p-1 border rounded text-[10px] bg-white font-medium" value={item.sig_date || ""} onChange={e => updateArrayItem("cardiovascular", i, "sig_date", e.target.value)} />
                                 <input type="time" className="p-1 border rounded text-[10px] bg-white font-medium" value={item.sig_time || ""} onChange={e => updateArrayItem("cardiovascular", i, "sig_time", e.target.value)} />
@@ -658,7 +648,7 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                             <td className="p-2 align-top text-center"><button onClick={() => removeArrayItem("cardiovascular", i)} className="p-1 text-red-400 hover:bg-red-50 rounded"><Trash2 size={15}/></button></td>
                           </tr>
                         ))}
-                        {(!masterData.cardiovascular || masterData.cardiovascular.length === 0) && <tr><td colSpan={9} className="p-4 text-center text-slate-400 text-xs">No cardiovascular infusions recorded.</td></tr>}
+                        {(!masterData.cardiovascular || masterData.cardiovascular.length === 0) && <tr><td colSpan={9} className="p-4 text-center text-slate-400 text-xs">{i18n.t("No cardiovascular infusions recorded.")}</td></tr>}
                       </tbody>
                     </table>
                   </div>
@@ -672,11 +662,11 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                 {/* SEDATION */}
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                   <div className="bg-slate-50 p-3.5 border-b border-slate-200 flex justify-between items-center">
-                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">SEDATION</h4>
+                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">{i18n.t("SEDATION")}</h4>
                     <div className="flex gap-2">
                       <select id="sedSelect" className="text-xs bg-white border border-slate-300 px-2 py-1.5 rounded font-medium">
-                        <option value="PROPOFOL|10 mg/ml|Neat|100 ml|I.V.">Propofol (10mg/ml / 100ml)</option>
-                        <option value="MIDAZOLAM|50 mg|SODIUM CHLORIDE 0.9%|50 ml|I.V.">Midazolam (50mg / 50ml)</option>
+                        <option value="PROPOFOL|10 mg/ml|Neat|100 ml|I.V.">{i18n.t("Propofol (10mg/ml / 100ml)")}</option>
+                        <option value="MIDAZOLAM|50 mg|SODIUM CHLORIDE 0.9%|50 ml|I.V.">{i18n.t("Midazolam (50mg / 50ml)")}</option>
                       </select>
                       <button 
                         onClick={() => {
@@ -684,29 +674,25 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                           addArrayItem("sedation_analgesia", { type: 'sedation', drug: val[0], dose: val[1], diluent: val[2], vol: val[3], rate: "", route: val[4], sig: "", sig_date: new Date().toISOString().split('T')[0], sig_time: new Date().toTimeString().slice(0, 5) });
                         }} 
                         className="text-xs bg-brand-primary text-white px-3 py-1.5 rounded hover:bg-brand-active font-bold"
-                      >
-                        Add Pre-Set
-                      </button>
+                      >{i18n.t("Add Pre-Set")}</button>
                       <button 
                         onClick={() => addArrayItem("sedation_analgesia", { type: 'sedation', drug: "", dose: "", diluent: "", vol: "", rate: "", route: "I.V.", sig: "", sig_date: new Date().toISOString().split('T')[0], sig_time: new Date().toTimeString().slice(0, 5) })} 
                         className="text-xs bg-white border border-slate-300 px-3 py-1.5 rounded hover:bg-slate-100 font-bold"
-                      >
-                        + Blank Row
-                      </button>
+                      >{i18n.t("+ Blank Row")}</button>
                     </div>
                   </div>
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs min-w-[1150px]">
+                    <table className="w-full text-start text-xs min-w-[1150px]">
                       <thead className="bg-slate-50/80 border-b border-slate-200 text-slate-500 uppercase text-[10px]">
                         <tr>
-                          <th className="p-2.5 w-44">PRESCRIBED (DATE & TIME)</th>
-                          <th className="p-2.5 w-48">DRUG</th>
-                          <th className="p-2.5 w-28">DOSE</th>
-                          <th className="p-2.5 w-36">DILUENT</th>
-                          <th className="p-2.5 w-20">VOL</th>
-                          <th className="p-2.5 w-32">RATE (ml/hr)</th>
-                          <th className="p-2.5 w-28">ROUTE</th>
-                          <th className="p-2.5 w-52">PRESCRIBER SIG & TIMESTAMP</th>
+                          <th className="p-2.5 w-44">{i18n.t("PRESCRIBED (DATE & TIME)")}</th>
+                          <th className="p-2.5 w-48">{i18n.t("DRUG")}</th>
+                          <th className="p-2.5 w-28">{i18n.t("DOSE")}</th>
+                          <th className="p-2.5 w-36">{i18n.t("DILUENT")}</th>
+                          <th className="p-2.5 w-20">{i18n.t("VOL")}</th>
+                          <th className="p-2.5 w-32">{i18n.t("RATE (ml/hr)")}</th>
+                          <th className="p-2.5 w-28">{i18n.t("ROUTE")}</th>
+                          <th className="p-2.5 w-52">{i18n.t("PRESCRIBER SIG & TIMESTAMP")}</th>
                           <th className="p-2.5 w-10 text-center"></th>
                         </tr>
                       </thead>
@@ -721,14 +707,14 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                                   <input type="time" className="w-full p-1.5 border rounded text-xs bg-white font-medium" value={item.time || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "time", e.target.value)} />
                                 </div>
                               </td>
-                              <td className="p-2 align-top"><input type="text" placeholder="Drug" className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.drug || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "drug", e.target.value)} /></td>
-                              <td className="p-2 align-top"><input type="text" placeholder="Dose" className="w-full p-1.5 border rounded text-xs font-bold text-slate-700" value={item.dose || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "dose", e.target.value)} /></td>
-                              <td className="p-2 align-top"><input type="text" placeholder="Diluent" className="w-full p-1.5 border rounded text-xs font-medium" value={item.diluent || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "diluent", e.target.value)} /></td>
-                              <td className="p-2 align-top"><input type="text" placeholder="Vol" className="w-full p-1.5 border rounded text-xs font-medium" value={item.vol || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "vol", e.target.value)} /></td>
-                              <td className="p-2 align-top"><input type="text" placeholder="Rate" className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.rate || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "rate", e.target.value)} /></td>
-                              <td className="p-2 align-top"><input type="text" placeholder="Route" className="w-full p-1.5 border rounded text-xs font-bold text-indigo-700" value={item.route || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "route", e.target.value)} /></td>
+                              <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Drug")} className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.drug || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "drug", e.target.value)} /></td>
+                              <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Dose")} className="w-full p-1.5 border rounded text-xs font-bold text-slate-700" value={item.dose || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "dose", e.target.value)} /></td>
+                              <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Diluent")} className="w-full p-1.5 border rounded text-xs font-medium" value={item.diluent || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "diluent", e.target.value)} /></td>
+                              <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Vol")} className="w-full p-1.5 border rounded text-xs font-medium" value={item.vol || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "vol", e.target.value)} /></td>
+                              <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Rate")} className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.rate || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "rate", e.target.value)} /></td>
+                              <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Route")} className="w-full p-1.5 border rounded text-xs font-bold text-indigo-700" value={item.route || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "route", e.target.value)} /></td>
                               <td className="p-2 align-top space-y-1">
-                                <input type="text" placeholder="Sig" className="w-full p-1.5 border rounded text-xs bg-white" value={item.sig || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "sig", e.target.value)} />
+                                <input type="text" placeholder={i18n.t("Sig")} className="w-full p-1.5 border rounded text-xs bg-white" value={item.sig || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "sig", e.target.value)} />
                                 <div className="grid grid-cols-2 gap-1">
                                   <input type="date" className="p-1 border rounded text-[10px] bg-white font-medium" value={item.sig_date || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "sig_date", e.target.value)} />
                                   <input type="time" className="p-1 border rounded text-[10px] bg-white font-medium" value={item.sig_time || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "sig_time", e.target.value)} />
@@ -746,12 +732,12 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                 {/* ANALGESIA */}
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                   <div className="bg-slate-50 p-3.5 border-b border-slate-200 flex justify-between items-center">
-                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">ANALGESIA</h4>
+                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">{i18n.t("ANALGESIA")}</h4>
                     <div className="flex gap-2">
                       <select id="analgesiaSelect" className="text-xs bg-white border border-slate-300 px-2 py-1.5 rounded font-medium">
-                        <option value="MORPHINE|50 mg|SODIUM CHLORIDE 0.9%|50 ml|I.V.">Morphine (50mg / 50ml)</option>
-                        <option value="FENTANYL|2500 micrograms|Neat|50ml|I.V.">Fentanyl (2500mcg / 50ml)</option>
-                        <option value="FENTANYL|1000 micrograms|Neat|20ml|I.V.">Fentanyl (1000mcg / 20ml)</option>
+                        <option value="MORPHINE|50 mg|SODIUM CHLORIDE 0.9%|50 ml|I.V.">{i18n.t("Morphine (50mg / 50ml)")}</option>
+                        <option value="FENTANYL|2500 micrograms|Neat|50ml|I.V.">{i18n.t("Fentanyl (2500mcg / 50ml)")}</option>
+                        <option value="FENTANYL|1000 micrograms|Neat|20ml|I.V.">{i18n.t("Fentanyl (1000mcg / 20ml)")}</option>
                       </select>
                       <button 
                         onClick={() => {
@@ -759,29 +745,25 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                           addArrayItem("sedation_analgesia", { type: 'analgesia', drug: val[0], dose: val[1], diluent: val[2], vol: val[3], rate: "", route: val[4], sig: "", sig_date: new Date().toISOString().split('T')[0], sig_time: new Date().toTimeString().slice(0, 5) });
                         }} 
                         className="text-xs bg-brand-primary text-white px-3 py-1.5 rounded hover:bg-brand-active font-bold"
-                      >
-                        Add Pre-Set
-                      </button>
+                      >{i18n.t("Add Pre-Set")}</button>
                       <button 
                         onClick={() => addArrayItem("sedation_analgesia", { type: 'analgesia', drug: "", dose: "", diluent: "", vol: "", rate: "", route: "I.V.", sig: "", sig_date: new Date().toISOString().split('T')[0], sig_time: new Date().toTimeString().slice(0, 5) })} 
                         className="text-xs bg-white border border-slate-300 px-3 py-1.5 rounded hover:bg-slate-100 font-bold"
-                      >
-                        + Blank Row
-                      </button>
+                      >{i18n.t("+ Blank Row")}</button>
                     </div>
                   </div>
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs min-w-[1150px]">
+                    <table className="w-full text-start text-xs min-w-[1150px]">
                       <thead className="bg-slate-50/80 border-b border-slate-200 text-slate-500 uppercase text-[10px]">
                         <tr>
-                          <th className="p-2.5 w-44">PRESCRIBED (DATE & TIME)</th>
-                          <th className="p-2.5 w-48">DRUG</th>
-                          <th className="p-2.5 w-28">DOSE</th>
-                          <th className="p-2.5 w-36">DILUENT</th>
-                          <th className="p-2.5 w-20">VOL</th>
-                          <th className="p-2.5 w-32">RATE (ml/hr)</th>
-                          <th className="p-2.5 w-28">ROUTE</th>
-                          <th className="p-2.5 w-52">PRESCRIBER SIG & TIMESTAMP</th>
+                          <th className="p-2.5 w-44">{i18n.t("PRESCRIBED (DATE & TIME)")}</th>
+                          <th className="p-2.5 w-48">{i18n.t("DRUG")}</th>
+                          <th className="p-2.5 w-28">{i18n.t("DOSE")}</th>
+                          <th className="p-2.5 w-36">{i18n.t("DILUENT")}</th>
+                          <th className="p-2.5 w-20">{i18n.t("VOL")}</th>
+                          <th className="p-2.5 w-32">{i18n.t("RATE (ml/hr)")}</th>
+                          <th className="p-2.5 w-28">{i18n.t("ROUTE")}</th>
+                          <th className="p-2.5 w-52">{i18n.t("PRESCRIBER SIG & TIMESTAMP")}</th>
                           <th className="p-2.5 w-10 text-center"></th>
                         </tr>
                       </thead>
@@ -796,14 +778,14 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                                   <input type="time" className="w-full p-1.5 border rounded text-xs bg-white font-medium" value={item.time || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "time", e.target.value)} />
                                 </div>
                               </td>
-                              <td className="p-2 align-top"><input type="text" placeholder="Drug" className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.drug || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "drug", e.target.value)} /></td>
-                              <td className="p-2 align-top"><input type="text" placeholder="Dose" className="w-full p-1.5 border rounded text-xs font-bold text-slate-700" value={item.dose || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "dose", e.target.value)} /></td>
-                              <td className="p-2 align-top"><input type="text" placeholder="Diluent" className="w-full p-1.5 border rounded text-xs font-medium" value={item.diluent || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "diluent", e.target.value)} /></td>
-                              <td className="p-2 align-top"><input type="text" placeholder="Vol" className="w-full p-1.5 border rounded text-xs font-medium" value={item.vol || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "vol", e.target.value)} /></td>
-                              <td className="p-2 align-top"><input type="text" placeholder="Rate" className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.rate || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "rate", e.target.value)} /></td>
-                              <td className="p-2 align-top"><input type="text" placeholder="Route" className="w-full p-1.5 border rounded text-xs font-bold text-indigo-700" value={item.route || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "route", e.target.value)} /></td>
+                              <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Drug")} className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.drug || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "drug", e.target.value)} /></td>
+                              <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Dose")} className="w-full p-1.5 border rounded text-xs font-bold text-slate-700" value={item.dose || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "dose", e.target.value)} /></td>
+                              <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Diluent")} className="w-full p-1.5 border rounded text-xs font-medium" value={item.diluent || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "diluent", e.target.value)} /></td>
+                              <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Vol")} className="w-full p-1.5 border rounded text-xs font-medium" value={item.vol || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "vol", e.target.value)} /></td>
+                              <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Rate")} className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.rate || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "rate", e.target.value)} /></td>
+                              <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Route")} className="w-full p-1.5 border rounded text-xs font-bold text-indigo-700" value={item.route || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "route", e.target.value)} /></td>
                               <td className="p-2 align-top space-y-1">
-                                <input type="text" placeholder="Sig" className="w-full p-1.5 border rounded text-xs bg-white" value={item.sig || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "sig", e.target.value)} />
+                                <input type="text" placeholder={i18n.t("Sig")} className="w-full p-1.5 border rounded text-xs bg-white" value={item.sig || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "sig", e.target.value)} />
                                 <div className="grid grid-cols-2 gap-1">
                                   <input type="date" className="p-1 border rounded text-[10px] bg-white font-medium" value={item.sig_date || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "sig_date", e.target.value)} />
                                   <input type="time" className="p-1 border rounded text-[10px] bg-white font-medium" value={item.sig_time || ""} onChange={e => updateArrayItem("sedation_analgesia", globalIndex, "sig_time", e.target.value)} />
@@ -826,26 +808,25 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                 {/* OTHER DRUGS */}
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                   <div className="bg-slate-50 p-3.5 border-b border-slate-200 flex justify-between items-center">
-                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">OTHER DRUGS</h4>
+                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">{i18n.t("OTHER DRUGS")}</h4>
                     <button 
                       onClick={() => addArrayItem("other_drugs", { drug: "CISATRACURIUM", dose: "100mg", diluent: "Neat In BD Plastipak syringe", vol: "50ml", rate: "", route: "Central Access preferred to IV", sig: "", sig_date: new Date().toISOString().split('T')[0], sig_time: new Date().toTimeString().slice(0, 5), pharmacy: "Made by Pharmacy" })} 
                       className="text-xs bg-white border border-slate-300 px-3 py-1.5 rounded hover:bg-slate-100 font-bold flex items-center gap-1 shadow-sm"
                     >
-                      <Plus size={14}/> Add Other Drug
-                    </button>
+                      <Plus size={14}/>{" "}{i18n.t("Add Other Drug")}</button>
                   </div>
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs min-w-[1250px]">
+                    <table className="w-full text-start text-xs min-w-[1250px]">
                       <thead className="bg-slate-50/80 border-b border-slate-200 text-slate-500 uppercase text-[10px]">
                         <tr>
-                          <th className="p-2.5 w-44">PRESCRIBED (DATE & TIME)</th>
-                          <th className="p-2.5 w-52">DRUG & PHARMACY NOTE</th>
-                          <th className="p-2.5 w-28">DOSE</th>
-                          <th className="p-2.5 w-36">DILUENT</th>
-                          <th className="p-2.5 w-24">TOTAL VOL</th>
-                          <th className="p-2.5 w-28">RATE (ml/hr)</th>
-                          <th className="p-2.5 w-40">ROUTE</th>
-                          <th className="p-2.5 w-52">PRESCRIBER SIG & TIMESTAMP</th>
+                          <th className="p-2.5 w-44">{i18n.t("PRESCRIBED (DATE & TIME)")}</th>
+                          <th className="p-2.5 w-52">{i18n.t("DRUG & PHARMACY NOTE")}</th>
+                          <th className="p-2.5 w-28">{i18n.t("DOSE")}</th>
+                          <th className="p-2.5 w-36">{i18n.t("DILUENT")}</th>
+                          <th className="p-2.5 w-24">{i18n.t("TOTAL VOL")}</th>
+                          <th className="p-2.5 w-28">{i18n.t("RATE (ml/hr)")}</th>
+                          <th className="p-2.5 w-40">{i18n.t("ROUTE")}</th>
+                          <th className="p-2.5 w-52">{i18n.t("PRESCRIBER SIG & TIMESTAMP")}</th>
                           <th className="p-2.5 w-10 text-center"></th>
                         </tr>
                       </thead>
@@ -859,16 +840,16 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                               </div>
                             </td>
                             <td className="p-2 align-top space-y-1">
-                              <input type="text" placeholder="Drug Name" className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.drug || ""} onChange={e => updateArrayItem("other_drugs", i, "drug", e.target.value)} />
-                              <input type="text" placeholder="Pharmacy Notes" className="w-full p-1 border rounded text-[10px] text-slate-500" value={item.pharmacy || ""} onChange={e => updateArrayItem("other_drugs", i, "pharmacy", e.target.value)} />
+                              <input type="text" placeholder={i18n.t("Drug Name")} className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.drug || ""} onChange={e => updateArrayItem("other_drugs", i, "drug", e.target.value)} />
+                              <input type="text" placeholder={i18n.t("Pharmacy Notes")} className="w-full p-1 border rounded text-[10px] text-slate-500" value={item.pharmacy || ""} onChange={e => updateArrayItem("other_drugs", i, "pharmacy", e.target.value)} />
                             </td>
-                            <td className="p-2 align-top"><input type="text" placeholder="Dose" className="w-full p-1.5 border rounded text-xs font-bold text-slate-700" value={item.dose || ""} onChange={e => updateArrayItem("other_drugs", i, "dose", e.target.value)} /></td>
-                            <td className="p-2 align-top"><input type="text" placeholder="Diluent" className="w-full p-1.5 border rounded text-xs font-medium" value={item.diluent || ""} onChange={e => updateArrayItem("other_drugs", i, "diluent", e.target.value)} /></td>
-                            <td className="p-2 align-top"><input type="text" placeholder="Vol" className="w-full p-1.5 border rounded text-xs font-medium" value={item.vol || ""} onChange={e => updateArrayItem("other_drugs", i, "vol", e.target.value)} /></td>
-                            <td className="p-2 align-top"><input type="text" placeholder="Rate" className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.rate || ""} onChange={e => updateArrayItem("other_drugs", i, "rate", e.target.value)} /></td>
-                            <td className="p-2 align-top"><input type="text" placeholder="Route" className="w-full p-1.5 border rounded text-xs font-bold text-indigo-700" value={item.route || ""} onChange={e => updateArrayItem("other_drugs", i, "route", e.target.value)} /></td>
+                            <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Dose")} className="w-full p-1.5 border rounded text-xs font-bold text-slate-700" value={item.dose || ""} onChange={e => updateArrayItem("other_drugs", i, "dose", e.target.value)} /></td>
+                            <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Diluent")} className="w-full p-1.5 border rounded text-xs font-medium" value={item.diluent || ""} onChange={e => updateArrayItem("other_drugs", i, "diluent", e.target.value)} /></td>
+                            <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Vol")} className="w-full p-1.5 border rounded text-xs font-medium" value={item.vol || ""} onChange={e => updateArrayItem("other_drugs", i, "vol", e.target.value)} /></td>
+                            <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Rate")} className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.rate || ""} onChange={e => updateArrayItem("other_drugs", i, "rate", e.target.value)} /></td>
+                            <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Route")} className="w-full p-1.5 border rounded text-xs font-bold text-indigo-700" value={item.route || ""} onChange={e => updateArrayItem("other_drugs", i, "route", e.target.value)} /></td>
                             <td className="p-2 align-top space-y-1">
-                              <input type="text" placeholder="Sig" className="w-full p-1.5 border rounded text-xs bg-white" value={item.sig || ""} onChange={e => updateArrayItem("other_drugs", i, "sig", e.target.value)} />
+                              <input type="text" placeholder={i18n.t("Sig")} className="w-full p-1.5 border rounded text-xs bg-white" value={item.sig || ""} onChange={e => updateArrayItem("other_drugs", i, "sig", e.target.value)} />
                               <div className="grid grid-cols-2 gap-1">
                                 <input type="date" className="p-1 border rounded text-[10px] bg-white font-medium" value={item.sig_date || ""} onChange={e => updateArrayItem("other_drugs", i, "sig_date", e.target.value)} />
                                 <input type="time" className="p-1 border rounded text-[10px] bg-white font-medium" value={item.sig_time || ""} onChange={e => updateArrayItem("other_drugs", i, "sig_time", e.target.value)} />
@@ -877,7 +858,7 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                             <td className="p-2 align-top text-center"><button onClick={() => removeArrayItem("other_drugs", i)} className="p-1 text-red-400 hover:bg-red-50 rounded"><Trash2 size={15}/></button></td>
                           </tr>
                         ))}
-                        {(!masterData.other_drugs || masterData.other_drugs.length === 0) && <tr><td colSpan={9} className="p-4 text-center text-slate-400 text-xs">No other drugs recorded.</td></tr>}
+                        {(!masterData.other_drugs || masterData.other_drugs.length === 0) && <tr><td colSpan={9} className="p-4 text-center text-slate-400 text-xs">{i18n.t("No other drugs recorded.")}</td></tr>}
                       </tbody>
                     </table>
                   </div>
@@ -886,24 +867,23 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                 {/* PANDEMIC SYRINGES */}
                 <div className="bg-amber-50/60 rounded-2xl shadow-sm border border-amber-200 overflow-hidden">
                   <div className="p-3.5 border-b border-amber-200 flex justify-between items-center bg-amber-100/50">
-                    <h4 className="font-black text-amber-950 uppercase text-xs tracking-wider">SYRINGE CONTAINING MIDAZOLAM AND MORPHINE (PANDEMIC USE ONLY)</h4>
+                    <h4 className="font-black text-amber-950 uppercase text-xs tracking-wider">{i18n.t("SYRINGE CONTAINING MIDAZOLAM AND MORPHINE (PANDEMIC USE ONLY)")}</h4>
                     <button 
                       onClick={() => addArrayItem("pandemic_syringe", { drug: "MIDAZOLAM 1mg/ml / MORPHINE 1mg/ml", pharmacy: "SYRINGES MADE BY PHARMACY In BD Plastipak syringe", vol: "50 ml", rate: "", route: "Central Access preferred to IV", sig: "", sig_date: new Date().toISOString().split('T')[0], sig_time: new Date().toTimeString().slice(0, 5) })} 
                       className="text-xs bg-white border border-amber-300 text-amber-900 px-3 py-1.5 rounded hover:bg-amber-50 font-bold flex items-center gap-1 shadow-sm"
                     >
-                      <Plus size={14}/> Add Syringe
-                    </button>
+                      <Plus size={14}/>{" "}{i18n.t("Add Syringe")}</button>
                   </div>
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs bg-white min-w-[1250px]">
+                    <table className="w-full text-start text-xs bg-white min-w-[1250px]">
                       <thead className="border-b border-slate-200 text-slate-500 uppercase text-[10px]">
                         <tr>
-                          <th className="p-2.5 w-44">PRESCRIBED (DATE & TIME)</th>
-                          <th className="p-2.5 w-60">DRUG / SYRINGE PREPARATION</th>
-                          <th className="p-2.5 w-24">TOTAL VOL</th>
-                          <th className="p-2.5 w-28">RATE (ml/hr)</th>
-                          <th className="p-2.5 w-40">ROUTE</th>
-                          <th className="p-2.5 w-52">PRESCRIBER SIG & TIMESTAMP</th>
+                          <th className="p-2.5 w-44">{i18n.t("PRESCRIBED (DATE & TIME)")}</th>
+                          <th className="p-2.5 w-60">{i18n.t("DRUG / SYRINGE PREPARATION")}</th>
+                          <th className="p-2.5 w-24">{i18n.t("TOTAL VOL")}</th>
+                          <th className="p-2.5 w-28">{i18n.t("RATE (ml/hr)")}</th>
+                          <th className="p-2.5 w-40">{i18n.t("ROUTE")}</th>
+                          <th className="p-2.5 w-52">{i18n.t("PRESCRIBER SIG & TIMESTAMP")}</th>
                           <th className="p-2.5 w-10 text-center"></th>
                         </tr>
                       </thead>
@@ -917,14 +897,14 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                               </div>
                             </td>
                             <td className="p-2 align-top space-y-1">
-                              <input type="text" placeholder="Drug formula" className="w-full p-1.5 border rounded text-xs font-bold text-red-900" value={item.drug || ""} onChange={e => updateArrayItem("pandemic_syringe", i, "drug", e.target.value)} />
-                              <input type="text" placeholder="Pharmacy note" className="w-full p-1 border rounded text-[10px] text-slate-500" value={item.pharmacy || ""} onChange={e => updateArrayItem("pandemic_syringe", i, "pharmacy", e.target.value)} />
+                              <input type="text" placeholder={i18n.t("Drug formula")} className="w-full p-1.5 border rounded text-xs font-bold text-red-900" value={item.drug || ""} onChange={e => updateArrayItem("pandemic_syringe", i, "drug", e.target.value)} />
+                              <input type="text" placeholder={i18n.t("Pharmacy note")} className="w-full p-1 border rounded text-[10px] text-slate-500" value={item.pharmacy || ""} onChange={e => updateArrayItem("pandemic_syringe", i, "pharmacy", e.target.value)} />
                             </td>
-                            <td className="p-2 align-top"><input type="text" placeholder="Vol" className="w-full p-1.5 border rounded text-xs font-bold text-slate-700" value={item.vol || ""} onChange={e => updateArrayItem("pandemic_syringe", i, "vol", e.target.value)} /></td>
-                            <td className="p-2 align-top"><input type="text" placeholder="Rate" className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.rate || ""} onChange={e => updateArrayItem("pandemic_syringe", i, "rate", e.target.value)} /></td>
-                            <td className="p-2 align-top"><input type="text" placeholder="Route" className="w-full p-1.5 border rounded text-xs font-bold text-indigo-700" value={item.route || ""} onChange={e => updateArrayItem("pandemic_syringe", i, "route", e.target.value)} /></td>
+                            <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Vol")} className="w-full p-1.5 border rounded text-xs font-bold text-slate-700" value={item.vol || ""} onChange={e => updateArrayItem("pandemic_syringe", i, "vol", e.target.value)} /></td>
+                            <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Rate")} className="w-full p-1.5 border rounded text-xs font-bold text-slate-800" value={item.rate || ""} onChange={e => updateArrayItem("pandemic_syringe", i, "rate", e.target.value)} /></td>
+                            <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Route")} className="w-full p-1.5 border rounded text-xs font-bold text-indigo-700" value={item.route || ""} onChange={e => updateArrayItem("pandemic_syringe", i, "route", e.target.value)} /></td>
                             <td className="p-2 align-top space-y-1">
-                              <input type="text" placeholder="Sig" className="w-full p-1.5 border rounded text-xs bg-white" value={item.sig || ""} onChange={e => updateArrayItem("pandemic_syringe", i, "sig", e.target.value)} />
+                              <input type="text" placeholder={i18n.t("Sig")} className="w-full p-1.5 border rounded text-xs bg-white" value={item.sig || ""} onChange={e => updateArrayItem("pandemic_syringe", i, "sig", e.target.value)} />
                               <div className="grid grid-cols-2 gap-1">
                                 <input type="date" className="p-1 border rounded text-[10px] bg-white font-medium" value={item.sig_date || ""} onChange={e => updateArrayItem("pandemic_syringe", i, "sig_date", e.target.value)} />
                                 <input type="time" className="p-1 border rounded text-[10px] bg-white font-medium" value={item.sig_time || ""} onChange={e => updateArrayItem("pandemic_syringe", i, "sig_time", e.target.value)} />
@@ -933,7 +913,7 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                             <td className="p-2 align-top text-center"><button onClick={() => removeArrayItem("pandemic_syringe", i)} className="p-1 text-red-400 hover:bg-red-50 rounded"><Trash2 size={15}/></button></td>
                           </tr>
                         ))}
-                        {(!masterData.pandemic_syringe || masterData.pandemic_syringe.length === 0) && <tr><td colSpan={7} className="p-4 text-center text-slate-400 text-xs">No pandemic syringes recorded.</td></tr>}
+                        {(!masterData.pandemic_syringe || masterData.pandemic_syringe.length === 0) && <tr><td colSpan={7} className="p-4 text-center text-slate-400 text-xs">{i18n.t("No pandemic syringes recorded.")}</td></tr>}
                       </tbody>
                     </table>
                   </div>
@@ -946,28 +926,27 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
               <div className="space-y-6 max-w-full">
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                   <div className="bg-slate-50 p-3.5 border-b border-slate-200 flex justify-between items-center">
-                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">HAEMODYNAMICS</h4>
+                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">{i18n.t("HAEMODYNAMICS")}</h4>
                     <button 
                       onClick={() => addArrayItem("haemodynamics", { cvp: "", map: "", icp: "", cpp: "", ftc: "", sv: "", pv: "", co_ci: "", sig: "" })} 
                       className="text-xs bg-white border border-slate-300 px-3 py-1.5 rounded hover:bg-slate-100 font-bold flex items-center gap-1 shadow-sm"
                     >
-                      <Plus size={14}/> Add Entry
-                    </button>
+                      <Plus size={14}/>{" "}{i18n.t("Add Entry")}</button>
                   </div>
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs min-w-[1000px]">
+                    <table className="w-full text-start text-xs min-w-[1000px]">
                       <thead className="bg-slate-50/80 border-b border-slate-200 text-slate-500 uppercase text-[10px]">
                         <tr>
-                          <th className="p-2.5 w-40">DATE & TIME</th>
-                          <th className="p-2.5 w-16 text-center">CVP</th>
-                          <th className="p-2.5 w-16 text-center">MAP</th>
-                          <th className="p-2.5 w-16 text-center">ICP</th>
-                          <th className="p-2.5 w-16 text-center">CPP</th>
-                          <th className="p-2.5 w-16 text-center">F.T.C.</th>
-                          <th className="p-2.5 w-16 text-center">SV</th>
-                          <th className="p-2.5 w-16 text-center">PV</th>
-                          <th className="p-2.5 w-20 text-center">C.O/C.I</th>
-                          <th className="p-2.5 w-32">SIG</th>
+                          <th className="p-2.5 w-40">{i18n.t("DATE & TIME")}</th>
+                          <th className="p-2.5 w-16 text-center">{i18n.t("CVP")}</th>
+                          <th className="p-2.5 w-16 text-center">{i18n.t("MAP")}</th>
+                          <th className="p-2.5 w-16 text-center">{i18n.t("ICP")}</th>
+                          <th className="p-2.5 w-16 text-center">{i18n.t("CPP")}</th>
+                          <th className="p-2.5 w-16 text-center">{i18n.t("F.T.C.")}</th>
+                          <th className="p-2.5 w-16 text-center">{i18n.t("SV")}</th>
+                          <th className="p-2.5 w-16 text-center">{i18n.t("PV")}</th>
+                          <th className="p-2.5 w-20 text-center">{i18n.t("C.O/C.I")}</th>
+                          <th className="p-2.5 w-32">{i18n.t("SIG")}</th>
                           <th className="p-2.5 w-10 text-center"></th>
                         </tr>
                       </thead>
@@ -988,11 +967,11 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                             <td className="p-2 align-top"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center text-slate-800" value={item.sv || ""} onChange={e => updateArrayItem("haemodynamics", i, "sv", e.target.value)} /></td>
                             <td className="p-2 align-top"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center text-slate-800" value={item.pv || ""} onChange={e => updateArrayItem("haemodynamics", i, "pv", e.target.value)} /></td>
                             <td className="p-2 align-top"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center text-slate-800" value={item.co_ci || ""} onChange={e => updateArrayItem("haemodynamics", i, "co_ci", e.target.value)} /></td>
-                            <td className="p-2 align-top"><input type="text" placeholder="Initials" className="w-full p-1.5 border rounded text-xs" value={item.sig || ""} onChange={e => updateArrayItem("haemodynamics", i, "sig", e.target.value)} /></td>
+                            <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Initials")} className="w-full p-1.5 border rounded text-xs" value={item.sig || ""} onChange={e => updateArrayItem("haemodynamics", i, "sig", e.target.value)} /></td>
                             <td className="p-2 align-top text-center"><button onClick={() => removeArrayItem("haemodynamics", i)} className="p-1 text-red-400 hover:bg-red-50 rounded"><Trash2 size={15}/></button></td>
                           </tr>
                         ))}
-                        {(!masterData.haemodynamics || masterData.haemodynamics.length === 0) && <tr><td colSpan={11} className="p-4 text-center text-slate-400 text-xs">No haemodynamics recorded.</td></tr>}
+                        {(!masterData.haemodynamics || masterData.haemodynamics.length === 0) && <tr><td colSpan={11} className="p-4 text-center text-slate-400 text-xs">{i18n.t("No haemodynamics recorded.")}</td></tr>}
                       </tbody>
                     </table>
                   </div>
@@ -1005,29 +984,28 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
               <div className="space-y-6 max-w-full">
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                   <div className="bg-slate-50 p-3.5 border-b border-slate-200 flex justify-between items-center">
-                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">EARLY WARNING SCORE (PEWS/MEWS) & NEUROLOGICAL</h4>
+                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">{i18n.t("EARLY WARNING SCORE (PEWS/MEWS) & NEUROLOGICAL")}</h4>
                     <button 
                       onClick={() => addArrayItem("neurological_assessment", { eyes_open: "", best_verbal: "", best_motor: "", arm_movements: "", leg_movements: "", pupil_right_size: "", pupil_right_reaction: "", pupil_left_size: "", pupil_left_reaction: "", sedation_score: "", pain_score: "", sig: "" })} 
                       className="text-xs bg-white border border-slate-300 px-3 py-1.5 rounded hover:bg-slate-100 font-bold flex items-center gap-1 shadow-sm"
                     >
-                      <Plus size={14}/> Add Entry
-                    </button>
+                      <Plus size={14}/>{" "}{i18n.t("Add Entry")}</button>
                   </div>
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs min-w-[1400px]">
+                    <table className="w-full text-start text-xs min-w-[1400px]">
                       <thead className="bg-slate-50/80 border-b border-slate-200 text-slate-500 uppercase text-[10px]">
                         <tr>
-                          <th className="p-2.5 w-40">DATE & TIME</th>
-                          <th className="p-2.5 w-24">EYES OPEN (1-4)</th>
-                          <th className="p-2.5 w-28">BEST VERBAL (1-5)</th>
-                          <th className="p-2.5 w-28">BEST MOTOR (1-6)</th>
+                          <th className="p-2.5 w-40">{i18n.t("DATE & TIME")}</th>
+                          <th className="p-2.5 w-24">{i18n.t("EYES OPEN (1-4)")}</th>
+                          <th className="p-2.5 w-28">{i18n.t("BEST VERBAL (1-5)")}</th>
+                          <th className="p-2.5 w-28">{i18n.t("BEST MOTOR (1-6)")}</th>
                           {/* <th className="p-2.5 w-32">ARM MVMT</th>
                           <th className="p-2.5 w-32">LEG MVMT</th> */}
-                          <th className="p-2.5 w-24 text-center">PUPIL (R)</th>
-                          <th className="p-2.5 w-24 text-center">PUPIL (L)</th>
-                          <th className="p-2.5 w-20 text-center">SEDATION</th>
-                          <th className="p-2.5 w-20 text-center">PAIN</th>
-                          <th className="p-2.5 w-24">SIG</th>
+                          <th className="p-2.5 w-24 text-center">{i18n.t("PUPIL (R)")}</th>
+                          <th className="p-2.5 w-24 text-center">{i18n.t("PUPIL (L)")}</th>
+                          <th className="p-2.5 w-20 text-center">{i18n.t("SEDATION")}</th>
+                          <th className="p-2.5 w-20 text-center">{i18n.t("PAIN")}</th>
+                          <th className="p-2.5 w-24">{i18n.t("SIG")}</th>
                           <th className="p-2.5 w-10 text-center"></th>
                         </tr>
                       </thead>
@@ -1043,31 +1021,31 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                             <td className="p-2 align-top">
                               <select className="w-full p-1.5 border rounded text-xs bg-white" value={item.eyes_open || ""} onChange={e => updateArrayItem("neurological_assessment", i, "eyes_open", e.target.value)}>
                                 <option value="">-</option>
-                                <option value="4">4 Spontaneous</option>
-                                <option value="3">3 To Speech</option>
-                                <option value="2">2 To Pain</option>
-                                <option value="1">1 None</option>
+                                <option value="4">{i18n.t("4 Spontaneous")}</option>
+                                <option value="3">{i18n.t("3 To Speech")}</option>
+                                <option value="2">{i18n.t("2 To Pain")}</option>
+                                <option value="1">{i18n.t("1 None")}</option>
                               </select>
                             </td>
                             <td className="p-2 align-top">
                               <select className="w-full p-1.5 border rounded text-xs bg-white" value={item.best_verbal || ""} onChange={e => updateArrayItem("neurological_assessment", i, "best_verbal", e.target.value)}>
                                 <option value="">-</option>
-                                <option value="5">5 Oriented</option>
-                                <option value="4">4 Confused</option>
-                                <option value="3">3 Inappropriate</option>
-                                <option value="2">2 Incomprehensive</option>
-                                <option value="1">1 None</option>
+                                <option value="5">{i18n.t("5 Oriented")}</option>
+                                <option value="4">{i18n.t("4 Confused")}</option>
+                                <option value="3">{i18n.t("3 Inappropriate")}</option>
+                                <option value="2">{i18n.t("2 Incomprehensive")}</option>
+                                <option value="1">{i18n.t("1 None")}</option>
                               </select>
                             </td>
                             <td className="p-2 align-top">
                               <select className="w-full p-1.5 border rounded text-xs bg-white" value={item.best_motor || ""} onChange={e => updateArrayItem("neurological_assessment", i, "best_motor", e.target.value)}>
                                 <option value="">-</option>
-                                <option value="6">6 Obey Commands</option>
-                                <option value="5">5 Localise to Pain</option>
-                                <option value="4">4 Flexion to Pain</option>
-                                <option value="3">3 Flexion</option>
-                                <option value="2">2 Extension</option>
-                                <option value="1">1 None</option>
+                                <option value="6">{i18n.t("6 Obey Commands")}</option>
+                                <option value="5">{i18n.t("5 Localise to Pain")}</option>
+                                <option value="4">{i18n.t("4 Flexion to Pain")}</option>
+                                <option value="3">{i18n.t("3 Flexion")}</option>
+                                <option value="2">{i18n.t("2 Extension")}</option>
+                                <option value="1">{i18n.t("1 None")}</option>
                               </select>
                             </td>
                             {/* <td className="p-2 align-top">
@@ -1094,23 +1072,23 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                             </td> */}
                             <td className="p-2 align-top">
                               <div className="space-y-1">
-                                <input type="text" placeholder="Size" className="w-full p-1 border rounded text-[10px] text-center font-bold" value={item.pupil_right_size || ""} onChange={e => updateArrayItem("neurological_assessment", i, "pupil_right_size", e.target.value)} />
-                                <input type="text" placeholder="React" className="w-full p-1 border rounded text-[10px] text-center font-bold" value={item.pupil_right_reaction || ""} onChange={e => updateArrayItem("neurological_assessment", i, "pupil_right_reaction", e.target.value)} />
+                                <input type="text" placeholder={i18n.t("Size")} className="w-full p-1 border rounded text-[10px] text-center font-bold" value={item.pupil_right_size || ""} onChange={e => updateArrayItem("neurological_assessment", i, "pupil_right_size", e.target.value)} />
+                                <input type="text" placeholder={i18n.t("React")} className="w-full p-1 border rounded text-[10px] text-center font-bold" value={item.pupil_right_reaction || ""} onChange={e => updateArrayItem("neurological_assessment", i, "pupil_right_reaction", e.target.value)} />
                               </div>
                             </td>
                             <td className="p-2 align-top">
                               <div className="space-y-1">
-                                <input type="text" placeholder="Size" className="w-full p-1 border rounded text-[10px] text-center font-bold" value={item.pupil_left_size || ""} onChange={e => updateArrayItem("neurological_assessment", i, "pupil_left_size", e.target.value)} />
-                                <input type="text" placeholder="React" className="w-full p-1 border rounded text-[10px] text-center font-bold" value={item.pupil_left_reaction || ""} onChange={e => updateArrayItem("neurological_assessment", i, "pupil_left_reaction", e.target.value)} />
+                                <input type="text" placeholder={i18n.t("Size")} className="w-full p-1 border rounded text-[10px] text-center font-bold" value={item.pupil_left_size || ""} onChange={e => updateArrayItem("neurological_assessment", i, "pupil_left_size", e.target.value)} />
+                                <input type="text" placeholder={i18n.t("React")} className="w-full p-1 border rounded text-[10px] text-center font-bold" value={item.pupil_left_reaction || ""} onChange={e => updateArrayItem("neurological_assessment", i, "pupil_left_reaction", e.target.value)} />
                               </div>
                             </td>
                             <td className="p-2 align-top"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center" value={item.sedation_score || ""} onChange={e => updateArrayItem("neurological_assessment", i, "sedation_score", e.target.value)} /></td>
                             <td className="p-2 align-top"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center" value={item.pain_score || ""} onChange={e => updateArrayItem("neurological_assessment", i, "pain_score", e.target.value)} /></td>
-                            <td className="p-2 align-top"><input type="text" placeholder="Initials" className="w-full p-1.5 border rounded text-xs" value={item.sig || ""} onChange={e => updateArrayItem("neurological_assessment", i, "sig", e.target.value)} /></td>
+                            <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Initials")} className="w-full p-1.5 border rounded text-xs" value={item.sig || ""} onChange={e => updateArrayItem("neurological_assessment", i, "sig", e.target.value)} /></td>
                             <td className="p-2 align-top text-center"><button onClick={() => removeArrayItem("neurological_assessment", i)} className="p-1 text-red-400 hover:bg-red-50 rounded"><Trash2 size={15}/></button></td>
                           </tr>
                         ))}
-                        {(!masterData.neurological_assessment || masterData.neurological_assessment.length === 0) && <tr><td colSpan={12} className="p-4 text-center text-slate-400 text-xs">No neurological assessments recorded.</td></tr>}
+                        {(!masterData.neurological_assessment || masterData.neurological_assessment.length === 0) && <tr><td colSpan={12} className="p-4 text-center text-slate-400 text-xs">{i18n.t("No neurological assessments recorded.")}</td></tr>}
                       </tbody>
                     </table>
                   </div>
@@ -1123,38 +1101,37 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
               <div className="space-y-6 max-w-full">
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                   <div className="bg-slate-50 p-3.5 border-b border-slate-200 flex justify-between items-center">
-                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">VENTILATION</h4>
+                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">{i18n.t("VENTILATION")}</h4>
                     <button 
                       onClick={() => addArrayItem("ventilation", { mode: "", pi: "", vt_set_spont: "", rate: "", peep_cpap: "", ps_asb_plimit: "", pmax: "", i_e_ratio: "", humidifier_temp: "", resistance: "", compliance: "", spo2: "", etco2: "", suction: "", secretions: "", physio_bagging: "", positioning: "", air_entry: "", sig: "" })} 
                       className="text-xs bg-white border border-slate-300 px-3 py-1.5 rounded hover:bg-slate-100 font-bold flex items-center gap-1 shadow-sm"
                     >
-                      <Plus size={14}/> Add Entry
-                    </button>
+                      <Plus size={14}/>{" "}{i18n.t("Add Entry")}</button>
                   </div>
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs min-w-[2000px]">
+                    <table className="w-full text-start text-xs min-w-[2000px]">
                       <thead className="bg-slate-50/80 border-b border-slate-200 text-slate-500 uppercase text-[10px]">
                         <tr>
-                          <th className="p-2.5 w-40">DATE & TIME</th>
-                          <th className="p-2.5 w-24 text-center">MODE</th>
-                          <th className="p-2.5 w-16 text-center">Pi</th>
-                          <th className="p-2.5 w-28 text-center">VT SET/SPONT</th>
-                          <th className="p-2.5 w-16 text-center">RATE</th>
-                          <th className="p-2.5 w-24 text-center">PEEP/CPAP</th>
-                          <th className="p-2.5 w-32 text-center">PS/ASB/PLIMIT</th>
-                          <th className="p-2.5 w-20 text-center">PMAX</th>
-                          <th className="p-2.5 w-20 text-center">I:E RATIO</th>
-                          <th className="p-2.5 w-32 text-center">HUMIDIFIER/TEMP</th>
-                          <th className="p-2.5 w-24 text-center">RESISTANCE</th>
-                          <th className="p-2.5 w-24 text-center">COMPLIANCE</th>
-                          <th className="p-2.5 w-16 text-center">SpO2</th>
-                          <th className="p-2.5 w-20 text-center">ETCO2</th>
-                          <th className="p-2.5 w-24 text-center">SUCTION</th>
-                          <th className="p-2.5 w-24 text-center">SECRETIONS</th>
-                          <th className="p-2.5 w-32 text-center">PHYSIO/BAGGING</th>
-                          <th className="p-2.5 w-28 text-center">POSITIONING</th>
-                          <th className="p-2.5 w-28 text-center">AIR ENTRY</th>
-                          <th className="p-2.5 w-24">SIG</th>
+                          <th className="p-2.5 w-40">{i18n.t("DATE & TIME")}</th>
+                          <th className="p-2.5 w-24 text-center">{i18n.t("MODE")}</th>
+                          <th className="p-2.5 w-16 text-center">{i18n.t("Pi")}</th>
+                          <th className="p-2.5 w-28 text-center">{i18n.t("VT SET/SPONT")}</th>
+                          <th className="p-2.5 w-16 text-center">{i18n.t("RATE")}</th>
+                          <th className="p-2.5 w-24 text-center">{i18n.t("PEEP/CPAP")}</th>
+                          <th className="p-2.5 w-32 text-center">{i18n.t("PS/ASB/PLIMIT")}</th>
+                          <th className="p-2.5 w-20 text-center">{i18n.t("PMAX")}</th>
+                          <th className="p-2.5 w-20 text-center">{i18n.t("I:E RATIO")}</th>
+                          <th className="p-2.5 w-32 text-center">{i18n.t("HUMIDIFIER/TEMP")}</th>
+                          <th className="p-2.5 w-24 text-center">{i18n.t("RESISTANCE")}</th>
+                          <th className="p-2.5 w-24 text-center">{i18n.t("COMPLIANCE")}</th>
+                          <th className="p-2.5 w-16 text-center">{i18n.t("SpO2")}</th>
+                          <th className="p-2.5 w-20 text-center">{i18n.t("ETCO2")}</th>
+                          <th className="p-2.5 w-24 text-center">{i18n.t("SUCTION")}</th>
+                          <th className="p-2.5 w-24 text-center">{i18n.t("SECRETIONS")}</th>
+                          <th className="p-2.5 w-32 text-center">{i18n.t("PHYSIO/BAGGING")}</th>
+                          <th className="p-2.5 w-28 text-center">{i18n.t("POSITIONING")}</th>
+                          <th className="p-2.5 w-28 text-center">{i18n.t("AIR ENTRY")}</th>
+                          <th className="p-2.5 w-24">{i18n.t("SIG")}</th>
                           <th className="p-2.5 w-10 text-center"></th>
                         </tr>
                       </thead>
@@ -1185,11 +1162,11 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
                             <td className="p-2 align-top"><input type="text" className="w-full p-1.5 border rounded text-xs text-center" value={item.physio_bagging || ""} onChange={e => updateArrayItem("ventilation", i, "physio_bagging", e.target.value)} /></td>
                             <td className="p-2 align-top"><input type="text" className="w-full p-1.5 border rounded text-xs text-center" value={item.positioning || ""} onChange={e => updateArrayItem("ventilation", i, "positioning", e.target.value)} /></td>
                             <td className="p-2 align-top"><input type="text" className="w-full p-1.5 border rounded text-xs text-center" value={item.air_entry || ""} onChange={e => updateArrayItem("ventilation", i, "air_entry", e.target.value)} /></td>
-                            <td className="p-2 align-top"><input type="text" placeholder="Initials" className="w-full p-1.5 border rounded text-xs" value={item.sig || ""} onChange={e => updateArrayItem("ventilation", i, "sig", e.target.value)} /></td>
+                            <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Initials")} className="w-full p-1.5 border rounded text-xs" value={item.sig || ""} onChange={e => updateArrayItem("ventilation", i, "sig", e.target.value)} /></td>
                             <td className="p-2 align-top text-center"><button onClick={() => removeArrayItem("ventilation", i)} className="p-1 text-red-400 hover:bg-red-50 rounded"><Trash2 size={15}/></button></td>
                           </tr>
                         ))}
-                        {(!masterData.ventilation || masterData.ventilation.length === 0) && <tr><td colSpan={21} className="p-4 text-center text-slate-400 text-xs">No ventilation records.</td></tr>}
+                        {(!masterData.ventilation || masterData.ventilation.length === 0) && <tr><td colSpan={21} className="p-4 text-center text-slate-400 text-xs">{i18n.t("No ventilation records.")}</td></tr>}
                       </tbody>
                     </table>
                   </div>
@@ -1202,63 +1179,62 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
               <div className="space-y-6 max-w-full">
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                   <div className="bg-slate-50 p-3.5 border-b border-slate-200 flex justify-between items-center">
-                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">BLOOD GASES</h4>
+                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-wider">{i18n.t("BLOOD GASES")}</h4>
                     <button 
                       onClick={() => addArrayItem("blood_gases", { fio2: "", ph: "", pco2: "", po2: "", hco3_act: "", be: "", sao2: "", hb: "", na: "", k: "", calcium: "", glucose: "", lactate_aptt: "", sig: "" })} 
                       className="text-xs bg-white border border-slate-300 px-3 py-1.5 rounded hover:bg-slate-100 font-bold flex items-center gap-1 shadow-sm"
                     >
-                      <Plus size={14}/> Add Entry
-                    </button>
+                      <Plus size={14}/>{" "}{i18n.t("Add Entry")}</button>
                   </div>
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs min-w-[1300px]">
+                    <table className="w-full text-start text-xs min-w-[1300px]">
                       <thead className="bg-slate-50/80 border-b border-slate-200 text-slate-500 uppercase text-[10px]">
                         <tr>
-                          <th className="p-2.5 w-40 border-r border-slate-200">DATE & TIME</th>
-                          <th className="p-2.5 w-16 text-center border-r border-slate-200">FiO2</th>
-                          <th className="p-2.5 w-16 text-center border-r border-slate-200">pH</th>
-                          <th className="p-2.5 w-16 text-center border-r border-slate-200">pCO2</th>
-                          <th className="p-2.5 w-16 text-center border-r border-slate-200">pO2</th>
-                          <th className="p-2.5 w-24 text-center border-r border-slate-200">HCO3 (ACT)</th>
-                          <th className="p-2.5 w-16 text-center border-r border-slate-200">BE</th>
-                          <th className="p-2.5 w-16 text-center border-r border-slate-200">SaO2</th>
-                          <th className="p-2.5 w-16 text-center border-r border-slate-200">Hb</th>
-                          <th className="p-2.5 w-16 text-center border-r border-slate-200">Na</th>
-                          <th className="p-2.5 w-16 text-center border-r border-slate-200">K+</th>
-                          <th className="p-2.5 w-24 text-center border-r border-slate-200">CALCIUM</th>
-                          <th className="p-2.5 w-24 text-center border-r border-slate-200">GLUCOSE</th>
-                          <th className="p-2.5 w-32 text-center border-r border-slate-200">LACTATE (APTT)</th>
-                          <th className="p-2.5 w-24">SIG</th>
+                          <th className="p-2.5 w-40 border-e border-slate-200">{i18n.t("DATE & TIME")}</th>
+                          <th className="p-2.5 w-16 text-center border-e border-slate-200">{i18n.t("FiO2")}</th>
+                          <th className="p-2.5 w-16 text-center border-e border-slate-200">{i18n.t("pH")}</th>
+                          <th className="p-2.5 w-16 text-center border-e border-slate-200">{i18n.t("pCO2")}</th>
+                          <th className="p-2.5 w-16 text-center border-e border-slate-200">{i18n.t("pO2")}</th>
+                          <th className="p-2.5 w-24 text-center border-e border-slate-200">{i18n.t("HCO3 (ACT)")}</th>
+                          <th className="p-2.5 w-16 text-center border-e border-slate-200">{i18n.t("BE")}</th>
+                          <th className="p-2.5 w-16 text-center border-e border-slate-200">{i18n.t("SaO2")}</th>
+                          <th className="p-2.5 w-16 text-center border-e border-slate-200">{i18n.t("Hb")}</th>
+                          <th className="p-2.5 w-16 text-center border-e border-slate-200">{i18n.t("Na")}</th>
+                          <th className="p-2.5 w-16 text-center border-e border-slate-200">{i18n.t("K+")}</th>
+                          <th className="p-2.5 w-24 text-center border-e border-slate-200">{i18n.t("CALCIUM")}</th>
+                          <th className="p-2.5 w-24 text-center border-e border-slate-200">{i18n.t("GLUCOSE")}</th>
+                          <th className="p-2.5 w-32 text-center border-e border-slate-200">{i18n.t("LACTATE (APTT)")}</th>
+                          <th className="p-2.5 w-24">{i18n.t("SIG")}</th>
                           <th className="p-2.5 w-10 text-center"></th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100">
                         {masterData.blood_gases?.map((item: any, i: number) => (
                           <tr key={item.id || i} className="hover:bg-slate-50">
-                            <td className="p-2 align-top border-r border-slate-100">
+                            <td className="p-2 align-top border-e border-slate-100">
                               <div className="space-y-1">
                                 <input type="date" className="w-full p-1.5 border rounded text-xs bg-white font-medium" value={item.date || ""} onChange={e => updateArrayItem("blood_gases", i, "date", e.target.value)} />
                                 <input type="time" className="w-full p-1.5 border rounded text-xs bg-white font-medium" value={item.time || ""} onChange={e => updateArrayItem("blood_gases", i, "time", e.target.value)} />
                               </div>
                             </td>
-                            <td className="p-2 align-top border-r border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center" value={item.fio2 || ""} onChange={e => updateArrayItem("blood_gases", i, "fio2", e.target.value)} /></td>
-                            <td className="p-2 align-top border-r border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center text-red-600" value={item.ph || ""} onChange={e => updateArrayItem("blood_gases", i, "ph", e.target.value)} /></td>
-                            <td className="p-2 align-top border-r border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center" value={item.pco2 || ""} onChange={e => updateArrayItem("blood_gases", i, "pco2", e.target.value)} /></td>
-                            <td className="p-2 align-top border-r border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center" value={item.po2 || ""} onChange={e => updateArrayItem("blood_gases", i, "po2", e.target.value)} /></td>
-                            <td className="p-2 align-top border-r border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center" value={item.hco3_act || ""} onChange={e => updateArrayItem("blood_gases", i, "hco3_act", e.target.value)} /></td>
-                            <td className="p-2 align-top border-r border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center" value={item.be || ""} onChange={e => updateArrayItem("blood_gases", i, "be", e.target.value)} /></td>
-                            <td className="p-2 align-top border-r border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center text-blue-600" value={item.sao2 || ""} onChange={e => updateArrayItem("blood_gases", i, "sao2", e.target.value)} /></td>
-                            <td className="p-2 align-top border-r border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center" value={item.hb || ""} onChange={e => updateArrayItem("blood_gases", i, "hb", e.target.value)} /></td>
-                            <td className="p-2 align-top border-r border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center" value={item.na || ""} onChange={e => updateArrayItem("blood_gases", i, "na", e.target.value)} /></td>
-                            <td className="p-2 align-top border-r border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center text-red-600" value={item.k || ""} onChange={e => updateArrayItem("blood_gases", i, "k", e.target.value)} /></td>
-                            <td className="p-2 align-top border-r border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center" value={item.calcium || ""} onChange={e => updateArrayItem("blood_gases", i, "calcium", e.target.value)} /></td>
-                            <td className="p-2 align-top border-r border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center text-emerald-600" value={item.glucose || ""} onChange={e => updateArrayItem("blood_gases", i, "glucose", e.target.value)} /></td>
-                            <td className="p-2 align-top border-r border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center" value={item.lactate_aptt || ""} onChange={e => updateArrayItem("blood_gases", i, "lactate_aptt", e.target.value)} /></td>
-                            <td className="p-2 align-top"><input type="text" placeholder="Initials" className="w-full p-1.5 border rounded text-xs" value={item.sig || ""} onChange={e => updateArrayItem("blood_gases", i, "sig", e.target.value)} /></td>
+                            <td className="p-2 align-top border-e border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center" value={item.fio2 || ""} onChange={e => updateArrayItem("blood_gases", i, "fio2", e.target.value)} /></td>
+                            <td className="p-2 align-top border-e border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center text-red-600" value={item.ph || ""} onChange={e => updateArrayItem("blood_gases", i, "ph", e.target.value)} /></td>
+                            <td className="p-2 align-top border-e border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center" value={item.pco2 || ""} onChange={e => updateArrayItem("blood_gases", i, "pco2", e.target.value)} /></td>
+                            <td className="p-2 align-top border-e border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center" value={item.po2 || ""} onChange={e => updateArrayItem("blood_gases", i, "po2", e.target.value)} /></td>
+                            <td className="p-2 align-top border-e border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center" value={item.hco3_act || ""} onChange={e => updateArrayItem("blood_gases", i, "hco3_act", e.target.value)} /></td>
+                            <td className="p-2 align-top border-e border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center" value={item.be || ""} onChange={e => updateArrayItem("blood_gases", i, "be", e.target.value)} /></td>
+                            <td className="p-2 align-top border-e border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center text-blue-600" value={item.sao2 || ""} onChange={e => updateArrayItem("blood_gases", i, "sao2", e.target.value)} /></td>
+                            <td className="p-2 align-top border-e border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center" value={item.hb || ""} onChange={e => updateArrayItem("blood_gases", i, "hb", e.target.value)} /></td>
+                            <td className="p-2 align-top border-e border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center" value={item.na || ""} onChange={e => updateArrayItem("blood_gases", i, "na", e.target.value)} /></td>
+                            <td className="p-2 align-top border-e border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center text-red-600" value={item.k || ""} onChange={e => updateArrayItem("blood_gases", i, "k", e.target.value)} /></td>
+                            <td className="p-2 align-top border-e border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center" value={item.calcium || ""} onChange={e => updateArrayItem("blood_gases", i, "calcium", e.target.value)} /></td>
+                            <td className="p-2 align-top border-e border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center text-emerald-600" value={item.glucose || ""} onChange={e => updateArrayItem("blood_gases", i, "glucose", e.target.value)} /></td>
+                            <td className="p-2 align-top border-e border-slate-100"><input type="text" className="w-full p-1.5 border rounded text-xs font-bold text-center" value={item.lactate_aptt || ""} onChange={e => updateArrayItem("blood_gases", i, "lactate_aptt", e.target.value)} /></td>
+                            <td className="p-2 align-top"><input type="text" placeholder={i18n.t("Initials")} className="w-full p-1.5 border rounded text-xs" value={item.sig || ""} onChange={e => updateArrayItem("blood_gases", i, "sig", e.target.value)} /></td>
                             <td className="p-2 align-top text-center"><button onClick={() => removeArrayItem("blood_gases", i)} className="p-1 text-red-400 hover:bg-red-50 rounded"><Trash2 size={15}/></button></td>
                           </tr>
                         ))}
-                        {(!masterData.blood_gases || masterData.blood_gases.length === 0) && <tr><td colSpan={16} className="p-4 text-center text-slate-400 text-xs">No blood gases recorded.</td></tr>}
+                        {(!masterData.blood_gases || masterData.blood_gases.length === 0) && <tr><td colSpan={16} className="p-4 text-center text-slate-400 text-xs">{i18n.t("No blood gases recorded.")}</td></tr>}
                       </tbody>
                     </table>
                   </div>
@@ -1270,28 +1246,28 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
             {activeTab === "general" && (
               <div className="max-w-4xl space-y-6">
                 <div className="bg-indigo-50 text-indigo-900 text-xs font-bold p-4 rounded-xl border border-indigo-100 flex flex-col gap-1">
-                  <span>• Prescribe Patient Controlled Analgesia / Epidurals on main drug chart</span>
-                  <span>• Separate charts for Enteral and Parenteral feeding regimen</span>
-                  <span className="mt-1 text-red-600 font-black">Chart for Pandemic use only</span>
+                  <span>{i18n.t("• Prescribe Patient Controlled Analgesia / Epidurals on main drug chart")}</span>
+                  <span>{i18n.t("• Separate charts for Enteral and Parenteral feeding regimen")}</span>
+                  <span className="mt-1 text-red-600 font-black">{i18n.t("Chart for Pandemic use only")}</span>
                 </div>
                 
                 <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                  <h4 className="text-sm font-black text-slate-800 uppercase border-b pb-2 mb-4">Case Metadata & Initiation Timestamp</h4>
+                  <h4 className="text-sm font-black text-slate-800 uppercase border-b pb-2 mb-4">{i18n.t("Case Metadata & Initiation Timestamp")}</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-bold text-slate-500 mb-1">CHART START DATE & TIME:</label>
+                      <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("CHART START DATE & TIME:")}</label>
                       <div className="grid grid-cols-2 gap-2">
                         <input type="date" className="w-full p-2 border rounded-lg bg-white text-xs font-bold" value={masterData.patient_details.start_date || ""} onChange={e => setMasterData({...masterData, patient_details: {...masterData.patient_details, start_date: e.target.value}})} />
                         <input type="time" className="w-full p-2 border rounded-lg bg-white text-xs font-bold" value={masterData.patient_details.start_time || ""} onChange={e => setMasterData({...masterData, patient_details: {...masterData.patient_details, start_time: e.target.value}})} />
                       </div>
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-slate-500 mb-1">CONSULTANT:</label>
-                      <input type="text" placeholder="Consultant Name" className="w-full p-2 border rounded-lg bg-white text-xs font-bold" value={masterData.patient_details.consultant || ""} onChange={e => setMasterData({...masterData, patient_details: {...masterData.patient_details, consultant: e.target.value}})} />
+                      <label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("CONSULTANT:")}</label>
+                      <input type="text" placeholder={i18n.t("Consultant Name")} className="w-full p-2 border rounded-lg bg-white text-xs font-bold" value={masterData.patient_details.consultant || ""} onChange={e => setMasterData({...masterData, patient_details: {...masterData.patient_details, consultant: e.target.value}})} />
                     </div>
                     <div className="col-span-2">
-                      <label className="block text-xs font-bold text-red-600 mb-1">ALLERGIES AND DRUG SENSITIVITIES</label>
-                      <textarea rows={3} placeholder="Enter all known allergies..." className="w-full p-2.5 border border-red-200 rounded-lg bg-red-50 text-red-900 font-bold text-xs outline-none focus:ring-1 focus:ring-red-400" value={masterData.patient_details.allergies || ""} onChange={e => setMasterData({...masterData, patient_details: {...masterData.patient_details, allergies: e.target.value}})} />
+                      <label className="block text-xs font-bold text-red-600 mb-1">{i18n.t("ALLERGIES AND DRUG SENSITIVITIES")}</label>
+                      <textarea rows={3} placeholder={i18n.t("Enter all known allergies...")} className="w-full p-2.5 border border-red-200 rounded-lg bg-red-50 text-red-900 font-bold text-xs outline-none focus:ring-1 focus:ring-red-400" value={masterData.patient_details.allergies || ""} onChange={e => setMasterData({...masterData, patient_details: {...masterData.patient_details, allergies: e.target.value}})} />
                     </div>
                   </div>
                 </div>
@@ -1302,11 +1278,8 @@ const CCUPandemicChartModal: React.FC<CCUPandemicModalProps> = ({
 
         {/* FOOTER */}
         <div className="bg-[#1e1b4b] text-indigo-200 text-xs px-6 py-2.5 flex justify-between items-center border-t border-indigo-900 shrink-0">
-          <span className="font-medium">
-            Salisbury NHS Foundation Trust • Prescription and Administration Record for Continuous Drug Infusions (Version 1 4/20)
-          </span>
-          <span className="text-[11px] text-indigo-300 font-semibold uppercase tracking-wider">
-            Encounter: {encounter?.encounter_number || "N/A"}
+          <span className="font-medium">{i18n.t("Salisbury NHS Foundation Trust • Prescription and Administration Record for Continuous Drug Infusions (Version 1 4/20)")}</span>
+          <span className="text-[11px] text-indigo-300 font-semibold uppercase tracking-wider">{i18n.t("Encounter:")}{" "}{encounter?.encounter_number || i18n.t("N/A")}
           </span>
         </div>
       </div>

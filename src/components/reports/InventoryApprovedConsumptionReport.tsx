@@ -11,6 +11,7 @@ import {
   ITEM_TYPES,
   LOCATIONS,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const InventoryApprovedConsumptionReport: React.FC = () => {
   const [records, setRecords] = useState<any[]>([]);
@@ -58,8 +59,8 @@ const InventoryApprovedConsumptionReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Approved Items Consumption"
-      subtitle="Requisition items approved and consumed across departments."
+      title={i18n.t("Approved Items Consumption")}
+      subtitle={i18n.t("Requisition items approved and consumed across departments.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.report_period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -82,7 +83,7 @@ const InventoryApprovedConsumptionReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="All">All Item Types</option>
+              <option value="All">{i18n.t("All Item Types")}</option>
               {ITEM_TYPES.map((t) => (
                 <option key={t} value={t}>{t.charAt(0) + t.slice(1).toLowerCase()}</option>
               ))}
@@ -95,7 +96,7 @@ const InventoryApprovedConsumptionReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="All">All Locations</option>
+              <option value="All">{i18n.t("All Locations")}</option>
               {LOCATIONS.map((l) => (
                 <option key={l} value={l}>{l}</option>
               ))}
@@ -108,41 +109,41 @@ const InventoryApprovedConsumptionReport: React.FC = () => {
       }
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <KpiCard icon={Package2} label="Unique Items" value={renderValue(summary?.total_unique_items)} colorClass="bg-blue-50 border-blue-100 text-blue-900" />
-        <KpiCard icon={TrendingUp} label="Total Approved Volume" value={renderValue(summary?.total_approved_volume)} colorClass="bg-amber-50 border-amber-100 text-amber-900" />
-        <KpiCard icon={ClipboardCheck} label="Total Requisitions" value={renderValue(summary?.total_requisitions)} colorClass="bg-emerald-50 border-emerald-100 text-emerald-900" />
+        <KpiCard icon={Package2} label={i18n.t("Unique Items")} value={renderValue(summary?.total_unique_items)} colorClass="bg-blue-50 border-blue-100 text-blue-900" />
+        <KpiCard icon={TrendingUp} label={i18n.t("Total Approved Volume")} value={renderValue(summary?.total_approved_volume)} colorClass="bg-amber-50 border-amber-100 text-amber-900" />
+        <KpiCard icon={ClipboardCheck} label={i18n.t("Total Requisitions")} value={renderValue(summary?.total_requisitions)} colorClass="bg-emerald-50 border-emerald-100 text-emerald-900" />
       </div>
 
       <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 flex-1 min-h-[300px] mt-6">
-        <table className="w-full text-left text-sm whitespace-nowrap">
+        <table className="w-full text-start text-sm whitespace-nowrap">
           <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
             <tr>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Item</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Type</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Approved Qty</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Requisitions</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Consuming Departments</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Approved By</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Item")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Type")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Approved Qty")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Requisitions")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Consuming Departments")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Approved By")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {records.length > 0 ? (
               records.map((row, i) => (
                 <tr key={`${row.items_uhid}-${i}`} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <div className="font-bold text-slate-800">{renderValue(row.item_name)}</div>
                     <div className="text-[11px] text-slate-400 font-mono">{renderValue(row.items_uhid)}</div>
                   </td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.item_type)}</td>
-                  <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50 text-right">{renderValue(row.total_approved_qty)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.requisition_count)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.consuming_departments)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.item_type)}</td>
+                  <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50 text-end">{renderValue(row.total_approved_qty)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.requisition_count)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.consuming_departments)}</td>
                   <td className="px-4 py-3.5 text-slate-700">{renderValue(row.approved_by_names)}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="px-4 py-12 text-center text-slate-400 italic">No approved consumption records found.</td>
+                <td colSpan={6} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No approved consumption records found.")}</td>
               </tr>
             )}
           </tbody>

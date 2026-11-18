@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { MonitorPlay, ZoomIn, ZoomOut, RotateCcw, Maximize2, Layers, Move, Grid3X3, Contrast } from 'lucide-react';
+import { i18n } from "../i18n";
 
 const RadiologyViewer: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -23,7 +24,7 @@ const RadiologyViewer: React.FC = () => {
              { icon: Contrast, label: 'Windowing' },
              { icon: Layers, label: 'Stack' },
            ].map((tool, i) => (
-             <button key={i} className="p-2.5 text-slate-400 hover:text-white hover:bg-white/10 rounded-xl transition-all" title={tool.label}>
+             <button key={i} className="p-2.5 text-slate-400 hover:text-white hover:bg-white/10 rounded-xl transition-all" title={i18n.tx(tool.label)}>
                <tool.icon size={18} />
              </button>
            ))}
@@ -36,8 +37,7 @@ const RadiologyViewer: React.FC = () => {
              <button className="p-2.5 text-slate-400 hover:text-white hover:bg-white/10 rounded-xl transition-all"><Maximize2 size={18}/></button>
            </div>
            {studyUid && (
-             <div className="ml-4 bg-emerald-500/10 text-emerald-400 px-5 py-2 rounded-xl text-xs font-black uppercase tracking-widest border border-emerald-500/20">
-               Study UID: {studyUid.substring(0, 12)}...
+             <div className="ms-4 bg-emerald-500/10 text-emerald-400 px-5 py-2 rounded-xl text-xs font-black uppercase tracking-widest border border-emerald-500/20">{i18n.t("Study UID:")}{" "}{studyUid.substring(0, 12)}...
              </div>
            )}
         </div>
@@ -51,7 +51,7 @@ const RadiologyViewer: React.FC = () => {
                 src={iframeSrc} 
                 className="w-full h-full border-0"
                 allowFullScreen 
-                title="OHIF DICOM Viewer"
+                title={i18n.t("OHIF DICOM Viewer")}
               />
            ) : (
               <>
@@ -63,8 +63,8 @@ const RadiologyViewer: React.FC = () => {
                     <div className="w-20 h-20 bg-white/5 rounded-[32px] border border-white/10 flex items-center justify-center mx-auto text-slate-400 shadow-xl">
                        <MonitorPlay size={40} />
                     </div>
-                    <h3 className="text-xl font-black text-white tracking-tight">PACS Digital Workstation</h3>
-                    <p className="text-slate-400 text-sm max-w-xs mx-auto">Please select a completed study from the Results queue to launch the diagnostic viewer.</p>
+                    <h3 className="text-xl font-black text-white tracking-tight">{i18n.t("PACS Digital Workstation")}</h3>
+                    <p className="text-slate-400 text-sm max-w-xs mx-auto">{i18n.t("Please select a completed study from the Results queue to launch the diagnostic viewer.")}</p>
                  </div>
               </>
            )}

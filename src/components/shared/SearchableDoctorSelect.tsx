@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Search, ChevronDown, Check } from "lucide-react";
 import apiClient from "../../api/client";
+import { i18n } from "../../i18n";
 
 export interface Doctor {
   doctor_id: number;
@@ -84,7 +85,7 @@ const SearchableDoctorSelect: React.FC<SearchableDoctorSelectProps> = ({
             <input
               type="text"
               className="w-full text-sm outline-none bg-transparent"
-              placeholder="Search by name or specialty..."
+              placeholder={i18n.t("Search by name or specialty...")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               autoFocus
@@ -93,9 +94,9 @@ const SearchableDoctorSelect: React.FC<SearchableDoctorSelectProps> = ({
           </div>
           <div className="overflow-y-auto flex-1 p-1">
             {loading ? (
-              <div className="p-3 text-sm text-slate-500 text-center">Loading doctors...</div>
+              <div className="p-3 text-sm text-slate-500 text-center">{i18n.t("Loading doctors...")}</div>
             ) : filteredDoctors.length === 0 ? (
-              <div className="p-3 text-sm text-slate-500 text-center">No doctors found</div>
+              <div className="p-3 text-sm text-slate-500 text-center">{i18n.t("No doctors found")}</div>
             ) : (
               <>
                 <div
@@ -107,9 +108,7 @@ const SearchableDoctorSelect: React.FC<SearchableDoctorSelectProps> = ({
                     setIsOpen(false);
                     setSearchTerm("");
                   }}
-                >
-                  None / Clear selection
-                </div>
+                >{i18n.t("None / Clear selection")}</div>
                 {filteredDoctors.map((doc) => {
                   const isSelected = doc.doctor_id.toString() === value?.toString();
                   return (

@@ -13,6 +13,7 @@ import {
   ShieldCheck,
   CheckCircle2
 } from 'lucide-react';
+import { i18n } from "../i18n";
 
 interface EDBay {
   id: string;
@@ -41,7 +42,7 @@ const EDFloorMap: React.FC = () => {
   const [bays, setBays] = useState(MOCK_FLOOR);
 
   const handleTransferRequest = (bayId: string) => {
-    if (confirm("Initiate Ward Transfer Request? Admission team will be notified.")) {
+    if (confirm(i18n.t("Initiate Ward Transfer Request? Admission team will be notified."))) {
       setBays(prev => prev.map(b => b.id === bayId ? { ...b, status: 'Cleaning', patient: undefined } : b));
     }
   };
@@ -51,20 +52,18 @@ const EDFloorMap: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-black text-slate-800 tracking-tight flex items-center gap-2">
-            <Layout size={20} className="text-red-600" />
-            Live ED Floor Map
-          </h2>
-          <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Real-time bay occupancy & turnover tracking</p>
+            <Layout size={20} className="text-red-600" />{i18n.t("Live ED Floor Map")}</h2>
+          <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">{i18n.t("Real-time bay occupancy & turnover tracking")}</p>
         </div>
         <div className="flex items-center gap-4">
            <div className="flex items-center gap-6 px-6 py-2.5 bg-white border border-slate-200 rounded-2xl shadow-sm">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-red-500 shadow-sm shadow-red-200" />
-                <span className="text-[10px] font-black text-slate-400 uppercase">Resus Busy</span>
+                <span className="text-[10px] font-black text-slate-400 uppercase">{i18n.t("Resus Busy")}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-sm shadow-emerald-200" />
-                <span className="text-[10px] font-black text-slate-400 uppercase">FastTrack Clear</span>
+                <span className="text-[10px] font-black text-slate-400 uppercase">{i18n.t("FastTrack Clear")}</span>
               </div>
            </div>
         </div>
@@ -93,7 +92,7 @@ const EDFloorMap: React.FC = () => {
                 <span className={`text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-widest border
                   ${bay.status === 'Occupied' ? 'bg-red-50 text-red-600 border-red-100' : bay.status === 'Available' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-slate-50 text-slate-400 border-slate-200'}
                 `}>
-                  {bay.status}
+                  {i18n.tv(bay.status)}
                 </span>
                 <button className="p-1 text-slate-300 hover:text-slate-500 transition-colors">
                   <MoreVertical size={18} />
@@ -112,19 +111,18 @@ const EDFloorMap: React.FC = () => {
                       <div className={`w-2 h-2 rounded-full ${bay.patient.triage === 'Red' ? 'bg-red-500' : bay.patient.triage === 'Yellow' ? 'bg-amber-500' : 'bg-emerald-500'} shadow-sm`} />
                       <h5 className="text-sm font-black text-slate-900 truncate">{bay.patient.name}</h5>
                     </div>
-                    <p className="text-[10px] font-mono font-bold text-brand-primary uppercase tracking-tighter ml-5">{bay.patient.mrn}</p>
+                    <p className="text-[10px] font-mono font-bold text-brand-primary uppercase tracking-tighter ms-5">{bay.patient.mrn}</p>
                   </div>
                   
                   <div className="flex items-center justify-between pt-2 border-t border-slate-50">
                     <div className="flex items-center gap-1.5 text-[10px] font-black text-slate-400 uppercase">
                       <Clock size={14} className="text-red-500" />
-                      <span>In: {bay.patient.timeIn}</span>
+                      <span>{i18n.t("In:")}{" "}{bay.patient.timeIn}</span>
                     </div>
                     <button 
                       onClick={() => handleTransferRequest(bay.id)}
                       className="flex items-center gap-1.5 text-[10px] font-black text-brand-primary hover:bg-brand-active px-3 py-1.5 rounded-xl transition-all uppercase tracking-widest"
-                    >
-                      Admit to Ward <ArrowRight size={14} />
+                    >{i18n.t("Admit to Ward")}{" "}<ArrowRight className="rtl:-scale-x-100" size={14} />
                     </button>
                   </div>
                 </div>
@@ -134,13 +132,13 @@ const EDFloorMap: React.FC = () => {
                     <div className="p-4 rounded-[24px] bg-slate-50 border-2 border-slate-100 group-hover/btn:bg-brand-primary group-hover/btn:text-white transition-all shadow-sm">
                       <Plus size={28} />
                     </div>
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em]">Assign Case</span>
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em]">{i18n.t("Assign Case")}</span>
                   </button>
                 </div>
               ) : (
                 <div className="flex-1 flex flex-col items-center justify-center py-10">
                    <Activity className="text-amber-500 mb-2 animate-pulse" size={36} />
-                   <span className="text-[10px] font-black uppercase tracking-widest text-amber-600">Turnover Cleaning</span>
+                   <span className="text-[10px] font-black uppercase tracking-widest text-amber-600">{i18n.t("Turnover Cleaning")}</span>
                 </div>
               )}
             </div>
@@ -152,19 +150,19 @@ const EDFloorMap: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
         <div className="bg-slate-900 rounded-[44px] p-10 text-white relative overflow-hidden group shadow-2xl">
            <div className="relative z-10">
-              <h4 className="text-xl font-black tracking-tight mb-8">Facility Velocity Analytics</h4>
+              <h4 className="text-xl font-black tracking-tight mb-8">{i18n.t("Facility Velocity Analytics")}</h4>
               <div className="grid grid-cols-2 gap-8">
                  <div>
-                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Average LOS (ED)</p>
-                    <p className="text-3xl font-black">2h 45m</p>
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">{i18n.t("Average LOS (ED)")}</p>
+                    <p className="text-3xl font-black">{i18n.t("2h 45m")}</p>
                  </div>
                  <div>
-                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Turnover Target</p>
-                    <p className="text-3xl font-black text-emerald-400">92% Met</p>
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">{i18n.t("Turnover Target")}</p>
+                    <p className="text-3xl font-black text-emerald-400">{i18n.t("92% Met")}</p>
                  </div>
               </div>
            </div>
-           <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-red-600/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000" />
+           <div className="absolute -bottom-10 -end-10 w-48 h-48 bg-red-600/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000" />
         </div>
 
         <div className="bg-brand-active border border-brand-active p-10 rounded-[44px] flex items-center justify-between shadow-sm">
@@ -173,10 +171,8 @@ const EDFloorMap: React.FC = () => {
                 <ShieldCheck size={32} />
               </div>
               <div>
-                <h4 className="text-xl font-black text-brand-primary tracking-tight">Active Bed Sync</h4>
-                <p className="text-sm text-brand-primary/80 font-medium leading-relaxed max-w-sm">
-                  Occupancy data is shared with the Admissions Desk. 'Admit to Ward' triggers a bed search in Inpatient management.
-                </p>
+                <h4 className="text-xl font-black text-brand-primary tracking-tight">{i18n.t("Active Bed Sync")}</h4>
+                <p className="text-sm text-brand-primary/80 font-medium leading-relaxed max-w-sm">{i18n.t("Occupancy data is shared with the Admissions Desk. 'Admit to Ward' triggers a bed search in Inpatient management.")}</p>
               </div>
            </div>
         </div>

@@ -3,6 +3,7 @@ import { X, Save, Loader2 } from "lucide-react";
 import { nursingService } from "../../services/nursingService";
 import { useNotification } from "../../context/NotificationContext";
 import { PartogramObservation } from "../../types/nursing.types";
+import { i18n } from "../../i18n";
 
 interface EditObservationModalProps {
   observation: PartogramObservation;
@@ -88,9 +89,7 @@ const EditObservationModal: React.FC<EditObservationModalProps> = ({
       />
       <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/50">
-          <h2 className="text-lg font-bold text-slate-800">
-            Edit Partogram Observation
-          </h2>
+          <h2 className="text-lg font-bold text-slate-800">{i18n.t("Edit Partogram Observation")}</h2>
           <button
             onClick={onClose}
             className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors"
@@ -103,9 +102,7 @@ const EditObservationModal: React.FC<EditObservationModalProps> = ({
           <form id="edit-obs-form" onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  Observation Time *
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Observation Time *")}</label>
                 <input
                   type="datetime-local"
                   name="observation_datetime"
@@ -116,9 +113,7 @@ const EditObservationModal: React.FC<EditObservationModalProps> = ({
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  Hour of Labour *
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Hour of Labour *")}</label>
                 <input
                   type="number"
                   name="hour_of_labour"
@@ -134,9 +129,7 @@ const EditObservationModal: React.FC<EditObservationModalProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  Cervical Dilation (cm)
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Cervical Dilation (cm)")}</label>
                 <input
                   type="number"
                   name="cervical_dilation_cm"
@@ -150,9 +143,7 @@ const EditObservationModal: React.FC<EditObservationModalProps> = ({
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  Fetal Descent (Fifths palpated)
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Fetal Descent (Fifths palpated)")}</label>
                 <select
                   name="fetal_descent_fifths"
                   value={formData.fetal_descent_fifths}
@@ -171,9 +162,7 @@ const EditObservationModal: React.FC<EditObservationModalProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  Fetal Heart Rate (bpm)
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Fetal Heart Rate (bpm)")}</label>
                 <input
                   type="number"
                   name="fetal_heart_rate_bpm"
@@ -190,26 +179,22 @@ const EditObservationModal: React.FC<EditObservationModalProps> = ({
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  Liquor State
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Liquor State")}</label>
                 <select
                   name="liquor_state"
                   value={formData.liquor_state}
                   onChange={handleChange}
                   className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 transition-all"
                 >
-                  <option value="Clear">Clear (C)</option>
-                  <option value="Meconium">Meconium (M)</option>
-                  <option value="Blood">Blood (B)</option>
-                  <option value="Absent">Absent (A)</option>
-                  <option value="Intact">Intact (I)</option>
+                  <option value="Clear">{i18n.t("Clear (C)")}</option>
+                  <option value="Meconium">{i18n.t("Meconium (M)")}</option>
+                  <option value="Blood">{i18n.t("Blood (B)")}</option>
+                  <option value="Absent">{i18n.t("Absent (A)")}</option>
+                  <option value="Intact">{i18n.t("Intact (I)")}</option>
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  Moulding Score
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Moulding Score")}</label>
                 <select
                   name="moulding_score"
                   value={formData.moulding_score}
@@ -226,9 +211,7 @@ const EditObservationModal: React.FC<EditObservationModalProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  Contractions Frequency (per 10m)
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Contractions Frequency (per 10m)")}</label>
                 <input
                   type="number"
                   name="contractions_frequency"
@@ -241,18 +224,16 @@ const EditObservationModal: React.FC<EditObservationModalProps> = ({
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  Contractions Duration
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Contractions Duration")}</label>
                 <select
                   name="contractions_duration"
                   value={formData.contractions_duration}
                   onChange={handleChange}
                   className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 transition-all"
                 >
-                  <option value="<20S">Mild (&lt;20s)</option>
-                  <option value="20-40S">Moderate (20-40s)</option>
-                  <option value=">40S">Strong (&gt;40s)</option>
+                  <option value="<20S">{i18n.t("Mild (<20s)")}</option>
+                  <option value="20-40S">{i18n.t("Moderate (20-40s)")}</option>
+                  <option value=">40S">{i18n.t("Strong (>40s)")}</option>
                 </select>
               </div>
             </div>
@@ -264,9 +245,7 @@ const EditObservationModal: React.FC<EditObservationModalProps> = ({
             type="button"
             onClick={onClose}
             className="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all"
-          >
-            Cancel
-          </button>
+          >{i18n.t("Cancel")}</button>
           <button
             type="submit"
             form="edit-obs-form"
@@ -277,9 +256,7 @@ const EditObservationModal: React.FC<EditObservationModalProps> = ({
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
               <Save className="w-4 h-4" />
-            )}
-            Save Changes
-          </button>
+            )}{i18n.t("Save Changes")}</button>
         </div>
       </div>
     </div>

@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { labService } from '../services/lab.service';
 import { useNotification } from '../context/NotificationContext';
+import { i18n } from "../i18n";
 
 const LabManagement: React.FC = () => {
   const { notify } = useNotification();
@@ -173,7 +174,7 @@ const LabManagement: React.FC = () => {
   };
 
   const handleDeleteOutsourceCenter = async (id: number) => {
-    if (!window.confirm('Are you sure you want to remove this partner lab?')) return;
+    if (!window.confirm(i18n.t("Are you sure you want to remove this partner lab?"))) return;
     try {
       await labService.deleteOutsourceCenter(id);
       notify('Partner deleted successfully', 'success');
@@ -314,7 +315,7 @@ const LabManagement: React.FC = () => {
   };
 
   const handleDeletePanel = async (id: number) => {
-    if (!window.confirm('Are you sure you want to delete this panel?')) return;
+    if (!window.confirm(i18n.t("Are you sure you want to delete this panel?"))) return;
     try {
       await labService.deletePanel(id);
       notify('Panel deleted successfully', 'success');
@@ -325,7 +326,7 @@ const LabManagement: React.FC = () => {
   };
 
   const handleDeleteParameter = async (id: number) => {
-    if (!window.confirm('Are you sure you want to delete this parameter?')) return;
+    if (!window.confirm(i18n.t("Are you sure you want to delete this parameter?"))) return;
     try {
       await labService.deleteParameter(id);
       notify('Parameter deleted successfully', 'success');
@@ -336,7 +337,7 @@ const LabManagement: React.FC = () => {
   };
 
   const handleDeleteCategory = async (id: number) => {
-    if (!window.confirm('Are you sure you want to delete this category?')) return;
+    if (!window.confirm(i18n.t("Are you sure you want to delete this category?"))) return;
     try {
       await labService.deleteCategory(id);
       notify('Category deleted successfully', 'success');
@@ -371,8 +372,8 @@ const LabManagement: React.FC = () => {
       {/* Header Section */}
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6">
         <div>
-          <h2 className="text-2xl font-black text-slate-800 tracking-tight">System Configuration</h2>
-          <p className="text-sm text-slate-500 font-medium mt-1">Configure laboratory test parameters, panels, and partners.</p>
+          <h2 className="text-2xl font-black text-slate-800 tracking-tight">{i18n.t("System Configuration")}</h2>
+          <p className="text-sm text-slate-500 font-medium mt-1">{i18n.t("Configure laboratory test parameters, panels, and partners.")}</p>
         </div>
         
         <div className="flex items-center flex-wrap gap-1 p-1 bg-slate-100 rounded-2xl border border-slate-200/50 w-fit">
@@ -382,32 +383,28 @@ const LabManagement: React.FC = () => {
               activeTab === 'categories' ? 'bg-white text-purple-600 shadow-sm' : 'text-slate-500 hover:text-slate-800'
             }`}
           >
-            <Layers size={14} /> Categories
-          </button>
+            <Layers size={14} />{" "}{i18n.t("Categories")}</button>
           <button 
             onClick={() => setActiveTab('panels')}
             className={`flex items-center gap-2 px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
               activeTab === 'panels' ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-500 hover:text-slate-800'
             }`}
           >
-            <Droplets size={14} /> Panels
-          </button>
+            <Droplets size={14} />{" "}{i18n.t("Panels")}</button>
           <button 
             onClick={() => setActiveTab('parameters')}
             className={`flex items-center gap-2 px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
               activeTab === 'parameters' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-800'
             }`}
           >
-            <Settings2 size={14} /> Parameters
-          </button>
+            <Settings2 size={14} />{" "}{i18n.t("Parameters")}</button>
           <button 
             onClick={() => setActiveTab('outsource_centers')}
             className={`flex items-center gap-2 px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
               activeTab === 'outsource_centers' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-800'
             }`}
           >
-            <Building2 size={14} /> Partners
-          </button>
+            <Building2 size={14} />{" "}{i18n.t("Partners")}</button>
         </div>
       </div>
 
@@ -421,27 +418,27 @@ const LabManagement: React.FC = () => {
                   <div className="p-2 bg-purple-50 text-purple-600 rounded-xl">
                     {categoryForm.id ? <Settings2 size={20} /> : <Plus size={20} />}
                   </div>
-                  <h3 className="text-lg font-bold text-slate-800">{categoryForm.id ? 'Edit' : 'New'} Category</h3>
+                  <h3 className="text-lg font-bold text-slate-800">{categoryForm.id ? i18n.t("Edit") : i18n.t("New")}{" "}{i18n.t("Category")}</h3>
                 </div>
 
                 <div className="space-y-4">
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Category Name</label>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Category Name")}</label>
                     <input 
                       type="text"
                       className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 transition-all"
-                      placeholder="e.g. HEMATOLOGY"
+                      placeholder={i18n.t("e.g. HEMATOLOGY")}
                       value={categoryForm.name}
                       onChange={e => setCategoryForm({...categoryForm, name: e.target.value})}
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Description</label>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Description")}</label>
                     <textarea 
                       rows={3}
                       className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 transition-all resize-none"
-                      placeholder="Testing scope and focus..."
+                      placeholder={i18n.t("Testing scope and focus...")}
                       value={categoryForm.description}
                       onChange={e => setCategoryForm({...categoryForm, description: e.target.value})}
                     />
@@ -455,17 +452,14 @@ const LabManagement: React.FC = () => {
                     className="w-full py-4 bg-purple-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-purple-700 transition-all flex items-center justify-center gap-2 shadow-lg shadow-purple-100 disabled:opacity-50"
                   >
                     {isSaving ? <Loader2 className="animate-spin" size={16} /> : <CheckCircle2 size={16} />}
-                    {categoryForm.id ? 'Update' : 'Save'} Category
-                  </button>
+                    {categoryForm.id ? i18n.t("Update") : i18n.t("Save")}{" "}{i18n.t("Category")}</button>
 
                   {categoryForm.id && (
                     <button 
                       type="button"
                       onClick={() => setCategoryForm({ id: undefined, name: '', description: '' })}
                       className="w-full py-4 bg-slate-100 text-slate-500 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-200 transition-all flex items-center justify-center gap-2"
-                    >
-                      Cancel Edit
-                    </button>
+                    >{i18n.t("Cancel Edit")}</button>
                   )}
                 </div>
               </form>
@@ -476,14 +470,12 @@ const LabManagement: React.FC = () => {
                     <Droplets size={20} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-black text-slate-800">Diagnostic Panels</h3>
-                    <p className="text-xs text-slate-400 font-medium italic">Bundle multiple parameters into single tests.</p>
+                    <h3 className="text-lg font-black text-slate-800">{i18n.t("Diagnostic Panels")}</h3>
+                    <p className="text-xs text-slate-400 font-medium italic">{i18n.t("Bundle multiple parameters into single tests.")}</p>
                   </div>
                 </div>
                 <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
-                   <p className="text-sm text-slate-600 leading-relaxed">
-                     Panels allow you to group related parameters (e.g. FBC, Lipid Profile) for easier ordering and reporting.
-                   </p>
+                   <p className="text-sm text-slate-600 leading-relaxed">{i18n.t("Panels allow you to group related parameters (e.g. FBC, Lipid Profile) for easier ordering and reporting.")}</p>
                 </div>
                 <button 
                   onClick={() => {
@@ -492,8 +484,7 @@ const LabManagement: React.FC = () => {
                   }}
                   className="w-full flex items-center justify-center gap-3 py-4 bg-emerald-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-200"
                 >
-                  <Plus size={18} /> Configure New Panel
-                </button>
+                  <Plus size={18} />{" "}{i18n.t("Configure New Panel")}</button>
               </div>
             ) : activeTab === 'outsource_centers' ? (
               <form onSubmit={handleSaveOutsourceCenter} className="space-y-6">
@@ -501,16 +492,16 @@ const LabManagement: React.FC = () => {
                   <div className="p-2 bg-blue-50 text-blue-600 rounded-xl">
                     {centerForm.id ? <Settings2 size={20} /> : <Building2 size={20} />}
                   </div>
-                  <h3 className="text-lg font-bold text-slate-800">{centerForm.id ? 'Edit' : 'New'} Partner</h3>
+                  <h3 className="text-lg font-bold text-slate-800">{centerForm.id ? i18n.t("Edit") : i18n.t("New")}{" "}{i18n.t("Partner")}</h3>
                 </div>
 
                 <div className="space-y-4">
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Laboratory Name</label>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Laboratory Name")}</label>
                     <input 
                       type="text"
                       className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"
-                      placeholder="e.g. Synlab Nigeria"
+                      placeholder={i18n.t("e.g. Synlab Nigeria")}
                       value={centerForm.name}
                       onChange={e => setCenterForm({...centerForm, name: e.target.value})}
                     />
@@ -518,21 +509,21 @@ const LabManagement: React.FC = () => {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Phone</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Phone")}</label>
                       <input 
                         type="text"
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none focus:border-blue-500 transition-all"
-                        placeholder="0800-SYNLAB"
+                        placeholder={i18n.t("0800-SYNLAB")}
                         value={centerForm.contact_phone}
                         onChange={e => setCenterForm({...centerForm, contact_phone: e.target.value})}
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Email</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Email")}</label>
                       <input 
                         type="email"
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none focus:border-blue-500 transition-all"
-                        placeholder="lab@partner.com"
+                        placeholder={i18n.t("lab@partner.com")}
                         value={centerForm.contact_email}
                         onChange={e => setCenterForm({...centerForm, contact_email: e.target.value})}
                       />
@@ -540,11 +531,11 @@ const LabManagement: React.FC = () => {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Address / Notes</label>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Address / Notes")}</label>
                     <textarea 
                       rows={2}
                       className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none focus:border-blue-500 transition-all resize-none"
-                      placeholder="Dropoff location details..."
+                      placeholder={i18n.t("Dropoff location details...")}
                       value={centerForm.address}
                       onChange={e => setCenterForm({...centerForm, address: e.target.value})}
                     />
@@ -558,7 +549,7 @@ const LabManagement: React.FC = () => {
                       checked={centerForm.active_status}
                       onChange={e => setCenterForm({...centerForm, active_status: e.target.checked})}
                     />
-                    <label htmlFor="center_status" className="text-sm font-bold text-slate-700">Active / Enabled</label>
+                    <label htmlFor="center_status" className="text-sm font-bold text-slate-700">{i18n.t("Active / Enabled")}</label>
                   </div>
                 </div>
 
@@ -569,17 +560,14 @@ const LabManagement: React.FC = () => {
                     className="w-full py-4 bg-blue-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-blue-700 transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-100 disabled:opacity-50"
                   >
                     {isSaving ? <Loader2 className="animate-spin" size={16} /> : <CheckCircle2 size={16} />}
-                    {centerForm.id ? 'Update' : 'Save'} Partner
-                  </button>
+                    {centerForm.id ? i18n.t("Update") : i18n.t("Save")}{" "}{i18n.t("Partner")}</button>
 
                   {centerForm.id && (
                     <button 
                       type="button"
                       onClick={() => setCenterForm(INITIAL_CENTER_FORM)}
                       className="w-full py-4 bg-slate-100 text-slate-500 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-200 transition-all flex items-center justify-center gap-2"
-                    >
-                      Cancel Edit
-                    </button>
+                    >{i18n.t("Cancel Edit")}</button>
                   )}
                 </div>
               </form>
@@ -590,14 +578,12 @@ const LabManagement: React.FC = () => {
                     <Settings2 size={20} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-black text-slate-800">Lab Parameters</h3>
-                    <p className="text-xs text-slate-400 font-medium italic">Define specific measurable values.</p>
+                    <h3 className="text-lg font-black text-slate-800">{i18n.t("Lab Parameters")}</h3>
+                    <p className="text-xs text-slate-400 font-medium italic">{i18n.t("Define specific measurable values.")}</p>
                   </div>
                 </div>
                 <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
-                   <p className="text-sm text-slate-600 leading-relaxed">
-                     Configure reference ranges, units, and automation rules for individual test components.
-                   </p>
+                   <p className="text-sm text-slate-600 leading-relaxed">{i18n.t("Configure reference ranges, units, and automation rules for individual test components.")}</p>
                 </div>
                 <button 
                   onClick={() => {
@@ -606,8 +592,7 @@ const LabManagement: React.FC = () => {
                   }}
                   className="w-full flex items-center justify-center gap-3 py-4 bg-indigo-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200"
                 >
-                  <Plus size={18} /> Define New Parameter
-                </button>
+                  <Plus size={18} />{" "}{i18n.t("Define New Parameter")}</button>
               </div>
             )}
           </div>
@@ -618,17 +603,16 @@ const LabManagement: React.FC = () => {
           <div className="bg-white border border-slate-200 rounded-[32px] shadow-sm overflow-hidden min-h-[500px]">
             <div className="p-6 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <h3 className="text-sm font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                {activeTab === 'categories' ? <Layers size={16} /> : activeTab === 'panels' ? <Droplets size={16} /> : activeTab === 'outsource_centers' ? <Building2 size={16} /> : <Settings2 size={16} />}
-                Existing {activeTab.replace('_', ' ')}
+                {activeTab === 'categories' ? <Layers size={16} /> : activeTab === 'panels' ? <Droplets size={16} /> : activeTab === 'outsource_centers' ? <Building2 size={16} /> : <Settings2 size={16} />}{i18n.t("Existing")}{" "}{activeTab.replace('_', ' ')}
               </h3>
               
               <div className="flex flex-col md:flex-row items-center gap-4">
                 <div className="relative group w-full md:w-64">
-                   <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-purple-600 transition-colors" />
+                   <Search size={14} className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-purple-600 transition-colors" />
                    <input 
                      type="text"
                      placeholder={`Search ${activeTab.replace('_', ' ')}...`}
-                     className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-purple-600 transition-all shadow-sm"
+                     className="w-full ps-10 pe-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-purple-600 transition-all shadow-sm"
                      value={searchTerm}
                      onChange={e => setSearchTerm(e.target.value)}
                    />
@@ -639,50 +623,49 @@ const LabManagement: React.FC = () => {
                     value={filterCategory}
                     onChange={e => setFilterCategory(e.target.value)}
                   >
-                    <option value="">All Categories</option>
+                    <option value="">{i18n.t("All Categories")}</option>
                     {categories.map(cat => (
                       <option key={cat.id} value={cat.id}>{cat.name}</option>
                     ))}
                   </select>
                 )}
-                <span className="text-[10px] font-black text-slate-400 bg-white px-4 py-2 rounded-xl border border-slate-200 whitespace-nowrap shadow-sm">
-                  TOTAL: {activeTab === 'categories' ? filteredCategories.length : activeTab === 'panels' ? filteredPanels.length : activeTab === 'outsource_centers' ? filteredCenters.length : filteredParameters.length}
+                <span className="text-[10px] font-black text-slate-400 bg-white px-4 py-2 rounded-xl border border-slate-200 whitespace-nowrap shadow-sm">{i18n.t("TOTAL:")}{" "}{activeTab === 'categories' ? filteredCategories.length : activeTab === 'panels' ? filteredPanels.length : activeTab === 'outsource_centers' ? filteredCenters.length : filteredParameters.length}
                 </span>
               </div>
             </div>
 
             <div className="max-h-[600px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
-              <table className="w-full text-left border-collapse">
+              <table className="w-full text-start border-collapse">
                 <thead className="sticky top-0 z-10 bg-white">
                   <tr className="bg-slate-50/30 border-b border-slate-100">
                     {activeTab === 'categories' ? (
                       <>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest w-20">ID</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Name</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Prefix</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Parameters</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Action</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest w-20">{i18n.t("ID")}</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Name")}</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Prefix")}</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Parameters")}</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-end">{i18n.t("Action")}</th>
                       </>
                     ) : activeTab === 'panels' ? (
                       <>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Panel Name</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Category</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">TAT (Hrs)</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Action</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Panel Name")}</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Category")}</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("TAT (Hrs)")}</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-end">{i18n.t("Action")}</th>
                       </>
                     ) : activeTab === 'outsource_centers' ? (
                       <>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Partner Name</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Contact Info</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Action</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Partner Name")}</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Contact Info")}</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Status")}</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-end">{i18n.t("Action")}</th>
                       </>
                     ) : (
                       <>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Parameter</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Category</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Unit</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Action</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Parameter")}</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Category")}</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Unit")}</th>
+                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-end">{i18n.t("Action")}</th>
                       </>
                     )}
                   </tr>
@@ -692,13 +675,13 @@ const LabManagement: React.FC = () => {
                     <tr>
                       <td colSpan={5} className="py-20 text-center">
                         <Loader2 className="animate-spin inline-block text-purple-600 mb-2" size={32} />
-                        <p className="text-sm text-slate-500 font-medium">Syncing with server...</p>
+                        <p className="text-sm text-slate-500 font-medium">{i18n.t("Syncing with server...")}</p>
                       </td>
                     </tr>
                   ) : activeTab === 'categories' ? (
                     filteredCategories.length === 0 ? (
                       <tr>
-                        <td colSpan={5} className="px-6 py-20 text-center text-slate-400 italic font-medium">No categories matching your search.</td>
+                        <td colSpan={5} className="px-6 py-20 text-center text-slate-400 italic font-medium">{i18n.t("No categories matching your search.")}</td>
                       </tr>
                     ) : (
                       filteredCategories.map(cat => (
@@ -706,23 +689,23 @@ const LabManagement: React.FC = () => {
                           <td className="px-6 py-4 text-xs font-mono text-slate-400">#{cat.id}</td>
                           <td className="px-6 py-4">
                             <p className="text-sm font-bold text-slate-800">{cat.name}</p>
-                            {cat.description && <p className="text-[10px] text-slate-400 mt-0.5">{cat.description}</p>}
+                            {cat.description && <p className="text-[10px] text-slate-400 mt-0.5">{i18n.tx(cat.description)}</p>}
                           </td>
                           <td className="px-6 py-4 text-xs font-black text-purple-600 tracking-wider font-mono">{cat.prefix || '-'}</td>
-                          <td className="px-6 py-4 text-xs font-bold text-slate-600">{cat.parameter_count || 0} items</td>
-                          <td className="px-6 py-4 text-right">
+                          <td className="px-6 py-4 text-xs font-bold text-slate-600">{cat.parameter_count || 0}{" "}{i18n.t("items")}</td>
+                          <td className="px-6 py-4 text-end">
                             <div className="flex items-center justify-end gap-2">
                               <button 
                                 onClick={() => setCategoryForm({ id: cat.id, name: cat.name, description: cat.description || '' })}
                                 className="p-2 text-slate-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-all"
-                                title="Edit Category"
+                                title={i18n.t("Edit Category")}
                               >
                                 <Settings2 size={16} />
                               </button>
                               <button 
                                 onClick={() => handleDeleteCategory(cat.id)}
                                 className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
-                                title="Delete Category"
+                                title={i18n.t("Delete Category")}
                               >
                                 <Trash2 size={16} />
                               </button>
@@ -734,7 +717,7 @@ const LabManagement: React.FC = () => {
                   ) : activeTab === 'panels' ? (
                     filteredPanels.length === 0 ? (
                       <tr>
-                        <td colSpan={4} className="px-6 py-20 text-center text-slate-400 italic font-medium">No panels found. Try adjusting your filters.</td>
+                        <td colSpan={4} className="px-6 py-20 text-center text-slate-400 italic font-medium">{i18n.t("No panels found. Try adjusting your filters.")}</td>
                       </tr>
                     ) : (
                       filteredPanels.map(panel => (
@@ -749,9 +732,9 @@ const LabManagement: React.FC = () => {
                              </span>
                           </td>
                           <td className="px-6 py-4">
-                             <span className="text-xs font-bold text-slate-600">{panel.turnaround_time_hours} hrs</span>
+                             <span className="text-xs font-bold text-slate-600">{panel.turnaround_time_hours}{" "}{i18n.t("hrs")}</span>
                           </td>
-                          <td className="px-6 py-4 text-right">
+                          <td className="px-6 py-4 text-end">
                             <div className="flex items-center justify-end gap-2">
                               <button 
                                 onClick={() => {
@@ -784,7 +767,7 @@ const LabManagement: React.FC = () => {
                   ) : activeTab === 'outsource_centers' ? (
                     filteredCenters.length === 0 ? (
                       <tr>
-                        <td colSpan={4} className="px-6 py-20 text-center text-slate-400 italic font-medium">No partner laboratories registered.</td>
+                        <td colSpan={4} className="px-6 py-20 text-center text-slate-400 italic font-medium">{i18n.t("No partner laboratories registered.")}</td>
                       </tr>
                     ) : (
                       filteredCenters.map(center => (
@@ -816,10 +799,10 @@ const LabManagement: React.FC = () => {
                             <span className={`text-[10px] font-black px-2 py-0.5 rounded tracking-tight uppercase ${
                               center.active_status ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-100 text-slate-500'
                             }`}>
-                              {center.active_status ? 'Active' : 'Disabled'}
+                              {center.active_status ? i18n.t("Active") : i18n.t("Disabled")}
                             </span>
                           </td>
-                          <td className="px-6 py-4 text-right">
+                          <td className="px-6 py-4 text-end">
                             <div className="flex items-center justify-end gap-2">
                               <button 
                                 onClick={() => {
@@ -850,7 +833,7 @@ const LabManagement: React.FC = () => {
                   ) : (
                     filteredParameters.length === 0 ? (
                       <tr>
-                        <td colSpan={4} className="px-6 py-20 text-center text-slate-400 italic font-medium">No parameters found. Try searching for something else.</td>
+                        <td colSpan={4} className="px-6 py-20 text-center text-slate-400 italic font-medium">{i18n.t("No parameters found. Try searching for something else.")}</td>
                       </tr>
                     ) : (
                       filteredParameters.map(param => (
@@ -858,7 +841,7 @@ const LabManagement: React.FC = () => {
                         <td className="px-6 py-4">
                           <p className="text-sm font-bold text-slate-800">{param.parameter_name}</p>
                           <div className="flex items-center gap-2 mt-0.5">
-                            <span className="text-[9px] font-black px-1.5 py-0.5 rounded bg-slate-100 text-slate-500 uppercase tracking-tight">{param.short_name || 'N/A'}</span>
+                            <span className="text-[9px] font-black px-1.5 py-0.5 rounded bg-slate-100 text-slate-500 uppercase tracking-tight">{param.short_name || i18n.t("N/A")}</span>
                             <span className="text-[9px] font-mono text-slate-400">{param.test_code}</span>
                           </div>
                         </td>
@@ -871,7 +854,7 @@ const LabManagement: React.FC = () => {
                              <span className="text-[9px] text-slate-400 font-medium uppercase tracking-tighter">{param.value_type}</span>
                            </div>
                         </td>
-                        <td className="px-6 py-4 text-right">
+                        <td className="px-6 py-4 text-end">
                           <div className="flex items-center justify-end gap-2">
                             <button 
                               onClick={() => {
@@ -882,7 +865,7 @@ const LabManagement: React.FC = () => {
                                 setIsDetailsModalOpen(true);
                               }}
                               className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
-                              title="View Details"
+                              title={i18n.t("View Details")}
                             >
                               <Eye size={18} />
                             </button>
@@ -902,14 +885,14 @@ const LabManagement: React.FC = () => {
                                 setIsParamModalOpen(true);
                               }}
                               className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
-                              title="Edit Parameter"
+                              title={i18n.t("Edit Parameter")}
                             >
                               <Settings2 size={18} />
                             </button>
                             <button 
                               onClick={() => handleDeleteParameter(param.id)}
                               className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
-                              title="Delete Parameter"
+                              title={i18n.t("Delete Parameter")}
                             >
                               <Trash2 size={18} />
                             </button>
@@ -940,8 +923,8 @@ const LabManagement: React.FC = () => {
                   <Settings2 size={24} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-black text-slate-800 tracking-tight">Configure Parameter</h3>
-                  <p className="text-xs text-slate-500 font-medium">Define testing rules, ranges, and result formats.</p>
+                  <h3 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Configure Parameter")}</h3>
+                  <p className="text-xs text-slate-500 font-medium">{i18n.t("Define testing rules, ranges, and result formats.")}</p>
                 </div>
               </div>
               <button 
@@ -959,12 +942,12 @@ const LabManagement: React.FC = () => {
                 <div className="space-y-6">
                   <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
                     <Info size={16} className="text-indigo-600" />
-                    <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">Basic Information</h4>
+                    <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("Basic Information")}</h4>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Parent Category</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Parent Category")}</label>
                       <select 
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all"
                         value={parameterForm.category_id}
@@ -974,7 +957,7 @@ const LabManagement: React.FC = () => {
                           panel_id: '' // Reset panel when category changes
                         })}
                       >
-                        <option value="">Select Category</option>
+                        <option value="">{i18n.t("Select Category")}</option>
                         {categories.map(cat => (
                           <option key={cat.id} value={cat.id}>{cat.name}</option>
                         ))}
@@ -982,14 +965,14 @@ const LabManagement: React.FC = () => {
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Laboratory Panel (Optional)</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Laboratory Panel (Optional)")}</label>
                       <select 
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all"
                         value={parameterForm.panel_id}
                         onChange={e => setParameterForm({...parameterForm, panel_id: e.target.value})}
                         disabled={!parameterForm.category_id}
                       >
-                        <option value="">Select Panel</option>
+                        <option value="">{i18n.t("Select Panel")}</option>
                         {panels
                           .filter(p => !parameterForm.category_id || p.category_id === Number(parameterForm.category_id))
                           .map(panel => (
@@ -1001,22 +984,22 @@ const LabManagement: React.FC = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Parameter Name</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Parameter Name")}</label>
                       <input 
                         type="text"
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none"
-                        placeholder="e.g. Hemoglobin"
+                        placeholder={i18n.t("e.g. Hemoglobin")}
                         value={parameterForm.parameter_name}
                         onChange={e => setParameterForm({...parameterForm, parameter_name: e.target.value})}
                       />
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Short Name / Alias</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Short Name / Alias")}</label>
                       <input 
                         type="text"
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none"
-                        placeholder="e.g. HB"
+                        placeholder={i18n.t("e.g. HB")}
                         value={parameterForm.short_name}
                         onChange={e => setParameterForm({...parameterForm, short_name: e.target.value})}
                       />
@@ -1025,49 +1008,49 @@ const LabManagement: React.FC = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Report Section</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Report Section")}</label>
                       <input 
                         type="text"
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none"
-                        placeholder="e.g. Hematology"
+                        placeholder={i18n.t("e.g. Hematology")}
                         value={parameterForm.report_section}
                         onChange={e => setParameterForm({...parameterForm, report_section: e.target.value})}
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Unit</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Unit")}</label>
                       <select 
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none disabled:opacity-50"
                         value={parameterForm.unit_id}
                         onChange={e => setParameterForm({...parameterForm, unit_id: e.target.value ? Number(e.target.value) : ''})}
                         disabled={parameterForm.value_type !== 'NUMERIC'}
                       >
-                        <option value="">-- No Unit --</option>
+                        <option value="">{i18n.t("-- No Unit --")}</option>
                         {units.map((u) => (
-                          <option key={u.id} value={u.id}>{u.display_name} ({u.description})</option>
+                          <option key={u.id} value={u.id}>{u.display_name} ({i18n.tx(u.description)})</option>
                         ))}
                       </select>
                       {parameterForm.value_type !== 'NUMERIC' && (
-                        <span className="text-[10px] text-amber-500 font-medium ml-1">Not needed for this type</span>
+                        <span className="text-[10px] text-amber-500 font-medium ms-1">{i18n.t("Not needed for this type")}</span>
                       )}
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Value Type</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Value Type")}</label>
                       <select 
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none"
                         value={parameterForm.value_type}
                         onChange={e => setParameterForm({...parameterForm, value_type: e.target.value as any})}
                       >
-                        <option value="NUMERIC">NUMERIC</option>
-                        <option value="TEXT">TEXT</option>
-                        <option value="SELECT">SELECT (Options)</option>
-                        <option value="BOOLEAN">BOOLEAN</option>
-                        <option value="NARRATIVE">NARRATIVE</option>
+                        <option value="NUMERIC">{i18n.t("NUMERIC")}</option>
+                        <option value="TEXT">{i18n.t("TEXT")}</option>
+                        <option value="SELECT">{i18n.t("SELECT (Options)")}</option>
+                        <option value="BOOLEAN">{i18n.t("BOOLEAN")}</option>
+                        <option value="NARRATIVE">{i18n.t("NARRATIVE")}</option>
                       </select>
                       {parameterForm.value_type === 'SELECT' && (
-                        <div className="flex items-center gap-1.5 mt-2 ml-1 animate-in slide-in-from-top-1 fade-in duration-300">
+                        <div className="flex items-center gap-1.5 mt-2 ms-1 animate-in slide-in-from-top-1 fade-in duration-300">
                           <ArrowDown size={12} className="text-blue-500 animate-bounce" />
-                          <span className="text-[10px] font-bold text-blue-600">Scroll down to configure Result Options</span>
+                          <span className="text-[10px] font-bold text-blue-600">{i18n.t("Scroll down to configure Result Options")}</span>
                         </div>
                       )}
                     </div>
@@ -1081,12 +1064,12 @@ const LabManagement: React.FC = () => {
                     <div className="space-y-6">
                       <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
                         <Activity size={16} className="text-indigo-600" />
-                        <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">Reference Ranges</h4>
+                        <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("Reference Ranges")}</h4>
                       </div>
                       
                       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                         <div className="space-y-1.5">
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Ref Low (Male/Gen)</label>
+                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Ref Low (Male/Gen)")}</label>
                           <input 
                             type="number" step="any"
                             className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none"
@@ -1095,7 +1078,7 @@ const LabManagement: React.FC = () => {
                           />
                         </div>
                         <div className="space-y-1.5">
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Ref High (Male/Gen)</label>
+                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Ref High (Male/Gen)")}</label>
                           <input 
                             type="number" step="any"
                             className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none"
@@ -1104,7 +1087,7 @@ const LabManagement: React.FC = () => {
                           />
                         </div>
                         <div className="space-y-1.5">
-                          <label className="text-[10px] font-black text-pink-400 uppercase tracking-widest ml-1">Ref Low (Female)</label>
+                          <label className="text-[10px] font-black text-pink-400 uppercase tracking-widest ms-1">{i18n.t("Ref Low (Female)")}</label>
                           <input 
                             type="number" step="any"
                             className="w-full px-4 py-3 bg-pink-50/30 border border-pink-100 rounded-2xl text-sm font-medium outline-none"
@@ -1113,7 +1096,7 @@ const LabManagement: React.FC = () => {
                           />
                         </div>
                         <div className="space-y-1.5">
-                          <label className="text-[10px] font-black text-pink-400 uppercase tracking-widest ml-1">Ref High (Female)</label>
+                          <label className="text-[10px] font-black text-pink-400 uppercase tracking-widest ms-1">{i18n.t("Ref High (Female)")}</label>
                           <input 
                             type="number" step="any"
                             className="w-full px-4 py-3 bg-pink-50/30 border border-pink-100 rounded-2xl text-sm font-medium outline-none"
@@ -1125,7 +1108,7 @@ const LabManagement: React.FC = () => {
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-1.5">
-                          <label className="text-[10px] font-black text-red-400 uppercase tracking-widest ml-1">Critical Low</label>
+                          <label className="text-[10px] font-black text-red-400 uppercase tracking-widest ms-1">{i18n.t("Critical Low")}</label>
                           <input 
                             type="number" step="any"
                             className="w-full px-4 py-3 bg-red-50/30 border border-red-100 rounded-2xl text-sm font-medium outline-none"
@@ -1134,7 +1117,7 @@ const LabManagement: React.FC = () => {
                           />
                         </div>
                         <div className="space-y-1.5">
-                          <label className="text-[10px] font-black text-red-400 uppercase tracking-widest ml-1">Critical High</label>
+                          <label className="text-[10px] font-black text-red-400 uppercase tracking-widest ms-1">{i18n.t("Critical High")}</label>
                           <input 
                             type="number" step="any"
                             className="w-full px-4 py-3 bg-red-50/30 border border-red-100 rounded-2xl text-sm font-medium outline-none"
@@ -1151,7 +1134,7 @@ const LabManagement: React.FC = () => {
                 <div className="space-y-6 p-6 bg-slate-50 rounded-[24px]">
                   <div className="flex items-center gap-2 pb-2 border-b border-slate-200">
                     <AlertCircle size={16} className="text-amber-600" />
-                    <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">Rules & Validation</h4>
+                    <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("Rules & Validation")}</h4>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -1163,7 +1146,7 @@ const LabManagement: React.FC = () => {
                         checked={parameterForm.rules.auto_flag_enabled}
                         onChange={e => setParameterForm({...parameterForm, rules: {...parameterForm.rules, auto_flag_enabled: e.target.checked}})}
                       />
-                      <label htmlFor="auto_flag" className="text-sm font-bold text-slate-700">Auto Flag Enabled</label>
+                      <label htmlFor="auto_flag" className="text-sm font-bold text-slate-700">{i18n.t("Auto Flag Enabled")}</label>
                     </div>
                     <div className="flex items-center gap-3">
                       <input 
@@ -1173,7 +1156,7 @@ const LabManagement: React.FC = () => {
                         checked={parameterForm.rules.delta_check_enabled}
                         onChange={e => setParameterForm({...parameterForm, rules: {...parameterForm.rules, delta_check_enabled: e.target.checked}})}
                       />
-                      <label htmlFor="delta_check" className="text-sm font-bold text-slate-700">Delta Check Enabled</label>
+                      <label htmlFor="delta_check" className="text-sm font-bold text-slate-700">{i18n.t("Delta Check Enabled")}</label>
                     </div>
                     <div className="flex items-center gap-3">
                       <input 
@@ -1183,13 +1166,13 @@ const LabManagement: React.FC = () => {
                         checked={parameterForm.rules.requires_pathologist_review}
                         onChange={e => setParameterForm({...parameterForm, rules: {...parameterForm.rules, requires_pathologist_review: e.target.checked}})}
                       />
-                      <label htmlFor="pathologist_review" className="text-sm font-bold text-slate-700">Pathologist Review Req.</label>
+                      <label htmlFor="pathologist_review" className="text-sm font-bold text-slate-700">{i18n.t("Pathologist Review Req.")}</label>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Panic Low</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Panic Low")}</label>
                       <input 
                         type="number" step="any"
                         className="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm font-medium outline-none disabled:opacity-50 disabled:bg-slate-100"
@@ -1199,7 +1182,7 @@ const LabManagement: React.FC = () => {
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Panic High</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Panic High")}</label>
                       <input 
                         type="number" step="any"
                         className="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm font-medium outline-none disabled:opacity-50 disabled:bg-slate-100"
@@ -1209,11 +1192,11 @@ const LabManagement: React.FC = () => {
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Delta % Threshold</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Delta % Threshold")}</label>
                       <input 
                         type="number"
                         className="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm font-medium outline-none"
-                        placeholder="e.g. 20"
+                        placeholder={i18n.t("e.g. 20")}
                         value={parameterForm.rules.delta_percent_threshold}
                         onChange={e => setParameterForm({...parameterForm, rules: {...parameterForm.rules, delta_percent_threshold: e.target.value}})}
                       />
@@ -1222,21 +1205,21 @@ const LabManagement: React.FC = () => {
 
                   <div className="space-y-4">
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Auto Comment Template</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Auto Comment Template")}</label>
                       <textarea 
                         rows={2}
                         className="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm font-medium outline-none resize-none"
-                        placeholder="Result is {{FLAG}}..."
+                        placeholder={i18n.t("Result is {{FLAG}}...")}
                         value={parameterForm.rules.auto_comment_template}
                         onChange={e => setParameterForm({...parameterForm, rules: {...parameterForm.rules, auto_comment_template: e.target.value}})}
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Critical Alert Message</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Critical Alert Message")}</label>
                       <textarea 
                         rows={2}
                         className="w-full px-4 py-3 bg-white border border-red-100 rounded-2xl text-sm font-medium outline-none resize-none text-red-600"
-                        placeholder="Immediate notification required..."
+                        placeholder={i18n.t("Immediate notification required...")}
                         value={parameterForm.rules.critical_message}
                         onChange={e => setParameterForm({...parameterForm, rules: {...parameterForm.rules, critical_message: e.target.value}})}
                       />
@@ -1250,53 +1233,52 @@ const LabManagement: React.FC = () => {
                     <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                       <div className="flex items-center gap-2">
                         <Droplets size={16} className="text-indigo-600" />
-                        <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">Advanced Reference Profiles</h4>
+                        <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("Advanced Reference Profiles")}</h4>
                       </div>
                       <button 
                         type="button"
                         onClick={addProfile}
                         className="flex items-center gap-2 px-4 py-1.5 bg-indigo-50 text-indigo-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-100 transition-all"
                       >
-                        <Plus size={14} /> Add Profile
-                      </button>
+                        <Plus size={14} />{" "}{i18n.t("Add Profile")}</button>
                     </div>
 
                     {parameterForm.reference_profiles.length === 0 ? (
                       <div className="py-10 text-center bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
                         <Info size={24} className="mx-auto text-slate-300 mb-2" />
-                        <p className="text-xs text-slate-400 font-medium italic">No advanced reference profiles defined.<br/>Standard ranges will be used.</p>
+                        <p className="text-xs text-slate-400 font-medium italic">{i18n.t("No advanced reference profiles defined.")}<br/>{i18n.t("Standard ranges will be used.")}</p>
                       </div>
                     ) : (
                       <div className="space-y-4">
                         {parameterForm.reference_profiles.map((profile, idx) => (
                           <div key={idx} className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6 relative group overflow-hidden">
-                            <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500"></div>
+                            <div className="absolute top-0 start-0 w-1 h-full bg-indigo-500"></div>
                             
                             <div className="flex items-start justify-between">
                               <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div className="space-y-1.5">
-                                  <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Profile Name</label>
+                                  <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Profile Name")}</label>
                                   <input 
                                     type="text"
                                     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-indigo-500"
-                                    placeholder="e.g. Neonatal (0-30 days)"
+                                    placeholder={i18n.t("e.g. Neonatal (0-30 days)")}
                                     value={profile.profile_name}
                                     onChange={e => updateProfile(idx, 'profile_name', e.target.value)}
                                   />
                                 </div>
                                 <div className="space-y-1.5">
-                                  <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Sex Context</label>
+                                  <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Sex Context")}</label>
                                   <select 
                                     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold outline-none"
                                     value={profile.sex}
                                     onChange={e => updateProfile(idx, 'sex', e.target.value as any)}
                                   >
-                                    <option value="GENERAL">General (Both)</option>
-                                    <option value="M">Male Only</option>
-                                    <option value="F">Female Only</option>
+                                    <option value="GENERAL">{i18n.t("General (Both)")}</option>
+                                    <option value="M">{i18n.t("Male Only")}</option>
+                                    <option value="F">{i18n.t("Female Only")}</option>
                                   </select>
                                 </div>
-                                <div className="space-y-1.5 text-right">
+                                <div className="space-y-1.5 text-end">
                                   <button 
                                     type="button"
                                     onClick={() => removeProfile(idx)}
@@ -1310,7 +1292,7 @@ const LabManagement: React.FC = () => {
 
                             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                               <div className="space-y-1.5">
-                                <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Min Age</label>
+                                <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Min Age")}</label>
                                 <div className="flex gap-2">
                                   <input 
                                     type="number"
@@ -1323,14 +1305,14 @@ const LabManagement: React.FC = () => {
                                     value={profile.age_unit}
                                     onChange={e => updateProfile(idx, 'age_unit', e.target.value as any)}
                                   >
-                                    <option value="DAYS">DAYS</option>
-                                    <option value="MONTHS">MONTHS</option>
-                                    <option value="YEARS">YEARS</option>
+                                    <option value="DAYS">{i18n.t("DAYS")}</option>
+                                    <option value="MONTHS">{i18n.t("MONTHS")}</option>
+                                    <option value="YEARS">{i18n.t("YEARS")}</option>
                                   </select>
                                 </div>
                               </div>
                               <div className="space-y-1.5">
-                                <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Max Age (Null for no limit)</label>
+                                <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Max Age (Null for no limit)")}</label>
                                 <input 
                                   type="number"
                                   className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold outline-none"
@@ -1339,7 +1321,7 @@ const LabManagement: React.FC = () => {
                                 />
                               </div>
                               <div className="space-y-1.5">
-                                <label className="text-[9px] font-black text-emerald-600 uppercase tracking-widest">Profile Low</label>
+                                <label className="text-[9px] font-black text-emerald-600 uppercase tracking-widest">{i18n.t("Profile Low")}</label>
                                 <input 
                                   type="number" step="any"
                                   className="w-full px-4 py-2.5 bg-emerald-50/50 border border-emerald-100 rounded-xl text-xs font-bold outline-none"
@@ -1348,7 +1330,7 @@ const LabManagement: React.FC = () => {
                                 />
                               </div>
                               <div className="space-y-1.5">
-                                <label className="text-[9px] font-black text-emerald-600 uppercase tracking-widest">Profile High</label>
+                                <label className="text-[9px] font-black text-emerald-600 uppercase tracking-widest">{i18n.t("Profile High")}</label>
                                 <input 
                                   type="number" step="any"
                                   className="w-full px-4 py-2.5 bg-emerald-50/50 border border-emerald-100 rounded-xl text-xs font-bold outline-none"
@@ -1367,7 +1349,7 @@ const LabManagement: React.FC = () => {
                                        onChange={e => updateProfile(idx, 'pregnancy_status', e.target.checked)}
                                        className="w-4 h-4 rounded text-indigo-600"
                                      />
-                                     <label className="text-[10px] font-bold text-slate-600">Apply to Pregnancy only?</label>
+                                     <label className="text-[10px] font-bold text-slate-600">{i18n.t("Apply to Pregnancy only?")}</label>
                                   </div>
                                   {profile.pregnancy_status && (
                                     <select 
@@ -1375,10 +1357,10 @@ const LabManagement: React.FC = () => {
                                       value={profile.pregnancy_trimester}
                                       onChange={e => updateProfile(idx, 'pregnancy_trimester', e.target.value as any)}
                                     >
-                                      <option value="">Any Trimester</option>
-                                      <option value="T1">1st Trimester (T1)</option>
-                                      <option value="T2">2nd Trimester (T2)</option>
-                                      <option value="T3">3rd Trimester (T3)</option>
+                                      <option value="">{i18n.t("Any Trimester")}</option>
+                                      <option value="T1">{i18n.t("1st Trimester (T1)")}</option>
+                                      <option value="T2">{i18n.t("2nd Trimester (T2)")}</option>
+                                      <option value="T3">{i18n.t("3rd Trimester (T3)")}</option>
                                     </select>
                                   )}
                                </div>
@@ -1396,36 +1378,35 @@ const LabManagement: React.FC = () => {
                       <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                         <div className="flex items-center gap-2">
                           <Layers size={16} className="text-blue-600" />
-                          <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">Result Options</h4>
+                          <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("Result Options")}</h4>
                         </div>
                         <button 
                           type="button"
                           onClick={addOption}
                           className="flex items-center gap-2 px-4 py-1.5 bg-blue-50 text-blue-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-100 transition-all"
                         >
-                          <Plus size={14} /> Add Option
-                        </button>
+                          <Plus size={14} />{" "}{i18n.t("Add Option")}</button>
                       </div>
 
                       <div className="space-y-4">
                         {parameterForm.options.map((opt, idx) => (
                           <div key={idx} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end bg-slate-50 p-4 rounded-2xl border border-slate-200/50">
                             <div className="md:col-span-4 space-y-1">
-                              <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Label</label>
+                              <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Label")}</label>
                               <input 
                                 type="text"
                                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none"
-                                placeholder="e.g. Positive"
+                                placeholder={i18n.t("e.g. Positive")}
                                 value={opt.option_label}
                                 onChange={e => updateOption(idx, 'option_label', e.target.value)}
                               />
                             </div>
                             <div className="md:col-span-3 space-y-1">
-                              <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Value</label>
+                              <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Value")}</label>
                               <input 
                                 type="text"
                                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-mono outline-none"
-                                placeholder="POS"
+                                placeholder={i18n.t("POS")}
                                 value={opt.option_value}
                                 onChange={e => updateOption(idx, 'option_value', e.target.value)}
                               />
@@ -1437,9 +1418,9 @@ const LabManagement: React.FC = () => {
                                 checked={opt.is_critical_trigger}
                                 onChange={e => updateOption(idx, 'is_critical_trigger', e.target.checked)}
                               />
-                              <label htmlFor={`crit-${idx}`} className="text-[10px] font-bold text-slate-600">Critical Trigger</label>
+                              <label htmlFor={`crit-${idx}`} className="text-[10px] font-bold text-slate-600">{i18n.t("Critical Trigger")}</label>
                             </div>
-                            <div className="md:col-span-2 text-right">
+                            <div className="md:col-span-2 text-end">
                               <button 
                                 type="button"
                                 onClick={() => removeOption(idx)}
@@ -1451,7 +1432,7 @@ const LabManagement: React.FC = () => {
                           </div>
                         ))}
                         {parameterForm.options.length === 0 && (
-                          <p className="text-center py-6 text-sm text-slate-400 italic">No options added yet.</p>
+                          <p className="text-center py-6 text-sm text-slate-400 italic">{i18n.t("No options added yet.")}</p>
                         )}
                       </div>
                   </div>
@@ -1460,13 +1441,13 @@ const LabManagement: React.FC = () => {
                      <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                        <div className="flex items-center gap-2">
                          <Layers size={16} className="text-slate-400" />
-                         <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">Result Options</h4>
+                         <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("Result Options")}</h4>
                        </div>
                      </div>
                      <div className="py-8 text-center bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
                        <Info size={24} className="mx-auto text-blue-400 mb-2" />
-                       <p className="text-xs text-slate-500 font-medium">Result options are only available when the <strong className="text-slate-700">Value Type</strong> is set to <strong className="text-slate-700">SELECT (Options)</strong>.</p>
-                       <p className="text-[10px] text-slate-400 mt-1">Change the Value Type above to add predefined dropdown options.</p>
+                       <p className="text-xs text-slate-500 font-medium">{i18n.t("Result options are only available when the")}{" "}<strong className="text-slate-700">{i18n.t("Value Type")}</strong>{" "}{i18n.t("is set to")}{" "}<strong className="text-slate-700">{i18n.t("SELECT (Options)")}</strong>.</p>
+                       <p className="text-[10px] text-slate-400 mt-1">{i18n.t("Change the Value Type above to add predefined dropdown options.")}</p>
                      </div>
                   </div>
                 )}
@@ -1478,18 +1459,14 @@ const LabManagement: React.FC = () => {
               <button 
                 onClick={() => setIsParamModalOpen(false)}
                 className="px-8 py-3 rounded-2xl text-sm font-bold text-slate-500 hover:bg-slate-200 transition-all"
-              >
-                Cancel
-              </button>
+              >{i18n.t("Cancel")}</button>
               <button 
                 form="paramForm"
                 type="submit"
                 disabled={isSaving}
                 className="px-10 py-3 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200 flex items-center gap-2 disabled:opacity-50"
               >
-                {isSaving ? <Loader2 className="animate-spin" size={18} /> : <CheckCircle2 size={18} />}
-                Save Configuration
-              </button>
+                {isSaving ? <Loader2 className="animate-spin" size={18} /> : <CheckCircle2 size={18} />}{i18n.t("Save Configuration")}</button>
             </div>
           </div>
         </div>
@@ -1505,8 +1482,8 @@ const LabManagement: React.FC = () => {
                   <Droplets size={24} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-black text-slate-800 tracking-tight">{panelForm.id ? 'Update' : 'Configure'} Panel</h3>
-                  <p className="text-xs text-slate-500 font-medium">Bundle multiple test parameters together.</p>
+                  <h3 className="text-xl font-black text-slate-800 tracking-tight">{panelForm.id ? i18n.t("Update") : i18n.t("Configure")}{" "}{i18n.t("Panel")}</h3>
+                  <p className="text-xs text-slate-500 font-medium">{i18n.t("Bundle multiple test parameters together.")}</p>
                 </div>
               </div>
               <button 
@@ -1520,13 +1497,13 @@ const LabManagement: React.FC = () => {
             <div className="flex-1 overflow-y-auto p-8">
               <form id="panelForm" onSubmit={handleSavePanel} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-1.5 md:col-span-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Parent Category</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Parent Category")}</label>
                   <select 
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all"
                     value={panelForm.category_id}
                     onChange={e => setPanelForm({...panelForm, category_id: e.target.value})}
                   >
-                    <option value="">Select Category</option>
+                    <option value="">{i18n.t("Select Category")}</option>
                     {categories.map(cat => (
                       <option key={cat.id} value={cat.id}>{cat.name}</option>
                     ))}
@@ -1534,44 +1511,44 @@ const LabManagement: React.FC = () => {
                 </div>
 
                 <div className="space-y-1.5 md:col-span-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Panel Name</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Panel Name")}</label>
                   <input 
                     type="text"
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none focus:border-emerald-500 transition-all"
-                    placeholder="e.g. Lipid Profile"
+                    placeholder={i18n.t("e.g. Lipid Profile")}
                     value={panelForm.panel_name}
                     onChange={e => setPanelForm({...panelForm, panel_name: e.target.value})}
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Report Group</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Report Group")}</label>
                   <input 
                     type="text"
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none"
-                    placeholder="e.g. Biochemistry"
+                    placeholder={i18n.t("e.g. Biochemistry")}
                     value={panelForm.report_group}
                     onChange={e => setPanelForm({...panelForm, report_group: e.target.value})}
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Specimen Type</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Specimen Type")}</label>
                   <input 
                     type="text"
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none"
-                    placeholder="e.g. Plasma (EDTA)"
+                    placeholder={i18n.t("e.g. Plasma (EDTA)")}
                     value={panelForm.specimen_type}
                     onChange={e => setPanelForm({...panelForm, specimen_type: e.target.value})}
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">TAT (Hours)</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("TAT (Hours)")}</label>
                   <input 
                     type="number"
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none"
-                    placeholder="e.g. 12"
+                    placeholder={i18n.t("e.g. 12")}
                     value={panelForm.turnaround_time_hours}
                     onChange={e => setPanelForm({...panelForm, turnaround_time_hours: e.target.value})}
                   />
@@ -1585,7 +1562,7 @@ const LabManagement: React.FC = () => {
                     checked={panelForm.active_status as boolean}
                     onChange={e => setPanelForm({...panelForm, active_status: e.target.checked})}
                   />
-                  <label htmlFor="panel_status" className="text-sm font-bold text-slate-700">Active Status</label>
+                  <label htmlFor="panel_status" className="text-sm font-bold text-slate-700">{i18n.t("Active Status")}</label>
                 </div>
               </form>
             </div>
@@ -1594,9 +1571,7 @@ const LabManagement: React.FC = () => {
               <button 
                 onClick={() => setIsPanelModalOpen(false)}
                 className="px-8 py-3 rounded-2xl text-sm font-bold text-slate-500 hover:bg-slate-200 transition-all"
-              >
-                Cancel
-              </button>
+              >{i18n.t("Cancel")}</button>
               <button 
                 form="panelForm"
                 type="submit"
@@ -1604,7 +1579,7 @@ const LabManagement: React.FC = () => {
                 className="px-10 py-3 bg-emerald-600 text-white rounded-2xl font-bold hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-200 flex items-center gap-2 disabled:opacity-50"
               >
                 {isSaving ? <Loader2 className="animate-spin" size={18} /> : <CheckCircle2 size={18} />}
-                {panelForm.id ? 'Update Panel' : 'Create Panel'}
+                {panelForm.id ? i18n.t("Update Panel") : i18n.t("Create Panel")}
               </button>
             </div>
           </div>
@@ -1625,12 +1600,12 @@ const LabManagement: React.FC = () => {
                   <div className="flex items-center gap-3">
                     <h3 className="text-2xl font-black text-slate-800 tracking-tight">{selectedParam.parameter_name}</h3>
                     <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest ${selectedParam.active_status ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'}`}>
-                      {selectedParam.active_status ? 'Active' : 'Inactive'}
+                      {selectedParam.active_status ? i18n.t("Active") : i18n.t("Inactive")}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 mt-0.5">
                     <span className="text-xs font-black text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded uppercase tracking-tighter">{selectedParam.category_name}</span>
-                    <span className="text-xs text-slate-400 font-mono font-bold">ID: {selectedParam.test_code}</span>
+                    <span className="text-xs text-slate-400 font-mono font-bold">{i18n.t("ID:")}{" "}{selectedParam.test_code}</span>
                   </div>
                 </div>
               </div>
@@ -1648,35 +1623,34 @@ const LabManagement: React.FC = () => {
                 <div className="space-y-10">
                   <div className="bg-white p-8 rounded-[24px] border border-slate-100 shadow-sm">
                     <h4 className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
-                      <Info size={14} /> Core Specifications
-                    </h4>
+                      <Info size={14} />{" "}{i18n.t("Core Specifications")}</h4>
                     <div className="grid grid-cols-2 gap-8">
                       <div className="space-y-1">
-                        <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">Short Name</p>
+                        <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">{i18n.t("Short Name")}</p>
                         <p className="text-sm font-bold text-slate-700">{selectedParam.short_name || '—'}</p>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">Result Unit</p>
+                        <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">{i18n.t("Result Unit")}</p>
                         <p className="text-sm font-bold text-slate-700">{selectedParam.unit_display_name || '—'}</p>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">Data Type</p>
+                        <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">{i18n.t("Data Type")}</p>
                         <span className="inline-block px-2 py-1 bg-slate-100 text-slate-600 rounded text-[10px] font-black tracking-tight">{selectedParam.value_type}</span>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">Laboratory Panel</p>
+                        <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">{i18n.t("Laboratory Panel")}</p>
                         <p className="text-sm font-bold text-slate-800">
-                          {selectedParam.panel_name || panels.find(p => p.id === selectedParam.panel_id)?.panel_name || 'Individual'}
+                          {selectedParam.panel_name || panels.find(p => p.id === selectedParam.panel_id)?.panel_name || i18n.t("Individual")}
                         </p>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">Report Section</p>
+                        <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">{i18n.t("Report Section")}</p>
                         <p className="text-sm font-bold text-slate-700">{selectedParam.report_section || '—'}</p>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">Manual Comment</p>
+                        <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">{i18n.t("Manual Comment")}</p>
                         <span className={`inline-block px-2 py-1 rounded text-[10px] font-black tracking-tight ${selectedParam.allow_manual_comment ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-100 text-slate-500'}`}>
-                          {selectedParam.allow_manual_comment ? 'ALLOWED' : 'DISABLED'}
+                          {selectedParam.allow_manual_comment ? i18n.t("ALLOWED") : i18n.t("DISABLED")}
                         </span>
                       </div>
                     </div>
@@ -1684,8 +1658,7 @@ const LabManagement: React.FC = () => {
 
                   <div className="bg-white p-8 rounded-[24px] border border-slate-100 shadow-sm">
                      <h4 className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
-                      <Settings2 size={14} /> Automation Rules
-                    </h4>
+                      <Settings2 size={14} />{" "}{i18n.t("Automation Rules")}</h4>
                     <div className="grid grid-cols-2 gap-4">
                       {[
                         { label: 'Auto Flagging', active: selectedParam.auto_flag_enabled },
@@ -1694,10 +1667,10 @@ const LabManagement: React.FC = () => {
                         { label: 'Critical Notify', active: selectedParam.critical_notification_required },
                       ].map((rule, i) => (
                         <div key={i} className="flex items-center justify-between p-3 bg-slate-50/50 border border-slate-100 rounded-xl">
-                          <span className="text-[11px] font-bold text-slate-600">{rule.label}</span>
+                          <span className="text-[11px] font-bold text-slate-600">{i18n.tx(rule.label)}</span>
                           <div className="flex items-center gap-2">
                             <span className={`text-[9px] font-black tracking-widest ${rule.active ? 'text-emerald-500' : 'text-slate-400'}`}>
-                              {rule.active ? 'ENABLED' : 'DISABLED'}
+                              {rule.active ? i18n.t("ENABLED") : i18n.t("DISABLED")}
                             </span>
                             <div className={`w-1.5 h-1.5 rounded-full ${rule.active ? 'bg-emerald-500 shadow-sm shadow-emerald-200' : 'bg-slate-300'}`}></div>
                           </div>
@@ -1708,15 +1681,15 @@ const LabManagement: React.FC = () => {
                     {/* Thresholds Sub-section */}
                     <div className="mt-6 pt-6 border-t border-slate-100 grid grid-cols-3 gap-4">
                       <div>
-                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Delta Thresh.</p>
+                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">{i18n.t("Delta Thresh.")}</p>
                         <p className="text-xs font-bold text-slate-700">{selectedParam.delta_percent_threshold ? `${selectedParam.delta_percent_threshold}%` : '—'}</p>
                       </div>
                       <div>
-                        <p className="text-[9px] font-black text-red-400 uppercase tracking-widest mb-1">Panic Low</p>
+                        <p className="text-[9px] font-black text-red-400 uppercase tracking-widest mb-1">{i18n.t("Panic Low")}</p>
                         <p className="text-xs font-bold text-red-600">{selectedParam.panic_low || '—'}</p>
                       </div>
                       <div>
-                        <p className="text-[9px] font-black text-red-400 uppercase tracking-widest mb-1">Panic High</p>
+                        <p className="text-[9px] font-black text-red-400 uppercase tracking-widest mb-1">{i18n.t("Panic High")}</p>
                         <p className="text-xs font-bold text-red-600">{selectedParam.panic_high || '—'}</p>
                       </div>
                     </div>
@@ -1725,8 +1698,7 @@ const LabManagement: React.FC = () => {
                   {selectedParam.notes && (
                     <div className="bg-white p-8 rounded-[24px] border border-slate-100 shadow-sm">
                       <h4 className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
-                        <Info size={14} /> Parameter Description
-                      </h4>
+                        <Info size={14} />{" "}{i18n.t("Parameter Description")}</h4>
                       <p className="text-sm text-slate-600 leading-relaxed font-medium">{selectedParam.notes}</p>
                     </div>
                   )}
@@ -1736,26 +1708,25 @@ const LabManagement: React.FC = () => {
                 <div className="space-y-10">
                    <div className="bg-white p-8 rounded-[24px] border border-slate-100 shadow-sm">
                     <h4 className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
-                      <Activity size={14} /> Reference Ranges
-                    </h4>
+                      <Activity size={14} />{" "}{i18n.t("Reference Ranges")}</h4>
                     <div className="space-y-4">
                       <div className="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 rounded-2xl">
                         <div>
-                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Male / General</p>
+                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">{i18n.t("Male / General")}</p>
                           <p className="text-lg font-black text-slate-800 tracking-tight">{selectedParam.ref_low} — {selectedParam.ref_high}</p>
                         </div>
                         <span className="text-[10px] font-bold text-slate-300 italic">{selectedParam.unit_display_name}</span>
                       </div>
                       <div className="flex items-center justify-between p-4 bg-pink-50/30 border border-pink-100 rounded-2xl">
                         <div>
-                          <p className="text-[9px] font-black text-pink-400 uppercase tracking-widest mb-0.5">Female Specific</p>
+                          <p className="text-[9px] font-black text-pink-400 uppercase tracking-widest mb-0.5">{i18n.t("Female Specific")}</p>
                           <p className="text-lg font-black text-slate-800 tracking-tight">{selectedParam.ref_low_female || '—'} — {selectedParam.ref_high_female || '—'}</p>
                         </div>
                         <span className="text-[10px] font-bold text-pink-300 italic">{selectedParam.unit_display_name}</span>
                       </div>
                       <div className="flex items-center justify-between p-4 bg-red-50/30 border border-red-100 rounded-2xl">
                         <div>
-                          <p className="text-[9px] font-black text-red-500 uppercase tracking-widest mb-0.5">Critical Thresholds</p>
+                          <p className="text-[9px] font-black text-red-500 uppercase tracking-widest mb-0.5">{i18n.t("Critical Thresholds")}</p>
                           <p className="text-lg font-black text-red-600 tracking-tight">{selectedParam.critical_low} — {selectedParam.critical_high}</p>
                         </div>
                         <AlertCircle size={20} className="text-red-300" />
@@ -1766,22 +1737,21 @@ const LabManagement: React.FC = () => {
                   {selectedParam.reference_profiles && selectedParam.reference_profiles.length > 0 && (
                     <div className="bg-white p-8 rounded-[24px] border border-slate-100 shadow-sm">
                       <h4 className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
-                        <Droplets size={14} /> Advanced Reference Profiles
-                      </h4>
+                        <Droplets size={14} />{" "}{i18n.t("Advanced Reference Profiles")}</h4>
                       <div className="space-y-4">
                         {selectedParam.reference_profiles.map((profile: any, i: number) => (
                           <div key={i} className="p-5 bg-slate-50 border border-slate-100 rounded-2xl space-y-3">
                             <div className="flex items-center justify-between border-b border-slate-200/50 pb-2">
                               <p className="text-xs font-black text-slate-800 uppercase tracking-tight">{profile.profile_name}</p>
-                              <span className="px-2 py-0.5 bg-white border border-slate-200 rounded-lg text-[9px] font-black text-slate-400">{profile.sex}</span>
+                              <span className="px-2 py-0.5 bg-white border border-slate-200 rounded-lg text-[9px] font-black text-slate-400">{i18n.tv(profile.sex)}</span>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                               <div>
-                                <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Age Context</p>
+                                <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Age Context")}</p>
                                 <p className="text-[11px] font-bold text-slate-600">{profile.age_min} — {profile.age_max || '∞'} {profile.age_unit}</p>
                               </div>
-                              <div className="text-right">
-                                <p className="text-[8px] font-black text-emerald-600 uppercase tracking-widest">Profile Range</p>
+                              <div className="text-end">
+                                <p className="text-[8px] font-black text-emerald-600 uppercase tracking-widest">{i18n.t("Profile Range")}</p>
                                 <p className="text-[11px] font-black text-slate-800">{profile.ref_low} — {profile.ref_high}</p>
                               </div>
                             </div>
@@ -1795,8 +1765,7 @@ const LabManagement: React.FC = () => {
                   {selectedParam.options && selectedParam.options.length > 0 && (
                     <div className="bg-white p-8 rounded-[24px] border border-slate-100 shadow-sm">
                       <h4 className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
-                        <Layers size={14} /> Result Options
-                      </h4>
+                        <Layers size={14} />{" "}{i18n.t("Result Options")}</h4>
                       <div className="flex flex-wrap gap-2">
                         {selectedParam.options.map((opt: any) => (
                           <div key={opt.id} className={`px-4 py-2 rounded-xl border text-[11px] font-bold flex items-center gap-2 ${opt.is_critical_trigger ? 'bg-red-50 border-red-100 text-red-600' : 'bg-slate-50 border-slate-100 text-slate-600'}`}>
@@ -1811,14 +1780,14 @@ const LabManagement: React.FC = () => {
 
                   {selectedParam.auto_comment_template && (
                     <div className="p-6 bg-indigo-50/50 rounded-2xl border border-indigo-100/50 italic text-[11px] text-indigo-600 leading-relaxed">
-                      <span className="font-black uppercase tracking-widest text-[9px] block mb-2 not-italic text-indigo-300">Comment Template</span>
+                      <span className="font-black uppercase tracking-widest text-[9px] block mb-2 not-italic text-indigo-300">{i18n.t("Comment Template")}</span>
                       "{selectedParam.auto_comment_template}"
                     </div>
                   )}
 
                   {selectedParam.critical_message && (
                     <div className="p-6 bg-red-50/50 rounded-2xl border border-red-100/50 italic text-[11px] text-red-600 leading-relaxed">
-                      <span className="font-black uppercase tracking-widest text-[9px] block mb-2 not-italic text-red-300">Critical Alert Message</span>
+                      <span className="font-black uppercase tracking-widest text-[9px] block mb-2 not-italic text-red-300">{i18n.t("Critical Alert Message")}</span>
                       "{selectedParam.critical_message}"
                     </div>
                   )}
@@ -1828,15 +1797,13 @@ const LabManagement: React.FC = () => {
 
             <div className="px-8 py-5 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between">
                <div className="flex items-center gap-2">
-                 <p className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Registered Date</p>
+                 <p className="text-[9px] font-black text-slate-300 uppercase tracking-widest">{i18n.t("Registered Date")}</p>
                  <p className="text-[10px] font-mono font-bold text-slate-400">{selectedParam.created_at}</p>
                </div>
                <button 
                  onClick={() => setIsDetailsModalOpen(false)}
                  className="px-6 py-2 bg-slate-800 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-900 transition-all shadow-lg shadow-slate-200"
-               >
-                 Close Details
-               </button>
+               >{i18n.t("Close Details")}</button>
             </div>
           </div>
         </div>

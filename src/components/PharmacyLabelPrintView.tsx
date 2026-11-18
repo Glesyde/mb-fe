@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { pharmacyService } from '../services/pharmacy.service';
 import { Loader2, AlertTriangle, Printer } from 'lucide-react';
+import { i18n } from "../i18n";
 
 const PharmacyLabelPrintView: React.FC = () => {
   const { dispensingId } = useParams<{ dispensingId: string }>();
@@ -48,7 +49,7 @@ const PharmacyLabelPrintView: React.FC = () => {
       <div className="flex items-center justify-center min-h-screen bg-slate-50">
         <div className="bg-white p-8 rounded-2xl shadow-xl text-center max-w-md">
           <AlertTriangle size={32} className="text-red-600 mx-auto mb-4" />
-          <p className="text-slate-500">{error || 'Data unavailable.'}</p>
+          <p className="text-slate-500">{error || i18n.t("Data unavailable.")}</p>
         </div>
       </div>
     );
@@ -161,87 +162,46 @@ const PharmacyLabelPrintView: React.FC = () => {
   return (
     <div className="bg-slate-100 min-h-screen w-full flex flex-col items-center justify-center print:bg-white print:h-auto print:block font-sans">
       <style>
-        {`
-          @media print {
-            @page { 
-              size: 50mm 25mm; 
-              margin: 0mm !important; 
-            }
-            html, body { 
-              width: 50mm !important; 
-              height: 25mm !important; 
-              margin: 0 !important;
-              padding: 0 !important;
-              overflow: hidden !important;
-              background: #fff !important;
-              -webkit-print-color-adjust: exact;
-              color-adjust: exact;
-            }
-            .no-print { 
-              display: none !important; 
-            }
-            .print-container { 
-              width: 50mm !important; 
-              height: 25mm !important; 
-              max-height: 25mm !important;
-              padding: 1.2mm 1.6mm !important;
-              margin: 0 !important;
-              border: none !important;
-              box-shadow: none !important;
-              box-sizing: border-box !important;
-              page-break-after: avoid !important;
-              page-break-inside: avoid !important;
-              overflow: hidden !important;
-            }
-            * { 
-              color: #000 !important; 
-              box-sizing: border-box !important;
-              text-align: left !important;
-            }
-          }
-        `}
+        {"@media print { @page { size: 50mm 25mm; margin: 0mm !important; } html, body { width: 50mm !important; height: 25mm !important; margin: 0 !important; padding: 0 !important; overflow: hidden !important; background: #fff !important; -webkit-print-color-adjust: exact; color-adjust: exact; } .no-print { display: none !important; } .print-container { width: 50mm !important; height: 25mm !important; max-height: 25mm !important; padding: 1.2mm 1.6mm !important; margin: 0 !important; border: none !important; box-shadow: none !important; box-sizing: border-box !important; page-break-after: avoid !important; page-break-inside: avoid !important; overflow: hidden !important; } * { color: #000 !important; box-sizing: border-box !important; text-align: left !important; } }"}
       </style>
 
       {/* Top Navbar */}
-      <div className="fixed top-0 left-0 right-0 h-16 bg-slate-900 text-white flex items-center justify-between px-8 no-print z-50 shadow-md">
-        <p className="font-bold text-sm">Pharmacy Label Preview</p>
+      <div className="fixed top-0 start-0 end-0 h-16 bg-slate-900 text-white flex items-center justify-between px-8 no-print z-50 shadow-md">
+        <p className="font-bold text-sm">{i18n.t("Pharmacy Label Preview")}</p>
         <button 
           onClick={() => window.print()} 
           className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center gap-2 transition-all"
         >
-          <Printer size={16} /> Print Now
-        </button>
+          <Printer size={16} />{" "}{i18n.t("Print Now")}</button>
       </div>
 
       {/* 50mm x 25mm Thermal Label Container */}
-      <div className="bg-white p-[1.5mm] w-[50mm] h-[25mm] max-h-[25mm] shadow-xl print-container mt-20 border border-dashed border-gray-400 flex flex-col justify-between overflow-hidden box-border text-left">
+      <div className="bg-white p-[1.5mm] w-[50mm] h-[25mm] max-h-[25mm] shadow-xl print-container mt-20 border border-dashed border-gray-400 flex flex-col justify-between overflow-hidden box-border text-start">
         
         {/* Upper Block: Medication & Conversational Directions */}
-        <div className="text-left">
+        <div className="text-start">
           {/* Drug Name & Strength: High-contrast, large text */}
-          <div className="font-black text-[9.5pt] leading-[1.05] uppercase border-b border-black pb-[0.3mm] mb-[0.4mm] break-words text-left">
+          <div className="font-black text-[9.5pt] leading-[1.05] uppercase border-b border-black pb-[0.3mm] mb-[0.4mm] break-words text-start">
             {fullDrugDisplay}
           </div>
 
           {/* Conversational Explanation */}
-          <div className="text-[8pt] font-extrabold leading-[1.1] text-black break-words text-left">
+          <div className="text-[8pt] font-extrabold leading-[1.1] text-black break-words text-start">
             {formatDirections()}
           </div>
         </div>
 
         {/* Lower Block: Left-Aligned Patient Metadata */}
-        <div className="mt-auto border-t border-black pt-[0.4mm] text-left">
-          <div className="text-[6.5pt] font-bold text-black leading-tight truncate text-left">
-            Patient: <span className="font-black">{patientName}</span>
+        <div className="mt-auto border-t border-black pt-[0.4mm] text-start">
+          <div className="text-[6.5pt] font-bold text-black leading-tight truncate text-start">{i18n.t("Patient:")}{" "}<span className="font-black">{patientName}</span>
           </div>
-          <div className="text-[5.5pt] font-semibold text-black leading-tight text-left">
-            {dispDate} &bull; Medbookie Ltd
-          </div>
+          <div className="text-[5.5pt] font-semibold text-black leading-tight text-start">
+            {dispDate}{" "}{i18n.t("• Medbookie Ltd")}</div>
         </div>
 
       </div>
 
-      <p className="text-center text-xs text-slate-400 mt-4 no-print">Preview (50mm x 25mm thermal label)</p>
+      <p className="text-center text-xs text-slate-400 mt-4 no-print">{i18n.t("Preview (50mm x 25mm thermal label)")}</p>
     </div>
   );
 };

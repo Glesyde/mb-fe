@@ -9,6 +9,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { i18n } from "../i18n";
 
 const NAV_TABS = [
   { to: "/admin/users/directory", label: "Staff Directory", icon: Users },
@@ -87,12 +88,8 @@ const UserManagementLayout: React.FC = () => {
           <h1 className="text-3xl font-black text-slate-800 tracking-tight flex items-center gap-3">
             <div className="p-2 bg-slate-800 text-white rounded-xl shadow-lg shadow-slate-200">
               <UserCog size={24} />
-            </div>
-            Staff & Security Governance
-          </h1>
-          <p className="text-slate-500 font-medium">
-            Provision access, manage roles and audit system-wide security logs.
-          </p>
+            </div>{i18n.t("Staff & Security Governance")}</h1>
+          <p className="text-slate-500 font-medium">{i18n.t("Provision access, manage roles and audit system-wide security logs.")}</p>
         </div>
       </div>
 
@@ -106,16 +103,16 @@ const UserManagementLayout: React.FC = () => {
                 type="button"
                 onClick={() => handleScroll("left")}
                 className="py-3 bg-white/10 hover:bg-white/20 active:scale-95 text-white/90 border border-white/15 backdrop-blur-md shadow-sm transition-all shrink-0 "
-                title="Scroll tabs left"
+                title={i18n.t("Scroll tabs left")}
               >
-                <ChevronLeft size={14} />
+                <ChevronLeft className="rtl:-scale-x-100" size={14} />
               </button>
             )}
 
             {/* Scrollable Tabs Track */}
             <nav
               ref={scrollContainerRef}
-              aria-label="User Management Sub-modules"
+              aria-label={i18n.t("User Management Sub-modules")}
               className="bg-white/10 backdrop-blur-md border border-white/15 p-1 flex items-center gap-1 overflow-x-auto scrollbar-hide shadow-inner scroll-smooth min-w-0 "
             >
               {NAV_TABS.map((tab) => {
@@ -134,7 +131,7 @@ const UserManagementLayout: React.FC = () => {
                     `}
                   >
                     <Icon size={14} className="shrink-0" />
-                    <span>{tab.label}</span>
+                    <span>{i18n.tx(tab.label)}</span>
                   </NavLink>
                 );
               })}
@@ -146,9 +143,9 @@ const UserManagementLayout: React.FC = () => {
                 type="button"
                 onClick={() => handleScroll("right")}
                 className="py-3 bg-white/10 hover:bg-white/20 active:scale-95 text-white/90 border border-white/15 backdrop-blur-md shadow-sm transition-all shrink-0 "
-                title="Scroll tabs right"
+                title={i18n.t("Scroll tabs right")}
               >
-                <ChevronRight size={14} />
+                <ChevronRight className="rtl:-scale-x-100" size={14} />
               </button>
             )}
           </div>,

@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { wardService } from '../services/ward.service';
 import { erdService } from '../services/erd.service';
 import SignaturePad from './SignaturePad';
+import { i18n } from "../i18n";
 
 interface NurseClearanceModalProps {
   isOpen: boolean;
@@ -115,9 +116,8 @@ const NurseClearanceModal: React.FC<NurseClearanceModalProps> = ({
               <ClipboardCheck size={24} />
             </div>
             <div>
-              <h2 className="text-xl font-black text-slate-800 tracking-tight">Nurse Clearance</h2>
-              <p className="text-xs text-emerald-600 font-bold uppercase tracking-widest mt-0.5">
-                Patient: {patientName}
+              <h2 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Nurse Clearance")}</h2>
+              <p className="text-xs text-emerald-600 font-bold uppercase tracking-widest mt-0.5">{i18n.t("Patient:")}{" "}{patientName}
               </p>
             </div>
           </div>
@@ -132,9 +132,7 @@ const NurseClearanceModal: React.FC<NurseClearanceModalProps> = ({
 
         <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-6 overflow-y-auto">
           <div>
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-2 block">
-              Clearance Checklist
-            </label>
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1 mb-2 block">{i18n.t("Clearance Checklist")}</label>
             <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3">
               {checklistItems.map(({ key, label }) => (
                 <label key={key} className="flex items-center gap-3 cursor-pointer group">
@@ -156,14 +154,12 @@ const NurseClearanceModal: React.FC<NurseClearanceModalProps> = ({
           </div>
 
           <div>
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-2 block">
-              Remarks / Notes
-            </label>
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1 mb-2 block">{i18n.t("Remarks / Notes")}</label>
             <textarea
               required
               value={remarks}
               onChange={(e) => setRemarks(e.target.value)}
-              placeholder="Add final nursing notes before clearance..."
+              placeholder={i18n.t("Add final nursing notes before clearance...")}
               className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-emerald-500 min-h-[100px] shadow-sm resize-none transition-all"
             />
           </div>
@@ -171,9 +167,7 @@ const NurseClearanceModal: React.FC<NurseClearanceModalProps> = ({
           {!isERD && (
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-2 block">
-                  Clearing Nurse — First Name
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1 mb-2 block">{i18n.t("Clearing Nurse — First Name")}</label>
                 <input
                   required
                   type="text"
@@ -183,9 +177,7 @@ const NurseClearanceModal: React.FC<NurseClearanceModalProps> = ({
                 />
               </div>
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-2 block">
-                  Clearing Nurse — Last Name
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1 mb-2 block">{i18n.t("Clearing Nurse — Last Name")}</label>
                 <input
                   required
                   type="text"
@@ -199,35 +191,29 @@ const NurseClearanceModal: React.FC<NurseClearanceModalProps> = ({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-2 block">
-                Patient / Relative Name
-              </label>
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1 mb-2 block">{i18n.t("Patient / Relative Name")}</label>
               <input
                 type="text"
                 value={patientRelativeName}
                 onChange={(e) => setPatientRelativeName(e.target.value)}
-                placeholder="e.g. John Doe (Brother)"
+                placeholder={i18n.t("e.g. John Doe (Brother)")}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-emerald-500 transition-all"
               />
             </div>
             <div>
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-2 block">
-                Patient / Relative ID Card
-              </label>
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1 mb-2 block">{i18n.t("Patient / Relative ID Card")}</label>
               <input
                 type="text"
                 value={patientIdCard}
                 onChange={(e) => setPatientIdCard(e.target.value)}
-                placeholder="e.g. NIN-987654321"
+                placeholder={i18n.t("e.g. NIN-987654321")}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-emerald-500 transition-all"
               />
             </div>
           </div>
 
           <div>
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-2 block">
-              Patient / Relative Signature
-            </label>
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1 mb-2 block">{i18n.t("Patient / Relative Signature")}</label>
             <div className="h-32 bg-slate-50 border border-dashed border-slate-300 rounded-2xl overflow-hidden">
               <SignaturePad onEnd={setPatientSignature} onClear={() => setPatientSignature('')} />
             </div>
@@ -235,35 +221,29 @@ const NurseClearanceModal: React.FC<NurseClearanceModalProps> = ({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-2 block">
-                Witness Name
-              </label>
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1 mb-2 block">{i18n.t("Witness Name")}</label>
               <input
                 type="text"
                 value={witnessName}
                 onChange={(e) => setWitnessName(e.target.value)}
-                placeholder="e.g. Jane Smith"
+                placeholder={i18n.t("e.g. Jane Smith")}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-emerald-500 transition-all"
               />
             </div>
             <div>
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-2 block">
-                Witness ID Card
-              </label>
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1 mb-2 block">{i18n.t("Witness ID Card")}</label>
               <input
                 type="text"
                 value={witnessIdCard}
                 onChange={(e) => setWitnessIdCard(e.target.value)}
-                placeholder="e.g. Staff-102"
+                placeholder={i18n.t("e.g. Staff-102")}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-emerald-500 transition-all"
               />
             </div>
           </div>
 
           <div>
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-2 block">
-              Witness Signature
-            </label>
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1 mb-2 block">{i18n.t("Witness Signature")}</label>
             <div className="h-32 bg-slate-50 border border-dashed border-slate-300 rounded-2xl overflow-hidden">
               <SignaturePad onEnd={setWitnessSignature} onClear={() => setWitnessSignature('')} />
             </div>
@@ -275,17 +255,13 @@ const NurseClearanceModal: React.FC<NurseClearanceModalProps> = ({
               onClick={onClose}
               disabled={loading}
               className="flex-1 px-4 py-3.5 bg-slate-100 text-slate-600 rounded-2xl text-sm font-black hover:bg-slate-200 transition-colors disabled:opacity-50 uppercase tracking-widest"
-            >
-              Cancel
-            </button>
+            >{i18n.t("Cancel")}</button>
             <button
               type="submit"
               disabled={loading}
               className="flex-1 px-4 py-3.5 bg-emerald-600 text-white rounded-2xl text-sm font-black hover:bg-emerald-700 transition-colors disabled:opacity-70 flex items-center justify-center gap-2 shadow-lg shadow-emerald-200 uppercase tracking-widest"
             >
-              {loading ? <Loader2 size={18} className="animate-spin" /> : <CheckCircle2 size={18} />}
-              Confirm Clearance
-            </button>
+              {loading ? <Loader2 size={18} className="animate-spin" /> : <CheckCircle2 size={18} />}{i18n.t("Confirm Clearance")}</button>
           </div>
         </form>
       </div>

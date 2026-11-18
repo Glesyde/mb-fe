@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Save, X, Activity, User, PenTool, History } from 'lucide-react';
 import { emrService } from '../services/emr.service';
 import apiClient from '../api/client';
+import { i18n } from "../i18n";
 
 interface AdmissionAssessmentFormProps {
   patient: any; 
@@ -224,7 +225,7 @@ const AdmissionAssessmentForm: React.FC<AdmissionAssessmentFormProps> = ({
       onClose();
     } catch (error) {
       console.error("Failed to save assessment", error);
-      alert("Failed to save assessment. Please check your connection and try again.");
+      alert(i18n.t("Failed to save assessment. Please check your connection and try again."));
     } finally {
       setIsSubmitting(false);
     }
@@ -244,17 +245,16 @@ const AdmissionAssessmentForm: React.FC<AdmissionAssessmentFormProps> = ({
               <Activity size={24} />
             </div>
             <div>
-              <h2 className="text-xl font-black text-slate-800 tracking-tight">Physical Assessment</h2>
+              <h2 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Physical Assessment")}</h2>
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded">Admission Form</span>
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded">{i18n.t("Admission Form")}</span>
                 {lastModified && (
                   <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded flex items-center gap-1">
-                    <History size={10}/> Last Edited: {new Date(lastModified).toLocaleString()}
+                    <History size={10}/>{" "}{i18n.t("Last Edited:")}{" "}{new Date(lastModified).toLocaleString()}
                   </span>
                 )}
                 {nurseDetails && (
-                  <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">
-                    Admitting Nurse: {nurseDetails.first} {nurseDetails.last}
+                  <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">{i18n.t("Admitting Nurse:")}{" "}{nurseDetails.first} {nurseDetails.last}
                   </span>
                 )}
               </div>
@@ -276,7 +276,7 @@ const AdmissionAssessmentForm: React.FC<AdmissionAssessmentFormProps> = ({
               <div className="flex items-center gap-3 text-xs font-medium text-slate-400 mt-1">
                 <span className="text-brand-primary font-mono">{patient.mrn}</span>
                 {patient.display_age && <span>{patient.display_age}</span>}
-                {patient.gender && <span>{patient.gender}</span>}
+                {patient.gender && <span>{i18n.tv(patient.gender)}</span>}
               </div>
             </div>
           </div>
@@ -289,13 +289,11 @@ const AdmissionAssessmentForm: React.FC<AdmissionAssessmentFormProps> = ({
             {/* 1. Condition on Admission */}
             <section className="space-y-4 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
               <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-3 border-b border-slate-100 pb-3">
-                <span className="w-6 h-6 bg-slate-100 text-slate-500 rounded-md flex items-center justify-center text-xs">1</span>
-                Condition on Admission
-              </h3>
+                <span className="w-6 h-6 bg-slate-100 text-slate-500 rounded-md flex items-center justify-center text-xs">1</span>{i18n.t("Condition on Admission")}</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
                 <div className="space-y-3">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">General Condition</label>
+                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">{i18n.t("General Condition")}</label>
                   <div className="flex flex-col gap-2.5">
                     {['Stable', 'Fair', 'Serious', 'Critical'].map(opt => (
                       <label key={opt} className="flex items-center gap-3 text-sm font-medium text-slate-700 cursor-pointer group">
@@ -307,7 +305,7 @@ const AdmissionAssessmentForm: React.FC<AdmissionAssessmentFormProps> = ({
                 </div>
 
                 <div className="space-y-3">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Consciousness</label>
+                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">{i18n.t("Consciousness")}</label>
                   <div className="flex flex-col gap-2.5">
                     {['Alert', 'Confused', 'Drowsy', 'Unconscious'].map(opt => (
                       <label key={opt} className="flex items-center gap-3 text-sm font-medium text-slate-700 cursor-pointer group">
@@ -319,7 +317,7 @@ const AdmissionAssessmentForm: React.FC<AdmissionAssessmentFormProps> = ({
                 </div>
 
                 <div className="space-y-3">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Mobility</label>
+                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">{i18n.t("Mobility")}</label>
                   <div className="flex flex-col gap-2.5">
                     {['Mobile', 'Requires Assistance', 'Wheelchair', 'Bedbound'].map(opt => (
                       <label key={opt} className="flex items-center gap-3 text-sm font-medium text-slate-700 cursor-pointer group">
@@ -333,7 +331,7 @@ const AdmissionAssessmentForm: React.FC<AdmissionAssessmentFormProps> = ({
 
               {/* Skin Findings */}
               <div className="mt-6 p-5 bg-slate-50 rounded-xl border border-slate-100">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 block">Skin/Physical Findings</label>
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 block">{i18n.t("Skin/Physical Findings")}</label>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-3">
                   {['Skin Intact', 'Pressure Injury/Bed Sore', 'Wound', 'Bruising', 'Rash/Skin Lesion', 'Swelling'].map(opt => (
                     <label key={opt} className="flex items-center gap-3 text-sm font-medium text-slate-700 cursor-pointer group">
@@ -353,14 +351,14 @@ const AdmissionAssessmentForm: React.FC<AdmissionAssessmentFormProps> = ({
                       onChange={() => handleCheckboxArray('skin_findings', 'Other')}
                       className="w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500"
                     />
-                    <span className="group-hover:text-blue-600 transition-colors">Other</span>
+                    <span className="group-hover:text-blue-600 transition-colors">{i18n.t("Other")}</span>
                   </label>
                 </div>
                 {formData.skin_findings.includes('Other') && (
                   <input 
                     type="text" 
                     name="skin_findings_other" 
-                    placeholder="Please specify..."
+                    placeholder={i18n.t("Please specify...")}
                     value={formData.skin_findings_other}
                     onChange={handleChange}
                     className="mt-4 w-full px-4 py-2.5 bg-white border border-slate-200 rounded-lg text-sm font-medium outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-50 transition-all shadow-sm" 
@@ -372,13 +370,11 @@ const AdmissionAssessmentForm: React.FC<AdmissionAssessmentFormProps> = ({
             {/* 2. Pre-Existing Wound */}
             <section className="space-y-4 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
               <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-3 border-b border-slate-100 pb-3">
-                <span className="w-6 h-6 bg-slate-100 text-slate-500 rounded-md flex items-center justify-center text-xs">2</span>
-                Pre-Existing Wound / Pressure Injury
-              </h3>
+                <span className="w-6 h-6 bg-slate-100 text-slate-500 rounded-md flex items-center justify-center text-xs">2</span>{i18n.t("Pre-Existing Wound / Pressure Injury")}</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
-                <div className="md:col-span-1 border-r border-slate-100 pr-6">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 block">Present on admission?</label>
+                <div className="md:col-span-1 border-e border-slate-100 pe-6">
+                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 block">{i18n.t("Present on admission?")}</label>
                   <div className="flex flex-col gap-3">
                     {['Yes', 'No', 'Unknown'].map(opt => (
                       <label key={opt} className="flex items-center gap-3 text-sm font-medium text-slate-700 cursor-pointer group">
@@ -393,18 +389,18 @@ const AdmissionAssessmentForm: React.FC<AdmissionAssessmentFormProps> = ({
                   {formData.wound_present === 'Yes' && (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">Wound Site</label>
-                        <input type="text" name="wound_site" value={formData.wound_site} onChange={handleChange} placeholder="e.g. Lower back" className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium outline-none focus:bg-white focus:border-blue-500 transition-all" />
+                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">{i18n.t("Wound Site")}</label>
+                        <input type="text" name="wound_site" value={formData.wound_site} onChange={handleChange} placeholder={i18n.t("e.g. Lower back")} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium outline-none focus:bg-white focus:border-blue-500 transition-all" />
                       </div>
                       <div>
-                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">Description/Size</label>
-                        <input type="text" name="wound_description" value={formData.wound_description} onChange={handleChange} placeholder="e.g. 5cm diameter, grade 2" className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium outline-none focus:bg-white focus:border-blue-500 transition-all" />
+                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">{i18n.t("Description/Size")}</label>
+                        <input type="text" name="wound_description" value={formData.wound_description} onChange={handleChange} placeholder={i18n.t("e.g. 5cm diameter, grade 2")} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium outline-none focus:bg-white focus:border-blue-500 transition-all" />
                       </div>
                     </div>
                   )}
                   <div>
-                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">Other significant physical findings</label>
-                    <textarea name="other_findings" value={formData.other_findings} onChange={handleChange} placeholder="Record any additional observations..." rows={2} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium outline-none focus:bg-white focus:border-blue-500 transition-all resize-none" />
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">{i18n.t("Other significant physical findings")}</label>
+                    <textarea name="other_findings" value={formData.other_findings} onChange={handleChange} placeholder={i18n.t("Record any additional observations...")} rows={2} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium outline-none focus:bg-white focus:border-blue-500 transition-all resize-none" />
                   </div>
                 </div>
               </div>
@@ -413,9 +409,7 @@ const AdmissionAssessmentForm: React.FC<AdmissionAssessmentFormProps> = ({
             {/* 3. Initial Action Taken */}
             <section className="space-y-4 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
               <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-3 border-b border-slate-100 pb-3">
-                <span className="w-6 h-6 bg-slate-100 text-slate-500 rounded-md flex items-center justify-center text-xs">3</span>
-                Initial Action Taken
-              </h3>
+                <span className="w-6 h-6 bg-slate-100 text-slate-500 rounded-md flex items-center justify-center text-xs">3</span>{i18n.t("Initial Action Taken")}</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6 pt-2">
                 {['Documented in Nursing Notes', 'Doctor/Medical Team Informed', 'Wound Care Commenced'].map(opt => (
                   <label key={opt} className="flex items-center gap-3 text-sm font-medium text-slate-700 cursor-pointer group">
@@ -436,10 +430,10 @@ const AdmissionAssessmentForm: React.FC<AdmissionAssessmentFormProps> = ({
                       onChange={() => handleCheckboxArray('initial_actions', 'Other')}
                       className="w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500"
                     />
-                    <span className="group-hover:text-blue-600 transition-colors">Other:</span>
+                    <span className="group-hover:text-blue-600 transition-colors">{i18n.t("Other:")}</span>
                   </label>
                   {formData.initial_actions.includes('Other') && (
-                    <input type="text" name="initial_actions_other" value={formData.initial_actions_other} onChange={handleChange} placeholder="Specify action..." className="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded text-sm font-medium outline-none focus:bg-white focus:border-blue-500 transition-all" />
+                    <input type="text" name="initial_actions_other" value={formData.initial_actions_other} onChange={handleChange} placeholder={i18n.t("Specify action...")} className="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded text-sm font-medium outline-none focus:bg-white focus:border-blue-500 transition-all" />
                   )}
                 </div>
               </div>
@@ -448,17 +442,15 @@ const AdmissionAssessmentForm: React.FC<AdmissionAssessmentFormProps> = ({
             {/* 4. Acknowledgement & Signature */}
             <section className="bg-amber-50/50 p-6 rounded-2xl border border-amber-200">
               <h3 className="text-sm font-black text-amber-900 uppercase tracking-widest flex items-center gap-3 border-b border-amber-200/60 pb-3">
-                <div className="p-1 bg-amber-100 rounded text-amber-600"><User size={16} /></div>
-                Patient/Relative Acknowledgement
-              </h3>
+                <div className="p-1 bg-amber-100 rounded text-amber-600"><User size={16} /></div>{i18n.t("Patient/Relative Acknowledgement")}</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                 <div>
-                  <label className="text-[11px] font-black text-amber-700 uppercase tracking-widest mb-1.5 block">Patient/Relative Name</label>
+                  <label className="text-[11px] font-black text-amber-700 uppercase tracking-widest mb-1.5 block">{i18n.t("Patient/Relative Name")}</label>
                   <input type="text" name="ack_name" required value={formData.ack_name} onChange={handleChange} className="w-full px-4 py-2.5 border border-amber-200 rounded-xl text-sm font-bold bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20" />
                 </div>
                 <div>
-                  <label className="text-[11px] font-black text-amber-700 uppercase tracking-widest mb-1.5 block">Relationship (if relative)</label>
+                  <label className="text-[11px] font-black text-amber-700 uppercase tracking-widest mb-1.5 block">{i18n.t("Relationship (if relative)")}</label>
                   <input type="text" name="ack_relationship" value={formData.ack_relationship} onChange={handleChange} className="w-full px-4 py-2.5 border border-amber-200 rounded-xl text-sm font-bold bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20" />
                 </div>
               </div>
@@ -467,22 +459,21 @@ const AdmissionAssessmentForm: React.FC<AdmissionAssessmentFormProps> = ({
               <div className="mt-6">
                 <div className="flex flex-wrap items-end justify-between mb-2 gap-4">
                   <div>
-                    <label className="text-[11px] font-black text-amber-700 uppercase tracking-widest block">Signature / Thumbprint</label>
+                    <label className="text-[11px] font-black text-amber-700 uppercase tracking-widest block">{i18n.t("Signature / Thumbprint")}</label>
                   </div>
                   <button type="button" onClick={clearSignature} className="px-3 py-1.5 bg-white border border-amber-200 text-amber-700 hover:bg-amber-100 rounded text-[10px] uppercase font-bold flex items-center gap-1.5 transition-colors shadow-sm">
-                    <PenTool size={12}/> Clear Canvas
-                  </button>
+                    <PenTool size={12}/>{" "}{i18n.t("Clear Canvas")}</button>
                 </div>
                 
                 {/* Existing Signature Preview */}
                 {formData.ack_signature && !formData.ack_signature.startsWith('data:') && (
                   <div className="mb-4 p-4 border border-amber-200 rounded-xl bg-white shadow-sm flex items-center justify-between">
                     <div>
-                      <p className="text-[10px] font-black text-amber-700 uppercase tracking-widest mb-2">Previous Signature Record</p>
+                      <p className="text-[10px] font-black text-amber-700 uppercase tracking-widest mb-2">{i18n.t("Previous Signature Record")}</p>
                       <div className="bg-slate-50 border border-slate-100 rounded-lg p-2 inline-block">
                         <img 
                           src={getSignatureUrl(formData.ack_signature)} 
-                          alt="Patient Signature" 
+                          alt={i18n.t("Patient Signature")} 
                           className="h-16 max-w-full object-contain"
                           onError={(e) => {
                             console.error("Signature image failed to load from:", e.currentTarget.src);
@@ -508,7 +499,7 @@ const AdmissionAssessmentForm: React.FC<AdmissionAssessmentFormProps> = ({
                     onTouchEnd={endDrawing}
                   />
                 </div>
-                <span className="text-[10px] text-amber-600 font-medium mt-1 block italic text-center">Draw inside the box above to provide or update signature</span>
+                <span className="text-[10px] text-amber-600 font-medium mt-1 block italic text-center">{i18n.t("Draw inside the box above to provide or update signature")}</span>
               </div>
             </section>
 
@@ -521,16 +512,14 @@ const AdmissionAssessmentForm: React.FC<AdmissionAssessmentFormProps> = ({
             type="button" 
             onClick={onClose}
             className="px-6 py-2.5 text-sm font-bold text-slate-500 hover:bg-slate-100 hover:text-slate-700 rounded-xl transition-colors border border-transparent"
-          >
-            Cancel
-          </button>
+          >{i18n.t("Cancel")}</button>
           <button 
             type="submit" 
             form="assessment-form"
             disabled={isSubmitting}
             className="px-8 py-2.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center gap-2"
           >
-            {isSubmitting ? 'Saving...' : (lastModified ? 'Amend Form' : 'Save & Sign Form')}
+            {isSubmitting ? i18n.t("Saving...") : (lastModified ? i18n.t("Amend Form") : i18n.t("Save & Sign Form"))}
             {!isSubmitting && <Save size={16} />}
           </button>
         </div>

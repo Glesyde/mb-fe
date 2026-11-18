@@ -2,7 +2,8 @@ import React, { useEffect, useState, useMemo, useRef, memo, useCallback } from "
 import { X, Plus, Trash2, Save, FileText, Activity, Droplets, FlaskConical, Stethoscope, Loader2, Monitor, Maximize2, Minimize2, Minus } from "lucide-react";
 import { useNotification } from "../../context/NotificationContext";
 import SignaturePad from "./../SignaturePad"; 
-import apiClient from "../../api/client"; 
+import apiClient from "../../api/client";
+import { i18n } from "../../i18n"; 
 
 // ─── TYPES ─────────────────────────────────────────────────────────────
 interface RenalDialysisModalProps {
@@ -125,7 +126,7 @@ const RenalDialysisTreatmentChartModal: React.FC<RenalDialysisModalProps> = ({ i
   };
 
   const handleClose = () => {
-    if (isDirty && !window.confirm("You have unsaved changes. Are you sure you want to close?")) return;
+    if (isDirty && !window.confirm(i18n.t("You have unsaved changes. Are you sure you want to close?"))) return;
     onClose();
   };
 
@@ -294,25 +295,23 @@ const RenalDialysisTreatmentChartModal: React.FC<RenalDialysisModalProps> = ({ i
         {/* Header */}
         <div className="bg-[#2A157c] px-6 py-4 flex justify-between items-center shrink-0">
             <div className="relative w-[100px] h-[100px] flex items-center">
-               <img src="/assets/logo-nobg.png" alt="Logo" width={100} height={100} />
+               <img src="/assets/logo-nobg.png" alt={i18n.t("Logo")} width={100} height={100} />
             </div>
           <div>
             <h2 className="text-white font-black text-xl flex items-center gap-2">
-              <Droplets /> HAEMODIALYSIS / HDF TREATMENT CHART
-              {loading && <Loader2 size={16} className="animate-spin text-white ml-2" />}
+              <Droplets />{" "}{i18n.t("HAEMODIALYSIS / HDF TREATMENT CHART")}{loading && <Loader2 size={16} className="animate-spin text-white ms-2" />}
             </h2>
-            <p className="text-blue-100 text-xs mt-1 font-medium">Renal Dialysis Unit • Fresenius 5008 / 5008S CorDiax</p>
-            <p className="text-blue-200 text-xs mt-0.5">GSH-REN-003 • {patient?.name} • Hosp No: {patient?.mrn} • {new Date().toLocaleDateString()}</p>
+            <p className="text-blue-100 text-xs mt-1 font-medium">{i18n.t("Renal Dialysis Unit • Fresenius 5008 / 5008S CorDiax")}</p>
+            <p className="text-blue-200 text-xs mt-0.5">{i18n.t("GSH-REN-003 •")}{" "}{patient?.name}{" "}{i18n.t("• Hosp No:")}{" "}{patient?.mrn} • {new Date().toLocaleDateString()}</p>
           </div>
           <div className="flex items-center gap-3">
             <button onClick={handleSave} disabled={saving || (!isDirty && !loading)} className="bg-white text-[#0b5394] disabled:opacity-50 hover:bg-slate-100 px-6 py-2 rounded-lg font-bold flex items-center gap-2 shadow-md transition-colors">
-              {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />} Save Record
-            </button>
+              {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}{" "}{i18n.t("Save Record")}</button>
             <div className="h-8 w-px bg-blue-800 mx-1"></div>
-            <button onClick={toggleFullscreen} className="p-2 text-indigo-200 hover:text-white rounded transition-colors" title="Toggle Fullscreen">
+            <button onClick={toggleFullscreen} className="p-2 text-indigo-200 hover:text-white rounded transition-colors" title={i18n.t("Toggle Fullscreen")}>
               {isFullscreen ? <Minimize2 size={24} /> : <Maximize2 size={24} />}
             </button>
-            <button onClick={handleClose} className="p-2 text-indigo-200 hover:text-white rounded transition-colors" title="Close">
+            <button onClick={handleClose} className="p-2 text-indigo-200 hover:text-white rounded transition-colors" title={i18n.t("Close")}>
               <X size={24} />
             </button>
           </div>
@@ -320,7 +319,7 @@ const RenalDialysisTreatmentChartModal: React.FC<RenalDialysisModalProps> = ({ i
 
         <div className="flex flex-1 overflow-hidden bg-white">
           {/* Sidebar */}
-          <div className="w-56 bg-slate-50 border-r border-slate-200 p-3 space-y-1 overflow-y-auto shrink-0">
+          <div className="w-56 bg-slate-50 border-e border-slate-200 p-3 space-y-1 overflow-y-auto shrink-0">
             {[
               { id: "prescription", icon: FileText, label: "Patient & Prescription" },
               { id: "grid", icon: Activity, label: "Intra-Dialytic Monitoring" },
@@ -328,8 +327,8 @@ const RenalDialysisTreatmentChartModal: React.FC<RenalDialysisModalProps> = ({ i
               { id: "bloods", icon: FlaskConical, label: "Pre/Post Bloods" },
               { id: "summary", icon: Stethoscope, label: "Adequacy & Sign-off" }
             ].map((tab: any) => (
-              <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`w-full text-left px-3 py-3 rounded-xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === tab.id ? "bg-indigo-100 text-indigo-900 border border-indigo-200" : "text-slate-600 hover:bg-white"}`}>
-                <tab.icon size={16}/> {tab.label}
+              <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`w-full text-start px-3 py-3 rounded-xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === tab.id ? "bg-indigo-100 text-indigo-900 border border-indigo-200" : "text-slate-600 hover:bg-white"}`}>
+                <tab.icon size={16}/> {i18n.tx(tab.label)}
               </button>
             ))}
           </div>
@@ -340,43 +339,43 @@ const RenalDialysisTreatmentChartModal: React.FC<RenalDialysisModalProps> = ({ i
             {activeTab === "prescription" && (
               <div className="space-y-6 max-w-5xl">
                 <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 grid grid-cols-3 gap-4">
-                  <h4 className="col-span-3 text-sm font-black text-slate-800 uppercase border-b pb-2 mb-2">PATIENT DETAILS</h4>
-                  <FormInput label="Diagnosis" value={masterData.patient_details.diagnosis} onChange={(v:any) => updateNested("patient_details", "diagnosis", v)} />
-                  <FormInput label="Dialysis No." value={masterData.patient_details.dialysis_no} onChange={(v:any) => updateNested("patient_details", "dialysis_no", v)} />
-                  <FormInput label="Session (wk)" value={masterData.patient_details.session_wk} onChange={(v:any) => updateNested("patient_details", "session_wk", v)} />
-                  <FormSelect label="Modality" value={masterData.patient_details.modality} options={["HD", "HDF"]} onChange={(v:any) => updateNested("patient_details", "modality", v)} />
-                  <FormInput label="Dialyser type" value={masterData.patient_details.dialyser_type} onChange={(v:any) => updateNested("patient_details", "dialyser_type", v)} />
-                  <FormInput label="Access type" value={masterData.patient_details.access_type} onChange={(v:any) => updateNested("patient_details", "access_type", v)} />
-                  <FormInput label="BBV status" value={masterData.patient_details.bbv_status} bold className="text-red-600" onChange={(v:any) => updateNested("patient_details", "bbv_status", v)} />
-                  <FormInput label="Machine No." value={masterData.patient_details.machine_no} onChange={(v:any) => updateNested("patient_details", "machine_no", v)} />
-                  <FormSelect label="AutoFlow" value={masterData.patient_details.autoflow} options={["No", "Yes"]} onChange={(v:any) => updateNested("patient_details", "autoflow", v)} />
+                  <h4 className="col-span-3 text-sm font-black text-slate-800 uppercase border-b pb-2 mb-2">{i18n.t("PATIENT DETAILS")}</h4>
+                  <FormInput label={i18n.t("Diagnosis")} value={masterData.patient_details.diagnosis} onChange={(v:any) => updateNested("patient_details", "diagnosis", v)} />
+                  <FormInput label={i18n.t("Dialysis No.")} value={masterData.patient_details.dialysis_no} onChange={(v:any) => updateNested("patient_details", "dialysis_no", v)} />
+                  <FormInput label={i18n.t("Session (wk)")} value={masterData.patient_details.session_wk} onChange={(v:any) => updateNested("patient_details", "session_wk", v)} />
+                  <FormSelect label={i18n.t("Modality")} value={masterData.patient_details.modality} options={["HD", "HDF"]} onChange={(v:any) => updateNested("patient_details", "modality", v)} />
+                  <FormInput label={i18n.t("Dialyser type")} value={masterData.patient_details.dialyser_type} onChange={(v:any) => updateNested("patient_details", "dialyser_type", v)} />
+                  <FormInput label={i18n.t("Access type")} value={masterData.patient_details.access_type} onChange={(v:any) => updateNested("patient_details", "access_type", v)} />
+                  <FormInput label={i18n.t("BBV status")} value={masterData.patient_details.bbv_status} bold className="text-red-600" onChange={(v:any) => updateNested("patient_details", "bbv_status", v)} />
+                  <FormInput label={i18n.t("Machine No.")} value={masterData.patient_details.machine_no} onChange={(v:any) => updateNested("patient_details", "machine_no", v)} />
+                  <FormSelect label={i18n.t("AutoFlow")} value={masterData.patient_details.autoflow} options={["No", "Yes"]} onChange={(v:any) => updateNested("patient_details", "autoflow", v)} />
                 </div>
 
                 <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 grid grid-cols-3 gap-4">
-                  <h4 className="col-span-3 text-sm font-black text-slate-800 uppercase border-b pb-2 mb-2">DIALYSIS PRESCRIPTION (FRESENIUS 5008)</h4>
-                  <FormInput label="Blood flow Qb (mL/min)" value={masterData.prescription.qb} onChange={(v:any) => updateNested("prescription", "qb", v)} />
-                  <FormInput label="Dialysate flow Qd (mL/min)" value={masterData.prescription.qd} onChange={(v:any) => updateNested("prescription", "qd", v)} />
-                  <FormInput label="Treatment duration" value={masterData.prescription.duration} onChange={(v:any) => updateNested("prescription", "duration", v)} />
+                  <h4 className="col-span-3 text-sm font-black text-slate-800 uppercase border-b pb-2 mb-2">{i18n.t("DIALYSIS PRESCRIPTION (FRESENIUS 5008)")}</h4>
+                  <FormInput label={i18n.t("Blood flow Qb (mL/min)")} value={masterData.prescription.qb} onChange={(v:any) => updateNested("prescription", "qb", v)} />
+                  <FormInput label={i18n.t("Dialysate flow Qd (mL/min)")} value={masterData.prescription.qd} onChange={(v:any) => updateNested("prescription", "qd", v)} />
+                  <FormInput label={i18n.t("Treatment duration")} value={masterData.prescription.duration} onChange={(v:any) => updateNested("prescription", "duration", v)} />
                   
-                  <FormInput label="Concentrate / K+ / Ca2+" value={masterData.prescription.concentrate} onChange={(v:any) => updateNested("prescription", "concentrate", v)} />
-                  <FormInput label="Bicarbonate" value={masterData.prescription.bicarbonate} onChange={(v:any) => updateNested("prescription", "bicarbonate", v)} />
-                  <FormInput label="Dialysate temp °C" value={masterData.prescription.temp} onChange={(v:any) => updateNested("prescription", "temp", v)} />
+                  <FormInput label={i18n.t("Concentrate / K+ / Ca2+")} value={masterData.prescription.concentrate} onChange={(v:any) => updateNested("prescription", "concentrate", v)} />
+                  <FormInput label={i18n.t("Bicarbonate")} value={masterData.prescription.bicarbonate} onChange={(v:any) => updateNested("prescription", "bicarbonate", v)} />
+                  <FormInput label={i18n.t("Dialysate temp °C")} value={masterData.prescription.temp} onChange={(v:any) => updateNested("prescription", "temp", v)} />
                   
-                  <FormInput label="Target / dry weight (kg)" value={masterData.prescription.dry_weight} bold onChange={(v:any) => updateNested("prescription", "dry_weight", v)} />
-                  <FormInput label="UF goal (L)" value={masterData.prescription.uf_goal} onChange={(v:any) => updateNested("prescription", "uf_goal", v)} />
-                  <FormInput label="Max UF rate (mL/kg/h)" value={masterData.prescription.max_uf_rate} onChange={(v:any) => updateNested("prescription", "max_uf_rate", v)} />
+                  <FormInput label={i18n.t("Target / dry weight (kg)")} value={masterData.prescription.dry_weight} bold onChange={(v:any) => updateNested("prescription", "dry_weight", v)} />
+                  <FormInput label={i18n.t("UF goal (L)")} value={masterData.prescription.uf_goal} onChange={(v:any) => updateNested("prescription", "uf_goal", v)} />
+                  <FormInput label={i18n.t("Max UF rate (mL/kg/h)")} value={masterData.prescription.max_uf_rate} onChange={(v:any) => updateNested("prescription", "max_uf_rate", v)} />
 
-                  <FormInput label="Anticoagulant / loading" value={masterData.prescription.anticoagulant} onChange={(v:any) => updateNested("prescription", "anticoagulant", v)} />
-                  <FormInput label="Maintenance dose" value={masterData.prescription.maintenance_dose} onChange={(v:any) => updateNested("prescription", "maintenance_dose", v)} />
-                  <FormSelect label="Heparin-free?" value={masterData.prescription.heparin_free} options={["No", "Yes"]} onChange={(v:any) => updateNested("prescription", "heparin_free", v)} />
+                  <FormInput label={i18n.t("Anticoagulant / loading")} value={masterData.prescription.anticoagulant} onChange={(v:any) => updateNested("prescription", "anticoagulant", v)} />
+                  <FormInput label={i18n.t("Maintenance dose")} value={masterData.prescription.maintenance_dose} onChange={(v:any) => updateNested("prescription", "maintenance_dose", v)} />
+                  <FormSelect label={i18n.t("Heparin-free?")} value={masterData.prescription.heparin_free} options={["No", "Yes"]} onChange={(v:any) => updateNested("prescription", "heparin_free", v)} />
                   
-                  <FormInput label="HDF post-dilution AutoSub+" value={masterData.prescription.hdf_postdilution} onChange={(v:any) => updateNested("prescription", "hdf_postdilution", v)} />
-                  <FormInput label="HDF conv. vol target (L)" value={masterData.prescription.hdf_conv_target} onChange={(v:any) => updateNested("prescription", "hdf_conv_target", v)} />
-                  <FormInput label="Na / UF profile" value={masterData.prescription.na_uf_profile} onChange={(v:any) => updateNested("prescription", "na_uf_profile", v)} />
+                  <FormInput label={i18n.t("HDF post-dilution AutoSub+")} value={masterData.prescription.hdf_postdilution} onChange={(v:any) => updateNested("prescription", "hdf_postdilution", v)} />
+                  <FormInput label={i18n.t("HDF conv. vol target (L)")} value={masterData.prescription.hdf_conv_target} onChange={(v:any) => updateNested("prescription", "hdf_conv_target", v)} />
+                  <FormInput label={i18n.t("Na / UF profile")} value={masterData.prescription.na_uf_profile} onChange={(v:any) => updateNested("prescription", "na_uf_profile", v)} />
                 </div>
 
                 <div className="bg-amber-50 p-6 rounded-2xl shadow-sm border border-amber-200">
-                  <h4 className="text-sm font-black text-amber-900 uppercase border-b border-amber-200 pb-2 mb-4">PRE-DIALYSIS SAFETY CHECKLIST</h4>
+                  <h4 className="text-sm font-black text-amber-900 uppercase border-b border-amber-200 pb-2 mb-4">{i18n.t("PRE-DIALYSIS SAFETY CHECKLIST")}</h4>
                   <div className="grid grid-cols-2 gap-3">
                     {[
                       { key: "pt_id", label: "Patient identity confirmed (2 IDs)" },
@@ -390,7 +389,7 @@ const RenalDialysisTreatmentChartModal: React.FC<RenalDialysisModalProps> = ({ i
                       { key: "ultrapure", label: "Ultrapure status OK (required for HDF)" },
                       { key: "autosub", label: "AutoSub plus enabled (HDF)" }
                     ].map(chk => (
-                      <CheckboxItem key={chk.key} label={chk.label} checked={masterData.safety_checklist[chk.key]} onChange={(c: boolean) => updateNested("safety_checklist", chk.key, c)} />
+                      <CheckboxItem key={chk.key} label={i18n.tx(chk.label)} checked={masterData.safety_checklist[chk.key]} onChange={(c: boolean) => updateNested("safety_checklist", chk.key, c)} />
                     ))}
                   </div>
                 </div>
@@ -402,30 +401,30 @@ const RenalDialysisTreatmentChartModal: React.FC<RenalDialysisModalProps> = ({ i
               <div className="h-full flex flex-col bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                 <div className="bg-slate-50 px-4 py-3 border-b border-slate-200 flex justify-between items-center shrink-0">
                   <div>
-                    <h4 className="font-bold text-slate-800 text-sm">INTRA-DIALYTIC MONITORING</h4>
-                    <p className="text-[10px] font-bold text-slate-500 uppercase">(RECORD AT LEAST EVERY 30 MIN — CONFIRM AUTOSUB PLUS + VAM ACTIVE FOR HDF)</p>
+                    <h4 className="font-bold text-slate-800 text-sm">{i18n.t("INTRA-DIALYTIC MONITORING")}</h4>
+                    <p className="text-[10px] font-bold text-slate-500 uppercase">{i18n.t("(RECORD AT LEAST EVERY 30 MIN — CONFIRM AUTOSUB PLUS + VAM ACTIVE FOR HDF)")}</p>
                   </div>
                   <div className="flex gap-2">
-                     <button onClick={handleRemoveTimeColumn} disabled={timeColumns.length === 0} className="bg-red-50 text-red-600 px-3 py-1.5 border border-red-200 rounded text-xs font-bold flex items-center gap-1 hover:bg-red-100 disabled:opacity-50 transition-colors"><Minus size={14}/> Remove Last</button>
-                     <button onClick={handleAddTimeColumn} className="bg-brand-primary text-white px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1 hover:bg-brand-active transition-colors"><Plus size={14}/> Add Time</button>
+                     <button onClick={handleRemoveTimeColumn} disabled={timeColumns.length === 0} className="bg-red-50 text-red-600 px-3 py-1.5 border border-red-200 rounded text-xs font-bold flex items-center gap-1 hover:bg-red-100 disabled:opacity-50 transition-colors"><Minus size={14}/>{" "}{i18n.t("Remove Last")}</button>
+                     <button onClick={handleAddTimeColumn} className="bg-brand-primary text-white px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1 hover:bg-brand-active transition-colors"><Plus size={14}/>{" "}{i18n.t("Add Time")}</button>
                   </div>
                 </div>
                 <div className="flex-1 overflow-auto p-0">
                   <table className="w-full min-w-max border-collapse">
                     <thead className="bg-[#1e1b4b] text-white sticky top-0 z-10">
                       <tr>
-                        <th className="px-3 py-2 text-left text-xs w-48 border-r border-[#312e81]">Time</th>
-                        {timeColumns.map(t => <th key={t} className="px-2 py-2 text-center text-xs border-r border-[#312e81]">{t}</th>)}
+                        <th className="px-3 py-2 text-start text-xs w-48 border-e border-[#312e81]">{i18n.t("Time")}</th>
+                        {timeColumns.map(t => <th key={t} className="px-2 py-2 text-center text-xs border-e border-[#312e81]">{t}</th>)}
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
                       {GRID_PARAMS.map(param => (
                         <tr key={param.id} className="hover:bg-slate-50 transition-colors">
-                          <td className="px-3 py-1.5 text-xs font-bold text-slate-700 border-r border-slate-200 sticky left-0 bg-white shadow-sm">
-                            {param.label} {param.unit && <span className="font-normal text-[9px] text-slate-400">({param.unit})</span>}
+                          <td className="px-3 py-1.5 text-xs font-bold text-slate-700 border-e border-slate-200 sticky start-0 bg-white shadow-sm">
+                            {i18n.tx(param.label)} {param.unit && <span className="font-normal text-[9px] text-slate-400">({param.unit})</span>}
                           </td>
                           {timeColumns.map(tKey => (
-                            <td key={`${param.id}-${tKey}`} className="p-0 border-r border-slate-200 relative">
+                            <td key={`${param.id}-${tKey}`} className="p-0 border-e border-slate-200 relative">
                               <input type="text" className="w-full h-full min-h-[36px] text-center text-xs outline-none focus:bg-indigo-50 focus:ring-1 focus:ring-indigo-300 absolute inset-0 font-medium text-slate-800" 
                                 value={gridData[tKey]?.[param.id] || ""} onChange={e => handleCellChange(tKey, param.id, e.target.value)} />
                             </td>
@@ -441,20 +440,20 @@ const RenalDialysisTreatmentChartModal: React.FC<RenalDialysisModalProps> = ({ i
             {/* 3. MACHINE TAB */}
             {activeTab === "machine" && (
               <div className="max-w-4xl bg-white p-8 rounded-2xl shadow-sm border border-slate-200 space-y-6">
-                <h4 className="text-sm font-black text-slate-800 uppercase border-b pb-2 mb-4">MACHINE, WATER & DISINFECTION RECORD</h4>
+                <h4 className="text-sm font-black text-slate-800 uppercase border-b pb-2 mb-4">{i18n.t("MACHINE, WATER & DISINFECTION RECORD")}</h4>
                 <div className="grid grid-cols-2 gap-6">
-                  <FormInput label="Chlorine / chloramine test (start of day)" value={masterData.machine_water_record.chlorine} onChange={(v:any) => updateNested("machine_water_record", "chlorine", v)} />
-                  <FormSelect label="Water hardness OK?" value={masterData.machine_water_record.hardness} options={["Y", "N"]} onChange={(v:any) => updateNested("machine_water_record", "hardness", v)} />
-                  <FormInput label="RO conductivity / resistivity" value={masterData.machine_water_record.ro_cond} onChange={(v:any) => updateNested("machine_water_record", "ro_cond", v)} />
-                  <FormInput label="Disinfection cycle run (heat / citric / chem)" value={masterData.machine_water_record.disinfection_run} onChange={(v:any) => updateNested("machine_water_record", "disinfection_run", v)} />
-                  <FormSelect label="Disinfectant residual negative?" value={masterData.machine_water_record.residual_neg} options={["Y", "N"]} bold onChange={(v:any) => updateNested("machine_water_record", "residual_neg", v)} />
-                  <FormSelect label="DIASAFE plus status / in-date" value={masterData.machine_water_record.diasafe} options={["Y", "N"]} onChange={(v:any) => updateNested("machine_water_record", "diasafe", v)} />
-                  <FormSelect label="AutoSub plus active (HDF)" value={masterData.machine_water_record.autosub_active} options={["N", "Y"]} onChange={(v:any) => updateNested("machine_water_record", "autosub_active", v)} />
-                  <FormSelect label="AutoFlow enabled" value={masterData.machine_water_record.autoflow_enabled} options={["N", "Y"]} onChange={(v:any) => updateNested("machine_water_record", "autoflow_enabled", v)} />
-                  <FormSelect label="VAM active" value={masterData.machine_water_record.vam_active} options={["Y", "N"]} onChange={(v:any) => updateNested("machine_water_record", "vam_active", v)} />
-                  <FormInput label="Nurse-to-patient ratio this session" value={masterData.machine_water_record.nurse_ratio} onChange={(v:any) => updateNested("machine_water_record", "nurse_ratio", v)} />
-                  <FormInput label="BBV serology due / surveillance" value={masterData.machine_water_record.bbv_due} onChange={(v:any) => updateNested("machine_water_record", "bbv_due", v)} />
-                  <FormInput label="Machine checked & ready by (initials)" value={masterData.machine_water_record.checked_by} bold onChange={(v:any) => updateNested("machine_water_record", "checked_by", v)} />
+                  <FormInput label={i18n.t("Chlorine / chloramine test (start of day)")} value={masterData.machine_water_record.chlorine} onChange={(v:any) => updateNested("machine_water_record", "chlorine", v)} />
+                  <FormSelect label={i18n.t("Water hardness OK?")} value={masterData.machine_water_record.hardness} options={["Y", "N"]} onChange={(v:any) => updateNested("machine_water_record", "hardness", v)} />
+                  <FormInput label={i18n.t("RO conductivity / resistivity")} value={masterData.machine_water_record.ro_cond} onChange={(v:any) => updateNested("machine_water_record", "ro_cond", v)} />
+                  <FormInput label={i18n.t("Disinfection cycle run (heat / citric / chem)")} value={masterData.machine_water_record.disinfection_run} onChange={(v:any) => updateNested("machine_water_record", "disinfection_run", v)} />
+                  <FormSelect label={i18n.t("Disinfectant residual negative?")} value={masterData.machine_water_record.residual_neg} options={["Y", "N"]} bold onChange={(v:any) => updateNested("machine_water_record", "residual_neg", v)} />
+                  <FormSelect label={i18n.t("DIASAFE plus status / in-date")} value={masterData.machine_water_record.diasafe} options={["Y", "N"]} onChange={(v:any) => updateNested("machine_water_record", "diasafe", v)} />
+                  <FormSelect label={i18n.t("AutoSub plus active (HDF)")} value={masterData.machine_water_record.autosub_active} options={["N", "Y"]} onChange={(v:any) => updateNested("machine_water_record", "autosub_active", v)} />
+                  <FormSelect label={i18n.t("AutoFlow enabled")} value={masterData.machine_water_record.autoflow_enabled} options={["N", "Y"]} onChange={(v:any) => updateNested("machine_water_record", "autoflow_enabled", v)} />
+                  <FormSelect label={i18n.t("VAM active")} value={masterData.machine_water_record.vam_active} options={["Y", "N"]} onChange={(v:any) => updateNested("machine_water_record", "vam_active", v)} />
+                  <FormInput label={i18n.t("Nurse-to-patient ratio this session")} value={masterData.machine_water_record.nurse_ratio} onChange={(v:any) => updateNested("machine_water_record", "nurse_ratio", v)} />
+                  <FormInput label={i18n.t("BBV serology due / surveillance")} value={masterData.machine_water_record.bbv_due} onChange={(v:any) => updateNested("machine_water_record", "bbv_due", v)} />
+                  <FormInput label={i18n.t("Machine checked & ready by (initials)")} value={masterData.machine_water_record.checked_by} bold onChange={(v:any) => updateNested("machine_water_record", "checked_by", v)} />
                 </div>
               </div>
             )}
@@ -462,10 +461,10 @@ const RenalDialysisTreatmentChartModal: React.FC<RenalDialysisModalProps> = ({ i
             {/* 4. BLOODS TAB */}
             {activeTab === "bloods" && (
               <div className="max-w-4xl bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
-                <h4 className="text-sm font-black text-slate-800 uppercase border-b pb-4 mb-6 flex items-center gap-2"><FlaskConical/> Pre / Post Dialysis Bloods</h4>
+                <h4 className="text-sm font-black text-slate-800 uppercase border-b pb-4 mb-6 flex items-center gap-2"><FlaskConical/>{" "}{i18n.t("Pre / Post Dialysis Bloods")}</h4>
                 <div className="grid grid-cols-2 gap-12">
                   <div className="space-y-3">
-                    <div className="bg-indigo-100 text-indigo-900 font-black text-center py-2 rounded-t-lg">PRE-DIALYSIS BLOODS</div>
+                    <div className="bg-indigo-100 text-indigo-900 font-black text-center py-2 rounded-t-lg">{i18n.t("PRE-DIALYSIS BLOODS")}</div>
                     {["pcv_hb", "urea", "creat", "na", "k", "cl", "hco3", "ca", "po4"].map(test => (
                       <div key={`pre_${test}`} className="flex items-center gap-4">
                         <label className="w-24 text-xs font-bold text-slate-600 uppercase">{test.replace('_', '/')}</label>
@@ -473,13 +472,13 @@ const RenalDialysisTreatmentChartModal: React.FC<RenalDialysisModalProps> = ({ i
                       </div>
                     ))}
                     <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
-                      <label className="w-24 text-xs font-bold text-slate-600 uppercase">Sign</label>
-                      <input type="text" placeholder="Initials" className="flex-1 p-2 border border-slate-300 rounded outline-none font-bold" value={masterData.pre_bloods.sign || ""} onChange={e => updateNested("pre_bloods", "sign", e.target.value)} />
+                      <label className="w-24 text-xs font-bold text-slate-600 uppercase">{i18n.t("Sign")}</label>
+                      <input type="text" placeholder={i18n.t("Initials")} className="flex-1 p-2 border border-slate-300 rounded outline-none font-bold" value={masterData.pre_bloods.sign || ""} onChange={e => updateNested("pre_bloods", "sign", e.target.value)} />
                     </div>
                   </div>
 
                   <div className="space-y-3">
-                    <div className="bg-teal-100 text-teal-900 font-black text-center py-2 rounded-t-lg">POST-DIALYSIS BLOODS</div>
+                    <div className="bg-teal-100 text-teal-900 font-black text-center py-2 rounded-t-lg">{i18n.t("POST-DIALYSIS BLOODS")}</div>
                     {["pcv_hb", "urea", "creat", "na", "k", "cl", "hco3", "ca", "po4"].map(test => (
                       <div key={`post_${test}`} className="flex items-center gap-4">
                         <label className="w-24 text-xs font-bold text-slate-600 uppercase">{test.replace('_', '/')}</label>
@@ -487,8 +486,8 @@ const RenalDialysisTreatmentChartModal: React.FC<RenalDialysisModalProps> = ({ i
                       </div>
                     ))}
                     <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
-                      <label className="w-24 text-xs font-bold text-slate-600 uppercase">Sign</label>
-                      <input type="text" placeholder="Initials" className="flex-1 p-2 border border-slate-300 rounded outline-none font-bold" value={masterData.post_bloods.sign || ""} onChange={e => updateNested("post_bloods", "sign", e.target.value)} />
+                      <label className="w-24 text-xs font-bold text-slate-600 uppercase">{i18n.t("Sign")}</label>
+                      <input type="text" placeholder={i18n.t("Initials")} className="flex-1 p-2 border border-slate-300 rounded outline-none font-bold" value={masterData.post_bloods.sign || ""} onChange={e => updateNested("post_bloods", "sign", e.target.value)} />
                     </div>
                   </div>
                 </div>
@@ -499,42 +498,42 @@ const RenalDialysisTreatmentChartModal: React.FC<RenalDialysisModalProps> = ({ i
             {activeTab === "summary" && (
               <div className="max-w-5xl bg-white p-8 rounded-2xl shadow-sm border border-slate-200 space-y-8">
                 <div>
-                  <h4 className="text-sm font-black text-slate-800 uppercase border-b pb-2 mb-4 text-center bg-indigo-50 p-2 rounded">WEIGHTS & ADEQUACY SUMMARY</h4>
+                  <h4 className="text-sm font-black text-slate-800 uppercase border-b pb-2 mb-4 text-center bg-indigo-50 p-2 rounded">{i18n.t("WEIGHTS & ADEQUACY SUMMARY")}</h4>
                   <div className="grid grid-cols-3 gap-6 text-center mb-6">
-                    <div><label className="block text-xs font-bold text-slate-500 mb-1">Pre-dialysis weight (kg)</label><input type="number" className="w-full p-3 border rounded-lg font-black text-center text-lg" value={masterData.summary.pre_weight} onChange={e => updateNested("summary", "pre_weight", e.target.value)} /></div>
-                    <div><label className="block text-xs font-bold text-slate-500 mb-1">Post-dialysis weight (kg)</label><input type="number" className="w-full p-3 border rounded-lg font-black text-center text-lg text-green-600" value={masterData.summary.post_weight} onChange={e => updateNested("summary", "post_weight", e.target.value)} /></div>
-                    <FormInput label="Net fluid removed (L)" value={masterData.summary.net_fluid} readOnly className="text-center font-black text-lg text-red-600 border-red-200 bg-red-50" />
+                    <div><label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Pre-dialysis weight (kg)")}</label><input type="number" className="w-full p-3 border rounded-lg font-black text-center text-lg" value={masterData.summary.pre_weight} onChange={e => updateNested("summary", "pre_weight", e.target.value)} /></div>
+                    <div><label className="block text-xs font-bold text-slate-500 mb-1">{i18n.t("Post-dialysis weight (kg)")}</label><input type="number" className="w-full p-3 border rounded-lg font-black text-center text-lg text-green-600" value={masterData.summary.post_weight} onChange={e => updateNested("summary", "post_weight", e.target.value)} /></div>
+                    <FormInput label={i18n.t("Net fluid removed (L)")} value={masterData.summary.net_fluid} readOnly className="text-center font-black text-lg text-red-600 border-red-200 bg-red-50" />
                   </div>
 
                   <div className="grid grid-cols-3 gap-6">
-                    <FormInput type="time" label="Connection time" value={masterData.summary.conn_time} onChange={(v:any) => updateNested("summary", "conn_time", v)} />
-                    <FormInput type="time" label="Disconnection time" value={masterData.summary.disconn_time} onChange={(v:any) => updateNested("summary", "disconn_time", v)} />
-                    <FormInput label="Achieved HDF conv. vol (L)" value={masterData.summary.ach_hdf_vol} bold onChange={(v:any) => updateNested("summary", "ach_hdf_vol", v)} />
-                    <FormInput label="Pre BP / Pulse / Temp" placeholder="120/80 / 75 / 36.5" value={masterData.summary.pre_vitals} onChange={(v:any) => updateNested("summary", "pre_vitals", v)} />
-                    <FormInput label="Post BP / Pulse / Temp" placeholder="115/75 / 80 / 36.6" value={masterData.summary.post_vitals} onChange={(v:any) => updateNested("summary", "post_vitals", v)} />
-                    <FormInput label="OCM Kt/V or URR (%)" value={masterData.summary.kt_v} bold onChange={(v:any) => updateNested("summary", "kt_v", v)} />
+                    <FormInput type="time" label={i18n.t("Connection time")} value={masterData.summary.conn_time} onChange={(v:any) => updateNested("summary", "conn_time", v)} />
+                    <FormInput type="time" label={i18n.t("Disconnection time")} value={masterData.summary.disconn_time} onChange={(v:any) => updateNested("summary", "disconn_time", v)} />
+                    <FormInput label={i18n.t("Achieved HDF conv. vol (L)")} value={masterData.summary.ach_hdf_vol} bold onChange={(v:any) => updateNested("summary", "ach_hdf_vol", v)} />
+                    <FormInput label={i18n.t("Pre BP / Pulse / Temp")} placeholder="120/80 / 75 / 36.5" value={masterData.summary.pre_vitals} onChange={(v:any) => updateNested("summary", "pre_vitals", v)} />
+                    <FormInput label={i18n.t("Post BP / Pulse / Temp")} placeholder="115/75 / 80 / 36.6" value={masterData.summary.post_vitals} onChange={(v:any) => updateNested("summary", "post_vitals", v)} />
+                    <FormInput label={i18n.t("OCM Kt/V or URR (%)")} value={masterData.summary.kt_v} bold onChange={(v:any) => updateNested("summary", "kt_v", v)} />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase">Complications / interventions / medications given</label>
-                  <textarea rows={4} className="w-full p-3 border rounded-lg bg-slate-50 outline-none focus:ring-1 focus:ring-brand-active" value={masterData.complications} onChange={e => { setMasterData({...masterData, complications: e.target.value}); setIsDirty(true); }} placeholder="Document any intra-dialytic issues, saline boluses, or IV medications administered..." />
+                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase">{i18n.t("Complications / interventions / medications given")}</label>
+                  <textarea rows={4} className="w-full p-3 border rounded-lg bg-slate-50 outline-none focus:ring-1 focus:ring-brand-active" value={masterData.complications} onChange={e => { setMasterData({...masterData, complications: e.target.value}); setIsDirty(true); }} placeholder={i18n.t("Document any intra-dialytic issues, saline boluses, or IV medications administered...")} />
                 </div>
 
                 <div className="grid grid-cols-2 gap-8 border-t border-slate-200 pt-6">
                   {/* Nurse Signature */}
                   <div className="border rounded-lg p-4 bg-slate-50 relative h-48 flex flex-col justify-between">
-                    <span className="text-[10px] font-black uppercase text-slate-400 mb-2 block">Dialysis nurse:</span>
+                    <span className="text-[10px] font-black uppercase text-slate-400 mb-2 block">{i18n.t("Dialysis nurse:")}</span>
                     <div className="flex-1 relative flex items-center justify-center border-2 border-dashed border-slate-300 rounded bg-white overflow-hidden">
                       {masterData.summary.signatures?.nurse ? (
                         <>
-                          <img src={masterData.summary.signatures.nurse} className="max-h-full" alt="Nurse Sig" />
-                          <button onClick={() => updateNested("summary", "signatures", { ...masterData.summary.signatures, nurse: null })} className="absolute top-1 right-1 text-red-500 hover:text-red-700 bg-red-100 p-1 rounded"><Trash2 size={12}/></button>
+                          <img src={masterData.summary.signatures.nurse} className="max-h-full" alt={i18n.t("Nurse Sig")} />
+                          <button onClick={() => updateNested("summary", "signatures", { ...masterData.summary.signatures, nurse: null })} className="absolute top-1 end-1 text-red-500 hover:text-red-700 bg-red-100 p-1 rounded"><Trash2 size={12}/></button>
                         </>
                       ) : (
                         <SignaturePad onEnd={(d: any) => updateNested("summary", "signatures", { ...masterData.summary.signatures, nurse: d })} className="w-full h-full" />
                       )}
-                      {!masterData.summary.signatures?.nurse && <span className="absolute inset-0 flex items-center justify-center text-slate-300 font-black uppercase tracking-widest pointer-events-none text-xs">Sign Here</span>}
+                      {!masterData.summary.signatures?.nurse && <span className="absolute inset-0 flex items-center justify-center text-slate-300 font-black uppercase tracking-widest pointer-events-none text-xs">{i18n.t("Sign Here")}</span>}
                     </div>
                     <div className="flex gap-2 mt-2">
                       <input type="date" className="w-1/2 p-1.5 text-[10px] border border-slate-300 rounded outline-none" value={masterData.summary.signatures?.nurse_date || ""} onChange={(e) => updateNested("summary", "signatures", { ...masterData.summary.signatures, nurse_date: e.target.value })} />
@@ -544,17 +543,17 @@ const RenalDialysisTreatmentChartModal: React.FC<RenalDialysisModalProps> = ({ i
 
                   {/* Physician Signature */}
                   <div className="border rounded-lg p-4 bg-slate-50 relative h-48 flex flex-col justify-between">
-                    <span className="text-[10px] font-black uppercase text-slate-400 mb-2 block">Reviewing physician:</span>
+                    <span className="text-[10px] font-black uppercase text-slate-400 mb-2 block">{i18n.t("Reviewing physician:")}</span>
                     <div className="flex-1 relative flex items-center justify-center border-2 border-dashed border-slate-300 rounded bg-white overflow-hidden">
                       {masterData.summary.signatures?.physician ? (
                         <>
-                          <img src={masterData.summary.signatures.physician} className="max-h-full" alt="Physician Sig" />
-                          <button onClick={() => updateNested("summary", "signatures", { ...masterData.summary.signatures, physician: null })} className="absolute top-1 right-1 text-red-500 hover:text-red-700 bg-red-100 p-1 rounded"><Trash2 size={12}/></button>
+                          <img src={masterData.summary.signatures.physician} className="max-h-full" alt={i18n.t("Physician Sig")} />
+                          <button onClick={() => updateNested("summary", "signatures", { ...masterData.summary.signatures, physician: null })} className="absolute top-1 end-1 text-red-500 hover:text-red-700 bg-red-100 p-1 rounded"><Trash2 size={12}/></button>
                         </>
                       ) : (
                         <SignaturePad onEnd={(d: any) => updateNested("summary", "signatures", { ...masterData.summary.signatures, physician: d })} className="w-full h-full" />
                       )}
-                      {!masterData.summary.signatures?.physician && <span className="absolute inset-0 flex items-center justify-center text-slate-300 font-black uppercase tracking-widest pointer-events-none text-xs">Sign Here</span>}
+                      {!masterData.summary.signatures?.physician && <span className="absolute inset-0 flex items-center justify-center text-slate-300 font-black uppercase tracking-widest pointer-events-none text-xs">{i18n.t("Sign Here")}</span>}
                     </div>
                     <div className="flex gap-2 mt-2">
                       <input type="date" className="w-1/2 p-1.5 text-[10px] border border-slate-300 rounded outline-none" value={masterData.summary.signatures?.physician_date || ""} onChange={(e) => updateNested("summary", "signatures", { ...masterData.summary.signatures, physician_date: e.target.value })} />
@@ -569,9 +568,7 @@ const RenalDialysisTreatmentChartModal: React.FC<RenalDialysisModalProps> = ({ i
           </div>
         </div>
 
-        <div className="bg-slate-100 text-[10px] text-slate-500 p-2 text-center shrink-0 border-t border-slate-300">
-          GSH-REN-003 • Controlled clinical record – file in patient notes • Medbookie &nbsp;|&nbsp; UF rate target &lt; 13 mL/kg/h • spKt/V ≥ 1.2 • URR ≥ 65% • HDF conv. vol 21–25 L
-        </div>
+        <div className="bg-slate-100 text-[10px] text-slate-500 p-2 text-center shrink-0 border-t border-slate-300">{i18n.t("GSH-REN-003 • Controlled clinical record – file in patient notes • Medbookie  |  UF rate target < 13 mL/kg/h • spKt/V ≥ 1.2 • URR ≥ 65% • HDF conv. vol 21–25 L")}</div>
       </div>
     </div>
   );

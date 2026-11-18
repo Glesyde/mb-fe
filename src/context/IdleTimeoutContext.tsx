@@ -25,6 +25,7 @@ import { useLocation } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import { sessionRestoreService } from "../services/session-restore.service";
 import { ShieldAlert, Clock, LogOut } from "lucide-react";
+import { i18n } from "../i18n";
 
 // ─── Config ──────────────────────────────────────────────────────────────────
 const IDLE_TIMEOUT_MS = 4 * 60 * 1000; // 4 min of inactivity → show warning
@@ -267,9 +268,7 @@ export const IdleTimeoutProvider: React.FC<{ children: React.ReactNode }> = ({
                   >
                     {countdown}
                   </span>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest -mt-1">
-                    seconds
-                  </span>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest -mt-1">{i18n.t("seconds")}</span>
                 </div>
               </div>
 
@@ -280,25 +279,17 @@ export const IdleTimeoutProvider: React.FC<{ children: React.ReactNode }> = ({
                     size={20}
                     className={isUrgent ? "text-red-500" : "text-amber-500"}
                   />
-                  <h2 className="text-xl font-black text-slate-800">
-                    Session Expiring
-                  </h2>
+                  <h2 className="text-xl font-black text-slate-800">{i18n.t("Session Expiring")}</h2>
                 </div>
-                <p className="text-sm text-slate-500 font-medium leading-relaxed">
-                  You've been inactive. For security, you'll be
-                  <br />
-                  logged out automatically.
-                </p>
+                <p className="text-sm text-slate-500 font-medium leading-relaxed">{i18n.t("You've been inactive. For security, you'll be")}<br />{i18n.t("logged out automatically.")}</p>
               </div>
 
               {/* Time indicator */}
               <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 w-full justify-center">
                 <Clock size={15} className="text-slate-400" />
-                <span className="text-xs font-bold text-slate-600">
-                  Logging out in{" "}
+                <span className="text-xs font-bold text-slate-600">{i18n.t("Logging out in")}{" "}
                   <span className={`font-black ${isUrgent ? "text-red-600" : "text-amber-600"}`}>
-                    {countdown}s
-                  </span>
+                    {countdown}{i18n.t("s")}</span>
                 </span>
               </div>
 
@@ -308,28 +299,19 @@ export const IdleTimeoutProvider: React.FC<{ children: React.ReactNode }> = ({
                   id="idle-stay-signed-in"
                   onClick={handleStaySignedIn}
                   className="w-full py-3.5 bg-brand-primary hover:bg-brand-primary text-white font-black text-sm rounded-2xl transition-all active:scale-95 shadow-lg shadow-brand-active"
-                >
-                  Stay Signed In
-                </button>
+                >{i18n.t("Stay Signed In")}</button>
                 <button
                   id="idle-logout-now"
                   onClick={performLogout}
                   className="w-full py-3 flex items-center justify-center gap-2 text-sm font-bold text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-2xl transition-all"
                 >
-                  <LogOut size={15} />
-                  Log Out Now
-                </button>
+                  <LogOut size={15} />{i18n.t("Log Out Now")}</button>
               </div>
             </div>
           </div>
 
           {/* Keyframe injector */}
-          <style>{`
-            @keyframes idleModalIn {
-              from { opacity: 0; transform: scale(0.88) translateY(16px); }
-              to   { opacity: 1; transform: scale(1) translateY(0); }
-            }
-          `}</style>
+          <style>{"@keyframes idleModalIn { from { opacity: 0; transform: scale(0.88) translateY(16px); } to { opacity: 1; transform: scale(1) translateY(0); } }"}</style>
         </div>
       )}
     </IdleTimeoutContext.Provider>

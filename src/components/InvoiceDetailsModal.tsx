@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { X, Printer, AlertCircle, Loader2 } from "lucide-react";
 import { billingService } from "../services/billing.service";
+import { i18n } from "../i18n";
 
 interface InvoiceDetailsModalProps {
   isOpen: boolean;
@@ -95,7 +96,7 @@ const InvoiceDetailsModal: React.FC<InvoiceDetailsModalProps> = ({
         {/* Header */}
         <div className="sticky top-0 bg-gradient-to-r from-slate-700 to-slate-600 text-white p-6 flex items-center justify-between border-b border-slate-700">
           <div>
-            <h2 className="text-2xl font-bold">Invoice Details</h2>
+            <h2 className="text-2xl font-bold">{i18n.t("Invoice Details")}</h2>
             {details?.header && (
               <p className="text-sm text-slate-200 mt-1">
                 {details.header.reference} •{" "}
@@ -131,30 +132,24 @@ const InvoiceDetailsModal: React.FC<InvoiceDetailsModalProps> = ({
               {/* Header Info */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                    Reference
-                  </p>
+                  <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Reference")}</p>
                   <p className="text-lg font-bold text-slate-900 mt-1">
                     {details.header.reference}
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                    Status
-                  </p>
+                  <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Status")}</p>
                   <span
                     className={`inline-block px-3 py-1.5 rounded-full text-sm font-semibold mt-1 ${getStatusColor(
                       details.header.status,
                     )}`}
                   >
-                    {details.header.status}
+                    {i18n.tv(details.header.status)}
                   </span>
                 </div>
                 {details.header.processed_by && (
                   <div className="col-span-2">
-                    <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                      Processed By
-                    </p>
+                    <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Processed By")}</p>
                     <p className="text-sm font-semibold text-slate-900 mt-1">
                       {details.header.processed_by}
                     </p>
@@ -164,46 +159,34 @@ const InvoiceDetailsModal: React.FC<InvoiceDetailsModalProps> = ({
 
               {/* Patient Details */}
               <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
-                <h3 className="font-bold text-slate-900 mb-3">
-                  Patient Information
-                </h3>
+                <h3 className="font-bold text-slate-900 mb-3">{i18n.t("Patient Information")}</h3>
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                   <div>
-                    <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                      Name
-                    </p>
+                    <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Name")}</p>
                     <p className="text-sm font-semibold text-slate-900 mt-1">
                       {details.patient_details.full_name}
                     </p>
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                      MRN
-                    </p>
+                    <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("MRN")}</p>
                     <p className="text-sm font-mono font-semibold text-slate-900 mt-1">
                       {details.patient_details.mrn}
                     </p>
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                      Age
-                    </p>
+                    <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Age")}</p>
                     <p className="text-sm font-semibold text-slate-900 mt-1">
                       {details.patient_details.age}
                     </p>
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                      Gender
-                    </p>
+                    <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Gender")}</p>
                     <p className="text-sm font-semibold text-slate-900 mt-1">
-                      {details.patient_details.gender}
+                      {i18n.tv(details.patient_details.gender)}
                     </p>
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                      Contact
-                    </p>
+                    <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Contact")}</p>
                     <p className="text-sm text-slate-900 mt-1">
                       {details.patient_details.phone}
                     </p>
@@ -214,52 +197,39 @@ const InvoiceDetailsModal: React.FC<InvoiceDetailsModalProps> = ({
               {/* Encounter & Provider Info */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
-                  <h3 className="font-bold text-slate-900 mb-3 text-sm">
-                    Encounter
-                  </h3>
+                  <h3 className="font-bold text-slate-900 mb-3 text-sm">{i18n.t("Encounter")}</h3>
                   <div className="space-y-2">
                     <div>
-                      <p className="text-xs text-slate-600 uppercase tracking-wider">
-                        Number
-                      </p>
+                      <p className="text-xs text-slate-600 uppercase tracking-wider">{i18n.t("Number")}</p>
                       <p className="text-sm font-semibold text-slate-900">
-                        {details.encounter.number || "N/A"}
+                        {details.encounter.number || i18n.t("N/A")}
                       </p>
                     </div>
                     <div>
-                      <p className="text-xs text-slate-600 uppercase tracking-wider">
-                        Type
-                      </p>
+                      <p className="text-xs text-slate-600 uppercase tracking-wider">{i18n.t("Type")}</p>
                       <p className="text-sm font-semibold text-slate-900">
-                        {details.encounter.type || "N/A"}
+                        {details.encounter.type || i18n.t("N/A")}
                       </p>
                     </div>
                   </div>
                 </div>
 
                 <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
-                  <h3 className="font-bold text-slate-900 mb-3 text-sm">
-                    Provider
-                  </h3>
+                  <h3 className="font-bold text-slate-900 mb-3 text-sm">{i18n.t("Provider")}</h3>
                   <div className="space-y-2">
                     <div>
-                      <p className="text-xs text-slate-600 uppercase tracking-wider">
-                        Doctor
-                      </p>
+                      <p className="text-xs text-slate-600 uppercase tracking-wider">{i18n.t("Doctor")}</p>
                       <p className="text-sm font-semibold text-slate-900">
-                        {details.doctor || "N/A"}
+                        {details.doctor || i18n.t("N/A")}
                       </p>
                     </div>
                     <div>
-                      <p className="text-xs text-slate-600 uppercase tracking-wider">
-                        Payer
-                      </p>
+                      <p className="text-xs text-slate-600 uppercase tracking-wider">{i18n.t("Payer")}</p>
                       <p className="text-sm font-semibold text-slate-900">
                         {details.payer.name} {details.payer.type && `(${details.payer.type})`}
                       </p>
                       {details.payer.policy_number && (
-                        <p className="text-xs text-slate-500 mt-0.5">
-                          Policy: {details.payer.policy_number}
+                        <p className="text-xs text-slate-500 mt-0.5">{i18n.t("Policy:")}{" "}{details.payer.policy_number}
                         </p>
                       )}
                     </div>
@@ -271,7 +241,7 @@ const InvoiceDetailsModal: React.FC<InvoiceDetailsModalProps> = ({
                   IPDBillingPrintTemplate.tsx's billing_groups rendering */}
               {details.items_grouped && Object.keys(details.items_grouped).length > 0 ? (
                 <div className="space-y-4">
-                  <h3 className="font-bold text-slate-900">Services & Items</h3>
+                  <h3 className="font-bold text-slate-900">{i18n.t("Services & Items")}</h3>
                   {Object.entries(details.items_grouped).map(([groupKey, group]: [string, any]) => (
                     <div key={groupKey} className="border border-slate-200 rounded-lg overflow-hidden">
                       <div className="bg-brand-active px-4 py-2 flex items-center justify-between border-b border-slate-200">
@@ -286,11 +256,11 @@ const InvoiceDetailsModal: React.FC<InvoiceDetailsModalProps> = ({
                         <table className="w-full text-sm">
                           <thead>
                             <tr className="bg-slate-50 border-b border-slate-200">
-                              <th className="px-3 py-1.5 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wider">Item</th>
-                              <th className="px-3 py-1.5 text-center text-[10px] font-bold text-slate-500 uppercase tracking-wider">Qty</th>
-                              <th className="px-3 py-1.5 text-right text-[10px] font-bold text-slate-500 uppercase tracking-wider">Rate</th>
-                              <th className="px-3 py-1.5 text-right text-[10px] font-bold text-slate-500 uppercase tracking-wider">Discount</th>
-                              <th className="px-3 py-1.5 text-right text-[10px] font-bold text-slate-500 uppercase tracking-wider">Net Total</th>
+                              <th className="px-3 py-1.5 text-start text-[10px] font-bold text-slate-500 uppercase tracking-wider">{i18n.t("Item")}</th>
+                              <th className="px-3 py-1.5 text-center text-[10px] font-bold text-slate-500 uppercase tracking-wider">{i18n.t("Qty")}</th>
+                              <th className="px-3 py-1.5 text-end text-[10px] font-bold text-slate-500 uppercase tracking-wider">{i18n.t("Rate")}</th>
+                              <th className="px-3 py-1.5 text-end text-[10px] font-bold text-slate-500 uppercase tracking-wider">{i18n.t("Discount")}</th>
+                              <th className="px-3 py-1.5 text-end text-[10px] font-bold text-slate-500 uppercase tracking-wider">{i18n.t("Net Total")}</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -334,31 +304,31 @@ const InvoiceDetailsModal: React.FC<InvoiceDetailsModalProps> = ({
                                     <td className="px-3 py-1.5">
                                       <div className="font-semibold text-slate-800 text-sm">{row.item_name}</div>
                                       {(row.requested_by?.name || row.cancelled_by?.name) && (
-                                        <div className="text-[10px] text-slate-400 mt-0.5 space-x-2">
-                                          {row.requested_by?.name && <span>Ordered by: {row.requested_by.name}</span>}
+                                        <div className="text-[10px] text-slate-400 mt-0.5 space-x-2 rtl:space-x-reverse">
+                                          {row.requested_by?.name && <span>{i18n.t("Ordered by:")}{" "}{row.requested_by.name}</span>}
                                           {row.cancelled_by?.name && (
-                                            <span className="text-red-500">Cancelled by: {row.cancelled_by.name}</span>
+                                            <span className="text-red-500">{i18n.t("Cancelled by:")}{" "}{row.cancelled_by.name}</span>
                                           )}
                                         </div>
                                       )}
                                     </td>
                                     <td className="px-3 py-1.5 text-center text-slate-600">{row.nos}</td>
-                                    <td className="px-3 py-1.5 text-right text-slate-600">{formatCurrency(row.rate)}</td>
-                                    <td className="px-3 py-1.5 text-right">
+                                    <td className="px-3 py-1.5 text-end text-slate-600">{formatCurrency(row.rate)}</td>
+                                    <td className="px-3 py-1.5 text-end">
                                       {row.parent_discount && row.parent_discount.amount > 0 ? (
                                         <div className="flex flex-col items-end">
                                           <span className="font-semibold text-slate-700">
                                             -{formatCurrency(row.parent_discount.amount)}
                                           </span>
                                           <span className="text-[9px] text-slate-400">
-                                            {row.parent_discount.type === "PERCENTAGE" ? `${row.parent_discount.value}%` : "FLAT"}
+                                            {row.parent_discount.type === "PERCENTAGE" ? `${row.parent_discount.value}%` : i18n.t("FLAT")}
                                           </span>
                                         </div>
                                       ) : (
                                         <span className="text-slate-300">—</span>
                                       )}
                                     </td>
-                                    <td className="px-3 py-1.5 text-right font-bold text-slate-900">
+                                    <td className="px-3 py-1.5 text-end font-bold text-slate-900">
                                       {row.parent_discount && row.parent_discount.amount > 0 ? (
                                         <div className="flex flex-col items-end">
                                           <span className="line-through text-slate-400 font-normal text-xs">
@@ -374,7 +344,7 @@ const InvoiceDetailsModal: React.FC<InvoiceDetailsModalProps> = ({
                                   {row.fee_breakdown && row.fee_breakdown.length > 0 && (
                                     <tr className="bg-slate-50/30">
                                       <td colSpan={5} className="px-4 py-1.5">
-                                        <div className="pl-3 border-l-2 border-brand-active space-y-0.5">
+                                        <div className="ps-3 border-s-2 border-brand-active space-y-0.5">
                                           {row.fee_breakdown.map((fee: any, fIdx: number) => (
                                             <div key={fIdx} className="flex justify-between text-xs text-slate-600">
                                               <span>
@@ -399,25 +369,15 @@ const InvoiceDetailsModal: React.FC<InvoiceDetailsModalProps> = ({
               ) : (
                 details.items && details.items.length > 0 && (
                   <div>
-                    <h3 className="font-bold text-slate-900 mb-3">
-                      Services & Items
-                    </h3>
+                    <h3 className="font-bold text-slate-900 mb-3">{i18n.t("Services & Items")}</h3>
                     <div className="overflow-x-auto">
                       <table className="w-full text-sm">
                         <thead>
                           <tr className="bg-slate-100 border-b border-slate-200">
-                            <th className="px-4 py-2 text-left font-semibold text-slate-700">
-                              Description
-                            </th>
-                            <th className="px-4 py-2 text-right font-semibold text-slate-700">
-                              Unit Price
-                            </th>
-                            <th className="px-4 py-2 text-center font-semibold text-slate-700">
-                              Qty
-                            </th>
-                            <th className="px-4 py-2 text-right font-semibold text-slate-700">
-                              Total
-                            </th>
+                            <th className="px-4 py-2 text-start font-semibold text-slate-700">{i18n.t("Description")}</th>
+                            <th className="px-4 py-2 text-end font-semibold text-slate-700">{i18n.t("Unit Price")}</th>
+                            <th className="px-4 py-2 text-center font-semibold text-slate-700">{i18n.t("Qty")}</th>
+                            <th className="px-4 py-2 text-end font-semibold text-slate-700">{i18n.t("Total")}</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -428,48 +388,48 @@ const InvoiceDetailsModal: React.FC<InvoiceDetailsModalProps> = ({
                             >
                               <td className="px-4 py-2 text-slate-900">
                                 <div className="font-bold text-sm">
-                                  {item.display_name || item.description || item.service_name || item.item_name || item.drug_name}
+                                  {item.display_name || i18n.tx(item.description) || item.service_name || item.item_name || item.drug_name}
                                 </div>
                                 <div className="text-xs text-slate-500 mt-1 space-y-0.5">
                                   {item.drug_code && (
                                     <div>
-                                      <span className="font-semibold text-slate-600">Drug Code:</span> {item.drug_code}
+                                      <span className="font-semibold text-slate-600">{i18n.t("Drug Code:")}</span> {item.drug_code}
                                     </div>
                                   )}
                                   {item.item_code && (
                                     <div>
-                                      <span className="font-semibold text-slate-600">Item Code:</span> {item.item_code}
+                                      <span className="font-semibold text-slate-600">{i18n.t("Item Code:")}</span> {item.item_code}
                                     </div>
                                   )}
                                   {item.dosage && (
                                     <div>
-                                      <span className="font-semibold text-slate-600">Dosage:</span> {item.dosage}
+                                      <span className="font-semibold text-slate-600">{i18n.t("Dosage:")}</span> {item.dosage}
                                     </div>
                                   )}
                                   {item.ordered_at && (
                                     <div>
-                                      <span className="font-semibold text-slate-600">Ordered:</span> {item.ordered_at}
+                                      <span className="font-semibold text-slate-600">{i18n.t("Ordered:")}</span> {item.ordered_at}
                                     </div>
                                   )}
                                   {item.order_status && (
                                     <div>
-                                      <span className="font-semibold text-slate-600">Status:</span> {item.order_status}
+                                      <span className="font-semibold text-slate-600">{i18n.t("Status:")}</span> {i18n.tv(item.order_status)}
                                     </div>
                                   )}
                                   {item.dispensing_dept && (
                                     <div>
-                                      <span className="font-semibold text-slate-600">Department:</span> {item.dispensing_dept}
+                                      <span className="font-semibold text-slate-600">{i18n.t("Department:")}</span> {item.dispensing_dept}
                                     </div>
                                   )}
                                 </div>
                               </td>
-                              <td className="px-4 py-2 text-right text-slate-900">
+                              <td className="px-4 py-2 text-end text-slate-900">
                                 {formatCurrency(item.unit_price)}
                               </td>
                               <td className="px-4 py-2 text-center text-slate-900">
                                 {parseFloat(item.quantity).toFixed(2)}
                               </td>
-                              <td className="px-4 py-2 text-right font-semibold text-slate-900">
+                              <td className="px-4 py-2 text-end font-semibold text-slate-900">
                                 {formatCurrency(item.line_total)}
                               </td>
                             </tr>
@@ -483,41 +443,37 @@ const InvoiceDetailsModal: React.FC<InvoiceDetailsModalProps> = ({
 
               {/* Financial Summary */}
               <div className="bg-brand-active rounded-lg p-4 border border-brand-active">
-                <h3 className="font-bold text-slate-900 mb-3">
-                  Financial Summary
-                </h3>
+                <h3 className="font-bold text-slate-900 mb-3">{i18n.t("Financial Summary")}</h3>
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-slate-700">Total Amount</span>
+                    <span className="text-slate-700">{i18n.t("Total Amount")}</span>
                     <span className="font-bold text-slate-900">
                       {formatCurrency(details.financial_summary.gross_amount)}
                     </span>
                   </div>
                   {parseFloat(details.financial_summary.discount) > 0 && (
                     <div className="flex justify-between items-center">
-                      <span className="text-slate-700">Discount</span>
+                      <span className="text-slate-700">{i18n.t("Discount")}</span>
                       <span className="font-bold text-slate-900">
                         -{formatCurrency(details.financial_summary.discount)}
                       </span>
                     </div>
                   )}
                   <div className="border-t border-brand-primary pt-2 flex justify-between items-center">
-                    <span className="font-semibold text-slate-800">
-                      Net Payable
-                    </span>
+                    <span className="font-semibold text-slate-800">{i18n.t("Net Payable")}</span>
                     <span className="text-lg font-bold text-slate-900">
                       {formatCurrency(details.financial_summary.net_amount)}
                     </span>
                   </div>
                   <div className="flex justify-between items-center text-emerald-600">
-                    <span className="font-semibold">Paid Amount</span>
+                    <span className="font-semibold">{i18n.t("Paid Amount")}</span>
                     <span className="font-bold">
                       {formatCurrency(details.financial_summary.amount_paid ?? 0)}
                     </span>
                   </div>
                   {parseFloat(details.financial_summary.outstanding) > 0 && (
                     <div className="flex justify-between items-center text-red-600">
-                      <span className="font-semibold">Outstanding</span>
+                      <span className="font-semibold">{i18n.t("Outstanding")}</span>
                       <span className="font-bold">
                         {formatCurrency(details.financial_summary.outstanding)}
                       </span>
@@ -534,9 +490,7 @@ const InvoiceDetailsModal: React.FC<InvoiceDetailsModalProps> = ({
           <button
             onClick={onClose}
             className="px-4 py-2.5 text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
-          >
-            Close
-          </button>
+          >{i18n.t("Close")}</button>
           <button
             onClick={() => {
               onPrint(recordType, recordId);
@@ -545,9 +499,7 @@ const InvoiceDetailsModal: React.FC<InvoiceDetailsModalProps> = ({
             disabled={loading || error !== null}
             className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-brand-primary hover:bg-brand-primary rounded-lg transition-colors disabled:bg-slate-400"
           >
-            <Printer size={16} />
-            Print Invoice
-          </button>
+            <Printer size={16} />{i18n.t("Print Invoice")}</button>
         </div>
       </div>
     </div>

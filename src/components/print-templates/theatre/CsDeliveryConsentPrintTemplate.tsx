@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Loader2, AlertTriangle, Printer } from 'lucide-react';
 import { BASE_URL } from "../../../api/client";
+import { i18n } from "../../../i18n";
 
 interface CsDeliveryConsentPrintTemplateProps {
   formData?: any;
@@ -77,20 +78,20 @@ const CsDeliveryConsentPrintTemplate: React.FC<CsDeliveryConsentPrintTemplatePro
       <p className="text-[9px] font-bold text-gray-700 uppercase tracking-wide mb-2 text-center">{title}</p>
       <div className="mb-2">
         {signature ? (
-          <img src={getSigUrl(signature)} alt="Signature" className="h-12 w-full object-contain" />
+          <img src={getSigUrl(signature)} alt={i18n.t("Signature")} className="h-12 w-full object-contain" />
         ) : (
           <div className="border-b border-gray-400 h-12"></div>
         )}
       </div>
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <p className="text-[8px] text-gray-500 uppercase">Full Name (print)</p>
+          <p className="text-[8px] text-gray-500 uppercase">{i18n.t("Full Name (print)")}</p>
           <div className="border-b border-gray-400 h-5 mt-1">
             <span className="text-[9px] text-gray-800">{name || ''}</span>
           </div>
         </div>
         <div>
-          <p className="text-[8px] text-gray-500 uppercase">Date</p>
+          <p className="text-[8px] text-gray-500 uppercase">{i18n.t("Date")}</p>
           <div className="border-b border-gray-400 h-5 mt-1">
             <span className="text-[9px] text-gray-800">{date || ''}</span>
           </div>
@@ -106,51 +107,50 @@ const CsDeliveryConsentPrintTemplate: React.FC<CsDeliveryConsentPrintTemplatePro
       className="fixed inset-0 bg-slate-100 overflow-y-auto px-4 py-20 print:static print:bg-white print:p-0"
       style={{ WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' }}
     >
-      <div className="fixed top-0 left-0 right-0 h-16 bg-slate-900 text-white flex items-center justify-between px-8 print:hidden z-[100] shadow-md">
-        <p className="font-bold text-sm">Caesarean Section Consent Form Preview</p>
+      <div className="fixed top-0 start-0 end-0 h-16 bg-slate-900 text-white flex items-center justify-between px-8 print:hidden z-[100] shadow-md">
+        <p className="font-bold text-sm">{i18n.t("Caesarean Section Consent Form Preview")}</p>
         <button onClick={() => window.print()} className="bg-[#3B309A] hover:bg-brand-primary text-white px-6 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center gap-2 transition-all">
-          <Printer size={16} /> Print Form
-        </button>
+          <Printer size={16} />{" "}{i18n.t("Print Form")}</button>
       </div>
 
       <div className="w-[210mm] bg-white p-8 shadow-2xl print:shadow-none print:m-0 print:border-none border border-slate-200 mx-auto text-[11px]">
         {/* Header */}
         <div className="w-full bg-[#3B309A] flex items-center p-4 min-h-[28mm] mb-1">
-          <div className="w-[25%] flex items-center justify-center border-r-[1.5px] border-[#4c3fbf] pr-4 h-full">
-            <img src="/assets/login-bg.jpeg" alt="Logo" className="w-[20mm] object-contain" />
+          <div className="w-[25%] flex items-center justify-center border-e-[1.5px] border-[#4c3fbf] pe-4 h-full">
+            <img src="/assets/login-bg.jpeg" alt={i18n.t("Logo")} className="w-[20mm] object-contain" />
           </div>
-          <div className="w-[75%] pl-6 flex flex-col justify-center">
-            <h1 className="text-white text-2xl font-extrabold leading-none tracking-tight mb-2 uppercase italic">Procedure Consent Form</h1>
-            <p className="text-[#bfb8ff] text-[10px] leading-tight font-bold uppercase">Caesarean Section Delivery</p>
-            <p className="text-[#bfb8ff]/70 text-[8px] mt-1">Form Ref: GSH-CONSENT-CS-001 • Policy Ref: GSH-T6 • Version 1.0</p>
+          <div className="w-[75%] ps-6 flex flex-col justify-center">
+            <h1 className="text-white text-2xl font-extrabold leading-none tracking-tight mb-2 uppercase italic">{i18n.t("Procedure Consent Form")}</h1>
+            <p className="text-[#bfb8ff] text-[10px] leading-tight font-bold uppercase">{i18n.t("Caesarean Section Delivery")}</p>
+            <p className="text-[#bfb8ff]/70 text-[8px] mt-1">{i18n.t("Form Ref: GSH-CONSENT-CS-001 • Policy Ref: GSH-T6 • Version 1.0")}</p>
           </div>
         </div>
 
         {/* Address Bar */}
         <div className="w-full text-center py-2 border-b border-slate-200 mb-6">
-          <p className="text-[8px] text-slate-500 font-medium italic">Head Office: Medbookie Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria Lagos State, Nigeria. &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@Medbookiehospital.com</p>
+          <p className="text-[8px] text-slate-500 font-medium italic">{i18n.t("Head Office: Medbookie Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria Lagos State, Nigeria.  •  +234 705 648 2776  •  info@Medbookiehospital.com")}</p>
         </div>
 
         {/* Banner Details */}
         <div className="grid grid-cols-2 gap-4 mb-4">
-          <FormField label="Type of Caesarean Birth" value={data.planned_type} />
-          <FormField label="RCOG Category" value={data.rcog_category} />
+          <FormField label={i18n.t("Type of Caesarean Birth")} value={data.planned_type} />
+          <FormField label={i18n.t("RCOG Category")} value={data.rcog_category} />
         </div>
 
         {/* Part A */}
         <div className="mb-4">
-          <div className="bg-[#3B309A] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">Part A — Mother Identification</div>
+          <div className="bg-[#3B309A] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">{i18n.t("Part A — Mother Identification")}</div>
           <div className="border border-slate-400 p-4 grid grid-cols-4 gap-4">
-            <FormField label="Mother's Full Name" value={data.mother_name} colSpan={2} underline />
-            <FormField label="Date of Birth" value={data.dob} underline />
-            <FormField label="MRN" value={data.mrn} underline />
-            <FormField label="Gestation (Weeks)" value={data.gestation} underline />
-            <FormField label="Gravida / Para" value={data.gravida_para} underline />
-            <FormField label="Blood Group / RH" value={data.blood_group} underline />
-            <FormField label="Ward / Unit" value={data.ward} underline />
-            <FormField label="Consultant Obstetrician" value={data.consultant} colSpan={2} underline />
+            <FormField label={i18n.t("Mother's Full Name")} value={data.mother_name} colSpan={2} underline />
+            <FormField label={i18n.t("Date of Birth")} value={data.dob} underline />
+            <FormField label={i18n.t("MRN")} value={data.mrn} underline />
+            <FormField label={i18n.t("Gestation (Weeks)")} value={data.gestation} underline />
+            <FormField label={i18n.t("Gravida / Para")} value={data.gravida_para} underline />
+            <FormField label={i18n.t("Blood Group / RH")} value={data.blood_group} underline />
+            <FormField label={i18n.t("Ward / Unit")} value={data.ward} underline />
+            <FormField label={i18n.t("Consultant Obstetrician")} value={data.consultant} colSpan={2} underline />
             <div className="col-span-4 mt-2">
-              <FormField label="Indication for Caesarean Section" value={data.indication_reason} underline />
+              <FormField label={i18n.t("Indication for Caesarean Section")} value={data.indication_reason} underline />
             </div>
           </div>
         </div>
@@ -158,108 +158,108 @@ const CsDeliveryConsentPrintTemplate: React.FC<CsDeliveryConsentPrintTemplatePro
         {/* Part B & C */}
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
-             <div className="bg-[#334155] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">Part B — Procedure (Ring 1)</div>
+             <div className="bg-[#334155] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">{i18n.t("Part B — Procedure (Ring 1)")}</div>
              <div className="border border-slate-400 p-4 h-[120px]">
-               <FormField label="Why a caesarean is recommended" value={data.plain_terms} />
-               <Checkbox checked={data.core_understanding} label="The mother understands what a CS is, why it is recommended, and the core risks." />
+               <FormField label={i18n.t("Why a caesarean is recommended")} value={data.plain_terms} />
+               <Checkbox checked={data.core_understanding} label={i18n.t("The mother understands what a CS is, why it is recommended, and the core risks.")} />
              </div>
           </div>
           <div>
-             <div className="bg-[#334155] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">Part C — What to Expect (Ring 4)</div>
+             <div className="bg-[#334155] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">{i18n.t("Part C — What to Expect (Ring 4)")}</div>
              <div className="border border-slate-400 p-4 h-[120px] text-[10px] text-gray-700">
-                <p>Before: fasting, IV access, bladder catheter, antacid and antibiotics. Anaesthesia: usually spinal/epidural so you are awake. During: low bikini-line incision, baby delivered, placenta removed. Baby: skin-to-skin and early breastfeeding supported. After: pain relief, clot prevention, early mobilisation.</p>
+                <p>{i18n.t("Before: fasting, IV access, bladder catheter, antacid and antibiotics. Anaesthesia: usually spinal/epidural so you are awake. During: low bikini-line incision, baby delivered, placenta removed. Baby: skin-to-skin and early breastfeeding supported. After: pain relief, clot prevention, early mobilisation.")}</p>
              </div>
           </div>
         </div>
         <div className="mb-4">
-           <div className="bg-[#1e293b] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">Part D — Intended Benefits</div>
+           <div className="bg-[#1e293b] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">{i18n.t("Part D — Intended Benefits")}</div>
            <div className="border border-slate-400 p-4">
-             <FormField label="Expected outcome for mother and baby" value={data.intended_benefits} />
+             <FormField label={i18n.t("Expected outcome for mother and baby")} value={data.intended_benefits} />
            </div>
         </div>
 
         {/* Part E & F */}
         <div className="mb-4">
-           <div className="bg-[#be123c] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">Part E — Risks & Complications (Ring 2)</div>
+           <div className="bg-[#be123c] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">{i18n.t("Part E — Risks & Complications (Ring 2)")}</div>
            <div className="border border-slate-400">
-             <table className="w-full text-left">
+             <table className="w-full text-start">
                <thead className="bg-slate-100 border-b border-slate-400">
                  <tr>
-                   <th className="p-2 text-[9px] font-bold uppercase w-1/4">Frequency</th>
-                   <th className="p-2 text-[9px] font-bold uppercase w-1/2">Risk / Complication</th>
-                   <th className="p-2 text-[9px] font-bold uppercase w-1/4">Explanation</th>
+                   <th className="p-2 text-[9px] font-bold uppercase w-1/4">{i18n.t("Frequency")}</th>
+                   <th className="p-2 text-[9px] font-bold uppercase w-1/2">{i18n.t("Risk / Complication")}</th>
+                   <th className="p-2 text-[9px] font-bold uppercase w-1/4">{i18n.t("Explanation")}</th>
                  </tr>
                </thead>
                <tbody className="divide-y divide-slate-300">
                  <tr>
-                   <td className="p-2 text-[9px] font-bold text-[#be123c]">COMMON</td>
-                   <td className="p-2 text-[10px]">Persistent wound/abdominal discomfort; infection; bleeding</td>
-                   <td className="p-2 text-[9px] text-gray-600">Managed with analgesia, antibiotics and wound care.</td>
+                   <td className="p-2 text-[9px] font-bold text-[#be123c]">{i18n.t("COMMON")}</td>
+                   <td className="p-2 text-[10px]">{i18n.t("Persistent wound/abdominal discomfort; infection; bleeding")}</td>
+                   <td className="p-2 text-[9px] text-gray-600">{i18n.t("Managed with analgesia, antibiotics and wound care.")}</td>
                  </tr>
                  <tr>
-                   <td className="p-2 text-[9px] font-bold text-[#be123c]">COMMON (baby)</td>
-                   <td className="p-2 text-[10px]">Transient fast breathing (tachypnoea)</td>
-                   <td className="p-2 text-[9px] text-gray-600">Usually settles; paediatric support available.</td>
+                   <td className="p-2 text-[9px] font-bold text-[#be123c]">{i18n.t("COMMON (baby)")}</td>
+                   <td className="p-2 text-[10px]">{i18n.t("Transient fast breathing (tachypnoea)")}</td>
+                   <td className="p-2 text-[9px] text-gray-600">{i18n.t("Usually settles; paediatric support available.")}</td>
                  </tr>
                  <tr>
-                   <td className="p-2 text-[9px] font-bold text-[#be123c]">UNCOMMON</td>
-                   <td className="p-2 text-[10px]">Heavy bleeding (haemorrhage) needing transfusion/surgery; Blood clots (DVT/PE)</td>
-                   <td className="p-2 text-[9px] text-gray-600">Transfusion, surgical measures, clot-prevention.</td>
+                   <td className="p-2 text-[9px] font-bold text-[#be123c]">{i18n.t("UNCOMMON")}</td>
+                   <td className="p-2 text-[10px]">{i18n.t("Heavy bleeding (haemorrhage) needing transfusion/surgery; Blood clots (DVT/PE)")}</td>
+                   <td className="p-2 text-[9px] text-gray-600">{i18n.t("Transfusion, surgical measures, clot-prevention.")}</td>
                  </tr>
                  <tr>
-                   <td className="p-2 text-[9px] font-bold text-[#be123c]">RARE</td>
-                   <td className="p-2 text-[10px]">Injury to bladder, ureter or bowel; Admission to ICU</td>
-                   <td className="p-2 text-[9px] text-gray-600">May require repair and specialist input.</td>
+                   <td className="p-2 text-[9px] font-bold text-[#be123c]">{i18n.t("RARE")}</td>
+                   <td className="p-2 text-[10px]">{i18n.t("Injury to bladder, ureter or bowel; Admission to ICU")}</td>
+                   <td className="p-2 text-[9px] text-gray-600">{i18n.t("May require repair and specialist input.")}</td>
                  </tr>
                  <tr>
-                   <td className="p-2 text-[9px] font-bold text-[#be123c]">VERY RARE</td>
-                   <td className="p-2 text-[10px]">Emergency hysterectomy as life-saving last resort; death</td>
-                   <td className="p-2 text-[9px] text-gray-600">Resuscitation and senior teams available.</td>
+                   <td className="p-2 text-[9px] font-bold text-[#be123c]">{i18n.t("VERY RARE")}</td>
+                   <td className="p-2 text-[10px]">{i18n.t("Emergency hysterectomy as life-saving last resort; death")}</td>
+                   <td className="p-2 text-[9px] text-gray-600">{i18n.t("Resuscitation and senior teams available.")}</td>
                  </tr>
                  <tr>
-                   <td className="p-2 text-[9px] font-bold text-[#be123c]">FUTURE PREGNANCY</td>
-                   <td className="p-2 text-[10px]">Higher chance of repeat CS, uterine-scar problems, placenta praevia/accreta</td>
-                   <td className="p-2 text-[9px] text-gray-600">Relevant to planning future births.</td>
+                   <td className="p-2 text-[9px] font-bold text-[#be123c]">{i18n.t("FUTURE PREGNANCY")}</td>
+                   <td className="p-2 text-[10px]">{i18n.t("Higher chance of repeat CS, uterine-scar problems, placenta praevia/accreta")}</td>
+                   <td className="p-2 text-[9px] text-gray-600">{i18n.t("Relevant to planning future births.")}</td>
                  </tr>
                </tbody>
              </table>
            </div>
         </div>
          <div className="mb-4">
-           <div className="bg-[#ea580c] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">Part F — Alternatives to Caesarean Section</div>
+           <div className="bg-[#ea580c] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">{i18n.t("Part F — Alternatives to Caesarean Section")}</div>
            <div className="border border-slate-400 p-4">
-             <FormField label="Alternatives discussed with this mother and what happens if no CS is performed" value={data.alternatives_discussed} />
+             <FormField label={i18n.t("Alternatives discussed with this mother and what happens if no CS is performed")} value={data.alternatives_discussed} />
            </div>
         </div>
         <div className="page-break" style={{ pageBreakAfter: 'always' }} />
 
         {/* Part G */}
         <div className="mb-4">
-          <div className="bg-[#475569] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">Part G — Individualised Risks & Consented Procedures (Ring 3)</div>
+          <div className="bg-[#475569] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">{i18n.t("Part G — Individualised Risks & Consented Procedures (Ring 3)")}</div>
           <div className="border border-slate-400 p-4">
-             <FormField label="Risks/factors specific to THIS mother" value={data.individual_risks} />
+             <FormField label={i18n.t("Risks/factors specific to THIS mother")} value={data.individual_risks} />
              <div className="grid grid-cols-3 gap-2 mt-2 mb-2">
-               <Checkbox checked={data.procedure_blood} label="Blood transfusion if required" />
-               <Checkbox checked={data.procedure_surgery} label="Additional surgery to control bleeding" />
-               <Checkbox checked={data.procedure_hysterectomy} label="Hysterectomy as life-saving last resort" />
+               <Checkbox checked={data.procedure_blood} label={i18n.t("Blood transfusion if required")} />
+               <Checkbox checked={data.procedure_surgery} label={i18n.t("Additional surgery to control bleeding")} />
+               <Checkbox checked={data.procedure_hysterectomy} label={i18n.t("Hysterectomy as life-saving last resort")} />
              </div>
-             <FormField label="Procedures the mother does NOT wish carried out under any circumstances" value={data.procedures_declined} />
+             <FormField label={i18n.t("Procedures the mother does NOT wish carried out under any circumstances")} value={data.procedures_declined} />
           </div>
         </div>
 
         {/* Part H & I */}
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
-            <div className="bg-[#475569] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">Part H — Anaesthesia & Sedation</div>
+            <div className="bg-[#475569] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">{i18n.t("Part H — Anaesthesia & Sedation")}</div>
             <div className="border border-slate-400 p-4">
-               <FormField label="Type" value={data.anaesthesia_type} />
+               <FormField label={i18n.t("Type")} value={data.anaesthesia_type} />
             </div>
           </div>
           <div>
-            <div className="bg-[#475569] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">Part I — Interpretation (if needed)</div>
+            <div className="bg-[#475569] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">{i18n.t("Part I — Interpretation (if needed)")}</div>
             <div className="border border-slate-400 p-4">
-               <FormField label="Interpreter Name" value={data.interpreter_name} />
-               <SignatureBlock title="Interpreter Signature" signature={data.interpreter_signature} date={data.interpreter_date} />
+               <FormField label={i18n.t("Interpreter Name")} value={data.interpreter_name} />
+               <SignatureBlock title={i18n.t("Interpreter Signature")} signature={data.interpreter_signature} date={data.interpreter_date} />
             </div>
           </div>
         </div>
@@ -267,29 +267,29 @@ const CsDeliveryConsentPrintTemplate: React.FC<CsDeliveryConsentPrintTemplatePro
         {/* Part J & K - Signatures */}
         <div className="grid grid-cols-2 gap-4 mb-4">
            <div>
-             <div className="bg-[#1e293b] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">Part J — Clinician Declaration</div>
+             <div className="bg-[#1e293b] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">{i18n.t("Part J — Clinician Declaration")}</div>
              <div className="border border-slate-400 p-4">
-                <FormField label="Additional Clinician Notes" value={data.clinician_notes} />
-                <SignatureBlock title="Obstetrician Signature" signature={data.obstetrician_signature} name={data.obstetrician_name} />
+                <FormField label={i18n.t("Additional Clinician Notes")} value={data.clinician_notes} />
+                <SignatureBlock title={i18n.t("Obstetrician Signature")} signature={data.obstetrician_signature} name={data.obstetrician_name} />
                 <div className="mt-4">
-                   <SignatureBlock title="Second Clinician (If Applicable)" signature={data.second_clinician_signature} name={data.second_clinician_name} />
+                   <SignatureBlock title={i18n.t("Second Clinician (If Applicable)")} signature={data.second_clinician_signature} name={data.second_clinician_name} />
                 </div>
              </div>
            </div>
            <div>
-             <div className="bg-[#1e293b] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">Part K — Mother's Consent</div>
+             <div className="bg-[#1e293b] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">{i18n.t("Part K — Mother's Consent")}</div>
              <div className="border border-slate-400 p-4">
-                <Checkbox checked={data.read_understood} label="I have read/understood Parts A to J" />
-                <Checkbox checked={data.risks_explained} label="Benefits, risks and alternatives explained" />
-                <Checkbox checked={data.individual_risks_accepted} label="I accept the risks described, including individual risks" />
-                <Checkbox checked={data.modify_approach} label="Team may modify approach if clinically necessary" />
-                <Checkbox checked={data.anaesthesia_consent} label="I consent to the anaesthesia described" />
-                <Checkbox checked={data.additional_procedures_ack} label="Additional procedures will only be done if necessary to save my life" />
+                <Checkbox checked={data.read_understood} label={i18n.t("I have read/understood Parts A to J")} />
+                <Checkbox checked={data.risks_explained} label={i18n.t("Benefits, risks and alternatives explained")} />
+                <Checkbox checked={data.individual_risks_accepted} label={i18n.t("I accept the risks described, including individual risks")} />
+                <Checkbox checked={data.modify_approach} label={i18n.t("Team may modify approach if clinically necessary")} />
+                <Checkbox checked={data.anaesthesia_consent} label={i18n.t("I consent to the anaesthesia described")} />
+                <Checkbox checked={data.additional_procedures_ack} label={i18n.t("Additional procedures will only be done if necessary to save my life")} />
                 <div className="mt-4">
-                   <SignatureBlock title="Mother's Signature" signature={data.mother_signature} name={data.mother_name} />
+                   <SignatureBlock title={i18n.t("Mother's Signature")} signature={data.mother_signature} name={data.mother_name} />
                 </div>
                 <div className="mt-4">
-                   <SignatureBlock title="Witness (if unable to sign)" signature={data.witness_signature} />
+                   <SignatureBlock title={i18n.t("Witness (if unable to sign)")} signature={data.witness_signature} />
                 </div>
              </div>
            </div>
@@ -299,30 +299,30 @@ const CsDeliveryConsentPrintTemplate: React.FC<CsDeliveryConsentPrintTemplatePro
 
         {/* Part L */}
         <div className="mb-4">
-           <div className="bg-[#dc2626] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">Part L — Emergency Authorisation (Mother Unable to Consent)</div>
+           <div className="bg-[#dc2626] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">{i18n.t("Part L — Emergency Authorisation (Mother Unable to Consent)")}</div>
            <div className="border-2 border-red-500 p-4">
-              <FormField label="Clinical situation and why immediate caesarean is in the patient's best interests" value={data.emergency_situation} />
+              <FormField label={i18n.t("Clinical situation and why immediate caesarean is in the patient's best interests")} value={data.emergency_situation} />
               <div className="grid grid-cols-2 gap-4 mt-2 mb-2">
-                 <FormField label="Next of Kin / Rep Name" value={data.nok_name} />
-                 <FormField label="Relationship" value={data.nok_relationship} />
+                 <FormField label={i18n.t("Next of Kin / Rep Name")} value={data.nok_name} />
+                 <FormField label={i18n.t("Relationship")} value={data.nok_relationship} />
               </div>
               <div className="grid grid-cols-2 gap-4 mt-4">
-                 <SignatureBlock title="Responsible Obstetrician Signature" signature={data.emergency_obstetrician_signature} />
-                 <SignatureBlock title="Second Senior Clinician Witness" signature={data.emergency_witness_signature} />
+                 <SignatureBlock title={i18n.t("Responsible Obstetrician Signature")} signature={data.emergency_obstetrician_signature} />
+                 <SignatureBlock title={i18n.t("Second Senior Clinician Witness")} signature={data.emergency_witness_signature} />
               </div>
            </div>
         </div>
 
         {/* Part M */}
         <div className="mb-4">
-           <div className="bg-[#475569] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">Part M — Confirmation & Withdrawal</div>
+           <div className="bg-[#475569] text-white px-3 py-1 inline-block text-[10px] font-bold uppercase tracking-widest mb-1">{i18n.t("Part M — Confirmation & Withdrawal")}</div>
            <div className="border border-slate-400 p-4 grid grid-cols-2 gap-4">
-              <SignatureBlock title="Confirming Clinician Signature (Immediately before operation)" signature={data.confirmation_clinician_signature} />
+              <SignatureBlock title={i18n.t("Confirming Clinician Signature (Immediately before operation)")} signature={data.confirmation_clinician_signature} />
               <div>
-                <FormField label="Withdrawal Notes (If applicable)" value={data.withdrawal_reason} />
+                <FormField label={i18n.t("Withdrawal Notes (If applicable)")} value={data.withdrawal_reason} />
                 <div className="mt-2 grid grid-cols-2 gap-2">
-                  <SignatureBlock title="Mother's Signature (Withdrawal)" signature={data.withdrawal_mother_signature} />
-                  <SignatureBlock title="Clinician Acknowledging Withdrawal" signature={data.withdrawal_clinician_signature} />
+                  <SignatureBlock title={i18n.t("Mother's Signature (Withdrawal)")} signature={data.withdrawal_mother_signature} />
+                  <SignatureBlock title={i18n.t("Clinician Acknowledging Withdrawal")} signature={data.withdrawal_clinician_signature} />
                 </div>
               </div>
            </div>

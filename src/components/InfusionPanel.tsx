@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { nursingService } from "../services/nursing.service";
 import { useNotification } from "../context/NotificationContext";
+import { i18n } from "../i18n";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -203,21 +204,21 @@ const InlineTitrate: React.FC<{ session: InfusionSession; onCancel: () => void; 
   };
 
   return (
-    <InlineFormWrap title="Titrate Infusion" icon={<Zap size={14} />} color="#1d4ed8" bg="#eff6ff" borderColor="#bfdbfe">
+    <InlineFormWrap title={i18n.t("Titrate Infusion")} icon={<Zap size={14} />} color="#1d4ed8" bg="#eff6ff" borderColor="#bfdbfe">
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
         <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
           <div style={{ flex: "1 1 120px" }}>
-            <label style={label}>New Rate (ml/hr) *</label>
+            <label style={label}>{i18n.t("New Rate (ml/hr) *")}</label>
             <input type="number" min="1" autoFocus required value={rate} onChange={e => setRate(e.target.value)} style={inlineInput("#bfdbfe")} placeholder={`${session.current_rate_ml_hr}`} />
           </div>
           <div style={{ flex: "2 1 200px" }}>
-            <label style={label}>Remarks (optional)</label>
-            <input type="text" value={remarks} onChange={e => setRemarks(e.target.value)} style={inlineInput("#bfdbfe")} placeholder="e.g. Protocol" />
+            <label style={label}>{i18n.t("Remarks (optional)")}</label>
+            <input type="text" value={remarks} onChange={e => setRemarks(e.target.value)} style={inlineInput("#bfdbfe")} placeholder={i18n.t("e.g. Protocol")} />
           </div>
         </div>
         <div style={{ display: "flex", gap: "8px", justifyContent: "flex-end", marginTop: "4px" }}>
-          <button type="button" style={{ ...secBtn, flex: 0, padding: "7px 14px", fontSize: "15px", whiteSpace: "nowrap" }} onClick={onCancel}>Cancel</button>
-          <button type="submit" disabled={submitting} style={{ ...makePrimBtn("#1d4ed8"), flex: 0, padding: "7px 14px", fontSize: "15px", whiteSpace: "nowrap" }}>{submitting ? <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> : "Update Rate"}</button>
+          <button type="button" style={{ ...secBtn, flex: 0, padding: "7px 14px", fontSize: "15px", whiteSpace: "nowrap" }} onClick={onCancel}>{i18n.t("Cancel")}</button>
+          <button type="submit" disabled={submitting} style={{ ...makePrimBtn("#1d4ed8"), flex: 0, padding: "7px 14px", fontSize: "15px", whiteSpace: "nowrap" }}>{submitting ? <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> : i18n.t("Update Rate")}</button>
         </div>
       </form>
     </InlineFormWrap>
@@ -238,12 +239,12 @@ const InlinePause: React.FC<{ session: InfusionSession; onCancel: () => void; on
   };
 
   return (
-    <InlineFormWrap title="Pause Infusion" icon={<Pause size={14} />} color="#b45309" bg="#fefce8" borderColor="#fef08a">
+    <InlineFormWrap title={i18n.t("Pause Infusion")} icon={<Pause size={14} />} color="#b45309" bg="#fefce8" borderColor="#fef08a">
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-        <div style={{ fontSize: "15px", color: "#854d0e" }}>⚠ The infusion will be paused.</div>
+        <div style={{ fontSize: "15px", color: "#854d0e" }}>{i18n.t("⚠ The infusion will be paused.")}</div>
         <div style={{ display: "flex", gap: "8px", justifyContent: "flex-end", marginTop: "4px" }}>
-          <button type="button" style={{ ...secBtn, flex: 0, padding: "7px 14px", fontSize: "15px", whiteSpace: "nowrap" }} onClick={onCancel}>Cancel</button>
-          <button type="submit" disabled={submitting} style={{ ...makePrimBtn("#b45309"), flex: 0, padding: "7px 14px", fontSize: "15px", whiteSpace: "nowrap" }}>{submitting ? <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> : "Pause Infusion"}</button>
+          <button type="button" style={{ ...secBtn, flex: 0, padding: "7px 14px", fontSize: "15px", whiteSpace: "nowrap" }} onClick={onCancel}>{i18n.t("Cancel")}</button>
+          <button type="submit" disabled={submitting} style={{ ...makePrimBtn("#b45309"), flex: 0, padding: "7px 14px", fontSize: "15px", whiteSpace: "nowrap" }}>{submitting ? <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> : i18n.t("Pause Infusion")}</button>
         </div>
       </form>
     </InlineFormWrap>
@@ -267,21 +268,21 @@ const InlineResume: React.FC<{ session: InfusionSession; onCancel: () => void; o
   };
 
   return (
-    <InlineFormWrap title="Resume Infusion" icon={<Play size={14} />} color="#0f766e" bg="#f0fdfa" borderColor="#99f6e4">
+    <InlineFormWrap title={i18n.t("Resume Infusion")} icon={<Play size={14} />} color="#0f766e" bg="#f0fdfa" borderColor="#99f6e4">
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
         <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
           <div style={{ flex: "1 1 120px" }}>
-            <label style={label}>Resume Rate (ml/hr) *</label>
+            <label style={label}>{i18n.t("Resume Rate (ml/hr) *")}</label>
             <input type="number" min="1" autoFocus required value={rate} onChange={e => setRate(e.target.value)} style={inlineInput("#99f6e4")} />
           </div>
           <div style={{ flex: "2 1 200px" }}>
-            <label style={label}>Remarks (optional)</label>
-            <input type="text" value={remarks} onChange={e => setRemarks(e.target.value)} style={inlineInput("#99f6e4")} placeholder="e.g. Line repositioned" />
+            <label style={label}>{i18n.t("Remarks (optional)")}</label>
+            <input type="text" value={remarks} onChange={e => setRemarks(e.target.value)} style={inlineInput("#99f6e4")} placeholder={i18n.t("e.g. Line repositioned")} />
           </div>
         </div>
         <div style={{ display: "flex", gap: "8px", justifyContent: "flex-end", marginTop: "4px" }}>
-          <button type="button" style={{ ...secBtn, flex: 0, padding: "7px 14px", fontSize: "15px", whiteSpace: "nowrap" }} onClick={onCancel}>Cancel</button>
-          <button type="submit" disabled={submitting} style={{ ...makePrimBtn("#0f766e"), flex: 0, padding: "7px 14px", fontSize: "15px", whiteSpace: "nowrap" }}>{submitting ? <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> : "Resume Infusion"}</button>
+          <button type="button" style={{ ...secBtn, flex: 0, padding: "7px 14px", fontSize: "15px", whiteSpace: "nowrap" }} onClick={onCancel}>{i18n.t("Cancel")}</button>
+          <button type="submit" disabled={submitting} style={{ ...makePrimBtn("#0f766e"), flex: 0, padding: "7px 14px", fontSize: "15px", whiteSpace: "nowrap" }}>{submitting ? <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> : i18n.t("Resume Infusion")}</button>
         </div>
       </form>
     </InlineFormWrap>
@@ -304,16 +305,16 @@ const InlineStop: React.FC<{ session: InfusionSession; onCancel: () => void; onS
   };
 
   return (
-    <InlineFormWrap title="Stop Infusion" icon={<Square size={14} />} color="#dc2626" bg="#fef2f2" borderColor="#fecaca">
+    <InlineFormWrap title={i18n.t("Stop Infusion")} icon={<Square size={14} />} color="#dc2626" bg="#fef2f2" borderColor="#fecaca">
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-        <div style={{ fontSize: "15px", color: "#991b1b" }}>This action will permanently stop the infusion session.</div>
+        <div style={{ fontSize: "15px", color: "#991b1b" }}>{i18n.t("This action will permanently stop the infusion session.")}</div>
         <div>
-          <label style={label}>Stop Reason *</label>
-          <input type="text" autoFocus required value={reason} onChange={e => setReason(e.target.value)} style={inlineInput("#fecaca")} placeholder="e.g. Infusion complete" />
+          <label style={label}>{i18n.t("Stop Reason *")}</label>
+          <input type="text" autoFocus required value={reason} onChange={e => setReason(e.target.value)} style={inlineInput("#fecaca")} placeholder={i18n.t("e.g. Infusion complete")} />
         </div>
         <div style={{ display: "flex", gap: "8px", justifyContent: "flex-end", marginTop: "4px" }}>
-          <button type="button" style={{ ...secBtn, flex: 0, padding: "7px 14px", fontSize: "15px", whiteSpace: "nowrap" }} onClick={onCancel}>Cancel</button>
-          <button type="submit" disabled={submitting} style={{ ...makePrimBtn("#dc2626"), flex: 0, padding: "7px 14px", fontSize: "15px", whiteSpace: "nowrap" }}>{submitting ? <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> : "Stop Infusion"}</button>
+          <button type="button" style={{ ...secBtn, flex: 0, padding: "7px 14px", fontSize: "15px", whiteSpace: "nowrap" }} onClick={onCancel}>{i18n.t("Cancel")}</button>
+          <button type="submit" disabled={submitting} style={{ ...makePrimBtn("#dc2626"), flex: 0, padding: "7px 14px", fontSize: "15px", whiteSpace: "nowrap" }}>{submitting ? <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> : i18n.t("Stop Infusion")}</button>
         </div>
       </form>
     </InlineFormWrap>
@@ -377,7 +378,7 @@ const StartInfusionInline: React.FC<{
       <div style={{ background: "#7c3aed", padding: "12px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", color: "#fff" }}>
         <div>
           <div style={{ fontSize: "18px", fontWeight: 800 }}>
-            {phase === 1 ? "Start New Infusion" : "Configure Infusion"}
+            {phase === 1 ? i18n.t("Start New Infusion") : i18n.t("Configure Infusion")}
           </div>
           {phase === 2 && selectedRx && (
             <div style={{ fontSize: "14px", fontWeight: 600, marginTop: "2px", opacity: 0.9 }}>
@@ -392,12 +393,9 @@ const StartInfusionInline: React.FC<{
         <div style={{ padding: "16px 20px", maxHeight: "460px", overflowY: "auto" }}>
           {loadingRx ? (
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "40px", gap: "8px", color: "#6b7a9a" }}>
-              <Loader2 size={18} style={{ animation: "spin 1s linear infinite" }} /> Loading prescriptions…
-            </div>
+              <Loader2 size={18} style={{ animation: "spin 1s linear infinite" }} />{" "}{i18n.t("Loading prescriptions…")}</div>
           ) : prescriptions.length === 0 ? (
-            <div style={{ textAlign: "center", padding: "40px", color: "#6b7a9a", fontSize: "16px" }}>
-              No infusion prescriptions available for this encounter.
-            </div>
+            <div style={{ textAlign: "center", padding: "40px", color: "#6b7a9a", fontSize: "16px" }}>{i18n.t("No infusion prescriptions available for this encounter.")}</div>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               {prescriptions.map(rx => {
@@ -420,16 +418,15 @@ const StartInfusionInline: React.FC<{
                       <div style={{ flex: 1 }}>
                         <div style={{ fontWeight: 800, fontSize: "18px", color: "#1c2b4a", marginBottom: "3px" }}>{rx.drug_name}</div>
                         <div style={{ fontSize: "14px", color: "#6b7a9a", lineHeight: 1.6 }}>
-                          <span style={{ fontWeight: 600 }}>Dose:</span> {rx.dosage} &nbsp;·&nbsp;
-                          <span style={{ fontWeight: 600 }}>Route:</span> {rx.route} &nbsp;·&nbsp;
-                          <span style={{ fontWeight: 600 }}>Freq:</span> {rx.frequency}
+                          <span style={{ fontWeight: 600 }}>{i18n.t("Dose:")}</span> {rx.dosage} &nbsp;·&nbsp;
+                          <span style={{ fontWeight: 600 }}>{i18n.t("Route:")}</span> {rx.route} &nbsp;·&nbsp;
+                          <span style={{ fontWeight: 600 }}>{i18n.t("Freq:")}</span> {rx.frequency}
                         </div>
                         <div style={{ fontSize: "14px", color: "#6b7a9a" }}>
-                          <span style={{ fontWeight: 600 }}>Duration:</span> {rx.duration} {rx.duration_unit} &nbsp;·&nbsp;
-                          <span style={{ fontWeight: 600 }}>By:</span> {rx.prescribed_by}
+                          <span style={{ fontWeight: 600 }}>{i18n.t("Duration:")}</span> {rx.duration} {rx.duration_unit} &nbsp;·&nbsp;
+                          <span style={{ fontWeight: 600 }}>{i18n.t("By:")}</span> {rx.prescribed_by}
                         </div>
-                        <div style={{ fontSize: "13px", color: "#8a94ad", marginTop: "2px" }}>
-                          Prescribed: {fmtDt(rx.prescribed_at)}
+                        <div style={{ fontSize: "13px", color: "#8a94ad", marginTop: "2px" }}>{i18n.t("Prescribed:")}{" "}{fmtDt(rx.prescribed_at)}
                         </div>
                       </div>
                       <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "4px" }}>
@@ -437,9 +434,7 @@ const StartInfusionInline: React.FC<{
                           {rx.route}
                         </span>
                         {hasActive && (
-                          <span style={{ background: "#dcfce7", color: "#166534", fontSize: "12px", fontWeight: 800, textTransform: "uppercase", padding: "3px 8px", borderRadius: "20px" }}>
-                            Active Session
-                          </span>
+                          <span style={{ background: "#dcfce7", color: "#166534", fontSize: "12px", fontWeight: 800, textTransform: "uppercase", padding: "3px 8px", borderRadius: "20px" }}>{i18n.t("Active Session")}</span>
                         )}
                       </div>
                     </div>
@@ -449,7 +444,7 @@ const StartInfusionInline: React.FC<{
             </div>
           )}
           <div style={{ paddingTop: "12px", display: "flex", justifyContent: "flex-end" }}>
-            <button onClick={onCancel} style={{ ...secBtn, flex: 0, padding: "10px 24px" }}>Cancel</button>
+            <button onClick={onCancel} style={{ ...secBtn, flex: 0, padding: "10px 24px" }}>{i18n.t("Cancel")}</button>
           </div>
         </div>
       )}
@@ -458,28 +453,28 @@ const StartInfusionInline: React.FC<{
         <form onSubmit={handleStartSubmit} style={mBody}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
             <div>
-              <label style={label}>Rate (ml/hr) <span style={{ color: "#e11d48" }}>*</span></label>
-              <input type="number" min="1" autoFocus required value={rate} onChange={e => setRate(e.target.value)} style={input} placeholder="e.g. 50" />
+              <label style={label}>{i18n.t("Rate (ml/hr)")}{" "}<span style={{ color: "#e11d48" }}>*</span></label>
+              <input type="number" min="1" autoFocus required value={rate} onChange={e => setRate(e.target.value)} style={input} placeholder={i18n.t("e.g. 50")} />
             </div>
             <div>
-              <label style={label}>Volume (ml) <span style={{ color: "#e11d48" }}>*</span></label>
-              <input type="number" min="1" required value={volume} onChange={e => setVolume(e.target.value)} style={input} placeholder="e.g. 500" />
+              <label style={label}>{i18n.t("Volume (ml)")}{" "}<span style={{ color: "#e11d48" }}>*</span></label>
+              <input type="number" min="1" required value={volume} onChange={e => setVolume(e.target.value)} style={input} placeholder={i18n.t("e.g. 500")} />
             </div>
           </div>
           <div>
-            <label style={label}>Infusion Type</label>
+            <label style={label}>{i18n.t("Infusion Type")}</label>
             <select value={infusionType} onChange={e => setInfusionType(e.target.value)} style={{ ...input, appearance: "none" }}>
               {INFUSION_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
             </select>
           </div>
           <div>
-            <label style={label}>Access Site</label>
+            <label style={label}>{i18n.t("Access Site")}</label>
             <select value={accessSite} onChange={e => setAccessSite(e.target.value)} style={{ ...input, appearance: "none" }}>
               {ACCESS_SITES.map(s => <option key={s} value={s}>{s}</option>)}
             </select>
           </div>
           <div>
-            <label style={label}>Start Date & Time <span style={{ color: "#e11d48" }}>*</span></label>
+            <label style={label}>{i18n.t("Start Date & Time")}{" "}<span style={{ color: "#e11d48" }}>*</span></label>
             <input
               type="datetime-local"
               required
@@ -489,15 +484,13 @@ const StartInfusionInline: React.FC<{
             />
           </div>
           <div>
-            <label style={label}>Remarks <span style={{ color: "#aaa", fontWeight: 400 }}>(optional)</span></label>
-            <input type="text" value={remarks} onChange={e => setRemarks(e.target.value)} style={input} placeholder="e.g. Infusion started via pump, patient tolerated well" />
+            <label style={label}>{i18n.t("Remarks")}{" "}<span style={{ color: "#aaa", fontWeight: 400 }}>{i18n.t("(optional)")}</span></label>
+            <input type="text" value={remarks} onChange={e => setRemarks(e.target.value)} style={input} placeholder={i18n.t("e.g. Infusion started via pump, patient tolerated well")} />
           </div>
           <div style={btnRow}>
-            <button type="button" style={secBtn} onClick={() => setPhase(1)}>← Back</button>
+            <button type="button" style={secBtn} onClick={() => setPhase(1)}>{i18n.t("← Back")}</button>
             <button type="submit" disabled={submitting} style={makePrimBtn("#7c3aed")}>
-              {submitting ? <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> : <Plus size={14} />}
-              Start Infusion
-            </button>
+              {submitting ? <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> : <Plus size={14} />}{i18n.t("Start Infusion")}</button>
           </div>
         </form>
       )}
@@ -546,12 +539,12 @@ const InfusionCard: React.FC<{
             <span style={{ fontWeight: 800, fontSize: "18px", color: "#1c2b4a" }}>{session.drug_name}</span>
             {/* Status badge */}
             <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", background: sc.bg, color: sc.color, fontSize: "12px", fontWeight: 800, textTransform: "uppercase", padding: "3px 8px", borderRadius: "20px", letterSpacing: "0.6px" }}>
-              <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: sc.dot, display: "inline-block" }} />{sc.label}
+              <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: sc.dot, display: "inline-block" }} />{i18n.tx(sc.label)}
             </span>
             {/* Safety alerts badge */}
             {unack > 0 && (
               <span style={{ display: "inline-flex", alignItems: "center", gap: "3px", background: "#fef9c3", color: "#854d0e", fontSize: "12px", fontWeight: 800, padding: "3px 8px", borderRadius: "20px", border: "1px solid #fde047" }}>
-                <AlertTriangle size={9} /> {unack} Alert{unack > 1 ? "s" : ""}
+                <AlertTriangle size={9} /> {unack}{" "}{i18n.t("Alert")}{unack > 1 ? i18n.t("s") : ""}
               </span>
             )}
           </div>
@@ -575,8 +568,7 @@ const InfusionCard: React.FC<{
 
           {/* Stop reason */}
           {isStopped && session.stop_reason && (
-            <div style={{ marginTop: "6px", fontSize: "14px", color: "#991b1b", background: "#fee2e2", borderRadius: "6px", padding: "4px 8px", display: "inline-block" }}>
-              Stopped: {session.stop_reason}
+            <div style={{ marginTop: "6px", fontSize: "14px", color: "#991b1b", background: "#fee2e2", borderRadius: "6px", padding: "4px 8px", display: "inline-block" }}>{i18n.t("Stopped:")}{" "}{session.stop_reason}
             </div>
           )}
         </div>
@@ -585,15 +577,15 @@ const InfusionCard: React.FC<{
         <div style={{ display: "flex", flexDirection: "column", gap: "6px", flexShrink: 0 }}>
           {isRunning && (
             <>
-              <button onClick={() => setActiveModal(activeModal === "titrate" ? null : "titrate")} style={actionBtn("#1d4ed8")}><Zap size={11} /> Titrate</button>
-              <button onClick={() => setActiveModal(activeModal === "pause" ? null : "pause")} style={actionBtn("#b45309")}><Pause size={11} /> Pause</button>
-              <button onClick={() => setActiveModal(activeModal === "stop" ? null : "stop")} style={actionBtn("#dc2626")}><Square size={11} /> Stop</button>
+              <button onClick={() => setActiveModal(activeModal === "titrate" ? null : "titrate")} style={actionBtn("#1d4ed8")}><Zap size={11} />{" "}{i18n.t("Titrate")}</button>
+              <button onClick={() => setActiveModal(activeModal === "pause" ? null : "pause")} style={actionBtn("#b45309")}><Pause size={11} />{" "}{i18n.t("Pause")}</button>
+              <button onClick={() => setActiveModal(activeModal === "stop" ? null : "stop")} style={actionBtn("#dc2626")}><Square size={11} />{" "}{i18n.t("Stop")}</button>
             </>
           )}
           {isPaused && (
             <>
-              <button onClick={() => setActiveModal(activeModal === "resume" ? null : "resume")} style={actionBtn("#0f766e")}><Play size={11} /> Resume</button>
-              <button onClick={() => setActiveModal(activeModal === "stop" ? null : "stop")} style={actionBtn("#dc2626")}><Square size={11} /> Stop</button>
+              <button onClick={() => setActiveModal(activeModal === "resume" ? null : "resume")} style={actionBtn("#0f766e")}><Play size={11} />{" "}{i18n.t("Resume")}</button>
+              <button onClick={() => setActiveModal(activeModal === "stop" ? null : "stop")} style={actionBtn("#dc2626")}><Square size={11} />{" "}{i18n.t("Stop")}</button>
             </>
           )}
         </div>
@@ -622,7 +614,7 @@ const InfusionCard: React.FC<{
           onClick={() => setExpanded(e => !e)}
           style={{ width: "100%", background: "#f8f9fc", border: "none", borderTop: "1px solid #e8eaf2", padding: "7px 14px", display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer", fontSize: "13px", fontWeight: 700, color: "#6b7a9a", textTransform: "uppercase", letterSpacing: "0.6px" }}
         >
-          <span style={{ display: "flex", alignItems: "center", gap: "5px" }}><Activity size={11} /> Timeline ({session.events?.length || 0} events)</span>
+          <span style={{ display: "flex", alignItems: "center", gap: "5px" }}><Activity size={11} />{" "}{i18n.t("Timeline (")}{session.events?.length || 0}{" "}{i18n.t("events)")}</span>
           {expanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
         </button>
 
@@ -630,7 +622,7 @@ const InfusionCard: React.FC<{
         {expanded && (
           <div style={{ padding: "10px 14px 14px", background: "#f8f9fc" }}>
             {(session.events || []).length === 0 ? (
-              <div style={{ fontSize: "14px", color: "#8a94ad", textAlign: "center", padding: "12px 0" }}>No events recorded.</div>
+              <div style={{ fontSize: "14px", color: "#8a94ad", textAlign: "center", padding: "12px 0" }}>{i18n.t("No events recorded.")}</div>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
                 {[...session.events].reverse().map((ev, i) => {
@@ -650,11 +642,10 @@ const InfusionCard: React.FC<{
                           {/* Rate change */}
                           {ev.new_rate_ml_hr && (
                             <span style={{ fontSize: "13px", color: "#4a5568", fontWeight: 600 }}>
-                              {ev.previous_rate_ml_hr ? `${ev.previous_rate_ml_hr} → ` : "→ "}{ev.new_rate_ml_hr} ml/hr
-                            </span>
+                              {ev.previous_rate_ml_hr ? `${ev.previous_rate_ml_hr} → ` : "→ "}{ev.new_rate_ml_hr}{" "}{i18n.t("ml/hr")}</span>
                           )}
                           {ev.volume_ml && (
-                            <span style={{ fontSize: "13px", color: "#4a5568", fontWeight: 600 }}>Vol: {ev.volume_ml} ml</span>
+                            <span style={{ fontSize: "13px", color: "#4a5568", fontWeight: 600 }}>{i18n.t("Vol:")}{" "}{ev.volume_ml}{" "}{i18n.t("ml")}</span>
                           )}
                         </div>
                         {ev.remarks && (
@@ -698,11 +689,10 @@ const InfusionPanel: React.FC<InfusionPanelProps> = ({ encounterNumber, wardId, 
         <div style={{ background: "#5b21b6", padding: "10px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <Droplets size={14} color="#c4b5fd" />
-            <span style={{ fontWeight: 800, fontSize: "15px", color: "#fff", textTransform: "uppercase", letterSpacing: "0.8px" }}>Active Infusions</span>
+            <span style={{ fontWeight: 800, fontSize: "15px", color: "#fff", textTransform: "uppercase", letterSpacing: "0.8px" }}>{i18n.t("Active Infusions")}</span>
             {activeSessions.length > 0 && (
               <span style={{ background: "#7c3aed", color: "#e9d5ff", fontSize: "13px", fontWeight: 800, padding: "2px 8px", borderRadius: "20px" }}>
-                {activeSessions.length} running
-              </span>
+                {activeSessions.length}{" "}{i18n.t("running")}</span>
             )}
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -710,8 +700,7 @@ const InfusionPanel: React.FC<InfusionPanelProps> = ({ encounterNumber, wardId, 
               onClick={() => setShowStartModal(true)}
               style={{ display: "flex", alignItems: "center", gap: "5px", background: "#7c3aed", border: "none", borderRadius: "7px", padding: "7px 14px", fontSize: "14px", fontWeight: 800, color: "#fff", cursor: "pointer" }}
             >
-              <Plus size={12} /> Start Infusion
-            </button>
+              <Plus size={12} />{" "}{i18n.t("Start Infusion")}</button>
             {onClose && (
               <button onClick={onClose} style={{ background: "rgba(255,255,255,0.15)", border: "none", borderRadius: "6px", width: "26px", height: "26px", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", cursor: "pointer" }}>
                 <X size={16} />
@@ -734,8 +723,8 @@ const InfusionPanel: React.FC<InfusionPanelProps> = ({ encounterNumber, wardId, 
           {sessions.length === 0 ? (
             <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "32px 20px", gap: "8px", color: "#6b7a9a" }}>
               <Droplets size={40} color="#c4b5fd" />
-              <span style={{ fontSize: "18px", fontWeight: 600 }}>No infusion sessions for this encounter</span>
-              <span style={{ fontSize: "14px", color: "#8a94ad" }}>Click "Start Infusion" to begin</span>
+              <span style={{ fontSize: "18px", fontWeight: 600 }}>{i18n.t("No infusion sessions for this encounter")}</span>
+              <span style={{ fontSize: "14px", color: "#8a94ad" }}>{i18n.t("Click \"Start Infusion\" to begin")}</span>
             </div>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
@@ -746,9 +735,7 @@ const InfusionPanel: React.FC<InfusionPanelProps> = ({ encounterNumber, wardId, 
               {/* Stopped sessions collapsed */}
               {stoppedSessions.length > 0 && (
                 <div>
-                  <div style={{ fontSize: "13px", fontWeight: 700, color: "#8a94ad", textTransform: "uppercase", letterSpacing: "0.6px", padding: "4px 2px 8px" }}>
-                    Completed / Stopped
-                  </div>
+                  <div style={{ fontSize: "13px", fontWeight: 700, color: "#8a94ad", textTransform: "uppercase", letterSpacing: "0.6px", padding: "4px 2px 8px" }}>{i18n.t("Completed / Stopped")}</div>
                   <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                     {stoppedSessions.map(s => (
                       <InfusionCard key={s.session_id} session={s} onRefresh={onRefresh} />

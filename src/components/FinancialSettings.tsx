@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Coins, Percent, Landmark, ShieldCheck, AlertCircle, Save, CheckCircle2 } from 'lucide-react';
+import { i18n } from "../i18n";
 
 const FinancialSettings: React.FC = () => {
   const [currency, setCurrency] = useState('NGN');
@@ -14,10 +15,8 @@ const FinancialSettings: React.FC = () => {
           <h3 className="text-2xl font-black text-slate-800 tracking-tight flex items-center gap-3">
              <div className="p-2 bg-brand-active text-brand-primary rounded-xl">
               <Landmark size={24} />
-            </div>
-            Financial Control & Currency
-          </h3>
-          <p className="text-sm font-medium text-slate-500 mt-1">Global fiscal parameters and taxation policies for billing reconciliation.</p>
+            </div>{i18n.t("Financial Control & Currency")}</h3>
+          <p className="text-sm font-medium text-slate-500 mt-1">{i18n.t("Global fiscal parameters and taxation policies for billing reconciliation.")}</p>
         </div>
       </div>
 
@@ -29,24 +28,24 @@ const FinancialSettings: React.FC = () => {
                 <Coins size={28} />
              </div>
              <div>
-                <h4 className="font-black text-slate-800 uppercase tracking-widest text-xs">Standard Currency</h4>
-                <p className="text-[10px] text-slate-400 font-bold uppercase mt-1">Default ledger display unit</p>
+                <h4 className="font-black text-slate-800 uppercase tracking-widest text-xs">{i18n.t("Standard Currency")}</h4>
+                <p className="text-[10px] text-slate-400 font-bold uppercase mt-1">{i18n.t("Default ledger display unit")}</p>
              </div>
           </div>
           
           <div className="space-y-3">
-             <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Primary Global Currency</label>
+             <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ms-1">{i18n.t("Primary Global Currency")}</label>
              <div className="relative group">
                <select 
                  className="w-full px-6 py-5 bg-white border-2 border-transparent rounded-[28px] text-lg font-black text-slate-800 outline-none appearance-none cursor-pointer focus:border-brand-active0 focus:ring-8 focus:ring-brand-active0/5 shadow-sm transition-all"
                  value={currency}
                  onChange={(e) => setCurrency(e.target.value)}
                >
-                  <option value="NGN">Nigerian Naira (₦ - NGN)</option>
-                  <option value="USD">US Dollar ($ - USD)</option>
-                  <option value="GBP">British Pound (£ - GBP)</option>
+                  <option value="NGN">{i18n.t("Nigerian Naira (₦ - NGN)")}</option>
+                  <option value="USD">{i18n.t("US Dollar ($ - USD)")}</option>
+                  <option value="GBP">{i18n.t("British Pound (£ - GBP)")}</option>
                </select>
-               <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-slate-300">
+               <div className="absolute end-6 top-1/2 -translate-y-1/2 pointer-events-none text-slate-300">
                  <Coins size={20} />
                </div>
              </div>
@@ -56,9 +55,7 @@ const FinancialSettings: React.FC = () => {
              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-emerald-600 shadow-sm">
                 <CheckCircle2 size={20} />
              </div>
-             <p className="text-[10px] text-emerald-800 font-bold uppercase leading-relaxed tracking-tight">
-               System baseline currency verified. Conversion rates for foreign settlements are pulled from Central Bank daily feeds.
-             </p>
+             <p className="text-[10px] text-emerald-800 font-bold uppercase leading-relaxed tracking-tight">{i18n.t("System baseline currency verified. Conversion rates for foreign settlements are pulled from Central Bank daily feeds.")}</p>
           </div>
         </div>
 
@@ -69,13 +66,13 @@ const FinancialSettings: React.FC = () => {
                 <Percent size={28} />
              </div>
              <div>
-                <h4 className="font-black text-slate-800 uppercase tracking-widest text-xs">Taxation Policies</h4>
-                <p className="text-[10px] text-slate-400 font-bold uppercase mt-1">Value Added Tax (VAT) parameters</p>
+                <h4 className="font-black text-slate-800 uppercase tracking-widest text-xs">{i18n.t("Taxation Policies")}</h4>
+                <p className="text-[10px] text-slate-400 font-bold uppercase mt-1">{i18n.t("Value Added Tax (VAT) parameters")}</p>
              </div>
           </div>
 
           <div className="space-y-3">
-             <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Standard VAT Rate (%)</label>
+             <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ms-1">{i18n.t("Standard VAT Rate (%)")}</label>
              <div className="relative group">
                 <input 
                   type="number" 
@@ -84,7 +81,7 @@ const FinancialSettings: React.FC = () => {
                   onChange={(e) => setTaxRate(parseFloat(e.target.value) || 0)}
                   className="w-full px-6 py-5 bg-white border-2 border-transparent rounded-[28px] text-3xl font-black text-slate-900 outline-none focus:border-brand-active0 focus:ring-8 focus:ring-brand-active0/5 shadow-sm transition-all" 
                 />
-                <span className="absolute right-8 top-1/2 -translate-y-1/2 font-black text-slate-300 text-xl">%</span>
+                <span className="absolute end-8 top-1/2 -translate-y-1/2 font-black text-slate-300 text-xl">%</span>
              </div>
           </div>
 
@@ -95,8 +92,8 @@ const FinancialSettings: React.FC = () => {
                     <Percent size={20} />
                   </div>
                   <div>
-                    <span className="text-xs font-black text-slate-800 uppercase tracking-widest block">Apply Tax to All Invoices</span>
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Toggle automatic VAT calculation</span>
+                    <span className="text-xs font-black text-slate-800 uppercase tracking-widest block">{i18n.t("Apply Tax to All Invoices")}</span>
+                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">{i18n.t("Toggle automatic VAT calculation")}</span>
                   </div>
                </div>
                <div className="relative">
@@ -106,7 +103,7 @@ const FinancialSettings: React.FC = () => {
                     checked={applyTaxByDefault}
                     onChange={() => setApplyTaxByDefault(!applyTaxByDefault)}
                   />
-                  <div className="w-14 h-7 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-7 peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                  <div className="w-14 h-7 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-7 peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
                </div>
             </label>
           </div>
@@ -119,24 +116,19 @@ const FinancialSettings: React.FC = () => {
                <ShieldCheck size={40} />
             </div>
             <div>
-               <h4 className="text-xl font-black text-slate-800 tracking-tight uppercase">Audit & Governance Sync</h4>
-               <p className="text-sm text-slate-500 font-medium leading-relaxed max-w-lg mt-1">
-                 Financial parameter changes are logged in the immutable forensic audit trail. Adjusting the tax baseline will trigger a re-calculation prompt for all active inpatient bills.
-               </p>
+               <h4 className="text-xl font-black text-slate-800 tracking-tight uppercase">{i18n.t("Audit & Governance Sync")}</h4>
+               <p className="text-sm text-slate-500 font-medium leading-relaxed max-w-lg mt-1">{i18n.t("Financial parameter changes are logged in the immutable forensic audit trail. Adjusting the tax baseline will trigger a re-calculation prompt for all active inpatient bills.")}</p>
             </div>
          </div>
          <button className="bg-slate-900 text-white px-12 py-5 rounded-[24px] font-black uppercase text-xs tracking-[0.2em] shadow-2xl shadow-slate-200 hover:bg-brand-primary active:scale-95 transition-all flex items-center gap-3">
-            <Save size={20} /> Authorize Changes
-         </button>
+            <Save size={20} />{" "}{i18n.t("Authorize Changes")}</button>
       </div>
 
       <div className="bg-amber-50 border border-amber-100 p-8 rounded-[40px] flex items-start gap-4">
          <AlertCircle className="text-amber-600 flex-shrink-0" size={28} />
          <div>
-            <h4 className="text-sm font-black text-amber-900 uppercase tracking-widest">Compliance Advisory</h4>
-            <p className="text-xs text-amber-700 font-bold leading-relaxed uppercase mt-1">
-              Warning: Modifying the standard currency or tax rate may impact historical revenue comparisons and departmental KPI reporting. Please verify with the hospital administration before finalizing.
-            </p>
+            <h4 className="text-sm font-black text-amber-900 uppercase tracking-widest">{i18n.t("Compliance Advisory")}</h4>
+            <p className="text-xs text-amber-700 font-bold leading-relaxed uppercase mt-1">{i18n.t("Warning: Modifying the standard currency or tax rate may impact historical revenue comparisons and departmental KPI reporting. Please verify with the hospital administration before finalizing.")}</p>
          </div>
       </div>
     </div>

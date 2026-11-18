@@ -13,6 +13,7 @@ import {
   ITEM_TYPES,
   LOCATIONS,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const InventoryVendorSupplyReport: React.FC = () => {
   const [records, setRecords] = useState<any[]>([]);
@@ -75,8 +76,8 @@ const InventoryVendorSupplyReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Vendor Supply Report"
-      subtitle="Stock received per vendor, batch, and receiving location."
+      title={i18n.t("Vendor Supply Report")}
+      subtitle={i18n.t("Stock received per vendor, batch, and receiving location.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.report_period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -99,7 +100,7 @@ const InventoryVendorSupplyReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="All">All Item Types</option>
+              <option value="All">{i18n.t("All Item Types")}</option>
               {ITEM_TYPES.map((t) => (
                 <option key={t} value={t}>{t.charAt(0) + t.slice(1).toLowerCase()}</option>
               ))}
@@ -112,7 +113,7 @@ const InventoryVendorSupplyReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
             >
-              <option value="All">All Locations</option>
+              <option value="All">{i18n.t("All Locations")}</option>
               {LOCATIONS.map((l) => (
                 <option key={l} value={l}>{l}</option>
               ))}
@@ -125,52 +126,52 @@ const InventoryVendorSupplyReport: React.FC = () => {
       }
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <KpiCard icon={Banknote} label="Total Financial Cost" value={formatCurrency(summary?.total_financial_cost)} colorClass="bg-emerald-50 border-emerald-100 text-emerald-900" />
-        <KpiCard icon={Truck} label="Total Volume Received" value={renderValue(summary?.total_volume_received)} colorClass="bg-amber-50 border-amber-100 text-amber-900" />
-        <KpiCard icon={Building} label="Unique Vendors" value={renderValue(summary?.unique_vendors_count)} colorClass="bg-blue-50 border-blue-100 text-blue-900" />
+        <KpiCard icon={Banknote} label={i18n.t("Total Financial Cost")} value={formatCurrency(summary?.total_financial_cost)} colorClass="bg-emerald-50 border-emerald-100 text-emerald-900" />
+        <KpiCard icon={Truck} label={i18n.t("Total Volume Received")} value={renderValue(summary?.total_volume_received)} colorClass="bg-amber-50 border-amber-100 text-amber-900" />
+        <KpiCard icon={Building} label={i18n.t("Unique Vendors")} value={renderValue(summary?.unique_vendors_count)} colorClass="bg-blue-50 border-blue-100 text-blue-900" />
       </div>
 
       <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 flex-1 min-h-[300px] mt-6">
-        <table className="w-full text-left text-sm whitespace-nowrap">
+        <table className="w-full text-start text-sm whitespace-nowrap">
           <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
             <tr>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Supply Date</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Item</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Batch</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Expiry</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Qty Received</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Unit Cost</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Total Cost</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Vendor</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Received At</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Received By</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Supply Date")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Item")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Batch")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Expiry")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Qty Received")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Unit Cost")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Total Cost")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Vendor")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Received At")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Received By")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {records.length > 0 ? (
               records.map((row, i) => (
                 <tr key={`${row.movement_id}-${i}`} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.supply_date)}</td>
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.supply_date)}</td>
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <div className="font-bold text-slate-800">{renderValue(row.item_name)}</div>
                     <div className="text-[11px] text-slate-400 font-mono">{renderValue(row.items_uhid)} • {renderValue(row.item_type)}</div>
                   </td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.batch_number)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.expiry_date)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.quantity_received)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{formatCurrency(row.unit_cost)}</td>
-                  <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50 text-right">{formatCurrency(row.total_cost)}</td>
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.batch_number)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.expiry_date)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.quantity_received)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{formatCurrency(row.unit_cost)}</td>
+                  <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50 text-end">{formatCurrency(row.total_cost)}</td>
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <div className="text-slate-700">{renderValue(row.vendor_name)}</div>
                     <div className="text-[11px] text-slate-400">{renderValue(row.vendor_contact)}</div>
                   </td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.receiving_location)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.receiving_location)}</td>
                   <td className="px-4 py-3.5 text-slate-700">{renderValue(row.received_by_name)}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={10} className="px-4 py-12 text-center text-slate-400 italic">No vendor supply records found.</td>
+                <td colSpan={10} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No vendor supply records found.")}</td>
               </tr>
             )}
           </tbody>

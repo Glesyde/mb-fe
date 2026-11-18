@@ -47,6 +47,7 @@ import { OTCardiacAnaesthesiaMonitoringModal } from "./OTCardiacAnaesthesiaMonit
 import { OTPerfusionMonitoringModal } from "./OTPerfusionMonitoringModal";
 import OperativeNoteModal from "./OperativeNoteModal";
 import OTBoardView from "./OTBoardView";
+import { i18n } from "../i18n";
 
 
 const TheatreSchedule: React.FC = () => {
@@ -303,27 +304,19 @@ const TheatreSchedule: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black text-slate-800 tracking-tight">
-            Theatre Management
-          </h1>
-          <p className="text-slate-500 font-medium">
-            Manage surgeries, schedules, and OT resources
-          </p>
+          <h1 className="text-2xl font-black text-slate-800 tracking-tight">{i18n.t("Theatre Management")}</h1>
+          <p className="text-slate-500 font-medium">{i18n.t("Manage surgeries, schedules, and OT resources")}</p>
         </div>
         <div className="flex gap-2">
           <button
             onClick={() => setActiveTab("board")}
             className={`px-4 py-2 rounded-xl font-bold text-sm transition-all ${activeTab === "board" ? "bg-slate-900 text-white shadow-lg" : "bg-white text-slate-600 hover:bg-slate-50"}`}
-          >
-            OT Board
-          </button>
+          >{i18n.t("OT Board")}</button>
           <button
             onClick={() => setActiveTab("requests")}
             className={`px-4 py-2 rounded-xl font-bold text-sm transition-all ${activeTab === "requests" ? "bg-slate-900 text-white shadow-lg" : "bg-white text-slate-600 hover:bg-slate-50"}`}
-          >
-            Requests
-            {requests.length > 0 && (
-              <span className="ml-2 bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full">
+          >{i18n.t("Requests")}{requests.length > 0 && (
+              <span className="ms-2 bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full">
                 {requests.length}
               </span>
             )}
@@ -331,9 +324,7 @@ const TheatreSchedule: React.FC = () => {
           <button
             onClick={() => setActiveTab("rooms")}
             className={`px-4 py-2 rounded-xl font-bold text-sm transition-all ${activeTab === "rooms" ? "bg-slate-900 text-white shadow-lg" : "bg-white text-slate-600 hover:bg-slate-50"}`}
-          >
-            Rooms
-          </button>
+          >{i18n.t("Rooms")}</button>
         </div>
       </div>
 
@@ -344,21 +335,19 @@ const TheatreSchedule: React.FC = () => {
           <div className="p-6">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-                <Activity className="text-brand-primary" size={20} /> Scheduled
-                Surgeries
-              </h2>
+                <Activity className="text-brand-primary" size={20} />{" "}{i18n.t("Scheduled Surgeries")}</h2>
                 <div className="flex gap-2">
                   <div className="relative">
                     <Search
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                      className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400"
                       size={16}
                     />
                     <input
                       type="text"
-                      placeholder="Search surgeries..."
+                      placeholder={i18n.t("Search surgeries...")}
                       value={boardSearchTerm}
                       onChange={(e) => setBoardSearchTerm(e.target.value)}
-                      className="pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-active0/20"
+                      className="ps-9 pe-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-active0/20"
                     />
                   </div>
                   <select 
@@ -366,37 +355,37 @@ const TheatreSchedule: React.FC = () => {
                     onChange={(e) => setBoardDateFilter(e.target.value)}
                     className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-active0/20"
                   >
-                    <option value="ALL">All Dates</option>
-                    <option value="TODAY">Today</option>
-                    <option value="UPCOMING">Upcoming</option>
-                    <option value="PAST">Past</option>
+                    <option value="ALL">{i18n.t("All Dates")}</option>
+                    <option value="TODAY">{i18n.t("Today")}</option>
+                    <option value="UPCOMING">{i18n.t("Upcoming")}</option>
+                    <option value="PAST">{i18n.t("Past")}</option>
                   </select>
                   <select 
                     value={boardStatusFilter} 
                     onChange={(e) => setBoardStatusFilter(e.target.value)}
                     className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-active0/20"
                   >
-                    <option value="ALL">All Statuses</option>
-                    <option value="SCHEDULED">Scheduled</option>
-                    <option value="CHECKED_IN">Checked In</option>
-                    <option value="IN_PROGRESS">In Progress</option>
-                    <option value="COMPLETED">Completed</option>
-                    <option value="CANCELLED">Cancelled</option>
+                    <option value="ALL">{i18n.t("All Statuses")}</option>
+                    <option value="SCHEDULED">{i18n.t("Scheduled")}</option>
+                    <option value="CHECKED_IN">{i18n.t("Checked In")}</option>
+                    <option value="IN_PROGRESS">{i18n.t("In Progress")}</option>
+                    <option value="COMPLETED">{i18n.t("Completed")}</option>
+                    <option value="CANCELLED">{i18n.t("Cancelled")}</option>
                   </select>
                 </div>
             </div>
 
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+              <table className="w-full text-start border-collapse">
                 <thead>
                   <tr className="border-b border-slate-100 text-xs font-black text-slate-400 uppercase tracking-wider">
-                    <th className="px-4 py-4">Date & Time</th>
-                    <th className="px-4 py-4">Patient</th>
-                    <th className="px-4 py-4">Surgery</th>
-                    <th className="px-4 py-4">Room</th>
-                    <th className="px-4 py-4">Status</th>
-                    <th className="px-4 py-4">Financial</th>
-                    <th className="px-4 py-4 text-right">Actions</th>
+                    <th className="px-4 py-4">{i18n.t("Date & Time")}</th>
+                    <th className="px-4 py-4">{i18n.t("Patient")}</th>
+                    <th className="px-4 py-4">{i18n.t("Surgery")}</th>
+                    <th className="px-4 py-4">{i18n.t("Room")}</th>
+                    <th className="px-4 py-4">{i18n.t("Status")}</th>
+                    <th className="px-4 py-4">{i18n.t("Financial")}</th>
+                    <th className="px-4 py-4 text-end">{i18n.t("Actions")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
@@ -459,15 +448,14 @@ const TheatreSchedule: React.FC = () => {
                               : "bg-amber-50 text-amber-600"
                           }`}
                         >
-                          {surgery.financial_status}
+                          {i18n.tv(surgery.financial_status)}
                         </span>
                       </td>
-                      <td className="px-4 py-4 text-right relative">
+                      <td className="px-4 py-4 text-end relative">
                         <button
                           onClick={() => setActiveActionModal(surgery)}
-                          className="px-4 py-2 bg-[#0B1021] text-white rounded-xl text-xs font-bold shadow-md hover:bg-slate-800 transition-all flex items-center gap-1.5 ml-auto"
-                        >
-                          Actions <MoreVertical size={16} className="opacity-80" />
+                          className="px-4 py-2 bg-[#0B1021] text-white rounded-xl text-xs font-bold shadow-md hover:bg-slate-800 transition-all flex items-center gap-1.5 ms-auto"
+                        >{i18n.t("Actions")}{" "}<MoreVertical size={16} className="opacity-80" />
                         </button>
                       </td>
                     </tr>
@@ -476,7 +464,7 @@ const TheatreSchedule: React.FC = () => {
                     <tr>
                       <td colSpan={7} className="text-center py-12 text-slate-400">
                         <Loader2 size={48} className="mx-auto mb-3 text-brand-primary animate-spin" />
-                        <p>Loading surgeries...</p>
+                        <p>{i18n.t("Loading surgeries...")}</p>
                       </td>
                     </tr>
                   )}
@@ -490,7 +478,7 @@ const TheatreSchedule: React.FC = () => {
                           size={48}
                           className="mx-auto mb-3 opacity-20"
                         />
-                        <p>No surgeries scheduled</p>
+                        <p>{i18n.t("No surgeries scheduled")}</p>
                       </td>
                     </tr>
                   )}
@@ -505,9 +493,7 @@ const TheatreSchedule: React.FC = () => {
           <div className="p-6">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-                <FileText className="text-brand-primary" size={20} /> Pending
-                Requests
-              </h2>
+                <FileText className="text-brand-primary" size={20} />{" "}{i18n.t("Pending Requests")}</h2>
             </div>
 
             <div className="grid gap-4">
@@ -524,15 +510,13 @@ const TheatreSchedule: React.FC = () => {
                       <h3 className="font-bold text-slate-800">
                         {req.first_name} {req.last_name}
                       </h3>
-                      <p className="text-xs text-slate-500 font-medium">
-                        MRN: {req.mrn} • {req.ward_name}
+                      <p className="text-xs text-slate-500 font-medium">{i18n.t("MRN:")}{" "}{req.mrn} • {req.ward_name}
                       </p>
                       <div className="flex items-center gap-2 mt-1">
                         <span className="text-xs font-bold text-brand-primary bg-brand-active px-2 py-0.5 rounded border border-brand-active">
                           {req.surgery_name}
                         </span>
-                        <span className="text-[10px] text-slate-400">
-                          Req by: {req.requested_by_first_name}{" "}
+                        <span className="text-[10px] text-slate-400">{i18n.t("Req by:")}{" "}{req.requested_by_first_name}{" "}
                           {req.requested_by_last_name}
                         </span>
                       </div>
@@ -540,10 +524,8 @@ const TheatreSchedule: React.FC = () => {
                   </div>
 
                   <div className="flex items-center gap-4">
-                    <div className="text-right">
-                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                        Requested
-                      </p>
+                    <div className="text-end">
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">{i18n.t("Requested")}</p>
                       <p className="text-sm font-bold text-slate-800">
                         {new Date(req.ordered_at).toLocaleDateString()}
                       </p>
@@ -551,29 +533,27 @@ const TheatreSchedule: React.FC = () => {
                     <button
                       onClick={() => setViewRequest(req)}
                       className="p-2 text-slate-400 hover:text-brand-primary hover:bg-brand-active rounded-lg transition-colors"
-                      title="View Details"
+                      title={i18n.t("View Details")}
                     >
                       <Eye size={20} />
                     </button>
                     <button
                       onClick={() => handleScheduleClick(req)}
                       className="bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-slate-800 transition-colors shadow-lg"
-                    >
-                      Schedule
-                    </button>
+                    >{i18n.t("Schedule")}</button>
                   </div>
                 </div>
               ))}
               {loading && (
                 <div className="text-center py-12 text-slate-400">
                   <Loader2 size={48} className="mx-auto mb-3 text-brand-primary animate-spin" />
-                  <p>Loading requests...</p>
+                  <p>{i18n.t("Loading requests...")}</p>
                 </div>
               )}
               {requests.length === 0 && !loading && (
                 <div className="text-center py-12 text-slate-400">
                   <CheckSquare size={48} className="mx-auto mb-3 opacity-20" />
-                  <p>No pending surgery requests</p>
+                  <p>{i18n.t("No pending surgery requests")}</p>
                 </div>
               )}
             </div>
@@ -585,26 +565,23 @@ const TheatreSchedule: React.FC = () => {
           <div className="p-6">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-                <BedDouble className="text-brand-primary" size={20} /> Operation
-                Theatres
-              </h2>
+                <BedDouble className="text-brand-primary" size={20} />{" "}{i18n.t("Operation Theatres")}</h2>
               <button
                 onClick={() => setIsRoomModalOpen(true)}
                 className="bg-brand-primary text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-brand-active0 transition-colors shadow-lg"
               >
-                <Plus size={16} /> Add Room
-              </button>
+                <Plus size={16} />{" "}{i18n.t("Add Room")}</button>
             </div>
 
             {loading ? (
               <div className="text-center py-12 text-slate-400">
                 <Loader2 size={48} className="mx-auto mb-3 text-brand-primary animate-spin" />
-                <p>Loading rooms...</p>
+                <p>{i18n.t("Loading rooms...")}</p>
               </div>
             ) : rooms.length === 0 ? (
               <div className="text-center py-12 text-slate-400">
                 <BedDouble size={48} className="mx-auto mb-3 opacity-20" />
-                <p>No rooms configured</p>
+                <p>{i18n.t("No rooms configured")}</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -620,25 +597,22 @@ const TheatreSchedule: React.FC = () => {
                       <span
                         className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${room.status === "ACTIVE" ? "bg-emerald-100 text-emerald-600" : "bg-slate-200 text-slate-500"}`}
                       >
-                        {room.status}
+                        {i18n.tv(room.status)}
                       </span>
                     </div>
                     <h3 className="text-xl font-black text-slate-800 mb-1">
                       {room.room_name}
                     </h3>
-                    <p className="text-xs text-slate-400 font-medium">
-                      Created: {new Date(room.created_at).toLocaleDateString()}
+                    <p className="text-xs text-slate-400 font-medium">{i18n.t("Created:")}{" "}{new Date(room.created_at).toLocaleDateString()}
                     </p>
 
                     <div className="mt-6 pt-4 border-t border-slate-200 flex justify-between items-center">
                       <span className="text-xs font-bold text-slate-500">
-                        {getTodayScheduleCount(room.id)} Scheduled Today
-                      </span>
+                        {getTodayScheduleCount(room.id)}{" "}{i18n.t("Scheduled Today")}</span>
                       <button
                         onClick={() => setViewRoomSchedule(room)}
                         className="text-brand-primary hover:text-brand-primary font-bold text-xs uppercase tracking-wider flex items-center gap-1"
-                      >
-                        View Schedule <ChevronRight size={14} />
+                      >{i18n.t("View Schedule")}{" "}<ChevronRight className="rtl:-scale-x-100" size={14} />
                       </button>
                     </div>
                   </div>
@@ -654,9 +628,7 @@ const TheatreSchedule: React.FC = () => {
         <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200">
             <div className="bg-slate-50 px-6 py-4 border-b border-slate-100 flex justify-between items-center">
-              <h3 className="font-black text-slate-800 text-lg">
-                Schedule Surgery
-              </h3>
+              <h3 className="font-black text-slate-800 text-lg">{i18n.t("Schedule Surgery")}</h3>
               <button
                 onClick={() => setIsScheduleModalOpen(false)}
                 className="text-slate-400 hover:text-slate-600"
@@ -667,9 +639,7 @@ const TheatreSchedule: React.FC = () => {
 
             <div className="p-6 space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">
-                  Patient
-                </label>
+                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{i18n.t("Patient")}</label>
                 <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 font-bold text-slate-700">
                   {selectedRequest?.first_name} {selectedRequest?.last_name}{" "}
                   <span className="text-slate-400 font-normal">
@@ -679,18 +649,14 @@ const TheatreSchedule: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">
-                  Procedure
-                </label>
+                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{i18n.t("Procedure")}</label>
                 <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 font-medium text-slate-700">
                   {selectedRequest?.surgery_name}
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">
-                  Room
-                </label>
+                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{i18n.t("Room")}</label>
                 <select
                   value={scheduleForm.ot_room_id}
                   onChange={(e) =>
@@ -701,7 +667,7 @@ const TheatreSchedule: React.FC = () => {
                   }
                   className="w-full p-3 bg-white border border-slate-200 rounded-xl font-medium focus:ring-2 focus:ring-brand-active0/20 outline-none"
                 >
-                  <option value="">Select Room</option>
+                  <option value="">{i18n.t("Select Room")}</option>
                   {rooms.map((r) => (
                     <option key={r.id} value={r.id}>
                       {r.room_name}
@@ -712,9 +678,7 @@ const TheatreSchedule: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 uppercase mb-1">
-                    Date
-                  </label>
+                  <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{i18n.t("Date")}</label>
                   <input
                     type="date"
                     value={scheduleForm.scheduled_date}
@@ -728,9 +692,7 @@ const TheatreSchedule: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 uppercase mb-1">
-                    Time
-                  </label>
+                  <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{i18n.t("Time")}</label>
                   <input
                     type="time"
                     value={scheduleForm.scheduled_time}
@@ -751,9 +713,7 @@ const TheatreSchedule: React.FC = () => {
                 onClick={() => setIsScheduleModalOpen(false)}
                 className="px-6 py-3 rounded-xl font-bold text-slate-500 hover:bg-slate-200 transition-colors"
                 disabled={submitting}
-              >
-                Cancel
-              </button>
+              >{i18n.t("Cancel")}</button>
               <button
                 onClick={submitSchedule}
                 disabled={submitting}
@@ -764,7 +724,7 @@ const TheatreSchedule: React.FC = () => {
                 ) : (
                   <CheckCircle size={18} />
                 )}
-                {submitting ? "Scheduling..." : "Confirm Schedule"}
+                {submitting ? i18n.t("Scheduling...") : i18n.t("Confirm Schedule")}
               </button>
             </div>
           </div>
@@ -776,9 +736,7 @@ const TheatreSchedule: React.FC = () => {
         <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-200">
             <div className="bg-slate-50 px-6 py-4 border-b border-slate-100 flex justify-between items-center">
-              <h3 className="font-black text-slate-800 text-lg">
-                Add New OT Room
-              </h3>
+              <h3 className="font-black text-slate-800 text-lg">{i18n.t("Add New OT Room")}</h3>
               <button
                 onClick={() => setIsRoomModalOpen(false)}
                 className="text-slate-400 hover:text-slate-600"
@@ -788,14 +746,12 @@ const TheatreSchedule: React.FC = () => {
             </div>
 
             <div className="p-6">
-              <label className="block text-xs font-bold text-slate-500 uppercase mb-1">
-                Room Name
-              </label>
+              <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{i18n.t("Room Name")}</label>
               <input
                 type="text"
                 value={newRoomName}
                 onChange={(e) => setNewRoomName(e.target.value)}
-                placeholder="e.g. Ortho OT 1"
+                placeholder={i18n.t("e.g. Ortho OT 1")}
                 className="w-full p-3 bg-white border border-slate-200 rounded-xl font-medium focus:ring-2 focus:ring-brand-active0/20 outline-none"
               />
             </div>
@@ -804,15 +760,11 @@ const TheatreSchedule: React.FC = () => {
               <button
                 onClick={() => setIsRoomModalOpen(false)}
                 className="px-6 py-3 rounded-xl font-bold text-slate-500 hover:bg-slate-200 transition-colors"
-              >
-                Cancel
-              </button>
+              >{i18n.t("Cancel")}</button>
               <button
                 onClick={handleCreateRoom}
                 className="px-6 py-3 rounded-xl font-bold text-white bg-brand-primary hover:bg-brand-primary shadow-lg shadow-brand-active transition-all"
-              >
-                Create Room
-              </button>
+              >{i18n.t("Create Room")}</button>
             </div>
           </div>
         </div>
@@ -831,14 +783,12 @@ const TheatreSchedule: React.FC = () => {
                     if (surgery) setActiveActionModal(surgery);
                   }}
                   className="p-1.5 bg-white border border-slate-200 shadow-sm text-slate-500 rounded-lg hover:bg-slate-100 transition-colors"
-                  title="Back to Actions"
+                  title={i18n.t("Back to Actions")}
                 >
-                  <ArrowLeft size={18} />
+                  <ArrowLeft className="rtl:-scale-x-100" size={18} />
                 </button>
                 <div>
-                  <h3 className="font-black text-slate-800 text-lg">
-                    Surgery Details
-                  </h3>
+                  <h3 className="font-black text-slate-800 text-lg">{i18n.t("Surgery Details")}</h3>
                   <p className="text-xs text-slate-500 font-bold uppercase">
                     {viewSurgery.ot_case_number}
                   </p>
@@ -855,34 +805,26 @@ const TheatreSchedule: React.FC = () => {
             <div className="p-6 overflow-y-auto">
               <div className="grid grid-cols-2 gap-6 mb-6">
                 <div className="p-4 bg-brand-active rounded-xl border border-brand-active">
-                  <h4 className="text-xs font-bold text-brand-primary uppercase mb-2">
-                    Patient Information
-                  </h4>
+                  <h4 className="text-xs font-bold text-brand-primary uppercase mb-2">{i18n.t("Patient Information")}</h4>
                   <div className="space-y-1">
                     <p className="font-bold text-slate-800">
                       {viewSurgery.first_name} {viewSurgery.last_name}
                     </p>
-                    <p className="text-sm text-slate-600">
-                      MRN: {viewSurgery.mrn}
+                    <p className="text-sm text-slate-600">{i18n.t("MRN:")}{" "}{viewSurgery.mrn}
                     </p>
-                    <p className="text-sm text-slate-600">
-                      Admission: {viewSurgery.admission_number}
+                    <p className="text-sm text-slate-600">{i18n.t("Admission:")}{" "}{viewSurgery.admission_number}
                     </p>
                   </div>
                 </div>
                 <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
-                  <h4 className="text-xs font-bold text-slate-500 uppercase mb-2">
-                    Surgery Status
-                  </h4>
+                  <h4 className="text-xs font-bold text-slate-500 uppercase mb-2">{i18n.t("Surgery Status")}</h4>
                   <div className="space-y-1">
                     <p className="font-bold text-slate-800">
-                      {viewSurgery.status}
+                      {i18n.tv(viewSurgery.status)}
                     </p>
-                    <p className="text-sm text-slate-600">
-                      Financial: {viewSurgery.financial_status}
+                    <p className="text-sm text-slate-600">{i18n.t("Financial:")}{" "}{i18n.tv(viewSurgery.financial_status)}
                     </p>
-                    <p className="text-sm text-slate-600">
-                      Consent:{" "}
+                    <p className="text-sm text-slate-600">{i18n.t("Consent:")}{" "}
                       <span style={{ color: viewSurgery.status_color }}>
                         {viewSurgery.status_label}
                       </span>
@@ -894,25 +836,19 @@ const TheatreSchedule: React.FC = () => {
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-slate-400 uppercase">
-                      Procedure
-                    </label>
+                    <label className="block text-xs font-bold text-slate-400 uppercase">{i18n.t("Procedure")}</label>
                     <p className="font-medium text-slate-800">
                       {viewSurgery.surgery_name}
                     </p>
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-slate-400 uppercase">
-                      Type
-                    </label>
+                    <label className="block text-xs font-bold text-slate-400 uppercase">{i18n.t("Type")}</label>
                     <p className="font-medium text-slate-800">
                       {viewSurgery.surgery_type}
                     </p>
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-slate-400 uppercase">
-                      Scheduled Date
-                    </label>
+                    <label className="block text-xs font-bold text-slate-400 uppercase">{i18n.t("Scheduled Date")}</label>
                     <p className="font-medium text-slate-800">
                       {new Date(
                         viewSurgery.scheduled_date,
@@ -920,25 +856,19 @@ const TheatreSchedule: React.FC = () => {
                     </p>
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-slate-400 uppercase">
-                      Scheduled Time
-                    </label>
+                    <label className="block text-xs font-bold text-slate-400 uppercase">{i18n.t("Scheduled Time")}</label>
                     <p className="font-medium text-slate-800">
                       {viewSurgery.scheduled_time}
                     </p>
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-slate-400 uppercase">
-                      Room
-                    </label>
+                    <label className="block text-xs font-bold text-slate-400 uppercase">{i18n.t("Room")}</label>
                     <p className="font-medium text-slate-800">
                       {viewSurgery.room_name}
                     </p>
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-slate-400 uppercase">
-                      Created By
-                    </label>
+                    <label className="block text-xs font-bold text-slate-400 uppercase">{i18n.t("Created By")}</label>
                     <p className="font-medium text-slate-800">
                       {viewSurgery.creator_first_name}{" "}
                       {viewSurgery.creator_last_name}
@@ -958,11 +888,8 @@ const TheatreSchedule: React.FC = () => {
             {/* Header */}
             <div className="bg-slate-50 px-6 py-4 border-b border-slate-100 flex justify-between items-center flex-shrink-0">
               <div>
-                <h3 className="font-black text-slate-800 text-lg">
-                  OT Request Details
-                </h3>
-                <p className="text-xs text-slate-500 mt-1">
-                  Request ID: {viewRequest.order_id} | Case ID:{" "}
+                <h3 className="font-black text-slate-800 text-lg">{i18n.t("OT Request Details")}</h3>
+                <p className="text-xs text-slate-500 mt-1">{i18n.t("Request ID:")}{" "}{viewRequest.order_id}{" "}{i18n.t("| Case ID:")}{" "}
                   {viewRequest.ot_case_id}
                 </p>
               </div>
@@ -979,36 +906,34 @@ const TheatreSchedule: React.FC = () => {
               {/* Patient & Admission Info */}
               <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <h4 className="text-xs font-bold text-slate-400 uppercase mb-3">
-                    Patient Details
-                  </h4>
+                  <h4 className="text-xs font-bold text-slate-400 uppercase mb-3">{i18n.t("Patient Details")}</h4>
                   <div className="space-y-2">
                     <p>
-                      <span className="text-slate-500 text-sm">Name:</span>{" "}
+                      <span className="text-slate-500 text-sm">{i18n.t("Name:")}</span>{" "}
                       <span className="font-bold text-slate-800">
                         {viewRequest.first_name} {viewRequest.last_name}
                       </span>
                     </p>
                     <p>
-                      <span className="text-slate-500 text-sm">MRN:</span>{" "}
+                      <span className="text-slate-500 text-sm">{i18n.t("MRN:")}</span>{" "}
                       <span className="font-bold text-slate-800">
                         {viewRequest.mrn}
                       </span>
                     </p>
                     <p>
-                      <span className="text-slate-500 text-sm">Gender:</span>{" "}
+                      <span className="text-slate-500 text-sm">{i18n.t("Gender:")}</span>{" "}
                       <span className="font-bold text-slate-800">
-                        {viewRequest.gender}
+                        {i18n.tv(viewRequest.gender)}
                       </span>
                     </p>
                     <p>
-                      <span className="text-slate-500 text-sm">Phone:</span>{" "}
+                      <span className="text-slate-500 text-sm">{i18n.t("Phone:")}</span>{" "}
                       <span className="font-bold text-slate-800">
                         {viewRequest.phone}
                       </span>
                     </p>
                     <p>
-                      <span className="text-slate-500 text-sm">Encounter:</span>{" "}
+                      <span className="text-slate-500 text-sm">{i18n.t("Encounter:")}</span>{" "}
                       <span className="font-bold text-slate-800">
                         {viewRequest.encounter_number}
                       </span>
@@ -1016,26 +941,22 @@ const TheatreSchedule: React.FC = () => {
                   </div>
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-slate-400 uppercase mb-3">
-                    Admission Info
-                  </h4>
+                  <h4 className="text-xs font-bold text-slate-400 uppercase mb-3">{i18n.t("Admission Info")}</h4>
                   <div className="space-y-2">
                     <p>
-                      <span className="text-slate-500 text-sm">Ward:</span>{" "}
+                      <span className="text-slate-500 text-sm">{i18n.t("Ward:")}</span>{" "}
                       <span className="font-bold text-slate-800">
                         {viewRequest.ward_name}
                       </span>
                     </p>
                     <p>
-                      <span className="text-slate-500 text-sm">Bed:</span>{" "}
+                      <span className="text-slate-500 text-sm">{i18n.t("Bed:")}</span>{" "}
                       <span className="font-bold text-slate-800">
                         {viewRequest.bed_number}
                       </span>
                     </p>
                     <p>
-                      <span className="text-slate-500 text-sm">
-                        Requested By:
-                      </span>{" "}
+                      <span className="text-slate-500 text-sm">{i18n.t("Requested By:")}</span>{" "}
                       <span className="font-bold text-slate-800">
                         {viewRequest.requested_by_first_name}{" "}
                         {viewRequest.requested_by_last_name}
@@ -1043,9 +964,7 @@ const TheatreSchedule: React.FC = () => {
                     </p>
                     {viewRequest.admission_number && (
                       <p>
-                        <span className="text-slate-500 text-sm">
-                          Admission #:
-                        </span>{" "}
+                        <span className="text-slate-500 text-sm">{i18n.t("Admission #:")}</span>{" "}
                         <span className="font-bold text-slate-800">
                           {viewRequest.admission_number}
                         </span>
@@ -1057,31 +976,23 @@ const TheatreSchedule: React.FC = () => {
 
               {/* Surgery Details */}
               <div className="border-t border-slate-100 pt-6">
-                <h4 className="text-xs font-bold text-slate-400 uppercase mb-3">
-                  Surgery Details
-                </h4>
+                <h4 className="text-xs font-bold text-slate-400 uppercase mb-3">{i18n.t("Surgery Details")}</h4>
                 <div className="grid grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <p>
-                      <span className="text-slate-500 text-sm">
-                        Surgery Name:
-                      </span>{" "}
+                      <span className="text-slate-500 text-sm">{i18n.t("Surgery Name:")}</span>{" "}
                       <span className="font-bold text-slate-800">
                         {viewRequest.surgery_name}
                       </span>
                     </p>
                     <p>
-                      <span className="text-slate-500 text-sm">
-                        Service Code:
-                      </span>{" "}
+                      <span className="text-slate-500 text-sm">{i18n.t("Service Code:")}</span>{" "}
                       <span className="font-bold text-slate-800">
                         {viewRequest.service_code}
                       </span>
                     </p>
                     <p>
-                      <span className="text-slate-500 text-sm">
-                        Surgery Type:
-                      </span>{" "}
+                      <span className="text-slate-500 text-sm">{i18n.t("Surgery Type:")}</span>{" "}
                       <span
                         className={`font-bold px-2 py-1 rounded text-xs ${
                           viewRequest.surgery_type === "EMERGENCY"
@@ -1095,7 +1006,7 @@ const TheatreSchedule: React.FC = () => {
                   </div>
                   <div className="space-y-2">
                     <p>
-                      <span className="text-slate-500 text-sm">Priority:</span>{" "}
+                      <span className="text-slate-500 text-sm">{i18n.t("Priority:")}</span>{" "}
                       <span
                         className={`font-bold px-2 py-1 rounded text-xs ${
                           viewRequest.priority === "HIGH"
@@ -1105,14 +1016,12 @@ const TheatreSchedule: React.FC = () => {
                               : "bg-green-100 text-green-700"
                         }`}
                       >
-                        {viewRequest.priority}
+                        {i18n.tv(viewRequest.priority)}
                       </span>
                     </p>
                     {viewRequest.anesthesia_type && (
                       <p>
-                        <span className="text-slate-500 text-sm">
-                          Anesthesia Type:
-                        </span>{" "}
+                        <span className="text-slate-500 text-sm">{i18n.t("Anesthesia Type:")}</span>{" "}
                         <span className="font-bold text-slate-800">
                           {viewRequest.anesthesia_type}
                         </span>
@@ -1120,11 +1029,8 @@ const TheatreSchedule: React.FC = () => {
                     )}
                     {viewRequest.surgeon_first_name && (
                       <p>
-                        <span className="text-slate-500 text-sm">
-                          Assigned Surgeon:
-                        </span>{" "}
-                        <span className="font-bold text-slate-800">
-                          Dr. {viewRequest.surgeon_first_name}{" "}
+                        <span className="text-slate-500 text-sm">{i18n.t("Assigned Surgeon:")}</span>{" "}
+                        <span className="font-bold text-slate-800">{i18n.t("Dr.")}{" "}{viewRequest.surgeon_first_name}{" "}
                           {viewRequest.surgeon_last_name}
                         </span>
                       </p>
@@ -1135,33 +1041,25 @@ const TheatreSchedule: React.FC = () => {
 
               {/* OT Planning */}
               <div className="border-t border-slate-100 pt-6">
-                <h4 className="text-xs font-bold text-slate-400 uppercase mb-3">
-                  OT Planning
-                </h4>
+                <h4 className="text-xs font-bold text-slate-400 uppercase mb-3">{i18n.t("OT Planning")}</h4>
                 <div className="grid grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <p>
-                      <span className="text-slate-500 text-sm">
-                        Preferred OT Room:
-                      </span>{" "}
+                      <span className="text-slate-500 text-sm">{i18n.t("Preferred OT Room:")}</span>{" "}
                       <span className="font-bold text-slate-800">
-                        {viewRequest.preferred_ot_room || "Not specified"}
+                        {viewRequest.preferred_ot_room || i18n.t("Not specified")}
                       </span>
                     </p>
                     {viewRequest.assigned_ot_room && (
                       <p>
-                        <span className="text-slate-500 text-sm">
-                          Assigned OT Room:
-                        </span>{" "}
+                        <span className="text-slate-500 text-sm">{i18n.t("Assigned OT Room:")}</span>{" "}
                         <span className="font-bold text-slate-800">
                           {viewRequest.assigned_ot_room}
                         </span>
                       </p>
                     )}
                     <p>
-                      <span className="text-slate-500 text-sm">
-                        Preferred Date:
-                      </span>{" "}
+                      <span className="text-slate-500 text-sm">{i18n.t("Preferred Date:")}</span>{" "}
                       <span className="font-bold text-slate-800">
                         {new Date(
                           viewRequest.preferred_surgery_date,
@@ -1169,9 +1067,7 @@ const TheatreSchedule: React.FC = () => {
                       </span>
                     </p>
                     <p>
-                      <span className="text-slate-500 text-sm">
-                        Preferred Time:
-                      </span>{" "}
+                      <span className="text-slate-500 text-sm">{i18n.t("Preferred Time:")}</span>{" "}
                       <span className="font-bold text-slate-800">
                         {viewRequest.preferred_surgery_time}
                       </span>
@@ -1181,9 +1077,7 @@ const TheatreSchedule: React.FC = () => {
                     {viewRequest.scheduled_date && (
                       <>
                         <p>
-                          <span className="text-slate-500 text-sm">
-                            Scheduled Date:
-                          </span>{" "}
+                          <span className="text-slate-500 text-sm">{i18n.t("Scheduled Date:")}</span>{" "}
                           <span className="font-bold text-slate-800">
                             {new Date(
                               viewRequest.scheduled_date,
@@ -1191,9 +1085,7 @@ const TheatreSchedule: React.FC = () => {
                           </span>
                         </p>
                         <p>
-                          <span className="text-slate-500 text-sm">
-                            Scheduled Time:
-                          </span>{" "}
+                          <span className="text-slate-500 text-sm">{i18n.t("Scheduled Time:")}</span>{" "}
                           <span className="font-bold text-slate-800">
                             {viewRequest.scheduled_time}
                           </span>
@@ -1202,18 +1094,15 @@ const TheatreSchedule: React.FC = () => {
                     )}
                     {viewRequest.estimated_duration_min && (
                       <p>
-                        <span className="text-slate-500 text-sm">
-                          Estimated Duration:
-                        </span>{" "}
+                        <span className="text-slate-500 text-sm">{i18n.t("Estimated Duration:")}</span>{" "}
                         <span className="font-bold text-slate-800">
-                          {viewRequest.estimated_duration_min} minutes
-                        </span>
+                          {viewRequest.estimated_duration_min}{" "}{i18n.t("minutes")}</span>
                       </p>
                     )}
                     <p>
-                      <span className="text-slate-500 text-sm">OT Status:</span>{" "}
+                      <span className="text-slate-500 text-sm">{i18n.t("OT Status:")}</span>{" "}
                       <span className="font-bold px-2 py-1 rounded text-xs bg-slate-100 text-slate-700">
-                        {viewRequest.ot_status}
+                        {i18n.tv(viewRequest.ot_status)}
                       </span>
                     </p>
                   </div>
@@ -1222,15 +1111,11 @@ const TheatreSchedule: React.FC = () => {
 
               {/* Financial & Status */}
               <div className="border-t border-slate-100 pt-6">
-                <h4 className="text-xs font-bold text-slate-400 uppercase mb-3">
-                  Financial & Status
-                </h4>
+                <h4 className="text-xs font-bold text-slate-400 uppercase mb-3">{i18n.t("Financial & Status")}</h4>
                 <div className="grid grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <p>
-                      <span className="text-slate-500 text-sm">
-                        Financial Status:
-                      </span>{" "}
+                      <span className="text-slate-500 text-sm">{i18n.t("Financial Status:")}</span>{" "}
                       <span
                         className={`font-bold px-2 py-1 rounded text-xs ${
                           viewRequest.financial_status === "BILLED"
@@ -1238,31 +1123,27 @@ const TheatreSchedule: React.FC = () => {
                             : "bg-orange-100 text-orange-700"
                         }`}
                       >
-                        {viewRequest.financial_status}
+                        {i18n.tv(viewRequest.financial_status)}
                       </span>
                     </p>
                     <p>
-                      <span className="text-slate-500 text-sm">Billed:</span>{" "}
+                      <span className="text-slate-500 text-sm">{i18n.t("Billed:")}</span>{" "}
                       <span className="font-bold text-slate-800">
-                        {viewRequest.is_billed ? "Yes" : "No"}
+                        {viewRequest.is_billed ? i18n.t("Yes") : i18n.t("No")}
                       </span>
                     </p>
                   </div>
                   <div className="space-y-2">
                     <p>
-                      <span className="text-slate-500 text-sm">
-                        Request Status:
-                      </span>{" "}
+                      <span className="text-slate-500 text-sm">{i18n.t("Request Status:")}</span>{" "}
                       <span className="font-bold px-2 py-1 rounded text-xs bg-brand-active text-brand-primary">
-                        {viewRequest.request_status}
+                        {i18n.tv(viewRequest.request_status)}
                       </span>
                     </p>
                     <p>
-                      <span className="text-slate-500 text-sm">
-                        Order Status:
-                      </span>{" "}
+                      <span className="text-slate-500 text-sm">{i18n.t("Order Status:")}</span>{" "}
                       <span className="font-bold px-2 py-1 rounded text-xs bg-slate-100 text-slate-700">
-                        {viewRequest.order_status}
+                        {i18n.tv(viewRequest.order_status)}
                       </span>
                     </p>
                   </div>
@@ -1273,15 +1154,11 @@ const TheatreSchedule: React.FC = () => {
               {(viewRequest.request_notes ||
                 viewRequest.requested_by_first_name) && (
                 <div className="border-t border-slate-100 pt-6">
-                  <h4 className="text-xs font-bold text-slate-400 uppercase mb-3">
-                    Request Information
-                  </h4>
+                  <h4 className="text-xs font-bold text-slate-400 uppercase mb-3">{i18n.t("Request Information")}</h4>
                   <div className="space-y-3">
                     {viewRequest.request_notes && (
                       <div>
-                        <p className="text-slate-500 text-sm mb-1">
-                          Request Notes:
-                        </p>
+                        <p className="text-slate-500 text-sm mb-1">{i18n.t("Request Notes:")}</p>
                         <p className="text-slate-800 text-sm bg-slate-50 p-3 rounded border border-slate-200">
                           {viewRequest.request_notes}
                         </p>
@@ -1289,18 +1166,14 @@ const TheatreSchedule: React.FC = () => {
                     )}
                     <div className="grid grid-cols-2 gap-6">
                       <p>
-                        <span className="text-slate-500 text-sm">
-                          Requested By:
-                        </span>{" "}
+                        <span className="text-slate-500 text-sm">{i18n.t("Requested By:")}</span>{" "}
                         <span className="font-bold text-slate-800">
                           {viewRequest.requested_by_first_name}{" "}
                           {viewRequest.requested_by_last_name}
                         </span>
                       </p>
                       <p>
-                        <span className="text-slate-500 text-sm">
-                          Request Time:
-                        </span>{" "}
+                        <span className="text-slate-500 text-sm">{i18n.t("Request Time:")}</span>{" "}
                         <span className="font-bold text-slate-800">
                           {new Date(viewRequest.request_time).toLocaleString()}
                         </span>
@@ -1316,18 +1189,14 @@ const TheatreSchedule: React.FC = () => {
               <button
                 onClick={() => setViewRequest(null)}
                 className="px-4 py-2 border border-slate-300 rounded-xl font-bold text-slate-700 hover:bg-slate-100 transition-colors"
-              >
-                Close
-              </button>
+              >{i18n.t("Close")}</button>
               <button
                 onClick={() => {
                   setViewRequest(null);
                   handleScheduleClick(viewRequest);
                 }}
                 className="bg-slate-900 text-white px-6 py-2 rounded-xl font-bold hover:bg-slate-800 transition-colors"
-              >
-                Proceed to Schedule
-              </button>
+              >{i18n.t("Proceed to Schedule")}</button>
             </div>
           </div>
         </div>
@@ -1339,8 +1208,7 @@ const TheatreSchedule: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden animate-in zoom-in-95 duration-200 max-h-[80vh] flex flex-col">
             <div className="bg-slate-50 px-6 py-4 border-b border-slate-100 flex justify-between items-center shrink-0">
               <h3 className="font-black text-slate-800 text-lg">
-                {viewRoomSchedule.room_name} - Schedule
-              </h3>
+                {viewRoomSchedule.room_name}{" "}{i18n.t("- Schedule")}</h3>
               <button
                 onClick={() => setViewRoomSchedule(null)}
                 className="text-slate-400 hover:text-slate-600"
@@ -1350,14 +1218,14 @@ const TheatreSchedule: React.FC = () => {
             </div>
 
             <div className="p-0 overflow-y-auto flex-1">
-              <table className="w-full text-left border-collapse">
+              <table className="w-full text-start border-collapse">
                 <thead className="bg-slate-50 sticky top-0">
                   <tr className="border-b border-slate-100 text-xs font-black text-slate-400 uppercase tracking-wider">
-                    <th className="px-6 py-3">Date</th>
-                    <th className="px-6 py-3">Time</th>
-                    <th className="px-6 py-3">Patient</th>
-                    <th className="px-6 py-3">Procedure</th>
-                    <th className="px-6 py-3">Status</th>
+                    <th className="px-6 py-3">{i18n.t("Date")}</th>
+                    <th className="px-6 py-3">{i18n.t("Time")}</th>
+                    <th className="px-6 py-3">{i18n.t("Patient")}</th>
+                    <th className="px-6 py-3">{i18n.t("Procedure")}</th>
+                    <th className="px-6 py-3">{i18n.t("Status")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
@@ -1393,9 +1261,7 @@ const TheatreSchedule: React.FC = () => {
                       <td
                         colSpan={5}
                         className="text-center py-8 text-slate-400"
-                      >
-                        No surgeries scheduled for this room.
-                      </td>
+                      >{i18n.t("No surgeries scheduled for this room.")}</td>
                     </tr>
                   )}
                 </tbody>
@@ -1545,9 +1411,7 @@ const TheatreSchedule: React.FC = () => {
           <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
             <div className="bg-slate-50 px-6 py-5 border-b border-slate-100 flex justify-between items-start sticky top-0 z-10">
               <div>
-                <h3 className="font-black text-slate-800 text-xl tracking-tight">
-                  Surgery Actions
-                </h3>
+                <h3 className="font-black text-slate-800 text-xl tracking-tight">{i18n.t("Surgery Actions")}</h3>
                 <p className="text-xs font-bold text-slate-500 mt-1 flex items-center gap-2">
                   <span className="px-2 py-0.5 bg-white border border-slate-200 rounded text-slate-700">
                     {activeActionModal.mrn}
@@ -1577,7 +1441,7 @@ const TheatreSchedule: React.FC = () => {
                   <div className="p-4 bg-blue-100 rounded-2xl group-hover:scale-110 transition-transform text-blue-600">
                     <Eye size={28} />
                   </div>
-                  <span className="text-sm font-bold text-center">View Details</span>
+                  <span className="text-sm font-bold text-center">{i18n.t("View Details")}</span>
                 </button>
 
                 {/* Sign Consent - Violet */}
@@ -1592,13 +1456,13 @@ const TheatreSchedule: React.FC = () => {
                   <div className="p-4 bg-violet-100 rounded-2xl group-hover:scale-110 transition-transform relative text-violet-600">
                     <FileSignature size={28} />
                     {activeActionModal.consent_status === "SIGNED" && (
-                      <span className="absolute -top-1 -right-1 bg-emerald-500 text-white rounded-full p-0.5 shadow-sm">
+                      <span className="absolute -top-1 -end-1 bg-emerald-500 text-white rounded-full p-0.5 shadow-sm">
                         <CheckCircle size={12} />
                       </span>
                     )}
                   </div>
                   <span className="text-sm font-bold text-center">
-                    {activeActionModal.consent_status === "SIGNED" ? "View Consent" : "Sign Consent"}
+                    {activeActionModal.consent_status === "SIGNED" ? i18n.t("View Consent") : i18n.t("Sign Consent")}
                   </span>
                 </button>
 
@@ -1614,7 +1478,7 @@ const TheatreSchedule: React.FC = () => {
                   <div className="p-4 bg-purple-100 rounded-2xl group-hover:scale-110 transition-transform text-purple-600">
                     <ListChecks size={28} />
                   </div>
-                  <span className="text-sm font-bold text-center">Procedure Checklist</span>
+                  <span className="text-sm font-bold text-center">{i18n.t("Procedure Checklist")}</span>
                 </button>
 
                 {/* Pre-op Huddle - Fuchsia */}
@@ -1629,7 +1493,7 @@ const TheatreSchedule: React.FC = () => {
                   <div className="p-4 bg-fuchsia-100 rounded-2xl group-hover:scale-110 transition-transform text-fuchsia-600">
                     <Users size={28} />
                   </div>
-                  <span className="text-sm font-bold text-center">Pre-op Huddle (T2)</span>
+                  <span className="text-sm font-bold text-center">{i18n.t("Pre-op Huddle (T2)")}</span>
                 </button>
 
                 {/* Anaesthesia Monitoring - Cyan */}
@@ -1646,7 +1510,7 @@ const TheatreSchedule: React.FC = () => {
                   <div className="p-4 bg-cyan-100 rounded-2xl group-hover:scale-110 transition-transform text-cyan-600">
                     <Activity size={28} />
                   </div>
-                  <span className="text-sm font-bold text-center">Anaesthesia Monitoring</span>
+                  <span className="text-sm font-bold text-center">{i18n.t("Anaesthesia Monitoring")}</span>
                 </button>
 
                 {/* <button
@@ -1675,7 +1539,7 @@ const TheatreSchedule: React.FC = () => {
                   <div className="p-4 bg-rose-100 rounded-2xl group-hover:scale-110 transition-transform text-rose-600">
                     <HeartPulse size={28} />
                   </div>
-                  <span className="text-sm font-bold text-center">Cardiac Anaesthesia Record</span>
+                  <span className="text-sm font-bold text-center">{i18n.t("Cardiac Anaesthesia Record")}</span>
                 </button>
 
                 {/* Perfusion Record - Orange */}
@@ -1690,7 +1554,7 @@ const TheatreSchedule: React.FC = () => {
                   <div className="p-4 bg-orange-100 rounded-2xl group-hover:scale-110 transition-transform text-orange-600">
                     <Droplets size={28} />
                   </div>
-                  <span className="text-sm font-bold text-center">Perfusion (CPB) Record</span>
+                  <span className="text-sm font-bold text-center">{i18n.t("Perfusion (CPB) Record")}</span>
                 </button>
 
                 {/* Check In - Indigo */}
@@ -1702,7 +1566,7 @@ const TheatreSchedule: React.FC = () => {
                     <div className="p-4 bg-indigo-100 rounded-2xl group-hover:scale-110 transition-transform text-indigo-600">
                       <UserCheck size={28} />
                     </div>
-                    <span className="text-sm font-bold text-center">Check In</span>
+                    <span className="text-sm font-bold text-center">{i18n.t("Check In")}</span>
                   </button>
                 )}
 
@@ -1715,7 +1579,7 @@ const TheatreSchedule: React.FC = () => {
                     <div className="p-4 bg-red-100 rounded-2xl group-hover:scale-110 transition-transform text-red-600">
                       <XCircle size={28} />
                     </div>
-                    <span className="text-sm font-bold text-center">Cancel</span>
+                    <span className="text-sm font-bold text-center">{i18n.t("Cancel")}</span>
                   </button>
                 )}
 
@@ -1728,7 +1592,7 @@ const TheatreSchedule: React.FC = () => {
                     <div className="p-4 bg-emerald-100 rounded-2xl group-hover:scale-110 transition-transform text-emerald-600">
                       <Play size={28} />
                     </div>
-                    <span className="text-sm font-bold text-center">Start Surgery</span>
+                    <span className="text-sm font-bold text-center">{i18n.t("Start Surgery")}</span>
                   </button>
                 )}
 
@@ -1741,7 +1605,7 @@ const TheatreSchedule: React.FC = () => {
                     <div className="p-4 bg-brand-active0 rounded-2xl group-hover:scale-110 transition-transform text-brand-primary">
                       <CheckSquare size={28} />
                     </div>
-                    <span className="text-sm font-bold text-center">Complete</span>
+                    <span className="text-sm font-bold text-center">{i18n.t("Complete")}</span>
                   </button>
                 )}
 
@@ -1758,7 +1622,7 @@ const TheatreSchedule: React.FC = () => {
                     <div className="p-4 bg-slate-200 rounded-2xl group-hover:scale-110 transition-transform text-slate-700">
                       <FileEdit size={28} />
                     </div>
-                    <span className="text-sm font-bold text-center">Operative Note</span>
+                    <span className="text-sm font-bold text-center">{i18n.t("Operative Note")}</span>
                   </button>
                 )}
 
@@ -1774,7 +1638,7 @@ const TheatreSchedule: React.FC = () => {
                     <div className="p-4 bg-sky-100 rounded-2xl group-hover:scale-110 transition-transform text-sky-600">
                       <Monitor size={28} />
                     </div>
-                    <span className="text-sm font-bold text-center">OT Board</span>
+                    <span className="text-sm font-bold text-center">{i18n.t("OT Board")}</span>
                   </button>
                 )}
 
@@ -1787,7 +1651,7 @@ const TheatreSchedule: React.FC = () => {
                     <div className="p-4 bg-amber-100 rounded-2xl group-hover:scale-110 transition-transform text-amber-600">
                       <Receipt size={28} />
                     </div>
-                    <span className="text-sm font-bold text-center">Billing Clearance</span>
+                    <span className="text-sm font-bold text-center">{i18n.t("Billing Clearance")}</span>
                   </button>
                 )}
               </div>

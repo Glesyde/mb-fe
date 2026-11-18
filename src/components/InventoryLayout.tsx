@@ -13,6 +13,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { i18n } from "../i18n";
 
 interface NavTabItem {
   to: string;
@@ -154,12 +155,8 @@ const InventoryLayout: React.FC = () => {
           <h1 className="text-3xl font-black text-slate-800 tracking-tight flex items-center gap-3">
             <div className="p-2 bg-slate-900 text-white rounded-xl">
               <Package size={24} />
-            </div>
-            Inventory & Store Management
-          </h1>
-          <p className="text-slate-500 font-medium">
-            Coordinate medical supplies, procurement, and asset logistics.
-          </p>
+            </div>{i18n.t("Inventory & Store Management")}</h1>
+          <p className="text-slate-500 font-medium">{i18n.t("Coordinate medical supplies, procurement, and asset logistics.")}</p>
         </div>
       </div>
 
@@ -170,15 +167,15 @@ const InventoryLayout: React.FC = () => {
               type="button"
               onClick={() => handleScroll("left")}
               className="py-3 bg-white/10 hover:bg-white/20 active:scale-95 text-white/90 border border-white/15 backdrop-blur-md shadow-sm transition-all shrink-0"
-              title="Scroll tabs left"
+              title={i18n.t("Scroll tabs left")}
             >
-              <ChevronLeft size={14} />
+              <ChevronLeft className="rtl:-scale-x-100" size={14} />
             </button>
           )}
 
           <nav 
             ref={scrollContainerRef}
-            aria-label="Inventory Sub-modules" 
+            aria-label={i18n.t("Inventory Sub-modules")} 
             className="bg-white/10 backdrop-blur-md border border-white/15 p-1 flex items-center gap-1 overflow-x-auto scrollbar-hide shadow-inner scroll-smooth min-w-0"
           >
             {visibleTabs.map((tab) => {
@@ -196,7 +193,7 @@ const InventoryLayout: React.FC = () => {
                   `}
                 >
                   <Icon size={14} className="shrink-0" />
-                  <span>{tab.label}</span>
+                  <span>{i18n.tx(tab.label)}</span>
                 </NavLink>
               );
             })}
@@ -207,9 +204,9 @@ const InventoryLayout: React.FC = () => {
               type="button"
               onClick={() => handleScroll("right")}
               className="py-3 bg-white/10 hover:bg-white/20 active:scale-95 text-white/90 border border-white/15 backdrop-blur-md shadow-sm transition-all shrink-0"
-              title="Scroll tabs right"
+              title={i18n.t("Scroll tabs right")}
             >
-              <ChevronRight size={14} />
+              <ChevronRight className="rtl:-scale-x-100" size={14} />
             </button>
           )}
         </div>,

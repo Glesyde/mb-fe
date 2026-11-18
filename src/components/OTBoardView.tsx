@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { otService, OTCaseBoard } from "../services/ot.service";
 import { BASE_URL } from "../api/client";
+import { i18n } from "../i18n";
 
 const getFileUrl = (path: string) => {
   if (!path) return "";
@@ -56,15 +57,15 @@ const PacsCarousel: React.FC<{ images?: OTCaseBoard["radiology_images"] }> = ({ 
         <>
           <button
             onClick={() => setIndex((prev) => (prev - 1 + images.length) % images.length)}
-            className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-black/50 hover:bg-black/70 text-white transition-colors"
+            className="absolute start-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-black/50 hover:bg-black/70 text-white transition-colors"
           >
-            <ChevronLeft size={20} />
+            <ChevronLeft className="rtl:-scale-x-100" size={20} />
           </button>
           <button
             onClick={() => setIndex((prev) => (prev + 1) % images.length)}
-            className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-black/50 hover:bg-black/70 text-white transition-colors"
+            className="absolute end-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-black/50 hover:bg-black/70 text-white transition-colors"
           >
-            <ChevronRight size={20} />
+            <ChevronRight className="rtl:-scale-x-100" size={20} />
           </button>
           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
             {images.map((_, i) => (
@@ -116,7 +117,7 @@ const TeamCol: React.FC<{ role: string; name: string; iconColor: string }> = ({
   name,
   iconColor,
 }) => (
-  <div className="flex flex-col items-center gap-0.5 px-2 border-r border-[#1a4a82] last:border-r-0 flex-1 py-1">
+  <div className="flex flex-col items-center gap-0.5 px-2 border-e border-[#1a4a82] last:border-e-0 flex-1 py-1">
     <div className="flex items-center gap-1.5">
       <div className={`flex items-center justify-center ${iconColor}`}>
         <User size={14} className="text-white" />
@@ -258,14 +259,12 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
               <div className="flex items-center justify-center">
                 <img
                   src="/assets/logo-nobg.png"
-                  alt="Logo"
+                  alt={i18n.t("Logo")}
                   width={200}
                   height={200}
                 />
               </div>
-              <span className="text-[10px] font-normal text-[#4ade80] tracking-wide mt-1">
-                Compassion <span className="text-white mx-1">|</span> Excellence <span className="text-white mx-1">|</span> Innovation
-              </span>
+              <span className="text-[10px] font-normal text-[#4ade80] tracking-wide mt-1">{i18n.t("Compassion")}{" "}<span className="text-white mx-1">|</span>{" "}{i18n.t("Excellence")}{" "}<span className="text-white mx-1">|</span>{" "}{i18n.t("Innovation")}</span>
             </div>
           </div>
 
@@ -273,7 +272,7 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
           <div className="text-center absolute left-1/2 -translate-x-1/2">
             <h1 className="text-3xl font-bold text-white tracking-wide">
               {loading || !data
-                ? "OT BOARD"
+                ? i18n.t("OT BOARD")
                 : data.theatre_info.room_name.toUpperCase()}
             </h1>
           </div>
@@ -281,7 +280,7 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
           {/* Right: Date/Time + Controls */}
           <div className="flex items-center gap-4">
             <LiveClock />
-            <div className="flex items-center gap-1 border-l border-slate-700 pl-4">
+            <div className="flex items-center gap-1 border-s border-slate-700 ps-4">
               <button
                 onClick={toggleFullscreen}
                 className="p-1.5 text-slate-400 hover:text-white rounded"
@@ -302,16 +301,14 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
         {loading && (
           <div className="flex-1 flex items-center justify-center gap-4 bg-black">
             <Loader2 size={40} className="animate-spin text-[#0ea5e9]" />
-            <span className="text-white font-bold text-xl tracking-wider">
-              LOADING THEATRE BOARD...
-            </span>
+            <span className="text-white font-bold text-xl tracking-wider">{i18n.t("LOADING THEATRE BOARD...")}</span>
           </div>
         )}
 
         {!loading && error && (
           <div className="flex-1 flex flex-col items-center justify-center gap-4 bg-black">
             <AlertTriangle size={60} className="text-red-500" />
-            <p className="text-white font-bold text-2xl">BOARD UNAVAILABLE</p>
+            <p className="text-white font-bold text-2xl">{i18n.t("BOARD UNAVAILABLE")}</p>
             <p className="text-slate-400 text-lg">{error}</p>
           </div>
         )}
@@ -323,14 +320,14 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
             <div className="flex flex-col border border-[#1a4a82]">
               {/* Patient Info Row */}
               <div className="flex items-center justify-center gap-6 py-2 border-b border-[#1a4a82] bg-[#020813]">
-                <InfoPill label="PATIENT ID" value={data.patient.id} valueClass="text-[#38bdf8]" />
+                <InfoPill label={i18n.t("PATIENT ID")} value={data.patient.id} valueClass="text-[#38bdf8]" />
                 <span className="text-slate-500 text-lg">|</span>
-                <InfoPill label="AGE" value={String(data.patient.age)} />
+                <InfoPill label={i18n.t("AGE")} value={String(data.patient.age)} />
                 <span className="text-slate-500 text-lg">|</span>
-                <InfoPill label="SEX" value={data.patient.sex} />
+                <InfoPill label={i18n.t("SEX")} value={data.patient.sex} />
                 <span className="text-slate-500 text-lg">|</span>
                 <InfoPill
-                  label="ALLERGY"
+                  label={i18n.t("ALLERGY")}
                   value={data.patient.allergy}
                   valueClass={
                     data.patient.allergy === "NKDA"
@@ -342,9 +339,7 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
 
               {/* Procedure Row */}
               <div className="flex items-center justify-center gap-3 py-2 border-b border-[#1a4a82] bg-[#020813]">
-                <span className="text-base font-bold text-white uppercase tracking-wider">
-                  PROCEDURE:
-                </span>
+                <span className="text-base font-bold text-white uppercase tracking-wider">{i18n.t("PROCEDURE:")}</span>
                 <span className="text-xl font-bold text-[#38bdf8] uppercase tracking-wide">
                   {data.procedure}
                 </span>
@@ -364,9 +359,7 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
             <div className="flex h-[35vh] gap-1">
               <div className="flex-1 flex flex-col border border-[#1a4a82] bg-[#020813]">
                 <div className="py-1.5 text-center border-b border-[#1a4a82] bg-[#042a59]">
-                  <span className="text-[13px] font-bold text-white uppercase tracking-wider">
-                    LIVE SURGICAL VIEW
-                  </span>
+                  <span className="text-[13px] font-bold text-white uppercase tracking-wider">{i18n.t("LIVE SURGICAL VIEW")}</span>
                 </div>
                 <div className="flex-1 flex items-center justify-center text-slate-700">
                   <MonitorPlay size={64} className="opacity-20" />
@@ -374,9 +367,7 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
               </div>
               <div className="flex-1 flex flex-col border border-[#1a4a82] bg-[#020813]">
                 <div className="py-1.5 text-center border-b border-[#1a4a82] bg-[#042a59]">
-                  <span className="text-[13px] font-bold text-white uppercase tracking-wider">
-                    CT / PACS / IMAGE VIEW
-                  </span>
+                  <span className="text-[13px] font-bold text-white uppercase tracking-wider">{i18n.t("CT / PACS / IMAGE VIEW")}</span>
                 </div>
                 <PacsCarousel images={data.radiology_images || []} />
               </div>
@@ -388,21 +379,21 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
               <div className="w-[300px] shrink-0 flex flex-col gap-1 border border-[#1a4a82] bg-[#020813]">
                 {/* WHO Checklist */}
                 <div className="flex flex-col">
-                  <SectionHeader label="WHO CHECKLIST" />
+                  <SectionHeader label={i18n.t("WHO CHECKLIST")} />
                   <div className="px-5 py-4 space-y-4">
-                    <CheckRow label="Sign In" done={data.checklists.sign_in.status} time={data.checklists.sign_in.time} />
-                    <CheckRow label="Time Out" done={data.checklists.time_out.status} time={data.checklists.time_out.time} />
-                    <CheckRow label="Sign Out" done={data.checklists.sign_out.status} time={data.checklists.sign_out.time} />
+                    <CheckRow label={i18n.t("Sign In")} done={data.checklists.sign_in.status} time={data.checklists.sign_in.time} />
+                    <CheckRow label={i18n.t("Time Out")} done={data.checklists.time_out.status} time={data.checklists.time_out.time} />
+                    <CheckRow label={i18n.t("Sign Out")} done={data.checklists.sign_out.status} time={data.checklists.sign_out.time} />
                   </div>
                 </div>
                 <div className="flex-1" />
                 {/* Timers */}
                 <div className="flex flex-col">
-                  <SectionHeader label="TIMERS" />
+                  <SectionHeader label={i18n.t("TIMERS")} />
                   <div className="px-5 py-4 space-y-4">
-                    <TimerRow label="Anaes Start:" value={data.timers.anaes_start} />
-                    <TimerRow label="Knife to Skin:" value={data.timers.knife_to_skin} />
-                    <TimerRow label="Elapsed Time:" value={data.timers.elapsed_time} highlight />
+                    <TimerRow label={i18n.t("Anaes Start:")} value={data.timers.anaes_start} />
+                    <TimerRow label={i18n.t("Knife to Skin:")} value={data.timers.knife_to_skin} />
+                    <TimerRow label={i18n.t("Elapsed Time:")} value={data.timers.elapsed_time} highlight />
                   </div>
                 </div>
               </div>
@@ -410,7 +401,7 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
               {/* ── COL 2: SWAB COUNT ── */}
               <div className="flex-[2] flex flex-col border border-[#1a4a82] bg-[#020813] min-w-0">
                 <SectionHeader
-                  label="DIGITAL SWAB / INSTRUMENT COUNT"
+                  label={i18n.t("DIGITAL SWAB / INSTRUMENT COUNT")}
                   action={
                     editingCounts ? (
                       <div className="flex items-center gap-2">
@@ -418,46 +409,40 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
                           onClick={cancelEditingCounts}
                           disabled={savingCounts}
                           className="px-3 py-1 rounded-lg text-xs font-bold text-slate-300 hover:text-white border border-[#1a4a82] hover:bg-[#0a2a52] transition-colors disabled:opacity-50"
-                        >
-                          Cancel
-                        </button>
+                        >{i18n.t("Cancel")}</button>
                         <button
                           onClick={saveCounts}
                           disabled={savingCounts}
                           className="px-3 py-1 rounded-lg text-xs font-bold text-[#020813] bg-[#4ade80] hover:bg-[#3fce70] transition-colors disabled:opacity-50 flex items-center gap-1.5"
                         >
-                          {savingCounts && <Loader2 size={12} className="animate-spin" />}
-                          Save Counts
-                        </button>
+                          {savingCounts && <Loader2 size={12} className="animate-spin" />}{i18n.t("Save Counts")}</button>
                       </div>
                     ) : (
                       <button
                         onClick={startEditingCounts}
                         className="px-3 py-1 rounded-lg text-xs font-bold text-white border border-[#1a4a82] hover:bg-[#0a2a52] transition-colors"
-                      >
-                        Edit
-                      </button>
+                      >{i18n.t("Edit")}</button>
                     )
                   }
                 />
 
                 <div className="flex-1 overflow-y-auto">
-                  <table className="w-full text-left">
+                  <table className="w-full text-start">
                     <thead className="bg-[#020813] sticky top-0 border-b border-[#1a4a82]">
                       <tr>
-                        <th className="py-2.5 px-4 text-sm font-bold text-white w-1/2 border-r border-[#1a4a82]">ITEM</th>
-                        <th className="py-2.5 px-4 text-sm font-bold text-white text-center border-r border-[#1a4a82]">IN</th>
-                        <th className="py-2.5 px-4 text-sm font-bold text-white text-center border-r border-[#1a4a82]">OUT</th>
-                        <th className="py-2.5 px-4 text-sm font-bold text-white text-center">STATUS</th>
+                        <th className="py-2.5 px-4 text-sm font-bold text-white w-1/2 border-e border-[#1a4a82]">{i18n.t("ITEM")}</th>
+                        <th className="py-2.5 px-4 text-sm font-bold text-white text-center border-e border-[#1a4a82]">{i18n.t("IN")}</th>
+                        <th className="py-2.5 px-4 text-sm font-bold text-white text-center border-e border-[#1a4a82]">{i18n.t("OUT")}</th>
+                        <th className="py-2.5 px-4 text-sm font-bold text-white text-center">{i18n.t("STATUS")}</th>
                       </tr>
                     </thead>
                     <tbody>
                       {(editingCounts && draftCounts ? draftCounts : data.counts).map((row, i) => (
                         <tr key={i} className="border-b border-slate-800/50 hover:bg-slate-900/50">
-                          <td className="py-2.5 px-4 text-base font-normal text-white border-r border-[#1a4a82] flex items-center gap-2">
+                          <td className="py-2.5 px-4 text-base font-normal text-white border-e border-[#1a4a82] flex items-center gap-2">
                             <span className="text-slate-500 text-xs">▤</span> {row.item}
                           </td>
-                          <td className="py-2.5 px-4 text-lg font-normal text-white text-center border-r border-[#1a4a82]">
+                          <td className="py-2.5 px-4 text-lg font-normal text-white text-center border-e border-[#1a4a82]">
                             {editingCounts ? (
                               <input
                                 type="number"
@@ -470,7 +455,7 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
                               row.in
                             )}
                           </td>
-                          <td className="py-2.5 px-4 text-lg font-normal text-white text-center border-r border-[#1a4a82]">
+                          <td className="py-2.5 px-4 text-lg font-normal text-white text-center border-e border-[#1a4a82]">
                             {editingCounts ? (
                               <input
                                 type="number"
@@ -487,7 +472,7 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
                             {editingCounts ? (
                               <button
                                 onClick={() => removeDraftItem(i)}
-                                title="Remove item"
+                                title={i18n.t("Remove item")}
                                 className="p-1.5 rounded-md text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors"
                               >
                                 <Trash2 size={16} />
@@ -497,7 +482,7 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
                                 <div className="w-4 h-4 rounded-full bg-[#4ade80]/20 flex items-center justify-center">
                                   <Check size={12} strokeWidth={4} />
                                 </div>
-                                {(row as any).status}
+                                {i18n.tv((row as any).status)}
                               </span>
                             ) : (
                               <span className="text-slate-500 text-xs">—</span>
@@ -507,7 +492,7 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
                       ))}
                       {editingCounts && (
                         <tr className="border-b border-slate-800/50 bg-[#020813]">
-                          <td className="py-2 px-4 border-r border-[#1a4a82]">
+                          <td className="py-2 px-4 border-e border-[#1a4a82]">
                             <input
                               type="text"
                               value={newItemName}
@@ -518,17 +503,17 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
                                   addDraftItem();
                                 }
                               }}
-                              placeholder="New item name..."
+                              placeholder={i18n.t("New item name...")}
                               className="w-full bg-[#0a2a52] border border-[#1a4a82] rounded-md px-2 py-1.5 text-sm text-white outline-none focus:border-[#4ade80] placeholder:text-slate-500"
                             />
                           </td>
-                          <td className="border-r border-[#1a4a82]" />
-                          <td className="border-r border-[#1a4a82]" />
+                          <td className="border-e border-[#1a4a82]" />
+                          <td className="border-e border-[#1a4a82]" />
                           <td className="py-2 px-4 text-center">
                             <button
                               onClick={addDraftItem}
                               disabled={!newItemName.trim()}
-                              title="Add item"
+                              title={i18n.t("Add item")}
                               className="p-1.5 rounded-md text-[#4ade80] hover:bg-[#4ade80]/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                             >
                               <Plus size={16} />
@@ -546,22 +531,20 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
                     <div className="w-4 h-4 border-2 border-white rounded-sm flex items-center justify-center">
                       <Check size={12} className="text-white" strokeWidth={4} />
                     </div>
-                    <span className="text-sm font-bold text-white uppercase">SPECIMEN(S):</span>
+                    <span className="text-sm font-bold text-white uppercase">{i18n.t("SPECIMEN(S):")}</span>
                   </div>
                   
                   <div className="flex items-center gap-2">
                     <div className={`w-4 h-4 border-2 rounded-sm flex items-center justify-center ${data.specimen.collected ? "border-[#4ade80]" : "border-slate-500"}`}>
                       {data.specimen.collected && <Check size={12} className="text-[#4ade80]" strokeWidth={4} />}
                     </div>
-                    <span className="text-sm text-white">Collected</span>
+                    <span className="text-sm text-white">{i18n.t("Collected")}</span>
                   </div>
 
-                  <span className="text-sm text-white">
-                    Type: <span className="text-white">{data.specimen.type || "—"}</span>
+                  <span className="text-sm text-white">{i18n.t("Type:")}{" "}<span className="text-white">{data.specimen.type || "—"}</span>
                   </span>
 
-                  <span className="text-sm text-white">
-                    Sent: <span className={data.specimen.sent ? "text-[#4ade80]" : "text-red-500"}>{data.specimen.sent ? "YES" : "NO"}</span>
+                  <span className="text-sm text-white">{i18n.t("Sent:")}{" "}<span className={data.specimen.sent ? "text-[#4ade80]" : "text-red-500"}>{data.specimen.sent ? i18n.t("YES") : i18n.t("NO")}</span>
                   </span>
                 </div>
               </div>
@@ -569,23 +552,23 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
               {/* ── COL 3: BLOOD LOSS + NEXT CASE ── */}
               <div className="w-[320px] shrink-0 flex flex-col gap-1 border border-[#1a4a82] bg-[#020813]">
                 <div className="flex flex-col flex-1 min-h-0 border-b border-[#1a4a82]">
-                  <SectionHeader label="BLOOD LOSS" />
+                  <SectionHeader label={i18n.t("BLOOD LOSS")} />
                   <div className="px-5 py-3 flex flex-col gap-3 overflow-y-auto">
                     <div className="space-y-2">
                       <div className="flex justify-between">
-                        <span className="text-white text-base">Swabs:</span>
+                        <span className="text-white text-base">{i18n.t("Swabs:")}</span>
                         <span className="text-white text-base font-normal">
                           {(data.blood_loss as any).swabs_ml !== undefined ? `${(data.blood_loss as any).swabs_ml} ml` : "—"}
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-white text-base">Suction:</span>
+                        <span className="text-white text-base">{i18n.t("Suction:")}</span>
                         <span className="text-white text-base font-normal">
                           {(data.blood_loss as any).suction_ml !== undefined ? `${(data.blood_loss as any).suction_ml} ml` : "—"}
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-white text-base">Irrigation:</span>
+                        <span className="text-white text-base">{i18n.t("Irrigation:")}</span>
                         <span className="text-white text-base font-normal">
                           {(data.blood_loss as any).irrigation_ml !== undefined ? `${(data.blood_loss as any).irrigation_ml} ml` : "—"}
                         </span>
@@ -593,18 +576,16 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
                     </div>
                     
                     <div className="mt-auto pt-3 border-t border-[#1a4a82] text-center">
-                      <p className="text-[11px] font-bold text-[#facc15] uppercase tracking-wide mb-1 leading-tight">
-                        ESTIMATED TOTAL BLOOD LOSS:
-                      </p>
+                      <p className="text-[11px] font-bold text-[#facc15] uppercase tracking-wide mb-1 leading-tight">{i18n.t("ESTIMATED TOTAL BLOOD LOSS:")}</p>
                       <p className="text-4xl font-bold text-[#facc15] whitespace-nowrap">
-                        {data.blood_loss?.estimated_total_ml ?? 0} <span className="text-2xl">ml</span>
+                        {data.blood_loss?.estimated_total_ml ?? 0} <span className="text-2xl">{i18n.t("ml")}</span>
                       </p>
                     </div>
                   </div>
                 </div>
 
                 <div className="flex flex-col shrink-0 min-h-[120px]">
-                  <SectionHeader label="NEXT CASE" />
+                  <SectionHeader label={i18n.t("NEXT CASE")} />
                   <div className="px-5 py-4 flex flex-col items-center justify-center text-center h-full">
                     <p className="text-xl font-bold text-[#facc15] leading-tight mb-4">
                       {data.next_case?.procedure || "—"}
@@ -613,7 +594,7 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
                       <div className="flex items-center gap-2">
                         <div className={`w-3.5 h-3.5 rounded-full ${data.next_case.status === "SCHEDULED" ? "bg-[#4ade80]" : "bg-[#facc15]"}`} />
                         <span className="text-base font-bold text-[#4ade80] uppercase tracking-widest">
-                          {data.next_case.status === "SCHEDULED" ? "READY" : data.next_case.status}
+                          {data.next_case.status === "SCHEDULED" ? i18n.t("READY") : i18n.tv(data.next_case.status)}
                         </span>
                       </div>
                     )}
@@ -630,14 +611,10 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
                     <div className="w-5 h-5 rounded-full bg-[#4ade80] flex items-center justify-center">
                       <Check size={14} className="text-black" strokeWidth={4} />
                     </div>
-                    <span className="text-base font-bold text-[#4ade80] uppercase tracking-wider">
-                      COUNTS MATCHED
-                    </span>
+                    <span className="text-base font-bold text-[#4ade80] uppercase tracking-wider">{i18n.t("COUNTS MATCHED")}</span>
                   </div>
                   <span className="text-slate-500 text-xl">|</span>
-                  <span className="text-base font-bold text-[#4ade80] uppercase tracking-wider">
-                    SAFE TO PROCEED TO SIGN OUT
-                  </span>
+                  <span className="text-base font-bold text-[#4ade80] uppercase tracking-wider">{i18n.t("SAFE TO PROCEED TO SIGN OUT")}</span>
                 </>
               ) : (
                 <>
@@ -645,14 +622,10 @@ const OTBoardView: React.FC<OTBoardViewProps> = ({
                     <div className="w-5 h-5 rounded-full bg-red-500 flex items-center justify-center">
                       <AlertTriangle size={14} className="text-black" strokeWidth={3} />
                     </div>
-                    <span className="text-base font-bold text-red-500 uppercase tracking-wider">
-                      COUNT MISMATCH
-                    </span>
+                    <span className="text-base font-bold text-red-500 uppercase tracking-wider">{i18n.t("COUNT MISMATCH")}</span>
                   </div>
                   <span className="text-slate-500 text-xl">|</span>
-                  <span className="text-base font-bold text-red-500 uppercase tracking-wider">
-                    DO NOT PROCEED
-                  </span>
+                  <span className="text-base font-bold text-red-500 uppercase tracking-wider">{i18n.t("DO NOT PROCEED")}</span>
                 </>
               )}
             </div>

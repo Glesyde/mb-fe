@@ -22,6 +22,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import apiClient from "../api/client";
+import { i18n } from "../i18n";
 
 
 
@@ -62,9 +63,7 @@ const RevenueReports: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white p-6 rounded-[32px] border border-slate-200 shadow-sm flex flex-col justify-between h-44">
             <div className="flex items-center justify-between">
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                Total Revenue Today
-              </p>
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Total Revenue Today")}</p>
               <div className="p-2 bg-indigo-50 text-indigo-600 rounded-xl">
                 <TrendingUp size={16} />
               </div>
@@ -77,15 +76,12 @@ const RevenueReports: React.FC = () => {
               </p>
             )}
             <div className="flex items-center gap-1.5 text-[10px] font-bold text-emerald-500">
-              <TrendingUp size={12} /> {revenue.trend || "+0%"} from yesterday
-            </div>
+              <TrendingUp size={12} /> {revenue.trend || "+0%"}{" "}{i18n.t("from yesterday")}</div>
           </div>
 
           <div className="bg-white p-6 rounded-[32px] border border-slate-200 shadow-sm flex flex-col justify-between h-44">
             <div className="flex items-center justify-between">
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                Cash Collections
-              </p>
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Cash Collections")}</p>
               <div className="p-2 bg-emerald-50 text-emerald-600 rounded-xl">
                 <Coins size={16} />
               </div>
@@ -97,16 +93,12 @@ const RevenueReports: React.FC = () => {
                 {revenue.cash || "₦0.00"}
               </p>
             )}
-            <p className="text-[10px] font-bold text-slate-400 uppercase">
-              Direct cash received today
-            </p>
+            <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Direct cash received today")}</p>
           </div>
 
           <div className="bg-white p-6 rounded-[32px] border border-slate-200 shadow-sm flex flex-col justify-between h-44">
             <div className="flex items-center justify-between">
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                HMO / Insurance
-              </p>
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("HMO / Insurance")}</p>
               <div className="p-2 bg-brand-active text-brand-primary rounded-xl">
                 <Wallet size={16} />
               </div>
@@ -116,9 +108,7 @@ const RevenueReports: React.FC = () => {
             ) : (
               <p className="text-3xl font-black text-slate-800">—</p>
             )}
-            <p className="text-[10px] font-bold text-slate-400 uppercase">
-              Pending reconciliation
-            </p>
+            <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Pending reconciliation")}</p>
           </div>
         </div>
 

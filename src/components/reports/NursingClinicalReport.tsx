@@ -5,6 +5,7 @@ import {
   Activity, ClipboardCheck, Syringe, Thermometer, FilterX, RefreshCw
 } from "lucide-react";
 import apiClient from "../../api/client";
+import { i18n } from "../../i18n";
 
 const renderValue = (val: any) => {
   if (val === null || val === undefined || val === "") return "—";
@@ -203,29 +204,28 @@ const NursingClinicalReport: React.FC = () => {
       {/* HEADER & ACTIONS */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
         <div>
-          <h2 className="text-xl font-bold text-slate-800">Nursing Clinical Productivity</h2>
-          <p className="text-sm text-slate-500">Analyze ward shifts, task adherence, and medication compliance.</p>
+          <h2 className="text-xl font-bold text-slate-800">{i18n.t("Nursing Clinical Productivity")}</h2>
+          <p className="text-sm text-slate-500">{i18n.t("Analyze ward shifts, task adherence, and medication compliance.")}</p>
         </div>
         
         <div className="flex items-center gap-3">
           <button onClick={clearFilters} disabled={isLoading || isExporting} className="flex items-center gap-2 px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 disabled:opacity-50 rounded-xl text-sm font-bold transition-colors">
-            <FilterX size={18} /> <span className="hidden sm:inline">Clear</span>
+            <FilterX size={18} /> <span className="hidden sm:inline">{i18n.t("Clear")}</span>
           </button>
           
           <button onClick={fetchReportData} disabled={isLoading || isExporting} className="flex items-center gap-2 px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 disabled:opacity-50 rounded-xl text-sm font-bold transition-colors">
-            <RefreshCw size={18} className={isLoading ? "animate-spin" : ""} /> <span className="hidden sm:inline">Refresh</span>
+            <RefreshCw size={18} className={isLoading ? "animate-spin" : ""} /> <span className="hidden sm:inline">{i18n.t("Refresh")}</span>
           </button>
 
           <div className="relative" ref={dropdownRef}>
             <button onClick={() => setIsExportOpen(!isExportOpen)} disabled={isLoading || isExporting || data.length === 0} className="flex items-center gap-2 px-5 py-2.5 bg-brand-primary text-white hover:bg-brand-primary/90 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl text-sm font-bold transition-all shadow-md shadow-brand-primary/20">
-              {isExporting ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />} Export
-              <ChevronDown size={16} className={`transition-transform duration-200 ${isExportOpen ? "rotate-180" : ""}`} />
+              {isExporting ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}{" "}{i18n.t("Export")}<ChevronDown size={16} className={`transition-transform duration-200 ${isExportOpen ? "rotate-180" : ""}`} />
             </button>
             {isExportOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 py-2 animate-in fade-in zoom-in-95 duration-200">
-                <button onClick={() => handleServerExport('csv', 'csv')} className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors"><div className="p-1.5 bg-slate-50 text-slate-600 rounded-lg"><FileText size={16} /></div> Export CSV</button>
-                <button onClick={() => handleServerExport('excel', 'xlsx')} className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors"><div className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg"><FileSpreadsheet size={16} /></div> Export Excel</button>
-                <button onClick={() => handleServerExport('pdf', 'pdf')} className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors"><div className="p-1.5 bg-red-50 text-red-600 rounded-lg"><FilePdf size={16} /></div> Export PDF</button>
+              <div className="absolute end-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 py-2 animate-in fade-in zoom-in-95 duration-200">
+                <button onClick={() => handleServerExport('csv', 'csv')} className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors"><div className="p-1.5 bg-slate-50 text-slate-600 rounded-lg"><FileText size={16} /></div>{" "}{i18n.t("Export CSV")}</button>
+                <button onClick={() => handleServerExport('excel', 'xlsx')} className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors"><div className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg"><FileSpreadsheet size={16} /></div>{" "}{i18n.t("Export Excel")}</button>
+                <button onClick={() => handleServerExport('pdf', 'pdf')} className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors"><div className="p-1.5 bg-red-50 text-red-600 rounded-lg"><FilePdf size={16} /></div>{" "}{i18n.t("Export PDF")}</button>
               </div>
             )}
           </div>
@@ -238,29 +238,29 @@ const NursingClinicalReport: React.FC = () => {
           
           {/* Main Sub-report Switcher */}
           <div className="relative">
-             <Activity className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-primary" size={16} />
-             <select value={reportCategory} onChange={(e) => { setReportCategory(e.target.value); setCurrentPage(1); }} disabled={isLoading} className="w-full pl-9 pr-4 py-2 bg-brand-primary/5 border border-brand-primary/20 text-brand-primary font-bold rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/30">
-               <option value="workload">Shift Workload & Patients</option>
-               <option value="tasks">Nursing Task Adherence</option>
-               <option value="meds">Medication Administration</option>
-               <option value="vitals">NEWS2 Vitals & Escalations</option>
+             <Activity className="absolute start-3 top-1/2 -translate-y-1/2 text-brand-primary" size={16} />
+             <select value={reportCategory} onChange={(e) => { setReportCategory(e.target.value); setCurrentPage(1); }} disabled={isLoading} className="w-full ps-9 pe-4 py-2 bg-brand-primary/5 border border-brand-primary/20 text-brand-primary font-bold rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/30">
+               <option value="workload">{i18n.t("Shift Workload & Patients")}</option>
+               <option value="tasks">{i18n.t("Nursing Task Adherence")}</option>
+               <option value="meds">{i18n.t("Medication Administration")}</option>
+               <option value="vitals">{i18n.t("NEWS2 Vitals & Escalations")}</option>
              </select>
           </div>
 
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-            <input type="text" placeholder="Search nurse, ward, meds..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && fetchReportData()} disabled={isLoading || isExporting} className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20" />
+            <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            <input type="text" placeholder={i18n.t("Search nurse, ward, meds...")} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && fetchReportData()} disabled={isLoading || isExporting} className="w-full ps-9 pe-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20" />
           </div>
 
           <div>
             <select value={timeframeFilter} onChange={(e) => { setTimeframeFilter(e.target.value); setCurrentPage(1); }} disabled={isLoading} className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20">
-              <option value="today">Today</option>
-              <option value="yesterday">Yesterday</option>
-              <option value="this_week">This Week</option>
-              <option value="this_month">This Month</option>
-              <option value="last_month">Last Month</option>
-              <option value="this_year">This Year (YTD)</option>
-              <option value="custom">Custom Range</option>
+              <option value="today">{i18n.t("Today")}</option>
+              <option value="yesterday">{i18n.t("Yesterday")}</option>
+              <option value="this_week">{i18n.t("This Week")}</option>
+              <option value="this_month">{i18n.t("This Month")}</option>
+              <option value="last_month">{i18n.t("Last Month")}</option>
+              <option value="this_year">{i18n.t("This Year (YTD)")}</option>
+              <option value="custom">{i18n.t("Custom Range")}</option>
             </select>
           </div>
 
@@ -281,15 +281,15 @@ const NursingClinicalReport: React.FC = () => {
             <>
               <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
                 <div className="p-3 bg-blue-50 text-blue-600 rounded-lg"><Activity size={24} /></div>
-                <div><p className="text-sm text-slate-500 font-medium">Total Shifts</p><h3 className="text-2xl font-bold text-slate-800">{aggregates.total_shifts || 0}</h3></div>
+                <div><p className="text-sm text-slate-500 font-medium">{i18n.t("Total Shifts")}</p><h3 className="text-2xl font-bold text-slate-800">{aggregates.total_shifts || 0}</h3></div>
               </div>
               <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
                 <div className="p-3 bg-emerald-50 text-emerald-600 rounded-lg"><Thermometer size={24} /></div>
-                <div><p className="text-sm text-slate-500 font-medium">Vitals Recorded</p><h3 className="text-2xl font-bold text-slate-800">{aggregates.total_vitals || 0}</h3></div>
+                <div><p className="text-sm text-slate-500 font-medium">{i18n.t("Vitals Recorded")}</p><h3 className="text-2xl font-bold text-slate-800">{aggregates.total_vitals || 0}</h3></div>
               </div>
               <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
                 <div className="p-3 bg-indigo-50 text-indigo-600 rounded-lg"><Syringe size={24} /></div>
-                <div><p className="text-sm text-slate-500 font-medium">Meds Administered</p><h3 className="text-2xl font-bold text-slate-800">{aggregates.total_meds || 0}</h3></div>
+                <div><p className="text-sm text-slate-500 font-medium">{i18n.t("Meds Administered")}</p><h3 className="text-2xl font-bold text-slate-800">{aggregates.total_meds || 0}</h3></div>
               </div>
             </>
           )}
@@ -298,15 +298,15 @@ const NursingClinicalReport: React.FC = () => {
             <>
               <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
                 <div className="p-3 bg-blue-50 text-blue-600 rounded-lg"><ClipboardCheck size={24} /></div>
-                <div><p className="text-sm text-slate-500 font-medium">Total Tasks</p><h3 className="text-2xl font-bold text-slate-800">{aggregates.total_tasks || 0}</h3></div>
+                <div><p className="text-sm text-slate-500 font-medium">{i18n.t("Total Tasks")}</p><h3 className="text-2xl font-bold text-slate-800">{aggregates.total_tasks || 0}</h3></div>
               </div>
               <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-100 shadow-sm flex items-center gap-4">
                 <div className="p-3 bg-emerald-100 text-emerald-700 rounded-lg"><ClipboardCheck size={24} /></div>
-                <div><p className="text-sm text-emerald-700 font-medium">Completed</p><h3 className="text-2xl font-bold text-emerald-800">{aggregates.total_completed || 0}</h3></div>
+                <div><p className="text-sm text-emerald-700 font-medium">{i18n.t("Completed")}</p><h3 className="text-2xl font-bold text-emerald-800">{aggregates.total_completed || 0}</h3></div>
               </div>
               <div className="p-4 bg-red-50 rounded-xl border border-red-100 shadow-sm flex items-center gap-4">
                 <div className="p-3 bg-red-100 text-red-700 rounded-lg"><Activity size={24} /></div>
-                <div><p className="text-sm text-red-700 font-medium">Missed/Omitted</p><h3 className="text-2xl font-bold text-red-800">{aggregates.total_missed || 0}</h3></div>
+                <div><p className="text-sm text-red-700 font-medium">{i18n.t("Missed/Omitted")}</p><h3 className="text-2xl font-bold text-red-800">{aggregates.total_missed || 0}</h3></div>
               </div>
             </>
           )}
@@ -320,12 +320,12 @@ const NursingClinicalReport: React.FC = () => {
             <Loader2 className="w-8 h-8 animate-spin text-brand-primary" />
           </div>
         ) : (
-          <table className="w-full text-left text-sm whitespace-nowrap">
+          <table className="w-full text-start text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
               <tr>
                 {displayHeaders.map(header => (
-                  <th key={header.key} className={`px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] ${header.align === 'center' ? 'text-center' : 'text-left'}`}>
-                    {header.label}
+                  <th key={header.key} className={`px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] ${header.align === 'center' ? 'text-center' : "text-start"}`}>
+                    {i18n.tx(header.label)}
                   </th>
                 ))}
               </tr>
@@ -335,14 +335,14 @@ const NursingClinicalReport: React.FC = () => {
                 data.map((row, idx) => (
                   <tr key={idx} className="hover:bg-slate-50/80 transition-colors">
                     {displayHeaders.map(header => (
-                      <td key={header.key} className={`px-4 py-3.5 text-slate-700 ${header.align === 'center' ? 'text-center' : 'text-left'}`}>
+                      <td key={header.key} className={`px-4 py-3.5 text-slate-700 ${header.align === 'center' ? 'text-center' : "text-start"}`}>
                         {header.key === 'status' || header.key === 'escalation_required' ? (
                           <span className={`px-2 py-1 rounded-md text-[10px] font-bold ${
                             ['COMPLETED', 'given', 0, '0'].includes(row[header.key]) ? 'bg-emerald-100 text-emerald-700' :
                             ['MISSED', 'wasted', 1, '1'].includes(row[header.key]) ? 'bg-red-100 text-red-700' :
                             'bg-slate-100 text-slate-700'
                           }`}>
-                            {row[header.key] == '1' ? 'YES' : row[header.key] == '0' ? 'NO' : renderValue(row[header.key])}
+                            {row[header.key] == '1' ? i18n.t("YES") : row[header.key] == '0' ? i18n.t("NO") : renderValue(row[header.key])}
                           </span>
                         ) : (
                           renderValue(row[header.key])
@@ -353,9 +353,7 @@ const NursingClinicalReport: React.FC = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={displayHeaders.length} className="px-4 py-12 text-center text-slate-400 italic">
-                    No clinical records found for the selected filters.
-                  </td>
+                  <td colSpan={displayHeaders.length} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No clinical records found for the selected filters.")}</td>
                 </tr>
               )}
             </tbody>
@@ -367,18 +365,18 @@ const NursingClinicalReport: React.FC = () => {
       {!isLoading && data.length > 0 && (
         <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
           <div className="text-sm text-slate-500 font-medium">
-            <span className="text-slate-900 font-bold text-xs uppercase mr-2 tracking-wider">Page {currentPage}</span>
+            <span className="text-slate-900 font-bold text-xs uppercase me-2 tracking-wider">{i18n.t("Page")}{" "}{currentPage}</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1 mr-4">
-              <span className="text-xs text-slate-400 font-bold uppercase mr-2">Show</span>
+            <div className="flex items-center gap-1 me-4">
+              <span className="text-xs text-slate-400 font-bold uppercase me-2">{i18n.t("Show")}</span>
               <select value={itemsPerPage} onChange={(e) => { setItemsPerPage(Number(e.target.value)); setCurrentPage(1); }} className="bg-white border border-slate-200 rounded-lg text-xs font-bold px-2 py-1 outline-none focus:ring-2 focus:ring-brand-primary/20">
                 {[25, 50, 100, 250].map(val => (<option key={val} value={val}>{val}</option>))}
               </select>
             </div>
             <div className="flex items-center gap-1">
-              <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1} className="p-2 rounded-lg border border-slate-200 bg-white text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors shadow-sm"><ChevronLeft size={16} /></button>
-              <button onClick={() => setCurrentPage(prev => prev + 1)} disabled={data.length < itemsPerPage} className="p-2 rounded-lg border border-slate-200 bg-white text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors shadow-sm"><ChevronRight size={16} /></button>
+              <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1} className="p-2 rounded-lg border border-slate-200 bg-white text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors shadow-sm"><ChevronLeft className="rtl:-scale-x-100" size={16} /></button>
+              <button onClick={() => setCurrentPage(prev => prev + 1)} disabled={data.length < itemsPerPage} className="p-2 rounded-lg border border-slate-200 bg-white text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors shadow-sm"><ChevronRight className="rtl:-scale-x-100" size={16} /></button>
             </div>
           </div>
         </div>

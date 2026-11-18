@@ -7,6 +7,7 @@ import {
   buildTimeframeParams,
   ReportShell,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const OtTatReport: React.FC = () => {
   const [records, setRecords] = useState<any[]>([]);
@@ -52,8 +53,8 @@ const OtTatReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Surgery Turnaround & Duration Analysis"
-      subtitle="Actual vs scheduled surgery duration and turnaround variance per case."
+      title={i18n.t("Surgery Turnaround & Duration Analysis")}
+      subtitle={i18n.t("Actual vs scheduled surgery duration and turnaround variance per case.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -73,7 +74,7 @@ const OtTatReport: React.FC = () => {
           <div>
             <input
               type="text"
-              placeholder="Assigned room"
+              placeholder={i18n.t("Assigned room")}
               value={assignedRoom}
               onChange={(e) => setAssignedRoom(e.target.value)}
               disabled={isLoading}
@@ -83,7 +84,7 @@ const OtTatReport: React.FC = () => {
           <div>
             <input
               type="text"
-              placeholder="Lead surgeon"
+              placeholder={i18n.t("Lead surgeon")}
               value={leadSurgeon}
               onChange={(e) => setLeadSurgeon(e.target.value)}
               disabled={isLoading}
@@ -93,7 +94,7 @@ const OtTatReport: React.FC = () => {
           <div>
             <input
               type="text"
-              placeholder="MRN"
+              placeholder={i18n.t("MRN")}
               value={mrn}
               onChange={(e) => setMrn(e.target.value)}
               disabled={isLoading}
@@ -107,41 +108,41 @@ const OtTatReport: React.FC = () => {
       }
     >
       <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 flex-1 min-h-[300px]">
-        <table className="w-full text-left text-sm whitespace-nowrap">
+        <table className="w-full text-start text-sm whitespace-nowrap">
           <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
             <tr>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Surgery</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Patient</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Room</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Lead Surgeon</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Start Time</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">End Time</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Scheduled (min)</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Actual (min)</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Variance (min)</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Surgery")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Patient")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Room")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Lead Surgeon")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Start Time")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("End Time")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Scheduled (min)")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Actual (min)")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Variance (min)")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {records.length > 0 ? (
               records.map((row, i) => (
                 <tr key={`${row.case_id}-${i}`} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50 whitespace-normal min-w-[220px]">{renderValue(row.surgery_name)}</td>
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50 whitespace-normal min-w-[220px]">{renderValue(row.surgery_name)}</td>
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <div className="text-slate-700">{renderValue(row.patient_name)}</div>
-                    <div className="text-[11px] text-slate-400 font-mono">MRN: {renderValue(row.mrn)}</div>
+                    <div className="text-[11px] text-slate-400 font-mono">{i18n.t("MRN:")}{" "}{renderValue(row.mrn)}</div>
                   </td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.ot_room)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.lead_surgeon)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.start_time)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.end_time)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.scheduled_duration_mins)}</td>
-                  <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50 text-right">{renderValue(row.actual_duration_mins)}</td>
-                  <td className={`px-4 py-3.5 font-bold text-right ${Number(row.variance_mins) > 0 ? "text-red-600" : "text-emerald-600"}`}>{renderValue(row.variance_mins)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.ot_room)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.lead_surgeon)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.start_time)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.end_time)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.scheduled_duration_mins)}</td>
+                  <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50 text-end">{renderValue(row.actual_duration_mins)}</td>
+                  <td className={`px-4 py-3.5 font-bold text-end ${Number(row.variance_mins) > 0 ? "text-red-600" : "text-emerald-600"}`}>{renderValue(row.variance_mins)}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={9} className="px-4 py-12 text-center text-slate-400 italic">No TAT records found.</td>
+                <td colSpan={9} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No TAT records found.")}</td>
               </tr>
             )}
           </tbody>

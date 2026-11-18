@@ -14,6 +14,7 @@ import {
 import { authService } from "../services/auth.service";
 import { useNotification } from "../context/NotificationContext";
 import PasswordValidator from "./shared/PasswordValidator";
+import { i18n } from "../i18n";
 
 const UserProfile: React.FC = () => {
   const { notify } = useNotification();
@@ -85,8 +86,8 @@ const UserProfile: React.FC = () => {
       <div className="bg-white rounded-[32px] border border-slate-200 overflow-hidden shadow-sm">
         <div className="h-36 bg-gradient-to-r from-brand-primary via-indigo-600 to-violet-700 relative overflow-hidden">
           <div className="absolute inset-0 opacity-20 transition-transform hover:scale-110 duration-1000">
-            <div className="absolute top-0 left-0 w-32 h-32 bg-white/20 blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-            <div className="absolute bottom-0 right-0 w-48 h-48 bg-white/10 blur-3xl translate-x-1/4 translate-y-1/4"></div>
+            <div className="absolute top-0 start-0 w-32 h-32 bg-white/20 blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+            <div className="absolute bottom-0 end-0 w-48 h-48 bg-white/10 blur-3xl translate-x-1/4 translate-y-1/4"></div>
           </div>
         </div>
         <div className="px-6 pb-6 -mt-10 flex flex-col md:flex-row items-end gap-5">
@@ -101,28 +102,21 @@ const UserProfile: React.FC = () => {
                 {userData.username}
               </h1>
               <span className="px-2.5 py-0.5 bg-brand-active text-brand-primary text-[10px] font-black uppercase tracking-widest rounded-full border border-brand-active">
-                {userData.roles[0]?.name || "N/A"}
+                {userData.roles[0]?.name || i18n.t("N/A")}
               </span>
             </div>
             <div className="flex flex-wrap items-center gap-4">
               <p className="text-xs text-slate-500 font-bold flex items-center gap-1.5">
-                <Mail size={12} className="text-slate-400" /> Medbookie Identity
-                Account
-              </p>
+                <Mail size={12} className="text-slate-400" />{" "}{i18n.t("Medbookie Identity Account")}</p>
               <p className="text-xs text-slate-500 font-bold flex items-center gap-1.5">
-                <ShieldCheck size={12} className="text-emerald-500" /> Active
-                Session
-              </p>
+                <ShieldCheck size={12} className="text-emerald-500" />{" "}{i18n.t("Active Session")}</p>
             </div>
           </div>
           <div className="hidden lg:flex items-center gap-3 bg-slate-50 px-4 py-2 rounded-2xl border border-slate-100 mb-1">
             <Fingerprint size={16} className="text-brand-active0" />
-            <div className="text-left">
-              <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter">
-                System ID
-              </p>
-              <p className="text-xs font-black mono tracking-wider text-slate-700">
-                #USR-00{userData.id}
+            <div className="text-start">
+              <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter">{i18n.t("System ID")}</p>
+              <p className="text-xs font-black mono tracking-wider text-slate-700">{i18n.t("#USR-00")}{userData.id}
               </p>
             </div>
           </div>
@@ -136,9 +130,7 @@ const UserProfile: React.FC = () => {
             <div className="w-8 h-8 bg-brand-active text-brand-primary rounded-xl flex items-center justify-center">
               <LayoutDashboard size={16} />
             </div>
-            <h2 className="text-sm font-black text-slate-700 uppercase tracking-widest">
-              Account Overview
-            </h2>
+            <h2 className="text-sm font-black text-slate-700 uppercase tracking-widest">{i18n.t("Account Overview")}</h2>
           </div>
 
           <div className="space-y-3">
@@ -169,7 +161,7 @@ const UserProfile: React.FC = () => {
                 className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-50 transition-all hover:border-slate-200 group"
               >
                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider">
-                  {stat.label}
+                  {i18n.tx(stat.label)}
                 </span>
                 <span
                   className={`text-xs font-black ${stat.color} group-hover:scale-105 transition-transform origin-right`}
@@ -187,23 +179,19 @@ const UserProfile: React.FC = () => {
             <div className="w-8 h-8 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center">
               <Lock size={16} />
             </div>
-            <h2 className="text-sm font-black text-slate-700 uppercase tracking-widest">
-              Security Credentials
-            </h2>
+            <h2 className="text-sm font-black text-slate-700 uppercase tracking-widest">{i18n.t("Security Credentials")}</h2>
           </div>
 
           <form onSubmit={handleChangePassword} className="space-y-3">
             <div className="space-y-1">
-              <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                Current Password
-              </label>
+              <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Current Password")}</label>
               <div className="relative group">
-                <Key className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 w-3.5 h-3.5 group-focus-within:text-indigo-500 transition-colors" />
+                <Key className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-300 w-3.5 h-3.5 group-focus-within:text-indigo-500 transition-colors" />
                 <input
                   type={showCurrent ? "text" : "password"}
                   required
                   placeholder="••••••••"
-                  className="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-200 transition-all font-mono"
+                  className="w-full ps-10 pe-10 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-200 transition-all font-mono"
                   value={passwords.current}
                   onChange={(e) =>
                     setPasswords({ ...passwords, current: e.target.value })
@@ -212,7 +200,7 @@ const UserProfile: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowCurrent(!showCurrent)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-600 transition-colors"
+                  className="absolute end-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-600 transition-colors"
                 >
                   {showCurrent ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
@@ -221,14 +209,12 @@ const UserProfile: React.FC = () => {
 
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1">
-                <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  New Password
-                </label>
+                <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("New Password")}</label>
                 <div className="relative group">
                   <input
                     type={showNew ? "text" : "password"}
                     required
-                    placeholder="New auth key"
+                    placeholder={i18n.t("New auth key")}
                     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-200 transition-all font-mono"
                     value={passwords.new}
                     onChange={(e) =>
@@ -238,21 +224,19 @@ const UserProfile: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setShowNew(!showNew)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-600 transition-colors"
+                    className="absolute end-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-600 transition-colors"
                   >
                     {showNew ? <EyeOff size={14} /> : <Eye size={14} />}
                   </button>
                 </div>
               </div>
               <div className="space-y-1">
-                <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Confirm Secret
-                </label>
+                <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Confirm Secret")}</label>
                 <div className="relative group">
                   <input
                     type={showConfirm ? "text" : "password"}
                     required
-                    placeholder="Repeat key"
+                    placeholder={i18n.t("Repeat key")}
                     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-200 transition-all font-mono"
                     value={passwords.confirm}
                     onChange={(e) =>
@@ -262,7 +246,7 @@ const UserProfile: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setShowConfirm(!showConfirm)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-600 transition-colors"
+                    className="absolute end-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-600 transition-colors"
                   >
                     {showConfirm ? <EyeOff size={14} /> : <Eye size={14} />}
                   </button>
@@ -287,8 +271,7 @@ const UserProfile: React.FC = () => {
               {submitting ? (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
               ) : (
-                <>
-                  Update Security Gateway <CheckCircle2 size={14} />
+                <>{i18n.t("Update Security Gateway")}{" "}<CheckCircle2 size={14} />
                 </>
               )}
             </button>

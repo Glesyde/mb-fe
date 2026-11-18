@@ -30,7 +30,8 @@ import { wardService } from '../services/ward.service';
 import { useNotification } from '../context/NotificationContext';
 import IPDAddServiceModal from './IPDAddServiceModal';
 import ReversalModal from './ReversalModal';
-import AuditBillModal from './AuditBillModal'; // <-- IMPORT ADDED HERE
+import AuditBillModal from './AuditBillModal';
+import { i18n } from "../i18n"; // <-- IMPORT ADDED HERE
 
 interface ClinicalHeader {
   mrn: string;
@@ -384,27 +385,27 @@ const IPDBilling: React.FC = () => {
       {/* 1. HEADER BAR */}
       <div className="bg-gradient-to-r from-slate-700 to-slate-600 text-white px-4 py-2 flex items-center justify-between shadow-sm shrink-0">
         <div className="flex items-center gap-4">
-          <h1 className="font-bold text-sm tracking-wide">IP Invoice</h1>
+          <h1 className="font-bold text-sm tracking-wide">{i18n.t("IP Invoice")}</h1>
 
           <div className="flex items-center bg-white/10 rounded px-2 py-1 border border-white/20">
-            <span className="text-white/70 mr-2 font-medium">UHID:</span>
+            <span className="text-white/70 me-2 font-medium">{i18n.t("UHID:")}</span>
             <input
               value={searchMrn}
               onChange={(e) => setSearchMrn(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               className="bg-transparent border-none outline-none text-white placeholder-white/40 w-32 font-medium"
-              placeholder="Enter MRN"
+              placeholder={i18n.t("Enter MRN")}
             />
             <Search
               size={14}
-              className="text-white/70 cursor-pointer hover:text-white ml-2"
+              className="text-white/70 cursor-pointer hover:text-white ms-2"
               onClick={handleSearch}
             />
           </div>
 
           {encounters.length > 0 && (
             <div className="flex items-center bg-white/10 rounded px-2 py-1 border border-white/20">
-              <span className="text-white/70 mr-2 font-medium">Visit:</span>
+              <span className="text-white/70 me-2 font-medium">{i18n.t("Visit:")}</span>
               <select
                 value={selectedEncounterId}
                 onChange={handleEncounterChange}
@@ -423,8 +424,7 @@ const IPDBilling: React.FC = () => {
         <div className="flex items-center gap-2">
           {loading && <Loader2 size={16} className="animate-spin text-white/80" />}
           <button className="bg-brand-primary hover:bg-brand-active0 text-white px-3 py-1 rounded text-xs font-bold transition-colors border border-brand-primary shadow-sm flex items-center gap-1">
-            <MoreHorizontal size={14} /> Notes
-          </button>
+            <MoreHorizontal size={14} />{" "}{i18n.t("Notes")}</button>
         </div>
       </div>
 
@@ -433,7 +433,7 @@ const IPDBilling: React.FC = () => {
         <div className="bg-[#e6f0ff] border-b border-brand-active p-3 shrink-0">
           <div className="grid grid-cols-12 gap-4">
             {/* Col 1: Photo & Status */}
-            <div className="col-span-2 flex flex-col items-center gap-2 border-r border-brand-active pr-2">
+            <div className="col-span-2 flex flex-col items-center gap-2 border-e border-brand-active pe-2">
               <div className="w-16 h-16 bg-white border border-brand-active rounded-md flex items-center justify-center text-brand-primary shadow-sm">
                 <User size={32} />
               </div>
@@ -449,41 +449,39 @@ const IPDBilling: React.FC = () => {
                 <button 
                   onClick={() => setShowAuditModal(true)}
                   className="bg-brand-primary text-white text-[10px] font-bold py-1 px-2 rounded shadow-sm hover:bg-brand-primary w-full mt-1"
-                >
-                  Audit Bill
-                </button>
+                >{i18n.t("Audit Bill")}</button>
                 
                 <div className="bg-slate-600 text-white text-[10px] font-bold py-1 px-2 rounded shadow-sm text-center w-full">
-                  {billingStatement.administrative.status}
+                  {i18n.tv(billingStatement.administrative.status)}
                 </div>
               </div>
             </div>
 
             {/* Col 2: Invoice Details */}
-            <div className="col-span-3 space-y-1.5 border-r border-brand-active pr-2">
-              <h3 className="text-brand-primary font-bold border-b border-brand-active pb-1 mb-1">Invoice Details</h3>
+            <div className="col-span-3 space-y-1.5 border-e border-brand-active pe-2">
+              <h3 className="text-brand-primary font-bold border-b border-brand-active pb-1 mb-1">{i18n.t("Invoice Details")}</h3>
               <div className="grid grid-cols-[80px_1fr] gap-1 items-center">
-                <span className="text-slate-500 font-medium">IP No.</span>
+                <span className="text-slate-500 font-medium">{i18n.t("IP No.")}</span>
                 <span className="font-bold text-slate-800 truncate" title={billingStatement.administrative.encounter_no}>
                   {billingStatement.administrative.encounter_no}
                 </span>
               </div>
               <div className="grid grid-cols-[80px_1fr] gap-1 items-center">
-                <span className="text-slate-500 font-medium">Type</span>
-                <span className="font-bold text-slate-800">Credit</span>
+                <span className="text-slate-500 font-medium">{i18n.t("Type")}</span>
+                <span className="font-bold text-slate-800">{i18n.t("Credit")}</span>
               </div>
               <div className="grid grid-cols-[80px_1fr] gap-1 items-center">
-                <span className="text-slate-500 font-medium">Inv. Date</span>
+                <span className="text-slate-500 font-medium">{i18n.t("Inv. Date")}</span>
                 <span className="font-bold text-slate-800">{new Date().toLocaleDateString()}</span>
               </div>
               <div className="grid grid-cols-[80px_1fr] gap-1 items-center">
-                <span className="text-slate-500 font-medium">Admission</span>
+                <span className="text-slate-500 font-medium">{i18n.t("Admission")}</span>
                 <span className="font-bold text-slate-800 truncate" title={billingStatement.administrative.date_admitted}>
                   {billingStatement.administrative.date_admitted}
                 </span>
               </div>
               <div className="grid grid-cols-[80px_1fr] gap-1 items-center">
-                <span className="text-slate-500 font-medium">Stage</span>
+                <span className="text-slate-500 font-medium">{i18n.t("Stage")}</span>
                 <span className="font-bold text-slate-800 truncate">
                   {billingStatement.administrative.discharge_stage}
                 </span>
@@ -491,26 +489,26 @@ const IPDBilling: React.FC = () => {
             </div>
 
             {/* Col 3: Payor Details */}
-            <div className="col-span-4 space-y-1.5 border-r border-brand-active pr-2">
-              <h3 className="text-brand-primary font-bold border-b border-brand-active pb-1 mb-1">Payor Details</h3>
+            <div className="col-span-4 space-y-1.5 border-e border-brand-active pe-2">
+              <h3 className="text-brand-primary font-bold border-b border-brand-active pb-1 mb-1">{i18n.t("Payor Details")}</h3>
               <div className="grid grid-cols-[80px_1fr] gap-1 items-center">
-                <span className="text-slate-500 font-medium">Payer</span>
+                <span className="text-slate-500 font-medium">{i18n.t("Payer")}</span>
                 <span className="font-bold text-slate-800 truncate" title={billingStatement.administrative.payer}>
                   {billingStatement.administrative.payer}
                 </span>
               </div>
               <div className="grid grid-cols-[80px_1fr] gap-1 items-center">
-                <span className="text-slate-500 font-medium">Policy No</span>
+                <span className="text-slate-500 font-medium">{i18n.t("Policy No")}</span>
                 <span className="font-bold text-slate-800 truncate">{billingStatement.administrative.policy_no || '-'}</span>
               </div>
               <div className="grid grid-cols-[80px_1fr] gap-1 items-center">
-                <span className="text-slate-500 font-medium">Consultant</span>
+                <span className="text-slate-500 font-medium">{i18n.t("Consultant")}</span>
                 <span className="font-bold text-slate-800 truncate" title={billingStatement.clinical_header.admitting_dr}>
                   {billingStatement.clinical_header.admitting_dr}
                 </span>
               </div>
               <div className="grid grid-cols-[80px_1fr] gap-1 items-center">
-                <span className="text-slate-500 font-medium">Ward/Bed</span>
+                <span className="text-slate-500 font-medium">{i18n.t("Ward/Bed")}</span>
                 <span className="font-bold text-slate-800 truncate" title={billingStatement.clinical_header.ward_location}>
                   {billingStatement.clinical_header.ward_location}
                 </span>
@@ -518,47 +516,47 @@ const IPDBilling: React.FC = () => {
             </div>
 
             {/* Col 4: Other Details (Financials) */}
-            <div className="col-span-3 space-y-1.5 max-h-48 overflow-y-auto pr-2">
-              <h3 className="text-brand-primary font-bold border-b border-brand-active pb-1 mb-1">Financial Position</h3>
+            <div className="col-span-3 space-y-1.5 max-h-48 overflow-y-auto pe-2">
+              <h3 className="text-brand-primary font-bold border-b border-brand-active pb-1 mb-1">{i18n.t("Financial Position")}</h3>
               <div className="grid grid-cols-[120px_1fr] gap-1 items-center">
-                <span className="text-slate-500 font-medium">Gross Bill</span>
-                <span className="font-bold text-slate-800 text-right">{formatCurrency(billingStatement.financial_position.gross_current_bill)}</span>
+                <span className="text-slate-500 font-medium">{i18n.t("Gross Bill")}</span>
+                <span className="font-bold text-slate-800 text-end">{formatCurrency(billingStatement.financial_position.gross_current_bill)}</span>
               </div>
               <div className="grid grid-cols-[120px_1fr] gap-1 items-center">
-                <span className="text-slate-500 font-medium">Discounts</span>
-                <span className="font-bold text-red-500 text-right">-{formatCurrency(billingStatement.financial_position.total_discounts)}</span>
+                <span className="text-slate-500 font-medium">{i18n.t("Discounts")}</span>
+                <span className="font-bold text-red-500 text-end">-{formatCurrency(billingStatement.financial_position.total_discounts)}</span>
               </div>
               <div className="grid grid-cols-[120px_1fr] gap-1 items-center">
-                <span className="text-slate-500 font-medium">Net Bill</span>
-                <span className="font-bold text-slate-800 text-right">{formatCurrency(billingStatement.financial_position.net_current_bill)}</span>
+                <span className="text-slate-500 font-medium">{i18n.t("Net Bill")}</span>
+                <span className="font-bold text-slate-800 text-end">{formatCurrency(billingStatement.financial_position.net_current_bill)}</span>
               </div>
               <div className="grid grid-cols-[120px_1fr] gap-1 items-center">
-                <span className="text-slate-500 font-medium">Insurance Copay</span>
-                <span className="font-bold text-slate-800 text-right">{formatCurrency(billingStatement.financial_position.insurance_copay)}</span>
+                <span className="text-slate-500 font-medium">{i18n.t("Insurance Copay")}</span>
+                <span className="font-bold text-slate-800 text-end">{formatCurrency(billingStatement.financial_position.insurance_copay)}</span>
               </div>
               <div className="grid grid-cols-[120px_1fr] gap-1 items-center">
-                <span className="text-slate-500 font-medium">Current Debt</span>
-                <span className="font-bold text-slate-800 text-right">{formatCurrency(billingStatement.financial_position.current_debt)}</span>
+                <span className="text-slate-500 font-medium">{i18n.t("Current Debt")}</span>
+                <span className="font-bold text-slate-800 text-end">{formatCurrency(billingStatement.financial_position.current_debt)}</span>
               </div>
               <div className="grid grid-cols-[120px_1fr] gap-1 items-center">
-                <span className="text-slate-500 font-medium">Previous Debt</span>
-                <span className="font-bold text-slate-800 text-right">{formatCurrency(billingStatement.financial_position.previous_debt)}</span>
+                <span className="text-slate-500 font-medium">{i18n.t("Previous Debt")}</span>
+                <span className="font-bold text-slate-800 text-end">{formatCurrency(billingStatement.financial_position.previous_debt)}</span>
               </div>
               <div className="grid grid-cols-[120px_1fr] gap-1 items-center">
-                <span className="text-slate-500 font-medium">Total Debt</span>
-                <span className="font-bold text-slate-800 text-right">{formatCurrency(billingStatement.financial_position.total_patient_debt)}</span>
+                <span className="text-slate-500 font-medium">{i18n.t("Total Debt")}</span>
+                <span className="font-bold text-slate-800 text-end">{formatCurrency(billingStatement.financial_position.total_patient_debt)}</span>
               </div>
               <div className="grid grid-cols-[120px_1fr] gap-1 items-center">
-                <span className="text-slate-500 font-medium">Current Advance</span>
-                <span className="font-bold text-slate-800 text-right">{formatCurrency(billingStatement.financial_position.current_advance)}</span>
+                <span className="text-slate-500 font-medium">{i18n.t("Current Advance")}</span>
+                <span className="font-bold text-slate-800 text-end">{formatCurrency(billingStatement.financial_position.current_advance)}</span>
               </div>
               <div className="grid grid-cols-[120px_1fr] gap-1 items-center">
-                <span className="text-slate-500 font-medium">Ledger Balance</span>
-                <span className="font-bold text-slate-800 text-right">{formatCurrency(billingStatement.financial_position.ledger_balance)}</span>
+                <span className="text-slate-500 font-medium">{i18n.t("Ledger Balance")}</span>
+                <span className="font-bold text-slate-800 text-end">{formatCurrency(billingStatement.financial_position.ledger_balance)}</span>
               </div>
               <div className="grid grid-cols-[120px_1fr] gap-1 items-center bg-brand-active p-1 rounded">
-                <span className="text-brand-primary font-bold">Total Payable</span>
-                <span className="font-black text-brand-primary text-right">{formatCurrency(billingStatement.financial_position.total_amount_payable)}</span>
+                <span className="text-brand-primary font-bold">{i18n.t("Total Payable")}</span>
+                <span className="font-black text-brand-primary text-end">{formatCurrency(billingStatement.financial_position.total_amount_payable)}</span>
               </div>
             </div>
           </div>
@@ -567,7 +565,7 @@ const IPDBilling: React.FC = () => {
         <div className="bg-[#e6f0ff] border-b border-brand-active p-8 shrink-0 flex items-center justify-center text-brand-primary">
           <div className="text-center">
             <Search size={40} className="mx-auto mb-2 opacity-50" />
-            <p className="font-medium">Search for a patient to view details</p>
+            <p className="font-medium">{i18n.t("Search for a patient to view details")}</p>
           </div>
         </div>
       )}
@@ -580,18 +578,14 @@ const IPDBilling: React.FC = () => {
               ? 'bg-white text-brand-primary border-t border-x border-brand-primary shadow-sm mb-[-1px] z-10'
               : 'bg-transparent text-slate-600 hover:bg-white/50'
             }`}
-        >
-          Department Wise
-        </button>
+        >{i18n.t("Department Wise")}</button>
         <button
           onClick={() => setActiveTab('checklist')}
           className={`px-4 py-1.5 text-xs font-bold rounded-t-lg transition-colors ${activeTab === 'checklist'
               ? 'bg-white text-brand-primary border-t border-x border-brand-primary shadow-sm mb-[-1px] z-10'
               : 'bg-transparent text-slate-600 hover:bg-white/50'
             }`}
-        >
-          Checklist
-        </button>
+        >{i18n.t("Checklist")}</button>
       </div>
 
       {/* 4. MAIN CONTENT AREA */}
@@ -604,22 +598,21 @@ const IPDBilling: React.FC = () => {
                 onClick={() => setIsAddServiceModalOpen(true)}
                 className="flex items-center gap-1 bg-brand-primary text-white px-3 py-1.5 rounded text-xs font-bold hover:bg-brand-primary/90 transition-colors shadow-sm"
               >
-                <Plus size={14} /> Add Service
-              </button>
+                <Plus size={14} />{" "}{i18n.t("Add Service")}</button>
             </div>
             
             {/* Table Header */}
             <div className="grid grid-cols-[40px_1fr_100px_80px_60px_100px_100px_50px_36px_80px] bg-[#eef4fa] border-b border-slate-300 text-slate-700 font-bold py-2 px-4 sticky top-0 z-10 text-xs">
               <div className="text-center">#</div>
-              <div>Item Name</div>
-              <div>Date</div>
-              <div className="text-right">Rate</div>
-              <div className="text-center">Qty</div>
-              <div className="text-right text-indigo-500">Discount</div>
-              <div className="text-right">Net Total</div>
-              <div className="text-center" title="Apply item discount"><Tag size={12} className="mx-auto text-indigo-400" /></div>
-              <div className="text-center" title="Delete item"><Trash2 size={12} className="mx-auto text-red-300" /></div>
-              <div className="text-center">Status</div>
+              <div>{i18n.t("Item Name")}</div>
+              <div>{i18n.t("Date")}</div>
+              <div className="text-end">{i18n.t("Rate")}</div>
+              <div className="text-center">{i18n.t("Qty")}</div>
+              <div className="text-end text-indigo-500">{i18n.t("Discount")}</div>
+              <div className="text-end">{i18n.t("Net Total")}</div>
+              <div className="text-center" title={i18n.t("Apply item discount")}><Tag size={12} className="mx-auto text-indigo-400" /></div>
+              <div className="text-center" title={i18n.t("Delete item")}><Trash2 size={12} className="mx-auto text-red-300" /></div>
+              <div className="text-center">{i18n.t("Status")}</div>
             </div>
 
             {/* Groups */}
@@ -637,7 +630,7 @@ const IPDBilling: React.FC = () => {
                     >
                       <div className="flex items-center gap-2">
                         <div className={`text-slate-400 transition-transform duration-200 ${isExpanded ? 'rotate-90 text-brand-primary' : ''}`}>
-                          <ChevronRight size={14} />
+                          <ChevronRight className="rtl:-scale-x-100" size={14} />
                         </div>
                         <span className="font-bold text-brand-primary text-xs">{groupTitle}</span>
                         <span className="text-[10px] text-slate-500 bg-slate-200 px-1.5 rounded-full">
@@ -696,7 +689,7 @@ const IPDBilling: React.FC = () => {
                           className={`grid grid-cols-[40px_1fr_100px_80px_60px_100px_100px_50px_36px_80px] py-1.5 px-4 border-b border-slate-100 hover:bg-brand-active/30 transition-colors text-slate-600 items-center ${removingId === String(item.id) ? 'opacity-50 pointer-events-none' : ''}`}
                           >
                             <div className="text-center text-slate-400 text-[10px]">{idx + 1}</div>
-                            <div className="font-medium truncate pr-2 flex flex-col justify-center" title={item.item_name}>
+                            <div className="font-medium truncate pe-2 flex flex-col justify-center" title={item.item_name}>
                               <div className="flex items-center gap-2">
                                 <span className="truncate">{item.item_name}</span>
                                 {item.fee_breakdown && item.fee_breakdown.length > 0 && (
@@ -708,22 +701,22 @@ const IPDBilling: React.FC = () => {
                                     className="flex items-center gap-1 text-[9px] font-bold text-brand-primary hover:text-brand-active0 bg-brand-primary/10 hover:bg-brand-primary/20 px-2 py-1 rounded-full transition-colors shrink-0"
                                   >
                                     <FileText size={10} />
-                                    <span>Fee Breakdown</span>
+                                    <span>{i18n.t("Fee Breakdown")}</span>
                                   </button>
                                 )}
                               </div>
                               {(item.requested_by || item.cancelled_by) && (
                                 <div className="text-[10px] mt-0.5 flex gap-2">
-                                  {item.requested_by?.name && <span className="text-slate-400">Ordered by: {item.requested_by.name}</span>}
-                                  {item.cancelled_by?.name && <span className="text-red-400">Cancelled by: {item.cancelled_by.name}</span>}
+                                  {item.requested_by?.name && <span className="text-slate-400">{i18n.t("Ordered by:")}{" "}{item.requested_by.name}</span>}
+                                  {item.cancelled_by?.name && <span className="text-red-400">{i18n.t("Cancelled by:")}{" "}{item.cancelled_by.name}</span>}
                                 </div>
                               )}
                             </div>
                             <div className="text-[10px] text-slate-500">{item.date}</div>
-                            <div className="text-right">{formatCurrency(item.rate)}</div>
+                            <div className="text-end">{formatCurrency(item.rate)}</div>
                             <div className="text-center">{item.nos}</div>
                             {/* Discount column */}
-                            <div className="text-right">
+                            <div className="text-end">
                               {item.parent_discount && item.parent_discount.amount > 0 ? (
                                 <div className="flex flex-col items-end gap-1">
                                   <div className="flex items-center gap-1">
@@ -735,19 +728,19 @@ const IPDBilling: React.FC = () => {
                                           setUnapplyDiscountModal({ billableItemId: item.billable_item_id });
                                         }}
                                         className="text-red-400 hover:text-red-600 transition-colors"
-                                        title="Remove discount"
+                                        title={i18n.t("Remove discount")}
                                       >
                                         <X size={10} />
                                       </button>
                                     )}
                                   </div>
                                   <span className="text-[9px] font-semibold text-indigo-500 bg-indigo-50 border border-indigo-100 px-1.5 py-0.5 rounded">
-                                    {item.parent_discount.type === 'PERCENTAGE' ? `${item.parent_discount.value}% off` : item.parent_discount.type === 'WAIVER' ? 'WAIVER' : `FLAT`}
+                                    {item.parent_discount.type === 'PERCENTAGE' ? `${item.parent_discount.value}% off` : item.parent_discount.type === 'WAIVER' ? i18n.t("WAIVER") : i18n.t("FLAT")}
                                   </span>
                                   {item.parent_discount.reason && (
                                     <span
-                                      className="text-[9px] text-slate-400 italic text-right max-w-[90px] leading-tight cursor-pointer hover:text-indigo-500 hover:underline decoration-indigo-300 decoration-dashed transition-colors"
-                                      title="Click to view full reason"
+                                      className="text-[9px] text-slate-400 italic text-end max-w-[90px] leading-tight cursor-pointer hover:text-indigo-500 hover:underline decoration-indigo-300 decoration-dashed transition-colors"
+                                      title={i18n.t("Click to view full reason")}
                                       onClick={(e) => {
                                         e.stopPropagation();
                                         setViewDiscountModal({ isOpen: true, itemName: item.item_name, discount: item.parent_discount });
@@ -762,7 +755,7 @@ const IPDBilling: React.FC = () => {
                               )}
                             </div>
                             {/* Net Total column */}
-                            <div className="text-right font-bold">
+                            <div className="text-end font-bold">
                               {item.parent_discount && item.parent_discount.amount > 0 ? (
                                 <div className="flex flex-col items-end gap-0.5">
                                   <span className="text-[10px] text-slate-400 line-through">{formatCurrency(item.gross_total ?? item.total)}</span>
@@ -786,7 +779,7 @@ const IPDBilling: React.FC = () => {
                                     setShowDiscountModal(true);
                                   }}
                                   className="group p-1.5 rounded-lg hover:bg-indigo-50 text-slate-300 hover:text-indigo-600 transition-all"
-                                  title="Apply item discount"
+                                  title={i18n.t("Apply item discount")}
                                 >
                                   <Tag size={12} />
                                 </button>
@@ -806,7 +799,7 @@ const IPDBilling: React.FC = () => {
                                       removeItem(item.id, item.billable_item_id);
                                     }}
                                     className="group p-1.5 rounded-lg hover:bg-red-50 text-slate-300 hover:text-red-500 transition-all"
-                                    title="Delete item"
+                                    title={i18n.t("Delete item")}
                                   >
                                     <Trash2 size={12} />
                                   </button>
@@ -820,7 +813,7 @@ const IPDBilling: React.FC = () => {
                                   item.status === 'PENDING' ? 'bg-amber-50 text-amber-700 border-amber-200' :
                                     'bg-slate-50 text-slate-600 border-slate-200'
                                 }`}>
-                                {item.status}
+                                {i18n.tv(item.status)}
                               </span>
                             </div>
                           </div>
@@ -834,7 +827,7 @@ const IPDBilling: React.FC = () => {
           </div>
         ) : (
           <div className="h-full flex items-center justify-center text-slate-400">
-            <p>No billing items to display</p>
+            <p>{i18n.t("No billing items to display")}</p>
           </div>
         )}
       </div>
@@ -847,7 +840,7 @@ const IPDBilling: React.FC = () => {
 
           {/* LEFT — compact inline discount row */}
           <div className="flex items-center gap-3 flex-1">
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest whitespace-nowrap">Discount:</span>
+            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest whitespace-nowrap">{i18n.t("Discount:")}</span>
 
             {/* Bill-level button */}
             {billingStatement && (
@@ -862,21 +855,17 @@ const IPDBilling: React.FC = () => {
                 }}
                 className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-[10px] font-bold transition-colors"
               >
-                <Tag size={11} /> Apply to Bill
-              </button>
+                <Tag size={11} />{" "}{i18n.t("Apply to Bill")}</button>
             )}
 
             {/* Hint for item-level */}
-            <span className="text-[10px] text-slate-400 font-medium">
-              Use <Tag size={9} className="inline -mt-0.5 text-indigo-400" /> on a row for item discount
-            </span>
+            <span className="text-[10px] text-slate-400 font-medium">{i18n.t("Use")}{" "}<Tag size={9} className="inline -mt-0.5 text-indigo-400" />{" "}{i18n.t("on a row for item discount")}</span>
 
             {/* Total discount pill — only visible when active */}
             {totalDiscountAmount > 0 && (
               <span className="flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">
                 <CheckCircle2 size={10} />
-                -{formatCurrency(totalDiscountAmount)} off
-              </span>
+                -{formatCurrency(totalDiscountAmount)}{" "}{i18n.t("off")}</span>
             )}
 
             {/* Remove invoice-level discount */}
@@ -885,15 +874,14 @@ const IPDBilling: React.FC = () => {
                 onClick={() => setUnapplyDiscountModal({ billableItemId: null })}
                 className="flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-red-50 text-red-600 border border-red-200 rounded-lg text-[10px] font-bold transition-colors"
               >
-                <X size={11} /> Remove Bill Discount
-              </button>
+                <X size={11} />{" "}{i18n.t("Remove Bill Discount")}</button>
             )}
           </div>
 
           {/* RIGHT — Net Payable + Print */}
           <div className="flex items-center gap-4 shrink-0">
             <div className="flex flex-col items-end">
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Net Payable</span>
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{i18n.t("Net Payable")}</span>
               <span className="text-2xl font-black text-brand-primary leading-tight">
                 {billingStatement ? formatCurrency(billingStatement.provisional_total) : '₦0.00'}
               </span>
@@ -902,8 +890,7 @@ const IPDBilling: React.FC = () => {
               onClick={() => window.open(`/print/billing/ipd/${billingStatement?.administrative?.encounter_no}`, '_blank')}
               className="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded font-bold shadow-sm flex items-center gap-2 transition-colors"
             >
-              <Printer size={16} /> Print
-            </button>
+              <Printer size={16} />{" "}{i18n.t("Print")}</button>
           </div>
         </div>
 
@@ -920,60 +907,55 @@ const IPDBilling: React.FC = () => {
                 <button
                   onClick={() => isPharmacyClearance && handleDischargeAction('billingFileReceived')}
                   disabled={actionLoading || !isPharmacyClearance}
-                  title={!isPharmacyClearance ? "Requires Pharmacy Clearance first, or file already received." : ""}
+                  title={!isPharmacyClearance ? i18n.t("Requires Pharmacy Clearance first, or file already received.") : ""}
                   className={`px-4 py-2 rounded font-bold shadow-sm flex items-center gap-2 transition-colors ${isPharmacyClearance && !actionLoading ? 'bg-teal-600 hover:bg-teal-500 text-white' : 'bg-slate-200 text-slate-400 cursor-not-allowed opacity-60'
                     }`}
                 >
-                  {actionLoading && isPharmacyClearance ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />} Receive File
-                </button>
+                  {actionLoading && isPharmacyClearance ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />}{" "}{i18n.t("Receive File")}</button>
 
                 <button
                   onClick={() => isBillingFileReceived && handleDischargeAction('reverseBillingFileReceived')}
                   disabled={actionLoading || !isBillingFileReceived}
-                  title={!isBillingFileReceived ? "Can only reverse if file was just received." : ""}
+                  title={!isBillingFileReceived ? i18n.t("Can only reverse if file was just received.") : ""}
                   className={`px-4 py-2 rounded font-bold shadow-sm flex items-center gap-2 transition-colors ${isBillingFileReceived && !actionLoading ? 'bg-red-50 text-red-600 border border-red-200 hover:bg-red-100' : 'bg-slate-200 text-slate-400 cursor-not-allowed opacity-60'
                     }`}
                 >
-                  {actionLoading && isBillingFileReceived ? <Loader2 size={16} className="animate-spin" /> : <RotateCcw size={16} />} Reverse File
-                </button>
+                  {actionLoading && isBillingFileReceived ? <Loader2 size={16} className="animate-spin" /> : <RotateCcw size={16} />}{" "}{i18n.t("Reverse File")}</button>
 
                 <button
                   onClick={() => isBillingFileReceived && handleDischargeAction('billingClearance')}
                   disabled={actionLoading || !isBillingFileReceived}
-                  title={!isBillingFileReceived ? "Requires Billing File Received first, or already cleared." : ""}
+                  title={!isBillingFileReceived ? i18n.t("Requires Billing File Received first, or already cleared.") : ""}
                   className={`px-4 py-2 rounded font-bold shadow-sm flex items-center gap-2 transition-colors ${isBillingFileReceived && !actionLoading ? 'bg-teal-600 hover:bg-teal-500 text-white' : 'bg-slate-200 text-slate-400 cursor-not-allowed opacity-60'
                     }`}
                 >
-                  {actionLoading && isBillingFileReceived ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />} Clear Billing
-                </button>
+                  {actionLoading && isBillingFileReceived ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />}{" "}{i18n.t("Clear Billing")}</button>
 
                 <button
                   onClick={() => isBillingClearance && handleDischargeAction('reverseBillingClearance')}
                   disabled={actionLoading || !isBillingClearance}
-                  title={!isBillingClearance ? "Can only reverse if currently at Billing Clearance stage." : ""}
+                  title={!isBillingClearance ? i18n.t("Can only reverse if currently at Billing Clearance stage.") : ""}
                   className={`px-4 py-2 rounded font-bold shadow-sm flex items-center gap-2 transition-colors ${isBillingClearance && !actionLoading ? 'bg-red-50 text-red-600 border border-red-200 hover:bg-red-100' : 'bg-slate-200 text-slate-400 cursor-not-allowed opacity-60'
                     }`}
                 >
-                  {actionLoading && isBillingClearance ? <Loader2 size={16} className="animate-spin" /> : <RotateCcw size={16} />} Reverse Clearance
-                </button>
+                  {actionLoading && isBillingClearance ? <Loader2 size={16} className="animate-spin" /> : <RotateCcw size={16} />}{" "}{i18n.t("Reverse Clearance")}</button>
 
                 <button
                   onClick={() => isBillingClearance && handleDischargeAction('finalizeDischarge')}
                   disabled={actionLoading || !isBillingClearance}
-                  title={!isBillingClearance ? "Requires Billing Clearance first." : ""}
+                  title={!isBillingClearance ? i18n.t("Requires Billing Clearance first.") : ""}
                   className={`px-4 py-2 rounded font-bold shadow-sm flex items-center gap-2 transition-colors ${isBillingClearance && !actionLoading ? 'bg-brand-primary hover:bg-brand-active0 text-white' : 'bg-slate-200 text-slate-400 cursor-not-allowed opacity-60'
                     }`}
                 >
-                  {actionLoading && isBillingClearance ? <Loader2 size={16} className="animate-spin" /> : <LogOut size={16} />} Finalize Discharge
-                </button>
+                  {actionLoading && isBillingClearance ? <Loader2 size={16} className="animate-spin" /> : <LogOut size={16} />}{" "}{i18n.t("Finalize Discharge")}</button>
               </>
             );
           })()}
         </div>
 
         <div className="flex justify-between items-center pt-1 text-[10px] text-slate-500">
-          <span>Facilitator Name: System</span>
-          <span>Billing Currency: NGN</span>
+          <span>{i18n.t("Facilitator Name: System")}</span>
+          <span>{i18n.t("Billing Currency: NGN")}</span>
         </div>
       </div>
 
@@ -984,7 +966,7 @@ const IPDBilling: React.FC = () => {
             {/* Header */}
             <div className="p-8 border-b border-slate-100 flex justify-between items-start bg-slate-50/50">
               <div>
-                <h3 className="text-3xl font-black text-slate-800 mb-2">Fee Breakdown</h3>
+                <h3 className="text-3xl font-black text-slate-800 mb-2">{i18n.t("Fee Breakdown")}</h3>
                 <p className="text-lg text-slate-500 font-medium">{breakdownModal.itemName}</p>
               </div>
               <button 
@@ -998,13 +980,13 @@ const IPDBilling: React.FC = () => {
             {/* Body */}
             <div className="flex-1 overflow-y-auto p-8 bg-slate-50/30">
               <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
-                <table className="w-full text-left border-collapse">
+                <table className="w-full text-start border-collapse">
                   <thead>
                     <tr className="bg-slate-50 border-b border-slate-200">
                       <th className="py-5 px-8 text-base font-black text-slate-500 uppercase tracking-widest w-20">#</th>
-                      <th className="py-5 px-8 text-base font-black text-slate-500 uppercase tracking-widest">Component Name</th>
-                      <th className="py-5 px-8 text-base font-black text-slate-500 uppercase tracking-widest">Type</th>
-                      <th className="py-5 px-8 text-base font-black text-slate-500 uppercase tracking-widest text-right">Amount</th>
+                      <th className="py-5 px-8 text-base font-black text-slate-500 uppercase tracking-widest">{i18n.t("Component Name")}</th>
+                      <th className="py-5 px-8 text-base font-black text-slate-500 uppercase tracking-widest">{i18n.t("Type")}</th>
+                      <th className="py-5 px-8 text-base font-black text-slate-500 uppercase tracking-widest text-end">{i18n.t("Amount")}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
@@ -1014,15 +996,15 @@ const IPDBilling: React.FC = () => {
                         <td className="py-6 px-8 text-xl font-bold text-slate-800">
                           {fee.component_name}
                           {fee.is_mandatory ? (
-                            <span className="ml-4 text-xs font-black bg-brand-active/20 text-brand-primary px-3 py-1 rounded uppercase tracking-widest align-middle">Mandatory</span>
+                            <span className="ms-4 text-xs font-black bg-brand-active/20 text-brand-primary px-3 py-1 rounded uppercase tracking-widest align-middle">{i18n.t("Mandatory")}</span>
                           ) : (
-                            <span className="ml-4 text-xs font-black bg-slate-100 text-slate-500 px-3 py-1 rounded uppercase tracking-widest align-middle">Optional</span>
+                            <span className="ms-4 text-xs font-black bg-slate-100 text-slate-500 px-3 py-1 rounded uppercase tracking-widest align-middle">{i18n.t("Optional")}</span>
                           )}
                         </td>
                         <td className="py-6 px-8 text-base font-medium text-slate-500 uppercase tracking-wider">
                           {fee.component_type.replace(/_/g, ' ')}
                         </td>
-                        <td className="py-6 px-8 text-2xl font-black text-slate-800 text-right">
+                        <td className="py-6 px-8 text-2xl font-black text-slate-800 text-end">
                           {formatCurrency(fee.amount)}
                         </td>
                       </tr>
@@ -1034,11 +1016,10 @@ const IPDBilling: React.FC = () => {
 
             {/* Footer */}
             <div className="p-8 border-t border-slate-200 bg-white flex justify-between items-center">
-                <div className="text-lg font-medium text-slate-500">
-                  Total Components: <span className="font-bold text-slate-800 text-xl">{breakdownModal.breakdown.length}</span>
+                <div className="text-lg font-medium text-slate-500">{i18n.t("Total Components:")}{" "}<span className="font-bold text-slate-800 text-xl">{breakdownModal.breakdown.length}</span>
                 </div>
                 <div className="flex items-center gap-6">
-                  <span className="text-xl font-bold text-slate-500 uppercase tracking-widest">Total Amount</span>
+                  <span className="text-xl font-bold text-slate-500 uppercase tracking-widest">{i18n.t("Total Amount")}</span>
                   <span className="text-5xl font-black text-brand-primary">
                       {formatCurrency(breakdownModal.breakdown.reduce((sum, fee) => sum + fee.amount, 0))}
                   </span>
@@ -1065,8 +1046,8 @@ const IPDBilling: React.FC = () => {
       <ReversalModal
         isOpen={!!showReversalModal}
         onClose={() => setShowReversalModal(null)}
-        title={showReversalModal?.title || ''}
-        description={showReversalModal?.description || ''}
+        title={i18n.tx(showReversalModal?.title) || ''}
+        description={i18n.tx(showReversalModal?.description) || ''}
         patientName={showReversalModal?.patientName}
         onConfirm={async (reason) => {
           if (!showReversalModal) return;
@@ -1090,9 +1071,7 @@ const IPDBilling: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden">
             <div className="flex justify-between items-center p-4 border-b border-slate-200 bg-slate-50">
               <h3 className="font-black text-slate-800 text-sm flex items-center gap-2">
-                <AlertCircle className="text-amber-500" size={16} />
-                Delete Item
-              </h3>
+                <AlertCircle className="text-amber-500" size={16} />{i18n.t("Delete Item")}</h3>
               <button
                 onClick={() => setDeleteItemModal(null)}
                 className="p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-200 rounded-lg transition-colors"
@@ -1101,12 +1080,12 @@ const IPDBilling: React.FC = () => {
               </button>
             </div>
             <div className="p-4 space-y-4">
-              <p className="text-sm text-slate-600">This action cannot be undone.</p>
+              <p className="text-sm text-slate-600">{i18n.t("This action cannot be undone.")}</p>
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Reason / Remarks</label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Reason / Remarks")}</label>
                 <textarea
                   rows={3}
-                  placeholder="e.g. Billed in error..."
+                  placeholder={i18n.t("e.g. Billed in error...")}
                   className="mt-1 w-full px-3 py-2 border border-slate-200 rounded-xl text-sm font-bold outline-none focus:border-indigo-500 transition-all resize-none"
                   value={deleteItemModal.remarks}
                   onChange={(e) => setDeleteItemModal({ ...deleteItemModal, remarks: e.target.value })}
@@ -1117,16 +1096,12 @@ const IPDBilling: React.FC = () => {
               <button
                 onClick={() => setDeleteItemModal(null)}
                 className="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl text-sm font-bold hover:bg-slate-300 transition-colors"
-              >
-                Close
-              </button>
+              >{i18n.t("Close")}</button>
               <button
                 onClick={performRemoveItem}
                 disabled={!deleteItemModal.remarks.trim()}
                 className="px-4 py-2 bg-red-500 text-white rounded-xl text-sm font-black hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Confirm Delete
-              </button>
+              >{i18n.t("Confirm Delete")}</button>
             </div>
           </div>
         </div>
@@ -1140,13 +1115,13 @@ const IPDBilling: React.FC = () => {
               <div>
                 <h3 className="text-base font-black text-slate-800 tracking-tight flex items-center gap-2">
                   <Tag className="text-indigo-600" size={18} />
-                  {discountTarget === "ITEM" ? "Apply Item Discount" : "Apply Bill Discount"}
+                  {discountTarget === "ITEM" ? i18n.t("Apply Item Discount") : i18n.t("Apply Bill Discount")}
                 </h3>
                 <p className="text-[10px] font-bold uppercase tracking-widest mt-0.5 flex items-center gap-1.5">
                   <span className={`px-2 py-0.5 rounded-full ${discountTarget === "ITEM" ? "bg-indigo-100 text-indigo-700" : "bg-purple-100 text-purple-700"}`}>
-                    {discountTarget === "ITEM" ? "Single Item" : "Whole Bill"}
+                    {discountTarget === "ITEM" ? i18n.t("Single Item") : i18n.t("Whole Bill")}
                   </span>
-                  <span className="text-slate-400">{discountTarget === "ITEM" ? "— applies to selected charge only" : "— applies across entire invoice"}</span>
+                  <span className="text-slate-400">{discountTarget === "ITEM" ? i18n.t("— applies to selected charge only") : i18n.t("— applies across entire invoice")}</span>
                 </p>
               </div>
               <button
@@ -1163,40 +1138,36 @@ const IPDBilling: React.FC = () => {
             </div>
             <div className="p-6 space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  Discount Type
-                </label>
+                <label className="block text-xs font-bold text-slate-700 mb-1">{i18n.t("Discount Type")}</label>
                 <div className="relative">
                   <select
                     value={discountType}
                     onChange={(e) => setDiscountType(e.target.value as any)}
-                    className="w-full pl-3 pr-8 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 text-sm font-medium text-slate-800 appearance-none bg-white"
+                    className="w-full ps-3 pe-8 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 text-sm font-medium text-slate-800 appearance-none bg-white"
                   >
-                    <option value="PERCENTAGE">Percentage (%)</option>
-                    <option value="FLAT">Flat Amount</option>
-                    <option value="WAIVER">Full Waiver</option>
+                    <option value="PERCENTAGE">{i18n.t("Percentage (%)")}</option>
+                    <option value="FLAT">{i18n.t("Flat Amount")}</option>
+                    <option value="WAIVER">{i18n.t("Full Waiver")}</option>
                   </select>
                   <ChevronDown
                     size={16}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+                    className="absolute end-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
                   />
                 </div>
               </div>
 
               {discountType !== "WAIVER" && (
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Value
-                  </label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">{i18n.t("Value")}</label>
                   <div className="relative">
                     <input
                       type="number"
                       value={discountValue}
                       onChange={(e) => setDiscountValue(Number(e.target.value))}
-                      className="w-full pl-3 pr-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 text-sm font-medium text-slate-800"
-                      placeholder={discountType === "PERCENTAGE" ? "e.g. 10" : "e.g. 5000"}
+                      className="w-full ps-3 pe-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 text-sm font-medium text-slate-800"
+                      placeholder={discountType === "PERCENTAGE" ? i18n.t("e.g. 10") : i18n.t("e.g. 5000")}
                     />
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">
+                    <div className="absolute end-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">
                       {discountType === "PERCENTAGE" ? "%" : "₦"}
                     </div>
                   </div>
@@ -1204,15 +1175,13 @@ const IPDBilling: React.FC = () => {
               )}
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  Reason / Justification
-                </label>
+                <label className="block text-xs font-bold text-slate-700 mb-1">{i18n.t("Reason / Justification")}</label>
                 <textarea
                   value={discountReason}
                   onChange={(e) => setDiscountReason(e.target.value)}
                   className="w-full p-3 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 text-sm resize-none"
                   rows={3}
-                  placeholder="Provide a reason for this discount..."
+                  placeholder={i18n.t("Provide a reason for this discount...")}
                 />
               </div>
             </div>
@@ -1221,9 +1190,7 @@ const IPDBilling: React.FC = () => {
                 onClick={() => setShowDiscountModal(false)}
                 className="px-4 py-2 text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors"
                 disabled={isApplyingDiscount}
-              >
-                Cancel
-              </button>
+              >{i18n.t("Cancel")}</button>
               <button
                 onClick={handleApplyDiscount}
                 disabled={isApplyingDiscount}
@@ -1231,11 +1198,9 @@ const IPDBilling: React.FC = () => {
               >
                 {isApplyingDiscount ? (
                   <>
-                    <Loader2 size={14} className="animate-spin" />
-                    Applying...
-                  </>
+                    <Loader2 size={14} className="animate-spin" />{i18n.t("Applying...")}</>
                 ) : (
-                  "Apply Discount"
+                  i18n.t("Apply Discount")
                 )}
               </button>
             </div>
@@ -1249,9 +1214,7 @@ const IPDBilling: React.FC = () => {
           <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden flex flex-col">
             <div className="flex justify-between items-center p-4 border-b border-slate-200 bg-slate-50">
               <h3 className="font-bold text-slate-800 flex items-center gap-2">
-                <Tag size={16} className="text-indigo-500" />
-                Discount Details
-              </h3>
+                <Tag size={16} className="text-indigo-500" />{i18n.t("Discount Details")}</h3>
               <button
                 onClick={() => setViewDiscountModal({ isOpen: false, itemName: '', discount: null })}
                 className="p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-200 rounded-lg transition-colors"
@@ -1261,26 +1224,26 @@ const IPDBilling: React.FC = () => {
             </div>
             <div className="p-4 space-y-4 text-sm text-slate-600">
               <div>
-                <span className="text-slate-400 text-xs uppercase font-bold tracking-wider">Item</span>
+                <span className="text-slate-400 text-xs uppercase font-bold tracking-wider">{i18n.t("Item")}</span>
                 <p className="font-medium text-slate-800 mt-0.5">{viewDiscountModal.itemName}</p>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <span className="text-slate-400 text-xs uppercase font-bold tracking-wider">Amount</span>
+                  <span className="text-slate-400 text-xs uppercase font-bold tracking-wider">{i18n.t("Amount")}</span>
                   <p className="font-bold text-indigo-600 mt-0.5">{formatCurrency(viewDiscountModal.discount.amount)}</p>
                 </div>
                 <div>
-                  <span className="text-slate-400 text-xs uppercase font-bold tracking-wider">Type</span>
+                  <span className="text-slate-400 text-xs uppercase font-bold tracking-wider">{i18n.t("Type")}</span>
                   <p className="font-semibold text-slate-700 mt-0.5">
                     {viewDiscountModal.discount.type === 'PERCENTAGE' 
                       ? `${viewDiscountModal.discount.value}% off` 
-                      : viewDiscountModal.discount.type === 'WAIVER' ? 'Waiver' : 'Flat'}
+                      : viewDiscountModal.discount.type === 'WAIVER' ? i18n.t("Waiver") : i18n.t("Flat")}
                   </p>
                 </div>
               </div>
               {viewDiscountModal.discount.reason && (
                 <div>
-                  <span className="text-slate-400 text-xs uppercase font-bold tracking-wider">Reason</span>
+                  <span className="text-slate-400 text-xs uppercase font-bold tracking-wider">{i18n.t("Reason")}</span>
                   <div className="mt-1 p-3 bg-slate-50 border border-slate-200 rounded-lg whitespace-pre-wrap text-slate-700 leading-relaxed italic">
                     "{viewDiscountModal.discount.reason}"
                   </div>
@@ -1291,9 +1254,7 @@ const IPDBilling: React.FC = () => {
               <button
                 onClick={() => setViewDiscountModal({ isOpen: false, itemName: '', discount: null })}
                 className="px-4 py-2 bg-slate-200 text-slate-700 rounded font-medium hover:bg-slate-300 transition-colors"
-              >
-                Close
-              </button>
+              >{i18n.t("Close")}</button>
             </div>
           </div>
         </div>
@@ -1305,9 +1266,7 @@ const IPDBilling: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden">
             <div className="flex justify-between items-center p-4 border-b border-slate-200 bg-slate-50">
               <h3 className="font-black text-slate-800 text-sm flex items-center gap-2">
-                <AlertCircle className="text-amber-500" size={16} />
-                Remove Discount
-              </h3>
+                <AlertCircle className="text-amber-500" size={16} />{i18n.t("Remove Discount")}</h3>
               <button
                 onClick={() => setUnapplyDiscountModal(null)}
                 className="p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-200 rounded-lg transition-colors"
@@ -1318,23 +1277,21 @@ const IPDBilling: React.FC = () => {
             <div className="p-4">
               <p className="text-sm text-slate-600">
                 {unapplyDiscountModal.billableItemId
-                  ? "This will remove the discount applied to this item."
-                  : "This will remove the discount applied to the whole bill."}
+                  ? i18n.t("This will remove the discount applied to this item.")
+                  : i18n.t("This will remove the discount applied to the whole bill.")}
               </p>
             </div>
             <div className="p-4 border-t border-slate-200 bg-slate-50 flex gap-2 justify-end">
               <button
                 onClick={() => setUnapplyDiscountModal(null)}
                 className="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl text-sm font-bold hover:bg-slate-300 transition-colors"
-              >
-                Cancel
-              </button>
+              >{i18n.t("Cancel")}</button>
               <button
                 onClick={() => handleUnapplyDiscount(unapplyDiscountModal.billableItemId)}
                 disabled={isApplyingDiscount}
                 className="px-4 py-2 bg-red-500 text-white rounded-xl text-sm font-black hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isApplyingDiscount ? "Removing..." : "Confirm Remove"}
+                {isApplyingDiscount ? i18n.t("Removing...") : i18n.t("Confirm Remove")}
               </button>
             </div>
           </div>

@@ -9,6 +9,7 @@ import {
   ReportShell,
   Pagination,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const PasAgeDemographicsReport: React.FC = () => {
   const [records, setRecords] = useState<any[]>([]);
@@ -59,8 +60,8 @@ const PasAgeDemographicsReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Age Demographics"
-      subtitle="Registered patient population broken down by age group and gender."
+      title={i18n.t("Age Demographics")}
+      subtitle={i18n.t("Registered patient population broken down by age group and gender.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -81,28 +82,28 @@ const PasAgeDemographicsReport: React.FC = () => {
       }
     >
       <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 flex-1 min-h-[300px]">
-        <table className="w-full text-left text-sm whitespace-nowrap">
+        <table className="w-full text-start text-sm whitespace-nowrap">
           <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
             <tr>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Age Group</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right">Total Patients</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right"><span className="inline-flex items-center gap-1"><Mars size={12} /> Male</span></th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-right"><span className="inline-flex items-center gap-1"><Venus size={12} /> Female</span></th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Age Group")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end">{i18n.t("Total Patients")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end"><span className="inline-flex items-center gap-1"><Mars size={12} />{" "}{i18n.t("Male")}</span></th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px] text-end"><span className="inline-flex items-center gap-1"><Venus size={12} />{" "}{i18n.t("Female")}</span></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {records.length > 0 ? (
               records.map((row, i) => (
                 <tr key={`${row.age_group}-${i}`} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50">{renderValue(row.age_group)}</td>
-                  <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50 text-right">{renderValue(row.total_patients)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 text-right">{renderValue(row.male)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 text-right">{renderValue(row.female)}</td>
+                  <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50">{renderValue(row.age_group)}</td>
+                  <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50 text-end">{renderValue(row.total_patients)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 text-end">{renderValue(row.male)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 text-end">{renderValue(row.female)}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={4} className="px-4 py-12 text-center text-slate-400 italic">No age demographics records found.</td>
+                <td colSpan={4} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No age demographics records found.")}</td>
               </tr>
             )}
           </tbody>

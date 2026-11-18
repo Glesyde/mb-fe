@@ -22,6 +22,7 @@ import {
   ReportShell,
   KpiCard,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 interface SummaryKPIs {
   tests_requested: number;
@@ -173,8 +174,8 @@ const LabOperationalReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Laboratory Operational Metrics"
-      subtitle="Standardized HIMS diagnostic volume, bench turnaround tracking, and personnel accountability."
+      title={i18n.t("Laboratory Operational Metrics")}
+      subtitle={i18n.t("Standardized HIMS diagnostic volume, bench turnaround tracking, and personnel accountability.")}
       isLoading={isLoading}
       onClear={() => {
         setSearchTerm("");
@@ -190,18 +191,18 @@ const LabOperationalReport: React.FC = () => {
       filters={
         <>
           <div className="relative lg:col-span-2">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input
               type="text"
               placeholder={
                 activeTab === "ranked"
-                  ? "Search test, ordering doctor, department..."
-                  : "Search scientist, test handled, staff ID..."
+                  ? i18n.t("Search test, ordering doctor, department...")
+                  : i18n.t("Search scientist, test handled, staff ID...")
               }
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               disabled={isLoading}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 disabled:opacity-50"
+              className="w-full ps-10 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 disabled:opacity-50"
             />
           </div>
 
@@ -213,19 +214,19 @@ const LabOperationalReport: React.FC = () => {
               disabled={isLoading}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-600/20"
             >
-              <option value="today">Today</option>
-              <option value="yesterday">Yesterday</option>
-              <option value="this_week">This Week</option>
-              <option value="last_week">Last Week</option>
-              <option value="last_7_days">Last 7 Days</option>
-              <option value="last_30_days">Last 30 Days</option>
-              <option value="this_month">This Month</option>
-              <option value="last_month">Last Month</option>
-              <option value="last_3_months">Last 3 Months</option>
-              <option value="this_year">This Year</option>
-              <option value="last_year">Last Year</option>
-              <option value="all_time">All Time</option>
-              <option value="custom">Custom Date Range</option>
+              <option value="today">{i18n.t("Today")}</option>
+              <option value="yesterday">{i18n.t("Yesterday")}</option>
+              <option value="this_week">{i18n.t("This Week")}</option>
+              <option value="last_week">{i18n.t("Last Week")}</option>
+              <option value="last_7_days">{i18n.t("Last 7 Days")}</option>
+              <option value="last_30_days">{i18n.t("Last 30 Days")}</option>
+              <option value="this_month">{i18n.t("This Month")}</option>
+              <option value="last_month">{i18n.t("Last Month")}</option>
+              <option value="last_3_months">{i18n.t("Last 3 Months")}</option>
+              <option value="this_year">{i18n.t("This Year")}</option>
+              <option value="last_year">{i18n.t("Last Year")}</option>
+              <option value="all_time">{i18n.t("All Time")}</option>
+              <option value="custom">{i18n.t("Custom Date Range")}</option>
             </select>
           </div>
 
@@ -238,7 +239,7 @@ const LabOperationalReport: React.FC = () => {
                 disabled={isLoading}
                 className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 outline-none focus:ring-2 focus:ring-indigo-600/20"
               >
-                <option value="All">All Ordering Doctors</option>
+                <option value="All">{i18n.t("All Ordering Doctors")}</option>
                 {doctorOptions.map((doc) => (
                   <option key={doc.id} value={doc.id}>
                     {doc.name}
@@ -257,7 +258,7 @@ const LabOperationalReport: React.FC = () => {
                 disabled={isLoading}
                 className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 outline-none focus:ring-2 focus:ring-indigo-600/20"
               >
-                <option value="All">All Lab Personnel</option>
+                <option value="All">{i18n.t("All Lab Personnel")}</option>
                 {personnelOptions.map((tech) => (
                   <option key={tech.id} value={tech.id}>
                     {tech.name}
@@ -283,37 +284,37 @@ const LabOperationalReport: React.FC = () => {
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3.5 mb-6">
         <KpiCard
           icon={TestTube}
-          label="Tests Requested"
+          label={i18n.t("Tests Requested")}
           value={summaryKPIs.tests_requested ?? 0}
           colorClass="bg-blue-50 border-blue-100 text-blue-900"
         />
         <KpiCard
           icon={CheckCircle2}
-          label="Tests Completed"
+          label={i18n.t("Tests Completed")}
           value={summaryKPIs.tests_completed ?? 0}
           colorClass="bg-emerald-50 border-emerald-100 text-emerald-900"
         />
         <KpiCard
           icon={Clock}
-          label="Tests In-Progress"
+          label={i18n.t("Tests In-Progress")}
           value={summaryKPIs.tests_in_progress ?? 0}
           colorClass="bg-amber-50 border-amber-100 text-amber-900"
         />
         <KpiCard
           icon={XCircle}
-          label="Tests Cancelled"
+          label={i18n.t("Tests Cancelled")}
           value={summaryKPIs.tests_cancelled ?? 0}
           colorClass="bg-rose-50 border-rose-100 text-rose-900"
         />
         <KpiCard
           icon={TrendingUp}
-          label="Completion Rate"
+          label={i18n.t("Completion Rate")}
           value={`${summaryKPIs.completion_rate_pct ?? 0}%`}
           colorClass="bg-indigo-50 border-indigo-100 text-indigo-900"
         />
         <KpiCard
           icon={AlertTriangle}
-          label="Rejection / Cancel Rate"
+          label={i18n.t("Rejection / Cancel Rate")}
           value={`${summaryKPIs.cancellation_rate_pct ?? 0}%`}
           colorClass={
             (summaryKPIs.cancellation_rate_pct || 0) > 4
@@ -333,8 +334,7 @@ const LabOperationalReport: React.FC = () => {
               : "bg-slate-100 text-slate-600 hover:bg-slate-200"
           }`}
         >
-          <Stethoscope size={15} />
-          Ranked Investigations by Requesting Doctor ({filteredRanked.length})
+          <Stethoscope size={15} />{i18n.t("Ranked Investigations by Requesting Doctor (")}{filteredRanked.length})
         </button>
 
         <button
@@ -345,24 +345,23 @@ const LabOperationalReport: React.FC = () => {
               : "bg-slate-100 text-slate-600 hover:bg-slate-200"
           }`}
         >
-          <UserCheck size={15} />
-          Bench Performance by Lab Personnel ({filteredPerformance.length})
+          <UserCheck size={15} />{i18n.t("Bench Performance by Lab Personnel (")}{filteredPerformance.length})
         </button>
       </div>
 
       {/* ---------------- 3. Data Tables ---------------- */}
       <div className="overflow-x-auto rounded-xl border border-slate-200 min-h-[350px]">
         {activeTab === "ranked" ? (
-          <table className="w-full text-left text-sm whitespace-nowrap">
+          <table className="w-full text-start text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10 text-[11px] font-black uppercase text-slate-600 tracking-wider">
               <tr>
-                <th className="px-4 py-3.5">Rank</th>
-                <th className="px-4 py-3.5">Investigation / Test Name</th>
-                <th className="px-4 py-3.5">Ordering Physician</th>
-                <th className="px-4 py-3.5">Department</th>
-                <th className="px-4 py-3.5 text-center">Completed</th>
-                <th className="px-4 py-3.5 text-center">Cancelled</th>
-                <th className="px-4 py-3.5 text-right">Total Demand</th>
+                <th className="px-4 py-3.5">{i18n.t("Rank")}</th>
+                <th className="px-4 py-3.5">{i18n.t("Investigation / Test Name")}</th>
+                <th className="px-4 py-3.5">{i18n.t("Ordering Physician")}</th>
+                <th className="px-4 py-3.5">{i18n.t("Department")}</th>
+                <th className="px-4 py-3.5 text-center">{i18n.t("Completed")}</th>
+                <th className="px-4 py-3.5 text-center">{i18n.t("Cancelled")}</th>
+                <th className="px-4 py-3.5 text-end">{i18n.t("Total Demand")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -376,7 +375,7 @@ const LabOperationalReport: React.FC = () => {
                         {renderValue(row.investigation_name)}
                       </div>
                       {row.service_code && (
-                        <div className="text-[10px] text-slate-400 font-mono ml-5">
+                        <div className="text-[10px] text-slate-400 font-mono ms-5">
                           {row.service_code}
                         </div>
                       )}
@@ -399,35 +398,34 @@ const LabOperationalReport: React.FC = () => {
                         {row.cancelled_count ?? 0}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-right">
+                    <td className="px-4 py-3 text-end">
                       <span className="px-3 py-1 rounded-lg bg-indigo-50 border border-indigo-100 text-indigo-700 font-black text-xs">
-                        {row.total_requests} requests
-                      </span>
+                        {row.total_requests}{" "}{i18n.t("requests")}</span>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
                   <td colSpan={7} className="px-4 py-12 text-center text-slate-400 italic">
-                    {isLoading ? "Compiling demand rankings..." : "No investigation demand records found."}
+                    {isLoading ? i18n.t("Compiling demand rankings...") : i18n.t("No investigation demand records found.")}
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
         ) : (
-          <table className="w-full text-left text-sm whitespace-nowrap">
+          <table className="w-full text-start text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10 text-[11px] font-black uppercase text-slate-600 tracking-wider">
               <tr>
                 <th className="px-4 py-3.5">#</th>
-                <th className="px-4 py-3.5">Lab Personnel</th>
-                <th className="px-4 py-3.5">Staff ID</th>
-                <th className="px-4 py-3.5">Test Processed</th>
-                <th className="px-4 py-3.5 text-center">Handled</th>
-                <th className="px-4 py-3.5 text-center">Completed</th>
-                <th className="px-4 py-3.5 text-center">In-Progress</th>
-                <th className="px-4 py-3.5 text-center">Avg TAT</th>
-                <th className="px-4 py-3.5 text-right">SLA Status</th>
+                <th className="px-4 py-3.5">{i18n.t("Lab Personnel")}</th>
+                <th className="px-4 py-3.5">{i18n.t("Staff ID")}</th>
+                <th className="px-4 py-3.5">{i18n.t("Test Processed")}</th>
+                <th className="px-4 py-3.5 text-center">{i18n.t("Handled")}</th>
+                <th className="px-4 py-3.5 text-center">{i18n.t("Completed")}</th>
+                <th className="px-4 py-3.5 text-center">{i18n.t("In-Progress")}</th>
+                <th className="px-4 py-3.5 text-center">{i18n.t("Avg TAT")}</th>
+                <th className="px-4 py-3.5 text-end">{i18n.t("SLA Status")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -462,15 +460,11 @@ const LabOperationalReport: React.FC = () => {
                         {row.avg_turnaround_time_hrs !== null ? `${row.avg_turnaround_time_hrs} hrs` : "—"}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-right">
+                    <td className="px-4 py-3 text-end">
                       {row.sla_status === "BREACHED" ? (
-                        <span className="px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200 text-[10px] font-black uppercase tracking-wider">
-                          Delayed
-                        </span>
+                        <span className="px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200 text-[10px] font-black uppercase tracking-wider">{i18n.t("Delayed")}</span>
                       ) : (
-                        <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-black uppercase tracking-wider">
-                          Within SLA
-                        </span>
+                        <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-black uppercase tracking-wider">{i18n.t("Within SLA")}</span>
                       )}
                     </td>
                   </tr>
@@ -478,7 +472,7 @@ const LabOperationalReport: React.FC = () => {
               ) : (
                 <tr>
                   <td colSpan={9} className="px-4 py-12 text-center text-slate-400 italic">
-                    {isLoading ? "Compiling scientist productivity metrics..." : "No lab test performance records found."}
+                    {isLoading ? i18n.t("Compiling scientist productivity metrics...") : i18n.t("No lab test performance records found.")}
                   </td>
                 </tr>
               )}

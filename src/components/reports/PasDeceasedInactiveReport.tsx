@@ -9,6 +9,7 @@ import {
   ReportShell,
   Pagination,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const statusBadge = (isDeceased: number, isActive: number) => {
   if (isDeceased) return sharedBadgeClass("CANCELLED");
@@ -65,8 +66,8 @@ const PasDeceasedInactiveReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Deceased & Inactive Account Ledger"
-      subtitle="Patient records marked deceased, inactive, or under deletion request."
+      title={i18n.t("Deceased & Inactive Account Ledger")}
+      subtitle={i18n.t("Patient records marked deceased, inactive, or under deletion request.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -87,36 +88,36 @@ const PasDeceasedInactiveReport: React.FC = () => {
       }
     >
       <div className="overflow-x-auto overflow-y-auto rounded-xl border border-slate-200 flex-1 min-h-[300px]">
-        <table className="w-full text-left text-sm whitespace-nowrap">
+        <table className="w-full text-start text-sm whitespace-nowrap">
           <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
             <tr>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">MRN</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Patient</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Status</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Status Changed At</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Deletion Reason</th>
-              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">Deletion Status</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("MRN")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Patient")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Status")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Status Changed At")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Deletion Reason")}</th>
+              <th className="px-4 py-3.5 font-bold text-slate-600 uppercase tracking-wider text-[11px]">{i18n.t("Deletion Status")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {records.length > 0 ? (
               records.map((row, i) => (
                 <tr key={`${row.mrn}-${i}`} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="px-4 py-3.5 font-mono text-xs text-slate-500 border-r border-slate-50">{renderValue(row.mrn)}</td>
-                  <td className="px-4 py-3.5 font-bold text-slate-800 border-r border-slate-50">{renderValue(row.patient_name)}</td>
-                  <td className="px-4 py-3.5 border-r border-slate-50">
+                  <td className="px-4 py-3.5 font-mono text-xs text-slate-500 border-e border-slate-50">{renderValue(row.mrn)}</td>
+                  <td className="px-4 py-3.5 font-bold text-slate-800 border-e border-slate-50">{renderValue(row.patient_name)}</td>
+                  <td className="px-4 py-3.5 border-e border-slate-50">
                     <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border uppercase tracking-wider ${statusBadge(row.is_deceased, row.is_active)}`}>
-                      {row.is_deceased ? "Deceased" : row.is_active ? "Active" : "Inactive"}
+                      {row.is_deceased ? i18n.t("Deceased") : row.is_active ? i18n.t("Active") : i18n.t("Inactive")}
                     </span>
                   </td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50">{renderValue(row.status_changed_at)}</td>
-                  <td className="px-4 py-3.5 text-slate-700 border-r border-slate-50 whitespace-normal min-w-[200px]">{renderValue(row.deletion_request_reason)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50">{renderValue(row.status_changed_at)}</td>
+                  <td className="px-4 py-3.5 text-slate-700 border-e border-slate-50 whitespace-normal min-w-[200px]">{renderValue(row.deletion_request_reason)}</td>
                   <td className="px-4 py-3.5 text-slate-700">{renderValue(row.deletion_request_status)}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="px-4 py-12 text-center text-slate-400 italic">No deceased/inactive account records found.</td>
+                <td colSpan={6} className="px-4 py-12 text-center text-slate-400 italic">{i18n.t("No deceased/inactive account records found.")}</td>
               </tr>
             )}
           </tbody>

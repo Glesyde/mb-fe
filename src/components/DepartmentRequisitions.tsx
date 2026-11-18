@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { inventoryService, RequisitionDepartment, RequisitionType, formatDepartmentLabel, ITEM_STOCK_DEPARTMENTS, getItemDeptStock } from "../services/inventory.service";
 import { useNotification } from "../context/NotificationContext";
+import { i18n } from "../i18n";
 
 const REQUISITION_TYPES: RequisitionType[] = ["GENERAL", "PATIENT_SPECIFIC", "EMERGENCY"];
 
@@ -297,30 +298,26 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
         <header className="px-1 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="flex flex-col">
             <h2 className="text-base sm:text-lg font-bold text-slate-800 tracking-tight flex items-center gap-2">
-              <ClipboardList size={18} className="text-brand-primary" />
-              Internal Requisitions
-            </h2>
-            <p className="text-[10px] sm:text-xs text-slate-500 font-semibold uppercase tracking-wider mt-0.5">
-              Request inventory from main store
-            </p>
+              <ClipboardList size={18} className="text-brand-primary" />{i18n.t("Internal Requisitions")}</h2>
+            <p className="text-[10px] sm:text-xs text-slate-500 font-semibold uppercase tracking-wider mt-0.5">{i18n.t("Request inventory from main store")}</p>
           </div>
           
           {/* === METRICS GRID (Sub-header) === */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 p-4 sm:p-5 border-b border-slate-100 ">
             <div className="bg-slate-50 p-3 sm:p-4 rounded-xl border border-slate-200/60 shadow-sm">
-              <p className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider">Awaiting Approval</p>
+              <p className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider">{i18n.t("Awaiting Approval")}</p>
               <p className="text-xl sm:text-2xl font-bold text-amber-600 mt-1">
                 {requisitions.filter((r) => r.status === "PENDING").length}
               </p>
             </div>
             <div className="bg-slate-50 p-3 sm:p-4 rounded-xl border border-slate-200/60 shadow-sm">
-              <p className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider">Approved / Issued</p>
+              <p className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider">{i18n.t("Approved / Issued")}</p>
               <p className="text-xl sm:text-2xl font-bold text-emerald-600 mt-1">
                 {requisitions.filter((r) => r.status === "APPROVED").length}
               </p>
             </div>
             <div className="col-span-2 md:col-span-1 bg-slate-50 p-3 sm:p-4 rounded-xl border border-slate-200/60 shadow-sm flex flex-row md:flex-col items-center md:items-start justify-between md:justify-start">
-              <p className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider">Total Requests</p>
+              <p className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider">{i18n.t("Total Requests")}</p>
               <p className="text-xl sm:text-2xl font-bold text-slate-800 md:mt-1">
                 {requisitions.length}
               </p>
@@ -335,8 +332,7 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
               onClick={() => setShowModal(true)}
               className="flex-1 md:flex-none bg-brand-primary text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-brand-primary/90 transition-all shadow-sm active:scale-95 text-[10px] sm:text-xs uppercase tracking-wider"
             >
-              <Plus size={16} /> Raise Request
-            </button>
+              <Plus size={16} />{" "}{i18n.t("Raise Request")}</button>
           </div>
         </header>
 
@@ -347,17 +343,17 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
           {loading ? (
             <div className="flex flex-col items-center justify-center p-12 text-slate-400">
               <Loader2 size={32} className="animate-spin text-brand-primary mb-3" />
-              <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider">Loading Requisitions...</p>
+              <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider">{i18n.t("Loading Requisitions...")}</p>
             </div>
           ) : (
-            <table className="w-full text-left border-collapse min-w-[700px]">
+            <table className="w-full text-start border-collapse min-w-[700px]">
               <thead>
                 <tr className="bg-slate-50/80 border-b border-slate-200 text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                  <th className="px-4 sm:px-6 py-3">Req No & Time</th>
-                  <th className="px-4 sm:px-6 py-3">Source → Destination</th>
-                  <th className="px-4 sm:px-6 py-3">Remarks</th>
-                  <th className="px-4 sm:px-6 py-3 text-center">Status</th>
-                  <th className="px-4 sm:px-6 py-3 text-right">Actions</th>
+                  <th className="px-4 sm:px-6 py-3">{i18n.t("Req No & Time")}</th>
+                  <th className="px-4 sm:px-6 py-3">{i18n.t("Source → Destination")}</th>
+                  <th className="px-4 sm:px-6 py-3">{i18n.t("Remarks")}</th>
+                  <th className="px-4 sm:px-6 py-3 text-center">{i18n.t("Status")}</th>
+                  <th className="px-4 sm:px-6 py-3 text-end">{i18n.t("Actions")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -385,8 +381,8 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
                         <div className="flex items-start gap-1.5">
                           <FileText size={12} className="text-slate-400 mt-0.5 shrink-0" />
                           <div>
-                            <span className="text-[11px] sm:text-xs font-medium text-slate-700 line-clamp-1">{req.remarks || "No remarks"}</span>
-                            <p className="text-[9px] font-medium text-slate-400 mt-0.5">BY: {req.requester_name}</p>
+                            <span className="text-[11px] sm:text-xs font-medium text-slate-700 line-clamp-1">{req.remarks || i18n.t("No remarks")}</span>
+                            <p className="text-[9px] font-medium text-slate-400 mt-0.5">{i18n.t("BY:")}{" "}{req.requester_name}</p>
                           </div>
                         </div>
                       </td>
@@ -397,26 +393,24 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
                           req.status === 'REJECTED' || req.status === 'CANCELLED' ? 'bg-red-50 text-red-700 border-red-200/60' :
                           'bg-brand-active/50 text-brand-primary border-brand-primary/20'
                         }`}>
-                          {req.status}
+                          {i18n.tv(req.status)}
                         </span>
                       </td>
-                      <td className="px-4 sm:px-6 py-3.5 text-right">
+                      <td className="px-4 sm:px-6 py-3.5 text-end">
                         {canApprove ? (
                           <button
                             onClick={() => handleOpenApprove(req)}
                             disabled={processingId === req.id}
                             className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-primary text-white rounded-lg hover:opacity-90 transition-all shadow-sm disabled:opacity-50 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider"
-                            title="Approve / Fulfill"
+                            title={i18n.t("Approve / Fulfill")}
                           >
-                            {processingId === req.id ? <Loader2 size={12} className="animate-spin" /> : <Send size={12} />}
-                            Approve
-                          </button>
+                            {processingId === req.id ? <Loader2 size={12} className="animate-spin" /> : <Send size={12} />}{i18n.t("Approve")}</button>
                         ) : (
                           <button
                             onClick={() => handleViewDetails(req)}
                             disabled={processingId === req.id}
                             className="p-1.5 bg-slate-100 text-slate-600 rounded-lg hover:bg-brand-primary hover:text-white transition-all shadow-sm disabled:opacity-50"
-                            title="View Details"
+                            title={i18n.t("View Details")}
                           >
                             {processingId === req.id ? <Loader2 size={14} className="animate-spin" /> : <Eye size={14} />}
                           </button>
@@ -429,7 +423,7 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
                   <tr>
                     <td colSpan={5} className="py-12 text-center text-slate-400">
                       <ClipboardList size={32} className="mx-auto opacity-20 mb-3" />
-                      <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider">No Requisitions Found</p>
+                      <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider">{i18n.t("No Requisitions Found")}</p>
                     </td>
                   </tr>
                 )}
@@ -445,19 +439,14 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
               onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
               disabled={currentPage === 1}
               className="px-3 py-1.5 bg-white border border-slate-200 text-slate-600 text-[10px] sm:text-xs font-semibold rounded-md hover:bg-slate-50 transition-colors disabled:opacity-50"
-            >
-              Previous
-            </button>
-            <span className="text-[10px] sm:text-xs font-medium text-slate-500">
-              Page <strong className="text-slate-700">{currentPage}</strong> of <strong className="text-slate-700">{totalPages}</strong>
+            >{i18n.t("Previous")}</button>
+            <span className="text-[10px] sm:text-xs font-medium text-slate-500">{i18n.t("Page")}{" "}<strong className="text-slate-700">{currentPage}</strong>{" "}{i18n.t("of")}{" "}<strong className="text-slate-700">{totalPages}</strong>
             </span>
             <button 
               onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
               className="px-3 py-1.5 bg-white border border-slate-200 text-slate-600 text-[10px] sm:text-xs font-semibold rounded-md hover:bg-slate-50 transition-colors disabled:opacity-50"
-            >
-              Next
-            </button>
+            >{i18n.t("Next")}</button>
           </footer>
         )}
       </div>
@@ -476,8 +465,8 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
                   <ClipboardList size={16} />
                 </div>
                 <div>
-                  <h2 className="text-sm sm:text-base font-bold text-slate-800 tracking-tight">Internal Stock Request</h2>
-                  <p className="text-[9px] sm:text-[10px] text-brand-primary font-bold uppercase tracking-wider">Request from Main Store</p>
+                  <h2 className="text-sm sm:text-base font-bold text-slate-800 tracking-tight">{i18n.t("Internal Stock Request")}</h2>
+                  <p className="text-[9px] sm:text-[10px] text-brand-primary font-bold uppercase tracking-wider">{i18n.t("Request from Main Store")}</p>
                 </div>
               </div>
               <button onClick={() => setShowModal(false)} className="p-1.5 hover:bg-slate-200 rounded-md transition-colors text-slate-400">
@@ -488,7 +477,7 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
             <main className="p-4 sm:p-6 space-y-5 overflow-y-auto flex-1 custom-scrollbar">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider ml-1">Source Location</label>
+                  <label className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider ms-1">{i18n.t("Source Location")}</label>
                   <select
                     value={reqSourceLocation}
                     onChange={e => setReqSourceLocation(e.target.value as any)}
@@ -499,7 +488,7 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider ml-1">Destination</label>
+                  <label className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider ms-1">{i18n.t("Destination")}</label>
                   {activeDepartments.length > 1 ? (
                     <select
                       value={reqDept}
@@ -518,7 +507,7 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider ml-1">Requisition Type</label>
+                  <label className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider ms-1">{i18n.t("Requisition Type")}</label>
                   <select
                     value={reqType}
                     onChange={e => setReqType(e.target.value as any)}
@@ -529,7 +518,7 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider ml-1">Date Required</label>
+                  <label className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider ms-1">{i18n.t("Date Required")}</label>
                   <input
                     type="date"
                     value={reqDateRequired}
@@ -540,42 +529,42 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider ml-1">Reason</label>
+                <label className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider ms-1">{i18n.t("Reason")}</label>
                 <input
                   type="text"
                   value={reqReason}
                   onChange={e => setReqReason(e.target.value)}
                   className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium outline-none focus:bg-white focus:border-brand-primary/50 transition-all"
-                  placeholder="Reason for requisition..."
+                  placeholder={i18n.t("Reason for requisition...")}
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider ml-1">Remarks</label>
+                <label className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider ms-1">{i18n.t("Remarks")}</label>
                 <textarea
                   rows={2}
                   value={reqRemarks}
                   onChange={e => setReqRemarks(e.target.value)}
                   className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium outline-none resize-none focus:bg-white focus:border-brand-primary/50 transition-all"
-                  placeholder="Additional remarks..."
+                  placeholder={i18n.t("Additional remarks...")}
                 />
               </div>
 
               {/* Item Search Block */}
               <div className="pt-4 border-t border-slate-100 space-y-3">
-                <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">Requested Items</h4>
+                <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">{i18n.t("Requested Items")}</h4>
                 
                 <div className="relative group">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 group-focus-within:text-brand-primary" />
+                  <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 group-focus-within:text-brand-primary" />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
-                    placeholder="Search to add items..."
-                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold focus:bg-white focus:border-brand-primary outline-none transition-all"
+                    placeholder={i18n.t("Search to add items...")}
+                    className="w-full ps-9 pe-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold focus:bg-white focus:border-brand-primary outline-none transition-all"
                   />
                   {searchQuery && (
-                    <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-lg border border-slate-200 overflow-hidden z-10 max-h-60 overflow-y-auto">
+                    <div className="absolute top-full start-0 end-0 mt-1 bg-white rounded-lg shadow-lg border border-slate-200 overflow-hidden z-10 max-h-60 overflow-y-auto">
                       {filteredCatalog.map(cat => (
                         <div key={cat.id} onClick={() => handleAddItem(cat)} className="px-3 py-2 hover:bg-slate-50 border-b border-slate-100 last:border-b-0 cursor-pointer group/row">
                           <div className="flex items-start justify-between gap-2">
@@ -583,15 +572,15 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
                               <div className="flex items-center gap-1.5 flex-wrap">
                                 <p className="text-xs font-bold text-slate-800">{cat.name}</p>
                                 {cat.item_type && <span className="text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-slate-100 text-slate-500 tracking-wider">{cat.item_type}</span>}
-                                {cat.is_low_stock === 1 && <span className="text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-amber-100 text-amber-700 tracking-wider">Low Stock</span>}
+                                {cat.is_low_stock === 1 && <span className="text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-amber-100 text-amber-700 tracking-wider">{i18n.t("Low Stock")}</span>}
                               </div>
                               <p className="text-[9px] text-slate-400 font-mono mt-0.5">
                                 {cat.items_uhid}{cat.brand ? ` • ${cat.brand}` : ""}{cat.unit_name ? ` • ${cat.unit_name}` : ""}
                               </p>
                             </div>
                             <div className="flex items-center gap-3">
-                              <div className="text-right shrink-0">
-                                <p className="text-[8px] font-bold text-slate-400 uppercase tracking-wider">Global</p>
+                              <div className="text-end shrink-0">
+                                <p className="text-[8px] font-bold text-slate-400 uppercase tracking-wider">{i18n.t("Global")}</p>
                                 <p className="text-xs font-bold text-slate-700">{parseFloat(cat.global_stock || "0")}</p>
                               </div>
                               <button className="shrink-0 p-1 rounded bg-brand-active/50 text-brand-primary group-hover/row:bg-brand-primary group-hover/row:text-white transition-colors">
@@ -614,7 +603,7 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
                         </div>
                       ))}
                       {filteredCatalog.length === 0 && (
-                        <div className="px-3 py-3 text-[11px] text-slate-400 italic text-center">No items found matching "{searchQuery}"</div>
+                        <div className="px-3 py-3 text-[11px] text-slate-400 italic text-center">{i18n.t("No items found matching \"")}{searchQuery}"</div>
                       )}
                     </div>
                   )}
@@ -654,13 +643,9 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
             </main>
 
             <footer className="px-5 py-3 border-t border-slate-100 bg-slate-50 flex items-center justify-end gap-2 shrink-0">
-              <button onClick={() => setShowModal(false)} className="px-4 py-2 text-xs font-bold text-slate-500 hover:bg-slate-200 rounded-lg uppercase tracking-wider transition-colors">
-                Cancel
-              </button>
+              <button onClick={() => setShowModal(false)} className="px-4 py-2 text-xs font-bold text-slate-500 hover:bg-slate-200 rounded-lg uppercase tracking-wider transition-colors">{i18n.t("Cancel")}</button>
               <button onClick={submitRequisition} disabled={processingId !== null} className="bg-brand-primary text-white px-5 py-2 rounded-lg font-bold hover:bg-brand-primary/90 shadow-sm transition-all flex items-center gap-1.5 uppercase tracking-wider text-[11px] disabled:opacity-50">
-                {processingId === -1 ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />} 
-                Submit Request
-              </button>
+                {processingId === -1 ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}{i18n.t("Submit Request")}</button>
             </footer>
           </div>
         </div>
@@ -680,8 +665,8 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
                   <Send size={16} />
                 </div>
                 <div>
-                  <h2 className="text-sm sm:text-base font-bold text-slate-800 tracking-tight">Approve Transfer</h2>
-                  <p className="text-[9px] sm:text-[10px] text-brand-primary font-bold uppercase tracking-wider">REQ {showApproveModal.request_number}</p>
+                  <h2 className="text-sm sm:text-base font-bold text-slate-800 tracking-tight">{i18n.t("Approve Transfer")}</h2>
+                  <p className="text-[9px] sm:text-[10px] text-brand-primary font-bold uppercase tracking-wider">{i18n.t("REQ")}{" "}{showApproveModal.request_number}</p>
                 </div>
               </div>
               <button disabled={processingId !== null} onClick={() => setShowApproveModal(null)} className="p-1.5 hover:bg-slate-200 rounded-md transition-colors text-slate-400">
@@ -692,29 +677,27 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
             <main className="p-4 sm:p-5 flex-1 overflow-y-auto space-y-5 custom-scrollbar">
                <div className="grid grid-cols-2 gap-2 sm:gap-3">
                  <div className="bg-slate-50 p-2.5 sm:p-3 rounded-lg border border-slate-100">
-                    <p className="text-[9px] uppercase font-bold tracking-wider text-slate-500">Source</p>
+                    <p className="text-[9px] uppercase font-bold tracking-wider text-slate-500">{i18n.t("Source")}</p>
                     <p className="text-xs font-bold text-slate-800 mt-0.5 truncate">{formatDepartmentLabel(showApproveModal.source_location)}</p>
                  </div>
                  <div className="bg-slate-50 p-2.5 sm:p-3 rounded-lg border border-slate-100">
-                    <p className="text-[9px] uppercase font-bold tracking-wider text-slate-500">Destination</p>
+                    <p className="text-[9px] uppercase font-bold tracking-wider text-slate-500">{i18n.t("Destination")}</p>
                     <p className="text-xs font-bold text-slate-800 mt-0.5 truncate">{formatDepartmentLabel(showApproveModal.destination_location)}</p>
                  </div>
                  <div className="bg-slate-50 p-2.5 sm:p-3 rounded-lg border border-slate-100">
-                    <p className="text-[9px] uppercase font-bold tracking-wider text-slate-500">Requested By</p>
+                    <p className="text-[9px] uppercase font-bold tracking-wider text-slate-500">{i18n.t("Requested By")}</p>
                     <p className="text-xs font-bold text-slate-800 mt-0.5 truncate">{showApproveModal.requester_name}</p>
                  </div>
                  <div className="bg-slate-50 p-2.5 sm:p-3 rounded-lg border border-slate-100">
-                    <p className="text-[9px] uppercase font-bold tracking-wider text-slate-500">Type</p>
+                    <p className="text-[9px] uppercase font-bold tracking-wider text-slate-500">{i18n.t("Type")}</p>
                     <p className="text-xs font-bold text-slate-800 mt-0.5 truncate">{showApproveModal.requisition_type || "—"}</p>
                  </div>
                </div>
 
                <div className="space-y-3 pt-3 border-t border-slate-100">
-                 <h4 className="text-[10px] sm:text-xs font-bold text-slate-800 uppercase tracking-wider">Approve Line Items</h4>
+                 <h4 className="text-[10px] sm:text-xs font-bold text-slate-800 uppercase tracking-wider">{i18n.t("Approve Line Items")}</h4>
                  {approveItems.length === 0 ? (
-                    <div className="p-3 bg-amber-50 rounded-lg border border-amber-200 text-amber-700 text-xs font-semibold text-center">
-                       No detailed items provided.
-                    </div>
+                    <div className="p-3 bg-amber-50 rounded-lg border border-amber-200 text-amber-700 text-xs font-semibold text-center">{i18n.t("No detailed items provided.")}</div>
                  ) : (
                    <div className="space-y-2">
                      {approveItems.map((ai, index) => (
@@ -722,13 +705,13 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
                            <div className="flex-1 min-w-0">
                              <p className="text-xs font-bold text-slate-800 truncate">{ai.item_name}</p>
                              <div className="flex items-center gap-3 mt-1.5">
-                               <p className="text-[9px] font-bold text-slate-500 uppercase">Req: <span className="text-brand-primary">{ai.requested_qty}</span></p>
+                               <p className="text-[9px] font-bold text-slate-500 uppercase">{i18n.t("Req:")}{" "}<span className="text-brand-primary">{ai.requested_qty}</span></p>
                                <div className="w-px h-3 bg-slate-200"></div>
-                               <p className="text-[9px] font-bold text-slate-500 uppercase">Stock: <span className={Number(ai.current_source_stock || 0) > 0 ? "text-emerald-600" : "text-red-600"}>{ai.current_source_stock || 0}</span></p>
+                               <p className="text-[9px] font-bold text-slate-500 uppercase">{i18n.t("Stock:")}{" "}<span className={Number(ai.current_source_stock || 0) > 0 ? "text-emerald-600" : "text-red-600"}>{ai.current_source_stock || 0}</span></p>
                              </div>
                            </div>
                            <div className="w-full sm:w-28 shrink-0">
-                             <label className="text-[8px] font-bold text-slate-500 uppercase tracking-wider mb-1 block">Approved QTY</label>
+                             <label className="text-[8px] font-bold text-slate-500 uppercase tracking-wider mb-1 block">{i18n.t("Approved QTY")}</label>
                              <input 
                                type="number" 
                                value={ai.approved_qty} 
@@ -745,9 +728,7 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
 
             <footer className="px-5 py-3 border-t border-slate-100 bg-slate-50 flex justify-end shrink-0">
                <button onClick={submitApproval} disabled={processingId !== null} className="bg-brand-primary text-white px-6 py-2 rounded-lg font-bold hover:bg-brand-primary/90 shadow-sm transition-all flex items-center gap-1.5 uppercase tracking-wider text-[11px] disabled:opacity-50">
-                 {processingId === showApproveModal.id ? <Loader2 size={14} className="animate-spin" /> : <CheckCircle2 size={14} />}
-                 Confirm Approval
-               </button>
+                 {processingId === showApproveModal.id ? <Loader2 size={14} className="animate-spin" /> : <CheckCircle2 size={14} />}{i18n.t("Confirm Approval")}</button>
             </footer>
           </div>
         </div>
@@ -767,8 +748,8 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
                   <FileText size={16} />
                 </div>
                 <div>
-                  <h2 className="text-sm sm:text-base font-bold text-slate-800 tracking-tight">Requisition Details</h2>
-                  <p className="text-[9px] sm:text-[10px] text-slate-500 font-bold uppercase tracking-wider">REQ {showViewModal.request_number}</p>
+                  <h2 className="text-sm sm:text-base font-bold text-slate-800 tracking-tight">{i18n.t("Requisition Details")}</h2>
+                  <p className="text-[9px] sm:text-[10px] text-slate-500 font-bold uppercase tracking-wider">{i18n.t("REQ")}{" "}{showViewModal.request_number}</p>
                 </div>
               </div>
               <button onClick={() => setShowViewModal(null)} className="p-1.5 hover:bg-slate-200 rounded-md transition-colors text-slate-400">
@@ -779,25 +760,25 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
             <main className="p-4 sm:p-5 flex-1 overflow-y-auto space-y-4 custom-scrollbar">
                <div className="grid grid-cols-2 gap-2 sm:gap-3">
                  <div className="bg-slate-50 p-2.5 sm:p-3 rounded-lg border border-slate-100">
-                    <p className="text-[9px] uppercase font-bold tracking-wider text-slate-500">Source</p>
+                    <p className="text-[9px] uppercase font-bold tracking-wider text-slate-500">{i18n.t("Source")}</p>
                     <p className="text-xs font-bold text-slate-800 mt-0.5 truncate">{formatDepartmentLabel(showViewModal.source_location)}</p>
                  </div>
                  <div className="bg-slate-50 p-2.5 sm:p-3 rounded-lg border border-slate-100">
-                    <p className="text-[9px] uppercase font-bold tracking-wider text-slate-500">Destination</p>
+                    <p className="text-[9px] uppercase font-bold tracking-wider text-slate-500">{i18n.t("Destination")}</p>
                     <p className="text-xs font-bold text-slate-800 mt-0.5 truncate">{formatDepartmentLabel(showViewModal.destination_location)}</p>
                  </div>
                  <div className="bg-slate-50 p-2.5 sm:p-3 rounded-lg border border-slate-100">
-                    <p className="text-[9px] uppercase font-bold tracking-wider text-slate-500">Status</p>
+                    <p className="text-[9px] uppercase font-bold tracking-wider text-slate-500">{i18n.t("Status")}</p>
                     <p className={`text-xs font-bold mt-0.5 ${
                         showViewModal.status === 'APPROVED' ? 'text-emerald-600' :
                         showViewModal.status === 'PENDING' ? 'text-amber-600' :
                         showViewModal.status === 'REJECTED' || showViewModal.status === 'CANCELLED' ? 'text-red-600' :
                         'text-brand-primary'
-                    }`}>{showViewModal.status}</p>
+                    }`}>{i18n.tv(showViewModal.status)}</p>
                  </div>
                  {showViewModal.date_required && (
                    <div className="bg-slate-50 p-2.5 sm:p-3 rounded-lg border border-slate-100">
-                      <p className="text-[9px] uppercase font-bold tracking-wider text-slate-500">Date Required</p>
+                      <p className="text-[9px] uppercase font-bold tracking-wider text-slate-500">{i18n.t("Date Required")}</p>
                       <p className="text-xs font-bold text-slate-800 mt-0.5">{showViewModal.date_required}</p>
                    </div>
                  )}
@@ -807,13 +788,13 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
                  <div className="flex flex-col gap-2">
                    {showViewModal.reason && (
                      <div className="bg-slate-50 p-3 rounded-lg border border-slate-100">
-                        <p className="text-[9px] uppercase font-bold tracking-wider text-slate-500 mb-0.5">Reason</p>
+                        <p className="text-[9px] uppercase font-bold tracking-wider text-slate-500 mb-0.5">{i18n.t("Reason")}</p>
                         <p className="text-xs font-medium text-slate-700">{showViewModal.reason}</p>
                      </div>
                    )}
                    {showViewModal.remarks && (
                      <div className="bg-slate-50 p-3 rounded-lg border border-slate-100">
-                        <p className="text-[9px] uppercase font-bold tracking-wider text-slate-500 mb-0.5">Remarks</p>
+                        <p className="text-[9px] uppercase font-bold tracking-wider text-slate-500 mb-0.5">{i18n.t("Remarks")}</p>
                         <p className="text-xs font-medium text-slate-700">{showViewModal.remarks}</p>
                      </div>
                    )}
@@ -821,11 +802,9 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
                )}
 
                <div className="space-y-3 pt-3 border-t border-slate-100">
-                 <h4 className="text-[10px] sm:text-xs font-bold text-slate-800 uppercase tracking-wider">Requested Items</h4>
+                 <h4 className="text-[10px] sm:text-xs font-bold text-slate-800 uppercase tracking-wider">{i18n.t("Requested Items")}</h4>
                  {viewItems.length === 0 ? (
-                    <div className="p-3 bg-amber-50 rounded-lg border border-amber-200 text-amber-700 text-xs font-semibold text-center">
-                       No detailed items available.
-                    </div>
+                    <div className="p-3 bg-amber-50 rounded-lg border border-amber-200 text-amber-700 text-xs font-semibold text-center">{i18n.t("No detailed items available.")}</div>
                  ) : (
                    <div className="space-y-2">
                      {viewItems.map((vi, index) => (
@@ -833,15 +812,15 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
                            <p className="text-xs font-bold text-slate-800">{vi.item_name}</p>
                            <div className="flex items-center gap-4 mt-2 pt-2 border-t border-slate-100">
                              <div>
-                               <p className="text-[8px] font-bold text-slate-500 uppercase tracking-wider">Requested</p>
-                               <p className="text-xs font-bold text-brand-primary mt-0.5">{parseFloat(vi.requested_qty || 0)} <span className="text-[9px] text-slate-400 font-medium">Units</span></p>
+                               <p className="text-[8px] font-bold text-slate-500 uppercase tracking-wider">{i18n.t("Requested")}</p>
+                               <p className="text-xs font-bold text-brand-primary mt-0.5">{parseFloat(vi.requested_qty || 0)} <span className="text-[9px] text-slate-400 font-medium">{i18n.t("Units")}</span></p>
                              </div>
                              {(showViewModal.status === 'APPROVED' || showViewModal.status === 'PARTIAL') && (
                                <>
                                  <div className="w-px h-6 bg-slate-200"></div>
                                  <div>
-                                   <p className="text-[8px] font-bold text-slate-500 uppercase tracking-wider">Approved</p>
-                                   <p className="text-xs font-bold text-emerald-600 mt-0.5">{parseFloat(vi.approved_qty || 0)} <span className="text-[9px] text-slate-400 font-medium">Units</span></p>
+                                   <p className="text-[8px] font-bold text-slate-500 uppercase tracking-wider">{i18n.t("Approved")}</p>
+                                   <p className="text-xs font-bold text-emerald-600 mt-0.5">{parseFloat(vi.approved_qty || 0)} <span className="text-[9px] text-slate-400 font-medium">{i18n.t("Units")}</span></p>
                                  </div>
                                </>
                              )}
@@ -854,9 +833,7 @@ const DepartmentRequisitions: React.FC<DepartmentRequisitionsProps> = ({ allowed
             </main>
 
             <footer className="px-5 py-3 border-t border-slate-100 bg-slate-50 flex justify-end shrink-0">
-               <button onClick={() => setShowViewModal(null)} className="bg-slate-800 text-white px-6 py-2 rounded-lg text-[11px] font-bold uppercase tracking-wider hover:bg-slate-700 shadow-sm transition-all flex items-center gap-1.5">
-                 Close
-               </button>
+               <button onClick={() => setShowViewModal(null)} className="bg-slate-800 text-white px-6 py-2 rounded-lg text-[11px] font-bold uppercase tracking-wider hover:bg-slate-700 shadow-sm transition-all flex items-center gap-1.5">{i18n.t("Close")}</button>
             </footer>
           </div>
         </div>

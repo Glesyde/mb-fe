@@ -1,6 +1,7 @@
 
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 import { X, CheckCircle2, AlertCircle, Info, AlertTriangle } from 'lucide-react';
+import { t } from '../i18n';
 
 type NotificationType = 'success' | 'error' | 'info' | 'warning';
 
@@ -46,7 +47,9 @@ const parseListMessage = (message: string): ParsedListMessage | null => {
 export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  const notify = useCallback((message: string, type: NotificationType = 'info') => {
+  const notify = useCallback((rawMessage: string, type: NotificationType = 'info') => {
+    // Messages (including ones from the backend) are English; translate the ones in src/i18n/ar
+    const message = typeof rawMessage === 'string' ? t(rawMessage) : rawMessage;
     const id = Math.random().toString(36).substring(2, 9);
     setNotifications((prev) => [...prev, { id, message, type }]);
 

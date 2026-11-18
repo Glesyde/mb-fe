@@ -24,6 +24,7 @@ import { useNotification } from "../context/NotificationContext";
 // Import the custom components
 import SignaturePad from "./SignaturePad";
 import SearchableSelect from "./SearchableSelect";
+import { i18n } from "../i18n";
 
 
 const countries = [
@@ -1843,9 +1844,7 @@ const PatientRegistration: React.FC = () => {
       <div className="flex items-center justify-center h-[60vh]">
         <div className="text-center space-y-4">
           <Loader2 size={48} className="animate-spin text-brand-primary mx-auto" />
-          <p className="text-sm font-black text-slate-400 uppercase tracking-widest">
-            Retrieving Secure Index...
-          </p>
+          <p className="text-sm font-black text-slate-400 uppercase tracking-widest">{i18n.t("Retrieving Secure Index...")}</p>
         </div>
       </div>
     );
@@ -1858,42 +1857,31 @@ const PatientRegistration: React.FC = () => {
           <div className="w-24 h-24 bg-emerald-50 text-emerald-600 rounded-[32px] flex items-center justify-center mx-auto mb-8 border border-emerald-100 shadow-inner">
             <CheckCircle2 size={48} />
           </div>
-          <h2 className="text-4xl font-black text-slate-800 tracking-tight leading-none">
-            Enrollment Successful
-          </h2>
+          <h2 className="text-4xl font-black text-slate-800 tracking-tight leading-none">{i18n.t("Enrollment Successful")}</h2>
 
           <div className="my-8 p-6 bg-slate-50 border border-slate-200 rounded-3xl">
-            <p className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-2">
-              Patient Registration Number (MRN)
-            </p>
+            <p className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-2">{i18n.t("Patient Registration Number (MRN)")}</p>
             <p className="text-5xl font-black text-brand-primary font-mono tracking-tight">
               {generatedMRN}
             </p>
-            <p className="text-slate-400 font-medium text-sm mt-3">
-              Please provide this number to the patient for all future hospital visits.
-            </p>
+            <p className="text-slate-400 font-medium text-sm mt-3">{i18n.t("Please provide this number to the patient for all future hospital visits.")}</p>
           </div>
 
-          <p className="text-slate-500 font-medium text-lg leading-relaxed">
-            Patient{" "}
+          <p className="text-slate-500 font-medium text-lg leading-relaxed">{i18n.t("Patient")}{" "}
             <span className="text-slate-900 font-black italic">
               {formData.pt_info.first_name} {formData.pt_info.last_name}
-            </span>{" "}
-            has been successfully provisioned in the system.
-          </p>
+            </span>{" "}{i18n.t("has been successfully provisioned in the system.")}</p>
 
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-4">
             <button
               onClick={() => window.open(`/print/patient-card/${generatedMRN}`, "_blank")}
               className="flex items-center justify-center gap-3 px-8 py-5 bg-teal-600 text-white rounded-[24px] font-black uppercase text-xs tracking-widest hover:bg-teal-700 transition-all shadow-xl shadow-teal-100"
             >
-              <Printer size={20} /> Print Patient ID
-            </button>
+              <Printer size={20} />{" "}{i18n.t("Print Patient ID")}</button>
             <button
               onClick={() => navigate("/patients/search")}
               className="flex items-center justify-center gap-3 px-8 py-5 bg-slate-900 text-white rounded-[24px] font-black uppercase text-xs tracking-widest hover:bg-slate-800 transition-all shadow-xl active:scale-95"
-            >
-              Return to Search <ChevronRight size={20} />
+            >{i18n.t("Return to Search")}{" "}<ChevronRight className="rtl:-scale-x-100" size={20} />
             </button>
           </div>
         </div>
@@ -1923,7 +1911,7 @@ const PatientRegistration: React.FC = () => {
                 {formData.pt_info.photo_url ? (
                   <img
                     src={formData.pt_info.photo_url}
-                    alt="Profile"
+                    alt={i18n.t("Profile")}
                     className="w-full h-full object-cover"
                   />
                 ) : (
@@ -1934,7 +1922,7 @@ const PatientRegistration: React.FC = () => {
                   <div className="absolute inset-0 bg-slate-900/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all rounded-full gap-1">
                     <label
                       className="p-1.5 bg-brand-primary text-white rounded-full hover:bg-brand-primary cursor-pointer"
-                      title="Upload"
+                      title={i18n.t("Upload")}
                     >
                       <UploadCloud size={12} />
                       <input
@@ -1949,7 +1937,7 @@ const PatientRegistration: React.FC = () => {
                       onClick={startCamera}
                       disabled={!isEditMode}
                       className="p-1.5 bg-slate-700 text-white rounded-full hover:bg-slate-600"
-                      title="Camera"
+                      title={i18n.t("Camera")}
                     >
                       <Camera size={12} />
                     </button>
@@ -1961,11 +1949,10 @@ const PatientRegistration: React.FC = () => {
               {/* Title Area */}
               <div>
                 <h2 className="font-semibold text-slate-800">
-                  {mrnFromUrl ? "Patient Profile" : "Demographics"}
+                  {mrnFromUrl ? i18n.t("Patient Profile") : i18n.t("Demographics")}
                 </h2>
                 <p className="text-xs font-medium text-slate-500 mt-1">
-                  {mrnFromUrl ? `Viewing record · ` : `New patient · `}
-                  Date: {new Date().toLocaleDateString("en-GB")}
+                  {mrnFromUrl ? i18n.t("Viewing record ·") : i18n.t("New patient ·")}{i18n.t("Date:")}{" "}{new Date().toLocaleDateString("en-GB")}
                 </p>
               </div>
 
@@ -1976,7 +1963,7 @@ const PatientRegistration: React.FC = () => {
               >
                 <input
                   type="text"
-                  placeholder="MRN..."
+                  placeholder={i18n.t("MRN...")}
                   maxLength={6}
                   className="bg-transparent border-none outline-none text-xs font-bold text-slate-700 w-20 px-2 py-1.5 placeholder-slate-400"
                   value={searchInput}
@@ -1997,24 +1984,20 @@ const PatientRegistration: React.FC = () => {
           <div className="flex items-center gap-4">
             {mrnFromUrl && (
               <>
-                <div className="flex gap-2 mr-2">
+                <div className="flex gap-2 me-2">
                   <button
                     onClick={() => window.open(`/print/patient-card/${mrnFromUrl}`, "_blank")}
                     className="bg-white border border-slate-200 text-slate-600 hover:text-[#2d258a] px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:bg-slate-50 transition-all shadow-sm"
                   >
-                    <Printer size={14} /> Patient Card
-                  </button>
+                    <Printer size={14} />{" "}{i18n.t("Patient Card")}</button>
                   <button
                     onClick={() => window.open(`/print/demographics/${mrnFromUrl}`, "_blank")}
                     className="bg-[#2d258a] text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:bg-[#2d258a]/90 transition-all shadow-sm"
                   >
-                    <FileText size={14} /> Demographics Sheet
-                  </button>
+                    <FileText size={14} />{" "}{i18n.t("Demographics Sheet")}</button>
                 </div>
                 <div className="px-4 py-2 bg-brand-active border border-brand-active rounded-xl">
-                  <p className="text-[10px] font-black text-brand-primary uppercase tracking-widest">
-                    Medical Record Number
-                  </p>
+                  <p className="text-[10px] font-black text-brand-primary uppercase tracking-widest">{i18n.t("Medical Record Number")}</p>
                   <p className="text-sm font-black text-brand-primary font-mono tracking-wider">
                     {mrnFromUrl}
                   </p>
@@ -2028,8 +2011,7 @@ const PatientRegistration: React.FC = () => {
                   onClick={() => window.open("/print/registration", "_blank")}
                   className="flex items-center gap-2 px-6 py-3 rounded-2xl text-[11px] font-bold text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 hover:text-brand-primary transition-all shadow-sm"
                 >
-                  <Printer size={14} /> Print form
-                </button>
+                  <Printer size={14} />{" "}{i18n.t("Print form")}</button>
                 <label className="flex items-center gap-3 cursor-pointer bg-rose-50 px-6 py-3 rounded-2xl text-[11px] font-bold text-rose-800 border border-slate-200 hover:bg-rose-100 transition-all">
                   <input
                     type="checkbox"
@@ -2037,9 +2019,7 @@ const PatientRegistration: React.FC = () => {
                     checked={formData.pt_info.is_emergency}
                     onChange={(e) => updatePTInfo("is_emergency", e.target.checked)}
                     disabled={!isEditMode}
-                  />
-                  Emergency enroll
-                </label>
+                  />{i18n.t("Emergency enroll")}</label>
                 <label className="flex items-center gap-3 cursor-pointer bg-sky-50 px-6 py-3 rounded-2xl text-[11px] font-bold text-sky-800 border border-slate-200 hover:bg-sky-100 transition-all">
                   <input
                     type="checkbox"
@@ -2047,9 +2027,7 @@ const PatientRegistration: React.FC = () => {
                     checked={formData.pt_info.is_newborn}
                     onChange={(e) => updatePTInfo("is_newborn", e.target.checked)}
                     disabled={!isEditMode}
-                  />
-                  Newborn enroll
-                </label>
+                  />{i18n.t("Newborn enroll")}</label>
               </>
             )}
 
@@ -2058,8 +2036,7 @@ const PatientRegistration: React.FC = () => {
                 onClick={() => setIsEditMode(true)}
                 className="bg-slate-900 text-white px-8 py-4 rounded-[24px] text-[11px] font-black uppercase tracking-widest flex items-center gap-3 hover:bg-slate-800 transition-all shadow-xl active:scale-95"
               >
-                <Edit3 size={18} /> Enable Editing
-              </button>
+                <Edit3 size={18} />{" "}{i18n.t("Enable Editing")}</button>
             ) : (
               <button
                 onClick={handleSubmit}
@@ -2067,7 +2044,7 @@ const PatientRegistration: React.FC = () => {
                 className="bg-brand-primary text-white px-10 py-4 rounded-[24px] text-[11px] font-black uppercase tracking-widest flex items-center gap-3 hover:bg-brand-primary transition-all shadow-xl shadow-brand-active disabled:opacity-50 active:scale-95"
               >
                 {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
-                {isSubmitting ? "Processing..." : mrnFromUrl ? "Update Record" : "Finalize"}
+                {isSubmitting ? i18n.t("Processing...") : mrnFromUrl ? i18n.t("Update Record") : i18n.t("Finalize")}
               </button>
             )}
           </div>
@@ -2087,9 +2064,7 @@ const PatientRegistration: React.FC = () => {
                     type="button"
                     onClick={stopCamera}
                     className="px-6 py-3 rounded-2xl font-black text-xs uppercase tracking-widest text-slate-400 hover:bg-slate-50"
-                  >
-                    Cancel
-                  </button>
+                  >{i18n.t("Cancel")}</button>
                   <button
                     type="button"
                     onClick={capturePhoto}
@@ -2110,12 +2085,12 @@ const PatientRegistration: React.FC = () => {
               <div>
                 <div className="flex items-center gap-2 mb-4">
                   <div className="w-1 h-5 bg-brand-primary rounded-full"></div>
-                  <h3 className="text-sm font-black text-slate-800">Personal information</h3>
+                  <h3 className="text-sm font-black text-slate-800">{i18n.t("Personal information")}</h3>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   {/* First Name */}
                   <div className="space-y-0.5">
-                    <label className="text-[10px] font-bold text-slate-500 ml-0.5">First name *</label>
+                    <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("First name *")}</label>
                     <input
                       type="text"
                       className={`w-full px-2 py-1.5 bg-white border rounded text-xs font-bold outline-none focus:border-brand-primary ${
@@ -2127,7 +2102,7 @@ const PatientRegistration: React.FC = () => {
                   </div>
                   {/* Middle Name */}
                   <div className="space-y-0.5">
-                    <label className="text-[10px] font-bold text-slate-500 ml-0.5">Middle name</label>
+                    <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Middle name")}</label>
                     <input
                       type="text"
                       className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded text-xs font-bold outline-none focus:border-brand-primary"
@@ -2137,7 +2112,7 @@ const PatientRegistration: React.FC = () => {
                   </div>
                   {/* Last Name */}
                   <div className="space-y-0.5">
-                    <label className="text-[10px] font-bold text-slate-500 ml-0.5">Last name *</label>
+                    <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Last name *")}</label>
                     <input
                       type="text"
                       className={`w-full px-2 py-1.5 bg-white border rounded text-xs font-bold outline-none focus:border-brand-primary ${
@@ -2149,7 +2124,7 @@ const PatientRegistration: React.FC = () => {
                   </div>
                   {/* Gender */}
                   <div className="space-y-0.5">
-                    <label className="text-[10px] font-bold text-slate-500 ml-0.5">Gender {!isEmergency && !isNewborn && '*'}</label>
+                    <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Gender")}{" "}{!isEmergency && !isNewborn && '*'}</label>
                     <select
                       className={`w-full px-2 py-1.5 bg-white border rounded text-xs font-bold outline-none ${
                         errors.gender ? "border-red-400" : "border-slate-200"
@@ -2158,13 +2133,13 @@ const PatientRegistration: React.FC = () => {
                       onChange={(e) => updatePTInfo("gender", e.target.value)}
                     >
                       <option value="">—</option>
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
+                      <option value="Male">{i18n.t("Male")}</option>
+                      <option value="Female">{i18n.t("Female")}</option>
                     </select>
                   </div>
                   {/* DOB */}
                   <div className="space-y-0.5">
-                    <label className="text-[10px] font-bold text-slate-500 ml-0.5">Date of birth {!isEmergency && !isNewborn && '*'}</label>
+                    <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Date of birth")}{" "}{!isEmergency && !isNewborn && '*'}</label>
                     <input
                       type="date"
                       className={`w-full px-2 py-1.5 bg-white border rounded text-xs font-bold outline-none ${
@@ -2176,46 +2151,46 @@ const PatientRegistration: React.FC = () => {
                   </div>
                   {/* Age */}
                   <div className="space-y-0.5">
-                    <label className="text-[10px] font-bold text-slate-500 ml-0.5">Age (Y-M-D)</label>
+                    <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Age (Y-M-D)")}</label>
                     <div className="w-full px-2 py-1.5 bg-slate-100 border border-slate-100 rounded text-xs font-black text-brand-primary flex items-center min-h-[30px]">
                       {calculateAge(formData.pt_info.date_of_birth) || "—"}
                     </div>
                   </div>
                   {/* Marital Status */}
                   <div className="space-y-0.5">
-                    <label className="text-[10px] font-bold text-slate-500 ml-0.5">Marital status</label>
+                    <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Marital status")}</label>
                     <select
                       className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded text-xs font-bold outline-none"
                       value={formData.pt_info.marital_status || ""}
                       onChange={(e) => updatePTInfo("marital_status", e.target.value)}
                     >
                       <option value="">—</option>
-                      <option value="Single">Single</option>
-                      <option value="Married">Married</option>
-                      <option value="Divorced">Divorced</option>
-                      <option value="Widowed">Widowed</option>
+                      <option value="Single">{i18n.t("Single")}</option>
+                      <option value="Married">{i18n.t("Married")}</option>
+                      <option value="Divorced">{i18n.t("Divorced")}</option>
+                      <option value="Widowed">{i18n.t("Widowed")}</option>
                     </select>
                   </div>
                   {/* Nationality */}
                   <div className="space-y-0.5">
-                    <label className="text-[10px] font-bold text-slate-500 ml-0.5">Nationality</label>
+                    <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Nationality")}</label>
                     <SearchableSelect
                       options={countries.map((c) => c.name)}
                       value={formData.pt_info.nationality}
                       onChange={handleCountryChange}
-                      placeholder="Select Country"
+                      placeholder={i18n.t("Select Country")}
                       disabled={!isEditMode}
                     />
                   </div>
                   {/* State */}
                   <div className="space-y-0.5">
-                    <label className="text-[10px] font-bold text-slate-500 ml-0.5">State of origin</label>
+                    <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("State of origin")}</label>
                     {locationData[formData.pt_info.nationality] ? (
                       <SearchableSelect
                         options={Object.keys(locationData[formData.pt_info.nationality])}
                         value={formData.pt_info.state_of_origin}
                         onChange={handleStateChange}
-                        placeholder="Select State"
+                        placeholder={i18n.t("Select State")}
                         disabled={!isEditMode}
                       />
                     ) : (
@@ -2230,7 +2205,7 @@ const PatientRegistration: React.FC = () => {
                   </div>
                   {/* LGA */}
                   <div className="space-y-0.5">
-                    <label className="text-[10px] font-bold text-slate-500 ml-0.5">LGA / City</label>
+                    <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("LGA / City")}</label>
                     {locationData[formData.pt_info.nationality]?.[formData.pt_info.state_of_origin] ? (
                       <SearchableSelect
                         options={
@@ -2238,7 +2213,7 @@ const PatientRegistration: React.FC = () => {
                         }
                         value={formData.pt_info.lga}
                         onChange={(val) => updatePTInfo("lga", val)}
-                        placeholder="Select LGA"
+                        placeholder={i18n.t("Select LGA")}
                         disabled={!isEditMode || !formData.pt_info.state_of_origin}
                       />
                     ) : (
@@ -2259,19 +2234,19 @@ const PatientRegistration: React.FC = () => {
                 <div className="mt-4 pt-4 border-t border-brand-active/50 animate-in fade-in slide-in-from-top-2">
                   <div className="flex items-center gap-2 mb-3">
                     <div className="w-1 h-4 bg-sky-500 rounded-full"></div>
-                    <h4 className="text-[11px] font-black text-slate-800 uppercase tracking-wider">Birth Details</h4>
+                    <h4 className="text-[11px] font-black text-slate-800 uppercase tracking-wider">{i18n.t("Birth Details")}</h4>
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <div className="space-y-0.5 col-span-2 relative">
-                      <label className="text-[10px] font-bold text-slate-500 ml-0.5 flex justify-between">
-                        <span>Mother's MRN (Link) *</span>
-                        <span className="text-slate-400 font-normal">Press Enter to fetch</span>
+                      <label className="text-[10px] font-bold text-slate-500 ms-0.5 flex justify-between">
+                        <span>{i18n.t("Mother's MRN (Link) *")}</span>
+                        <span className="text-slate-400 font-normal">{i18n.t("Press Enter to fetch")}</span>
                       </label>
                       <div className="relative">
                         <input
                           type="text"
-                          placeholder="e.g. 100001"
-                          className={`w-full px-2 py-1.5 pr-8 bg-white border rounded text-xs font-bold outline-none focus:border-brand-primary ${
+                          placeholder={i18n.t("e.g. 100001")}
+                          className={`w-full px-2 py-1.5 pe-8 bg-white border rounded text-xs font-bold outline-none focus:border-brand-primary ${
                             errors.linked_parent_id ? "border-red-400" : "border-slate-200"
                           }`}
                           value={formData.pt_info.linked_parent_id || ""}
@@ -2280,18 +2255,18 @@ const PatientRegistration: React.FC = () => {
                           disabled={isFetchingMother}
                         />
                         {isFetchingMother ? (
-                          <Loader2 size={14} className="absolute right-2 top-2 animate-spin text-slate-400" />
+                          <Loader2 size={14} className="absolute end-2 top-2 animate-spin text-slate-400" />
                         ) : (
                           <Search 
                             size={14} 
-                            className="absolute right-2 top-2 text-slate-400 cursor-pointer hover:text-brand-primary" 
+                            className="absolute end-2 top-2 text-slate-400 cursor-pointer hover:text-brand-primary" 
                             onClick={() => fetchMotherDetails(formData.pt_info.linked_parent_id)}
                           />
                         )}
                       </div>
                     </div>
                     <div className="space-y-0.5">
-                      <label className="text-[10px] font-bold text-slate-500 ml-0.5">Time of Birth</label>
+                      <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Time of Birth")}</label>
                       <input
                         type="time"
                         className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded text-xs font-bold outline-none focus:border-brand-primary"
@@ -2300,25 +2275,25 @@ const PatientRegistration: React.FC = () => {
                       />
                     </div>
                     <div className="space-y-0.5">
-                      <label className="text-[10px] font-bold text-slate-500 ml-0.5">Delivery Type</label>
+                      <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Delivery Type")}</label>
                       <select
                         className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded text-xs font-bold outline-none focus:border-brand-primary"
                         value={formData.pt_info.delivery_type || ""}
                         onChange={(e) => updatePTInfo("delivery_type", e.target.value)}
                       >
                         <option value="">—</option>
-                        <option value="Vaginal">Vaginal</option>
-                        <option value="Cesarean">Cesarean</option>
-                        <option value="Assisted Vaginal">Assisted Vaginal</option>
-                        <option value="Other">Other</option>
+                        <option value="Vaginal">{i18n.t("Vaginal")}</option>
+                        <option value="Cesarean">{i18n.t("Cesarean")}</option>
+                        <option value="Assisted Vaginal">{i18n.t("Assisted Vaginal")}</option>
+                        <option value="Other">{i18n.t("Other")}</option>
                       </select>
                     </div>
                     <div className="space-y-0.5">
-                      <label className="text-[10px] font-bold text-slate-500 ml-0.5">Gestational Age (wks)</label>
+                      <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Gestational Age (wks)")}</label>
                       <input
                         type="number"
                         min="20" max="45"
-                        placeholder="e.g. 39"
+                        placeholder={i18n.t("e.g. 39")}
                         className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded text-xs font-bold outline-none focus:border-brand-primary"
                         value={formData.pt_info.gestational_age_weeks || ""}
                         onChange={(e) => updatePTInfo("gestational_age_weeks", e.target.value)}
@@ -2326,9 +2301,7 @@ const PatientRegistration: React.FC = () => {
                     </div>
                     <div className="col-span-2 mt-2 bg-sky-50 border border-sky-100 rounded-lg p-2 flex items-start gap-2">
                        <Baby className="text-sky-500 shrink-0" size={16} />
-                       <p className="text-[10px] font-semibold text-sky-700 leading-tight">
-                         Press Enter on the Mother's MRN field above to auto-fill address, next of kin, and contact data instantly.
-                       </p>
+                       <p className="text-[10px] font-semibold text-sky-700 leading-tight">{i18n.t("Press Enter on the Mother's MRN field above to auto-fill address, next of kin, and contact data instantly.")}</p>
                     </div>
                   </div>
                 </div>
@@ -2342,14 +2315,11 @@ const PatientRegistration: React.FC = () => {
                   <div className="w-5 h-5 bg-indigo-600 rounded-md flex items-center justify-center">
                     <Phone className="text-white" size={12} />
                   </div>
-                  <h3 className="text-xs font-black text-slate-700 uppercase tracking-widest">
-                    Contact information
-                  </h3>
+                  <h3 className="text-xs font-black text-slate-700 uppercase tracking-widest">{i18n.t("Contact information")}</h3>
                 </div>
                 <div className="grid grid-cols-2 gap-2 mt-4">
                   <div className="col-span-2 space-y-0.5">
-                    <label className="text-[10px] font-bold text-slate-500 ml-0.5">
-                      Phone number {!isEmergency && !isNewborn && '*'}
+                    <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Phone number")}{" "}{!isEmergency && !isNewborn && '*'}
                     </label>
                     <input
                       type="tel"
@@ -2363,9 +2333,7 @@ const PatientRegistration: React.FC = () => {
                     />
                   </div>
                   <div className="col-span-2 space-y-0.5">
-                    <label className="text-[10px] font-bold text-slate-500 ml-0.5">
-                      Email address
-                    </label>
+                    <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Email address")}</label>
                     <input
                       type="email"
                       className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded text-xs font-bold outline-none focus:border-brand-primary"
@@ -2374,8 +2342,7 @@ const PatientRegistration: React.FC = () => {
                     />
                   </div>
                   <div className="col-span-2 space-y-0.5">
-                    <label className="text-[10px] font-bold text-slate-500 ml-0.5">
-                      Residential address {!isEmergency && !isNewborn && '*'}
+                    <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Residential address")}{" "}{!isEmergency && !isNewborn && '*'}
                     </label>
                     <input
                       type="text"
@@ -2395,12 +2362,11 @@ const PatientRegistration: React.FC = () => {
               <div className="bg-indigo-50/30 rounded-3xl p-4 border border-slate-200 h-full">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="w-1 h-5 bg-indigo-600 rounded-full"></div>
-                  <h3 className="text-sm font-black text-slate-800">Next of kin</h3>
+                  <h3 className="text-sm font-black text-slate-800">{i18n.t("Next of kin")}</h3>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <div className="col-span-2 space-y-0.5">
-                    <label className="text-[10px] font-bold text-slate-500 ml-0.5">
-                      Full name {!isEmergency && !isNewborn && '*'}
+                    <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Full name")}{" "}{!isEmergency && !isNewborn && '*'}
                     </label>
                     <input
                       type="text"
@@ -2412,9 +2378,7 @@ const PatientRegistration: React.FC = () => {
                     />
                   </div>
                   <div className="space-y-0.5">
-                    <label className="text-[10px] font-bold text-slate-500 ml-0.5">
-                      Relationship
-                    </label>
+                    <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Relationship")}</label>
                     <input
                       type="text"
                       className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded text-xs font-bold outline-none focus:border-brand-primary"
@@ -2423,7 +2387,7 @@ const PatientRegistration: React.FC = () => {
                     />
                   </div>
                   <div className="space-y-0.5">
-                    <label className="text-[10px] font-bold text-slate-500 ml-0.5">Phone {!isEmergency && !isNewborn && '*'}</label>
+                    <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Phone")}{" "}{!isEmergency && !isNewborn && '*'}</label>
                     <input
                       type="tel"
                       className={`w-full px-2 py-1.5 bg-white border rounded text-xs font-bold outline-none focus:border-brand-primary ${
@@ -2438,9 +2402,7 @@ const PatientRegistration: React.FC = () => {
                     />
                   </div>
                   <div className="space-y-0.5">
-                    <label className="text-[10px] font-bold text-slate-500 ml-0.5">
-                      Alt. phone
-                    </label>
+                    <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Alt. phone")}</label>
                     <input
                       type="tel"
                       className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded text-xs font-bold outline-none focus:border-brand-primary"
@@ -2454,14 +2416,12 @@ const PatientRegistration: React.FC = () => {
                   </div>
                   <div className="col-span-2 space-y-0.5">
                     <div className="flex items-center justify-between">
-                      <label className="text-[10px] font-bold text-slate-500 ml-0.5">Address</label>
+                      <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Address")}</label>
                       <button
                         type="button"
                         onClick={() => updateNextOfKin("nok_address", formData.pt_info.address)}
                         className="text-[8px] font-black text-indigo-500 uppercase hover:text-indigo-700 transition-colors"
-                      >
-                        Same as patient
-                      </button>
+                      >{i18n.t("Same as patient")}</button>
                     </div>
                     <input
                       type="text"
@@ -2485,9 +2445,7 @@ const PatientRegistration: React.FC = () => {
                   ? "border-b-4 border-rose-600 text-rose-700 bg-rose-50/50"
                   : "border-b-4 border-transparent text-slate-400 hover:text-slate-600 hover:bg-slate-50"
               }`}
-            >
-              Emergency & Clinical Data
-            </button>
+            >{i18n.t("Emergency & Clinical Data")}</button>
             <button
               type="button"
               onClick={() => setActiveBottomTab("consent")}
@@ -2496,9 +2454,7 @@ const PatientRegistration: React.FC = () => {
                   ? "border-b-4 border-rose-600 text-rose-700 bg-rose-50/50"
                   : "border-b-4 border-transparent text-slate-400 hover:text-slate-600 hover:bg-slate-50"
               }`}
-            >
-              Acquisition & NDPA Consents
-            </button>
+            >{i18n.t("Acquisition & NDPA Consents")}</button>
           </div>
 
           {/* ===================== ROW 2 ===================== */}
@@ -2510,12 +2466,11 @@ const PatientRegistration: React.FC = () => {
                 <div className="col-span-12 md:col-span-4 bg-[#FAFAFA] rounded-3xl p-6 border border-[#EEEDFE]">
                   <div className="flex items-center gap-2 mb-4">
                     <div className="w-1 h-5 bg-brand-primary rounded-full"></div>
-                    <h3 className="text-sm font-black text-slate-800">Emergency contact</h3>
+                    <h3 className="text-sm font-black text-slate-800">{i18n.t("Emergency contact")}</h3>
                   </div>
                   <div className="grid grid-cols-2 gap-2 mt-4">
                     <div className="col-span-2 space-y-0.5">
-                      <label className="text-[10px] font-bold text-slate-500 ml-0.5">
-                        Full name {!isEmergency && !isNewborn && '*'}
+                      <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Full name")}{" "}{!isEmergency && !isNewborn && '*'}
                       </label>
                       <input
                         type="text"
@@ -2527,9 +2482,7 @@ const PatientRegistration: React.FC = () => {
                       />
                     </div>
                     <div className="space-y-0.5">
-                      <label className="text-[10px] font-bold text-slate-500 ml-0.5">
-                        Relationship
-                      </label>
+                      <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Relationship")}</label>
                       <input
                         type="text"
                         className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded text-xs font-bold outline-none focus:border-brand-primary"
@@ -2538,7 +2491,7 @@ const PatientRegistration: React.FC = () => {
                       />
                     </div>
                     <div className="space-y-0.5">
-                      <label className="text-[10px] font-bold text-slate-500 ml-0.5">Phone {!isEmergency && !isNewborn && '*'}</label>
+                      <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Phone")}{" "}{!isEmergency && !isNewborn && '*'}</label>
                       <input
                         type="tel"
                         className={`w-full px-2 py-1.5 bg-white border rounded text-xs font-bold outline-none focus:border-brand-primary ${
@@ -2551,9 +2504,7 @@ const PatientRegistration: React.FC = () => {
                       />
                     </div>
                     <div className="space-y-0.5">
-                      <label className="text-[10px] font-bold text-slate-500 ml-0.5">
-                        Alt. phone
-                      </label>
+                      <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Alt. phone")}</label>
                       <input
                         type="tel"
                         className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded text-xs font-bold outline-none focus:border-brand-primary"
@@ -2566,7 +2517,7 @@ const PatientRegistration: React.FC = () => {
                       />
                     </div>
                     <div className="col-span-2 space-y-0.5">
-                      <label className="text-[10px] font-bold text-slate-500 ml-0.5">Address</label>
+                      <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Address")}</label>
                       <input
                         type="text"
                         className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded text-xs font-bold outline-none focus:border-brand-primary"
@@ -2581,12 +2532,11 @@ const PatientRegistration: React.FC = () => {
                 <div className="col-span-12 md:col-span-4 bg-[#FAFAFA] rounded-3xl p-6 border border-[#EEEDFE]">
                   <div className="flex items-center gap-2 mb-4">
                     <div className="w-1 h-5 bg-brand-primary rounded-full"></div>
-                    <h3 className="text-sm font-black text-slate-800">Payer information</h3>
+                    <h3 className="text-sm font-black text-slate-800">{i18n.t("Payer information")}</h3>
                   </div>
                   <div className="grid grid-cols-2 gap-2 mt-4">
                     <div className="space-y-0.5">
-                      <label className="text-[10px] font-bold text-slate-500 ml-0.5">
-                        Payer type {!isEmergency && !isNewborn && '*'}
+                      <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Payer type")}{" "}{!isEmergency && !isNewborn && '*'}
                       </label>
                       <select
                         className={`w-full px-2 py-1.5 bg-white border rounded text-xs font-black outline-none ${
@@ -2595,7 +2545,7 @@ const PatientRegistration: React.FC = () => {
                         value={formData.payer.payer_type || ""}
                         onChange={handlePayerTypeChange}
                       >
-                        <option value="">Select type</option>
+                        <option value="">{i18n.t("Select type")}</option>
                         {payerTypes.map((t) => (
                           <option key={t.id} value={t.code}>
                             {t.name}
@@ -2604,12 +2554,10 @@ const PatientRegistration: React.FC = () => {
                       </select>
                     </div>
                     <div className="space-y-0.5">
-                      <label className="text-[10px] font-bold text-slate-500 ml-0.5">
-                        Policy number
-                      </label>
+                      <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Policy number")}</label>
                       <input
                         type="text"
-                        placeholder="Optional"
+                        placeholder={i18n.t("Optional")}
                         className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded text-xs font-bold outline-none focus:border-brand-primary"
                         value={formData.payer.policy_number || ""}
                         onChange={(e) =>
@@ -2624,8 +2572,7 @@ const PatientRegistration: React.FC = () => {
                       />
                     </div>
                     <div className="col-span-2 space-y-0.5">
-                      <label className="text-[10px] font-bold text-slate-500 ml-0.5">
-                        Provider / payer {!isEmergency && !isNewborn && '*'}
+                      <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Provider / payer")}{" "}{!isEmergency && !isNewborn && '*'}
                       </label>
                       <select
                         disabled={!formData.payer.payer_type || loadingPayers}
@@ -2644,7 +2591,7 @@ const PatientRegistration: React.FC = () => {
                         }
                       >
                         <option value="">
-                          {loadingPayers ? "Loading..." : "Select provider"}
+                          {loadingPayers ? i18n.t("Loading...") : i18n.t("Select provider")}
                         </option>
                         {availablePayers.map((p) => (
                           <option key={p.id} value={p.id}>
@@ -2660,13 +2607,11 @@ const PatientRegistration: React.FC = () => {
                 <div className="col-span-12 md:col-span-4 bg-[#FAFAFA] rounded-3xl p-6 border border-[#EEEDFE]">
                   <div className="flex items-center gap-2 mb-4">
                     <div className="w-1 h-5 bg-brand-primary rounded-full"></div>
-                    <h3 className="text-sm font-black text-slate-800">Medical info</h3>
+                    <h3 className="text-sm font-black text-slate-800">{i18n.t("Medical info")}</h3>
                   </div>
                   <div className="grid grid-cols-2 gap-2 mt-4">
                     <div className="space-y-0.5">
-                      <label className="text-[10px] font-bold text-slate-500 ml-0.5">
-                        Blood group
-                      </label>
+                      <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Blood group")}</label>
                       <select
                         className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded text-xs font-bold outline-none"
                         value={formData.medical_profile.blood_group || ""}
@@ -2679,7 +2624,7 @@ const PatientRegistration: React.FC = () => {
                       </select>
                     </div>
                     <div className="space-y-0.5">
-                      <label className="text-[10px] font-bold text-slate-500 ml-0.5">Genotype</label>
+                      <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Genotype")}</label>
                       <select
                         className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded text-xs font-bold outline-none"
                         value={formData.medical_profile.genotype || ""}
@@ -2692,36 +2637,30 @@ const PatientRegistration: React.FC = () => {
                       </select>
                     </div>
                     <div className="col-span-2 space-y-0.5">
-                      <label className="text-[10px] font-bold text-slate-500 ml-0.5">
-                        Known allergies
-                      </label>
+                      <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Known allergies")}</label>
                       <input
                         type="text"
                         className="w-full px-2 py-1.5 bg-white border border-slate-200 focus:border-brand-primary rounded-lg text-xs"
-                        placeholder="None"
+                        placeholder={i18n.t("None")}
                         value={formData.medical_profile.known_allergies || ""}
                         onChange={(e) => updateMedical("known_allergies", e.target.value)}
                       />
                     </div>
                     <div className="col-span-2 space-y-0.5">
-                      <label className="text-[10px] font-bold text-slate-500 ml-0.5">
-                        Chronic conditions
-                      </label>
+                      <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Chronic conditions")}</label>
                       <input
                         type="text"
                         className="w-full px-2 py-1.5 bg-white border border-slate-200 focus:border-brand-primary rounded-lg text-xs"
-                        placeholder="None"
+                        placeholder={i18n.t("None")}
                         value={formData.medical_profile.chronic_conditions || ""}
                         onChange={(e) => updateMedical("chronic_conditions", e.target.value)}
                       />
                     </div>
                     <div className="col-span-2 space-y-0.5">
-                      <label className="text-[10px] font-bold text-slate-500 ml-0.5">
-                        Special alerts
-                      </label>
+                      <label className="text-[10px] font-bold text-slate-500 ms-0.5">{i18n.t("Special alerts")}</label>
                       <textarea
                         className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold outline-none focus:border-brand-primary h-10 resize-none"
-                        placeholder="None"
+                        placeholder={i18n.t("None")}
                         value={formData.medical_profile.special_alerts || ""}
                         onChange={(e) => updateMedical("special_alerts", e.target.value)}
                       />
@@ -2741,18 +2680,14 @@ const PatientRegistration: React.FC = () => {
                       <Target size={20} />
                     </div>
                     <div>
-                      <h3 className="text-sm font-black text-slate-800">Acquisition Tracking</h3>
-                      <p className="text-[10px] text-slate-500 mt-0.5">
-                        Record hospital discovery channel.
-                      </p>
+                      <h3 className="text-sm font-black text-slate-800">{i18n.t("Acquisition Tracking")}</h3>
+                      <p className="text-[10px] text-slate-500 mt-0.5">{i18n.t("Record hospital discovery channel.")}</p>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 gap-y-4">
                     <div>
-                      <label className="text-[10px] font-bold text-slate-600">
-                        Referral Channel *
-                      </label>
+                      <label className="text-[10px] font-bold text-slate-600">{i18n.t("Referral Channel *")}</label>
                       <select
                         className="w-full mt-1 px-3 py-2.5 bg-white border border-amber-200 rounded-xl text-xs font-bold outline-none"
                         value={formData.referral.referral_source_id}
@@ -2770,12 +2705,10 @@ const PatientRegistration: React.FC = () => {
 
                     {activeReferralCode === "DOCTOR_REFERRAL" && (
                       <div>
-                        <label className="text-[10px] font-bold text-slate-600">
-                          Referring Physician Name
-                        </label>
+                        <label className="text-[10px] font-bold text-slate-600">{i18n.t("Referring Physician Name")}</label>
                         <input
                           type="text"
-                          placeholder="Dr. Full Name"
+                          placeholder={i18n.t("Dr. Full Name")}
                           className="w-full mt-1 px-3 py-2.5 bg-white border border-amber-200 rounded-xl text-xs font-semibold"
                           value={formData.referral.referring_doctor_name}
                           onChange={(e) => updateReferral("referring_doctor_name", e.target.value)}
@@ -2786,12 +2719,10 @@ const PatientRegistration: React.FC = () => {
                     {(activeReferralCode === "HOSPITAL_FACILITY" ||
                       activeReferralCode === "DOCTOR_REFERRAL") && (
                       <div>
-                        <label className="text-[10px] font-bold text-slate-600">
-                          Referring Facility / Hospital
-                        </label>
+                        <label className="text-[10px] font-bold text-slate-600">{i18n.t("Referring Facility / Hospital")}</label>
                         <input
                           type="text"
-                          placeholder="Clinic / Center Name"
+                          placeholder={i18n.t("Clinic / Center Name")}
                           className="w-full mt-1 px-3 py-2.5 bg-white border border-amber-200 rounded-xl text-xs font-semibold"
                           value={formData.referral.referring_facility_name}
                           onChange={(e) =>
@@ -2803,12 +2734,10 @@ const PatientRegistration: React.FC = () => {
 
                     {activeReferralCode === "FAMILY_FRIEND" && (
                       <div>
-                        <label className="text-[10px] font-bold text-slate-600">
-                          Referred by (Name / MRN)
-                        </label>
+                        <label className="text-[10px] font-bold text-slate-600">{i18n.t("Referred by (Name / MRN)")}</label>
                         <input
                           type="text"
-                          placeholder="Name or Patient MRN"
+                          placeholder={i18n.t("Name or Patient MRN")}
                           className="w-full mt-1 px-3 py-2.5 bg-white border border-amber-200 rounded-xl text-xs font-semibold"
                           value={formData.referral.referred_by_name}
                           onChange={(e) => updateReferral("referred_by_name", e.target.value)}
@@ -2818,12 +2747,10 @@ const PatientRegistration: React.FC = () => {
 
                     {activeReferralCode === "SOCIAL_MEDIA" && (
                       <div>
-                        <label className="text-[10px] font-bold text-slate-600">
-                          Platform / Channel
-                        </label>
+                        <label className="text-[10px] font-bold text-slate-600">{i18n.t("Platform / Channel")}</label>
                         <input
                           type="text"
-                          placeholder="E.g. Instagram, Facebook, LinkedIn"
+                          placeholder={i18n.t("E.g. Instagram, Facebook, LinkedIn")}
                           className="w-full mt-1 px-3 py-2.5 bg-white border border-amber-200 rounded-xl text-xs font-semibold"
                           value={formData.referral.referral_channel_detail}
                           onChange={(e) =>
@@ -2834,24 +2761,20 @@ const PatientRegistration: React.FC = () => {
                     )}
 
                     <div>
-                      <label className="text-[10px] font-bold text-slate-600">
-                        Campaign / Promo Code
-                      </label>
+                      <label className="text-[10px] font-bold text-slate-600">{i18n.t("Campaign / Promo Code")}</label>
                       <input
                         type="text"
-                        placeholder="Optional Code"
+                        placeholder={i18n.t("Optional Code")}
                         className="w-full mt-1 px-3 py-2.5 bg-white border border-amber-200 rounded-xl text-xs font-semibold"
                         value={formData.referral.campaign_code}
                         onChange={(e) => updateReferral("campaign_code", e.target.value)}
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-bold text-slate-600">
-                        Attribution Notes
-                      </label>
+                      <label className="text-[10px] font-bold text-slate-600">{i18n.t("Attribution Notes")}</label>
                       <input
                         type="text"
-                        placeholder="Additional context"
+                        placeholder={i18n.t("Additional context")}
                         className="w-full mt-1 px-3 py-2.5 bg-white border border-amber-200 rounded-xl text-xs font-semibold"
                         value={formData.referral.notes}
                         onChange={(e) => updateReferral("notes", e.target.value)}
@@ -2869,17 +2792,11 @@ const PatientRegistration: React.FC = () => {
                         <ShieldCheck size={22} />
                       </div>
                       <div>
-                        <h3 className="text-sm font-black text-slate-800">
-                          Information Sharing Consent Form
-                        </h3>
-                        <p className="text-[10px] text-slate-500 mt-0.5">
-                          Governed under NDPA. Patients may revoke preferences in writing.
-                        </p>
+                        <h3 className="text-sm font-black text-slate-800">{i18n.t("Information Sharing Consent Form")}</h3>
+                        <p className="text-[10px] text-slate-500 mt-0.5">{i18n.t("Governed under NDPA. Patients may revoke preferences in writing.")}</p>
                       </div>
                     </div>
-                    <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full border border-emerald-200 shrink-0">
-                      NDPA 2023 Standard
-                    </span>
+                    <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full border border-emerald-200 shrink-0">{i18n.t("NDPA 2023 Standard")}</span>
                   </div>
 
                   <div className="grid grid-cols-12 gap-5 mb-5">
@@ -2887,9 +2804,7 @@ const PatientRegistration: React.FC = () => {
                     <div className="col-span-12 lg:col-span-5 flex flex-col gap-4">
                       {/* Section B */}
                       <div className="bg-white p-4 rounded-2xl border border-slate-200 flex-1">
-                        <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-3">
-                          Your Disclosure Preference
-                        </h4>
+                        <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-3">{i18n.t("Your Disclosure Preference")}</h4>
                         <div className="space-y-2.5">
                           {[
                             {
@@ -2928,7 +2843,7 @@ const PatientRegistration: React.FC = () => {
                                 onChange={() => toggleConsentPref(item.key)}
                               />
                               <span className="text-[11px] font-semibold text-slate-600 group-hover:text-brand-primary transition-colors leading-snug">
-                                {item.label}
+                                {i18n.tx(item.label)}
                               </span>
                             </label>
                           ))}
@@ -2937,9 +2852,7 @@ const PatientRegistration: React.FC = () => {
 
                       {/* Section D */}
                       <div className="bg-white p-4 rounded-2xl border border-slate-200">
-                        <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-3">
-                          Information That May Be Shared
-                        </h4>
+                        <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-3">{i18n.t("Information That May Be Shared")}</h4>
                         <div className="grid grid-cols-2 gap-y-3 gap-x-2">
                           {[
                             { key: "info_diagnosis", label: "Diagnosis" },
@@ -2969,7 +2882,7 @@ const PatientRegistration: React.FC = () => {
                                     : "text-slate-600"
                                 }`}
                               >
-                                {info.label}
+                                {i18n.tx(info.label)}
                               </span>
                             </label>
                           ))}
@@ -2981,8 +2894,7 @@ const PatientRegistration: React.FC = () => {
                     <div className="col-span-12 lg:col-span-7 bg-white p-5 rounded-2xl border border-slate-200 flex flex-col">
                       <div className="flex items-center justify-between mb-4">
                         <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400 flex items-center gap-2">
-                          <Users size={14} /> Authorised Persons (Up to 3 Individuals)
-                        </h4>
+                          <Users size={14} />{" "}{i18n.t("Authorised Persons (Up to 3 Individuals)")}</h4>
                       </div>
                       <div className="space-y-4 flex-1">
                         {formData.authorized_persons.map((person, idx) => (
@@ -2990,14 +2902,13 @@ const PatientRegistration: React.FC = () => {
                             key={idx}
                             className="p-3.5 bg-slate-50/80 rounded-xl border border-slate-200"
                           >
-                            <p className="text-[11px] font-black text-brand-primary mb-2.5">
-                              Authorised Person {idx + 1}
+                            <p className="text-[11px] font-black text-brand-primary mb-2.5">{i18n.t("Authorised Person")}{" "}{idx + 1}
                             </p>
                             <div className="grid grid-cols-12 gap-3">
                               <div className="col-span-12">
                                 <input
                                   type="text"
-                                  placeholder="Full Legal Name"
+                                  placeholder={i18n.t("Full Legal Name")}
                                   className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-semibold focus:border-brand-primary outline-none"
                                   value={person.full_name}
                                   onChange={(e) =>
@@ -3008,7 +2919,7 @@ const PatientRegistration: React.FC = () => {
                               <div className="col-span-6">
                                 <input
                                   type="text"
-                                  placeholder="Relationship (e.g. Spouse)"
+                                  placeholder={i18n.t("Relationship (e.g. Spouse)")}
                                   className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-semibold focus:border-brand-primary outline-none"
                                   value={person.relationship}
                                   onChange={(e) =>
@@ -3019,7 +2930,7 @@ const PatientRegistration: React.FC = () => {
                               <div className="col-span-6">
                                 <input
                                   type="tel"
-                                  placeholder="Phone Number"
+                                  placeholder={i18n.t("Phone Number")}
                                   className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-semibold focus:border-brand-primary outline-none"
                                   value={person.phone}
                                   onChange={(e) =>
@@ -3039,21 +2950,15 @@ const PatientRegistration: React.FC = () => {
                   {/* Section E: Patient Declaration & Signature Block */}
                   <div className="bg-emerald-50/50 p-5 rounded-2xl border border-emerald-100 flex flex-col xl:flex-row items-center justify-between gap-6">
                     <div className="space-y-1.5 flex-1">
-                      <p className="text-xs font-black text-slate-800">E · Patient Declaration</p>
-                      <p className="text-[10px] text-slate-600 leading-relaxed max-w-lg">
-                        "I confirm the preferences recorded above reflect my wishes. I understand
-                        that I may withdraw or change this consent at any time by notifying
-                        Medbookie in writing."
-                      </p>
+                      <p className="text-xs font-black text-slate-800">{i18n.t("E · Patient Declaration")}</p>
+                      <p className="text-[10px] text-slate-600 leading-relaxed max-w-lg">{i18n.t("\"I confirm the preferences recorded above reflect my wishes. I understand that I may withdraw or change this consent at any time by notifying Medbookie in writing.\"")}</p>
                     </div>
 
                     {/* Signature Pad Integrations */}
                     <div className="flex flex-wrap gap-4 shrink-0">
                       {/* Patient Signature */}
                       <div className="flex flex-col gap-1 w-32 h-20 relative">
-                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">
-                          Patient Signature
-                        </span>
+                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">{i18n.t("Patient Signature")}</span>
                         <SignaturePad
                           className="bg-white border-2 border-emerald-200/60 rounded-xl overflow-hidden shadow-sm"
                           initialDataUrl={formData.disclosure_consent.patient_signature_data}
@@ -3082,9 +2987,7 @@ const PatientRegistration: React.FC = () => {
 
                       {/* Staff/Witness Signature */}
                       <div className="flex flex-col gap-1 w-32 h-20 relative">
-                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">
-                          Witness Signature
-                        </span>
+                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">{i18n.t("Witness Signature")}</span>
                         <SignaturePad
                           className="bg-white border-2 border-emerald-200/60 rounded-xl overflow-hidden shadow-sm"
                           initialDataUrl={formData.disclosure_consent.witness_signature_data}

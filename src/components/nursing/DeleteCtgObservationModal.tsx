@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { X, Trash2, Loader2, AlertTriangle } from "lucide-react";
 import { nursingService } from "../../services/nursingService";
 import { useNotification } from "../../context/NotificationContext";
+import { i18n } from "../../i18n";
 
 interface DeleteCtgObservationModalProps {
   observationId: number;
@@ -48,12 +49,8 @@ const DeleteCtgObservationModal: React.FC<DeleteCtgObservationModalProps> = ({
               <AlertTriangle className="w-6 h-6 text-rose-600" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-slate-800">
-                Delete CTG Observation?
-              </h2>
-              <p className="text-sm text-slate-500 mt-1">
-                Are you sure you want to delete this CTG observation? This action cannot be undone.
-              </p>
+              <h2 className="text-xl font-bold text-slate-800">{i18n.t("Delete CTG Observation?")}</h2>
+              <p className="text-sm text-slate-500 mt-1">{i18n.t("Are you sure you want to delete this CTG observation? This action cannot be undone.")}</p>
             </div>
           </div>
         </div>
@@ -63,9 +60,7 @@ const DeleteCtgObservationModal: React.FC<DeleteCtgObservationModalProps> = ({
             onClick={onClose}
             disabled={loading}
             className="px-4 py-2 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors"
-          >
-            Cancel
-          </button>
+          >{i18n.t("Cancel")}</button>
           <button
             onClick={handleDelete}
             disabled={loading}
@@ -75,9 +70,7 @@ const DeleteCtgObservationModal: React.FC<DeleteCtgObservationModalProps> = ({
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
               <Trash2 className="w-4 h-4" />
-            )}
-            Delete Observation
-          </button>
+            )}{i18n.t("Delete Observation")}</button>
         </div>
       </div>
     </div>

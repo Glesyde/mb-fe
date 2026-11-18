@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { inventoryService, formatDepartmentLabel } from '../services/inventory.service';
 import { useNotification } from '../context/NotificationContext';
+import { i18n } from "../i18n";
 
 interface MovementRecord {
   id: number;
@@ -126,12 +127,10 @@ const DepartmentInventory: React.FC<DepartmentInventoryProps> = ({ location, isG
             </div>
             <div>
               <h1 className="text-lg md:text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-                {isGlobal ? "Master Stock Ledger" : `${formatDepartmentLabel(activeFilter)} Inventory`}
+                {isGlobal ? i18n.t("Master Stock Ledger") : `${formatDepartmentLabel(activeFilter)} Inventory`}
               </h1>
               <p className="text-xs font-medium text-slate-500 flex items-center gap-1.5 mt-0.5">
-                <History size={13} className="text-indigo-500 shrink-0" /> 
-                Real-time tracking of stock movements and  supplies.
-              </p>
+                <History size={13} className="text-indigo-500 shrink-0" />{i18n.t("Real-time tracking of stock movements and supplies.")}</p>
             </div>
           </div>
 
@@ -161,7 +160,7 @@ const DepartmentInventory: React.FC<DepartmentInventoryProps> = ({ location, isG
                 onChange={(e) => setActiveFilter(e.target.value)}
                 className="px-3.5 py-1.5 rounded-xl font-semibold text-xs bg-slate-50 border border-slate-200 text-slate-700 shadow-2xs hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all cursor-pointer"
               >
-                <option value="ALL">All Departments</option>
+                <option value="ALL">{i18n.t("All Departments")}</option>
                 {ALL_DEPARTMENTS.map((dept) => (
                   <option key={dept} value={dept}>
                     {formatDepartmentLabel(dept)}
@@ -172,7 +171,7 @@ const DepartmentInventory: React.FC<DepartmentInventoryProps> = ({ location, isG
 
             <button
               onClick={() => fetchMovements(activeFilter)}
-              title="Refresh ledger"
+              title={i18n.t("Refresh ledger")}
               disabled={loading}
               className="p-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50/60 hover:border-indigo-200 transition-all active:scale-95 disabled:opacity-50"
             >
@@ -187,10 +186,10 @@ const DepartmentInventory: React.FC<DepartmentInventoryProps> = ({ location, isG
           {/* Metric IN */}
           <div className="lg:col-span-3 bg-slate-50/70 hover:bg-slate-50 p-3 px-4 rounded-xl border border-slate-200/70 flex items-center justify-between transition-colors">
             <div>
-              <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">IN</p>
+              <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">{i18n.t("IN")}</p>
               <p className="text-lg font-extrabold text-emerald-600 tabular-nums">
                 {receivedCount.toLocaleString()}{' '}
-                <span className="text-xs font-semibold text-slate-400">units</span>
+                <span className="text-xs font-semibold text-slate-400">{i18n.t("units")}</span>
               </p>
             </div>
             <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg border border-emerald-100/80">
@@ -201,10 +200,10 @@ const DepartmentInventory: React.FC<DepartmentInventoryProps> = ({ location, isG
           {/* Metric OUT */}
           <div className="lg:col-span-3 bg-slate-50/70 hover:bg-slate-50 p-3 px-4 rounded-xl border border-slate-200/70 flex items-center justify-between transition-colors">
             <div>
-              <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">OUT</p>
+              <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">{i18n.t("OUT")}</p>
               <p className="text-lg font-extrabold text-rose-600 tabular-nums">
                 {issuedCount.toLocaleString()}{' '}
-                <span className="text-xs font-semibold text-slate-400">units</span>
+                <span className="text-xs font-semibold text-slate-400">{i18n.t("units")}</span>
               </p>
             </div>
             <div className="p-2 bg-rose-50 text-rose-600 rounded-xl border border-rose-100/80">
@@ -215,21 +214,21 @@ const DepartmentInventory: React.FC<DepartmentInventoryProps> = ({ location, isG
           {/* Search Input */}
           <div className="sm:col-span-2 lg:col-span-6 relative">
             <Search
-              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 transition-colors pointer-events-none"
+              className="absolute start-3.5 top-1/2 -translate-y-1/2 text-slate-400 transition-colors pointer-events-none"
               size={18}
             />
             <input
               type="text"
-              placeholder="Search by item name, UHID, batch, or destination..."
-              className="w-full pl-10 pr-10 py-2.5 bg-slate-50/60 hover:bg-slate-50 focus:bg-white border border-slate-200 rounded-xl outline-none focus:ring-3 focus:ring-indigo-500/15 focus:border-indigo-500 transition-all text-xs font-medium text-slate-800 placeholder:text-slate-400 shadow-2xs"
+              placeholder={i18n.t("Search by item name, UHID, batch, or destination...")}
+              className="w-full ps-10 pe-10 py-2.5 bg-slate-50/60 hover:bg-slate-50 focus:bg-white border border-slate-200 rounded-xl outline-none focus:ring-3 focus:ring-indigo-500/15 focus:border-indigo-500 transition-all text-xs font-medium text-slate-800 placeholder:text-slate-400 shadow-2xs"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
             {searchTerm && (
               <button
                 onClick={() => setSearchTerm('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 text-slate-400 hover:text-slate-600 rounded-md transition-colors"
-                title="Clear search"
+                className="absolute end-3 top-1/2 -translate-y-1/2 p-0.5 text-slate-400 hover:text-slate-600 rounded-md transition-colors"
+                title={i18n.t("Clear search")}
               >
                 <X size={15} />
               </button>
@@ -241,15 +240,15 @@ const DepartmentInventory: React.FC<DepartmentInventoryProps> = ({ location, isG
       {/* ================= TABLE AREA WITH STICKY THEAD ================= */}
       {/* Container allows horizontal scrolling on mobile while retaining vertical sticky thead */}
       <div className="flex-1 overflow-x-auto relative ">
-        <table className="w-full text-left border-collapse min-w-[760px]">
+        <table className="w-full text-start border-collapse min-w-[760px]">
           <thead>
             {/* Sticky table column headers anchored below header */}
             <tr className="sticky z-20 bg-slate-50/95 backdrop-blur-sm border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-              <th className="px-6 py-3.5">Date & Time</th>
-              <th className="px-6 py-3.5">Type</th>
-              <th className="px-6 py-3.5">Item Definition</th>
-              <th className="px-6 py-3.5">Batch & Quantity</th>
-              <th className="px-6 py-3.5 text-right">Route (Src → Dest)</th>
+              <th className="px-6 py-3.5">{i18n.t("Date & Time")}</th>
+              <th className="px-6 py-3.5">{i18n.t("Type")}</th>
+              <th className="px-6 py-3.5">{i18n.t("Item Definition")}</th>
+              <th className="px-6 py-3.5">{i18n.t("Batch & Quantity")}</th>
+              <th className="px-6 py-3.5 text-end">{i18n.t("Route (Src → Dest)")}</th>
             </tr>
           </thead>
 
@@ -258,9 +257,7 @@ const DepartmentInventory: React.FC<DepartmentInventoryProps> = ({ location, isG
               <tr>
                 <td colSpan={5} className="py-24 text-center">
                   <Loader2 size={36} className="animate-spin mx-auto text-indigo-600 mb-3" />
-                  <p className="text-xs font-semibold text-slate-500 tracking-wide uppercase">
-                    Compiling Movement Ledger...
-                  </p>
+                  <p className="text-xs font-semibold text-slate-500 tracking-wide uppercase">{i18n.t("Compiling Movement Ledger...")}</p>
                 </td>
               </tr>
             ) : paginatedMovements.length > 0 ? (
@@ -311,8 +308,7 @@ const DepartmentInventory: React.FC<DepartmentInventoryProps> = ({ location, isG
                       <p className="text-xs font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">
                         {move.item_name || `Item #${move.item_id}`}
                       </p>
-                      <p className="text-[11px] font-medium text-slate-400 font-mono">
-                        UHID: <span className="text-slate-600 font-semibold">{move.items_uhid || '—'}</span>
+                      <p className="text-[11px] font-medium text-slate-400 font-mono">{i18n.t("UHID:")}{" "}<span className="text-slate-600 font-semibold">{move.items_uhid || '—'}</span>
                       </p>
                     </td>
 
@@ -325,21 +321,21 @@ const DepartmentInventory: React.FC<DepartmentInventoryProps> = ({ location, isG
                         <span className="text-sm font-extrabold text-slate-800 tabular-nums">
                           {parseFloat(move.quantity).toLocaleString()}{' '}
                           <span className="text-xs font-normal text-slate-400">
-                            {move.unit || 'units'}
+                            {move.unit || i18n.t("units")}
                           </span>
                         </span>
                       </div>
                     </td>
 
                     {/* Route Details */}
-                    <td className="px-6 py-4 text-right whitespace-nowrap">
+                    <td className="px-6 py-4 text-end whitespace-nowrap">
                       <div className="inline-flex items-center gap-2 text-xs font-medium">
                         <span className="px-2.5 py-1 bg-slate-100/80 text-slate-600 rounded-md border border-slate-200/70 text-[11px]">
-                          {move.source_location || 'Stock Central'}
+                          {move.source_location || i18n.t("Stock Central")}
                         </span>
-                        <ArrowRight size={13} className="text-slate-400" />
+                        <ArrowRight size={13} className="text-slate-400 rtl:-scale-x-100" />
                         <span className="px-2.5 py-1 bg-indigo-50/80 text-indigo-700 font-semibold rounded-md border border-indigo-100 text-[11px]">
-                          {move.destination_location || 'Department'}
+                          {move.destination_location || i18n.t("Department")}
                         </span>
                       </div>
                     </td>
@@ -352,10 +348,8 @@ const DepartmentInventory: React.FC<DepartmentInventoryProps> = ({ location, isG
                   <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-400">
                     <Package size={24} />
                   </div>
-                  <p className="text-sm font-bold text-slate-700">No stock movements found</p>
-                  <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto">
-                    Try clearing your search query or selecting a different department filter above.
-                  </p>
+                  <p className="text-sm font-bold text-slate-700">{i18n.t("No stock movements found")}</p>
+                  <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto">{i18n.t("Try clearing your search query or selecting a different department filter above.")}</p>
                 </td>
               </tr>
             )}
@@ -366,8 +360,7 @@ const DepartmentInventory: React.FC<DepartmentInventoryProps> = ({ location, isG
       {/* ================= PAGINATION CONTROLS ================= */}
       {totalPages > 1 && (
         <footer className="sticky bottom-0 z-20 px-6 py-3.5 bg-white/95 backdrop-blur-md border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-          <p className="text-slate-500 font-medium">
-            Page <span className="font-bold text-slate-800">{currentPage}</span> of{' '}
+          <p className="text-slate-500 font-medium">{i18n.t("Page")}{" "}<span className="font-bold text-slate-800">{currentPage}</span>{" "}{i18n.t("of")}{' '}
             <span className="font-bold text-slate-800">{totalPages}</span>
           </p>
 
@@ -376,16 +369,12 @@ const DepartmentInventory: React.FC<DepartmentInventoryProps> = ({ location, isG
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1 || loading}
               className="px-3.5 py-1.5 bg-white border border-slate-200 text-slate-700 font-semibold rounded-lg hover:bg-slate-50 active:bg-slate-100 transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-2xs"
-            >
-              Previous
-            </button>
+            >{i18n.t("Previous")}</button>
             <button
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages || loading}
               className="px-3.5 py-1.5 bg-white border border-slate-200 text-slate-700 font-semibold rounded-lg hover:bg-slate-50 active:bg-slate-100 transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-2xs"
-            >
-              Next
-            </button>
+            >{i18n.t("Next")}</button>
           </div>
         </footer>
       )}

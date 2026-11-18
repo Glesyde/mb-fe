@@ -20,6 +20,7 @@ import {
   // Added missing ChevronRight import
   ChevronRight
 } from 'lucide-react';
+import { i18n } from "../i18n";
 
 interface DraftInvoice {
   id: string;
@@ -60,21 +61,18 @@ const InvoiceGeneration: React.FC = () => {
           <h1 className="text-3xl font-black text-slate-800 tracking-tight flex items-center gap-3">
              <div className="p-2 bg-brand-active text-brand-primary rounded-xl">
               <FileText size={28} />
-            </div>
-            Draft & Unfinalized Invoices
-          </h1>
-          <p className="text-slate-500 font-medium">Resume saved billing sessions or batch process corporate invoices.</p>
+            </div>{i18n.t("Draft & Unfinalized Invoices")}</h1>
+          <p className="text-slate-500 font-medium">{i18n.t("Resume saved billing sessions or batch process corporate invoices.")}</p>
         </div>
         <div className="flex items-center gap-3">
           <button className="px-6 py-3 bg-white border border-slate-200 rounded-2xl font-bold text-slate-600 hover:bg-slate-50 transition-all flex items-center gap-2 shadow-sm">
-             <Layers size={20} /> Batch Corporate Claim
-          </button>
+             <Layers size={20} />{" "}{i18n.t("Batch Corporate Claim")}</button>
           <button 
             disabled={selectedDrafts.length === 0}
             onClick={handleBatchAction}
             className="px-6 py-3 bg-brand-primary text-white rounded-2xl font-bold hover:bg-brand-primary transition-all shadow-lg shadow-brand-active disabled:opacity-30 disabled:shadow-none flex items-center gap-2"
           >
-            <CheckCircle2 size={20} /> Finalize Selected ({selectedDrafts.length})
+            <CheckCircle2 size={20} />{" "}{i18n.t("Finalize Selected (")}{selectedDrafts.length})
           </button>
         </div>
       </div>
@@ -82,17 +80,16 @@ const InvoiceGeneration: React.FC = () => {
       {/* Control Bar */}
       <div className="bg-white p-4 rounded-3xl border border-slate-200 flex flex-col md:flex-row gap-4 items-center shadow-sm">
         <div className="relative flex-1 w-full">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
+          <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
           <input 
             type="text" 
-            placeholder="Search drafts by patient or reference..."
-            className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:bg-white focus:ring-4 focus:ring-brand-active0/10 outline-none transition-all font-bold"
+            placeholder={i18n.t("Search drafts by patient or reference...")}
+            className="w-full ps-11 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:bg-white focus:ring-4 focus:ring-brand-active0/10 outline-none transition-all font-bold"
           />
         </div>
         <div className="flex items-center gap-2">
            <button className="flex items-center gap-2 px-4 py-3 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50">
-            <Filter size={16} /> All Types
-          </button>
+            <Filter size={16} />{" "}{i18n.t("All Types")}</button>
           <div className="h-8 w-px bg-slate-200 mx-1" />
           <div className="bg-slate-50 p-1 rounded-xl flex items-center gap-1 border border-slate-200">
              <button onClick={() => setViewMode('grid')} className={`p-2 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-white text-brand-primary shadow-sm' : 'text-slate-400'}`}><LayoutGrid size={18}/></button>
@@ -114,7 +111,7 @@ const InvoiceGeneration: React.FC = () => {
                 `}
               >
                 {selectedDrafts.includes(draft.id) && (
-                   <div className="absolute top-4 right-4 bg-brand-primary text-white p-1 rounded-lg animate-in zoom-in-50"><CheckCircle2 size={16}/></div>
+                   <div className="absolute top-4 end-4 bg-brand-primary text-white p-1 rounded-lg animate-in zoom-in-50"><CheckCircle2 size={16}/></div>
                 )}
                 <div className="space-y-4">
                   <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-white shadow-lg
@@ -124,15 +121,15 @@ const InvoiceGeneration: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-sm font-black text-slate-800 truncate">{draft.patient}</h3>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">{draft.type} • {draft.itemsCount} Items</p>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">{draft.type} • {draft.itemsCount}{" "}{i18n.t("Items")}</p>
                   </div>
                 </div>
                 <div className="mt-auto pt-6 border-t border-slate-50">
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Draft Amount</p>
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{i18n.t("Draft Amount")}</p>
                   <p className="text-xl font-black text-slate-900">₦{draft.total.toLocaleString()}</p>
                   <div className="flex items-center justify-between mt-4">
                      <span className="text-[9px] font-bold text-slate-400 flex items-center gap-1"><Clock size={12}/> {draft.lastEdited}</span>
-                     <button className="text-[10px] font-black text-brand-primary flex items-center gap-1 hover:underline">Resume <ArrowRight size={14}/></button>
+                     <button className="text-[10px] font-black text-brand-primary flex items-center gap-1 hover:underline">{i18n.t("Resume")}{" "}<ArrowRight className="rtl:-scale-x-100" size={14}/></button>
                   </div>
                 </div>
               </div>
@@ -162,17 +159,17 @@ const InvoiceGeneration: React.FC = () => {
                 </div>
                 
                 <div className="flex items-center gap-12">
-                   <div className="hidden lg:block text-right">
-                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Items</p>
+                   <div className="hidden lg:block text-end">
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Items")}</p>
                       <p className="text-sm font-black text-slate-700">{draft.itemsCount}</p>
                    </div>
-                   <div className="text-right w-24">
-                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total</p>
+                   <div className="text-end w-24">
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Total")}</p>
                       <p className="text-sm font-black text-slate-900">₦{draft.total.toLocaleString()}</p>
                    </div>
                    <div className="flex items-center gap-2">
-                      <button className="p-2 text-slate-300 hover:text-brand-primary hover:bg-brand-active rounded-xl transition-all" title="Resume Billing"><ArrowRight size={18}/></button>
-                      <button className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all" title="Discard Draft"><Trash2 size={18}/></button>
+                      <button className="p-2 text-slate-300 hover:text-brand-primary hover:bg-brand-active rounded-xl transition-all" title={i18n.t("Resume Billing")}><ArrowRight className="rtl:-scale-x-100" size={18}/></button>
+                      <button className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all" title={i18n.t("Discard Draft")}><Trash2 size={18}/></button>
                    </div>
                 </div>
               </div>
@@ -184,8 +181,8 @@ const InvoiceGeneration: React.FC = () => {
            <div className="w-20 h-20 bg-slate-50 text-slate-300 rounded-[32px] flex items-center justify-center mx-auto mb-6">
               <FileText size={40} />
            </div>
-           <h3 className="text-xl font-black text-slate-800">Draft Folder Empty</h3>
-           <p className="text-slate-500 max-w-xs mx-auto mt-2">Any billing session you save as draft will appear here for later finalization.</p>
+           <h3 className="text-xl font-black text-slate-800">{i18n.t("Draft Folder Empty")}</h3>
+           <p className="text-slate-500 max-w-xs mx-auto mt-2">{i18n.t("Any billing session you save as draft will appear here for later finalization.")}</p>
         </div>
       )}
 
@@ -196,12 +193,11 @@ const InvoiceGeneration: React.FC = () => {
                <Activity size={32} />
             </div>
             <div>
-               <h4 className="text-xl font-bold tracking-tight">Corporate Billing Efficiency</h4>
-               <p className="text-slate-400 text-sm mt-1">Batch processing allows you to combine multiple drafts into a single consolidated invoice for HMO submissions.</p>
+               <h4 className="text-xl font-bold tracking-tight">{i18n.t("Corporate Billing Efficiency")}</h4>
+               <p className="text-slate-400 text-sm mt-1">{i18n.t("Batch processing allows you to combine multiple drafts into a single consolidated invoice for HMO submissions.")}</p>
             </div>
          </div>
-         <button className="hidden lg:flex items-center gap-2 text-sm font-black text-brand-primary hover:text-brand-primary uppercase tracking-widest">
-            Claims Dashboard <ChevronRight size={18} />
+         <button className="hidden lg:flex items-center gap-2 text-sm font-black text-brand-primary hover:text-brand-primary uppercase tracking-widest">{i18n.t("Claims Dashboard")}{" "}<ChevronRight className="rtl:-scale-x-100" size={18} />
          </button>
       </div>
     </div>

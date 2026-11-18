@@ -13,6 +13,7 @@ import {
   CheckCircle2,
   Trash2
 } from 'lucide-react';
+import { i18n } from "../i18n";
 
 interface LabTest {
   id: string;
@@ -44,22 +45,20 @@ const LabCatalog: React.FC = () => {
       {/* Search & Action Bar */}
       <div className="bg-white p-4 rounded-3xl border border-slate-200 flex flex-col md:flex-row gap-4 items-center shadow-sm">
         <div className="relative flex-1 w-full group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-purple-600 transition-colors" />
+          <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-purple-600 transition-colors" />
           <input 
             type="text" 
-            placeholder="Search test catalog by name or code..."
-            className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:bg-white focus:ring-4 focus:ring-purple-500/10 outline-none transition-all font-bold"
+            placeholder={i18n.t("Search test catalog by name or code...")}
+            className="w-full ps-12 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:bg-white focus:ring-4 focus:ring-purple-500/10 outline-none transition-all font-bold"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
         <div className="flex items-center gap-2">
           <button className="flex items-center gap-2 px-5 py-3 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 transition-all">
-            <Filter size={16} /> All Depts
-          </button>
+            <Filter size={16} />{" "}{i18n.t("All Depts")}</button>
           <button className="bg-slate-900 text-white px-6 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-slate-800 transition-all shadow-lg active:scale-95 text-xs uppercase tracking-widest">
-            <Plus size={18} /> Add New Test
-          </button>
+            <Plus size={18} />{" "}{i18n.t("Add New Test")}</button>
         </div>
       </div>
 
@@ -67,8 +66,8 @@ const LabCatalog: React.FC = () => {
       <div className="bg-white border border-slate-200 rounded-[40px] overflow-hidden shadow-sm">
         <div className="p-8 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
            <div>
-             <h3 className="text-xl font-black text-slate-800 tracking-tight">Diagnostic Master Registry</h3>
-             <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">Global Laboratory Price List & Standards</p>
+             <h3 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Diagnostic Master Registry")}</h3>
+             <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">{i18n.t("Global Laboratory Price List & Standards")}</p>
            </div>
            <button className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-purple-600 transition-all shadow-sm">
               <Settings2 size={18} />
@@ -76,15 +75,15 @@ const LabCatalog: React.FC = () => {
         </div>
         
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="w-full text-start">
             <thead>
               <tr className="bg-white border-b border-slate-100">
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Test Code</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Investigation Name</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Department</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">TAT</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Standard Fee</th>
-                <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Action</th>
+                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Test Code")}</th>
+                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Investigation Name")}</th>
+                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Department")}</th>
+                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">{i18n.t("TAT")}</th>
+                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-end">{i18n.t("Standard Fee")}</th>
+                <th className="px-8 py-5 text-end text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Action")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -109,10 +108,10 @@ const LabCatalog: React.FC = () => {
                       {test.tat}
                     </div>
                   </td>
-                  <td className="px-8 py-6 text-right">
+                  <td className="px-8 py-6 text-end">
                     <p className="text-sm font-black text-slate-900">₦{test.price.toLocaleString()}</p>
                   </td>
-                  <td className="px-8 py-6 text-right">
+                  <td className="px-8 py-6 text-end">
                     <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                       <button className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-brand-primary transition-all shadow-sm">
                         <Edit2 size={16} />
@@ -135,10 +134,8 @@ const LabCatalog: React.FC = () => {
             <CheckCircle2 size={24} />
          </div>
          <div>
-            <h4 className="text-lg font-black text-purple-900 tracking-tight">Sync Status</h4>
-            <p className="text-sm text-purple-700/80 leading-relaxed font-medium mt-1">
-              Test pricing and parameters are globally synced with Clinical Order Entry and Billing. Changes made here will reflect immediately across all hospital terminals.
-            </p>
+            <h4 className="text-lg font-black text-purple-900 tracking-tight">{i18n.t("Sync Status")}</h4>
+            <p className="text-sm text-purple-700/80 leading-relaxed font-medium mt-1">{i18n.t("Test pricing and parameters are globally synced with Clinical Order Entry and Billing. Changes made here will reflect immediately across all hospital terminals.")}</p>
          </div>
       </div>
     </div>

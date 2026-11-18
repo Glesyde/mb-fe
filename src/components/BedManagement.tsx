@@ -31,6 +31,7 @@ import { patientService } from "../services/patient.service";
 import { useNotification } from "../context/NotificationContext";
 import DischargeSummaryModal from "./DischargeSummaryModal";
 import SignaturePad from "./SignaturePad";
+import { i18n } from "../i18n";
 
 interface Ward {
   id: number;
@@ -785,11 +786,11 @@ const BedManagement: React.FC = () => {
       <div className="bg-white p-6 rounded-[40px] border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-4 w-full md:w-auto">
           <div className="relative flex-1 md:min-w-[400px] group">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-primary transition-colors" size={20} />
+            <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-primary transition-colors" size={20} />
             <input
               type="text"
-              placeholder="Search by Ward, Room, Bed or Patient Name..."
-              className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none transition-all shadow-inner"
+              placeholder={i18n.t("Search by Ward, Room, Bed or Patient Name...")}
+              className="w-full ps-12 pe-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:bg-white outline-none transition-all shadow-inner"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -806,19 +807,16 @@ const BedManagement: React.FC = () => {
               ${viewMode === 'single-scroll' ? 'bg-slate-900 text-white shadow-xl shadow-slate-200' : 'bg-white text-slate-400 hover:bg-slate-50 border border-slate-200'}
             `}
           >
-            <Activity size={16} /> Global View
-          </button>
+            <Activity size={16} />{" "}{i18n.t("Global View")}</button>
           <button
             onClick={() => setViewMode('hierarchy')}
             className={`px-6 py-3 rounded-2xl text-xs font-black uppercase transition-all flex items-center gap-2
               ${viewMode === 'hierarchy' ? 'bg-slate-900 text-white shadow-xl shadow-slate-200' : 'bg-white text-slate-400 hover:bg-slate-50 border border-slate-200'}
             `}
           >
-            <Map size={16} /> Hierarchy
-          </button>
+            <Map size={16} />{" "}{i18n.t("Hierarchy")}</button>
           <button onClick={() => setShowWardSetupModal(true)} className="bg-brand-primary text-white px-6 py-3 rounded-2xl font-black text-xs hover:bg-brand-primary transition-all flex items-center gap-2 shadow-xl shadow-brand-active">
-            <Plus size={18} /> New Ward
-          </button>
+            <Plus size={18} />{" "}{i18n.t("New Ward")}</button>
         </div>
       </div>
 
@@ -826,7 +824,7 @@ const BedManagement: React.FC = () => {
       {loadingFullData ? (
         <div className="flex flex-col items-center justify-center py-40 space-y-4">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-primary"></div>
-          <p className="text-sm font-bold text-slate-500 uppercase tracking-widest animate-pulse">Syncing Global Hospital Beds...</p>
+          <p className="text-sm font-bold text-slate-500 uppercase tracking-widest animate-pulse">{i18n.t("Syncing Global Hospital Beds...")}</p>
         </div>
       ) : viewMode === 'single-scroll' ? (
         <div className="space-y-12">
@@ -836,7 +834,7 @@ const BedManagement: React.FC = () => {
                 <div className="h-10 w-1.5 bg-brand-primary rounded-full"></div>
                 <div>
                   <h2 className="text-2xl font-black text-slate-800 tracking-tight">{ward.name}</h2>
-                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{ward.department} • {ward.rooms.length} Rooms</p>
+                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{ward.department} • {ward.rooms.length}{" "}{i18n.t("Rooms")}</p>
                 </div>
               </div>
 
@@ -847,11 +845,10 @@ const BedManagement: React.FC = () => {
                       <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-emerald-600">
                         <DoorOpen size={20} />
                       </div>
-                      <h3 className="text-lg font-black text-slate-800">Room {room.room_number}</h3>
+                      <h3 className="text-lg font-black text-slate-800">{i18n.t("Room")}{" "}{room.room_number}</h3>
                     </div>
                     <span className="text-[10px] font-black px-3 py-1 bg-white text-slate-500 rounded-full border border-slate-100 uppercase tracking-widest">
-                      {room.beds.length} Beds
-                    </span>
+                      {room.beds.length}{" "}{i18n.t("Beds")}</span>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
@@ -894,11 +891,11 @@ const BedManagement: React.FC = () => {
                                 <div className="flex items-center gap-2 text-[10px] font-bold text-slate-500">
                                   <span>{bed.patient.age} / {bed.patient.sex?.charAt(0)}</span>
                                   <span>•</span>
-                                  <span className="truncate">Dr. {bed.patient.doctor_name.split(' ').pop()}</span>
+                                  <span className="truncate">{i18n.t("Dr.")}{" "}{bed.patient.doctor_name.split(' ').pop()}</span>
                                 </div>
                                 <div className="flex items-center justify-between text-[9px] font-black uppercase tracking-wider text-slate-400 pt-1 border-t border-slate-50">
                                   <span>{new Date(bed.patient.admission_date).toLocaleDateString()}</span>
-                                  <span className="text-emerald-600">{bed.patient.payer || 'Cash'}</span>
+                                  <span className="text-emerald-600">{bed.patient.payer || i18n.t("Cash")}</span>
                                 </div>
                                 <div className="pt-2 flex justify-end">
                                   <button
@@ -912,24 +909,20 @@ const BedManagement: React.FC = () => {
                                   </button>
 
                                   {activeBedMenu === bed.id && (
-                                    <div className="absolute right-4 bottom-4 mt-2 w-48 bg-white rounded-2xl shadow-2xl border border-slate-100 z-30 overflow-hidden animate-in zoom-in-95 duration-200">
+                                    <div className="absolute end-4 bottom-4 mt-2 w-48 bg-white rounded-2xl shadow-2xl border border-slate-100 z-30 overflow-hidden animate-in zoom-in-95 duration-200">
                                       <div className="p-1.5 space-y-1">
                                         <button onClick={() => { setShowDoctorTransferModal(bed); setActiveBedMenu(null); }} className="w-full flex items-center gap-3 px-3 py-2 text-[10px] font-black text-slate-600 hover:bg-slate-50 hover:text-brand-primary rounded-xl transition-all">
-                                          <UserCog size={14} /> Doctor Transfer
-                                        </button>
+                                          <UserCog size={14} />{" "}{i18n.t("Doctor Transfer")}</button>
                                         <button onClick={() => { setShowBedTransferModal(bed); setActiveBedMenu(null); }} className="w-full flex items-center gap-3 px-3 py-2 text-[10px] font-black text-slate-600 hover:bg-slate-50 hover:text-brand-primary rounded-xl transition-all">
-                                          <ArrowRightLeft size={14} /> Bed Transfer
-                                        </button>
+                                          <ArrowRightLeft size={14} />{" "}{i18n.t("Bed Transfer")}</button>
                                         <div className="h-px bg-slate-100 my-1"></div>
                                         <button className="w-full flex items-center gap-3 px-3 py-2 text-[10px] font-black text-slate-600 hover:bg-slate-50 hover:text-brand-primary rounded-xl transition-all">
-                                          <FileText size={14} /> Admission Letter
-                                        </button>
+                                          <FileText size={14} />{" "}{i18n.t("Admission Letter")}</button>
                                         <button
                                           onClick={() => window.open(`/print/wristband/${bed.patient.admission_number}`, "_blank")}
                                           className="w-full flex items-center gap-3 px-3 py-2 text-[10px] font-black text-slate-600 hover:bg-slate-50 hover:text-brand-primary rounded-xl transition-all"
                                         >
-                                          <Tag size={14} /> Print Wristband
-                                        </button>
+                                          <Tag size={14} />{" "}{i18n.t("Print Wristband")}</button>
                                         <div className="h-px bg-slate-100 my-1"></div>
                                         <button
                                           onClick={() => { setShowDischargeModal(bed); setActiveBedMenu(null); }}
@@ -940,7 +933,7 @@ const BedManagement: React.FC = () => {
                                             }`}
                                         >
                                           <LogOut size={14} />
-                                          {bed.patient?.discharge_stage === 'DOCTOR_MARKED' ? 'Discharged' : 'Discharge'}
+                                          {bed.patient?.discharge_stage === 'DOCTOR_MARKED' ? i18n.t("Discharged") : i18n.t("Discharge")}
                                         </button>
 
                                         {bed.patient?.discharge_stage && bed.patient.discharge_stage !== 'ACTIVE' && (
@@ -948,8 +941,7 @@ const BedManagement: React.FC = () => {
                                             onClick={() => { setShowSummaryModal(bed.patient.encounter_id ?? bed.patient.admission_id); setActiveBedMenu(null); }}
                                             className="w-full flex items-center gap-3 px-3 py-2 text-[10px] font-black text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all"
                                           >
-                                            <FileText size={14} /> View Summary
-                                          </button>
+                                            <FileText size={14} />{" "}{i18n.t("View Summary")}</button>
                                         )}
                                       </div>
                                     </div>
@@ -962,9 +954,7 @@ const BedManagement: React.FC = () => {
                                   <button
                                     onClick={() => setShowAdmitModal(bed)}
                                     className="w-full py-2.5 bg-brand-active text-brand-primary rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-brand-primary hover:text-white transition-all shadow-sm"
-                                  >
-                                    Admit Patient
-                                  </button>
+                                  >{i18n.t("Admit Patient")}</button>
                                 ) : (
                                   <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase">
                                     <Clock size={14} /> {statusLabel}
@@ -1008,15 +998,12 @@ const BedManagement: React.FC = () => {
                   {formatWardName(ward.ward_type)}
                 </p>
 
-                <div className="flex items-center gap-2 text-xs font-bold text-brand-primary group-hover:translate-x-2 transition-transform">
-                  View Rooms <ArrowLeft className="rotate-180" size={14} />
+                <div className="flex items-center gap-2 text-xs font-bold text-brand-primary group-hover:translate-x-2 transition-transform">{i18n.t("View Rooms")}{" "}<ArrowLeft className="rotate-180 rtl:-scale-x-100" size={14} />
                 </div>
               </div>
             ))}
             {currentWards.length === 0 && (
-              <div className="col-span-full text-center py-20 text-slate-400 font-bold">
-                No wards found for this type. Create one to get started.
-              </div>
+              <div className="col-span-full text-center py-20 text-slate-400 font-bold">{i18n.t("No wards found for this type. Create one to get started.")}</div>
             )}
           </div>
         ) : !selectedRoom ? (
@@ -1037,19 +1024,15 @@ const BedManagement: React.FC = () => {
                 <h3 className="text-2xl font-black text-slate-800 mb-1">
                   {room.room_number}
                 </h3>
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-6">
-                  Room ID: {room.id}
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-6">{i18n.t("Room ID:")}{" "}{room.id}
                 </p>
 
-                <div className="flex items-center gap-2 text-xs font-bold text-emerald-600 group-hover:translate-x-2 transition-transform">
-                  View Beds <ArrowLeft className="rotate-180" size={14} />
+                <div className="flex items-center gap-2 text-xs font-bold text-emerald-600 group-hover:translate-x-2 transition-transform">{i18n.t("View Beds")}{" "}<ArrowLeft className="rotate-180 rtl:-scale-x-100" size={14} />
                 </div>
               </div>
             ))}
             {currentRooms.length === 0 && (
-              <div className="col-span-full text-center py-20 text-slate-400 font-bold">
-                No rooms found in this ward.
-              </div>
+              <div className="col-span-full text-center py-20 text-slate-400 font-bold">{i18n.t("No rooms found in this ward.")}</div>
             )}
           </div>
         ) : (
@@ -1081,7 +1064,7 @@ const BedManagement: React.FC = () => {
                     ${bed.bed_status === "OCCUPIED" ? "bg-brand-active text-brand-primary border-brand-active" : bed.bed_status === "AVAILABLE" ? "bg-emerald-50 text-emerald-600 border-emerald-100" : "bg-slate-100 text-slate-500"}
                     `}
                     >
-                      {bed.bed_status}
+                      {i18n.tv(bed.bed_status)}
                     </span>
                   </div>
                 </div>
@@ -1111,30 +1094,27 @@ const BedManagement: React.FC = () => {
                         </button>
 
                         {activeBedMenu === bed.id && (
-                          <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 z-20 overflow-hidden animate-in zoom-in-95 duration-200">
+                          <div className="absolute end-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 z-20 overflow-hidden animate-in zoom-in-95 duration-200">
                             <div className="p-2 space-y-1">
                               <button
                                 onClick={() => {
                                   setShowDoctorTransferModal(bed);
                                   setActiveBedMenu(null);
                                 }}
-                                className="w-full flex items-center gap-3 px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-brand-primary rounded-xl transition-colors text-left"
+                                className="w-full flex items-center gap-3 px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-brand-primary rounded-xl transition-colors text-start"
                               >
-                                <UserCog size={16} /> Doctor Transfer
-                              </button>
+                                <UserCog size={16} />{" "}{i18n.t("Doctor Transfer")}</button>
                               <button
                                 onClick={() => {
                                   setShowBedTransferModal(bed);
                                   setActiveBedMenu(null);
                                 }}
-                                className="w-full flex items-center gap-3 px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-brand-primary rounded-xl transition-colors text-left"
+                                className="w-full flex items-center gap-3 px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-brand-primary rounded-xl transition-colors text-start"
                               >
-                                <ArrowRightLeft size={16} /> Bed Transfer
-                              </button>
+                                <ArrowRightLeft size={16} />{" "}{i18n.t("Bed Transfer")}</button>
                               <div className="h-px bg-slate-100 my-1"></div>
-                              <button className="w-full flex items-center gap-3 px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-brand-primary rounded-xl transition-colors text-left">
-                                <FileText size={16} /> Admission Letter
-                              </button>
+                              <button className="w-full flex items-center gap-3 px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-brand-primary rounded-xl transition-colors text-start">
+                                <FileText size={16} />{" "}{i18n.t("Admission Letter")}</button>
                               <button
                                 onClick={() =>
                                   window.open(
@@ -1142,29 +1122,27 @@ const BedManagement: React.FC = () => {
                                     "_blank",
                                   )
                                 }
-                                className="w-full flex items-center gap-3 px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-brand-primary rounded-xl transition-colors text-left"
+                                className="w-full flex items-center gap-3 px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-brand-primary rounded-xl transition-colors text-start"
                               >
-                                <Tag size={16} /> Print Wristband
-                              </button>
+                                <Tag size={16} />{" "}{i18n.t("Print Wristband")}</button>
                               <div className="h-px bg-slate-100 my-1"></div>
                               <button
                                 onClick={() => { setShowDischargeModal(bed); setActiveBedMenu(null); }}
                                 disabled={bed.patient?.discharge_stage === 'DOCTOR_MARKED'}
-                                className={`w-full flex items-center gap-3 px-3 py-2 text-xs font-bold rounded-xl transition-colors text-left ${bed.patient?.discharge_stage === 'DOCTOR_MARKED'
+                                className={`w-full flex items-center gap-3 px-3 py-2 text-xs font-bold rounded-xl transition-colors text-start ${bed.patient?.discharge_stage === 'DOCTOR_MARKED'
                                   ? 'text-slate-400 bg-slate-50 cursor-not-allowed opacity-60'
                                   : 'text-rose-500 hover:bg-rose-50'
                                   }`}
                               >
                                 <LogOut size={16} />
-                                {bed.patient?.discharge_stage === 'DOCTOR_MARKED' ? 'Discharged' : 'Discharge'}
+                                {bed.patient?.discharge_stage === 'DOCTOR_MARKED' ? i18n.t("Discharged") : i18n.t("Discharge")}
                               </button>
                               {bed.patient?.discharge_stage && bed.patient.discharge_stage !== 'ACTIVE' && (
                                 <button
                                   onClick={() => { setShowSummaryModal(bed.patient.encounter_id ?? bed.patient.admission_id); setActiveBedMenu(null); }}
-                                  className="w-full flex items-center gap-3 px-3 py-2 text-xs font-bold text-indigo-600 hover:bg-indigo-50 rounded-xl transition-colors text-left"
+                                  className="w-full flex items-center gap-3 px-3 py-2 text-xs font-bold text-indigo-600 hover:bg-indigo-50 rounded-xl transition-colors text-start"
                                 >
-                                  <FileText size={16} /> View Summary
-                                </button>
+                                  <FileText size={16} />{" "}{i18n.t("View Summary")}</button>
                               )}
                             </div>
                           </div>
@@ -1175,8 +1153,7 @@ const BedManagement: React.FC = () => {
                     <div className="mt-4 space-y-2 bg-slate-50 p-3 rounded-2xl border border-slate-100">
                       <div className="flex items-center gap-2 text-xs text-slate-500">
                         <Stethoscope size={14} className="text-brand-primary" />
-                        <span className="font-medium truncate">
-                          Dr. {bed.patient.doctor_name}
+                        <span className="font-medium truncate">{i18n.t("Dr.")}{" "}{bed.patient.doctor_name}
                         </span>
                       </div>
                       <div className="flex items-center gap-2 text-xs text-slate-500">
@@ -1196,9 +1173,7 @@ const BedManagement: React.FC = () => {
                       <div className="p-4 rounded-[20px] bg-slate-50 group-hover:bg-emerald-600 group-hover:text-white transition-all shadow-sm border border-slate-100">
                         <Plus size={28} />
                       </div>
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em]">
-                        Admit Patient
-                      </span>
+                      <span className="text-[10px] font-black uppercase tracking-[0.2em]">{i18n.t("Admit Patient")}</span>
                     </button>
                   </div>
                 ) : (
@@ -1208,16 +1183,14 @@ const BedManagement: React.FC = () => {
                       size={36}
                     />
                     <span className="text-[10px] font-black uppercase tracking-widest text-amber-600">
-                      {bed.bed_status}
+                      {i18n.tv(bed.bed_status)}
                     </span>
                   </div>
                 )}
               </div>
             ))}
             {currentBeds.length === 0 && (
-              <div className="col-span-full text-center py-20 text-slate-400 font-bold">
-                No beds found in this room.
-              </div>
+              <div className="col-span-full text-center py-20 text-slate-400 font-bold">{i18n.t("No beds found in this room.")}</div>
             )}
           </div>
         ))}
@@ -1236,12 +1209,8 @@ const BedManagement: React.FC = () => {
                   <UserCog size={24} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-black text-slate-800 tracking-tight">
-                    Transfer Doctor
-                  </h2>
-                  <p className="text-xs text-brand-primary font-bold uppercase tracking-widest">
-                    Select New Physician
-                  </p>
+                  <h2 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Transfer Doctor")}</h2>
+                  <p className="text-xs text-brand-primary font-bold uppercase tracking-widest">{i18n.t("Select New Physician")}</p>
                 </div>
               </div>
               <button
@@ -1254,14 +1223,11 @@ const BedManagement: React.FC = () => {
 
             <div className="p-10 space-y-6">
               <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">
-                  Current Patient
-                </p>
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">{i18n.t("Current Patient")}</p>
                 <h4 className="font-black text-slate-800 text-lg">
                   {showDoctorTransferModal.patient.name}
                 </h4>
-                <p className="text-xs font-medium text-slate-500 mt-1">
-                  Currently assigned to:{" "}
+                <p className="text-xs font-medium text-slate-500 mt-1">{i18n.t("Currently assigned to:")}{" "}
                   <span className="text-brand-primary font-bold">
                     {showDoctorTransferModal.patient.doctor_name}
                   </span>
@@ -1269,18 +1235,15 @@ const BedManagement: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  New Doctor
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("New Doctor")}</label>
                 <select
                   value={transferDoctorId}
                   onChange={(e) => setTransferDoctorId(e.target.value)}
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-brand-active0"
                 >
-                  <option value="">Select a doctor...</option>
+                  <option value="">{i18n.t("Select a doctor...")}</option>
                   {doctors.map((d) => (
-                    <option key={d.doctor_id} value={d.doctor_id}>
-                      Dr. {d.first_name} {d.last_name} ({d.specialization_name})
+                    <option key={d.doctor_id} value={d.doctor_id}>{i18n.t("Dr.")}{" "}{d.first_name} {d.last_name} ({d.specialization_name})
                     </option>
                   ))}
                 </select>
@@ -1291,17 +1254,13 @@ const BedManagement: React.FC = () => {
               <button
                 onClick={() => setShowDoctorTransferModal(null)}
                 className="px-6 py-2.5 text-xs font-black text-slate-400 uppercase tracking-widest"
-              >
-                Cancel
-              </button>
+              >{i18n.t("Cancel")}</button>
               <button
                 onClick={handleDoctorTransfer}
                 disabled={!transferDoctorId || isActionLoading}
                 className="bg-brand-primary text-white px-8 py-3 rounded-[24px] font-black uppercase text-xs tracking-widest shadow-xl shadow-brand-active hover:bg-brand-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
-                {isActionLoading ? <Loader2 size={16} className="animate-spin" /> : null}
-                Confirm Transfer
-              </button>
+                {isActionLoading ? <Loader2 size={16} className="animate-spin" /> : null}{i18n.t("Confirm Transfer")}</button>
             </div>
           </div>
         </div>
@@ -1321,12 +1280,8 @@ const BedManagement: React.FC = () => {
                   <ArrowRightLeft size={24} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-black text-slate-800 tracking-tight">
-                    Transfer Bed
-                  </h2>
-                  <p className="text-xs text-brand-primary font-bold uppercase tracking-widest">
-                    Move Patient
-                  </p>
+                  <h2 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Transfer Bed")}</h2>
+                  <p className="text-xs text-brand-primary font-bold uppercase tracking-widest">{i18n.t("Move Patient")}</p>
                 </div>
               </div>
               <button
@@ -1339,9 +1294,7 @@ const BedManagement: React.FC = () => {
 
             <div className="p-10 space-y-6">
               <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">
-                  Current Location
-                </p>
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">{i18n.t("Current Location")}</p>
                 <h4 className="font-black text-slate-800 text-lg">
                   {showBedTransferModal.patient.name}
                 </h4>
@@ -1355,9 +1308,7 @@ const BedManagement: React.FC = () => {
 
               <div className="space-y-4">
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    New Ward
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("New Ward")}</label>
                   <select
                     value={transferWardId}
                     onChange={(e) => {
@@ -1367,7 +1318,7 @@ const BedManagement: React.FC = () => {
                     }}
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-brand-active0"
                   >
-                    <option value="">Select Ward...</option>
+                    <option value="">{i18n.t("Select Ward...")}</option>
                     {wards.map((w) => (
                       <option key={w.id} value={w.id}>
                         {w.name}
@@ -1377,9 +1328,7 @@ const BedManagement: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    New Room
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("New Room")}</label>
                   <select
                     value={transferRoomId}
                     onChange={(e) => {
@@ -1389,7 +1338,7 @@ const BedManagement: React.FC = () => {
                     disabled={!transferWardId}
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-brand-active0 disabled:opacity-50"
                   >
-                    <option value="">Select Room...</option>
+                    <option value="">{i18n.t("Select Room...")}</option>
                     {availableRooms.map((r) => (
                       <option key={r.id} value={r.id}>
                         {r.room_number}
@@ -1399,16 +1348,14 @@ const BedManagement: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    New Bed
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("New Bed")}</label>
                   <select
                     value={transferBedId}
                     onChange={(e) => setTransferBedId(e.target.value)}
                     disabled={!transferRoomId}
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-brand-active0 disabled:opacity-50"
                   >
-                    <option value="">Select Bed...</option>
+                    <option value="">{i18n.t("Select Bed...")}</option>
                     {availableBeds.map((b) => (
                       <option key={b.id} value={b.id}>
                         {b.bed_number}
@@ -1423,17 +1370,13 @@ const BedManagement: React.FC = () => {
               <button
                 onClick={() => setShowBedTransferModal(null)}
                 className="px-6 py-2.5 text-xs font-black text-slate-400 uppercase tracking-widest"
-              >
-                Cancel
-              </button>
+              >{i18n.t("Cancel")}</button>
               <button
                 onClick={handleBedTransfer}
                 disabled={!transferBedId || isActionLoading}
                 className="bg-brand-primary text-white px-8 py-3 rounded-[24px] font-black uppercase text-xs tracking-widest shadow-xl shadow-brand-active hover:bg-brand-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
-                {isActionLoading ? <Loader2 size={16} className="animate-spin" /> : null}
-                Confirm Transfer
-              </button>
+                {isActionLoading ? <Loader2 size={16} className="animate-spin" /> : null}{i18n.t("Confirm Transfer")}</button>
             </div>
           </div>
         </div>
@@ -1448,11 +1391,8 @@ const BedManagement: React.FC = () => {
               <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-emerald-100">
                 <CheckCircle2 size={40} />
               </div>
-              <h2 className="text-2xl font-black text-slate-800 mb-2">
-                Transfer Successful!
-              </h2>
-              <p className="text-slate-500 font-medium mb-8">
-                Patient has been moved to <br />
+              <h2 className="text-2xl font-black text-slate-800 mb-2">{i18n.t("Transfer Successful!")}</h2>
+              <p className="text-slate-500 font-medium mb-8">{i18n.t("Patient has been moved to")}{" "}<br />
                 <span className="text-slate-800 font-bold">
                   {transferSuccess.ward.name}
                 </span>{" "}
@@ -1470,16 +1410,13 @@ const BedManagement: React.FC = () => {
                     setTransferSuccess(null);
                   }}
                   className="w-full bg-brand-primary text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl shadow-brand-active hover:bg-brand-primary transition-all flex items-center justify-center gap-2"
-                >
-                  Go to {transferSuccess.room.room_number}{" "}
-                  <ArrowRight size={16} />
+                >{i18n.t("Go to")}{" "}{transferSuccess.room.room_number}{" "}
+                  <ArrowRight className="rtl:-scale-x-100" size={16} />
                 </button>
                 <button
                   onClick={() => setTransferSuccess(null)}
                   className="w-full bg-slate-100 text-slate-500 py-4 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-slate-200 transition-all"
-                >
-                  Stay Here
-                </button>
+                >{i18n.t("Stay Here")}</button>
               </div>
             </div>
           </div>
@@ -1500,12 +1437,8 @@ const BedManagement: React.FC = () => {
                   <Settings size={24} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-black text-slate-800 tracking-tight">
-                    Ward Setup
-                  </h2>
-                  <p className="text-xs text-brand-primary font-bold uppercase tracking-widest">
-                    Create New Facility
-                  </p>
+                  <h2 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Ward Setup")}</h2>
+                  <p className="text-xs text-brand-primary font-bold uppercase tracking-widest">{i18n.t("Create New Facility")}</p>
                 </div>
               </div>
               <button
@@ -1522,35 +1455,27 @@ const BedManagement: React.FC = () => {
                 <button
                   onClick={() => setSetupMode("AUTO")}
                   className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${setupMode === "AUTO" ? "bg-white shadow text-brand-primary" : "text-slate-500"}`}
-                >
-                  Automatic Setup
-                </button>
+                >{i18n.t("Automatic Setup")}</button>
                 <button
                   onClick={() => setSetupMode("MANUAL")}
                   className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${setupMode === "MANUAL" ? "bg-white shadow text-brand-primary" : "text-slate-500"}`}
-                >
-                  Manual Setup
-                </button>
+                >{i18n.t("Manual Setup")}</button>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    Ward Name
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Ward Name")}</label>
                   <input
                     value={newWardData.name}
                     onChange={(e) =>
                       setNewWardData({ ...newWardData, name: e.target.value })
                     }
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-brand-active0"
-                    placeholder="e.g. Male General Ward"
+                    placeholder={i18n.t("e.g. Male General Ward")}
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    Ward Type
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Ward Type")}</label>
                   <select
                     value={newWardData.ward_type}
                     onChange={(e) =>
@@ -1569,9 +1494,7 @@ const BedManagement: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    Department
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Department")}</label>
                   <input
                     value={newWardData.department}
                     onChange={(e) =>
@@ -1581,16 +1504,14 @@ const BedManagement: React.FC = () => {
                       })
                     }
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-brand-active0"
-                    placeholder="e.g. Internal Medicine"
+                    placeholder={i18n.t("e.g. Internal Medicine")}
                   />
                 </div>
 
                 {setupMode === "AUTO" && (
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                        Rooms
-                      </label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Rooms")}</label>
                       <input
                         type="number"
                         value={newWardData.rooms}
@@ -1604,9 +1525,7 @@ const BedManagement: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                        Beds Per Room
-                      </label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Beds Per Room")}</label>
                       <input
                         type="number"
                         value={newWardData.beds_per_room}
@@ -1628,16 +1547,14 @@ const BedManagement: React.FC = () => {
               <button
                 onClick={() => setShowWardSetupModal(false)}
                 className="px-6 py-2.5 text-xs font-black text-slate-400 uppercase tracking-widest"
-              >
-                Cancel
-              </button>
+              >{i18n.t("Cancel")}</button>
               <button
                 onClick={handleCreateWard}
                 disabled={isActionLoading}
                 className="bg-brand-primary text-white px-8 py-3 rounded-[24px] font-black uppercase text-xs tracking-widest shadow-xl shadow-brand-active hover:bg-brand-primary transition-all disabled:opacity-50 flex items-center gap-2"
               >
                 {isActionLoading ? <Loader2 size={16} className="animate-spin" /> : null}
-                {setupMode === "AUTO" ? "Generate Ward" : "Create Ward"}
+                {setupMode === "AUTO" ? i18n.t("Generate Ward") : i18n.t("Create Ward")}
               </button>
             </div>
           </div>
@@ -1658,11 +1575,8 @@ const BedManagement: React.FC = () => {
                   <Stethoscope size={24} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-black text-slate-800 tracking-tight">
-                    Admit Patient
-                  </h2>
-                  <p className="text-xs text-emerald-600 font-bold uppercase tracking-widest">
-                    Bed {showAdmitModal.bed_number}
+                  <h2 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Admit Patient")}</h2>
+                  <p className="text-xs text-emerald-600 font-bold uppercase tracking-widest">{i18n.t("Bed")}{" "}{showAdmitModal.bed_number}
                   </p>
                 </div>
               </div>
@@ -1676,22 +1590,18 @@ const BedManagement: React.FC = () => {
 
             <div className="p-6 md:p-10 space-y-6 flex-1 overflow-y-auto min-h-0">
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Search Patient by MRN
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Search Patient by MRN")}</label>
                 <div className="flex gap-2">
                   <input
                     value={searchMrn}
                     onChange={(e) => setSearchMrn(e.target.value)}
                     className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-emerald-500"
-                    placeholder="Enter MRN (e.g. 100005)"
+                    placeholder={i18n.t("Enter MRN (e.g. 100005)")}
                   />
                   <button
                     onClick={handleSearchPatient}
                     className="bg-slate-800 text-white px-6 py-3 rounded-2xl font-bold text-xs hover:bg-slate-900 transition-colors"
-                  >
-                    Search
-                  </button>
+                  >{i18n.t("Search")}</button>
                 </div>
               </div>
 
@@ -1700,7 +1610,7 @@ const BedManagement: React.FC = () => {
                   {searchedPatient.demographics.photo_url ? (
                     <img
                       src={searchedPatient.demographics.photo_url}
-                      alt="Patient"
+                      alt={i18n.t("Patient")}
                       className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm shrink-0"
                       referrerPolicy="no-referrer"
                     />
@@ -1717,7 +1627,7 @@ const BedManagement: React.FC = () => {
                     </h4>
                     <div className="flex flex-wrap gap-2 mt-2">
                       <span className="px-2 py-1 bg-white rounded-lg text-[10px] font-bold text-slate-500 border border-slate-100">
-                        {searchedPatient.demographics.gender}
+                        {i18n.tv(searchedPatient.demographics.gender)}
                       </span>
                       <span className="px-2 py-1 bg-white rounded-lg text-[10px] font-bold text-slate-500 border border-slate-100">
                         {calculateAge(
@@ -1745,9 +1655,7 @@ const BedManagement: React.FC = () => {
               )}
 
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Admitting Doctor
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Admitting Doctor")}</label>
                 <select
                   value={admissionData.admitting_doctor_id}
                   onChange={(e) =>
@@ -1758,10 +1666,9 @@ const BedManagement: React.FC = () => {
                   }
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-emerald-500"
                 >
-                  <option value="">Select a doctor...</option>
+                  <option value="">{i18n.t("Select a doctor...")}</option>
                   {doctors.map((d) => (
-                    <option key={d.doctor_id} value={d.doctor_id}>
-                      Dr. {d.first_name} {d.last_name} ({d.specialization_name})
+                    <option key={d.doctor_id} value={d.doctor_id}>{i18n.t("Dr.")}{" "}{d.first_name} {d.last_name} ({d.specialization_name})
                     </option>
                   ))}
                 </select>
@@ -1769,9 +1676,7 @@ const BedManagement: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    Source
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Source")}</label>
                   <select
                     value={admissionData.admission_source}
                     onChange={(e) =>
@@ -1782,18 +1687,16 @@ const BedManagement: React.FC = () => {
                     }
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-emerald-500"
                   >
-                    <option value="OPD">OPD</option>
-                    <option value="ED">Emergency</option>
-                    <option value="TRANSFER">Transfer</option>
-                    <option value="DIRECT">Direct</option>
+                    <option value="OPD">{i18n.t("OPD")}</option>
+                    <option value="ED">{i18n.t("Emergency")}</option>
+                    <option value="TRANSFER">{i18n.t("Transfer")}</option>
+                    <option value="DIRECT">{i18n.t("Direct")}</option>
                   </select>
                 </div>
               </div>
 
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Reason for Admission
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Reason for Admission")}</label>
                 <textarea
                   value={admissionData.admission_reason}
                   onChange={(e) =>
@@ -1803,7 +1706,7 @@ const BedManagement: React.FC = () => {
                     })
                   }
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-emerald-500 min-h-[100px]"
-                  placeholder="Enter diagnosis or reason..."
+                  placeholder={i18n.t("Enter diagnosis or reason...")}
                 />
               </div>
             </div>
@@ -1812,9 +1715,7 @@ const BedManagement: React.FC = () => {
               <button
                 onClick={() => setShowAdmitModal(null)}
                 className="px-6 py-2.5 text-xs font-black text-slate-400 uppercase tracking-widest"
-              >
-                Cancel
-              </button>
+              >{i18n.t("Cancel")}</button>
               <button
                 onClick={handleAdmitPatient}
                 disabled={
@@ -1822,9 +1723,7 @@ const BedManagement: React.FC = () => {
                 }
                 className="bg-emerald-600 text-white px-8 py-3 rounded-[24px] font-black uppercase text-xs tracking-widest shadow-xl shadow-emerald-200 hover:bg-emerald-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
-                {isActionLoading ? <Loader2 size={16} className="animate-spin" /> : null}
-                Confirm Admission
-              </button>
+                {isActionLoading ? <Loader2 size={16} className="animate-spin" /> : null}{i18n.t("Confirm Admission")}</button>
             </div>
           </div>
         </div>
@@ -1843,11 +1742,8 @@ const BedManagement: React.FC = () => {
                   <LogOut size={24} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-black text-slate-800 tracking-tight">
-                    Mark for Discharge
-                  </h2>
-                  <p className="text-xs text-rose-600 font-bold uppercase tracking-widest">
-                    Patient: {showDischargeModal.patient.name}
+                  <h2 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Mark for Discharge")}</h2>
+                  <p className="text-xs text-rose-600 font-bold uppercase tracking-widest">{i18n.t("Patient:")}{" "}{showDischargeModal.patient.name}
                   </p>
                 </div>
               </div>
@@ -1862,15 +1758,13 @@ const BedManagement: React.FC = () => {
             <div className="p-10 space-y-6 overflow-y-auto">
               {/* Reason Search & Select */}
               <div className="relative">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Discharge Reason
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Discharge Reason")}</label>
                 <div className="relative group">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-rose-600 transition-colors" size={16} />
+                  <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-rose-600 transition-colors" size={16} />
                   <input
                     type="text"
-                    placeholder="Search or select reason..."
-                    className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-rose-500 transition-all"
+                    placeholder={i18n.t("Search or select reason...")}
+                    className="w-full ps-12 pe-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-rose-500 transition-all"
                     value={reasonSearchTerm}
                     onChange={(e) => { setReasonSearchTerm(e.target.value); setShowReasonList(true); }}
                     onFocus={() => setShowReasonList(true)}
@@ -1879,7 +1773,7 @@ const BedManagement: React.FC = () => {
 
                   {/* Dropdown Results */}
                   {showReasonList && (
-                    <div className="absolute top-full left-0 right-0 mt-2 max-h-48 overflow-y-auto bg-white border border-slate-100 rounded-2xl shadow-xl space-y-1 p-1 z-[60]">
+                    <div className="absolute top-full start-0 end-0 mt-2 max-h-48 overflow-y-auto bg-white border border-slate-100 rounded-2xl shadow-xl space-y-1 p-1 z-[60]">
                       {dischargeReasons
                         .filter(r => r.name.toLowerCase().includes(reasonSearchTerm.toLowerCase()))
                         .map((reason) => (
@@ -1891,7 +1785,7 @@ const BedManagement: React.FC = () => {
                               setReasonSearchTerm(reason.name);
                               setShowReasonList(false);
                             }}
-                            className={`w-full text-left px-4 py-2.5 rounded-xl text-xs font-bold transition-all
+                            className={`w-full text-start px-4 py-2.5 rounded-xl text-xs font-bold transition-all
                               ${dischargeFormData.discharge_reason_id === reason.id.toString()
                                 ? 'bg-rose-600 text-white'
                                 : 'text-slate-600 hover:bg-rose-50 hover:text-rose-600'}
@@ -1906,9 +1800,7 @@ const BedManagement: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Discharge Notes
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Discharge Notes")}</label>
                 <textarea
                   value={dischargeFormData.discharge_notes}
                   onChange={(e) =>
@@ -1918,14 +1810,12 @@ const BedManagement: React.FC = () => {
                     })
                   }
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-rose-500 min-h-[120px]"
-                  placeholder="Enter clinical notes or follow-up instructions..."
+                  placeholder={i18n.t("Enter clinical notes or follow-up instructions...")}
                 />
               </div>
 
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Doctor Signature
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Doctor Signature")}</label>
                 <div className="mt-1.5 h-32 bg-slate-50 border border-dashed border-slate-300 rounded-2xl overflow-hidden">
                   <SignaturePad
                     onEnd={(dataUrl) => setDischargeFormData({ ...dischargeFormData, doctor_signature: dataUrl })}
@@ -1935,22 +1825,18 @@ const BedManagement: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Patient Witness Name
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Patient Witness Name")}</label>
                 <input
                   type="text"
                   value={dischargeFormData.patient_witness_name}
                   onChange={(e) => setDischargeFormData({ ...dischargeFormData, patient_witness_name: e.target.value })}
-                  placeholder="e.g. John Doe (Brother)"
+                  placeholder={i18n.t("e.g. John Doe (Brother)")}
                   className="w-full mt-1.5 px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-rose-500 transition-all"
                 />
               </div>
 
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Patient Witness Signature
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Patient Witness Signature")}</label>
                 <div className="mt-1.5 h-32 bg-slate-50 border border-dashed border-slate-300 rounded-2xl overflow-hidden">
                   <SignaturePad
                     onEnd={(dataUrl) => setDischargeFormData({ ...dischargeFormData, patient_witness: dataUrl })}
@@ -1964,17 +1850,13 @@ const BedManagement: React.FC = () => {
               <button
                 onClick={() => setShowDischargeModal(null)}
                 className="px-6 py-2.5 text-xs font-black text-slate-400 uppercase tracking-widest"
-              >
-                Cancel
-              </button>
+              >{i18n.t("Cancel")}</button>
               <button
                 onClick={handleMarkForDischarge}
                 disabled={!dischargeFormData.discharge_reason_id || !dischargeFormData.doctor_signature || isActionLoading}
                 className="bg-rose-600 text-white px-8 py-3 rounded-[24px] font-black uppercase text-xs tracking-widest shadow-xl shadow-rose-200 hover:bg-rose-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
-                {isActionLoading ? <Loader2 size={16} className="animate-spin" /> : null}
-                Confirm Discharge
-              </button>
+                {isActionLoading ? <Loader2 size={16} className="animate-spin" /> : null}{i18n.t("Confirm Discharge")}</button>
             </div>
           </div>
         </div>

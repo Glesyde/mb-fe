@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Check, X } from 'lucide-react';
+import { i18n } from "../../i18n";
 
 interface PasswordRequirement {
   id: string;
@@ -37,7 +38,7 @@ const PasswordValidator: React.FC<PasswordValidatorProps> = ({ password, onValid
 
   return (
     <div className="mt-3 p-4 bg-slate-50 rounded-2xl border border-slate-100 animate-in fade-in slide-in-from-top-2 duration-300">
-      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Password Requirements</p>
+      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">{i18n.t("Password Requirements")}</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         {results.map(req => (
           <div key={req.id} className="flex items-center gap-2">
@@ -45,7 +46,7 @@ const PasswordValidator: React.FC<PasswordValidatorProps> = ({ password, onValid
               {req.isMet ? <Check size={10} className="text-white" /> : <X size={10} className="text-slate-400" />}
             </div>
             <span className={`text-[11px] font-bold transition-colors ${req.isMet ? 'text-emerald-600' : 'text-slate-400'}`}>
-              {req.label}
+              {i18n.tx(req.label)}
             </span>
           </div>
         ))}
@@ -54,7 +55,7 @@ const PasswordValidator: React.FC<PasswordValidatorProps> = ({ password, onValid
       {allMet && (
         <div className="mt-4 flex items-center gap-2 text-emerald-600 bg-emerald-50 px-3 py-2 rounded-xl animate-in zoom-in duration-300">
           <Check size={14} className="font-black" />
-          <span className="text-xs font-black uppercase tracking-tight">Security Standards Met</span>
+          <span className="text-xs font-black uppercase tracking-tight">{i18n.t("Security Standards Met")}</span>
         </div>
       )}
     </div>

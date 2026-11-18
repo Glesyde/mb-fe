@@ -16,6 +16,7 @@ import {
 import apiClient from '../../api/client';
 import { useNotification } from '../../context/NotificationContext';
 import LoadingAnimation from '../animations/LoadingAnimation';
+import { i18n } from "../../i18n";
 
 interface DashboardData {
   organization: string;
@@ -87,15 +88,15 @@ const AssetDashboard: React.FC = () => {
       {/* Header Info */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
         <div>
-          <h2 className="text-2xl font-black text-slate-800 tracking-tight">{data.title}</h2>
+          <h2 className="text-2xl font-black text-slate-800 tracking-tight">{i18n.tx(data.title)}</h2>
           <div className="flex items-center gap-3 mt-1.5">
             <span className="text-sm font-bold text-slate-500">{data.organization}</span>
             <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
-            <span className="text-sm font-semibold text-slate-400">Ref: {data.document_ref}</span>
+            <span className="text-sm font-semibold text-slate-400">{i18n.t("Ref:")}{" "}{data.document_ref}</span>
           </div>
         </div>
-        <div className="text-right">
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Last Updated</p>
+        <div className="text-end">
+          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Last Updated")}</p>
           <p className="text-sm font-bold text-slate-700">{data.generated_at}</p>
         </div>
       </div>
@@ -103,10 +104,10 @@ const AssetDashboard: React.FC = () => {
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden group">
-          <div className="absolute -right-4 -top-4 w-24 h-24 bg-blue-50 rounded-full group-hover:scale-110 transition-transform duration-500 z-0"></div>
+          <div className="absolute -end-4 -top-4 w-24 h-24 bg-blue-50 rounded-full group-hover:scale-110 transition-transform duration-500 z-0"></div>
           <div className="relative z-10 flex justify-between items-start">
             <div>
-              <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Total Assets</p>
+              <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">{i18n.t("Total Assets")}</p>
               <h3 className="text-4xl font-black text-slate-800">{data.summary.total_assets_registered}</h3>
             </div>
             <div className="p-3 bg-blue-100 text-blue-600 rounded-2xl">
@@ -116,10 +117,10 @@ const AssetDashboard: React.FC = () => {
         </div>
 
         <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden group">
-          <div className="absolute -right-4 -top-4 w-24 h-24 bg-emerald-50 rounded-full group-hover:scale-110 transition-transform duration-500 z-0"></div>
+          <div className="absolute -end-4 -top-4 w-24 h-24 bg-emerald-50 rounded-full group-hover:scale-110 transition-transform duration-500 z-0"></div>
           <div className="relative z-10 flex justify-between items-start">
             <div>
-              <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Assets In Use</p>
+              <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">{i18n.t("Assets In Use")}</p>
               <h3 className="text-4xl font-black text-slate-800">{data.summary.assets_in_use}</h3>
             </div>
             <div className="p-3 bg-emerald-100 text-emerald-600 rounded-2xl">
@@ -129,10 +130,10 @@ const AssetDashboard: React.FC = () => {
         </div>
 
         <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden group">
-          <div className="absolute -right-4 -top-4 w-24 h-24 bg-purple-50 rounded-full group-hover:scale-110 transition-transform duration-500 z-0"></div>
+          <div className="absolute -end-4 -top-4 w-24 h-24 bg-purple-50 rounded-full group-hover:scale-110 transition-transform duration-500 z-0"></div>
           <div className="relative z-10 flex justify-between items-start">
             <div>
-              <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Total Value</p>
+              <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">{i18n.t("Total Value")}</p>
               <h3 className="text-2xl font-black text-slate-800 mt-2">{data.summary.total_asset_value.formatted}</h3>
             </div>
             <div className="p-3 bg-purple-100 text-purple-600 rounded-2xl">
@@ -149,29 +150,29 @@ const AssetDashboard: React.FC = () => {
             <div className="p-2 bg-amber-50 text-amber-600 rounded-lg">
               <Settings size={20} />
             </div>
-            <h3 className="text-lg font-black text-slate-800">Servicing Overview</h3>
+            <h3 className="text-lg font-black text-slate-800">{i18n.t("Servicing Overview")}</h3>
           </div>
           <div className="p-5">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
               <div className="p-3 bg-slate-50 border border-slate-100 rounded-2xl flex flex-col items-center justify-center text-center hover:bg-red-50/50 transition-colors">
                 <AlertTriangle size={20} className="text-red-500 mb-1.5" />
                 <p className="text-xl font-black text-slate-800">{data.servicing.overdue}</p>
-                <p className="text-[9px] font-bold text-slate-500 uppercase tracking-wider mt-0.5">Overdue</p>
+                <p className="text-[9px] font-bold text-slate-500 uppercase tracking-wider mt-0.5">{i18n.t("Overdue")}</p>
               </div>
               <div className="p-3 bg-slate-50 border border-slate-100 rounded-2xl flex flex-col items-center justify-center text-center hover:bg-amber-50/50 transition-colors">
                 <CalendarClock size={20} className="text-amber-500 mb-1.5" />
                 <p className="text-xl font-black text-slate-800">{data.servicing.due_soon}</p>
-                <p className="text-[9px] font-bold text-slate-500 uppercase tracking-wider mt-0.5">Due Soon</p>
+                <p className="text-[9px] font-bold text-slate-500 uppercase tracking-wider mt-0.5">{i18n.t("Due Soon")}</p>
               </div>
               <div className="p-3 bg-slate-50 border border-slate-100 rounded-2xl flex flex-col items-center justify-center text-center hover:bg-emerald-50/50 transition-colors">
                 <CheckCircle2 size={20} className="text-emerald-500 mb-1.5" />
                 <p className="text-xl font-black text-slate-800">{data.servicing.ok}</p>
-                <p className="text-[9px] font-bold text-slate-500 uppercase tracking-wider mt-0.5">OK</p>
+                <p className="text-[9px] font-bold text-slate-500 uppercase tracking-wider mt-0.5">{i18n.t("OK")}</p>
               </div>
               <div className="p-3 bg-slate-50 border border-slate-100 rounded-2xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors">
                 <Wrench size={20} className="text-slate-400 mb-1.5" />
                 <p className="text-xl font-black text-slate-800">{data.servicing.unscheduled}</p>
-                <p className="text-[9px] font-bold text-slate-500 uppercase tracking-wider mt-0.5">Unscheduled</p>
+                <p className="text-[9px] font-bold text-slate-500 uppercase tracking-wider mt-0.5">{i18n.t("Unscheduled")}</p>
               </div>
             </div>
           </div>
@@ -183,7 +184,7 @@ const AssetDashboard: React.FC = () => {
             <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
               <BarChart2 size={20} />
             </div>
-            <h3 className="text-lg font-black text-slate-800">Condition Summary</h3>
+            <h3 className="text-lg font-black text-slate-800">{i18n.t("Condition Summary")}</h3>
           </div>
           <div className="p-6">
             <div className="space-y-4">
@@ -200,8 +201,8 @@ const AssetDashboard: React.FC = () => {
                 return (
                   <div key={idx} className="group">
                     <div className="flex justify-between items-end mb-1.5">
-                      <span className="text-sm font-bold text-slate-700">{cond.label}</span>
-                      <span className="text-xs font-bold text-slate-500">{cond.count} assets ({percentage}%)</span>
+                      <span className="text-sm font-bold text-slate-700">{i18n.tx(cond.label)}</span>
+                      <span className="text-xs font-bold text-slate-500">{cond.count}{" "}{i18n.t("assets (")}{percentage}%)</span>
                     </div>
                     <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
                       <div 
@@ -225,20 +226,19 @@ const AssetDashboard: React.FC = () => {
               <div className="p-2 bg-purple-50 text-purple-600 rounded-lg">
                 <Box size={20} />
               </div>
-              <h3 className="text-lg font-black text-slate-800">Recently Registered Assets</h3>
+              <h3 className="text-lg font-black text-slate-800">{i18n.t("Recently Registered Assets")}</h3>
             </div>
-            <a href="/assets/master" className="text-xs font-bold text-brand-primary hover:text-brand-secondary flex items-center gap-1 transition-colors">
-              View Asset Master <ArrowRight size={14} />
+            <a href="/assets/master" className="text-xs font-bold text-brand-primary hover:text-brand-secondary flex items-center gap-1 transition-colors">{i18n.t("View Asset Master")}{" "}<ArrowRight className="rtl:-scale-x-100" size={14} />
             </a>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left">
+            <table className="w-full text-start">
               <thead>
                 <tr className="bg-slate-50/50 border-b border-slate-100">
-                  <th className="p-4 font-black text-[10px] text-slate-500 uppercase tracking-wider">Asset Details</th>
-                  <th className="p-4 font-black text-[10px] text-slate-500 uppercase tracking-wider">Location</th>
-                  <th className="p-4 font-black text-[10px] text-slate-500 uppercase tracking-wider">Category</th>
-                  <th className="p-4 font-black text-[10px] text-slate-500 uppercase tracking-wider">Status & Cond.</th>
+                  <th className="p-4 font-black text-[10px] text-slate-500 uppercase tracking-wider">{i18n.t("Asset Details")}</th>
+                  <th className="p-4 font-black text-[10px] text-slate-500 uppercase tracking-wider">{i18n.t("Location")}</th>
+                  <th className="p-4 font-black text-[10px] text-slate-500 uppercase tracking-wider">{i18n.t("Category")}</th>
+                  <th className="p-4 font-black text-[10px] text-slate-500 uppercase tracking-wider">{i18n.t("Status & Cond.")}</th>
                 </tr>
               </thead>
               <tbody>

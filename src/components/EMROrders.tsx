@@ -25,6 +25,7 @@ import { appointmentService } from "../services/appointment.service";
 import { otService } from "../services/ot.service";
 import { useNotification } from "../context/NotificationContext";
 import { getFlagBadgeClass, getFlagRowClass, getFlagLabel } from "../utils/flagColors";
+import { i18n } from "../i18n";
 
 interface ExistingOrder {
   id: number;
@@ -612,22 +613,20 @@ const EMROrders: React.FC = () => {
         <div className="w-20 h-20 bg-slate-50 text-slate-300 rounded-[32px] flex items-center justify-center mb-6">
           <FilePlus size={40} />
         </div>
-        <h2 className="text-2xl font-black text-slate-800">CPOE Order Entry</h2>
-        <p className="text-slate-500 max-w-sm mt-2 font-medium">
-          Select a patient from the Worklist or search by MRN to begin.
-        </p>
+        <h2 className="text-2xl font-black text-slate-800">{i18n.t("CPOE Order Entry")}</h2>
+        <p className="text-slate-500 max-w-sm mt-2 font-medium">{i18n.t("Select a patient from the Worklist or search by MRN to begin.")}</p>
         <form onSubmit={handleManualPatientSearch} className="relative w-full max-w-md mt-8">
-          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+          <Search className="absolute start-5 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
           <input
             type="text"
-            placeholder="Enter MRN (e.g. MRN-2024-001)"
-            className="w-full pl-12 pr-28 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-lg font-bold text-slate-800 focus:border-brand-active0 focus:ring-4 focus:ring-brand-active0/10 outline-none transition-all shadow-sm"
+            placeholder={i18n.t("Enter MRN (e.g. MRN-2024-001)")}
+            className="w-full ps-12 pe-28 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-lg font-bold text-slate-800 focus:border-brand-active0 focus:ring-4 focus:ring-brand-active0/10 outline-none transition-all shadow-sm"
             value={patientSearchMrn}
             onChange={(e) => setPatientSearchMrn(e.target.value)}
             autoFocus
           />
-          <button type="submit" disabled={isSearchingPatient} className="absolute right-2 top-2 bottom-2 bg-brand-primary text-white px-6 rounded-xl font-bold text-sm hover:bg-brand-primary transition-all flex items-center">
-            {isSearchingPatient ? <Loader2 size={16} className="animate-spin" /> : "Find"}
+          <button type="submit" disabled={isSearchingPatient} className="absolute end-2 top-2 bottom-2 bg-brand-primary text-white px-6 rounded-xl font-bold text-sm hover:bg-brand-primary transition-all flex items-center">
+            {isSearchingPatient ? <Loader2 size={16} className="animate-spin" /> : i18n.t("Find")}
           </button>
         </form>
       </div>
@@ -647,7 +646,7 @@ const EMROrders: React.FC = () => {
               {selectedPatient.name}
             </h2>
             <p className="text-brand-primary font-bold text-[10px] md:text-xs tracking-wide uppercase truncate">
-              {selectedPatient.mrn} • ENC: {selectedPatient.encounterNumber || "NONE"}
+              {selectedPatient.mrn}{" "}{i18n.t("• ENC:")}{" "}{selectedPatient.encounterNumber || i18n.t("NONE")}
             </p>
           </div>
         </div>
@@ -658,14 +657,11 @@ const EMROrders: React.FC = () => {
             })}
             className="w-full md:w-auto px-4 py-2 bg-brand-primary hover:bg-brand-primary/90 text-white rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all border border-brand-primary shadow-lg shadow-brand-primary/20 flex items-center justify-center gap-2"
           >
-            <Stethoscope size={14} /> View Chart
-          </button>
+            <Stethoscope size={14} />{" "}{i18n.t("View Chart")}</button>
           <button
             onClick={() => setSelectedPatient(null)}
             className="w-full md:w-auto px-4 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all text-slate-300 hover:text-white border border-white/5"
-          >
-            Switch Patient
-          </button>
+          >{i18n.t("Switch Patient")}</button>
         </div>
       </div>
 
@@ -676,15 +672,13 @@ const EMROrders: React.FC = () => {
             <h3 className="text-lg font-black text-slate-800 mb-6 flex items-center gap-2">
               <div className="p-1.5 bg-brand-active text-brand-primary rounded-lg">
                 <FilePlus size={20} />
-              </div>
-              Place New Order
-            </h3>
+              </div>{i18n.t("Place New Order")}</h3>
 
             <div className="space-y-6 flex-1">
               
               {/* 1. Order Type Dropdown */}
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">1. Order Category</label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("1. Order Category")}</label>
                 <select
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 outline-none focus:border-brand-active0 transition-all cursor-pointer"
                   value={selectedOrderType}
@@ -695,27 +689,27 @@ const EMROrders: React.FC = () => {
                     setIsDropdownOpen(false);
                   }}
                 >
-                  <option value="LAB">Laboratory Investigation</option>
-                  <option value="RADIOLOGY">Radiology / Imaging</option>
-                  <option value="PHARMACY">Pharmacy (Medication)</option>
-                  <option value="CONSUMABLE">Consumable Order</option>
-                  <option value="PROCEDURE">Clinical Procedure</option>
-                  <option value="SURGERY">Surgery / Operation</option>
-                  <option value="BLOOD_TRANSFUSION">Blood Bank / Transfusion</option>
-                  <option value="FOOD">Food</option>
-                  <option value="CONSULTATION">Consultation</option>
-                  <option value="BED_CHARGE">Bed Charge</option>
-                  <option value="REGISTRATION">Registration</option>
-                  <option value="IMPLANT">Implant</option>
-                  <option value="NURSING_CHARGE">Nursing Charge</option>
-                  <option value="OTHER">Other</option>
+                  <option value="LAB">{i18n.t("Laboratory Investigation")}</option>
+                  <option value="RADIOLOGY">{i18n.t("Radiology / Imaging")}</option>
+                  <option value="PHARMACY">{i18n.t("Pharmacy (Medication)")}</option>
+                  <option value="CONSUMABLE">{i18n.t("Consumable Order")}</option>
+                  <option value="PROCEDURE">{i18n.t("Clinical Procedure")}</option>
+                  <option value="SURGERY">{i18n.t("Surgery / Operation")}</option>
+                  <option value="BLOOD_TRANSFUSION">{i18n.t("Blood Bank / Transfusion")}</option>
+                  <option value="FOOD">{i18n.t("Food")}</option>
+                  <option value="CONSULTATION">{i18n.t("Consultation")}</option>
+                  <option value="BED_CHARGE">{i18n.t("Bed Charge")}</option>
+                  <option value="REGISTRATION">{i18n.t("Registration")}</option>
+                  <option value="IMPLANT">{i18n.t("Implant")}</option>
+                  <option value="NURSING_CHARGE">{i18n.t("Nursing Charge")}</option>
+                  <option value="OTHER">{i18n.t("Other")}</option>
                 </select>
               </div>
 
               {/* 2. Dispensing Department (Only visible for CONSUMABLE) */}
               {selectedOrderType === "CONSUMABLE" && (
                 <div className="space-y-2 animate-in fade-in slide-in-from-top-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">2. Dispensing Department</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("2. Dispensing Department")}</label>
                   <select
                     className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 outline-none focus:border-brand-active0 transition-all cursor-pointer"
                     value={dispensingDept}
@@ -735,14 +729,14 @@ const EMROrders: React.FC = () => {
               {/* 3. Standard Service Selection Dropdown (Combobox) */}
               <div className="space-y-2 relative" ref={dropdownRef}>
                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                  {selectedOrderType === "CONSUMABLE" ? "3. Search Drugs or Consumables to Indent" : "2. Select Service / Item"}
+                  {selectedOrderType === "CONSUMABLE" ? i18n.t("3. Search Drugs or Consumables to Indent") : i18n.t("2. Select Service / Item")}
                 </label>
                 <div className="relative">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
+                  <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
                   <input
                     type="text"
                     placeholder={`Search ${selectedOrderType.toLowerCase()} services...`}
-                    className="w-full pl-10 pr-10 py-4 bg-white border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 outline-none focus:border-brand-active0 focus:ring-4 focus:ring-brand-active0/10 transition-all cursor-text"
+                    className="w-full ps-10 pe-10 py-4 bg-white border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 outline-none focus:border-brand-active0 focus:ring-4 focus:ring-brand-active0/10 transition-all cursor-text"
                     value={searchTerm}
                     onChange={(e) => {
                       setSearchTerm(e.target.value);
@@ -753,7 +747,7 @@ const EMROrders: React.FC = () => {
                   />
                   {searchTerm ? (
                     <button
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 bg-white"
+                      className="absolute end-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 bg-white"
                       onClick={() => {
                         setSearchTerm("");
                         setSelectedTariff(null);
@@ -763,23 +757,21 @@ const EMROrders: React.FC = () => {
                       <X size={16} />
                     </button>
                   ) : (
-                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 pointer-events-none" />
+                    <ChevronDown className="absolute end-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 pointer-events-none" />
                   )}
                 </div>
 
                 {/* Floating Combobox Dropdown */}
                 {isDropdownOpen && (
-                  <div className="absolute top-[100%] left-0 right-0 z-50 mt-2 bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden max-h-[300px] flex flex-col">
+                  <div className="absolute top-[100%] start-0 end-0 z-50 mt-2 bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden max-h-[300px] flex flex-col">
                     <div className="flex-1 overflow-y-auto p-2 space-y-1 custom-scrollbar">
                       {loadingCatalog ? (
                         <div className="py-8 text-center">
                           <Loader2 className="animate-spin mx-auto text-brand-active0 w-6 h-6" />
-                          <p className="text-[10px] font-bold text-slate-400 mt-2 uppercase tracking-widest">Loading Catalog...</p>
+                          <p className="text-[10px] font-bold text-slate-400 mt-2 uppercase tracking-widest">{i18n.t("Loading Catalog...")}</p>
                         </div>
                       ) : filteredServices.length === 0 ? (
-                        <div className="py-8 text-center text-xs text-slate-400 font-bold italic">
-                          No items match your search.
-                        </div>
+                        <div className="py-8 text-center text-xs text-slate-400 font-bold italic">{i18n.t("No items match your search.")}</div>
                       ) : (
                         filteredServices.map((item) => {
                           const isInventoryItem = selectedOrderType === "PHARMACY" || selectedOrderType === "CONSUMABLE";
@@ -828,7 +820,7 @@ const EMROrders: React.FC = () => {
                                   }));
                                 }
                               }}
-                              className="w-full flex items-center justify-between p-3 rounded-xl text-left transition-all hover:bg-brand-active bg-white border border-transparent hover:border-brand-active0"
+                              className="w-full flex items-center justify-between p-3 rounded-xl text-start transition-all hover:bg-brand-active bg-white border border-transparent hover:border-brand-active0"
                             >
                               <div>
                                 <p className="text-xs font-bold text-slate-800">{name}</p>
@@ -840,12 +832,11 @@ const EMROrders: React.FC = () => {
                                       {item.strength && <span className="text-[9px] px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-500">{item.strength}</span>}
                                       
                                       {selectedOrderType === "CONSUMABLE" ? (
-                                        <span className="text-[9px] px-1.5 py-0.5 rounded-md font-bold bg-brand-active/30 text-brand-primary">
-                                          Dept Stock: {deptStock !== undefined ? deptStock : (item.available_stock || 0)}
+                                        <span className="text-[9px] px-1.5 py-0.5 rounded-md font-bold bg-brand-active/30 text-brand-primary">{i18n.t("Dept Stock:")}{" "}{deptStock !== undefined ? deptStock : (item.available_stock || 0)}
                                         </span>
                                       ) : (
                                         item.available_stock !== undefined && item.available_stock !== null && (
-                                          <span className="text-[9px] px-1.5 py-0.5 rounded-md font-bold bg-brand-active/30 text-brand-primary">Stock: {item.available_stock}</span>
+                                          <span className="text-[9px] px-1.5 py-0.5 rounded-md font-bold bg-brand-active/30 text-brand-primary">{i18n.t("Stock:")}{" "}{item.available_stock}</span>
                                         )
                                       )}
                                     </>
@@ -870,12 +861,10 @@ const EMROrders: React.FC = () => {
               <div className="space-y-4 pt-4 border-t border-slate-100">
                 {selectedOrderType !== "PHARMACY" && selectedOrderType !== "SURGERY" && selectedOrderType !== "CONSUMABLE" && selectedOrderType !== "BLOOD_TRANSFUSION" && (
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                      3. Clinical Indication (Optional)
-                    </label>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("3. Clinical Indication (Optional)")}</label>
                     <input
                       type="text"
-                      placeholder="e.g. Rule out malaria, Routine checkup (optional)..."
+                      placeholder={i18n.t("e.g. Rule out malaria, Routine checkup (optional)...")}
                       className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:bg-white focus:border-brand-active0 transition-all"
                       value={clinicalReason}
                       onChange={(e) => setClinicalReason(e.target.value)}
@@ -887,8 +876,8 @@ const EMROrders: React.FC = () => {
                 {selectedOrderType === "CONSUMABLE" && (
                   <div className="space-y-4 bg-slate-50 p-4 rounded-2xl border border-slate-200 animate-in slide-in-from-bottom-2">
                     <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider flex justify-between items-center">
-                      <span>Order Details</span>
-                      <span className="bg-emerald-100 text-emerald-700 px-2 py-1 rounded text-[9px]">Dispensing: {dispensingDept}</span>
+                      <span>{i18n.t("Order Details")}</span>
+                      <span className="bg-emerald-100 text-emerald-700 px-2 py-1 rounded text-[9px]">{i18n.t("Dispensing:")}{" "}{dispensingDept}</span>
                     </h4>
                     
                     {selectedTariff && (
@@ -898,7 +887,7 @@ const EMROrders: React.FC = () => {
                           <p className="text-[10px] text-slate-400">{selectedTariff.item_code || selectedTariff.billable_code}</p>
                         </div>
                         <div className="flex items-center gap-2">
-                          <label className="text-[10px] font-bold text-slate-400 uppercase">Qty:</label>
+                          <label className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Qty:")}</label>
                           <input
                             type="number" min="1" defaultValue={1} id="consumable-qty"
                             className="w-16 px-2 py-1 border border-slate-200 rounded-lg text-sm font-bold text-center outline-none focus:border-brand-primary"
@@ -925,13 +914,13 @@ const EMROrders: React.FC = () => {
 
                     {consumableItems.length > 0 && (
                       <div className="space-y-2 pt-2 border-t border-slate-200">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase">Items to Order</label>
+                        <label className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Items to Order")}</label>
                         <div className="space-y-1">
                           {consumableItems.map((item, idx) => (
                             <div key={idx} className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-100 shadow-sm">
                               <div>
                                 <span className="text-xs font-bold text-slate-700">{item.name}</span>
-                                <span className="ml-2 text-[10px] font-medium text-slate-400">× {item.quantity}</span>
+                                <span className="ms-2 text-[10px] font-medium text-slate-400">× {item.quantity}</span>
                               </div>
                               <button onClick={() => setConsumableItems(consumableItems.filter((_, i) => i !== idx))} className="text-red-400 hover:text-red-600 transition-colors">
                                 <Trash2 size={14} />
@@ -946,11 +935,11 @@ const EMROrders: React.FC = () => {
 
                 {selectedOrderType === "SURGERY" && (
                   <div className="space-y-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                    <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">Surgery Request Details</h4>
+                    <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">{i18n.t("Surgery Request Details")}</h4>
                     <div className="space-y-1">
-                      <label className="text-[10px] font-bold text-slate-500">Surgery Name *</label>
+                      <label className="text-[10px] font-bold text-slate-500">{i18n.t("Surgery Name *")}</label>
                       <input
-                        type="text" placeholder="e.g. Heart Repair, Appendectomy..."
+                        type="text" placeholder={i18n.t("e.g. Heart Repair, Appendectomy...")}
                         className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0"
                         value={surgeryForm.surgery_name}
                         onChange={(e) => setSurgeryForm({ ...surgeryForm, surgery_name: e.target.value })}
@@ -958,56 +947,55 @@ const EMROrders: React.FC = () => {
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-500">Surgery Type *</label>
+                        <label className="text-[10px] font-bold text-slate-500">{i18n.t("Surgery Type *")}</label>
                         <select
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0"
                           value={surgeryForm.surgery_type}
                           onChange={(e) => setSurgeryForm({ ...surgeryForm, surgery_type: e.target.value as "ELECTIVE" | "EMERGENCY" })}
                         >
-                          <option value="ELECTIVE">Elective</option>
-                          <option value="EMERGENCY">Emergency</option>
+                          <option value="ELECTIVE">{i18n.t("Elective")}</option>
+                          <option value="EMERGENCY">{i18n.t("Emergency")}</option>
                         </select>
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-500">Priority *</label>
+                        <label className="text-[10px] font-bold text-slate-500">{i18n.t("Priority *")}</label>
                         <select
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0"
                           value={surgeryForm.priority}
                           onChange={(e) => setSurgeryForm({ ...surgeryForm, priority: e.target.value as any })}
                         >
-                          <option value="LOW">Low</option>
-                          <option value="NORMAL">Normal</option>
-                          <option value="HIGH">High</option>
-                          <option value="URGENT">Urgent</option>
+                          <option value="LOW">{i18n.t("Low")}</option>
+                          <option value="NORMAL">{i18n.t("Normal")}</option>
+                          <option value="HIGH">{i18n.t("High")}</option>
+                          <option value="URGENT">{i18n.t("Urgent")}</option>
                         </select>
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-500">Surgeon *</label>
+                        <label className="text-[10px] font-bold text-slate-500">{i18n.t("Surgeon *")}</label>
                         <select
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0"
                           value={surgeryForm.surgeon_id}
                           onChange={(e) => setSurgeryForm({ ...surgeryForm, surgeon_id: e.target.value })}
                           disabled={loadingSurgery}
                         >
-                          <option value="">{loadingSurgery ? "Loading..." : "Select Surgeon"}</option>
+                          <option value="">{loadingSurgery ? i18n.t("Loading...") : i18n.t("Select Surgeon")}</option>
                           {surgeons.map((doc) => (
-                            <option key={doc.doctor_id} value={doc.doctor_id}>
-                              Dr. {doc.first_name} {doc.last_name} ({doc.specialization_name})
+                            <option key={doc.doctor_id} value={doc.doctor_id}>{i18n.t("Dr.")}{" "}{doc.first_name} {doc.last_name} ({doc.specialization_name})
                             </option>
                           ))}
                         </select>
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-500">OT Room *</label>
+                        <label className="text-[10px] font-bold text-slate-500">{i18n.t("OT Room *")}</label>
                         <select
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0"
                           value={surgeryForm.preferred_ot_room_id}
                           onChange={(e) => setSurgeryForm({ ...surgeryForm, preferred_ot_room_id: e.target.value })}
                           disabled={loadingSurgery}
                         >
-                          <option value="">{loadingSurgery ? "Loading..." : "Select OT Room"}</option>
+                          <option value="">{loadingSurgery ? i18n.t("Loading...") : i18n.t("Select OT Room")}</option>
                           {otRooms.map((room) => (
                             <option key={room.id} value={room.id}>{room.room_name}</option>
                           ))}
@@ -1016,7 +1004,7 @@ const EMROrders: React.FC = () => {
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-500">Preferred Date *</label>
+                        <label className="text-[10px] font-bold text-slate-500">{i18n.t("Preferred Date *")}</label>
                         <input
                           type="date"
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0"
@@ -1026,7 +1014,7 @@ const EMROrders: React.FC = () => {
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-500">Preferred Time *</label>
+                        <label className="text-[10px] font-bold text-slate-500">{i18n.t("Preferred Time *")}</label>
                         <input
                           type="time"
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0"
@@ -1037,7 +1025,7 @@ const EMROrders: React.FC = () => {
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-500">Est. Duration (mins) *</label>
+                        <label className="text-[10px] font-bold text-slate-500">{i18n.t("Est. Duration (mins) *")}</label>
                         <input
                           type="number" min="1"
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0"
@@ -1046,24 +1034,24 @@ const EMROrders: React.FC = () => {
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-500">Anesthesia Type</label>
+                        <label className="text-[10px] font-bold text-slate-500">{i18n.t("Anesthesia Type")}</label>
                         <select
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0"
                           value={surgeryForm.anesthesia_type}
                           onChange={(e) => setSurgeryForm({ ...surgeryForm, anesthesia_type: e.target.value })}
                         >
-                          <option value="GENERAL">General Anesthesia</option>
-                          <option value="SPINAL">Spinal Anesthesia</option>
-                          <option value="EPIDURAL">Epidural Anesthesia</option>
-                          <option value="LOCAL">Local Anesthesia</option>
-                          <option value="REGIONAL">Regional Anesthesia</option>
+                          <option value="GENERAL">{i18n.t("General Anesthesia")}</option>
+                          <option value="SPINAL">{i18n.t("Spinal Anesthesia")}</option>
+                          <option value="EPIDURAL">{i18n.t("Epidural Anesthesia")}</option>
+                          <option value="LOCAL">{i18n.t("Local Anesthesia")}</option>
+                          <option value="REGIONAL">{i18n.t("Regional Anesthesia")}</option>
                         </select>
                       </div>
                     </div>
                     <div className="space-y-1">
-                      <label className="text-[10px] font-bold text-slate-500">Request Notes</label>
+                      <label className="text-[10px] font-bold text-slate-500">{i18n.t("Request Notes")}</label>
                       <textarea
-                        placeholder="e.g. Needs urgent review, special considerations..." rows={2}
+                        placeholder={i18n.t("e.g. Needs urgent review, special considerations...")} rows={2}
                         className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0 resize-none"
                         value={surgeryForm.request_notes}
                         onChange={(e) => setSurgeryForm({ ...surgeryForm, request_notes: e.target.value })}
@@ -1074,42 +1062,42 @@ const EMROrders: React.FC = () => {
 
                 {selectedOrderType === "BLOOD_TRANSFUSION" && (
                   <div className="space-y-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                    <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">Blood Transfusion Request</h4>
+                    <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">{i18n.t("Blood Transfusion Request")}</h4>
                     <div className="space-y-1">
-                      <label className="text-[10px] font-bold text-slate-500">Indication *</label>
+                      <label className="text-[10px] font-bold text-slate-500">{i18n.t("Indication *")}</label>
                       <input
-                        type="text" placeholder="e.g. Severe Anaemia..."
+                        type="text" placeholder={i18n.t("e.g. Severe Anaemia...")}
                         className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0"
                         value={bloodBankForm.indication} onChange={(e) => setBloodBankForm({ ...bloodBankForm, indication: e.target.value })}
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-500">Urgency *</label>
+                        <label className="text-[10px] font-bold text-slate-500">{i18n.t("Urgency *")}</label>
                         <select
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0"
                           value={bloodBankForm.urgency} onChange={(e) => setBloodBankForm({ ...bloodBankForm, urgency: e.target.value })}
                         >
-                          <option value="ROUTINE">Routine</option>
-                          <option value="URGENT">Urgent</option>
-                          <option value="EMERGENCY">Emergency</option>
-                          <option value="STAT">STAT</option>
+                          <option value="ROUTINE">{i18n.t("Routine")}</option>
+                          <option value="URGENT">{i18n.t("Urgent")}</option>
+                          <option value="EMERGENCY">{i18n.t("Emergency")}</option>
+                          <option value="STAT">{i18n.t("STAT")}</option>
                         </select>
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-500">Previous Transfusion? *</label>
+                        <label className="text-[10px] font-bold text-slate-500">{i18n.t("Previous Transfusion? *")}</label>
                         <select
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0"
                           value={bloodBankForm.previous_transfusion} onChange={(e) => setBloodBankForm({ ...bloodBankForm, previous_transfusion: e.target.value })}
                         >
-                          <option value="NO">No</option>
-                          <option value="YES">Yes</option>
+                          <option value="NO">{i18n.t("No")}</option>
+                          <option value="YES">{i18n.t("Yes")}</option>
                         </select>
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-500">Required Date *</label>
+                        <label className="text-[10px] font-bold text-slate-500">{i18n.t("Required Date *")}</label>
                         <input
                           type="date" min={new Date().toISOString().split("T")[0]}
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0"
@@ -1117,7 +1105,7 @@ const EMROrders: React.FC = () => {
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-500">Required Time *</label>
+                        <label className="text-[10px] font-bold text-slate-500">{i18n.t("Required Time *")}</label>
                         <input
                           type="time"
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0"
@@ -1129,7 +1117,7 @@ const EMROrders: React.FC = () => {
                       <div className="flex flex-col gap-3 bg-white p-4 rounded-xl border border-brand-active">
                         <p className="text-xs font-bold text-slate-800">{selectedTariff.billable_name}</p>
                         <div className="space-y-1">
-                          <label className="text-[10px] font-bold text-slate-400 uppercase block">Component Type</label>
+                          <label className="text-[10px] font-bold text-slate-400 uppercase block">{i18n.t("Component Type")}</label>
                           <select id="blood-component-enum" className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold bg-slate-50 outline-none focus:border-brand-active" defaultValue={(() => {
                             const n = selectedTariff.billable_name.toUpperCase();
                             if (n.includes("PLASMA") || n.includes("FFP")) return "FFP";
@@ -1138,26 +1126,26 @@ const EMROrders: React.FC = () => {
                             if (n.includes("CRYO")) return "CRYOPRECIPITATE";
                             return "PACKED_RED_CELLS";
                           })()}>
-                            <option value="PACKED_RED_CELLS">Packed Red Cells</option>
-                            <option value="WHOLE_BLOOD">Whole Blood</option>
-                            <option value="PLATELETS">Platelets</option>
-                            <option value="FFP">Fresh Frozen Plasma (FFP)</option>
-                            <option value="CRYOPRECIPITATE">Cryoprecipitate</option>
+                            <option value="PACKED_RED_CELLS">{i18n.t("Packed Red Cells")}</option>
+                            <option value="WHOLE_BLOOD">{i18n.t("Whole Blood")}</option>
+                            <option value="PLATELETS">{i18n.t("Platelets")}</option>
+                            <option value="FFP">{i18n.t("Fresh Frozen Plasma (FFP)")}</option>
+                            <option value="CRYOPRECIPITATE">{i18n.t("Cryoprecipitate")}</option>
                           </select>
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div className="space-y-1">
-                            <label className="text-[10px] font-bold text-slate-400 uppercase block">Units</label>
+                            <label className="text-[10px] font-bold text-slate-400 uppercase block">{i18n.t("Units")}</label>
                             <input type="number" min="1" defaultValue={1} id="blood-units" className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold text-center bg-slate-50 outline-none focus:border-brand-active" />
                           </div>
                           <div className="space-y-1">
-                            <label className="text-[10px] font-bold text-slate-400 uppercase block">Volume (mL)</label>
-                            <input required type="number" min="0" placeholder="e.g. 500" id="blood-mls" className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold text-center bg-slate-50 outline-none focus:border-brand-active" />
+                            <label className="text-[10px] font-bold text-slate-400 uppercase block">{i18n.t("Volume (mL)")}</label>
+                            <input required type="number" min="0" placeholder={i18n.t("e.g. 500")} id="blood-mls" className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold text-center bg-slate-50 outline-none focus:border-brand-active" />
                           </div>
                         </div>
                         <div className="space-y-1">
-                          <label className="text-[10px] font-bold text-slate-400 uppercase block">Notes</label>
-                          <input type="text" placeholder="e.g. Treat as urgent" id="blood-notes" className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-slate-50 outline-none focus:border-brand-active" />
+                          <label className="text-[10px] font-bold text-slate-400 uppercase block">{i18n.t("Notes")}</label>
+                          <input type="text" placeholder={i18n.t("e.g. Treat as urgent")} id="blood-notes" className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-slate-50 outline-none focus:border-brand-active" />
                         </div>
 
                         <button
@@ -1189,21 +1177,20 @@ const EMROrders: React.FC = () => {
                           }}
                           className="w-full bg-brand-primary text-white py-2.5 rounded-lg hover:bg-brand-primary/90 transition-colors flex items-center justify-center gap-2 font-bold text-xs"
                         >
-                          <FilePlus size={16} /> Add Component
-                        </button>
+                          <FilePlus size={16} />{" "}{i18n.t("Add Component")}</button>
                       </div>
                     )}
                     {bloodBankComponents.length > 0 && (
                       <div className="space-y-2 pt-2 border-t border-slate-200">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase">Selected Components</label>
+                        <label className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Selected Components")}</label>
                         <div className="space-y-1">
                           {bloodBankComponents.map((item, idx) => (
                             <div key={idx} className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-100">
                               <div>
                                 <span className="text-xs font-bold text-slate-700">{item.name}</span>
-                                <span className="ml-2 text-[10px] font-bold text-brand-primary bg-brand-active/30 px-2 py-0.5 rounded-md">{item.enum_val}</span>
-                                <span className="ml-2 text-[10px] font-medium text-slate-400">× {item.units_requested} units</span>
-                                {item.mls > 0 && <span className="ml-2 text-[10px] font-medium text-slate-400">{item.mls} mL</span>}
+                                <span className="ms-2 text-[10px] font-bold text-brand-primary bg-brand-active/30 px-2 py-0.5 rounded-md">{item.enum_val}</span>
+                                <span className="ms-2 text-[10px] font-medium text-slate-400">× {item.units_requested}{" "}{i18n.t("units")}</span>
+                                {item.mls > 0 && <span className="ms-2 text-[10px] font-medium text-slate-400">{item.mls}{" "}{i18n.t("mL")}</span>}
                                 {item.notes && <div className="text-[10px] text-slate-400 italic mt-0.5">{item.notes}</div>}
                               </div>
                               <button onClick={() => setBloodBankComponents(bloodBankComponents.filter((_, i) => i !== idx))} className="text-red-400 hover:text-red-600">
@@ -1220,14 +1207,14 @@ const EMROrders: React.FC = () => {
                 {/* --- PHARMACY FORM --- */}
                 {selectedOrderType === "PHARMACY" && selectedTariff && (
                   <div className="space-y-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                    <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">Prescription Details</h4>
+                    <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">{i18n.t("Prescription Details")}</h4>
                     <div className="grid grid-cols-2 gap-4">
                       
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-500">Clinical Dose & Unit</label>
+                        <label className="text-[10px] font-bold text-slate-500">{i18n.t("Clinical Dose & Unit")}</label>
                         <div className="flex gap-2">
                           <input
-                            type="text" min="0" step="any" placeholder="e.g. 500"
+                            type="text" min="0" step="any" placeholder={i18n.t("e.g. 500")}
                             className="w-1/2 px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-800 outline-none focus:border-brand-active0 focus:ring-2 focus:ring-brand-active0/20"
                             value={currentMed.doseValue || ""} 
                             onChange={(e) => setCurrentMed({ ...currentMed, doseValue: e.target.value })}
@@ -1241,25 +1228,25 @@ const EMROrders: React.FC = () => {
                             value={currentMed.doseUnit || "mg"} 
                             onChange={(e) => setCurrentMed({ ...currentMed, doseUnit: e.target.value })}
                             disabled={!!selectedTariff?.strength}
-                            title={selectedTariff?.strength ? "Unit is locked to match the catalog item" : "Select clinical unit"}
+                            title={selectedTariff?.strength ? i18n.t("Unit is locked to match the catalog item") : i18n.t("Select clinical unit")}
                           >
                             {currentMed.doseUnit && !["mg","g","mcg","mL","Units","Drop(s)","Puff(s)","Application(s)"].includes(currentMed.doseUnit) && (
                               <option value={currentMed.doseUnit}>{currentMed.doseUnit}</option>
                             )}
-                            <option value="mg">mg</option>
-                            <option value="g">g</option>
-                            <option value="mcg">mcg</option>
-                            <option value="mL">mL</option>
-                            <option value="Units">Units</option>
-                            <option value="Drop(s)">Drop(s)</option>
-                            <option value="Puff(s)">Puff(s)</option>
-                            <option value="Application(s)">Application(s)</option>
+                            <option value="mg">{i18n.t("mg")}</option>
+                            <option value="g">{i18n.t("g")}</option>
+                            <option value="mcg">{i18n.t("mcg")}</option>
+                            <option value="mL">{i18n.t("mL")}</option>
+                            <option value="Units">{i18n.t("Units")}</option>
+                            <option value="Drop(s)">{i18n.t("Drop(s)")}</option>
+                            <option value="Puff(s)">{i18n.t("Puff(s)")}</option>
+                            <option value="Application(s)">{i18n.t("Application(s)")}</option>
                           </select>
                         </div>
                       </div>
 
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-500">Frequency</label>
+                        <label className="text-[10px] font-bold text-slate-500">{i18n.t("Frequency")}</label>
                         <select
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0"
                           value={currentMed.frequency || "Daily"} 
@@ -1272,24 +1259,24 @@ const EMROrders: React.FC = () => {
                             });
                           }}
                         >
-                          <option value="Daily">Daily</option>
-                          <option value="Twice Daily">Twice Daily (BD)</option>
-                          <option value="3 Times a Day">3 Times a Day (TDS)</option>
-                          <option value="4 Times a Day">4 Times a Day (QDS)</option>
-                          <option value="Every Morning">Every Morning</option>
-                          <option value="Every Night">Every Night</option>
-                          <option value="As Needed (PRN)">As Needed (PRN)</option>
-                          <option value="Immediately (STAT)">Immediately (STAT)</option>
-                          <option value="Every 4 Hours">Every 4 Hours</option>
-                          <option value="Every 6 Hours">Every 6 Hours</option>
-                          <option value="Every 8 Hours">Every 8 Hours</option>
-                          <option value="Every 12 Hours">Every 12 Hours</option>
-                          <option value="Others">Others</option>
+                          <option value="Daily">{i18n.t("Daily")}</option>
+                          <option value="Twice Daily">{i18n.t("Twice Daily (BD)")}</option>
+                          <option value="3 Times a Day">{i18n.t("3 Times a Day (TDS)")}</option>
+                          <option value="4 Times a Day">{i18n.t("4 Times a Day (QDS)")}</option>
+                          <option value="Every Morning">{i18n.t("Every Morning")}</option>
+                          <option value="Every Night">{i18n.t("Every Night")}</option>
+                          <option value="As Needed (PRN)">{i18n.t("As Needed (PRN)")}</option>
+                          <option value="Immediately (STAT)">{i18n.t("Immediately (STAT)")}</option>
+                          <option value="Every 4 Hours">{i18n.t("Every 4 Hours")}</option>
+                          <option value="Every 6 Hours">{i18n.t("Every 6 Hours")}</option>
+                          <option value="Every 8 Hours">{i18n.t("Every 8 Hours")}</option>
+                          <option value="Every 12 Hours">{i18n.t("Every 12 Hours")}</option>
+                          <option value="Others">{i18n.t("Others")}</option>
                         </select>
                       </div>
 
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-500">Duration Count</label>
+                        <label className="text-[10px] font-bold text-slate-500">{i18n.t("Duration Count")}</label>
                         <input
                           type="number" min="1" step="1"
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0 disabled:opacity-50 disabled:bg-slate-100"
@@ -1300,49 +1287,49 @@ const EMROrders: React.FC = () => {
                       </div>
 
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-500">Duration Period</label>
+                        <label className="text-[10px] font-bold text-slate-500">{i18n.t("Duration Period")}</label>
                         <select
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0 disabled:opacity-50 disabled:bg-slate-100"
                           value={currentMed.duration || "DAYS"} 
                           onChange={(e) => setCurrentMed({ ...currentMed, duration: e.target.value })}
                           disabled={currentMed.frequency === "Immediately (STAT)"}
                         >
-                          <option value="DAYS">Days</option>
-                          <option value="WEEKS">Weeks</option>
-                          <option value="MONTHS">Months</option>
-                          <option value="DOSES">Doses</option>
+                          <option value="DAYS">{i18n.t("Days")}</option>
+                          <option value="WEEKS">{i18n.t("Weeks")}</option>
+                          <option value="MONTHS">{i18n.t("Months")}</option>
+                          <option value="DOSES">{i18n.t("Doses")}</option>
                         </select>
                       </div>
                       
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-500">Route</label>
+                        <label className="text-[10px] font-bold text-slate-500">{i18n.t("Route")}</label>
                         <select
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0"
                           value={currentMed.route || "Oral"} 
                           onChange={(e) => setCurrentMed({ ...currentMed, route: e.target.value })}
                         >
-                          <option value="Oral">Oral (PO)</option>
-                          <option value="Intravenous">Intravenous (IV)</option>
-                          <option value="Intramuscular">Intramuscular (IM)</option>
-                          <option value="Subcutaneous">Subcutaneous (SC)</option>
-                          <option value="Topical">Topical</option>
-                          <option value="Inhalation">Inhalation</option>
-                          <option value="Rectal">Rectal (PR)</option>
-                          <option value="Eye Drops">Eye Drops</option>
-                          <option value="Ear Drops">Ear Drops</option>
-                          <option value="Nasal">Nasal</option>
-                          <option value="Vaginal">Vaginal</option>
+                          <option value="Oral">{i18n.t("Oral (PO)")}</option>
+                          <option value="Intravenous">{i18n.t("Intravenous (IV)")}</option>
+                          <option value="Intramuscular">{i18n.t("Intramuscular (IM)")}</option>
+                          <option value="Subcutaneous">{i18n.t("Subcutaneous (SC)")}</option>
+                          <option value="Topical">{i18n.t("Topical")}</option>
+                          <option value="Inhalation">{i18n.t("Inhalation")}</option>
+                          <option value="Rectal">{i18n.t("Rectal (PR)")}</option>
+                          <option value="Eye Drops">{i18n.t("Eye Drops")}</option>
+                          <option value="Ear Drops">{i18n.t("Ear Drops")}</option>
+                          <option value="Nasal">{i18n.t("Nasal")}</option>
+                          <option value="Vaginal">{i18n.t("Vaginal")}</option>
                         </select>
                       </div>
 
                       <div className="space-y-1 col-span-2">
                         <label className="text-[10px] font-bold text-slate-500 flex items-center justify-between">
-                          <span>Instructions / Indication</span>
-                          {currentMed.frequency === "As Needed (PRN)" && <span className="text-red-500 font-bold">*Required for PRN</span>}
+                          <span>{i18n.t("Instructions / Indication")}</span>
+                          {currentMed.frequency === "As Needed (PRN)" && <span className="text-red-500 font-bold">{i18n.t("*Required for PRN")}</span>}
                         </label>
                         <input
                           type="text" 
-                          placeholder={currentMed.frequency === "As Needed (PRN)" ? "Required: e.g., 'for severe pain'" : "e.g., Take with food"}
+                          placeholder={currentMed.frequency === "As Needed (PRN)" ? i18n.t("Required: e.g., 'for severe pain'") : i18n.t("e.g., Take with food")}
                           className={`w-full px-3 py-2 bg-white border rounded-xl text-sm outline-none focus:border-brand-active0 ${
                             currentMed.frequency === "As Needed (PRN)" && !currentMed.instructions ? 'border-amber-300 bg-amber-50' : 'border-slate-200'
                           }`}
@@ -1360,9 +1347,7 @@ const EMROrders: React.FC = () => {
                           onChange={(e) => setCurrentMed({ ...currentMed, is_patient_own_medication: e.target.checked })}
                           className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
                         />
-                        <span className="text-xs font-bold text-slate-700">
-                          Patient's Own Medication (Do not send to pharmacy queue or bill patient)
-                        </span>
+                        <span className="text-xs font-bold text-slate-700">{i18n.t("Patient's Own Medication (Do not send to pharmacy queue or bill patient)")}</span>
                       </label>
                     </div>
                     
@@ -1396,27 +1381,25 @@ const EMROrders: React.FC = () => {
                         setCurrentMed({ doseValue: "", doseUnit: "mg", frequency: "Daily", duration_unit: 5, duration: "DAYS", route: "Oral", instructions: "", is_patient_own_medication: false });
                       }}
                       className="w-full mt-2 bg-teal-100 text-teal-700 py-2 rounded-xl font-bold text-xs hover:bg-teal-200 transition-colors"
-                    >
-                      Add to Prescription
-                    </button>
+                    >{i18n.t("Add to Prescription")}</button>
                   </div>
                 )}
 
                 {selectedOrderType === "PHARMACY" && medications.length > 0 && (
                   <div className="space-y-2">
-                    <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">Current Prescription</h4>
+                    <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">{i18n.t("Current Prescription")}</h4>
                     <div className="space-y-2">
                       {medications.map((med, idx) => (
                         <div key={idx} className="flex items-center justify-between bg-teal-50 p-3 rounded-xl border border-teal-100">
                           <div>
                             <p className="text-xs font-bold text-slate-800">
-                              {med.name} {med.is_patient_own_medication ? <span className="text-[9px] bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded font-black ml-1">Patient's Own</span> : null}
+                              {med.name} {med.is_patient_own_medication ? <span className="text-[9px] bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded font-black ms-1">{i18n.t("Patient's Own")}</span> : null}
                             </p>
                             <p className="text-[10px] font-medium text-slate-500">
                               {med.doseValue} {med.doseUnit} • {med.frequency} • {med.route} • {med.duration_unit} {med.duration.toLowerCase()}
                             </p>
                             {med.instructions && (
-                              <p className="text-[10px] text-slate-600 mt-0.5 italic">Sig: {med.instructions}</p>
+                              <p className="text-[10px] text-slate-600 mt-0.5 italic">{i18n.t("Sig:")}{" "}{med.instructions}</p>
                             )}
                           </div>
                           <button type="button" onClick={() => setMedications(medications.filter((_, i) => i !== idx))} className="text-red-400 hover:text-red-600 p-1">
@@ -1444,9 +1427,7 @@ const EMROrders: React.FC = () => {
                   }
                   className="w-full bg-brand-primary text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-brand-primary transition-all shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />}
-                  Submit Order
-                </button>
+                  {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />}{i18n.t("Submit Order")}</button>
               </div>
             </div>
           </div>
@@ -1459,10 +1440,8 @@ const EMROrders: React.FC = () => {
               <h3 className="text-lg font-black text-slate-800 flex items-center gap-2">
                 <div className="p-1.5 bg-white text-slate-600 rounded-lg shadow-sm">
                   <Clock size={20} />
-                </div>
-                Order History
-                {existingOrders.length > 0 && (
-                  <span className="text-xs font-black bg-brand-primary text-white px-2.5 py-0.5 rounded-full shadow-sm ml-2">{existingOrders.length}</span>
+                </div>{i18n.t("Order History")}{existingOrders.length > 0 && (
+                  <span className="text-xs font-black bg-brand-primary text-white px-2.5 py-0.5 rounded-full shadow-sm ms-2">{existingOrders.length}</span>
                 )}
               </h3>
               <button
@@ -1474,16 +1453,14 @@ const EMROrders: React.FC = () => {
               </button>
             </div>
 
-            <div className="flex-1 space-y-4 pr-2 custom-scrollbar overflow-y-auto">
+            <div className="flex-1 space-y-4 pe-2 custom-scrollbar overflow-y-auto">
               {loadingOrders ? (
                 <div className="py-20 text-center">
                   <Loader2 className="animate-spin mx-auto text-slate-300 w-10 h-10" />
                 </div>
               ) : existingOrders.length === 0 ? (
                 <div className="py-20 text-center bg-white/50 border-2 border-dashed border-slate-200 rounded-3xl">
-                  <p className="text-sm text-slate-400 font-bold italic px-6">
-                    No clinical orders recorded for this encounter.
-                  </p>
+                  <p className="text-sm text-slate-400 font-bold italic px-6">{i18n.t("No clinical orders recorded for this encounter.")}</p>
                 </div>
               ) : (
                 <div className="flex flex-col h-full">
@@ -1536,13 +1513,12 @@ const EMROrders: React.FC = () => {
                                   <div className="flex items-center gap-3 mt-1 text-[10px] font-bold text-slate-500 uppercase tracking-widest flex-wrap">
                                     <span className="font-mono text-indigo-600">{order.order_type}</span>
                                     <span className="text-slate-300">•</span>
-                                    <span>By: {order.ordered_by?.name || "System"}</span>
+                                    <span>{i18n.t("By:")}{" "}{order.ordered_by?.name || i18n.t("System")}</span>
                                     <span className="text-slate-300">•</span>
                                     <span>{new Date(order.ordered_at).toLocaleString()}</span>
                                   </div>
                                   {order.cancelled_by && (
-                                    <div className="mt-1 text-[10px] font-bold text-red-500 uppercase tracking-widest">
-                                      Cancelled by {order.cancelled_by.name} · {new Date(order.cancelled_by.cancelled_at).toLocaleString()}
+                                    <div className="mt-1 text-[10px] font-bold text-red-500 uppercase tracking-widest">{i18n.t("Cancelled by")}{" "}{order.cancelled_by.name} · {new Date(order.cancelled_by.cancelled_at).toLocaleString()}
                                     </div>
                                   )}
                                 </div>
@@ -1555,7 +1531,7 @@ const EMROrders: React.FC = () => {
                                     : order.order_status === "PAID" ? "bg-indigo-50 text-indigo-600 border-indigo-200"
                                       : "bg-amber-50 text-amber-600 border-amber-200"
                                 }`}>
-                                  {order.order_status}
+                                  {i18n.tv(order.order_status)}
                                 </span>
 
                                 <div className="flex items-center gap-2">
@@ -1565,7 +1541,7 @@ const EMROrders: React.FC = () => {
                                       <button
                                         onClick={(e) => { e.stopPropagation(); setSelectedOrderResult(order); }}
                                         className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all"
-                                        title="View Results"
+                                        title={i18n.t("View Results")}
                                       >
                                         <Eye size={16} />
                                       </button>
@@ -1574,7 +1550,7 @@ const EMROrders: React.FC = () => {
                                     onClick={(e) => { e.stopPropagation(); handleDeleteOrder(order.id); }}
                                     disabled={isDeletingOrderId === order.id}
                                     className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all disabled:opacity-50"
-                                    title="Cancel"
+                                    title={i18n.t("Cancel")}
                                   >
                                     {isDeletingOrderId === order.id ? <Loader2 size={16} className="animate-spin" /> : <Trash2 size={16} />}
                                   </button>
@@ -1597,19 +1573,19 @@ const EMROrders: React.FC = () => {
                                           : [];
 
                                       if (prescriptionItems.length === 0) {
-                                        return <div className="text-center py-4 text-sm text-slate-400 italic">No specific items listed for this order.</div>;
+                                        return <div className="text-center py-4 text-sm text-slate-400 italic">{i18n.t("No specific items listed for this order.")}</div>;
                                       }
 
                                       return (
                                         <div className="overflow-x-auto border border-slate-200 rounded-2xl bg-white shadow-sm">
-                                          <table className="w-full text-left border-collapse">
+                                          <table className="w-full text-start border-collapse">
                                             <thead className="bg-slate-50 border-b border-slate-100 text-slate-500 font-bold uppercase text-[10px] tracking-wider">
                                               <tr>
-                                                <th className="px-6 py-4">Drug Information</th>
-                                                <th className="px-6 py-4">Instructions</th>
-                                                <th className="px-6 py-4 text-center">Qty</th>
-                                                <th className="px-6 py-4">Status</th>
-                                                <th className="px-6 py-4 text-right">Action</th>
+                                                <th className="px-6 py-4">{i18n.t("Drug Information")}</th>
+                                                <th className="px-6 py-4">{i18n.t("Instructions")}</th>
+                                                <th className="px-6 py-4 text-center">{i18n.t("Qty")}</th>
+                                                <th className="px-6 py-4">{i18n.t("Status")}</th>
+                                                <th className="px-6 py-4 text-end">{i18n.t("Action")}</th>
                                               </tr>
                                             </thead>
                                             <tbody className="divide-y divide-slate-50">
@@ -1617,7 +1593,7 @@ const EMROrders: React.FC = () => {
                                                 <tr key={index} className="hover:bg-slate-50/50 transition-colors">
                                                   <td className="px-6 py-4 align-top">
                                                     <div className="font-black text-slate-800 leading-tight">
-                                                      {drug.drug_name} {drug.is_patient_own_medication ? <span className="text-[9px] bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded font-black ml-1">Patient's Own</span> : null}
+                                                      {drug.drug_name} {drug.is_patient_own_medication ? <span className="text-[9px] bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded font-black ms-1">{i18n.t("Patient's Own")}</span> : null}
                                                     </div>
                                                     <div className="text-[10px] text-slate-400 font-mono mt-1">{drug.drug_code}</div>
                                                   </td>
@@ -1637,7 +1613,7 @@ const EMROrders: React.FC = () => {
                                                             ? "bg-red-50 text-red-600 border-red-100"
                                                             : "bg-indigo-50 text-indigo-600 border-indigo-100"
                                                         }`}>
-                                                          {drug.prescription_status}
+                                                          {i18n.tv(drug.prescription_status)}
                                                         </span>
                                                       )}
                                                       <span className={`text-[9px] font-black px-2 py-0.5 rounded border uppercase tracking-tighter w-fit ${
@@ -1645,11 +1621,11 @@ const EMROrders: React.FC = () => {
                                                           ? "bg-emerald-50 text-emerald-600 border-emerald-100"
                                                           : "bg-amber-50 text-amber-600 border-amber-100"
                                                       }`}>
-                                                        {drug.dispense_status}
+                                                        {i18n.tv(drug.dispense_status)}
                                                       </span>
                                                     </div>
                                                   </td>
-                                                  <td className="px-6 py-4 align-top text-right">
+                                                  <td className="px-6 py-4 align-top text-end">
                                                     <div className="flex flex-col items-end gap-2">
                                                       {drug.prescription_status === "REQUESTED" && (
                                                         <button
@@ -1657,7 +1633,7 @@ const EMROrders: React.FC = () => {
                                                           disabled={isDeletingChildId?.id === drug.id}
                                                           className="px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-lg text-[10px] font-black uppercase tracking-wider transition-colors disabled:opacity-50"
                                                         >
-                                                          {isDeletingChildId?.id === drug.id && isDeletingChildId?.type === "PRESCRIPTION" ? "Wait..." : "Cancel"}
+                                                          {isDeletingChildId?.id === drug.id && isDeletingChildId?.type === "PRESCRIPTION" ? i18n.t("Wait...") : i18n.t("Cancel")}
                                                         </button>
                                                       )}
                                                       {(drug.prescription_status === "DISPENSED" || drug.prescription_status === "IN_PROGRESS" || drug.dispense_status === "DISPENSED") && (
@@ -1666,7 +1642,7 @@ const EMROrders: React.FC = () => {
                                                           disabled={isDeletingChildId?.id === drug.id}
                                                           className="px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-lg text-[10px] font-black uppercase tracking-wider transition-colors disabled:opacity-50"
                                                         >
-                                                          {isDeletingChildId?.id === drug.id && isDeletingChildId?.type === "PRESCRIPTION" ? "Wait..." : "Stop"}
+                                                          {isDeletingChildId?.id === drug.id && isDeletingChildId?.type === "PRESCRIPTION" ? i18n.t("Wait...") : i18n.t("Stop")}
                                                         </button>
                                                       )}
                                                     </div>
@@ -1680,16 +1656,16 @@ const EMROrders: React.FC = () => {
                                     })()
                                   ) : order.order_type === "CONSUMABLE" ? (
                                     (!order.consumables || !Array.isArray(order.consumables) || order.consumables.length === 0) ? (
-                                      <div className="text-center py-4 text-sm text-slate-400 italic">No specific items listed for this order.</div>
+                                      <div className="text-center py-4 text-sm text-slate-400 italic">{i18n.t("No specific items listed for this order.")}</div>
                                     ) : (
                                       <div className="overflow-x-auto border border-slate-200 rounded-2xl bg-white shadow-sm">
-                                        <table className="w-full text-left border-collapse">
+                                        <table className="w-full text-start border-collapse">
                                           <thead className="bg-slate-50 border-b border-slate-100 text-slate-500 font-bold uppercase text-[10px] tracking-wider">
                                             <tr>
-                                              <th className="px-6 py-4">Item Information</th>
-                                              <th className="px-6 py-4 text-center">Qty</th>
-                                              <th className="px-6 py-4">Status</th>
-                                              <th className="px-6 py-4 text-right">Action</th>
+                                              <th className="px-6 py-4">{i18n.t("Item Information")}</th>
+                                              <th className="px-6 py-4 text-center">{i18n.t("Qty")}</th>
+                                              <th className="px-6 py-4">{i18n.t("Status")}</th>
+                                              <th className="px-6 py-4 text-end">{i18n.t("Action")}</th>
                                             </tr>
                                           </thead>
                                           <tbody className="divide-y divide-slate-50">
@@ -1712,10 +1688,10 @@ const EMROrders: React.FC = () => {
                                                         ? "bg-red-50 text-red-600 border-red-100"
                                                         : "bg-amber-50 text-amber-600 border-amber-100"
                                                   }`}>
-                                                    {item.item_status}
+                                                    {i18n.tv(item.item_status)}
                                                   </span>
                                                 </td>
-                                                <td className="px-6 py-4 align-top text-right">
+                                                <td className="px-6 py-4 align-top text-end">
                                                   <div className="flex flex-col items-end gap-2">
                                                     {["REQUESTED", "COMPLETED", "ISSUED"].includes(item.item_status) && (
                                                       <button
@@ -1723,7 +1699,7 @@ const EMROrders: React.FC = () => {
                                                         disabled={isDeletingChildId?.id === item.id}
                                                         className="px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-lg text-[10px] font-black uppercase tracking-wider transition-colors disabled:opacity-50"
                                                       >
-                                                        {isDeletingChildId?.id === item.id && isDeletingChildId?.type === "CONSUMABLE" ? "Wait..." : "Cancel"}
+                                                        {isDeletingChildId?.id === item.id && isDeletingChildId?.type === "CONSUMABLE" ? i18n.t("Wait...") : i18n.t("Cancel")}
                                                       </button>
                                                     )}
                                                     {(item.item_status === "DISPENSED" || item.item_status === "IN_PROGRESS") && (
@@ -1732,7 +1708,7 @@ const EMROrders: React.FC = () => {
                                                         disabled={isDeletingChildId?.id === item.id}
                                                         className="px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-lg text-[10px] font-black uppercase tracking-wider transition-colors disabled:opacity-50"
                                                       >
-                                                        {isDeletingChildId?.id === item.id && isDeletingChildId?.type === "CONSUMABLE" ? "Wait..." : "Stop"}
+                                                        {isDeletingChildId?.id === item.id && isDeletingChildId?.type === "CONSUMABLE" ? i18n.t("Wait...") : i18n.t("Stop")}
                                                       </button>
                                                     )}
                                                   </div>
@@ -1755,8 +1731,7 @@ const EMROrders: React.FC = () => {
                   {/* Pagination Footer */}
                   {existingOrders.length > ordersPerPage && (
                     <div className="mt-6 pt-6 border-t border-slate-200 flex items-center justify-between px-2">
-                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                        Page {historyPage} of {Math.ceil(existingOrders.length / ordersPerPage)}
+                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Page")}{" "}{historyPage}{" "}{i18n.t("of")}{" "}{Math.ceil(existingOrders.length / ordersPerPage)}
                       </span>
                       <div className="flex items-center gap-2">
                         <button
@@ -1764,14 +1739,14 @@ const EMROrders: React.FC = () => {
                           disabled={historyPage === 1}
                           className="p-2 rounded-xl border border-slate-200 text-slate-400 hover:bg-white hover:text-brand-primary transition-all disabled:opacity-30 disabled:hover:bg-transparent"
                         >
-                          <ChevronLeft size={18} />
+                          <ChevronLeft className="rtl:-scale-x-100" size={18} />
                         </button>
                         <button
                           onClick={() => setHistoryPage((p) => Math.min(Math.ceil(existingOrders.length / ordersPerPage), p + 1))}
                           disabled={historyPage >= Math.ceil(existingOrders.length / ordersPerPage)}
                           className="p-2 rounded-xl border border-slate-200 text-slate-400 hover:bg-white hover:text-brand-primary transition-all disabled:opacity-30 disabled:hover:bg-transparent"
                         >
-                          <ChevronRight size={18} />
+                          <ChevronRight className="rtl:-scale-x-100" size={18} />
                         </button>
                       </div>
                     </div>
@@ -1809,13 +1784,11 @@ const EMROrders: React.FC = () => {
                         {selectedOrderResult.service_name}
                       </h2>
                       <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                        {selectedOrderResult.order_type} Result Report
-                      </p>
+                        {selectedOrderResult.order_type}{" "}{i18n.t("Result Report")}</p>
                     </div>
                   </div>
                   <div className="flex flex-wrap items-center gap-3 mt-3">
-                    <span className="text-[10px] font-mono bg-slate-100 text-slate-600 px-2 py-1 rounded-lg border border-slate-200">
-                      Ref: {refNo}
+                    <span className="text-[10px] font-mono bg-slate-100 text-slate-600 px-2 py-1 rounded-lg border border-slate-200">{i18n.t("Ref:")}{" "}{refNo}
                     </span>
                     <span className={`text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider ${
                       labStatus === "COMPLETED" || labStatus === "RELEASED"
@@ -1826,8 +1799,7 @@ const EMROrders: React.FC = () => {
                     }`}>
                       {labStatus}
                     </span>
-                    <span className="text-[10px] font-bold text-slate-400">
-                      Order #{selectedOrderResult.id} •{" "}
+                    <span className="text-[10px] font-bold text-slate-400">{i18n.t("Order #")}{selectedOrderResult.id} •{" "}
                       {new Date(selectedOrderResult.ordered_at).toLocaleDateString()}
                     </span>
                   </div>
@@ -1845,15 +1817,15 @@ const EMROrders: React.FC = () => {
                 {/* Info Row */}
                 <div className="grid grid-cols-2 gap-4 mb-5">
                   <div className="bg-white border border-slate-200 rounded-2xl p-4">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Collected At</p>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{i18n.t("Collected At")}</p>
                     <p className="text-sm font-bold text-slate-800">
-                      {collectedAt ? new Date(collectedAt).toLocaleString() : <span className="text-slate-400 italic">Pending</span>}
+                      {collectedAt ? new Date(collectedAt).toLocaleString() : <span className="text-slate-400 italic">{i18n.t("Pending")}</span>}
                     </p>
                   </div>
                   <div className="bg-white border border-slate-200 rounded-2xl p-4">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Completed At</p>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{i18n.t("Completed At")}</p>
                     <p className="text-sm font-bold text-slate-800">
-                      {completedAt ? new Date(completedAt).toLocaleString() : <span className="text-slate-400 italic">Pending</span>}
+                      {completedAt ? new Date(completedAt).toLocaleString() : <span className="text-slate-400 italic">{i18n.t("Pending")}</span>}
                     </p>
                   </div>
                 </div>
@@ -1862,28 +1834,24 @@ const EMROrders: React.FC = () => {
                 {isPreliminary && (
                   <div className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-5">
                     <AlertTriangle size={16} className="text-amber-600 shrink-0 mt-0.5" />
-                    <p className="text-xs font-bold text-amber-700">
-                      Preliminary results — pending final verification. Values may change after review.
-                    </p>
+                    <p className="text-xs font-bold text-amber-700">{i18n.t("Preliminary results — pending final verification. Values may change after review.")}</p>
                   </div>
                 )}
 
                 {/* Results Table */}
                 {results.length === 0 ? (
-                  <div className="text-center py-10 text-slate-400 font-bold italic">
-                    No results available yet.
-                  </div>
+                  <div className="text-center py-10 text-slate-400 font-bold italic">{i18n.t("No results available yet.")}</div>
                 ) : (
                   <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="bg-slate-50 border-b border-slate-200">
-                          <th className="text-left px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Parameter</th>
-                          <th className="text-center px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Value</th>
-                          <th className="text-center px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Unit</th>
-                          <th className="text-center px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Ref Range</th>
-                          <th className="text-center px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Flag</th>
-                          <th className="text-center px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Status</th>
+                          <th className="text-start px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Parameter")}</th>
+                          <th className="text-center px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Value")}</th>
+                          <th className="text-center px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Unit")}</th>
+                          <th className="text-center px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Ref Range")}</th>
+                          <th className="text-center px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Flag")}</th>
+                          <th className="text-center px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Status")}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1904,7 +1872,7 @@ const EMROrders: React.FC = () => {
                                   ? "bg-emerald-100 text-emerald-700"
                                   : "bg-amber-100 text-amber-700"
                               }`}>
-                                {result.status}
+                                {i18n.tv(result.status)}
                               </span>
                             </td>
                           </tr>
@@ -1925,9 +1893,7 @@ const EMROrders: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
             <div className="p-6">
               <h3 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
-                <AlertTriangle className="text-amber-500" size={20} />
-                Confirm Action
-              </h3>
+                <AlertTriangle className="text-amber-500" size={20} />{i18n.t("Confirm Action")}</h3>
               <p className="text-sm text-slate-600 mb-6 leading-relaxed">
                 {confirmAction.message}
               </p>
@@ -1936,9 +1902,7 @@ const EMROrders: React.FC = () => {
                   type="button"
                   onClick={() => setConfirmAction(null)}
                   className="px-4 py-2 text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
-                >
-                  Cancel
-                </button>
+                >{i18n.t("Cancel")}</button>
                 <button
                   type="button"
                   onClick={() => {
@@ -1946,9 +1910,7 @@ const EMROrders: React.FC = () => {
                     setConfirmAction(null);
                   }}
                   className="px-4 py-2 text-sm font-bold text-white bg-brand-primary hover:bg-brand-primary/90 rounded-xl shadow-sm transition-colors"
-                >
-                  Continue
-                </button>
+                >{i18n.t("Continue")}</button>
               </div>
             </div>
           </div>
@@ -1960,7 +1922,7 @@ const EMROrders: React.FC = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden">
             <div className="flex justify-between items-center p-4 border-b border-slate-200 bg-slate-50">
-              <h3 className="font-black text-slate-800 text-sm">Cancel Order</h3>
+              <h3 className="font-black text-slate-800 text-sm">{i18n.t("Cancel Order")}</h3>
               <button
                 onClick={() => setDeleteOrderModal(null)}
                 className="p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-200 rounded-lg transition-colors"
@@ -1970,10 +1932,10 @@ const EMROrders: React.FC = () => {
             </div>
             <div className="p-4 space-y-4">
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Reason / Remarks</label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Reason / Remarks")}</label>
                 <textarea
                   rows={3}
-                  placeholder="e.g. Ordered in error, patient discharged..."
+                  placeholder={i18n.t("e.g. Ordered in error, patient discharged...")}
                   className="mt-1 w-full px-3 py-2 border border-slate-200 rounded-xl text-sm font-bold outline-none focus:border-brand-active0 transition-all resize-none"
                   value={deleteOrderModal.remarks}
                   onChange={(e) => setDeleteOrderModal({ ...deleteOrderModal, remarks: e.target.value })}
@@ -1984,16 +1946,12 @@ const EMROrders: React.FC = () => {
               <button
                 onClick={() => setDeleteOrderModal(null)}
                 className="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl text-sm font-bold hover:bg-slate-300 transition-colors"
-              >
-                Close
-              </button>
+              >{i18n.t("Close")}</button>
               <button
                 onClick={submitDeleteOrder}
                 disabled={!deleteOrderModal.remarks.trim()}
                 className="px-4 py-2 bg-red-500 text-white rounded-xl text-sm font-black hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Confirm Cancel
-              </button>
+              >{i18n.t("Confirm Cancel")}</button>
             </div>
           </div>
         </div>
@@ -2004,7 +1962,7 @@ const EMROrders: React.FC = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden">
             <div className="flex justify-between items-center p-4 border-b border-slate-200 bg-slate-50">
-              <h3 className="font-black text-slate-800 text-sm">Cancel Consumable</h3>
+              <h3 className="font-black text-slate-800 text-sm">{i18n.t("Cancel Consumable")}</h3>
               <button
                 onClick={() => setCancelConsumableModal(null)}
                 className="p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-200 rounded-lg transition-colors"
@@ -2014,7 +1972,7 @@ const EMROrders: React.FC = () => {
             </div>
             <div className="p-4 space-y-4">
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Quantity to Cancel</label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Quantity to Cancel")}</label>
                 <input
                   type="number"
                   min="1"
@@ -2024,10 +1982,10 @@ const EMROrders: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Reason / Remarks</label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Reason / Remarks")}</label>
                 <textarea
                   rows={3}
-                  placeholder="e.g. Not needed, patient discharged..."
+                  placeholder={i18n.t("e.g. Not needed, patient discharged...")}
                   className="mt-1 w-full px-3 py-2 border border-slate-200 rounded-xl text-sm font-bold outline-none focus:border-brand-active0 transition-all resize-none"
                   value={cancelConsumableModal.remarks}
                   onChange={(e) => setCancelConsumableModal({ ...cancelConsumableModal, remarks: e.target.value })}
@@ -2038,16 +1996,12 @@ const EMROrders: React.FC = () => {
               <button
                 onClick={() => setCancelConsumableModal(null)}
                 className="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl text-sm font-bold hover:bg-slate-300 transition-colors"
-              >
-                Close
-              </button>
+              >{i18n.t("Close")}</button>
               <button
                 onClick={submitConsumableCancel}
                 disabled={!cancelConsumableModal.remarks.trim()}
                 className="px-4 py-2 bg-red-500 text-white rounded-xl text-sm font-black hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Confirm Cancel
-              </button>
+              >{i18n.t("Confirm Cancel")}</button>
             </div>
           </div>
         </div>

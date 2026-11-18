@@ -13,6 +13,7 @@ import { patientService } from "../services/patient.service";
 import { appointmentService } from "../services/appointment.service";
 import { otService } from "../services/ot.service";
 import { useNotification } from "../context/NotificationContext";
+import { i18n } from "../i18n";
 
 interface TariffItem {
   id: number;
@@ -505,8 +506,8 @@ const IPDAddServiceModal: React.FC<IPDAddServiceModalProps> = ({
               <FilePlus size={24} />
             </div>
             <div>
-              <h2 className="text-xl font-black text-slate-800">Add Service (Order Entry)</h2>
-              <p className="text-sm font-bold text-slate-500">Patient: {patient?.patient_name || patient?.name}</p>
+              <h2 className="text-xl font-black text-slate-800">{i18n.t("Add Service (Order Entry)")}</h2>
+              <p className="text-sm font-bold text-slate-500">{i18n.t("Patient:")}{" "}{patient?.patient_name || patient?.name}</p>
             </div>
           </div>
           <button onClick={onClose} className="p-2 text-slate-400 hover:text-slate-600 bg-white hover:bg-slate-100 rounded-full border border-slate-200 transition-colors">
@@ -518,7 +519,7 @@ const IPDAddServiceModal: React.FC<IPDAddServiceModalProps> = ({
           <div className="space-y-6 max-w-2xl mx-auto">
             {/* Order Type Dropdown */}
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">1. Order Category</label>
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("1. Order Category")}</label>
               <select
                 className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 outline-none focus:border-brand-active0 transition-all cursor-pointer"
                 value={selectedOrderType}
@@ -528,34 +529,34 @@ const IPDAddServiceModal: React.FC<IPDAddServiceModalProps> = ({
                   setSearchTerm("");
                 }}
               >
-                <option value="LAB">Laboratory Investigation</option>
-                <option value="RADIOLOGY">Radiology / Imaging</option>
-                <option value="PHARMACY">Pharmacy (Medication)</option>
-                <option value="CONSUMABLE">CONSUMABLE Order</option>
-                <option value="PROCEDURE">Clinical Procedure</option>
-                <option value="SURGERY">Surgery / Operation</option>
-                <option value="BLOOD_TRANSFUSION">Blood Bank / Transfusion</option>
-                <option value="FOOD">Food</option>
-                <option value="CONSULTATION">Consultation</option>
-                <option value="BED_CHARGE">Bed Charge</option>
-                <option value="REGISTRATION">Registration</option>
-                <option value="IMPLANT">Implant</option>
-                <option value="NURSING_CHARGE">Nursing Charge</option>
-                <option value="PROFESSIONAL_FEE">Professional Fee</option>
-                <option value="OTHER">Other</option>
+                <option value="LAB">{i18n.t("Laboratory Investigation")}</option>
+                <option value="RADIOLOGY">{i18n.t("Radiology / Imaging")}</option>
+                <option value="PHARMACY">{i18n.t("Pharmacy (Medication)")}</option>
+                <option value="CONSUMABLE">{i18n.t("CONSUMABLE Order")}</option>
+                <option value="PROCEDURE">{i18n.t("Clinical Procedure")}</option>
+                <option value="SURGERY">{i18n.t("Surgery / Operation")}</option>
+                <option value="BLOOD_TRANSFUSION">{i18n.t("Blood Bank / Transfusion")}</option>
+                <option value="FOOD">{i18n.t("Food")}</option>
+                <option value="CONSULTATION">{i18n.t("Consultation")}</option>
+                <option value="BED_CHARGE">{i18n.t("Bed Charge")}</option>
+                <option value="REGISTRATION">{i18n.t("Registration")}</option>
+                <option value="IMPLANT">{i18n.t("Implant")}</option>
+                <option value="NURSING_CHARGE">{i18n.t("Nursing Charge")}</option>
+                <option value="PROFESSIONAL_FEE">{i18n.t("Professional Fee")}</option>
+                <option value="OTHER">{i18n.t("Other")}</option>
               </select>
             </div>
 
             {/* Service Selection */}
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">2. Select Service</label>
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("2. Select Service")}</label>
 
               <div className="relative mb-2">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
+                <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
                 <input
                   type="text"
                   placeholder={`Search ${selectedOrderType.toLowerCase()} services...`}
-                  className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-active0/20"
+                  className="w-full ps-10 pe-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-active0/20"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -565,12 +566,10 @@ const IPDAddServiceModal: React.FC<IPDAddServiceModalProps> = ({
                 {loadingCatalog ? (
                   <div className="py-8 text-center">
                     <Loader2 className="animate-spin mx-auto text-brand-active0 w-6 h-6" />
-                    <p className="text-[10px] font-bold text-slate-400 mt-2 uppercase tracking-widest">Loading Catalog...</p>
+                    <p className="text-[10px] font-bold text-slate-400 mt-2 uppercase tracking-widest">{i18n.t("Loading Catalog...")}</p>
                   </div>
                 ) : filteredServices.length === 0 ? (
-                  <div className="py-8 text-center text-xs text-slate-400 font-bold italic">
-                    No services found for this category.
-                  </div>
+                  <div className="py-8 text-center text-xs text-slate-400 font-bold italic">{i18n.t("No services found for this category.")}</div>
                 ) : (
                   filteredServices.map((item) => {
                     const isInventoryItem = selectedOrderType === "PHARMACY" || selectedOrderType === "CONSUMABLE";
@@ -593,7 +592,7 @@ const IPDAddServiceModal: React.FC<IPDAddServiceModalProps> = ({
                             setSurgeryForm(prev => ({ ...prev, surgery_name: item.billable_name || item.name }));
                           }
                         }}
-                        className={`w-full flex items-center justify-between p-3 rounded-xl text-left transition-all ${selectedTariff?.id === item.id ? "bg-brand-primary text-white shadow-md" : "bg-white text-slate-700 hover:bg-brand-active border border-slate-100"}`}
+                        className={`w-full flex items-center justify-between p-3 rounded-xl text-start transition-all ${selectedTariff?.id === item.id ? "bg-brand-primary text-white shadow-md" : "bg-white text-slate-700 hover:bg-brand-active border border-slate-100"}`}
                       >
                         <div>
                           <p className="text-xs font-bold">{name}</p>
@@ -602,7 +601,7 @@ const IPDAddServiceModal: React.FC<IPDAddServiceModalProps> = ({
                             {isInventoryItem ? (
                               <>
                                 {item.item_type && <span className={`text-[9px] px-1.5 py-0.5 rounded-md ${selectedTariff?.id === item.id ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"}`}>{item.item_type}</span>}
-                                {item.available_stock !== undefined && item.available_stock !== null && <span className={`text-[9px] px-1.5 py-0.5 rounded-md font-bold ${selectedTariff?.id === item.id ? "bg-white/20 text-white" : "bg-brand-active/20 text-brand-primary"}`}>Stock: {item.available_stock}</span>}
+                                {item.available_stock !== undefined && item.available_stock !== null && <span className={`text-[9px] px-1.5 py-0.5 rounded-md font-bold ${selectedTariff?.id === item.id ? "bg-white/20 text-white" : "bg-brand-active/20 text-brand-primary"}`}>{i18n.t("Stock:")}{" "}{item.available_stock}</span>}
                               </>
                             ) : (
                               item.category && <span className={`text-[9px] px-1.5 py-0.5 rounded-md capitalize ${selectedTariff?.id === item.id ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"}`}>{item.category}</span>
@@ -621,10 +620,10 @@ const IPDAddServiceModal: React.FC<IPDAddServiceModalProps> = ({
             <div className="space-y-4 pt-4 border-t border-slate-100">
               {selectedOrderType !== "PHARMACY" && selectedOrderType !== "SURGERY" && selectedOrderType !== "BLOOD_TRANSFUSION" && selectedOrderType !== "CONSUMABLE" && (
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">3. Clinical Indication (Optional)</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("3. Clinical Indication (Optional)")}</label>
                   <input
                     type="text"
-                    placeholder="e.g. Rule out malaria..."
+                    placeholder={i18n.t("e.g. Rule out malaria...")}
                     className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:bg-white focus:border-brand-active0 transition-all"
                     value={clinicalReason}
                     onChange={(e) => setClinicalReason(e.target.value)}
@@ -634,9 +633,9 @@ const IPDAddServiceModal: React.FC<IPDAddServiceModalProps> = ({
 
               {selectedOrderType === "CONSUMABLE" && (
                 <div className="space-y-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                  <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">Consumable Details</h4>
+                  <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">{i18n.t("Consumable Details")}</h4>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold text-slate-500 uppercase">Dispensing Department</label>
+                    <label className="text-[10px] font-bold text-slate-500 uppercase">{i18n.t("Dispensing Department")}</label>
                     <select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-brand-active0" value={dispensingDept} onChange={(e) => setDispensingDept(e.target.value)}>
                       {['PHARMACY', 'CSSD', 'THEATRE', 'LAB', 'WARD', 'ERD'].map(dept => <option key={dept} value={dept}>{dept}</option>)}
                     </select>
@@ -647,7 +646,7 @@ const IPDAddServiceModal: React.FC<IPDAddServiceModalProps> = ({
                         <p className="text-xs font-bold text-slate-800">{selectedTariff.name || selectedTariff.billable_name}</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase">Qty:</label>
+                        <label className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Qty:")}</label>
                         <input type="number" min="1" className="w-16 px-2 py-1 border border-slate-200 rounded-lg text-sm font-bold text-center" defaultValue={1} id="consumable-qty" />
                       </div>
                       <button onClick={() => {
@@ -672,51 +671,51 @@ const IPDAddServiceModal: React.FC<IPDAddServiceModalProps> = ({
 
               {selectedOrderType === "SURGERY" && (
                 <div className="space-y-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                  <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">Surgery Request Details</h4>
+                  <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">{i18n.t("Surgery Request Details")}</h4>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold text-slate-500">Surgery Name *</label>
+                    <label className="text-[10px] font-bold text-slate-500">{i18n.t("Surgery Name *")}</label>
                     <input type="text" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={surgeryForm.surgery_name} onChange={e => setSurgeryForm({...surgeryForm, surgery_name: e.target.value})} />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">Surgery Type *</label><select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={surgeryForm.surgery_type} onChange={e => setSurgeryForm({...surgeryForm, surgery_type: e.target.value as any})}><option value="ELECTIVE">Elective</option><option value="EMERGENCY">Emergency</option></select></div>
-                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">Priority *</label><select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={surgeryForm.priority} onChange={e => setSurgeryForm({...surgeryForm, priority: e.target.value as any})}><option value="LOW">Low</option><option value="NORMAL">Normal</option><option value="HIGH">High</option><option value="URGENT">Urgent</option></select></div>
+                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">{i18n.t("Surgery Type *")}</label><select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={surgeryForm.surgery_type} onChange={e => setSurgeryForm({...surgeryForm, surgery_type: e.target.value as any})}><option value="ELECTIVE">{i18n.t("Elective")}</option><option value="EMERGENCY">{i18n.t("Emergency")}</option></select></div>
+                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">{i18n.t("Priority *")}</label><select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={surgeryForm.priority} onChange={e => setSurgeryForm({...surgeryForm, priority: e.target.value as any})}><option value="LOW">{i18n.t("Low")}</option><option value="NORMAL">{i18n.t("Normal")}</option><option value="HIGH">{i18n.t("High")}</option><option value="URGENT">{i18n.t("Urgent")}</option></select></div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">Surgeon *</label><select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={surgeryForm.surgeon_id} onChange={e => setSurgeryForm({...surgeryForm, surgeon_id: e.target.value})} disabled={loadingSurgery}><option value="">Select Surgeon</option>{surgeons.map(doc => <option key={doc.doctor_id} value={doc.doctor_id}>Dr. {doc.first_name} {doc.last_name}</option>)}</select></div>
-                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">OT Room *</label><select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={surgeryForm.preferred_ot_room_id} onChange={e => setSurgeryForm({...surgeryForm, preferred_ot_room_id: e.target.value})} disabled={loadingSurgery}><option value="">Select Room</option>{otRooms.map(room => <option key={room.id} value={room.id}>{room.room_name}</option>)}</select></div>
+                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">{i18n.t("Surgeon *")}</label><select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={surgeryForm.surgeon_id} onChange={e => setSurgeryForm({...surgeryForm, surgeon_id: e.target.value})} disabled={loadingSurgery}><option value="">{i18n.t("Select Surgeon")}</option>{surgeons.map(doc => <option key={doc.doctor_id} value={doc.doctor_id}>{i18n.t("Dr.")}{" "}{doc.first_name} {doc.last_name}</option>)}</select></div>
+                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">{i18n.t("OT Room *")}</label><select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={surgeryForm.preferred_ot_room_id} onChange={e => setSurgeryForm({...surgeryForm, preferred_ot_room_id: e.target.value})} disabled={loadingSurgery}><option value="">{i18n.t("Select Room")}</option>{otRooms.map(room => <option key={room.id} value={room.id}>{room.room_name}</option>)}</select></div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">Preferred Date *</label><input type="date" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={surgeryForm.preferred_surgery_date} onChange={e => setSurgeryForm({...surgeryForm, preferred_surgery_date: e.target.value})} min={new Date().toISOString().split("T")[0]} /></div>
-                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">Preferred Time *</label><input type="time" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={surgeryForm.preferred_surgery_time} onChange={e => setSurgeryForm({...surgeryForm, preferred_surgery_time: e.target.value})} /></div>
+                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">{i18n.t("Preferred Date *")}</label><input type="date" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={surgeryForm.preferred_surgery_date} onChange={e => setSurgeryForm({...surgeryForm, preferred_surgery_date: e.target.value})} min={new Date().toISOString().split("T")[0]} /></div>
+                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">{i18n.t("Preferred Time *")}</label><input type="time" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={surgeryForm.preferred_surgery_time} onChange={e => setSurgeryForm({...surgeryForm, preferred_surgery_time: e.target.value})} /></div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">Est. Duration (min) *</label><input type="number" min="1" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={surgeryForm.estimated_duration_min} onChange={e => setSurgeryForm({...surgeryForm, estimated_duration_min: parseInt(e.target.value) || 60})} /></div>
-                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">Anesthesia Type</label><select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={surgeryForm.anesthesia_type} onChange={e => setSurgeryForm({...surgeryForm, anesthesia_type: e.target.value})}><option value="GENERAL">General Anesthesia</option><option value="SPINAL">Spinal Anesthesia</option><option value="LOCAL">Local Anesthesia</option></select></div>
+                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">{i18n.t("Est. Duration (min) *")}</label><input type="number" min="1" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={surgeryForm.estimated_duration_min} onChange={e => setSurgeryForm({...surgeryForm, estimated_duration_min: parseInt(e.target.value) || 60})} /></div>
+                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">{i18n.t("Anesthesia Type")}</label><select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={surgeryForm.anesthesia_type} onChange={e => setSurgeryForm({...surgeryForm, anesthesia_type: e.target.value})}><option value="GENERAL">{i18n.t("General Anesthesia")}</option><option value="SPINAL">{i18n.t("Spinal Anesthesia")}</option><option value="LOCAL">{i18n.t("Local Anesthesia")}</option></select></div>
                   </div>
-                  <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">Request Notes</label><textarea className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" rows={2} value={surgeryForm.request_notes} onChange={e => setSurgeryForm({...surgeryForm, request_notes: e.target.value})} /></div>
+                  <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">{i18n.t("Request Notes")}</label><textarea className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" rows={2} value={surgeryForm.request_notes} onChange={e => setSurgeryForm({...surgeryForm, request_notes: e.target.value})} /></div>
                 </div>
               )}
 
               {selectedOrderType === "BLOOD_TRANSFUSION" && (
                 <div className="space-y-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                  <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">Blood Transfusion Details</h4>
-                  <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">Indication *</label><input type="text" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={bloodBankForm.indication} onChange={e => setBloodBankForm({...bloodBankForm, indication: e.target.value})} /></div>
+                  <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">{i18n.t("Blood Transfusion Details")}</h4>
+                  <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">{i18n.t("Indication *")}</label><input type="text" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={bloodBankForm.indication} onChange={e => setBloodBankForm({...bloodBankForm, indication: e.target.value})} /></div>
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">Urgency *</label><select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={bloodBankForm.urgency} onChange={e => setBloodBankForm({...bloodBankForm, urgency: e.target.value})}><option value="ROUTINE">Routine</option><option value="URGENT">Urgent</option><option value="EMERGENCY">Emergency</option><option value="STAT">STAT</option></select></div>
-                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">Previous Transfusion? *</label><select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={bloodBankForm.previous_transfusion} onChange={e => setBloodBankForm({...bloodBankForm, previous_transfusion: e.target.value})}><option value="NO">No</option><option value="YES">Yes</option></select></div>
+                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">{i18n.t("Urgency *")}</label><select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={bloodBankForm.urgency} onChange={e => setBloodBankForm({...bloodBankForm, urgency: e.target.value})}><option value="ROUTINE">{i18n.t("Routine")}</option><option value="URGENT">{i18n.t("Urgent")}</option><option value="EMERGENCY">{i18n.t("Emergency")}</option><option value="STAT">{i18n.t("STAT")}</option></select></div>
+                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">{i18n.t("Previous Transfusion? *")}</label><select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={bloodBankForm.previous_transfusion} onChange={e => setBloodBankForm({...bloodBankForm, previous_transfusion: e.target.value})}><option value="NO">{i18n.t("No")}</option><option value="YES">{i18n.t("Yes")}</option></select></div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">Required Date *</label><input type="date" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={bloodBankForm.required_date} onChange={e => setBloodBankForm({...bloodBankForm, required_date: e.target.value})} /></div>
-                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">Required Time *</label><input type="time" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={bloodBankForm.required_time} onChange={e => setBloodBankForm({...bloodBankForm, required_time: e.target.value})} /></div>
+                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">{i18n.t("Required Date *")}</label><input type="date" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={bloodBankForm.required_date} onChange={e => setBloodBankForm({...bloodBankForm, required_date: e.target.value})} /></div>
+                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">{i18n.t("Required Time *")}</label><input type="time" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={bloodBankForm.required_time} onChange={e => setBloodBankForm({...bloodBankForm, required_time: e.target.value})} /></div>
                   </div>
                   {selectedTariff && (
                     <div className="flex flex-col gap-3 bg-white p-4 rounded-xl border border-brand-active">
                       <p className="text-xs font-bold">{selectedTariff.billable_name}</p>
                       <div className="grid grid-cols-2 gap-3">
-                        <div><label className="text-[10px] font-bold text-slate-400 block mb-1">Type:</label><select id="blood-component-enum" className="w-full px-3 py-2 border rounded-lg text-sm bg-slate-50" defaultValue="PACKED_RED_CELLS"><option value="PACKED_RED_CELLS">Packed Red Cells</option><option value="WHOLE_BLOOD">Whole Blood</option><option value="PLATELETS">Platelets</option><option value="FFP">Fresh Frozen Plasma (FFP)</option><option value="CRYOPRECIPITATE">Cryoprecipitate</option></select></div>
-                        <div><label className="text-[10px] font-bold text-slate-400 block mb-1">Units:</label><input type="number" min="1" className="w-full px-3 py-2 border rounded-lg text-sm text-center" defaultValue={1} id="blood-units" /></div>
-                        <div><label className="text-[10px] font-bold text-slate-400 block mb-1">Volume (mls):</label><input type="number" min="1" className="w-full px-3 py-2 border rounded-lg text-sm text-center" placeholder="e.g. 500" id="blood-mls" /></div>
-                        <div><label className="text-[10px] font-bold text-slate-400 block mb-1">Notes:</label><input type="text" className="w-full px-3 py-2 border rounded-lg text-sm" placeholder="Optional notes" id="blood-notes" /></div>
+                        <div><label className="text-[10px] font-bold text-slate-400 block mb-1">{i18n.t("Type:")}</label><select id="blood-component-enum" className="w-full px-3 py-2 border rounded-lg text-sm bg-slate-50" defaultValue="PACKED_RED_CELLS"><option value="PACKED_RED_CELLS">{i18n.t("Packed Red Cells")}</option><option value="WHOLE_BLOOD">{i18n.t("Whole Blood")}</option><option value="PLATELETS">{i18n.t("Platelets")}</option><option value="FFP">{i18n.t("Fresh Frozen Plasma (FFP)")}</option><option value="CRYOPRECIPITATE">{i18n.t("Cryoprecipitate")}</option></select></div>
+                        <div><label className="text-[10px] font-bold text-slate-400 block mb-1">{i18n.t("Units:")}</label><input type="number" min="1" className="w-full px-3 py-2 border rounded-lg text-sm text-center" defaultValue={1} id="blood-units" /></div>
+                        <div><label className="text-[10px] font-bold text-slate-400 block mb-1">{i18n.t("Volume (mls):")}</label><input type="number" min="1" className="w-full px-3 py-2 border rounded-lg text-sm text-center" placeholder={i18n.t("e.g. 500")} id="blood-mls" /></div>
+                        <div><label className="text-[10px] font-bold text-slate-400 block mb-1">{i18n.t("Notes:")}</label><input type="text" className="w-full px-3 py-2 border rounded-lg text-sm" placeholder={i18n.t("Optional notes")} id="blood-notes" /></div>
                       </div>
                       <button onClick={() => {
                         setBloodBankComponents([...bloodBankComponents, {
@@ -728,7 +727,7 @@ const IPDAddServiceModal: React.FC<IPDAddServiceModalProps> = ({
                           enum_val: (document.getElementById('blood-component-enum') as HTMLSelectElement).value
                         }]);
                         setSelectedTariff(null);
-                      }} className="bg-brand-primary text-white p-2 rounded-lg font-bold w-full">Add Component</button>
+                      }} className="bg-brand-primary text-white p-2 rounded-lg font-bold w-full">{i18n.t("Add Component")}</button>
                     </div>
                   )}
                   {bloodBankComponents.length > 0 && (
@@ -736,8 +735,8 @@ const IPDAddServiceModal: React.FC<IPDAddServiceModalProps> = ({
                       {bloodBankComponents.map((item, idx) => (
                         <div key={idx} className="flex justify-between items-start bg-white px-3 py-2 rounded-lg border">
                           <div>
-                            <div><span className="text-xs font-bold">{item.name}</span> <span className="ml-2 text-[10px] font-bold text-brand-primary bg-brand-active/30 px-2 py-0.5 rounded-md">{item.enum_val}</span></div>
-                            <div className="text-[10px] text-slate-500 mt-1">{item.units_requested} unit(s){item.mls ? ` • ${item.mls}mls` : ""}{item.notes ? ` • ${item.notes}` : ""}</div>
+                            <div><span className="text-xs font-bold">{item.name}</span> <span className="ms-2 text-[10px] font-bold text-brand-primary bg-brand-active/30 px-2 py-0.5 rounded-md">{item.enum_val}</span></div>
+                            <div className="text-[10px] text-slate-500 mt-1">{item.units_requested}{" "}{i18n.t("unit(s)")}{item.mls ? ` • ${item.mls}mls` : ""}{item.notes ? ` • ${item.notes}` : ""}</div>
                           </div>
                           <button onClick={() => setBloodBankComponents(bloodBankComponents.filter((_, i) => i !== idx))} className="text-red-400"><Trash2 size={12} /></button>
                         </div>
@@ -749,25 +748,25 @@ const IPDAddServiceModal: React.FC<IPDAddServiceModalProps> = ({
 
               {selectedOrderType === "PHARMACY" && selectedTariff && (
                 <div className="space-y-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                  <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">Prescription Details</h4>
+                  <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">{i18n.t("Prescription Details")}</h4>
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">Dose</label><input type="text" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={currentMed.dose} onChange={e => setCurrentMed({...currentMed, dose: e.target.value})} /></div>
-                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">Frequency</label><select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={currentMed.frequency} onChange={e => setCurrentMed({...currentMed, frequency: e.target.value})}><option value="OD">OD</option><option value="BD">BD</option><option value="TDS">TDS</option></select></div>
-                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">Duration Unit</label><input type="number" min="1" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={currentMed.duration_unit} onChange={e => setCurrentMed({...currentMed, duration_unit: parseInt(e.target.value) || 1})} /></div>
-                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">Duration Type</label><select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={currentMed.duration} onChange={e => setCurrentMed({...currentMed, duration: e.target.value})}><option value="DAYS">Days</option><option value="WEEKS">Weeks</option></select></div>
-                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">Route</label><select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={currentMed.route} onChange={e => setCurrentMed({...currentMed, route: e.target.value})}><option value="PO">PO</option><option value="IV">IV</option><option value="IM">IM</option></select></div>
+                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">{i18n.t("Dose")}</label><input type="text" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={currentMed.dose} onChange={e => setCurrentMed({...currentMed, dose: e.target.value})} /></div>
+                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">{i18n.t("Frequency")}</label><select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={currentMed.frequency} onChange={e => setCurrentMed({...currentMed, frequency: e.target.value})}><option value="OD">{i18n.t("OD")}</option><option value="BD">{i18n.t("BD")}</option><option value="TDS">{i18n.t("TDS")}</option></select></div>
+                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">{i18n.t("Duration Unit")}</label><input type="number" min="1" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={currentMed.duration_unit} onChange={e => setCurrentMed({...currentMed, duration_unit: parseInt(e.target.value) || 1})} /></div>
+                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">{i18n.t("Duration Type")}</label><select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={currentMed.duration} onChange={e => setCurrentMed({...currentMed, duration: e.target.value})}><option value="DAYS">{i18n.t("Days")}</option><option value="WEEKS">{i18n.t("Weeks")}</option></select></div>
+                    <div className="space-y-1"><label className="text-[10px] font-bold text-slate-500">{i18n.t("Route")}</label><select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" value={currentMed.route} onChange={e => setCurrentMed({...currentMed, route: e.target.value})}><option value="PO">{i18n.t("PO")}</option><option value="IV">{i18n.t("IV")}</option><option value="IM">{i18n.t("IM")}</option></select></div>
                   </div>
                   <button type="button" onClick={() => {
                     if (!currentMed.dose) return notify("Please enter a dose", "warning");
                     setMedications([...medications, { drug_id: selectedTariff.id, name: selectedTariff.name || selectedTariff.billable_name || selectedTariff.drug_name || "Unnamed Drug", ...currentMed }]);
                     setSelectedTariff(null);
-                  }} className="w-full bg-teal-100 text-teal-700 py-2 rounded-xl font-bold text-xs hover:bg-teal-200">Add to Prescription</button>
+                  }} className="w-full bg-teal-100 text-teal-700 py-2 rounded-xl font-bold text-xs hover:bg-teal-200">{i18n.t("Add to Prescription")}</button>
                 </div>
               )}
 
               {selectedOrderType === "PHARMACY" && medications.length > 0 && (
                 <div className="space-y-2">
-                  <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">Current Prescription</h4>
+                  <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">{i18n.t("Current Prescription")}</h4>
                   <div className="space-y-2">
                     {medications.map((med, idx) => (
                       <div key={idx} className="flex justify-between bg-teal-50 p-3 rounded-xl border border-teal-100">
@@ -780,7 +779,7 @@ const IPDAddServiceModal: React.FC<IPDAddServiceModalProps> = ({
               )}
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Service Date (Optional)</label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Service Date (Optional)")}</label>
                 <input
                   type="datetime-local"
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:bg-white focus:border-brand-active0 transition-all"
@@ -789,9 +788,9 @@ const IPDAddServiceModal: React.FC<IPDAddServiceModalProps> = ({
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Notes (Optional)</label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Notes (Optional)")}</label>
                 <textarea
-                  placeholder="e.g. Backdated request"
+                  placeholder={i18n.t("e.g. Backdated request")}
                   rows={2}
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:bg-white focus:border-brand-active0 transition-all resize-none"
                   value={orderNotes}
@@ -815,9 +814,7 @@ const IPDAddServiceModal: React.FC<IPDAddServiceModalProps> = ({
             }
             className="w-full bg-brand-primary text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-brand-primary transition-all shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            {isSubmitting ? <Loader2 size={20} className="animate-spin" /> : <CheckCircle2 size={20} />}
-            Submit Order
-          </button>
+            {isSubmitting ? <Loader2 size={20} className="animate-spin" /> : <CheckCircle2 size={20} />}{i18n.t("Submit Order")}</button>
         </div>
       </div>
     </div>

@@ -9,6 +9,7 @@ import { useNotification } from '../context/NotificationContext';
 import SignaturePad from './SignaturePad';
 import SearchableUserSelect from './shared/SearchableUserSelect';
 import apiClient from '../api/client';
+import { i18n } from "../i18n";
 
 interface TransfusionPanelProps {
   encounterNumber: string;
@@ -47,9 +48,8 @@ const TransfusionTimeline = ({ event }: { event: any }) => {
   return (
     <div className="mt-4 p-5 bg-slate-50 border border-slate-200 rounded-2xl">
       <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-        <Clock size={14} /> Event Timeline
-      </h4>
-      <div className="space-y-4 relative before:absolute before:inset-0 before:ml-2 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-200 before:to-transparent">
+        <Clock size={14} />{" "}{i18n.t("Event Timeline")}</h4>
+      <div className="space-y-4 relative before:absolute before:inset-0 before:ms-2 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-200 before:to-transparent">
         {timeline.map((step, index) => (
           <div key={index} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
             <div className="flex items-center justify-center w-5 h-5 rounded-full border-2 border-white bg-slate-200 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
@@ -461,33 +461,33 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
               <div className="p-2 bg-emerald-600 text-white rounded-xl"><FileSignature size={20} /></div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="text-base font-black tracking-tight">Blood Transfusion Consent Record</h3>
+                  <h3 className="text-base font-black tracking-tight">{i18n.t("Blood Transfusion Consent Record")}</h3>
                   <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase ${c.consent_type === 'STANDARD' ? 'bg-emerald-500/20 text-emerald-300' : c.consent_type === 'DECLINED' ? 'bg-red-500/20 text-red-300' : 'bg-amber-500/20 text-amber-300'}`}>
                     {c.consent_type.replace('_', ' ')}
                   </span>
                 </div>
-                <p className="text-xs text-slate-400">Request: {transfusionView.request_number} | Signed: {c.signed_at || c.created_at}</p>
+                <p className="text-xs text-slate-400">{i18n.t("Request:")}{" "}{transfusionView.request_number}{" "}{i18n.t("| Signed:")}{" "}{c.signed_at || c.created_at}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <button onClick={() => window.print()} className="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-xl transition-colors flex items-center gap-1.5 text-xs font-bold"><Printer size={16} /> Print</button>
+              <button onClick={() => window.print()} className="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-xl transition-colors flex items-center gap-1.5 text-xs font-bold"><Printer size={16} />{" "}{i18n.t("Print")}</button>
               <button onClick={() => setShowViewConsentModal(false)} className="p-2 hover:bg-slate-800 text-slate-400 hover:text-white rounded-full transition-colors"><X size={20} /></button>
             </div>
           </div>
 
           <div className="p-6 overflow-y-auto space-y-6 flex-1 text-slate-700 bg-slate-50/50">
             <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm grid grid-cols-2 md:grid-cols-5 gap-4 text-xs">
-              <div><span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Patient Group</span><span className="font-bold text-slate-800 text-sm mt-0.5 block">{c.patient_category || 'ADULT'}</span></div>
-              <div><span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Patient Weight</span><span className="font-bold text-slate-800 text-sm mt-0.5 block">{c.patient_weight_kg ? `${c.patient_weight_kg} kg` : 'N/A'}</span></div>
-              <div><span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Indication</span><span className="font-bold text-slate-800 text-sm mt-0.5 block">{transfusionView.indication || 'N/A'}</span></div>
-              <div><span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Valid From</span><span className="font-bold text-slate-800 text-sm mt-0.5 block">{c.valid_from || 'N/A'}</span></div>
-              <div><span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Review Date</span><span className="font-bold text-slate-800 text-sm mt-0.5 block">{c.review_by || 'Not specified'}</span></div>
+              <div><span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">{i18n.t("Patient Group")}</span><span className="font-bold text-slate-800 text-sm mt-0.5 block">{c.patient_category || i18n.t("ADULT")}</span></div>
+              <div><span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">{i18n.t("Patient Weight")}</span><span className="font-bold text-slate-800 text-sm mt-0.5 block">{c.patient_weight_kg ? `${c.patient_weight_kg} kg` : i18n.t("N/A")}</span></div>
+              <div><span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">{i18n.t("Indication")}</span><span className="font-bold text-slate-800 text-sm mt-0.5 block">{transfusionView.indication || i18n.t("N/A")}</span></div>
+              <div><span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">{i18n.t("Valid From")}</span><span className="font-bold text-slate-800 text-sm mt-0.5 block">{c.valid_from || i18n.t("N/A")}</span></div>
+              <div><span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">{i18n.t("Review Date")}</span><span className="font-bold text-slate-800 text-sm mt-0.5 block">{c.review_by || i18n.t("Not specified")}</span></div>
             </div>
 
             <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                <h4 className="text-sm font-black text-slate-800 flex items-center gap-2"><CheckCircle2 size={16} className="text-emerald-600" /> Part A — Consent</h4>
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">UK / SaBTO Aligned</span>
+                <h4 className="text-sm font-black text-slate-800 flex items-center gap-2"><CheckCircle2 size={16} className="text-emerald-600" />{" "}{i18n.t("Part A — Consent")}</h4>
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{i18n.t("UK / SaBTO Aligned")}</span>
               </div>
               {c.consent_type === 'STANDARD' ? (
                 <>
@@ -504,12 +504,12 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
                         ) : (
                           <div className="w-5 h-5 rounded-full bg-slate-200 text-slate-400 flex items-center justify-center shrink-0"><Minus size={12} strokeWidth={3} /></div>
                         )}
-                        <span className="font-semibold text-slate-700">{item.label}</span>
+                        <span className="font-semibold text-slate-700">{i18n.tx(item.label)}</span>
                       </div>
                     ))}
                   </div>
                   <div>
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Components</span>
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">{i18n.t("Components")}</span>
                     <div className="flex flex-wrap gap-2">
                       {Array.isArray(c.consented_components) && c.consented_components.map((comp: string) => (
                         <span key={comp} className="px-3 py-1 bg-red-50 text-red-700 border border-red-200 rounded-lg text-xs font-black">{comp.replace('_', ' ')}</span>
@@ -519,30 +519,30 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-slate-100">
                     <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col justify-between">
                       <div>
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Patient / Guardian Declaration</span>
-                        <p className="text-xs font-bold text-slate-800 mt-1">{c.signer_name || 'Patient'} ({c.signer_type})</p>
-                        <p className="text-[11px] text-slate-500">Signed: {c.signed_at || c.created_at}</p>
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">{i18n.t("Patient / Guardian Declaration")}</span>
+                        <p className="text-xs font-bold text-slate-800 mt-1">{c.signer_name || i18n.t("Patient")} ({c.signer_type})</p>
+                        <p className="text-[11px] text-slate-500">{i18n.t("Signed:")}{" "}{c.signed_at || c.created_at}</p>
                       </div>
                       <div className="mt-3 p-2 bg-white rounded-xl border border-slate-200 flex items-center justify-center min-h-[90px]">
                         {c.file_path ? (
-                          <img src={getSignatureUrl(c.file_path)} alt="Patient Signature" className="max-h-20 object-contain" onError={(e: any) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<span class="text-xs italic text-slate-400 font-medium">Image unavailable</span>'; }} />
-                        ) : (<span className="text-xs italic text-slate-400 font-medium">Digital Signature On File</span>)}
+                          <img src={getSignatureUrl(c.file_path)} alt={i18n.t("Patient Signature")} className="max-h-20 object-contain" onError={(e: any) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<span class="text-xs italic text-slate-400 font-medium">Image unavailable</span>'; }} />
+                        ) : (<span className="text-xs italic text-slate-400 font-medium">{i18n.t("Digital Signature On File")}</span>)}
                       </div>
                     </div>
                     <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col justify-between text-xs">
                       <div>
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Consenting Clinician</span>
-                        <p className="font-bold text-slate-800 text-sm mt-1">{c.consenting_clinician_name || 'Clinician'}</p>
-                        <p className="text-slate-500">MDCN: <span className="font-semibold text-slate-700">{c.clinician_mdcn_no || 'Recorded'}</span></p>
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">{i18n.t("Consenting Clinician")}</span>
+                        <p className="font-bold text-slate-800 text-sm mt-1">{c.consenting_clinician_name || i18n.t("Clinician")}</p>
+                        <p className="text-slate-500">{i18n.t("MDCN:")}{" "}<span className="font-semibold text-slate-700">{c.clinician_mdcn_no || i18n.t("Recorded")}</span></p>
                       </div>
                       <div className="mt-3 p-2 bg-white rounded-xl border border-slate-200 flex items-center justify-center min-h-[90px]">
                         {c.clinician_file_path ? (
-                          <img src={getSignatureUrl(c.clinician_file_path)} alt="Clinician Signature" className="max-h-20 object-contain" onError={(e: any) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<span class="text-xs italic text-slate-400 font-medium">Image unavailable</span>'; }} />
-                        ) : (<span className="text-xs italic text-slate-400 font-medium">No Signature On File</span>)}
+                          <img src={getSignatureUrl(c.clinician_file_path)} alt={i18n.t("Clinician Signature")} className="max-h-20 object-contain" onError={(e: any) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<span class="text-xs italic text-slate-400 font-medium">Image unavailable</span>'; }} />
+                        ) : (<span className="text-xs italic text-slate-400 font-medium">{i18n.t("No Signature On File")}</span>)}
                       </div>
                       <div className="pt-2 mt-3 border-t border-slate-200">
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Witness</span>
-                        <p className="font-bold text-slate-800">{c.witness_name || 'Staff Witness Recorded'}</p>
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">{i18n.t("Witness")}</span>
+                        <p className="font-bold text-slate-800">{c.witness_name || i18n.t("Staff Witness Recorded")}</p>
                       </div>
                     </div>
                   </div>
@@ -558,10 +558,10 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div className="flex items-center gap-2">
                   <AlertTriangle size={16} className={isTacoPositive ? 'text-amber-600' : 'text-slate-400'} />
-                  <h4 className="text-sm font-black text-slate-800">Part B — TACO Risk Assessment</h4>
+                  <h4 className="text-sm font-black text-slate-800">{i18n.t("Part B — TACO Risk Assessment")}</h4>
                 </div>
                 <span className={`px-2.5 py-1 rounded-lg text-xs font-black uppercase ${isTacoPositive ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}`}>
-                  {isTacoPositive ? 'High Risk Factors Found' : 'No Risk Factors'}
+                  {isTacoPositive ? i18n.t("High Risk Factors Found") : i18n.t("No Risk Factors")}
                 </span>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 text-xs">
@@ -573,8 +573,8 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
                   { label: 'Large volume planned', val: c.taco_large_volume_or_rapid }
                 ].map((factor, idx) => (
                   <div key={idx} className={`p-3 rounded-xl border flex items-center justify-between ${Number(factor.val) === 1 ? 'bg-amber-50/70 border-amber-200 text-amber-900 font-bold' : 'bg-slate-50 border-slate-100 text-slate-600'}`}>
-                    <span>{factor.label}</span>
-                    {Number(factor.val) === 1 ? <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0 ml-2" /> : <span className="text-[10px] text-slate-400 font-semibold shrink-0 ml-2">No</span>}
+                    <span>{i18n.tx(factor.label)}</span>
+                    {Number(factor.val) === 1 ? <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0 ms-2" /> : <span className="text-[10px] text-slate-400 font-semibold shrink-0 ms-2">{i18n.t("No")}</span>}
                   </div>
                 ))}
               </div>
@@ -583,8 +583,8 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
             {isTacoPositive && (
               <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                  <h4 className="text-sm font-black text-slate-800 flex items-center gap-2"><ShieldCheck size={16} className="text-emerald-600" /> Part C — TACO Mitigations Applied</h4>
-                  <span className="text-xs font-bold text-emerald-600">Protocol Enforced</span>
+                  <h4 className="text-sm font-black text-slate-800 flex items-center gap-2"><ShieldCheck size={16} className="text-emerald-600" />{" "}{i18n.t("Part C — TACO Mitigations Applied")}</h4>
+                  <span className="text-xs font-bold text-emerald-600">{i18n.t("Protocol Enforced")}</span>
                 </div>
                 <div className="grid grid-cols-2 gap-3 text-xs">
                   {[
@@ -597,21 +597,21 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
                   ].map((mit, idx) => (
                     <div key={idx} className="flex items-center gap-2 p-2.5 bg-emerald-50/50 rounded-xl border border-emerald-100 text-slate-700">
                       <div className="w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0"><Check size={10} strokeWidth={3} /></div>
-                      <span className="font-bold">{mit.label}</span>
+                      <span className="font-bold">{i18n.tx(mit.label)}</span>
                     </div>
                   ))}
                 </div>
                 {Number(c.taco_mitigation_diuretic_prescribed) === 1 && (
                   <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs flex items-center justify-between">
-                    <span className="font-bold text-slate-700">Prophylactic Diuretic Prescribed:</span>
-                    <span className="font-black text-slate-900 bg-white px-3 py-1 rounded-md border border-slate-200">{c.taco_diuretic_details || 'Recorded'}</span>
+                    <span className="font-bold text-slate-700">{i18n.t("Prophylactic Diuretic Prescribed:")}</span>
+                    <span className="font-black text-slate-900 bg-white px-3 py-1 rounded-md border border-slate-200">{c.taco_diuretic_details || i18n.t("Recorded")}</span>
                   </div>
                 )}
               </div>
             )}
           </div>
           <div className="px-6 py-4 bg-white border-t border-slate-200 flex justify-end shrink-0">
-            <button onClick={() => setShowViewConsentModal(false)} className="px-6 py-2 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-slate-800 transition-colors">Close</button>
+            <button onClick={() => setShowViewConsentModal(false)} className="px-6 py-2 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-slate-800 transition-colors">{i18n.t("Close")}</button>
           </div>
         </div>
       </div>
@@ -627,17 +627,17 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
             <div className="flex items-center gap-3">
               <div className="p-2 bg-red-600 rounded-lg text-white"><FileSignature size={20} /></div>
               <div>
-                <h3 className="text-lg font-black tracking-tight">Capture Transfusion Consent & TACO Screen</h3>
-                <p className="text-xs text-slate-400">Aligned with GSH-LAB-BTS-001</p>
+                <h3 className="text-lg font-black tracking-tight">{i18n.t("Capture Transfusion Consent & TACO Screen")}</h3>
+                <p className="text-xs text-slate-400">{i18n.t("Aligned with GSH-LAB-BTS-001")}</p>
               </div>
             </div>
             <button onClick={() => setShowConsentModal(false)} className="p-2 hover:bg-slate-800 rounded-full text-slate-400 hover:text-white transition-colors"><X size={20} /></button>
           </div>
 
           <div className="flex border-b border-slate-200 bg-slate-50 px-6 gap-3">
-            <button onClick={() => setActiveConsentTab('PART_A')} className={`py-3 px-4 font-bold text-xs uppercase tracking-wider border-b-2 transition-all flex items-center gap-2 ${activeConsentTab === 'PART_A' ? 'border-red-600 text-red-600 bg-white' : 'border-transparent text-slate-500 hover:text-slate-800'}`}><FileSignature size={16} /> Part A: Consent</button>
-            <button onClick={() => setActiveConsentTab('PART_B')} className={`py-3 px-4 font-bold text-xs uppercase tracking-wider border-b-2 transition-all flex items-center gap-2 ${activeConsentTab === 'PART_B' ? 'border-red-600 text-red-600 bg-white' : 'border-transparent text-slate-500 hover:text-slate-800'}`}><AlertTriangle size={16} /> Part B: TACO Screen {tacoRiskDetected && <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />}</button>
-            <button onClick={() => setActiveConsentTab('PART_C')} className={`py-3 px-4 font-bold text-xs uppercase tracking-wider border-b-2 transition-all flex items-center gap-2 ${activeConsentTab === 'PART_C' ? 'border-red-600 text-red-600 bg-white' : 'border-transparent text-slate-500 hover:text-slate-800'}`}><ShieldCheck size={16} /> Part C: Mitigation {tacoRiskDetected && <span className="px-1.5 py-0.5 text-[9px] bg-red-100 text-red-700 rounded font-black">REQUIRED</span>}</button>
+            <button onClick={() => setActiveConsentTab('PART_A')} className={`py-3 px-4 font-bold text-xs uppercase tracking-wider border-b-2 transition-all flex items-center gap-2 ${activeConsentTab === 'PART_A' ? 'border-red-600 text-red-600 bg-white' : 'border-transparent text-slate-500 hover:text-slate-800'}`}><FileSignature size={16} />{" "}{i18n.t("Part A: Consent")}</button>
+            <button onClick={() => setActiveConsentTab('PART_B')} className={`py-3 px-4 font-bold text-xs uppercase tracking-wider border-b-2 transition-all flex items-center gap-2 ${activeConsentTab === 'PART_B' ? 'border-red-600 text-red-600 bg-white' : 'border-transparent text-slate-500 hover:text-slate-800'}`}><AlertTriangle size={16} />{" "}{i18n.t("Part B: TACO Screen")}{" "}{tacoRiskDetected && <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />}</button>
+            <button onClick={() => setActiveConsentTab('PART_C')} className={`py-3 px-4 font-bold text-xs uppercase tracking-wider border-b-2 transition-all flex items-center gap-2 ${activeConsentTab === 'PART_C' ? 'border-red-600 text-red-600 bg-white' : 'border-transparent text-slate-500 hover:text-slate-800'}`}><ShieldCheck size={16} />{" "}{i18n.t("Part C: Mitigation")}{" "}{tacoRiskDetected && <span className="px-1.5 py-0.5 text-[9px] bg-red-100 text-red-700 rounded font-black">{i18n.t("REQUIRED")}</span>}</button>
           </div>
 
           <div className="p-6 overflow-y-auto space-y-6 flex-1 text-slate-700">
@@ -646,25 +646,24 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
                 <div className="p-5 bg-sky-50 border border-sky-200 rounded-xl">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="text-sm font-black text-sky-900">Active Consent Available?</h4>
-                      <p className="text-xs text-sky-700 mt-1">If the patient already signed a consent for this indication, link it instead of creating a new one.</p>
+                      <h4 className="text-sm font-black text-sky-900">{i18n.t("Active Consent Available?")}</h4>
+                      <p className="text-xs text-sky-700 mt-1">{i18n.t("If the patient already signed a consent for this indication, link it instead of creating a new one.")}</p>
                     </div>
                     <div className="flex bg-white rounded-lg border border-sky-200 overflow-hidden shrink-0">
-                      <button type="button" onClick={() => handleToggleExistingConsent(true)} className={`px-4 py-2.5 text-xs font-black transition-colors ${useExistingConsent ? 'bg-sky-600 text-white' : 'text-slate-600 hover:bg-slate-50'}`}>Yes, link existing</button>
-                      <button type="button" onClick={() => handleToggleExistingConsent(false)} className={`px-4 py-2.5 text-xs font-black transition-colors border-l border-sky-200 ${!useExistingConsent ? 'bg-sky-600 text-white' : 'text-slate-600 hover:bg-slate-50'}`}>No, capture new</button>
+                      <button type="button" onClick={() => handleToggleExistingConsent(true)} className={`px-4 py-2.5 text-xs font-black transition-colors ${useExistingConsent ? 'bg-sky-600 text-white' : 'text-slate-600 hover:bg-slate-50'}`}>{i18n.t("Yes, link existing")}</button>
+                      <button type="button" onClick={() => handleToggleExistingConsent(false)} className={`px-4 py-2.5 text-xs font-black transition-colors border-s border-sky-200 ${!useExistingConsent ? 'bg-sky-600 text-white' : 'text-slate-600 hover:bg-slate-50'}`}>{i18n.t("No, capture new")}</button>
                     </div>
                   </div>
                   {useExistingConsent && (
                     <div className="mt-5 pt-5 border-t border-sky-200/60">
-                      <label className="text-[11px] font-black text-sky-900 uppercase tracking-widest block mb-2">Select Active Consent Record</label>
+                      <label className="text-[11px] font-black text-sky-900 uppercase tracking-widest block mb-2">{i18n.t("Select Active Consent Record")}</label>
                       {fetchingExisting ? (
-                         <div className="text-xs font-bold text-sky-700 flex items-center gap-2"><Loader2 size={14} className="animate-spin" /> Fetching records...</div>
+                         <div className="text-xs font-bold text-sky-700 flex items-center gap-2"><Loader2 size={14} className="animate-spin" />{" "}{i18n.t("Fetching records...")}</div>
                       ) : (
                         <select value={selectedExistingConsentId} onChange={(e) => setSelectedExistingConsentId(e.target.value)} className="w-full px-3 py-2.5 bg-white border border-sky-200 rounded-lg text-sm font-bold text-slate-700 shadow-sm">
-                          <option value="">-- Select an active consent record --</option>
+                          <option value="">{i18n.t("-- Select an active consent record --")}</option>
                           {availableConsents.map(c => (
-                             <option key={c.id} value={c.id}>
-                               Indication: {c.episode_indication || c.episode_indication_from_req || 'N/A'} (Valid from: {c.valid_from}) - {c.consent_type}
+                             <option key={c.id} value={c.id}>{i18n.t("Indication:")}{" "}{c.episode_indication || c.episode_indication_from_req || i18n.t("N/A")}{" "}{i18n.t("(Valid from:")}{" "}{c.valid_from}) - {c.consent_type}
                              </option>
                           ))}
                         </select>
@@ -676,15 +675,15 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
                 {!useExistingConsent && (
                   <>
                     <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
-                      <label className="text-xs font-black text-slate-500 uppercase tracking-widest block mb-2">Consent Pathway</label>
+                      <label className="text-xs font-black text-slate-500 uppercase tracking-widest block mb-2">{i18n.t("Consent Pathway")}</label>
                       <div className="grid grid-cols-3 gap-3">
                         {[
                           { id: 'STANDARD', label: 'Standard Consent', desc: 'Patient / Guardian gives informed consent' },
                           { id: 'EMERGENCY_BEST_INTERESTS', label: 'Emergency / Lacks Capacity', desc: 'Transfusion in patient best interests' },
                           { id: 'DECLINED', label: 'Declines / Advance Decision', desc: 'e.g. Jehovah\'s Witness protocol' }
                         ].map(type => (
-                          <button key={type.id} type="button" onClick={() => setConsentForm({ ...consentForm, consent_type: type.id as any })} className={`p-3 text-left rounded-xl border transition-all ${consentForm.consent_type === type.id ? 'border-red-600 bg-red-50/50 shadow-sm' : 'border-slate-200 bg-white hover:bg-slate-50'}`}>
-                            <div className="font-bold text-xs text-slate-800">{type.label}</div><div className="text-[11px] text-slate-500 mt-1">{type.desc}</div>
+                          <button key={type.id} type="button" onClick={() => setConsentForm({ ...consentForm, consent_type: type.id as any })} className={`p-3 text-start rounded-xl border transition-all ${consentForm.consent_type === type.id ? 'border-red-600 bg-red-50/50 shadow-sm' : 'border-slate-200 bg-white hover:bg-slate-50'}`}>
+                            <div className="font-bold text-xs text-slate-800">{i18n.tx(type.label)}</div><div className="text-[11px] text-slate-500 mt-1">{type.desc}</div>
                           </button>
                         ))}
                       </div>
@@ -692,19 +691,19 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
 
                     <div className="grid grid-cols-4 gap-4 p-4 bg-slate-50 rounded-xl border border-slate-200">
                       <div>
-                        <label className="text-[11px] font-black text-slate-500 uppercase block mb-1">Patient Group</label>
-                        <select value={consentForm.patient_category} onChange={e => setConsentForm({ ...consentForm, patient_category: e.target.value })} className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold"><option value="ADULT">Adult</option><option value="PAEDIATRIC">Paediatric</option><option value="NEONATE">Neonate</option></select>
+                        <label className="text-[11px] font-black text-slate-500 uppercase block mb-1">{i18n.t("Patient Group")}</label>
+                        <select value={consentForm.patient_category} onChange={e => setConsentForm({ ...consentForm, patient_category: e.target.value })} className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold"><option value="ADULT">{i18n.t("Adult")}</option><option value="PAEDIATRIC">{i18n.t("Paediatric")}</option><option value="NEONATE">{i18n.t("Neonate")}</option></select>
                       </div>
                       <div>
-                        <label className="text-[11px] font-black text-slate-500 uppercase block mb-1">Weight (kg)</label>
-                        <input type="number" step="0.1" placeholder="e.g. 68.5" value={consentForm.patient_weight_kg} onChange={e => setConsentForm({ ...consentForm, patient_weight_kg: e.target.value })} className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold" />
+                        <label className="text-[11px] font-black text-slate-500 uppercase block mb-1">{i18n.t("Weight (kg)")}</label>
+                        <input type="number" step="0.1" placeholder={i18n.t("e.g. 68.5")} value={consentForm.patient_weight_kg} onChange={e => setConsentForm({ ...consentForm, patient_weight_kg: e.target.value })} className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold" />
                       </div>
                       <div>
-                        <label className="text-[11px] font-black text-slate-500 uppercase block mb-1">Valid From</label>
+                        <label className="text-[11px] font-black text-slate-500 uppercase block mb-1">{i18n.t("Valid From")}</label>
                         <input type="date" value={consentForm.valid_from} onChange={e => setConsentForm({ ...consentForm, valid_from: e.target.value })} className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold" />
                       </div>
                       <div>
-                        <label className="text-[11px] font-black text-slate-500 uppercase block mb-1">Review Date</label>
+                        <label className="text-[11px] font-black text-slate-500 uppercase block mb-1">{i18n.t("Review Date")}</label>
                         <input type="date" value={consentForm.review_by} onChange={e => setConsentForm({ ...consentForm, review_by: e.target.value })} className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold" />
                       </div>
                     </div>
@@ -719,7 +718,7 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
                           ].map(item => (
                             <label key={item.key} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-100">
                               <input type="checkbox" checked={(consentForm as any)[item.key]} onChange={e => setConsentForm({ ...consentForm, [item.key]: e.target.checked })} className="w-4 h-4 accent-red-600 rounded" />
-                              <span className="text-xs font-bold text-slate-700">{item.label}</span>
+                              <span className="text-xs font-bold text-slate-700">{i18n.tx(item.label)}</span>
                             </label>
                           ))}
                         </div>
@@ -735,19 +734,19 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
                         <div className="grid grid-cols-2 gap-6 pt-4 border-t border-slate-200">
                           <div>
                             <div className="flex items-center justify-between mb-2">
-                              <label className="text-xs font-black text-slate-500 uppercase">Patient / Guardian Signature</label>
-                              <select value={consentForm.signer_type} onChange={e => setConsentForm({ ...consentForm, signer_type: e.target.value as any })} className="text-[11px] font-bold border border-slate-200 rounded px-2 py-0.5"><option value="PATIENT">Patient</option><option value="PARENT_GUARDIAN">Parent / Guardian</option></select>
+                              <label className="text-xs font-black text-slate-500 uppercase">{i18n.t("Patient / Guardian Signature")}</label>
+                              <select value={consentForm.signer_type} onChange={e => setConsentForm({ ...consentForm, signer_type: e.target.value as any })} className="text-[11px] font-bold border border-slate-200 rounded px-2 py-0.5"><option value="PATIENT">{i18n.t("Patient")}</option><option value="PARENT_GUARDIAN">{i18n.t("Parent / Guardian")}</option></select>
                             </div>
                             <div className="border border-slate-300 rounded-xl bg-slate-50 relative overflow-hidden h-36"><SignaturePad onEnd={setPatientSignature} /></div>
-                            <input type="text" placeholder="Signer Full Name" value={consentForm.signer_name} onChange={e => setConsentForm({ ...consentForm, signer_name: e.target.value })} className="w-full mt-2 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-medium" />
+                            <input type="text" placeholder={i18n.t("Signer Full Name")} value={consentForm.signer_name} onChange={e => setConsentForm({ ...consentForm, signer_name: e.target.value })} className="w-full mt-2 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-medium" />
                           </div>
 
                           <div className="space-y-3">
-                            <div><label className="text-xs font-black text-slate-500 uppercase block mb-1">Consenting Clinician</label><SearchableUserSelect value={consentForm.consenting_clinician_id} onChange={id => setConsentForm({ ...consentForm, consenting_clinician_id: id ? String(id) : '' })} placeholder="Select doctor..." roleFilters={['doctor']} /></div>
-                            <label className="text-xs font-black text-slate-500 uppercase block mt-3 mb-1">Clinician Signature</label>
+                            <div><label className="text-xs font-black text-slate-500 uppercase block mb-1">{i18n.t("Consenting Clinician")}</label><SearchableUserSelect value={consentForm.consenting_clinician_id} onChange={id => setConsentForm({ ...consentForm, consenting_clinician_id: id ? String(id) : '' })} placeholder={i18n.t("Select doctor...")} roleFilters={['doctor']} /></div>
+                            <label className="text-xs font-black text-slate-500 uppercase block mt-3 mb-1">{i18n.t("Clinician Signature")}</label>
                             <div className="border border-slate-300 rounded-xl bg-slate-50 relative overflow-hidden h-36"><SignaturePad onEnd={setClinicianSignature} /></div>
-                            <div><label className="text-xs font-black text-slate-500 uppercase block mb-1">Clinician MDCN No.</label><input type="text" placeholder="e.g. MDCN/R/12345" value={consentForm.clinician_mdcn_no} onChange={e => setConsentForm({ ...consentForm, clinician_mdcn_no: e.target.value })} className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-medium" /></div>
-                            <div><label className="text-xs font-black text-slate-500 uppercase block mb-1">Witness (Staff Nurse/Doctor)</label><SearchableUserSelect value={consentForm.witnessed_by} onChange={id => setConsentForm({ ...consentForm, witnessed_by: id ? String(id) : '' })} placeholder="Select witness..." roleFilters={['doctor', 'nurse']} /></div>
+                            <div><label className="text-xs font-black text-slate-500 uppercase block mb-1">{i18n.t("Clinician MDCN No.")}</label><input type="text" placeholder={i18n.t("e.g. MDCN/R/12345")} value={consentForm.clinician_mdcn_no} onChange={e => setConsentForm({ ...consentForm, clinician_mdcn_no: e.target.value })} className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-medium" /></div>
+                            <div><label className="text-xs font-black text-slate-500 uppercase block mb-1">{i18n.t("Witness (Staff Nurse/Doctor)")}</label><SearchableUserSelect value={consentForm.witnessed_by} onChange={id => setConsentForm({ ...consentForm, witnessed_by: id ? String(id) : '' })} placeholder={i18n.t("Select witness...")} roleFilters={['doctor', 'nurse']} /></div>
                           </div>
                         </div>
                       </>
@@ -755,18 +754,18 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
 
                     {consentForm.consent_type === 'EMERGENCY_BEST_INTERESTS' && (
                       <div className="p-5 bg-amber-50 rounded-2xl border border-amber-200 space-y-4">
-                        <div className="flex items-center gap-2 text-amber-800 font-black text-sm"><AlertCircle size={18} /> Emergency Capacity Bypass</div>
-                        <p className="text-xs text-amber-900 leading-relaxed">Transfusion is administered in the patient’s best interest when prospective consent cannot be obtained.</p>
-                        <div><label className="text-xs font-black text-slate-600 uppercase block mb-1">Decision Authorised By</label><SearchableUserSelect value={consentForm.emergency_decision_by} onChange={id => setConsentForm({ ...consentForm, emergency_decision_by: id ? String(id) : '' })} placeholder="Authorising consultant or registrar..." roleFilters={['doctor']} /></div>
+                        <div className="flex items-center gap-2 text-amber-800 font-black text-sm"><AlertCircle size={18} />{" "}{i18n.t("Emergency Capacity Bypass")}</div>
+                        <p className="text-xs text-amber-900 leading-relaxed">{i18n.t("Transfusion is administered in the patient’s best interest when prospective consent cannot be obtained.")}</p>
+                        <div><label className="text-xs font-black text-slate-600 uppercase block mb-1">{i18n.t("Decision Authorised By")}</label><SearchableUserSelect value={consentForm.emergency_decision_by} onChange={id => setConsentForm({ ...consentForm, emergency_decision_by: id ? String(id) : '' })} placeholder={i18n.t("Authorising consultant or registrar...")} roleFilters={['doctor']} /></div>
                       </div>
                     )}
 
                     {consentForm.consent_type === 'DECLINED' && (
                       <div className="p-5 bg-red-50 rounded-2xl border border-red-200 space-y-4">
-                        <div className="flex items-center gap-2 text-red-800 font-black text-sm"><AlertTriangle size={18} /> Refusal of Blood Transfusion / Advance Decision</div>
+                        <div className="flex items-center gap-2 text-red-800 font-black text-sm"><AlertTriangle size={18} />{" "}{i18n.t("Refusal of Blood Transfusion / Advance Decision")}</div>
                         <div className="grid grid-cols-2 gap-4">
-                          <div><label className="text-xs font-black text-slate-600 uppercase block mb-1">Plan Reference Number</label><input type="text" placeholder="e.g. ADV-DEC-2026-09" value={consentForm.declined_plan_ref} onChange={e => setConsentForm({ ...consentForm, declined_plan_ref: e.target.value })} className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs" /></div>
-                          <div><label className="text-xs font-black text-slate-600 uppercase block mb-1">Counselling Clinician</label><SearchableUserSelect value={consentForm.declined_clinician_id} onChange={id => setConsentForm({ ...consentForm, declined_clinician_id: id ? String(id) : '' })} placeholder="Select clinician..." roleFilters={['doctor']} /></div>
+                          <div><label className="text-xs font-black text-slate-600 uppercase block mb-1">{i18n.t("Plan Reference Number")}</label><input type="text" placeholder={i18n.t("e.g. ADV-DEC-2026-09")} value={consentForm.declined_plan_ref} onChange={e => setConsentForm({ ...consentForm, declined_plan_ref: e.target.value })} className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs" /></div>
+                          <div><label className="text-xs font-black text-slate-600 uppercase block mb-1">{i18n.t("Counselling Clinician")}</label><SearchableUserSelect value={consentForm.declined_clinician_id} onChange={id => setConsentForm({ ...consentForm, declined_clinician_id: id ? String(id) : '' })} placeholder={i18n.t("Select clinician...")} roleFilters={['doctor']} /></div>
                         </div>
                       </div>
                     )}
@@ -781,8 +780,8 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
                   <div className="flex items-center gap-3">
                     {tacoRiskDetected ? <AlertTriangle className="text-amber-600" size={24} /> : <CheckCircle2 className="text-emerald-600" size={24} />}
                     <div>
-                      <h4 className="text-sm font-black text-slate-800">{tacoRiskDetected ? 'TACO Risk Factors Detected — Mitigations Mandatory' : 'Standard Transfusion Risk (No High-Risk TACO Factors)'}</h4>
-                      <p className="text-xs text-slate-500">Circulatory overload is a leading cause of transfusion-associated morbidity.</p>
+                      <h4 className="text-sm font-black text-slate-800">{tacoRiskDetected ? i18n.t("TACO Risk Factors Detected — Mitigations Mandatory") : i18n.t("Standard Transfusion Risk (No High-Risk TACO Factors)")}</h4>
+                      <p className="text-xs text-slate-500">{i18n.t("Circulatory overload is a leading cause of transfusion-associated morbidity.")}</p>
                     </div>
                   </div>
                 </div>
@@ -797,7 +796,7 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
                   ].map(factor => (
                     <label key={factor.key} className="flex items-start gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-100">
                       <input type="checkbox" checked={(consentForm as any)[factor.key]} onChange={e => setConsentForm({ ...consentForm, [factor.key]: e.target.checked })} className="w-4 h-4 mt-0.5 accent-amber-600 rounded" />
-                      <span className="text-xs font-bold text-slate-700">{factor.label}</span>
+                      <span className="text-xs font-bold text-slate-700">{i18n.tx(factor.label)}</span>
                     </label>
                   ))}
                 </div>
@@ -808,8 +807,7 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
               <div className="space-y-6 animate-in fade-in duration-150">
                 {!tacoRiskDetected && (
                   <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-800 font-bold flex items-center gap-2">
-                    <CheckCircle2 size={16} /> No risk factors detected on screening. Standard infusion rate applies.
-                  </div>
+                    <CheckCircle2 size={16} />{" "}{i18n.t("No risk factors detected on screening. Standard infusion rate applies.")}</div>
                 )}
                 <div className="grid grid-cols-2 gap-3 text-xs">
                   {[
@@ -819,28 +817,28 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
                   ].map(mit => (
                     <label key={mit.key} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-100">
                       <input type="checkbox" checked={(consentForm as any)[mit.key]} onChange={e => setConsentForm({ ...consentForm, [mit.key]: e.target.checked })} className="w-4 h-4 accent-emerald-600 rounded" />
-                      <span className="text-xs font-bold text-slate-700">{mit.label}</span>
+                      <span className="text-xs font-bold text-slate-700">{i18n.tx(mit.label)}</span>
                     </label>
                   ))}
                 </div>
                 <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
                   <label className="flex items-center gap-3 cursor-pointer">
                     <input type="checkbox" checked={consentForm.taco_mitigation_diuretic_prescribed} onChange={e => setConsentForm({ ...consentForm, taco_mitigation_diuretic_prescribed: e.target.checked })} className="w-4 h-4 accent-emerald-600 rounded" />
-                    <span className="text-xs font-black text-slate-700 uppercase">Prophylactic Diuretic Prescribed on HIS</span>
+                    <span className="text-xs font-black text-slate-700 uppercase">{i18n.t("Prophylactic Diuretic Prescribed on HIS")}</span>
                   </label>
                   {consentForm.taco_mitigation_diuretic_prescribed && (
-                    <input type="text" placeholder="Drug, dose, route, and timing (e.g. Furosemide 20mg IV mid-transfusion)" value={consentForm.taco_diuretic_details} onChange={e => setConsentForm({ ...consentForm, taco_diuretic_details: e.target.value })} className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs" />
+                    <input type="text" placeholder={i18n.t("Drug, dose, route, and timing (e.g. Furosemide 20mg IV mid-transfusion)")} value={consentForm.taco_diuretic_details} onChange={e => setConsentForm({ ...consentForm, taco_diuretic_details: e.target.value })} className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs" />
                   )}
                 </div>
                 <div className="pt-4 border-t border-slate-200">
-                  <h4 className="text-xs font-black text-slate-600 uppercase tracking-wider mb-3">Bedside Checks</h4>
+                  <h4 className="text-xs font-black text-slate-600 uppercase tracking-wider mb-3">{i18n.t("Bedside Checks")}</h4>
                   <div className="grid grid-cols-3 gap-3">
                     {[
                       { key: 'his_prescription_confirmed', label: 'HIS Prescription Confirmed' }, { key: 'din_lsbtc_confirmed', label: 'DIN / LSBTC on Issue Tag' }, { key: 'bedside_id_check_confirmed', label: 'Two-Nurse Bedside Check' }
                     ].map(chk => (
                       <label key={chk.key} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
                         <input type="checkbox" checked={(consentForm as any)[chk.key]} onChange={e => setConsentForm({ ...consentForm, [chk.key]: e.target.checked })} className="w-4 h-4 accent-slate-800 rounded" />
-                        <span className="text-xs font-bold text-slate-700">{chk.label}</span>
+                        <span className="text-xs font-bold text-slate-700">{i18n.tx(chk.label)}</span>
                       </label>
                     ))}
                   </div>
@@ -849,15 +847,14 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
             )}
           </div>
           <div className="px-6 py-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
-            <div className="text-xs text-slate-500 font-medium">Step {activeConsentTab === 'PART_A' ? '1 of 3' : activeConsentTab === 'PART_B' ? '2 of 3' : '3 of 3'}</div>
+            <div className="text-xs text-slate-500 font-medium">{i18n.t("Step")}{" "}{activeConsentTab === 'PART_A' ? i18n.t("1 of 3") : activeConsentTab === 'PART_B' ? i18n.t("2 of 3") : i18n.t("3 of 3")}</div>
             <div className="flex gap-2">
-              <button type="button" onClick={() => setShowConsentModal(false)} className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100">Cancel</button>
+              <button type="button" onClick={() => setShowConsentModal(false)} className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100">{i18n.t("Cancel")}</button>
               {activeConsentTab !== 'PART_C' ? (
-                <button type="button" onClick={() => setActiveConsentTab(activeConsentTab === 'PART_A' ? 'PART_B' : 'PART_C')} className="px-5 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-slate-800">Continue</button>
+                <button type="button" onClick={() => setActiveConsentTab(activeConsentTab === 'PART_A' ? 'PART_B' : 'PART_C')} className="px-5 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-slate-800">{i18n.t("Continue")}</button>
               ) : (
                 <button type="button" onClick={handleSubmitConsent} disabled={processing} className="px-6 py-2 bg-emerald-600 text-white rounded-xl text-xs font-black hover:bg-emerald-700 flex items-center gap-2 disabled:opacity-50">
-                  {processing ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />} Complete & Save Consent
-                </button>
+                  {processing ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}{" "}{i18n.t("Complete & Save Consent")}</button>
               )}
             </div>
           </div>
@@ -874,9 +871,9 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
       <div className="bg-slate-50 rounded-[24px] overflow-hidden flex flex-col h-full relative">
         <div className="px-6 py-5 border-b border-slate-200 flex items-center justify-between bg-white shadow-sm z-10">
           <div className="flex items-center gap-4">
-            <button type="button" onClick={() => setUnitToStart(null)} className="p-2 text-slate-400 hover:bg-slate-100 rounded-full transition-colors"><ArrowLeft size={20} /></button>
+            <button type="button" onClick={() => setUnitToStart(null)} className="p-2 text-slate-400 hover:bg-slate-100 rounded-full transition-colors"><ArrowLeft className="rtl:-scale-x-100" size={20} /></button>
             <div>
-              <h3 className="text-2xl font-black text-slate-800">Start Transfusion</h3>
+              <h3 className="text-2xl font-black text-slate-800">{i18n.t("Start Transfusion")}</h3>
               <p className="text-sm font-bold text-slate-500 uppercase mt-1">{unitToStart.donation_number}</p>
             </div>
           </div>
@@ -884,14 +881,14 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
         </div>
         <form onSubmit={handleStartTransfusion} className="p-8 overflow-y-auto space-y-8 flex-1">
           <div>
-            <h4 className="text-base font-black text-slate-700 mb-4 flex items-center gap-2"><Eye size={16}/> Dual Checker Verification</h4>
+            <h4 className="text-base font-black text-slate-700 mb-4 flex items-center gap-2"><Eye size={16}/>{" "}{i18n.t("Dual Checker Verification")}</h4>
             <div className="grid grid-cols-2 gap-4">
-              <div><label className="text-sm font-bold text-slate-500 uppercase mb-1 block">Checker 1 ID</label><SearchableUserSelect value={startForm.checker1_id} onChange={(id) => setStartForm({...startForm, checker1_id: id ? String(id) : ''})} placeholder="Select checker..." roleFilters={['doctor', 'nurse']} /></div>
-              <div><label className="text-sm font-bold text-slate-500 uppercase mb-1 block">Checker 2 ID</label><SearchableUserSelect value={startForm.checker2_id} onChange={(id) => setStartForm({...startForm, checker2_id: id ? String(id) : ''})} placeholder="Select checker..." roleFilters={['doctor', 'nurse']} /></div>
+              <div><label className="text-sm font-bold text-slate-500 uppercase mb-1 block">{i18n.t("Checker 1 ID")}</label><SearchableUserSelect value={startForm.checker1_id} onChange={(id) => setStartForm({...startForm, checker1_id: id ? String(id) : ''})} placeholder={i18n.t("Select checker...")} roleFilters={['doctor', 'nurse']} /></div>
+              <div><label className="text-sm font-bold text-slate-500 uppercase mb-1 block">{i18n.t("Checker 2 ID")}</label><SearchableUserSelect value={startForm.checker2_id} onChange={(id) => setStartForm({...startForm, checker2_id: id ? String(id) : ''})} placeholder={i18n.t("Select checker...")} roleFilters={['doctor', 'nurse']} /></div>
             </div>
           </div>
           <div>
-            <h4 className="text-base font-black text-slate-700 mb-4 flex items-center gap-2"><CheckCircle2 size={16}/> Verification Checklist</h4>
+            <h4 className="text-base font-black text-slate-700 mb-4 flex items-center gap-2"><CheckCircle2 size={16}/>{" "}{i18n.t("Verification Checklist")}</h4>
             <div className="grid grid-cols-2 gap-4">
               {[
                 { key: 'patient_verified', label: 'Patient Identity Verified' }, { key: 'wristband_verified', label: 'Wristband Matches' },
@@ -901,37 +898,34 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
               ].map(item => (
                 <label key={item.key} className="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-100 cursor-pointer hover:bg-slate-50 shadow-sm">
                   <input type="checkbox" checked={(startForm as any)[item.key]} onChange={e => setStartForm({...startForm, [item.key]: e.target.checked})} className="w-5 h-5 accent-emerald-500 rounded" />
-                  <span className="text-sm font-bold text-slate-700">{item.label}</span>
+                  <span className="text-sm font-bold text-slate-700">{i18n.tx(item.label)}</span>
                 </label>
               ))}
             </div>
           </div>
           <div>
             <div className="flex items-center justify-between mb-4 border-b border-slate-100 pb-2">
-              <h4 className="text-base font-black text-slate-700 flex items-center gap-2"><AlertCircle size={16}/> Baseline Vitals</h4>
+              <h4 className="text-base font-black text-slate-700 flex items-center gap-2"><AlertCircle size={16}/>{" "}{i18n.t("Baseline Vitals")}</h4>
               <button 
                 type="button" 
                 onClick={handleImportLatestVitals}
                 disabled={importingVitals}
                 className="text-[10px] font-black uppercase tracking-widest bg-indigo-50 border border-indigo-100 text-indigo-600 px-3 py-1.5 rounded-lg flex items-center gap-1.5 hover:bg-indigo-100 transition-colors shadow-sm disabled:opacity-50"
               >
-                {importingVitals ? <Loader2 size={14} className="animate-spin" /> : <Activity size={14} />} 
-                Import Latest Vitals
-              </button>
+                {importingVitals ? <Loader2 size={14} className="animate-spin" /> : <Activity size={14} />}{i18n.t("Import Latest Vitals")}</button>
             </div>
             <div className="grid grid-cols-3 gap-4">
-              <div><label className="text-[13px] font-bold text-slate-500 uppercase">Temp (°C)</label><input required type="number" step="0.1" className="w-full mt-1 px-4 py-2 bg-white border border-slate-200 rounded-xl" value={startForm.baseline_temp} onChange={e => setStartForm({...startForm, baseline_temp: e.target.value})} /></div>
-              <div><label className="text-[13px] font-bold text-slate-500 uppercase">Pulse (bpm)</label><input required type="number" className="w-full mt-1 px-4 py-2 bg-white border border-slate-200 rounded-xl" value={startForm.pulse} onChange={e => setStartForm({...startForm, pulse: e.target.value})} /></div>
-              <div><label className="text-[13px] font-bold text-slate-500 uppercase">Resp Rate</label><input required type="number" className="w-full mt-1 px-4 py-2 bg-white border border-slate-200 rounded-xl" value={startForm.rr} onChange={e => setStartForm({...startForm, rr: e.target.value})} /></div>
-              <div><label className="text-[13px] font-bold text-slate-500 uppercase">Sys BP (mmHg)</label><input required type="number" className="w-full mt-1 px-4 py-2 bg-white border border-slate-200 rounded-xl" value={startForm.systolic_bp} onChange={e => setStartForm({...startForm, systolic_bp: e.target.value})} /></div>
-              <div><label className="text-[13px] font-bold text-slate-500 uppercase">Dia BP (mmHg)</label><input required type="number" className="w-full mt-1 px-4 py-2 bg-white border border-slate-200 rounded-xl" value={startForm.diastolic_bp} onChange={e => setStartForm({...startForm, diastolic_bp: e.target.value})} /></div>
+              <div><label className="text-[13px] font-bold text-slate-500 uppercase">{i18n.t("Temp (°C)")}</label><input required type="number" step="0.1" className="w-full mt-1 px-4 py-2 bg-white border border-slate-200 rounded-xl" value={startForm.baseline_temp} onChange={e => setStartForm({...startForm, baseline_temp: e.target.value})} /></div>
+              <div><label className="text-[13px] font-bold text-slate-500 uppercase">{i18n.t("Pulse (bpm)")}</label><input required type="number" className="w-full mt-1 px-4 py-2 bg-white border border-slate-200 rounded-xl" value={startForm.pulse} onChange={e => setStartForm({...startForm, pulse: e.target.value})} /></div>
+              <div><label className="text-[13px] font-bold text-slate-500 uppercase">{i18n.t("Resp Rate")}</label><input required type="number" className="w-full mt-1 px-4 py-2 bg-white border border-slate-200 rounded-xl" value={startForm.rr} onChange={e => setStartForm({...startForm, rr: e.target.value})} /></div>
+              <div><label className="text-[13px] font-bold text-slate-500 uppercase">{i18n.t("Sys BP (mmHg)")}</label><input required type="number" className="w-full mt-1 px-4 py-2 bg-white border border-slate-200 rounded-xl" value={startForm.systolic_bp} onChange={e => setStartForm({...startForm, systolic_bp: e.target.value})} /></div>
+              <div><label className="text-[13px] font-bold text-slate-500 uppercase">{i18n.t("Dia BP (mmHg)")}</label><input required type="number" className="w-full mt-1 px-4 py-2 bg-white border border-slate-200 rounded-xl" value={startForm.diastolic_bp} onChange={e => setStartForm({...startForm, diastolic_bp: e.target.value})} /></div>
             </div>
           </div>
           <div className="flex justify-end gap-3 pt-6 border-t border-slate-200">
-            <button type="button" onClick={() => setUnitToStart(null)} className="px-5 py-2.5 text-base font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">Cancel</button>
+            <button type="button" onClick={() => setUnitToStart(null)} className="px-5 py-2.5 text-base font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">{i18n.t("Cancel")}</button>
             <button type="submit" disabled={processing} className="px-5 py-2.5 text-base font-bold text-white bg-emerald-600 rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-50 flex items-center gap-2">
-              {processing ? <Loader2 size={16} className="animate-spin" /> : <Play size={16} />} Commence Transfusion
-            </button>
+              {processing ? <Loader2 size={16} className="animate-spin" /> : <Play size={16} />}{" "}{i18n.t("Commence Transfusion")}</button>
           </div>
         </form>
       </div>
@@ -946,8 +940,8 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
       <div className="bg-slate-50 rounded-[24px] overflow-hidden flex flex-col h-full relative">
         <div className="px-6 py-5 border-b border-slate-200 flex items-center justify-between bg-white shadow-sm z-10">
           <div className="flex items-center gap-4">
-            <button type="button" onClick={() => setActiveAction(null)} className="p-2 text-slate-400 hover:bg-slate-100 rounded-full transition-colors"><ArrowLeft size={20} /></button>
-            <h3 className="text-2xl font-black text-slate-800 capitalize">{activeAction.type} Transfusion</h3>
+            <button type="button" onClick={() => setActiveAction(null)} className="p-2 text-slate-400 hover:bg-slate-100 rounded-full transition-colors"><ArrowLeft className="rtl:-scale-x-100" size={20} /></button>
+            <h3 className="text-2xl font-black text-slate-800 capitalize">{activeAction.type}{" "}{i18n.t("Transfusion")}</h3>
           </div>
           <button type="button" onClick={onClose} className="p-2 text-slate-400 hover:bg-slate-200 rounded-full transition-colors"><X size={20}/></button>
         </div>
@@ -955,33 +949,32 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
           {(activeAction.type === 'pause' || activeAction.type === 'stop' || activeAction.type === 'complete') && (
             <div className="flex items-center gap-3 mb-4 bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
               <input type="checkbox" checked={reactionOccurred} onChange={e => setReactionOccurred(e.target.checked)} className="w-5 h-5 accent-red-500" />
-              <span className="text-base font-bold text-red-600">Transfusion Reaction Occurred</span>
+              <span className="text-base font-bold text-red-600">{i18n.t("Transfusion Reaction Occurred")}</span>
             </div>
           )}
           {reactionOccurred && (
             <div>
-              <label className="text-sm font-bold text-slate-500 uppercase">Reaction Details</label>
+              <label className="text-sm font-bold text-slate-500 uppercase">{i18n.t("Reaction Details")}</label>
               <textarea className="w-full mt-1 px-4 py-2 bg-white border border-slate-200 rounded-xl text-base outline-none focus:border-red-400 h-24 resize-none shadow-sm" value={reactionDetails} onChange={e => setReactionDetails(e.target.value)} />
             </div>
           )}
           {activeAction.type === 'stop' && (
             <div>
-              <label className="text-sm font-bold text-slate-500 uppercase">Stop Category</label>
+              <label className="text-sm font-bold text-slate-500 uppercase">{i18n.t("Stop Category")}</label>
               <select className="w-full mt-1 px-4 py-2 bg-white border border-slate-200 rounded-xl text-base font-medium outline-none focus:border-red-400 shadow-sm" value={stopReason} onChange={e => setStopReason(e.target.value)}>
-                <option value="">Select Reason</option><option value="REACTION">Reaction</option><option value="COMPLETED">Completed</option><option value="OTHER">Other</option>
+                <option value="">{i18n.t("Select Reason")}</option><option value="REACTION">{i18n.t("Reaction")}</option><option value="COMPLETED">{i18n.t("Completed")}</option><option value="OTHER">{i18n.t("Other")}</option>
               </select>
             </div>
           )}
           <div>
-            <label className="text-sm font-bold text-slate-500 uppercase">Remarks</label>
+            <label className="text-sm font-bold text-slate-500 uppercase">{i18n.t("Remarks")}</label>
             <textarea className="w-full mt-1 px-4 py-2 bg-white border border-slate-200 rounded-xl text-base outline-none focus:border-slate-400 h-24 resize-none shadow-sm" value={actionRemarks} onChange={e => setActionRemarks(e.target.value)} />
           </div>
 
           <div className="flex justify-end gap-3 pt-6 border-t border-slate-200">
-            <button type="button" onClick={() => setActiveAction(null)} className="px-5 py-2.5 text-base font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">Cancel</button>
+            <button type="button" onClick={() => setActiveAction(null)} className="px-5 py-2.5 text-base font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">{i18n.t("Cancel")}</button>
             <button type="button" onClick={handleExecuteAction} disabled={processing || (activeAction.type === 'stop' && !stopReason)} className={`px-5 py-2.5 text-base font-bold text-white rounded-xl transition-colors disabled:opacity-50 flex items-center gap-2 shadow-sm ${activeAction.type === 'stop' ? 'bg-red-600 hover:bg-red-700' : activeAction.type === 'pause' ? 'bg-orange-500 hover:bg-orange-600' : 'bg-emerald-600 hover:bg-emerald-700'}`}>
-              {processing ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />} Confirm
-            </button>
+              {processing ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />}{" "}{i18n.t("Confirm")}</button>
           </div>
         </div>
       </div>
@@ -998,8 +991,8 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-600"><Droplet size={20} /></div>
             <div>
-              <h2 className="text-xl font-black text-slate-800">Blood Transfusion Panel</h2>
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-0.5">Select an active request</p>
+              <h2 className="text-xl font-black text-slate-800">{i18n.t("Blood Transfusion Panel")}</h2>
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-0.5">{i18n.t("Select an active request")}</p>
             </div>
           </div>
           <button onClick={onClose} className="p-2 text-slate-400 hover:bg-slate-200 rounded-full transition-colors"><X size={20} /></button>
@@ -1011,8 +1004,8 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
           ) : requests.length === 0 ? (
             <div className="text-center py-20">
               <Droplet size={48} className="mx-auto text-slate-200 mb-4" />
-              <h3 className="text-lg font-bold text-slate-600">No Blood Requests Found</h3>
-              <p className="text-xs text-slate-400 mt-1">There are no blood requests registered for this encounter.</p>
+              <h3 className="text-lg font-bold text-slate-600">{i18n.t("No Blood Requests Found")}</h3>
+              <p className="text-xs text-slate-400 mt-1">{i18n.t("There are no blood requests registered for this encounter.")}</p>
             </div>
           ) : (
             <div className="grid gap-3">
@@ -1023,10 +1016,10 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
                       <span className="text-xs font-black px-2 py-0.5 bg-red-50 text-red-600 rounded uppercase">{req.request_number}</span>
                       <span className="text-xs font-bold text-slate-400">{req.required_date} {req.required_time}</span>
                     </div>
-                    <div className="text-sm font-bold text-slate-700">Urgency: <span className={req.urgency === 'STAT' ? 'text-red-500' : 'text-slate-500'}>{req.urgency}</span></div>
-                    <div className="text-sm font-bold text-slate-700">Status: <span className="text-emerald-600">{req.request_status}</span></div>
+                    <div className="text-sm font-bold text-slate-700">{i18n.t("Urgency:")}{" "}<span className={req.urgency === 'STAT' ? 'text-red-500' : 'text-slate-500'}>{i18n.tv(req.urgency)}</span></div>
+                    <div className="text-sm font-bold text-slate-700">{i18n.t("Status:")}{" "}<span className="text-emerald-600">{i18n.tv(req.request_status)}</span></div>
                   </div>
-                  <ArrowLeft size={18} className="text-slate-300 group-hover:text-red-500 rotate-180 transition-colors" />
+                  <ArrowLeft size={18} className="text-slate-300 group-hover:text-red-500 rotate-180 transition-colors rtl:-scale-x-100" />
                 </div>
               ))}
             </div>
@@ -1040,17 +1033,16 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
     <div className="bg-slate-50 rounded-[24px] overflow-hidden flex flex-col h-full relative">
       <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-white shadow-sm z-10">
         <div className="flex items-center gap-4">
-          <button onClick={() => setSelectedRequestId(null)} className="p-2 text-slate-400 hover:bg-slate-100 rounded-full transition-colors"><ArrowLeft size={18} /></button>
+          <button onClick={() => setSelectedRequestId(null)} className="p-2 text-slate-400 hover:bg-slate-100 rounded-full transition-colors"><ArrowLeft className="rtl:-scale-x-100" size={18} /></button>
           <div>
-            <h2 className="text-xl font-black text-slate-800">Transfusion Management</h2>
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Req: {transfusionView?.request_number || 'Loading...'}</p>
+            <h2 className="text-xl font-black text-slate-800">{i18n.t("Transfusion Management")}</h2>
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Req:")}{" "}{transfusionView?.request_number || i18n.t("Loading...")}</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
           {transfusionView && transfusionView.request_status !== 'COMPLETED' && (
             <button onClick={() => setShowForceCompleteModal(selectedRequestId)} className="px-4 py-2 bg-amber-100 text-amber-700 text-xs font-bold uppercase tracking-widest rounded-xl hover:bg-amber-200 transition-colors flex items-center gap-2">
-              <AlertCircle size={14} /> Force Complete
-            </button>
+              <AlertCircle size={14} />{" "}{i18n.t("Force Complete")}</button>
           )}
           <button onClick={onClose} className="p-2 text-slate-400 hover:bg-slate-200 rounded-full transition-colors"><X size={18} /></button>
         </div>
@@ -1064,10 +1056,10 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
             
             {/* Request Snapshot */}
             <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 grid grid-cols-4 gap-4 text-xs font-bold">
-              <div><p className="text-slate-400 uppercase">Indication</p><p className="text-slate-800 text-sm mt-0.5">{transfusionView.indication || 'N/A'}</p></div>
-              <div><p className="text-slate-400 uppercase">Urgency</p><p className="text-red-600 text-sm mt-0.5">{transfusionView.urgency}</p></div>
-              <div><p className="text-slate-400 uppercase">Status</p><p className="text-emerald-600 text-sm mt-0.5">{transfusionView.request_status}</p></div>
-              <div><p className="text-slate-400 uppercase">Total Units</p><p className="text-slate-800 text-sm mt-0.5">{transfusionView.summary?.units_prepared || 0}</p></div>
+              <div><p className="text-slate-400 uppercase">{i18n.t("Indication")}</p><p className="text-slate-800 text-sm mt-0.5">{transfusionView.indication || i18n.t("N/A")}</p></div>
+              <div><p className="text-slate-400 uppercase">{i18n.t("Urgency")}</p><p className="text-red-600 text-sm mt-0.5">{i18n.tv(transfusionView.urgency)}</p></div>
+              <div><p className="text-slate-400 uppercase">{i18n.t("Status")}</p><p className="text-emerald-600 text-sm mt-0.5">{i18n.tv(transfusionView.request_status)}</p></div>
+              <div><p className="text-slate-400 uppercase">{i18n.t("Total Units")}</p><p className="text-slate-800 text-sm mt-0.5">{transfusionView.summary?.units_prepared || 0}</p></div>
             </div>
 
             {/* Consent Card */}
@@ -1077,27 +1069,26 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
                   {transfusionView.consent ? <CheckCircle2 size={24} /> : <AlertCircle size={24} />}
                 </div>
                 <div>
-                  <h3 className="text-base font-black text-slate-800">Transfusion Consent & TACO Screen</h3>
+                  <h3 className="text-base font-black text-slate-800">{i18n.t("Transfusion Consent & TACO Screen")}</h3>
                   <p className="text-xs text-slate-500 mt-0.5">
-                    {transfusionView.consent ? `Valid consent logged on ${transfusionView.consent.created_at} (${transfusionView.consent.consent_type})` : 'Mandatory patient consent and TACO assessment required prior to starting transfusion.'}
+                    {transfusionView.consent ? `Valid consent logged on ${transfusionView.consent.created_at} (${transfusionView.consent.consent_type})` : i18n.t("Mandatory patient consent and TACO assessment required prior to starting transfusion.")}
                   </p>
                 </div>
               </div>
               
               {!transfusionView.consent ? (
-                <button onClick={() => setShowConsentModal(true)} className="px-5 py-2.5 bg-slate-900 text-white rounded-xl text-xs font-black hover:bg-slate-800 transition-colors">Capture Consent & TACO</button>
+                <button onClick={() => setShowConsentModal(true)} className="px-5 py-2.5 bg-slate-900 text-white rounded-xl text-xs font-black hover:bg-slate-800 transition-colors">{i18n.t("Capture Consent & TACO")}</button>
               ) : (
                 <div className="flex items-center gap-3">
-                  <span className="text-xs font-black text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-100">VERIFIED</span>
-                  <button onClick={() => setShowViewConsentModal(true)} className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-black transition-colors flex items-center gap-1.5 shadow-sm"><Eye size={14} /> View Consent Form</button>
+                  <span className="text-xs font-black text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-100">{i18n.t("VERIFIED")}</span>
+                  <button onClick={() => setShowViewConsentModal(true)} className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-black transition-colors flex items-center gap-1.5 shadow-sm"><Eye size={14} />{" "}{i18n.t("View Consent Form")}</button>
                 </div>
               )}
             </div>
 
             {/* Prepared Blood Units */}
             <h3 className="text-base font-black text-slate-800 mt-6 flex items-center gap-2">
-              <Droplet size={18} className="text-red-500" /> Prepared Blood Units
-            </h3>
+              <Droplet size={18} className="text-red-500" />{" "}{i18n.t("Prepared Blood Units")}</h3>
 
             <div className="space-y-4">
               {transfusionView.units?.map((unit: any) => (
@@ -1108,7 +1099,7 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
                         <span className="text-sm font-black text-red-600 bg-red-50 px-2 py-0.5 rounded">{unit.donation_number}</span>
                         <span className="text-xs font-bold text-slate-500 uppercase">{unit.component} {unit.unit_group}</span>
                       </div>
-                      <p className="text-xs text-slate-400 mt-1">Vol: {unit.volume_ml}ml | Crossmatch: <span className="text-emerald-600 font-bold">{unit.crossmatch_result}</span></p>
+                      <p className="text-xs text-slate-400 mt-1">{i18n.t("Vol:")}{" "}{unit.volume_ml}{i18n.t("ml | Crossmatch:")}{" "}<span className="text-emerald-600 font-bold">{unit.crossmatch_result}</span></p>
                     </div>
                     <div>
                       <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-md ${
@@ -1119,7 +1110,7 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
                         unit.active_event?.transfusion_status === 'STOPPED' ? 'bg-red-100 text-red-700' :
                         unit.issue_status === 'ISSUED' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'
                       }`}>
-                        {unit.active_event?.transfusion_status || unit.active_event?.action_taken || unit.issue_status}
+                        {i18n.tv(unit.active_event?.transfusion_status) || unit.active_event?.action_taken || i18n.tv(unit.issue_status)}
                       </span>
                     </div>
                   </div>
@@ -1135,41 +1126,35 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
                         <div className="flex justify-end gap-2">
                           {!activeEvent && unit.issue_status === 'ISSUED' && transfusionView.consent && (
                             <button onClick={() => setUnitToStart(unit)} className="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold hover:bg-emerald-700 flex items-center gap-2">
-                              <Play size={14} /> Start Transfusion
-                            </button>
+                              <Play size={14} />{" "}{i18n.t("Start Transfusion")}</button>
                           )}
                           
                           {activeEvent && isRunning && (
                             <>
                               <button onClick={() => setActiveAction({ type: 'pause', unit, event_id: activeEvent.id })} className="px-4 py-2 bg-amber-100 text-amber-700 rounded-xl text-xs font-bold hover:bg-amber-200 flex items-center gap-2">
-                                <Pause size={14} /> Pause
-                              </button>
+                                <Pause size={14} />{" "}{i18n.t("Pause")}</button>
                               <button onClick={() => setActiveAction({ type: 'stop', unit, event_id: activeEvent.id })} className="px-4 py-2 bg-red-100 text-red-700 rounded-xl text-xs font-bold hover:bg-red-200 flex items-center gap-2">
-                                <Square size={14} /> Stop
-                              </button>
+                                <Square size={14} />{" "}{i18n.t("Stop")}</button>
                               <button onClick={() => setActiveAction({ type: 'complete', unit, event_id: activeEvent.id })} className="px-4 py-2 bg-emerald-100 text-emerald-700 rounded-xl text-xs font-bold hover:bg-emerald-200 flex items-center gap-2">
-                                <CheckCircle2 size={14} /> Complete
-                              </button>
+                                <CheckCircle2 size={14} />{" "}{i18n.t("Complete")}</button>
                             </>
                           )}
 
                           {activeEvent && currentStatus === 'PAUSED' && (
                             <>
                               <button onClick={() => setActiveAction({ type: 'resume', unit, event_id: activeEvent.id })} className="px-4 py-2 bg-blue-100 text-blue-700 rounded-xl text-xs font-bold hover:bg-blue-200 flex items-center gap-2">
-                                <Play size={14} /> Resume
-                              </button>
+                                <Play size={14} />{" "}{i18n.t("Resume")}</button>
                               <button onClick={() => setActiveAction({ type: 'stop', unit, event_id: activeEvent.id })} className="px-4 py-2 bg-red-100 text-red-700 rounded-xl text-xs font-bold hover:bg-red-200 flex items-center gap-2">
-                                <Square size={14} /> Stop
-                              </button>
+                                <Square size={14} />{" "}{i18n.t("Stop")}</button>
                             </>
                           )}
 
                           {activeEvent && currentStatus === 'COMPLETED' && (
-                            <span className="text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-xl bg-emerald-100 text-emerald-700">Completed</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-xl bg-emerald-100 text-emerald-700">{i18n.t("Completed")}</span>
                           )}
                           
                           {activeEvent && currentStatus === 'STOPPED' && (
-                            <span className="text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-xl bg-red-100 text-red-700">Stopped</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-xl bg-red-100 text-red-700">{i18n.t("Stopped")}</span>
                           )}
                         </div>
 
@@ -1181,7 +1166,7 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
                 </div>
               ))}
               {(!transfusionView.units || transfusionView.units.length === 0) && (
-                <div className="text-center p-8 bg-white rounded-2xl border border-slate-100 text-slate-500 font-medium">No units have been prepared for this request yet.</div>
+                <div className="text-center p-8 bg-white rounded-2xl border border-slate-100 text-slate-500 font-medium">{i18n.t("No units have been prepared for this request yet.")}</div>
               )}
             </div>
 
@@ -1204,23 +1189,22 @@ export default function TransfusionPanel({ encounterNumber, onClose }: Transfusi
               <div className="flex items-center gap-3">
                 <div className="p-3 bg-amber-500 text-white rounded-2xl shadow-lg shadow-amber-200 shrink-0"><CheckCircle2 size={24} /></div>
                 <div>
-                  <h2 className="text-lg font-black text-slate-800 tracking-tight">Force Complete Request</h2>
+                  <h2 className="text-lg font-black text-slate-800 tracking-tight">{i18n.t("Force Complete Request")}</h2>
                   <p className="text-xs text-amber-600 font-bold uppercase tracking-widest mt-0.5">{transfusionView?.request_number}</p>
                 </div>
               </div>
               <button onClick={() => setShowForceCompleteModal(null)} disabled={processing} className="p-2 hover:bg-slate-100 rounded-full transition-colors disabled:opacity-50 text-slate-400 hover:text-slate-600"><X size={20} /></button>
             </div>
             <div className="p-6 space-y-4">
-              <div className="bg-amber-50 border border-amber-100 rounded-xl p-4 text-xs text-amber-800 font-medium">This action will bypass the standard transfusion process and clear this request from the queue.</div>
+              <div className="bg-amber-50 border border-amber-100 rounded-xl p-4 text-xs text-amber-800 font-medium">{i18n.t("This action will bypass the standard transfusion process and clear this request from the queue.")}</div>
               <div>
-                <label className="block text-xs font-black text-slate-800 uppercase tracking-widest mb-2">Remarks / Reason <span className="text-red-500">*</span></label>
-                <textarea value={forceCompleteRemarks} onChange={(e) => setForceCompleteRemarks(e.target.value)} rows={3} placeholder="e.g. Transfusion completed manually during system downtime..." className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium text-slate-800 outline-none focus:bg-white focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 transition-all resize-none" />
+                <label className="block text-xs font-black text-slate-800 uppercase tracking-widest mb-2">{i18n.t("Remarks / Reason")}{" "}<span className="text-red-500">*</span></label>
+                <textarea value={forceCompleteRemarks} onChange={(e) => setForceCompleteRemarks(e.target.value)} rows={3} placeholder={i18n.t("e.g. Transfusion completed manually during system downtime...")} className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium text-slate-800 outline-none focus:bg-white focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 transition-all resize-none" />
               </div>
               <div className="flex items-center justify-end gap-3 pt-2">
-                <button type="button" onClick={() => setShowForceCompleteModal(null)} disabled={processing} className="px-6 py-3 rounded-2xl font-bold text-sm text-slate-600 hover:bg-slate-100 transition-colors disabled:opacity-50">Cancel</button>
+                <button type="button" onClick={() => setShowForceCompleteModal(null)} disabled={processing} className="px-6 py-3 rounded-2xl font-bold text-sm text-slate-600 hover:bg-slate-100 transition-colors disabled:opacity-50">{i18n.t("Cancel")}</button>
                 <button type="button" onClick={handleForceComplete} disabled={processing || !forceCompleteRemarks.trim()} className="px-6 py-3 rounded-2xl font-black text-sm text-white bg-amber-500 hover:bg-amber-600 shadow-lg shadow-amber-200 transition-all active:scale-95 flex items-center gap-2 disabled:opacity-50 disabled:active:scale-100">
-                  {processing && <Loader2 size={16} className="animate-spin" />} Confirm Completion
-                </button>
+                  {processing && <Loader2 size={16} className="animate-spin" />}{" "}{i18n.t("Confirm Completion")}</button>
               </div>
             </div>
           </div>

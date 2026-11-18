@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { exportToCSV, exportToExcel, exportToPDF } from "../../utils/exportUtils";
 import apiClient from "../../api/client";
+import { i18n } from "../../i18n";
 
 const renderValue = (val: any) => {
   if (val === null || val === undefined || val === "") return "—";
@@ -166,8 +167,8 @@ const AncReport: React.FC = () => {
     <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 animate-in slide-in-from-bottom-4 duration-500 w-full overflow-hidden flex flex-col">
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
         <div>
-          <h2 className="text-xl font-bold text-slate-800">ANC Report</h2>
-          <p className="text-sm text-slate-500">View and export all Antenatal Care visits and collections.</p>
+          <h2 className="text-xl font-bold text-slate-800">{i18n.t("ANC Report")}</h2>
+          <p className="text-sm text-slate-500">{i18n.t("View and export all Antenatal Care visits and collections.")}</p>
         </div>
         
         <div className="flex items-center gap-3">
@@ -183,20 +184,20 @@ const AncReport: React.FC = () => {
             }}
             disabled={isLoading}
             className="flex items-center gap-2 px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 disabled:opacity-50 rounded-xl text-sm font-bold transition-colors"
-            title="Clear Filters"
+            title={i18n.t("Clear Filters")}
           >
             <FilterX size={18} />
-            <span className="hidden sm:inline">Clear</span>
+            <span className="hidden sm:inline">{i18n.t("Clear")}</span>
           </button>
           
           <button
             onClick={fetchReportData}
             disabled={isLoading}
             className="flex items-center gap-2 px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 disabled:opacity-50 rounded-xl text-sm font-bold transition-colors"
-            title="Refresh Data"
+            title={i18n.t("Refresh Data")}
           >
             <RefreshCw size={18} className={isLoading ? "animate-spin" : ""} />
-            <span className="hidden sm:inline">Refresh</span>
+            <span className="hidden sm:inline">{i18n.t("Refresh")}</span>
           </button>
 
           <div className="relative" ref={dropdownRef}>
@@ -205,40 +206,32 @@ const AncReport: React.FC = () => {
               disabled={isLoading || data.length === 0}
               className="flex items-center gap-2 px-5 py-2.5 bg-brand-primary text-white hover:bg-brand-primary/90 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl text-sm font-bold transition-all shadow-md shadow-brand-primary/20"
             >
-              <Download size={18} />
-              Export
-              <ChevronDown size={16} className={`transition-transform duration-200 ${isExportOpen ? "rotate-180" : ""}`} />
+              <Download size={18} />{i18n.t("Export")}<ChevronDown size={16} className={`transition-transform duration-200 ${isExportOpen ? "rotate-180" : ""}`} />
             </button>
 
             {isExportOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 py-2 animate-in fade-in zoom-in-95 duration-200">
+              <div className="absolute end-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 py-2 animate-in fade-in zoom-in-95 duration-200">
                 <button 
                   onClick={handleExportCSV}
                   className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
                 >
                   <div className="p-1.5 bg-slate-50 text-slate-600 rounded-lg">
                     <FileText size={16} />
-                  </div>
-                  Export as CSV
-                </button>
+                  </div>{i18n.t("Export as CSV")}</button>
                 <button 
                   onClick={handleExportExcel}
                   className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
                 >
                   <div className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg">
                     <FileSpreadsheet size={16} />
-                  </div>
-                  Export as Excel
-                </button>
+                  </div>{i18n.t("Export as Excel")}</button>
                 <button 
                   onClick={handleExportPDF}
                   className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
                 >
                   <div className="p-1.5 bg-red-50 text-red-600 rounded-lg">
                     <FilePdf size={16} />
-                  </div>
-                  Export as PDF
-                </button>
+                  </div>{i18n.t("Export as PDF")}</button>
               </div>
             )}
           </div>
@@ -247,14 +240,14 @@ const AncReport: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 mb-6">
         <div className="relative lg:col-span-2">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+          <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
           <input
             type="text"
-            placeholder="Search patient or MRN..."
+            placeholder={i18n.t("Search patient or MRN...")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             disabled={isLoading}
-            className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
+            className="w-full ps-10 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary disabled:opacity-50"
           />
         </div>
         
@@ -265,16 +258,16 @@ const AncReport: React.FC = () => {
             disabled={isLoading}
             className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
           >
-            <option value="">All Time</option>
-            <option value="today">Today</option>
-            <option value="yesterday">Yesterday</option>
-            <option value="last_week">Last Week</option>
-            <option value="this_month">This Month</option>
-            <option value="last_month">Last Month</option>
-            <option value="last_2_months">Last 2 Months</option>
-            <option value="last_3_months">Last 3 Months</option>
-            <option value="last_year">Last Year</option>
-            <option value="custom">Custom Range</option>
+            <option value="">{i18n.t("All Time")}</option>
+            <option value="today">{i18n.t("Today")}</option>
+            <option value="yesterday">{i18n.t("Yesterday")}</option>
+            <option value="last_week">{i18n.t("Last Week")}</option>
+            <option value="this_month">{i18n.t("This Month")}</option>
+            <option value="last_month">{i18n.t("Last Month")}</option>
+            <option value="last_2_months">{i18n.t("Last 2 Months")}</option>
+            <option value="last_3_months">{i18n.t("Last 3 Months")}</option>
+            <option value="last_year">{i18n.t("Last Year")}</option>
+            <option value="custom">{i18n.t("Custom Range")}</option>
           </select>
         </div>
 
@@ -286,7 +279,7 @@ const AncReport: React.FC = () => {
                 value={dateFrom}
                 onChange={(e) => setDateFrom(e.target.value)}
                 disabled={isLoading}
-                title="Date From"
+                title={i18n.t("Date From")}
                 className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
               />
             </div>
@@ -297,7 +290,7 @@ const AncReport: React.FC = () => {
                 onChange={(e) => setDateTo(e.target.value)}
                 disabled={isLoading}
                 min={dateFrom}
-                title="Date To"
+                title={i18n.t("Date To")}
                 className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
               />
             </div>
@@ -311,7 +304,7 @@ const AncReport: React.FC = () => {
             disabled={isLoading}
             className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
           >
-            <option value="">All Specializations</option>
+            <option value="">{i18n.t("All Specializations")}</option>
             {specializations.map(s => (
               <option key={s.id} value={s.id}>{s.name}</option>
             ))}
@@ -325,7 +318,7 @@ const AncReport: React.FC = () => {
             disabled={isLoading}
             className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
           >
-            <option value="">All Doctors</option>
+            <option value="">{i18n.t("All Doctors")}</option>
             {doctors.map(d => (
               <option key={d.doctor_id} value={d.doctor_id}>
                 {d.first_name} {d.last_name}
@@ -341,7 +334,7 @@ const AncReport: React.FC = () => {
             disabled={isLoading}
             className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
           >
-            <option value="">All Payers</option>
+            <option value="">{i18n.t("All Payers")}</option>
             {payers.map(p => (
               <option key={p.id} value={p.id}>{p.name}</option>
             ))}
@@ -355,7 +348,7 @@ const AncReport: React.FC = () => {
             <Baby size={24} />
           </div>
           <div>
-            <p className="text-sm font-medium text-slate-500">Total ANC Cases</p>
+            <p className="text-sm font-medium text-slate-500">{i18n.t("Total ANC Cases")}</p>
             <p className="text-2xl font-black text-slate-800">{aggregates.total_anc_cases || 0}</p>
           </div>
         </div>
@@ -364,22 +357,22 @@ const AncReport: React.FC = () => {
             <Wallet size={24} />
           </div>
           <div>
-            <p className="text-sm font-medium text-slate-500">Total Revenue</p>
+            <p className="text-sm font-medium text-slate-500">{i18n.t("Total Revenue")}</p>
             <p className="text-2xl font-black text-slate-800">{formatCurrency(aggregates.total_revenue_collected || 0)}</p>
           </div>
         </div>
       </div>
 
       <div className="flex-1 overflow-x-auto rounded-xl border border-slate-200">
-        <table className="w-full text-sm text-left whitespace-nowrap">
+        <table className="w-full text-sm text-start whitespace-nowrap">
           <thead className="text-xs text-slate-500 bg-slate-50 border-b border-slate-200 uppercase">
             <tr>
-              <th className="px-6 py-4 font-bold">Appointment</th>
-              <th className="px-6 py-4 font-bold">Patient</th>
-              <th className="px-6 py-4 font-bold">Details</th>
-              <th className="px-6 py-4 font-bold">Doctor</th>
-              <th className="px-6 py-4 font-bold">Billing</th>
-              <th className="px-6 py-4 font-bold text-right">Amounts</th>
+              <th className="px-6 py-4 font-bold">{i18n.t("Appointment")}</th>
+              <th className="px-6 py-4 font-bold">{i18n.t("Patient")}</th>
+              <th className="px-6 py-4 font-bold">{i18n.t("Details")}</th>
+              <th className="px-6 py-4 font-bold">{i18n.t("Doctor")}</th>
+              <th className="px-6 py-4 font-bold">{i18n.t("Billing")}</th>
+              <th className="px-6 py-4 font-bold text-end">{i18n.t("Amounts")}</th>
             </tr>
           </thead>
           <tbody>
@@ -388,7 +381,7 @@ const AncReport: React.FC = () => {
                 <td colSpan={8} className="px-6 py-12 text-center">
                   <div className="flex flex-col items-center justify-center text-slate-400">
                     <Loader2 size={32} className="animate-spin mb-2 text-brand-primary" />
-                    <p>Loading records...</p>
+                    <p>{i18n.t("Loading records...")}</p>
                   </div>
                 </td>
               </tr>
@@ -397,8 +390,8 @@ const AncReport: React.FC = () => {
                 <td colSpan={8} className="px-6 py-12 text-center">
                   <div className="flex flex-col items-center justify-center text-slate-400">
                     <FileText size={48} className="mb-4 opacity-20" />
-                    <p className="text-base font-medium text-slate-600">No records found</p>
-                    <p className="text-sm">Try adjusting your filters</p>
+                    <p className="text-base font-medium text-slate-600">{i18n.t("No records found")}</p>
+                    <p className="text-sm">{i18n.t("Try adjusting your filters")}</p>
                   </div>
                 </td>
               </tr>
@@ -417,8 +410,8 @@ const AncReport: React.FC = () => {
                     <div className="font-medium text-slate-800">
                       {`${item.first_name || ''} ${item.middle_name ? item.middle_name + ' ' : ''}${item.last_name || ''}`}
                     </div>
-                    <div className="text-xs text-slate-500">Gender: {renderValue(item.gender)}</div>
-                    <div className="text-xs font-mono text-slate-500">MRN: {renderValue(item.mrn)}</div>
+                    <div className="text-xs text-slate-500">{i18n.t("Gender:")}{" "}{renderValue(item.gender)}</div>
+                    <div className="text-xs font-mono text-slate-500">{i18n.t("MRN:")}{" "}{renderValue(item.mrn)}</div>
                   </td>
                   <td className="px-6 py-4">
                     <div className="text-slate-700 whitespace-normal min-w-[200px]" title={item.reason_for_visit}>
@@ -426,15 +419,15 @@ const AncReport: React.FC = () => {
                     </div>
                     <div className="text-xs font-medium text-slate-600 mt-1">
                       <span className="px-2 py-0.5 bg-slate-100 rounded-full">{renderValue(item.booking_type)}</span>
-                      <span className="px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full ml-1">{renderValue(item.appointment_status)}</span>
+                      <span className="px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full ms-1">{renderValue(item.appointment_status)}</span>
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="font-medium text-slate-700">Dr. {item.doctor_first_name} {item.doctor_last_name}</div>
+                    <div className="font-medium text-slate-700">{i18n.t("Dr.")}{" "}{item.doctor_first_name} {item.doctor_last_name}</div>
                     <div className="text-xs text-slate-500">{renderValue(item.specialization_name)}</div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-slate-700 font-medium">{renderValue(item.payer_type_name) || 'N/A'}</div>
+                    <div className="text-slate-700 font-medium">{renderValue(item.payer_type_name) || i18n.t("N/A")}</div>
                     {item.invoice_number && (
                       <>
                         <div className="text-xs font-mono text-slate-500 mt-1">{renderValue(item.invoice_number)}</div>
@@ -442,9 +435,9 @@ const AncReport: React.FC = () => {
                       </>
                     )}
                   </td>
-                  <td className="px-6 py-4 text-right">
-                    <div className="font-bold text-emerald-700" title="Net Amount">{formatCurrency(item.net_amount)}</div>
-                    <div className="text-xs font-medium text-slate-500" title="Amount Collected">Collected: {formatCurrency(item.amount_collected)}</div>
+                  <td className="px-6 py-4 text-end">
+                    <div className="font-bold text-emerald-700" title={i18n.t("Net Amount")}>{formatCurrency(item.net_amount)}</div>
+                    <div className="text-xs font-medium text-slate-500" title={i18n.t("Amount Collected")}>{i18n.t("Collected:")}{" "}{formatCurrency(item.amount_collected)}</div>
                   </td>
                 </tr>
               ))
@@ -456,7 +449,7 @@ const AncReport: React.FC = () => {
       {!isLoading && filteredData.length > 0 && (
         <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span className="text-sm text-slate-500">Rows per page:</span>
+            <span className="text-sm text-slate-500">{i18n.t("Rows per page:")}</span>
             <select
               value={itemsPerPage}
               onChange={(e) => {
@@ -473,12 +466,10 @@ const AncReport: React.FC = () => {
           </div>
           
           <div className="flex items-center gap-4">
-            <span className="text-sm text-slate-600">
-              Showing <span className="font-bold text-slate-800">{indexOfFirstItem + 1}</span> to{" "}
+            <span className="text-sm text-slate-600">{i18n.t("Showing")}{" "}<span className="font-bold text-slate-800">{indexOfFirstItem + 1}</span>{" "}{i18n.t("to")}{" "}
               <span className="font-bold text-slate-800">
                 {Math.min(indexOfLastItem, totalItems)}
-              </span>{" "}
-              of <span className="font-bold text-slate-800">{totalItems}</span>
+              </span>{" "}{i18n.t("of")}{" "}<span className="font-bold text-slate-800">{totalItems}</span>
             </span>
             
             <div className="flex items-center gap-1">
@@ -487,7 +478,7 @@ const AncReport: React.FC = () => {
                 disabled={currentPage === 1}
                 className="p-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
-                <ChevronLeft size={18} />
+                <ChevronLeft className="rtl:-scale-x-100" size={18} />
               </button>
               
               <div className="px-4 py-2 rounded-lg bg-brand-primary/10 text-brand-primary font-bold text-sm">
@@ -499,7 +490,7 @@ const AncReport: React.FC = () => {
                 disabled={currentPage === totalPages}
                 className="p-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
-                <ChevronRight size={18} />
+                <ChevronRight className="rtl:-scale-x-100" size={18} />
               </button>
             </div>
           </div>

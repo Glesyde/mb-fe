@@ -3,6 +3,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { wardService } from '../../../services/ward.service';
 import { erdService } from '../../../services/erd.service';
 import { Loader2, AlertTriangle, Printer } from 'lucide-react';
+import { i18n } from "../../../i18n";
 
 const DischargeSummaryPrintTemplate: React.FC = () => {
   const { encounterId } = useParams<{ encounterId: string }>();
@@ -104,16 +105,16 @@ const DischargeSummaryPrintTemplate: React.FC = () => {
 
   const SectionHeader = ({ char, title }: { char: string; title: string }) => (
     <div className="w-full bg-[#3B309A] flex items-center mb-3 mt-4 rounded-sm">
-      <div className="w-9 h-6 flex items-center justify-center text-white font-extrabold text-[11px] border-r border-[#4c3fbf]">
+      <div className="w-9 h-6 flex items-center justify-center text-white font-extrabold text-[11px] border-e border-[#4c3fbf]">
         {char}
       </div>
-      <div className="pl-3 text-white font-extrabold text-[10px] uppercase tracking-widest">{title}</div>
+      <div className="ps-3 text-white font-extrabold text-[10px] uppercase tracking-widest">{title}</div>
     </div>
   );
 
   const FormField = ({ label, value, colSpan = 1 }: { label: string; value?: string; colSpan?: number }) => (
     <div className={`col-span-${colSpan} mb-2`}>
-      <p className="text-[7.5px] font-bold text-slate-500 uppercase tracking-widest mb-1 ml-0.5">{label}</p>
+      <p className="text-[7.5px] font-bold text-slate-500 uppercase tracking-widest mb-1 ms-0.5">{label}</p>
       <div className="w-full h-7 border border-slate-200 bg-slate-50/50 rounded flex items-center px-2 shadow-sm">
         <span className="text-[10px] font-bold text-slate-800 uppercase truncate">{value || ''}</span>
       </div>
@@ -125,16 +126,15 @@ const DischargeSummaryPrintTemplate: React.FC = () => {
       className="fixed inset-0 bg-slate-100 overflow-y-auto px-4 py-20 print:static print:bg-white print:p-0"
       style={{ WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' }}
     >
-      <style>{`@page { size: A4; margin: 8mm; }`}</style>
+      <style>{"@page { size: A4; margin: 8mm; }"}</style>
       {/* Screen-only top bar */}
-      <div className="fixed top-0 left-0 right-0 h-14 bg-slate-900 text-white flex items-center justify-between px-8 print:hidden z-[100] shadow-md">
-        <p className="font-bold text-sm">Discharge Summary Preview</p>
+      <div className="fixed top-0 start-0 end-0 h-14 bg-slate-900 text-white flex items-center justify-between px-8 print:hidden z-[100] shadow-md">
+        <p className="font-bold text-sm">{i18n.t("Discharge Summary Preview")}</p>
         <button
           onClick={() => window.print()}
           className="bg-[#2d258a] hover:bg-brand-primary text-white px-6 py-2 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center gap-2 transition-all"
         >
-          <Printer size={16} /> Print Summary
-        </button>
+          <Printer size={16} />{" "}{i18n.t("Print Summary")}</button>
       </div>
 
       {/* A4 page container */}
@@ -144,52 +144,46 @@ const DischargeSummaryPrintTemplate: React.FC = () => {
       >
         {/* ── HEADER BLOCK ── */}
         <div className="w-full bg-[#3B309A] flex items-center" style={{ padding: '5mm 6mm', minHeight: '22mm' }}>
-          <div className="flex items-center justify-center border-r-[1.5px] border-[#4c3fbf]" style={{ width: '44mm', paddingRight: '5mm' }}>
-            <img src="/assets/login-bg.jpeg" alt="Medbookie Logo" style={{ width: '40mm', height: 'auto', objectFit: 'contain' }} />
+          <div className="flex items-center justify-center border-e-[1.5px] border-[#4c3fbf]" style={{ width: '44mm', paddingRight: '5mm' }}>
+            <img src="/assets/login-bg.jpeg" alt={i18n.t("Medbookie Logo")} style={{ width: '40mm', height: 'auto', objectFit: 'contain' }} />
           </div>
           <div className="flex flex-col justify-center" style={{ paddingLeft: '6mm' }}>
-            <h1 className="text-white font-extrabold leading-none tracking-tight" style={{ fontSize: '20pt', marginBottom: '3px' }}>
-              Discharge Summary
-            </h1>
-            <p className="text-brand-active" style={{ fontSize: '7.5pt', lineHeight: 1.3 }}>
-              Comprehensive record of patient admission, treatment, and discharge outcome. Authorized internal medical utility only.
-            </p>
+            <h1 className="text-white font-extrabold leading-none tracking-tight" style={{ fontSize: '20pt', marginBottom: '3px' }}>{i18n.t("Discharge Summary")}</h1>
+            <p className="text-brand-active" style={{ fontSize: '7.5pt', lineHeight: 1.3 }}>{i18n.t("Comprehensive record of patient admission, treatment, and discharge outcome. Authorized internal medical utility only.")}</p>
           </div>
         </div>
 
         {/* Address bar */}
         <div className="w-full text-center border-b border-slate-200" style={{ padding: '3px 0 4px' }}>
-          <p style={{ fontSize: '6.5pt', color: '#94a3b8' }}>
-            Head Office: Medbookie Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria &nbsp;•&nbsp; +234 705 648 2776 &nbsp;•&nbsp; info@Medbookiehospital.com
-          </p>
+          <p style={{ fontSize: '6.5pt', color: '#94a3b8' }}>{i18n.t("Head Office: Medbookie Limited Plot 3, Block 32, Ajayi Apata Estate, Sangotedo, Lekki, Lagos, Nigeria  •  +234 705 648 2776  •  info@Medbookiehospital.com")}</p>
         </div>
 
         {/* ── SECTIONS A & B ── */}
         <div className="grid grid-cols-2 gap-x-5 mt-1">
           <div>
-            <SectionHeader char="A" title="Patient & Clinical Detail" />
+            <SectionHeader char="A" title={i18n.t("Patient & Clinical Detail")} />
             <div className="grid grid-cols-4 gap-x-2">
-              <FormField label="PATIENT NAME" colSpan={2} value={patientName} />
-              <FormField label="MRN" colSpan={1} value={header.mrn || data.mrn} />
-              <FormField label="AGE / GENDER" colSpan={1} value={ageGender} />
-              <FormField label="ATTENDING DR." colSpan={2} value={attending} />
-              <FormField label="LOCATION" colSpan={2} value={location} />
+              <FormField label={i18n.t("PATIENT NAME")} colSpan={2} value={patientName} />
+              <FormField label={i18n.t("MRN")} colSpan={1} value={header.mrn || data.mrn} />
+              <FormField label={i18n.t("AGE / GENDER")} colSpan={1} value={ageGender} />
+              <FormField label={i18n.t("ATTENDING DR.")} colSpan={2} value={attending} />
+              <FormField label={i18n.t("LOCATION")} colSpan={2} value={location} />
             </div>
           </div>
           <div>
-            <SectionHeader char="B" title="Admission & Discharge" />
+            <SectionHeader char="B" title={i18n.t("Admission & Discharge")} />
             <div className="grid grid-cols-4 gap-x-2">
-              <FormField label="ADMISSION NO" colSpan={2} value={header.admission_number} />
-              <FormField label="ADMITTED" colSpan={2} value={admittedAt} />
-              <FormField label="DISCHARGED" colSpan={2} value={dischargedAt} />
-              <FormField label="OUTCOME" colSpan={2} value={header.discharge_reason_name} />
+              <FormField label={i18n.t("ADMISSION NO")} colSpan={2} value={header.admission_number} />
+              <FormField label={i18n.t("ADMITTED")} colSpan={2} value={admittedAt} />
+              <FormField label={i18n.t("DISCHARGED")} colSpan={2} value={dischargedAt} />
+              <FormField label={i18n.t("OUTCOME")} colSpan={2} value={header.discharge_reason_name} />
             </div>
           </div>
         </div>
 
         {header.admission_reason && (
           <div className="mt-2">
-            <p className="text-[7.5px] font-bold text-slate-500 uppercase tracking-widest mb-1 ml-0.5">Admission Reason</p>
+            <p className="text-[7.5px] font-bold text-slate-500 uppercase tracking-widest mb-1 ms-0.5">{i18n.t("Admission Reason")}</p>
             <div className="w-full border border-slate-200 bg-slate-50/50 rounded px-2 py-2">
               <span className="text-[10px] font-bold text-slate-800">{header.admission_reason}</span>
             </div>
@@ -197,29 +191,29 @@ const DischargeSummaryPrintTemplate: React.FC = () => {
         )}
 
         {/* ── SECTION C: VITALS ── */}
-        <SectionHeader char="C" title="Vitals Comparison" />
+        <SectionHeader char="C" title={i18n.t("Vitals Comparison")} />
         <div className="grid grid-cols-2 gap-x-5">
           <div>
-            <p className="text-[7.5px] font-bold text-slate-400 uppercase tracking-widest mb-1">Upon Admission</p>
+            <p className="text-[7.5px] font-bold text-slate-400 uppercase tracking-widest mb-1">{i18n.t("Upon Admission")}</p>
             <table className="w-full border-collapse">
               <tbody>
                 {(['BP', 'Pulse', 'Temp', 'SpO2'] as const).map((v) => (
                   <tr key={v} className="border-b border-slate-100">
                     <td className="py-1 text-[9px] font-bold text-slate-500">{v}</td>
-                    <td className="py-1 text-[9px] font-black text-slate-800 text-right">{getVital(vitalsAdmission, v)}</td>
+                    <td className="py-1 text-[9px] font-black text-slate-800 text-end">{getVital(vitalsAdmission, v)}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
           <div>
-            <p className="text-[7.5px] font-bold text-slate-400 uppercase tracking-widest mb-1">Upon Discharge</p>
+            <p className="text-[7.5px] font-bold text-slate-400 uppercase tracking-widest mb-1">{i18n.t("Upon Discharge")}</p>
             <table className="w-full border-collapse">
               <tbody>
                 {(['BP', 'Pulse', 'Temp', 'SpO2'] as const).map((v) => (
                   <tr key={v} className="border-b border-slate-100">
                     <td className="py-1 text-[9px] font-bold text-slate-500">{v}</td>
-                    <td className="py-1 text-[9px] font-black text-slate-800 text-right">{getVital(vitalsDischarge, v)}</td>
+                    <td className="py-1 text-[9px] font-black text-slate-800 text-end">{getVital(vitalsDischarge, v)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -228,41 +222,41 @@ const DischargeSummaryPrintTemplate: React.FC = () => {
         </div>
 
         {/* ── SECTION D: DIAGNOSES & ALLERGIES ── */}
-        <SectionHeader char="D" title="Diagnoses & Allergies" />
+        <SectionHeader char="D" title={i18n.t("Diagnoses & Allergies")} />
         <div className="grid grid-cols-2 gap-x-5" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
           <div>
-            <p className="text-[7.5px] font-bold text-slate-400 uppercase tracking-widest mb-1">Diagnoses</p>
+            <p className="text-[7.5px] font-bold text-slate-400 uppercase tracking-widest mb-1">{i18n.t("Diagnoses")}</p>
             {diagnoses.length > 0 ? (
               <ul className="space-y-1">
                 {diagnoses.map((d: any, i: number) => (
                   <li key={i} className="text-[9px] font-bold text-slate-700">
-                    • {typeof d === "string" ? d : d?.diagnosis_description || d?.name || d?.description || "Unspecified diagnosis"}
+                    • {typeof d === "string" ? d : d?.diagnosis_description || d?.name || i18n.tx(d?.description) || i18n.t("Unspecified diagnosis")}
                     {d?.icd10_code && <span className="text-slate-400 font-normal"> ({d.icd10_code})</span>}
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-[9px] italic text-slate-400">No diagnoses recorded.</p>
+              <p className="text-[9px] italic text-slate-400">{i18n.t("No diagnoses recorded.")}</p>
             )}
           </div>
           <div>
-            <p className="text-[7.5px] font-bold text-slate-400 uppercase tracking-widest mb-1">Allergies</p>
+            <p className="text-[7.5px] font-bold text-slate-400 uppercase tracking-widest mb-1">{i18n.t("Allergies")}</p>
             {allergies.length > 0 ? (
               <ul className="space-y-1">
                 {allergies.map((a: any, i: number) => (
                   <li key={i} className="text-[9px] font-bold text-slate-700">
-                    • {typeof a === "string" ? a : a?.allergy_name || a?.name || a?.substance || a?.description || "Unspecified allergy"}
+                    • {typeof a === "string" ? a : a?.allergy_name || a?.name || a?.substance || i18n.tx(a?.description) || i18n.t("Unspecified allergy")}
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-[9px] italic text-slate-400">No known allergies.</p>
+              <p className="text-[9px] italic text-slate-400">{i18n.t("No known allergies.")}</p>
             )}
           </div>
         </div>
 
         {/* ── SECTION E: PROCEDURES ── */}
-        <SectionHeader char="E" title="Procedures Performed" />
+        <SectionHeader char="E" title={i18n.t("Procedures Performed")} />
         {procedures.length > 0 ? (
           <table className="w-full border-collapse mb-2" style={{ tableLayout: 'fixed' }}>
             <colgroup>
@@ -272,9 +266,9 @@ const DischargeSummaryPrintTemplate: React.FC = () => {
             </colgroup>
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200">
-                <th className="py-1 px-2 text-left text-[7pt] font-black text-slate-500 uppercase">Procedure</th>
-                <th className="py-1 px-2 text-left text-[7pt] font-black text-slate-500 uppercase">Date</th>
-                <th className="py-1 px-2 text-left text-[7pt] font-black text-slate-500 uppercase">Post-op Dx / Complications</th>
+                <th className="py-1 px-2 text-start text-[7pt] font-black text-slate-500 uppercase">{i18n.t("Procedure")}</th>
+                <th className="py-1 px-2 text-start text-[7pt] font-black text-slate-500 uppercase">{i18n.t("Date")}</th>
+                <th className="py-1 px-2 text-start text-[7pt] font-black text-slate-500 uppercase">{i18n.t("Post-op Dx / Complications")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -282,7 +276,7 @@ const DischargeSummaryPrintTemplate: React.FC = () => {
                 <React.Fragment key={i}>
                   <tr>
                     <td className="py-1 px-2 text-[9px] font-bold text-slate-800" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
-                      {p.surgery_name || p.name || (typeof p === "string" ? p : "Unspecified procedure")}
+                      {p.surgery_name || p.name || (typeof p === "string" ? p : i18n.t("Unspecified procedure"))}
                       {p.surgeon_name && <span className="text-slate-500 font-normal"> — {p.surgeon_name}</span>}
                     </td>
                     <td className="py-1 px-2 text-[9px] text-slate-600" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
@@ -295,9 +289,9 @@ const DischargeSummaryPrintTemplate: React.FC = () => {
                   {(p.operative_findings || p.postop_instructions || p.discharge_instructions) && (
                     <tr>
                       <td colSpan={3} className="py-1 px-2 text-[8pt] text-slate-500 leading-snug" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
-                        {p.operative_findings && <div><span className="font-bold">Findings:</span> {p.operative_findings}</div>}
-                        {p.postop_instructions && <div><span className="font-bold">Post-op Instructions:</span> {p.postop_instructions}</div>}
-                        {p.discharge_instructions && <div><span className="font-bold">Discharge Instructions:</span> {p.discharge_instructions}</div>}
+                        {p.operative_findings && <div><span className="font-bold">{i18n.t("Findings:")}</span> {p.operative_findings}</div>}
+                        {p.postop_instructions && <div><span className="font-bold">{i18n.t("Post-op Instructions:")}</span> {p.postop_instructions}</div>}
+                        {p.discharge_instructions && <div><span className="font-bold">{i18n.t("Discharge Instructions:")}</span> {p.discharge_instructions}</div>}
                       </td>
                     </tr>
                   )}
@@ -306,20 +300,20 @@ const DischargeSummaryPrintTemplate: React.FC = () => {
             </tbody>
           </table>
         ) : (
-          <p className="text-[9px] italic text-slate-400 mb-2">No procedures recorded.</p>
+          <p className="text-[9px] italic text-slate-400 mb-2">{i18n.t("No procedures recorded.")}</p>
         )}
 
         {/* ── SECTION F: DISCHARGE MEDICATIONS ── */}
-        <SectionHeader char="F" title="Medications" />
+        <SectionHeader char="F" title={i18n.t("Medications")} />
         {dischargeMedications.length > 0 ? (
           <table className="w-full border-collapse mb-2" style={{ tableLayout: 'fixed', wordBreak: 'break-word', overflowWrap: 'break-word' }}>
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200">
-                <th className="py-1 px-2 text-left text-[7pt] font-black text-slate-500 uppercase">Medication</th>
-                <th className="py-1 px-2 text-left text-[7pt] font-black text-slate-500 uppercase">Dosage</th>
-                <th className="py-1 px-2 text-left text-[7pt] font-black text-slate-500 uppercase">Route</th>
-                <th className="py-1 px-2 text-left text-[7pt] font-black text-slate-500 uppercase">Frequency</th>
-                <th className="py-1 px-2 text-left text-[7pt] font-black text-slate-500 uppercase">Duration</th>
+                <th className="py-1 px-2 text-start text-[7pt] font-black text-slate-500 uppercase">{i18n.t("Medication")}</th>
+                <th className="py-1 px-2 text-start text-[7pt] font-black text-slate-500 uppercase">{i18n.t("Dosage")}</th>
+                <th className="py-1 px-2 text-start text-[7pt] font-black text-slate-500 uppercase">{i18n.t("Route")}</th>
+                <th className="py-1 px-2 text-start text-[7pt] font-black text-slate-500 uppercase">{i18n.t("Frequency")}</th>
+                <th className="py-1 px-2 text-start text-[7pt] font-black text-slate-500 uppercase">{i18n.t("Duration")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -337,7 +331,7 @@ const DischargeSummaryPrintTemplate: React.FC = () => {
             </tbody>
           </table>
         ) : (
-          <p className="text-[9px] italic text-slate-400 mb-2">No discharge medications prescribed.</p>
+          <p className="text-[9px] italic text-slate-400 mb-2">{i18n.t("No discharge medications prescribed.")}</p>
         )}
 
         {/* ── SECTION G: MEDICATIONS ADMINISTERED DURING STAY — commented out per request
@@ -371,10 +365,10 @@ const DischargeSummaryPrintTemplate: React.FC = () => {
         */}
 
         {/* ── SECTION G: DISCHARGE NOTES ── */}
-        <SectionHeader char="G" title="Doctor's Discharge Notes" />
+        <SectionHeader char="G" title={i18n.t("Doctor's Discharge Notes")} />
         <div className="w-full border border-slate-200 bg-slate-50/50 rounded px-3 py-3 min-h-[18mm] mb-4" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
           <p className="text-[9.5px] font-medium text-slate-700 leading-relaxed">
-            {header.discharge_notes || data.discharge_notes || data.remarks || 'Patient discharged without specific clinical notes.'}
+            {header.discharge_notes || data.discharge_notes || data.remarks || i18n.t("Patient discharged without specific clinical notes.")}
           </p>
         </div>
 
@@ -382,11 +376,11 @@ const DischargeSummaryPrintTemplate: React.FC = () => {
         <div className="grid grid-cols-2 gap-x-10 mt-8">
           <div>
             <div className="border-t border-slate-400" style={{ marginTop: '14mm' }} />
-            <p className="text-[8px] font-bold text-slate-500 uppercase tracking-widest mt-1">Attending Physician Signature</p>
+            <p className="text-[8px] font-bold text-slate-500 uppercase tracking-widest mt-1">{i18n.t("Attending Physician Signature")}</p>
           </div>
           <div>
             <div className="border-t border-slate-400" style={{ marginTop: '14mm' }} />
-            <p className="text-[8px] font-bold text-slate-500 uppercase tracking-widest mt-1">Date</p>
+            <p className="text-[8px] font-bold text-slate-500 uppercase tracking-widest mt-1">{i18n.t("Date")}</p>
           </div>
         </div>
       </div>

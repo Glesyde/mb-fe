@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { Box, Layers, ChevronLeft, ChevronRight } from "lucide-react";
+import { i18n } from "../../i18n";
 
 const NAV_TABS = [
   { to: "/assets/dashboard", label: "Dashboard", icon: Box },
@@ -73,17 +74,17 @@ const AssetsLayout: React.FC = () => {
         <button
           type="button"
           onClick={() => handleScroll("left")}
-          className="py-3 px-1.5 bg-white/10 hover:bg-white/20 active:scale-95 text-white/90 border border-white/15 backdrop-blur-md shadow-sm transition-all shrink-0 rounded-l-lg"
-          title="Scroll tabs left"
+          className="py-3 px-1.5 bg-white/10 hover:bg-white/20 active:scale-95 text-white/90 border border-white/15 backdrop-blur-md shadow-sm transition-all shrink-0 rounded-s-lg"
+          title={i18n.t("Scroll tabs left")}
         >
-          <ChevronLeft size={14} />
+          <ChevronLeft className="rtl:-scale-x-100" size={14} />
         </button>
       )}
 
       {/* Scrollable Navigation Strip */}
       <nav
         ref={scrollContainerRef}
-        aria-label="Asset Sub-modules"
+        aria-label={i18n.t("Asset Sub-modules")}
         className="bg-white/10 backdrop-blur-md border border-white/15 p-1 flex items-center gap-1 overflow-x-auto scrollbar-hide shadow-inner scroll-smooth min-w-0 rounded-lg"
       >
         {NAV_TABS.map((tab) => {
@@ -101,7 +102,7 @@ const AssetsLayout: React.FC = () => {
               `}
             >
               <Icon size={14} className="shrink-0" />
-              <span>{tab.label}</span>
+              <span>{i18n.tx(tab.label)}</span>
             </NavLink>
           );
         })}
@@ -112,10 +113,10 @@ const AssetsLayout: React.FC = () => {
         <button
           type="button"
           onClick={() => handleScroll("right")}
-          className="py-3 px-1.5 bg-white/10 hover:bg-white/20 active:scale-95 text-white/90 border border-white/15 backdrop-blur-md shadow-sm transition-all shrink-0 rounded-r-lg"
-          title="Scroll tabs right"
+          className="py-3 px-1.5 bg-white/10 hover:bg-white/20 active:scale-95 text-white/90 border border-white/15 backdrop-blur-md shadow-sm transition-all shrink-0 rounded-e-lg"
+          title={i18n.t("Scroll tabs right")}
         >
-          <ChevronRight size={14} />
+          <ChevronRight className="rtl:-scale-x-100" size={14} />
         </button>
       )}
     </div>
@@ -130,11 +131,9 @@ const AssetsLayout: React.FC = () => {
             <div className="p-2 bg-slate-900 text-white rounded-xl shrink-0">
               <Box size={22} />
             </div>
-            <span>Assets Management</span>
+            <span>{i18n.t("Assets Management")}</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
-            Manage hospital assets, equipment, and tracking.
-          </p>
+          <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">{i18n.t("Manage hospital assets, equipment, and tracking.")}</p>
         </div>
       </div>
 

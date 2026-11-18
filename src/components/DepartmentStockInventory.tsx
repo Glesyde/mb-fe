@@ -6,6 +6,7 @@ import {
 import { inventoryService, formatDepartmentLabel } from '../services/inventory.service';
 import { useNotification } from '../context/NotificationContext';
 import InternalConsumptionForm from './InternalConsumptionForm';
+import { i18n } from "../i18n";
 
 export interface DepartmentItem {
   stock_id: number; 
@@ -270,7 +271,7 @@ const DepartmentStockInventory: React.FC<DepartmentStockInventoryProps> = ({ loc
              <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
                <Package size={18} />
              </div>
-             {isGlobal ? "Master Stock Inventory" : `${formatDepartmentLabel(activeFilter)} Current Stock`}
+             {isGlobal ? i18n.t("Master Stock Inventory") : `${formatDepartmentLabel(activeFilter)} Current Stock`}
            </h1>
         </div>
 
@@ -297,7 +298,7 @@ const DepartmentStockInventory: React.FC<DepartmentStockInventoryProps> = ({ loc
                 onChange={(e) => setActiveFilter(e.target.value)}
                 className="w-full md:w-auto px-4 py-2 rounded-lg font-bold outline-none text-[10px] uppercase tracking-widest bg-white border border-slate-200 text-slate-700 shadow-sm cursor-pointer"
               >
-                <option value="ALL">All Departments</option>
+                <option value="ALL">{i18n.t("All Departments")}</option>
                 {ALL_DEPARTMENTS.map(dept => (
                    <option key={dept} value={dept}>{formatDepartmentLabel(dept)}</option>
                 ))}
@@ -306,11 +307,11 @@ const DepartmentStockInventory: React.FC<DepartmentStockInventoryProps> = ({ loc
 
            <div className="flex flex-col sm:flex-row items-center gap-2 w-full lg:w-auto">
              <div className="relative group w-full sm:w-64 shrink-0">
-                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-600 transition-colors" size={14} />
+                 <Search className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-600 transition-colors" size={14} />
                  <input 
                     type="text" 
-                    placeholder="Search inventory..."
-                    className="w-full pl-8 pr-3 py-1.5 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all font-bold text-xs text-slate-800 shadow-sm h-8"
+                    placeholder={i18n.t("Search inventory...")}
+                    className="w-full ps-8 pe-3 py-1.5 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all font-bold text-xs text-slate-800 shadow-sm h-8"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                  />
@@ -322,9 +323,9 @@ const DepartmentStockInventory: React.FC<DepartmentStockInventoryProps> = ({ loc
                     onChange={(e) => setSortBy(e.target.value as any)}
                     className="w-full sm:w-auto py-1.5 px-2 bg-white border border-slate-200 rounded-lg font-bold text-[10px] uppercase tracking-widest text-slate-700 shadow-sm outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all h-8 cursor-pointer"
                  >
-                    <option value="EXPIRY">Sort: Expiry</option>
-                    <option value="NAME">Sort: Name</option>
-                    <option value="QTY">Sort: Qty</option>
+                    <option value="EXPIRY">{i18n.t("Sort: Expiry")}</option>
+                    <option value="NAME">{i18n.t("Sort: Name")}</option>
+                    <option value="QTY">{i18n.t("Sort: Qty")}</option>
                  </select>
                  
                  <button onClick={() => fetchData(activeFilter)} className="bg-white border border-slate-200 shadow-sm hover:bg-slate-50 rounded-lg transition-colors text-slate-500 hover:text-indigo-600 h-8 w-8 flex items-center justify-center shrink-0">
@@ -338,14 +339,14 @@ const DepartmentStockInventory: React.FC<DepartmentStockInventoryProps> = ({ loc
                 onClick={handlePrintExpiredReport} 
                 className="flex items-center gap-1.5 px-3 py-1.5 bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 rounded-lg text-[10px] font-black uppercase tracking-widest transition-colors shadow-sm"
              >
-                <Printer size={14} /> <span className="hidden sm:inline">Expiry Report</span>
+                <Printer size={14} /> <span className="hidden sm:inline">{i18n.t("Expiry Report")}</span>
              </button>
 
              <button 
               onClick={() => setShowConsumptionModal(true)} 
               className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 text-white hover:bg-indigo-700 rounded-lg text-[10px] font-black uppercase tracking-widest transition-colors shadow-sm"
              >
-              <PackageMinus size={14} /> <span className="hidden sm:inline">Bulk Consume</span>
+              <PackageMinus size={14} /> <span className="hidden sm:inline">{i18n.t("Bulk Consume")}</span>
              </button>
            </div>
         </div>
@@ -360,16 +361,16 @@ const DepartmentStockInventory: React.FC<DepartmentStockInventoryProps> = ({ loc
 
         {/* Scalable & Responsive Fixed Header Table Wrapper */}
         <div className="overflow-auto max-h-[65vh] w-full custom-scrollbar bg-slate-50/30">
-          <table className="w-full text-left border-collapse min-w-[900px]">
+          <table className="w-full text-start border-collapse min-w-[900px]">
             <thead className="sticky top-0 z-30 bg-slate-100/95 backdrop-blur-sm shadow-[0_1px_2px_rgba(0,0,0,0.05)] border-b border-slate-200">
               <tr className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                <th className="px-4 md:px-5 py-3 md:py-4">Item Definition</th>
-                <th className="px-4 md:px-5 py-3 md:py-4">Location</th>
-                <th className="px-4 md:px-5 py-3 md:py-4">Mfg Batch & Expiry</th>
-                <th className="px-4 md:px-5 py-3 md:py-4">System Batch</th>
-                <th className="px-4 md:px-5 py-3 md:py-4">Last Updated</th>
-                <th className="px-4 md:px-5 py-3 md:py-4 text-right">Quantity</th>
-                <th className="px-4 md:px-5 py-3 md:py-4 text-center">Actions</th>
+                <th className="px-4 md:px-5 py-3 md:py-4">{i18n.t("Item Definition")}</th>
+                <th className="px-4 md:px-5 py-3 md:py-4">{i18n.t("Location")}</th>
+                <th className="px-4 md:px-5 py-3 md:py-4">{i18n.t("Mfg Batch & Expiry")}</th>
+                <th className="px-4 md:px-5 py-3 md:py-4">{i18n.t("System Batch")}</th>
+                <th className="px-4 md:px-5 py-3 md:py-4">{i18n.t("Last Updated")}</th>
+                <th className="px-4 md:px-5 py-3 md:py-4 text-end">{i18n.t("Quantity")}</th>
+                <th className="px-4 md:px-5 py-3 md:py-4 text-center">{i18n.t("Actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 bg-white">
@@ -377,7 +378,7 @@ const DepartmentStockInventory: React.FC<DepartmentStockInventoryProps> = ({ loc
                 <tr>
                   <td colSpan={7} className="py-24 text-center">
                     <Loader2 size={32} className="animate-spin mx-auto text-indigo-600 mb-3" />
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Loading Stock Inventory...</p>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Loading Stock Inventory...")}</p>
                   </td>
                 </tr>
               ) : paginatedItems.length > 0 ? (
@@ -403,25 +404,24 @@ const DepartmentStockInventory: React.FC<DepartmentStockInventoryProps> = ({ loc
                         <td className="px-4 md:px-5 py-3.5 md:py-4">
                           <p className="text-xs md:text-sm font-black text-slate-800">{item.name}</p>
                           <p className="text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mt-0.5">
-                            {item.brand || "NO BRAND"} • {item.item_type} 
+                            {item.brand || i18n.t("NO BRAND")} • {item.item_type} 
                             {item.strength && ` • ${item.strength}`}
                             {item.formulation && ` • ${item.formulation}`}
                           </p>
                         </td>
                         <td className="px-4 md:px-5 py-3.5 md:py-4">
-                          <span className="px-2.5 py-1 bg-slate-100 text-[9px] md:text-[10px] font-black text-slate-600 rounded-md border border-slate-200 uppercase tracking-widest">{item.location || 'N/A'}</span>
+                          <span className="px-2.5 py-1 bg-slate-100 text-[9px] md:text-[10px] font-black text-slate-600 rounded-md border border-slate-200 uppercase tracking-widest">{item.location || i18n.t("N/A")}</span>
                         </td>
                         <td className="px-4 md:px-5 py-3.5 md:py-4">
                           <div className="flex flex-col gap-1.5 items-start">
                              <span className="text-[9px] md:text-[10px] font-mono font-bold text-brand-primary bg-brand-active px-2 py-0.5 rounded-md border border-brand-active uppercase self-start">
-                                {item.mfg_batch_no || "NO MFG BATCH"}
+                                {item.mfg_batch_no || i18n.t("NO MFG BATCH")}
                              </span>
                              {item.expiry_date && (
                                 <span className={`flex items-center gap-1 text-[9px] md:text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-md ${
                                     isExpired ? 'text-red-700 bg-red-100' : isExpiringSoon ? 'text-amber-700 bg-amber-100' : 'text-slate-400'
                                 }`}>
-                                   {(isExpired || isExpiringSoon) && <AlertTriangle size={12} />}
-                                   Exp: {new Date(item.expiry_date).toLocaleDateString()}
+                                   {(isExpired || isExpiringSoon) && <AlertTriangle size={12} />}{i18n.t("Exp:")}{" "}{new Date(item.expiry_date).toLocaleDateString()}
                                 </span>
                              )}
                           </div>
@@ -429,7 +429,7 @@ const DepartmentStockInventory: React.FC<DepartmentStockInventoryProps> = ({ loc
                         <td className="px-4 md:px-5 py-3.5 md:py-4">
                           <div className="flex flex-col gap-1.5 items-start">
                              <span className="text-[9px] md:text-[10px] font-mono font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200 uppercase self-start">
-                                {item.batch_number || "NO SYSTEM BATCH"}
+                                {item.batch_number || i18n.t("NO SYSTEM BATCH")}
                              </span>
                           </div>
                         </td>
@@ -443,12 +443,12 @@ const DepartmentStockInventory: React.FC<DepartmentStockInventoryProps> = ({ loc
                                     <p className="text-[11px] md:text-xs font-bold text-slate-700">{staffName}</p>
                                     <p className="text-[9px] md:text-[10px] text-slate-400 font-mono mt-0.5 flex items-center gap-1">
                                         <Clock size={10} />
-                                        {item.updated_at ? new Date(item.updated_at).toLocaleString([], { dateStyle: 'short', timeStyle: 'short'}) : 'N/A'}
+                                        {item.updated_at ? new Date(item.updated_at).toLocaleString([], { dateStyle: 'short', timeStyle: 'short'}) : i18n.t("N/A")}
                                     </p>
                                 </div>
                             </div>
                         </td>
-                        <td className="px-4 md:px-5 py-3.5 md:py-4 text-right">
+                        <td className="px-4 md:px-5 py-3.5 md:py-4 text-end">
                           {editingStockId === item.stock_id ? (
                               <div className="flex items-center justify-end gap-1.5">
                                   <input 
@@ -456,7 +456,7 @@ const DepartmentStockInventory: React.FC<DepartmentStockInventoryProps> = ({ loc
                                     value={editQuantity} 
                                     onChange={(e) => setEditQuantity(e.target.value)}
                                     autoFocus
-                                    className="w-16 md:w-20 px-2 py-1 text-xs md:text-sm font-bold border-2 border-indigo-400 rounded-md outline-none focus:ring-2 focus:ring-indigo-500/20 text-right shadow-inner"
+                                    className="w-16 md:w-20 px-2 py-1 text-xs md:text-sm font-bold border-2 border-indigo-400 rounded-md outline-none focus:ring-2 focus:ring-indigo-500/20 text-end shadow-inner"
                                   />
                                   <button 
                                     onClick={() => handleSaveQuantity(item.stock_id)} 
@@ -478,7 +478,7 @@ const DepartmentStockInventory: React.FC<DepartmentStockInventoryProps> = ({ loc
                                 <span className={`text-base md:text-lg font-black ${parseFloat(item.quantity) <= 0 ? 'text-red-500' : 'text-slate-800'}`}>
                                     {parseFloat(item.quantity).toLocaleString()}
                                 </span>
-                                <span className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest">{item.unit_name || 'Units'}</span>
+                                <span className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest">{item.unit_name || i18n.t("Units")}</span>
                               </div>
                           )}
                         </td>
@@ -488,7 +488,7 @@ const DepartmentStockInventory: React.FC<DepartmentStockInventoryProps> = ({ loc
                                 <button 
                                   onClick={() => openSingleConsumptionModal(item)}
                                   className="p-1.5 bg-rose-50 text-rose-600 hover:bg-rose-500 hover:text-white rounded-md transition-all shadow-sm focus:opacity-100"
-                                  title="Log Consumption for this item"
+                                  title={i18n.t("Log Consumption for this item")}
                                 >
                                   <PackageMinus size={14} className="md:w-4 md:h-4" />
                                 </button>
@@ -499,7 +499,7 @@ const DepartmentStockInventory: React.FC<DepartmentStockInventoryProps> = ({ loc
                                       setEditQuantity(item.quantity);
                                   }}
                                   className="p-1.5 bg-indigo-50 text-indigo-500 hover:bg-indigo-500 hover:text-white rounded-md transition-all shadow-sm focus:opacity-100"
-                                  title="Edit Quantity"
+                                  title={i18n.t("Edit Quantity")}
                                 >
                                   <Edit2 size={14} className="md:w-4 md:h-4" />
                                 </button>
@@ -512,7 +512,7 @@ const DepartmentStockInventory: React.FC<DepartmentStockInventoryProps> = ({ loc
                 <tr>
                   <td colSpan={7} className="py-24 text-center">
                     <Package className="mx-auto text-slate-200 mb-3" size={40} />
-                    <p className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-widest">No stock inventory found</p>
+                    <p className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("No stock inventory found")}</p>
                   </td>
                 </tr>
               )}
@@ -527,19 +527,14 @@ const DepartmentStockInventory: React.FC<DepartmentStockInventoryProps> = ({ loc
               onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
               disabled={currentPage === 1}
               className="px-3 py-1.5 md:px-4 md:py-2 bg-white border border-slate-200 text-slate-600 text-[10px] md:text-xs font-bold rounded-lg hover:bg-slate-50 transition-colors disabled:opacity-50 shadow-sm"
-            >
-              Previous
-            </button>
-            <span className="text-[10px] md:text-xs font-bold text-slate-500">
-              Page {currentPage} of {totalPages}
+            >{i18n.t("Previous")}</button>
+            <span className="text-[10px] md:text-xs font-bold text-slate-500">{i18n.t("Page")}{" "}{currentPage}{" "}{i18n.t("of")}{" "}{totalPages}
             </span>
             <button 
               onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
               className="px-3 py-1.5 md:px-4 md:py-2 bg-white border border-slate-200 text-slate-600 text-[10px] md:text-xs font-bold rounded-lg hover:bg-slate-50 transition-colors disabled:opacity-50 shadow-sm"
-            >
-              Next
-            </button>
+            >{i18n.t("Next")}</button>
           </div>
         )}
       </div>
@@ -564,9 +559,7 @@ const DepartmentStockInventory: React.FC<DepartmentStockInventoryProps> = ({ loc
                 <div className="p-5 border-b border-slate-100 bg-rose-50 flex items-start justify-between">
                     <div>
                         <h3 className="text-sm font-black text-rose-800 flex items-center gap-2">
-                            <PackageMinus size={16} className="text-rose-600" />
-                            Log Stock Usage
-                        </h3>
+                            <PackageMinus size={16} className="text-rose-600" />{i18n.t("Log Stock Usage")}</h3>
                         <p className="text-[10px] font-bold text-rose-600/80 mt-1 uppercase tracking-widest truncate max-w-[200px]">{singleConsumeItem.name}</p>
                     </div>
                     <button onClick={() => setSingleConsumeItem(null)} className="p-1.5 bg-white rounded-lg text-slate-400 hover:text-slate-600 shadow-sm"><X size={16}/></button>
@@ -574,33 +567,31 @@ const DepartmentStockInventory: React.FC<DepartmentStockInventoryProps> = ({ loc
                 
                 <div className="p-6 space-y-4">
                     <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 flex justify-between items-center">
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Available Stock</span>
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Available Stock")}</span>
                         <span className="text-sm font-black text-slate-800">{parseFloat(singleConsumeItem.quantity).toLocaleString()} {singleConsumeItem.unit_name}</span>
                     </div>
 
                     {/* 🔥 Locked Department Auto-Prefill 🔥 */}
                     <div>
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Consuming Department *</label>
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">{i18n.t("Consuming Department *")}</label>
                         <select 
                             value={consumeDeptId} 
                             onChange={(e) => setConsumeDeptId(e.target.value)}
                             disabled={singleConsumeItem.location !== 'STORE'}
                             className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-800 outline-none focus:border-rose-400 shadow-sm disabled:bg-slate-50 disabled:text-slate-500 disabled:cursor-not-allowed"
                         >
-                            <option value="">-- Select Department --</option>
+                            <option value="">{i18n.t("-- Select Department --")}</option>
                             {ALL_DEPARTMENTS.map((deptName) => (
                                 <option key={deptName} value={deptName}>{formatDepartmentLabel(deptName)}</option>
                             ))}
                         </select>
                         {singleConsumeItem.location !== 'STORE' && (
-                            <p className="text-[9px] text-slate-400 font-medium mt-1.5 leading-tight">
-                              Department is automatically locked to the item's current inventory location.
-                            </p>
+                            <p className="text-[9px] text-slate-400 font-medium mt-1.5 leading-tight">{i18n.t("Department is automatically locked to the item's current inventory location.")}</p>
                         )}
                     </div>
 
                     <div>
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Quantity to Consume *</label>
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">{i18n.t("Quantity to Consume *")}</label>
                         <input 
                             type="number" 
                             min="0.01" 
@@ -609,21 +600,21 @@ const DepartmentStockInventory: React.FC<DepartmentStockInventoryProps> = ({ loc
                             value={consumeQty} 
                             onChange={(e) => setConsumeQty(e.target.value)}
                             className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-800 outline-none focus:border-rose-400 transition-all shadow-sm"
-                            placeholder="Amount used..."
+                            placeholder={i18n.t("Amount used...")}
                         />
                     </div>
                     
                     <div>
                         <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center justify-between mb-2">
-                            <span>Remarks / Reason *</span>
-                            <span className="text-rose-600 bg-red-50 px-2 py-0.5 rounded-md">Compulsory</span>
+                            <span>{i18n.t("Remarks / Reason *")}</span>
+                            <span className="text-rose-600 bg-red-50 px-2 py-0.5 rounded-md">{i18n.t("Compulsory")}</span>
                         </label>
                         <textarea 
                             value={consumeRemarks} 
                             onChange={(e) => setConsumeRemarks(e.target.value)}
                             rows={3}
                             className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-800 outline-none focus:border-rose-400 transition-all shadow-sm resize-none"
-                            placeholder="e.g. Used for procedure, damaged, expired..."
+                            placeholder={i18n.t("e.g. Used for procedure, damaged, expired...")}
                         />
                     </div>
 
@@ -632,9 +623,7 @@ const DepartmentStockInventory: React.FC<DepartmentStockInventoryProps> = ({ loc
                         disabled={isConsuming}
                         className="w-full mt-2 py-3.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg shadow-rose-600/20 disabled:opacity-50 transition-all active:scale-95"
                     >
-                        {isConsuming ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />}
-                        Confirm Consumption
-                    </button>
+                        {isConsuming ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />}{i18n.t("Confirm Consumption")}</button>
                 </div>
             </div>
         </div>

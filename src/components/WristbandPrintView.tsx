@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import apiClient from '../api/client';
 import { Loader2, AlertTriangle, Printer } from 'lucide-react';
+import { i18n } from "../i18n";
 
 const WristbandPrintView: React.FC = () => {
   const { admissionId } = useParams<{ admissionId: string }>();
@@ -72,7 +73,7 @@ const WristbandPrintView: React.FC = () => {
       <div className="flex items-center justify-center min-h-screen bg-slate-50">
         <div className="bg-white p-8 rounded-2xl shadow-xl text-center max-w-md">
           <AlertTriangle size={32} className="text-red-600 mx-auto mb-4" />
-          <p className="text-slate-500">{error || 'Data unavailable.'}</p>
+          <p className="text-slate-500">{error || i18n.t("Data unavailable.")}</p>
         </div>
       </div>
     );
@@ -85,8 +86,8 @@ const WristbandPrintView: React.FC = () => {
         <div className="hospital-logo">
           <div className="logo-icon">✦</div>
           <div className="logo-text">
-            <div className="logo-name">Medbookie</div>
-            <div className="logo-sub">HOSPITALS</div>
+            <div className="logo-name">{i18n.t("Medbookie")}</div>
+            <div className="logo-sub">{i18n.t("HOSPITALS")}</div>
           </div>
         </div>
         <div className="qr-stack">
@@ -102,29 +103,27 @@ const WristbandPrintView: React.FC = () => {
             {data?.last_name?.toUpperCase()}, {data?.first_name?.toUpperCase()}
           </div>
           <div className="info-row">
-            <span className="info-label">MRN</span>
+            <span className="info-label">{i18n.t("MRN")}</span>
             <span className="info-colon">:</span>
-            <span className="info-value">{data?.mrn ?? 'UNKNOWN'}</span>
+            <span className="info-value">{data?.mrn ?? i18n.t("UNKNOWN")}</span>
           </div>
           <div className="info-row">
-            <span className="info-label">DOB</span>
+            <span className="info-label">{i18n.t("DOB")}</span>
             <span className="info-colon">:</span>
             <span className="info-value">
-              {formatDate(data?.date_of_birth)}
-              &nbsp;&nbsp;Age : {data?.age_years ?? '--'} Y
-              &nbsp;&nbsp;Sex : {data?.gender?.charAt(0)?.toUpperCase() ?? 'U'}
+              {formatDate(data?.date_of_birth)}{i18n.t("Age :")}{" "}{data?.age_years ?? '--'}{" "}{i18n.t("Y   Sex :")}{" "}{data?.gender?.charAt(0)?.toUpperCase() ?? i18n.t("U")}
             </span>
           </div>
           <div className="info-row">
-            <span className="info-label">Allergies</span>
+            <span className="info-label">{i18n.t("Allergies")}</span>
             <span className="info-colon">:</span>
             <span className="info-value">
-              {data?.known_allergies ? `ALGY ${data.known_allergies.toUpperCase()}` : 'NKDA'}
+              {data?.known_allergies ? `ALGY ${data.known_allergies.toUpperCase()}` : i18n.t("NKDA")}
               {/* &nbsp;&nbsp;{data?.ward_name ?? '--'} / Bed {data?.bed_number ?? '--'} */}
             </span>
           </div>
           <div className="info-row">
-            <span className="info-label">Dr</span>
+            <span className="info-label">{i18n.t("Dr")}</span>
             <span className="info-colon">:</span>
             <span className="info-value">{data?.doctor_first_name} {data?.doctor_last_name}</span>
           </div>
@@ -138,7 +137,7 @@ const WristbandPrintView: React.FC = () => {
             ))}
           </div>
           <div className="barcode-text">
-            {data?.known_allergies ? `ALGY ${data.known_allergies.toUpperCase()}` : 'NKDA'}
+            {data?.known_allergies ? `ALGY ${data.known_allergies.toUpperCase()}` : i18n.t("NKDA")}
           </div>
         </div>
       </div>
@@ -147,264 +146,7 @@ const WristbandPrintView: React.FC = () => {
 
   return (
     <>
-      <style>{`
-        /* ═══════════════════════════════════════════
-           PRINT STYLES — Brother TD-2130N
-           Media: 29mm x 203mm, Portrait orientation
-           Content pushed 30mm from left (glue/clasp end)
-           leaving right side free for adjustable holes
-        ═══════════════════════════════════════════ */
-        @media print {
-          @page {
-            size: 203mm 29mm;
-            margin: 0;
-          }
-          html, body {
-            margin: 0 !important;
-            padding: 0 !important;
-            width: 203mm !important;
-            height: 29mm !important;
-            overflow: hidden !important;
-            background: white !important;
-          }
-          .no-print { display: none !important; }
-          .screen-wrapper { all: unset !important; }
-
-          .wristband-label {
-            /*
-              Total wristband: 203mm
-              Left glue/clasp zone: ~30mm  → left margin
-              Right holes zone:    ~20mm  → right margin
-              Usable content area: ~153mm wide
-            */
-            width: 153mm !important;
-            height: 27mm !important;
-            margin: 1mm 20mm 1mm 30mm !important;
-            padding: 0 !important;
-            display: flex !important;
-            flex-direction: row !important;
-            align-items: stretch !important;
-            box-sizing: border-box !important;
-            background: white !important;
-            overflow: hidden !important;
-            transform: none !important;
-            position: static !important;
-          }
-          .barcode-bar {
-            background: black !important;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-          }
-          /* Ensure SVG QR codes print in color */
-          svg rect { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-        }
-
-        /* ═══════════════════════════════════════════
-           SCREEN STYLES — scaled preview
-           Shows the full 203mm band with glue zone
-           indicated on left and holes on right
-        ═══════════════════════════════════════════ */
-        @media screen {
-          .screen-wrapper {
-            min-height: 100vh;
-            background: #f1f5f9;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 80px 40px 40px;
-          }
-
-          /* Full wristband shell: 203mm × 29mm scaled ~4x */
-          .wristband-outer {
-            width: 812px;
-            height: 116px;
-            border-radius: 8px;
-            border: 2px solid #cbd5e1;
-            overflow: hidden;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-            background: white;
-            display: flex;
-            flex-direction: row;
-            align-items: stretch;
-            position: relative;
-          }
-
-          /* Glue zone indicator — left ~30mm → ~120px at 4x */
-          .glue-zone {
-            width: 120px;
-            background: #fef9c3;
-            border-right: 2px dashed #fbbf24;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-          .glue-zone-label {
-            font-size: 8px;
-            font-weight: 700;
-            color: #92400e;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            transform: rotate(180deg);
-          }
-
-          /* Content area: 153mm → ~612px at 4x */
-          .wristband-label {
-            width: 612px;
-            height: 100%;
-            display: flex;
-            flex-direction: row;
-            align-items: stretch;
-            background: white;
-            padding: 6px 8px;
-            box-sizing: border-box;
-            gap: 10px;
-          }
-
-          /* Holes zone indicator — right ~20mm → ~80px at 4x */
-          .holes-zone {
-            flex: 1;
-            background: #f8fafc;
-            border-left: 2px dashed #94a3b8;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            padding: 0 6px;
-            flex-wrap: wrap;
-          }
-          .hole {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            border: 1.5px solid #94a3b8;
-            background: #f1f5f9;
-            flex-shrink: 0;
-          }
-        }
-
-        /* ═══════════════════════════════════════════
-           SHARED CONTENT STYLES
-        ═══════════════════════════════════════════ */
-        .label-left {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          gap: 6px;
-          flex-shrink: 0;
-          border-right: 1px solid #e2e8f0;
-          padding-right: 8px;
-        }
-        .hospital-logo {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 2px;
-        }
-        .logo-icon {
-          font-size: 16px;
-          color: #1e3a8a;
-          line-height: 1;
-        }
-        .logo-name {
-          font-size: 6.5px;
-          font-weight: 900;
-          color: #1e3a8a;
-          letter-spacing: 0.5px;
-          text-align: center;
-        }
-        .logo-sub {
-          font-size: 5.5px;
-          font-weight: 700;
-          color: #1e3a8a;
-          letter-spacing: 0.3px;
-          text-align: center;
-        }
-        .qr-stack {
-          display: flex;
-          flex-direction: row;
-          gap: 3px;
-        }
-        .qr-stack svg {
-          width: 42px;
-          height: 42px;
-        }
-
-        .label-right {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          overflow: hidden;
-        }
-        .patient-info {
-          display: flex;
-          flex-direction: column;
-          gap: 0.5px;
-        }
-        .patient-name {
-          font-size: 10px;
-          font-weight: 900;
-          color: black;
-          letter-spacing: 0.3px;
-          margin-bottom: 1px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-        .info-row {
-          display: flex;
-          flex-direction: row;
-          font-size: 7.5px;
-          font-weight: 600;
-          color: black;
-          white-space: nowrap;
-          overflow: hidden;
-        }
-        .info-label {
-          width: 45px;
-          font-weight: 700;
-          flex-shrink: 0;
-        }
-        .info-colon {
-          width: 8px;
-          flex-shrink: 0;
-        }
-        .info-value {
-          flex: 1;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .barcode-section {
-          display: flex;
-          flex-direction: column;
-          gap: 1px;
-          margin-top: 2px;
-        }
-        .barcode-bars {
-          display: flex;
-          flex-direction: row;
-          gap: 1px;
-          height: 12px;
-          align-items: stretch;
-        }
-        .barcode-bar {
-          background: black;
-          height: 100%;
-          flex-shrink: 0;
-        }
-        .barcode-text {
-          font-size: 5.5px;
-          font-weight: 600;
-          color: black;
-          letter-spacing: 0.8px;
-          text-align: left;
-        }
-      `}</style>
+      <style>{"/* ═══════════════════════════════════════════ PRINT STYLES — Brother TD-2130N Media: 29mm x 203mm, Portrait orientation Content pushed 30mm from left (glue/clasp end) leaving right side free for adjustable holes ═══════════════════════════════════════════ */ @media print { @page { size: 203mm 29mm; margin: 0; } html, body { margin: 0 !important; padding: 0 !important; width: 203mm !important; height: 29mm !important; overflow: hidden !important; background: white !important; } .no-print { display: none !important; } .screen-wrapper { all: unset !important; } .wristband-label { /* Total wristband: 203mm Left glue/clasp zone: ~30mm → left margin Right holes zone: ~20mm → right margin Usable content area: ~153mm wide */ width: 153mm !important; height: 27mm !important; margin: 1mm 20mm 1mm 30mm !important; padding: 0 !important; display: flex !important; flex-direction: row !important; align-items: stretch !important; box-sizing: border-box !important; background: white !important; overflow: hidden !important; transform: none !important; position: static !important; } .barcode-bar { background: black !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; } /* Ensure SVG QR codes print in color */ svg rect { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; } } /* ═══════════════════════════════════════════ SCREEN STYLES — scaled preview Shows the full 203mm band with glue zone indicated on left and holes on right ═══════════════════════════════════════════ */ @media screen { .screen-wrapper { min-height: 100vh; background: #f1f5f9; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 40px 40px; } /* Full wristband shell: 203mm × 29mm scaled ~4x */ .wristband-outer { width: 812px; height: 116px; border-radius: 8px; border: 2px solid #cbd5e1; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.15); background: white; display: flex; flex-direction: row; align-items: stretch; position: relative; } /* Glue zone indicator — left ~30mm → ~120px at 4x */ .glue-zone { width: 120px; background: #fef9c3; border-right: 2px dashed #fbbf24; flex-shrink: 0; display: flex; align-items: center; justify-content: center; } .glue-zone-label { font-size: 8px; font-weight: 700; color: #92400e; text-transform: uppercase; letter-spacing: 0.5px; writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); } /* Content area: 153mm → ~612px at 4x */ .wristband-label { width: 612px; height: 100%; display: flex; flex-direction: row; align-items: stretch; background: white; padding: 6px 8px; box-sizing: border-box; gap: 10px; } /* Holes zone indicator — right ~20mm → ~80px at 4x */ .holes-zone { flex: 1; background: #f8fafc; border-left: 2px dashed #94a3b8; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 0 6px; flex-wrap: wrap; } .hole { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid #94a3b8; background: #f1f5f9; flex-shrink: 0; } } /* ═══════════════════════════════════════════ SHARED CONTENT STYLES ═══════════════════════════════════════════ */ .label-left { display: flex; flex-direction: row; align-items: center; gap: 6px; flex-shrink: 0; border-right: 1px solid #e2e8f0; padding-right: 8px; } .hospital-logo { display: flex; flex-direction: column; align-items: center; gap: 2px; } .logo-icon { font-size: 16px; color: #1e3a8a; line-height: 1; } .logo-name { font-size: 6.5px; font-weight: 900; color: #1e3a8a; letter-spacing: 0.5px; text-align: center; } .logo-sub { font-size: 5.5px; font-weight: 700; color: #1e3a8a; letter-spacing: 0.3px; text-align: center; } .qr-stack { display: flex; flex-direction: row; gap: 3px; } .qr-stack svg { width: 42px; height: 42px; } .label-right { flex: 1; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; } .patient-info { display: flex; flex-direction: column; gap: 0.5px; } .patient-name { font-size: 10px; font-weight: 900; color: black; letter-spacing: 0.3px; margin-bottom: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .info-row { display: flex; flex-direction: row; font-size: 7.5px; font-weight: 600; color: black; white-space: nowrap; overflow: hidden; } .info-label { width: 45px; font-weight: 700; flex-shrink: 0; } .info-colon { width: 8px; flex-shrink: 0; } .info-value { flex: 1; overflow: hidden; text-overflow: ellipsis; } .barcode-section { display: flex; flex-direction: column; gap: 1px; margin-top: 2px; } .barcode-bars { display: flex; flex-direction: row; gap: 1px; height: 12px; align-items: stretch; } .barcode-bar { background: black; height: 100%; flex-shrink: 0; } .barcode-text { font-size: 5.5px; font-weight: 600; color: black; letter-spacing: 0.8px; text-align: left; }"}</style>
 
       {/* Top bar */}
       <div className="no-print" style={{
@@ -413,15 +155,14 @@ const WristbandPrintView: React.FC = () => {
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '0 32px', zIndex: 50
       }}>
-        <span style={{ fontWeight: 700, fontSize: '14px' }}>Wristband Preview — 29mm × 203mm</span>
+        <span style={{ fontWeight: 700, fontSize: '14px' }}>{i18n.t("Wristband Preview — 29mm × 203mm")}</span>
         <button onClick={() => window.print()} style={{
           background: '#059669', color: 'white', border: 'none',
           padding: '8px 20px', borderRadius: '8px', fontWeight: 700,
           fontSize: '12px', cursor: 'pointer', display: 'flex',
           alignItems: 'center', gap: '6px'
         }}>
-          <Printer size={14} /> Print Now
-        </button>
+          <Printer size={14} />{" "}{i18n.t("Print Now")}</button>
       </div>
 
       <div className="screen-wrapper">
@@ -430,7 +171,7 @@ const WristbandPrintView: React.FC = () => {
         <div className="wristband-outer no-print">
           {/* Left: glue/clasp zone */}
           <div className="glue-zone">
-            <span className="glue-zone-label">Glue / Clasp</span>
+            <span className="glue-zone-label">{i18n.t("Glue / Clasp")}</span>
           </div>
 
           {/* Center: actual printed content */}
@@ -453,24 +194,16 @@ const WristbandPrintView: React.FC = () => {
           fontSize: '11px', color: '#64748b', alignItems: 'center'
         }}>
           <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ width: '12px', height: '12px', background: '#fef9c3', border: '1.5px dashed #fbbf24', display: 'inline-block', borderRadius: '2px' }} />
-            Glue / clasp zone (~30mm)
-          </span>
+            <span style={{ width: '12px', height: '12px', background: '#fef9c3', border: '1.5px dashed #fbbf24', display: 'inline-block', borderRadius: '2px' }} />{i18n.t("Glue / clasp zone (~30mm)")}</span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ width: '12px', height: '12px', background: 'white', border: '1.5px solid #cbd5e1', display: 'inline-block', borderRadius: '2px' }} />
-            Print area (~153mm)
-          </span>
+            <span style={{ width: '12px', height: '12px', background: 'white', border: '1.5px solid #cbd5e1', display: 'inline-block', borderRadius: '2px' }} />{i18n.t("Print area (~153mm)")}</span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ width: '12px', height: '12px', background: '#f8fafc', border: '1.5px dashed #94a3b8', display: 'inline-block', borderRadius: '2px' }} />
-            Adjustable holes (~20mm)
-          </span>
+            <span style={{ width: '12px', height: '12px', background: '#f8fafc', border: '1.5px dashed #94a3b8', display: 'inline-block', borderRadius: '2px' }} />{i18n.t("Adjustable holes (~20mm)")}</span>
         </div>
 
         <p className="no-print" style={{
           textAlign: 'center', fontSize: '11px', color: '#94a3b8', marginTop: '8px'
-        }}>
-          Brother TD-2130N · Portrait · 29mm × 203mm · Content margin: 30mm left, 20mm right
-        </p>
+        }}>{i18n.t("Brother TD-2130N · Portrait · 29mm × 203mm · Content margin: 30mm left, 20mm right")}</p>
       </div>
     </>
   );

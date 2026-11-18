@@ -12,6 +12,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 import { exportToCSV, exportToExcel, exportToPDF } from "../../utils/exportUtils";
+import { i18n } from "../../i18n";
 
 export const renderValue = (val: any) => {
   if (val === null || val === undefined || val === "") return "—";
@@ -87,7 +88,7 @@ export const TimeframeSelect: React.FC<{
     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
   >
     {TIMEFRAME_OPTIONS.map((o) => (
-      <option key={o.value} value={o.value}>{o.label}</option>
+      <option key={o.value} value={o.value}>{i18n.tx(o.label)}</option>
     ))}
   </select>
 );
@@ -106,7 +107,7 @@ export const CustomDateInputs: React.FC<{
         value={dateFrom}
         onChange={(e) => setDateFrom(e.target.value)}
         disabled={disabled}
-        title="Date From"
+        title={i18n.t("Date From")}
         className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
       />
     </div>
@@ -117,7 +118,7 @@ export const CustomDateInputs: React.FC<{
         onChange={(e) => setDateTo(e.target.value)}
         disabled={disabled}
         min={dateFrom}
-        title="Date To"
+        title={i18n.t("Date To")}
         className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary text-slate-700 disabled:opacity-50"
       />
     </div>
@@ -149,33 +150,25 @@ const ExportDropdown: React.FC<{
         disabled={isLoading || !hasData}
         className="flex items-center gap-2 px-5 py-2.5 bg-brand-primary text-white hover:bg-brand-primary/90 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl text-sm font-bold transition-all shadow-md shadow-brand-primary/20"
       >
-        <Download size={18} />
-        Export
-        <ChevronDown size={16} className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+        <Download size={18} />{i18n.t("Export")}<ChevronDown size={16} className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
       </button>
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 py-2 animate-in fade-in zoom-in-95 duration-200">
+        <div className="absolute end-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 py-2 animate-in fade-in zoom-in-95 duration-200">
           <button
             onClick={() => { exportToCSV(data, filename); setIsOpen(false); }}
             className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
           >
-            <div className="p-1.5 bg-slate-50 text-slate-600 rounded-lg"><FileText size={16} /></div>
-            Export as CSV
-          </button>
+            <div className="p-1.5 bg-slate-50 text-slate-600 rounded-lg"><FileText size={16} /></div>{i18n.t("Export as CSV")}</button>
           <button
             onClick={() => { exportToExcel(data, filename); setIsOpen(false); }}
             className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
           >
-            <div className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg"><FileSpreadsheet size={16} /></div>
-            Export as Excel
-          </button>
+            <div className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg"><FileSpreadsheet size={16} /></div>{i18n.t("Export as Excel")}</button>
           <button
             onClick={() => { exportToPDF(data, filename, reportTitle); setIsOpen(false); }}
             className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
           >
-            <div className="p-1.5 bg-red-50 text-red-600 rounded-lg"><FilePdf size={16} /></div>
-            Export as PDF
-          </button>
+            <div className="p-1.5 bg-red-50 text-red-600 rounded-lg"><FilePdf size={16} /></div>{i18n.t("Export as PDF")}</button>
         </div>
       )}
     </div>
@@ -209,20 +202,20 @@ export const ReportShell: React.FC<{
               onClick={onClear}
               disabled={isLoading}
               className="flex items-center gap-2 px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 disabled:opacity-50 rounded-xl text-sm font-bold transition-colors"
-              title="Clear Filters"
+              title={i18n.t("Clear Filters")}
             >
               <FilterX size={18} />
-              <span className="hidden sm:inline">Clear</span>
+              <span className="hidden sm:inline">{i18n.t("Clear")}</span>
             </button>
 
             <button
               onClick={onRefresh}
               disabled={isLoading}
               className="flex items-center gap-2 px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 disabled:opacity-50 rounded-xl text-sm font-bold transition-colors"
-              title="Refresh Data"
+              title={i18n.t("Refresh Data")}
             >
               <RefreshCw size={18} className={isLoading ? "animate-spin" : ""} />
-              <span className="hidden sm:inline">Refresh</span>
+              <span className="hidden sm:inline">{i18n.t("Refresh")}</span>
             </button>
 
             <ExportDropdown
@@ -263,14 +256,12 @@ export const Pagination: React.FC<{
   limitOptions?: number[];
 }> = ({ currentPage, totalPages, totalRecords, rangeStart, rangeEnd, itemsPerPage, onPageChange, onLimitChange, limitOptions = [25, 50, 100, 200] }) => (
   <div className="mt-4 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
-    <div className="text-sm text-slate-500 font-medium">
-      Showing <span className="text-slate-900 font-bold">{totalRecords === 0 ? 0 : rangeStart}</span> to{" "}
-      <span className="text-slate-900 font-bold">{rangeEnd}</span> of{" "}
-      <span className="text-slate-900 font-bold">{totalRecords}</span> records
-    </div>
+    <div className="text-sm text-slate-500 font-medium">{i18n.t("Showing")}{" "}<span className="text-slate-900 font-bold">{totalRecords === 0 ? 0 : rangeStart}</span>{" "}{i18n.t("to")}{" "}
+      <span className="text-slate-900 font-bold">{rangeEnd}</span>{" "}{i18n.t("of")}{" "}
+      <span className="text-slate-900 font-bold">{totalRecords}</span>{" "}{i18n.t("records")}</div>
     <div className="flex items-center gap-2">
-      <div className="flex items-center gap-1 mr-4">
-        <span className="text-xs text-slate-400 font-bold uppercase mr-2">Show</span>
+      <div className="flex items-center gap-1 me-4">
+        <span className="text-xs text-slate-400 font-bold uppercase me-2">{i18n.t("Show")}</span>
         <select
           value={itemsPerPage}
           onChange={(e) => onLimitChange(Number(e.target.value))}
@@ -287,11 +278,11 @@ export const Pagination: React.FC<{
           disabled={currentPage === 1}
           className="p-2 rounded-lg border border-slate-200 bg-white text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors shadow-sm"
         >
-          <ChevronLeft size={16} />
+          <ChevronLeft className="rtl:-scale-x-100" size={16} />
         </button>
         <div className="flex items-center gap-1 px-2">
           <span className="text-sm font-bold text-slate-900">{currentPage}</span>
-          <span className="text-sm text-slate-400 mx-1">of</span>
+          <span className="text-sm text-slate-400 mx-1">{i18n.t("of")}</span>
           <span className="text-sm font-bold text-slate-900">{totalPages || 1}</span>
         </div>
         <button
@@ -299,7 +290,7 @@ export const Pagination: React.FC<{
           disabled={currentPage === totalPages || totalPages === 0}
           className="p-2 rounded-lg border border-slate-200 bg-white text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors shadow-sm"
         >
-          <ChevronRight size={16} />
+          <ChevronRight className="rtl:-scale-x-100" size={16} />
         </button>
       </div>
     </div>

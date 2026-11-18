@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Loader2, Search, Filter, RefreshCw, Bed, ChevronRight, Printer } from "lucide-react";
 import { patientService } from "../services/patient.service";
 import { useNotification } from "../context/NotificationContext";
+import { i18n } from "../i18n";
 
 export const AdmissionList: React.FC = () => {
   const { notify } = useNotification();
@@ -44,21 +45,17 @@ export const AdmissionList: React.FC = () => {
           <h1 className="font-black text-slate-800 tracking-tight flex items-center gap-3">
             <div className="p-2 bg-brand-primary text-white rounded-xl shadow-lg shadow-brand-active">
               <Bed size={20} />
-            </div>
-            Admission List
-          </h1>
-          <p className="text-slate-500 font-medium mt-1">
-            View all current patient admissions.
-          </p>
+            </div>{i18n.t("Admission List")}</h1>
+          <p className="text-slate-500 font-medium mt-1">{i18n.t("View all current patient admissions.")}</p>
         </div>
 
         <div className="bg-white rounded-[32px] border shadow-sm relative group">
           <div className="relative">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" size={24} />
+            <Search className="absolute start-5 top-1/2 -translate-y-1/2 text-slate-400" size={24} />
             <input
               type="text"
-              placeholder="Search by Patient Name, MRN, Admission No, or Ward..."
-              className="w-full pl-14 pr-6  bg-slate-50 border-2 rounded-[24px] text-lg font-bold text-slate-800 focus:bg-white focus:border-brand-active0 outline-none transition-all shadow-inner"
+              placeholder={i18n.t("Search by Patient Name, MRN, Admission No, or Ward...")}
+              className="w-full ps-14 pe-6  bg-slate-50 border-2 rounded-[24px] text-lg font-bold text-slate-800 focus:bg-white focus:border-brand-active0 outline-none transition-all shadow-inner"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -71,9 +68,7 @@ export const AdmissionList: React.FC = () => {
             onClick={fetchAdmissions}
             className="flex items-center gap-2 bg-white border border-slate-200 text-slate-700 px-4 py-2 rounded-xl font-bold hover:bg-slate-50 transition-all shadow-sm"
           >
-            <RefreshCw size={20} className={isLoading ? "animate-spin" : ""} />
-            Refresh
-          </button>
+            <RefreshCw size={20} className={isLoading ? "animate-spin" : ""} />{i18n.t("Refresh")}</button>
         </div>
       </div>
 
@@ -83,19 +78,19 @@ export const AdmissionList: React.FC = () => {
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-20">
             <Loader2 size={40} className="text-brand-primary animate-spin mb-4" />
-            <p className="text-slate-500 font-medium">Loading admissions...</p>
+            <p className="text-slate-500 font-medium">{i18n.t("Loading admissions...")}</p>
           </div>
         ) : filteredAdmissions.length > 0 ? (
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-start border-collapse">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-100">
-                  <th className="px-6 py-4 text-xs font-black text-slate-500 uppercase tracking-wider">Admission Details</th>
-                  <th className="px-6 py-4 text-xs font-black text-slate-500 uppercase tracking-wider">Patient Details</th>
-                  <th className="px-6 py-4 text-xs font-black text-slate-500 uppercase tracking-wider">Location</th>
-                  <th className="px-6 py-4 text-xs font-black text-slate-500 uppercase tracking-wider">Payer Type</th>
-                  <th className="px-6 py-4 text-xs font-black text-slate-500 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-4 text-xs font-black text-slate-500 uppercase tracking-wider text-right">Actions</th>
+                  <th className="px-6 py-4 text-xs font-black text-slate-500 uppercase tracking-wider">{i18n.t("Admission Details")}</th>
+                  <th className="px-6 py-4 text-xs font-black text-slate-500 uppercase tracking-wider">{i18n.t("Patient Details")}</th>
+                  <th className="px-6 py-4 text-xs font-black text-slate-500 uppercase tracking-wider">{i18n.t("Location")}</th>
+                  <th className="px-6 py-4 text-xs font-black text-slate-500 uppercase tracking-wider">{i18n.t("Payer Type")}</th>
+                  <th className="px-6 py-4 text-xs font-black text-slate-500 uppercase tracking-wider">{i18n.t("Status")}</th>
+                  <th className="px-6 py-4 text-xs font-black text-slate-500 uppercase tracking-wider text-end">{i18n.t("Actions")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -107,12 +102,12 @@ export const AdmissionList: React.FC = () => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="font-bold text-slate-800">{adm.first_name} {adm.last_name}</div>
-                      <div className="text-sm text-slate-500">MRN: {adm.mrn} • {adm.age_years}Y / {adm.gender}</div>
+                      <div className="text-sm text-slate-500">{i18n.t("MRN:")}{" "}{adm.mrn} • {adm.age_years}{i18n.t("Y /")}{" "}{i18n.tv(adm.gender)}</div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="font-bold text-slate-800">{adm.ward_name || "Unassigned"}</div>
+                      <div className="font-bold text-slate-800">{adm.ward_name || i18n.t("Unassigned")}</div>
                       <div className="text-sm text-slate-500">
-                        {adm.room_number ? `${adm.room_number} - ${adm.bed_number}` : "N/A"}
+                        {adm.room_number ? `${adm.room_number} - ${adm.bed_number}` : i18n.t("N/A")}
                       </div>
                     </td>
                     <td className="px-6 py-4">
@@ -122,7 +117,7 @@ export const AdmissionList: React.FC = () => {
                       <span className={`px-3 py-1 rounded-full text-xs font-bold inline-block ${
                         adm.status === "ACTIVE" ? "bg-green-100 text-green-700" : "bg-slate-100 text-slate-700"
                       }`}>
-                        {adm.status}
+                        {i18n.tv(adm.status)}
                       </span>
                       {adm.discharge_stage && adm.discharge_stage !== "N/A" && (
                         <div className="mt-1 text-xs text-brand-primary font-bold">
@@ -130,17 +125,17 @@ export const AdmissionList: React.FC = () => {
                         </div>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-right">
+                    <td className="px-6 py-4 text-end">
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => window.open(`/print/wristband/${adm.admission_number}`, '_blank')}
                           className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-brand-primary transition-all shadow-sm"
-                          title="Print Wristband"
+                          title={i18n.t("Print Wristband")}
                         >
                           <Printer size={18} />
                         </button>
                         <button className="p-2 text-slate-400 hover:text-brand-primary transition-colors hover:bg-brand-50 rounded-lg">
-                          <ChevronRight size={20} />
+                          <ChevronRight className="rtl:-scale-x-100" size={20} />
                         </button>
                       </div>
                     </td>
@@ -154,8 +149,8 @@ export const AdmissionList: React.FC = () => {
             <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
               <Bed size={32} className="text-slate-400" />
             </div>
-            <h3 className="text-xl font-bold text-slate-800 mb-2">No Admissions Found</h3>
-            <p className="text-slate-500">There are no matching admissions at the moment.</p>
+            <h3 className="text-xl font-bold text-slate-800 mb-2">{i18n.t("No Admissions Found")}</h3>
+            <p className="text-slate-500">{i18n.t("There are no matching admissions at the moment.")}</p>
           </div>
         )}
       </div>

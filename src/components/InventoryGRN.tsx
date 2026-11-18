@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Truck, Search, Loader2, CheckCircle2, AlertTriangle, FileText, Download, X } from 'lucide-react';
 import { inventoryService } from '../services/inventory.service';
 import { useNotification } from '../context/NotificationContext';
+import { i18n } from "../i18n";
 
 export default function InventoryGRN() {
   const { notify } = useNotification();
@@ -136,10 +137,8 @@ export default function InventoryGRN() {
            <h1 className="text-xl md:text-2xl font-black text-slate-800 tracking-tight flex items-center gap-3">
              <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
                <Truck size={24} />
-             </div>
-             Goods Received (GRN)
-           </h1>
-           <p className="text-xs md:text-sm font-medium text-slate-500 mt-1">Receive stock securely against approved purchase orders.</p>
+             </div>{i18n.t("Goods Received (GRN)")}</h1>
+           <p className="text-xs md:text-sm font-medium text-slate-500 mt-1">{i18n.t("Receive stock securely against approved purchase orders.")}</p>
         </div>
       </div>
 
@@ -147,34 +146,32 @@ export default function InventoryGRN() {
         <div className="bg-white rounded-[24px] border border-slate-200 shadow-sm overflow-hidden flex flex-col">
           <div className="px-5 py-4 bg-slate-50/50 border-b border-slate-100 flex items-center justify-between">
             <h2 className="text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-2">
-              <CheckCircle2 size={16} className="text-emerald-600" /> Awaiting Reception (Approved POs)
-            </h2>
+              <CheckCircle2 size={16} className="text-emerald-600" />{" "}{i18n.t("Awaiting Reception (Approved POs)")}</h2>
           </div>
           <div className="p-0 overflow-x-auto custom-scrollbar">
-            <table className="w-full text-left">
+            <table className="w-full text-start">
               <thead className="bg-slate-50 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">
                 <tr>
-                  <th className="px-6 py-4">PO Number</th>
-                  <th className="px-6 py-4">Vendor</th>
-                  <th className="px-6 py-4">Expected Delivery</th>
-                  <th className="px-6 py-4 text-right">Action</th>
+                  <th className="px-6 py-4">{i18n.t("PO Number")}</th>
+                  <th className="px-6 py-4">{i18n.t("Vendor")}</th>
+                  <th className="px-6 py-4">{i18n.t("Expected Delivery")}</th>
+                  <th className="px-6 py-4 text-end">{i18n.t("Action")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {loading ? (
                   <tr><td colSpan={4} className="py-20 text-center"><Loader2 className="animate-spin mx-auto text-emerald-600" size={32}/></td></tr>
                 ) : approvedPOs.length === 0 ? (
-                  <tr><td colSpan={4} className="py-20 text-center font-bold text-slate-400 text-sm">No pending approved orders waiting to be received.</td></tr>
+                  <tr><td colSpan={4} className="py-20 text-center font-bold text-slate-400 text-sm">{i18n.t("No pending approved orders waiting to be received.")}</td></tr>
                 ) : (
                   approvedPOs.map((po) => (
                     <tr key={po.id} className="hover:bg-slate-50 transition-colors group cursor-pointer" onClick={() => handleSelectPO(po.id)}>
                       <td className="px-6 py-4 font-black text-emerald-700">{po.po_number}</td>
                       <td className="px-6 py-4 font-bold text-slate-800">{po.vendor_name}</td>
-                      <td className="px-6 py-4 font-mono text-xs text-slate-500">{po.expected_delivery_date ? new Date(po.expected_delivery_date).toLocaleDateString() : 'N/A'}</td>
-                      <td className="px-6 py-4 text-right">
-                        <button className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-600 group-hover:border-emerald-500 group-hover:text-emerald-600 transition-all flex items-center gap-2 ml-auto shadow-sm">
-                           <Download size={14} /> Process GRN
-                        </button>
+                      <td className="px-6 py-4 font-mono text-xs text-slate-500">{po.expected_delivery_date ? new Date(po.expected_delivery_date).toLocaleDateString() : i18n.t("N/A")}</td>
+                      <td className="px-6 py-4 text-end">
+                        <button className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-600 group-hover:border-emerald-500 group-hover:text-emerald-600 transition-all flex items-center gap-2 ms-auto shadow-sm">
+                           <Download size={14} />{" "}{i18n.t("Process GRN")}</button>
                       </td>
                     </tr>
                   ))
@@ -187,10 +184,9 @@ export default function InventoryGRN() {
         <div className="bg-white rounded-[24px] border border-slate-200 shadow-sm p-6 animate-in slide-in-from-right-4 duration-300">
           <div className="flex justify-between items-center border-b border-slate-100 pb-4 mb-6">
             <div>
-              <h2 className="text-xl font-black text-slate-800 flex items-center gap-2">
-                Draft GRN for <span className="text-emerald-600">{selectedPO.po_number}</span>
+              <h2 className="text-xl font-black text-slate-800 flex items-center gap-2">{i18n.t("Draft GRN for")}{" "}<span className="text-emerald-600">{selectedPO.po_number}</span>
               </h2>
-              <p className="text-sm font-bold text-slate-500 mt-1">Supplier: {selectedPO.vendor_name}</p>
+              <p className="text-sm font-bold text-slate-500 mt-1">{i18n.t("Supplier:")}{" "}{selectedPO.vendor_name}</p>
             </div>
             <button onClick={() => setSelectedPO(null)} className="text-slate-400 hover:text-slate-600 bg-slate-50 p-2 rounded-xl border border-slate-200 transition-colors"><X size={18} /></button>
           </div>
@@ -198,16 +194,16 @@ export default function InventoryGRN() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 bg-slate-50 p-5 rounded-2xl border border-slate-100">
             <div className="space-y-1">
               <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center justify-between">
-                <span>Supplier Invoice No *</span>
+                <span>{i18n.t("Supplier Invoice No *")}</span>
               </label>
               <input 
-                type="text" placeholder="e.g. INV-2024-889"
+                type="text" placeholder={i18n.t("e.g. INV-2024-889")}
                 value={grnData.supplier_invoice_no} onChange={(e) => setGrnData({...grnData, supplier_invoice_no: e.target.value})}
                 className="w-full p-3 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-800 outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all shadow-sm"
               />
             </div>
             <div className="space-y-1">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Received Date *</label>
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Received Date *")}</label>
               <input 
                 type="date" max={new Date().toISOString().split('T')[0]}
                 value={grnData.received_date} onChange={(e) => setGrnData({...grnData, received_date: e.target.value})}
@@ -215,9 +211,9 @@ export default function InventoryGRN() {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Reception Notes</label>
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Reception Notes")}</label>
               <input 
-                type="text" placeholder="Visual inspection OK..."
+                type="text" placeholder={i18n.t("Visual inspection OK...")}
                 value={grnData.notes} onChange={(e) => setGrnData({...grnData, notes: e.target.value})}
                 className="w-full p-3 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-800 outline-none focus:border-emerald-500 shadow-sm"
               />
@@ -227,18 +223,18 @@ export default function InventoryGRN() {
           <div className="mb-6">
             <div className="flex items-center gap-2 mb-4 bg-amber-50 p-3 rounded-xl border border-amber-100">
               <AlertTriangle size={16} className="text-amber-600 shrink-0" />
-              <p className="text-xs font-bold text-amber-800">Physical verification required. Enter the exact Batch Numbers and Expiry Dates as printed on the physical packaging.</p>
+              <p className="text-xs font-bold text-amber-800">{i18n.t("Physical verification required. Enter the exact Batch Numbers and Expiry Dates as printed on the physical packaging.")}</p>
             </div>
             
             <div className="overflow-x-auto rounded-2xl border border-slate-200 shadow-sm">
-              <table className="w-full text-left whitespace-nowrap">
+              <table className="w-full text-start whitespace-nowrap">
                 <thead className="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
                   <tr>
-                    <th className="px-4 py-3">Item Definition</th>
-                    <th className="px-4 py-3 text-center">Ordered</th>
-                    <th className="px-4 py-3">Received Qty</th>
-                    <th className="px-4 py-3">Batch Number *</th>
-                    <th className="px-4 py-3">Expiry Date *</th>
+                    <th className="px-4 py-3">{i18n.t("Item Definition")}</th>
+                    <th className="px-4 py-3 text-center">{i18n.t("Ordered")}</th>
+                    <th className="px-4 py-3">{i18n.t("Received Qty")}</th>
+                    <th className="px-4 py-3">{i18n.t("Batch Number *")}</th>
+                    <th className="px-4 py-3">{i18n.t("Expiry Date *")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -256,7 +252,7 @@ export default function InventoryGRN() {
                       </td>
                       <td className="px-4 py-3">
                         <input 
-                          type="text" placeholder="Mfg Batch" 
+                          type="text" placeholder={i18n.t("Mfg Batch")} 
                           value={item.batch_number} 
                           onChange={(e) => handleItemChange(idx, 'batch_number', e.target.value)}
                           className="w-40 p-2 bg-white border border-slate-300 rounded-lg text-sm font-bold outline-none focus:border-emerald-500 uppercase shadow-inner"
@@ -282,9 +278,7 @@ export default function InventoryGRN() {
               onClick={handleSubmitGRN} disabled={isSubmitting}
               className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3.5 rounded-xl font-black text-sm uppercase tracking-widest transition-all shadow-lg shadow-emerald-600/20 disabled:opacity-50 flex items-center gap-2 active:scale-95"
             >
-              {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <FileText size={16} />}
-              Submit to Finance for Approval
-            </button>
+              {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <FileText size={16} />}{i18n.t("Submit to Finance for Approval")}</button>
           </div>
 
         </div>

@@ -28,6 +28,7 @@ import DischargeSummaryModal from './DischargeSummaryModal';
 import PatientActionsModal from './PatientActionsModal';
 import SignaturePad from './SignaturePad';
 import AdmissionAssessmentForm from './AdmissionAssessmentForm';
+import { i18n } from "../i18n";
 
 interface WorklistItem {
   id: string;
@@ -429,9 +430,9 @@ const EMRWorklist: React.FC = () => {
             <div className="p-2 bg-brand-active text-brand-primary rounded-xl shrink-0">
               <ClipboardList size={20} className="md:w-7 md:h-7" />
             </div>
-            <span className="truncate">My Active Worklist</span>
+            <span className="truncate">{i18n.t("My Active Worklist")}</span>
           </h1>
-          <p className="text-slate-500 font-medium text-sm md:text-base">Manage clinical encounters and patient oversight.</p>
+          <p className="text-slate-500 font-medium text-sm md:text-base">{i18n.t("Manage clinical encounters and patient oversight.")}</p>
         </div>
       </div>
 
@@ -444,21 +445,15 @@ const EMRWorklist: React.FC = () => {
           <button
             onClick={() => setActiveTab('ERD')}
             className={`flex-1 min-w-[120px] px-4 py-2.5 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap ${activeTab === 'ERD' ? 'bg-white text-brand-primary shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
-          >
-            Emergency
-          </button>
+          >{i18n.t("Emergency")}</button>
           <button
             onClick={() => setActiveTab('OPD')}
             className={`flex-1 min-w-[120px] px-4 py-2.5 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap ${activeTab === 'OPD' ? 'bg-white text-brand-primary shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
-          >
-            Outpatient
-          </button>
+          >{i18n.t("Outpatient")}</button>
           <button
             onClick={() => setActiveTab('IPD')}
             className={`flex-1 min-w-[120px] px-4 py-2.5 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap ${activeTab === 'IPD' ? 'bg-white text-brand-primary shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
-          >
-            Inpatient
-          </button>
+          >{i18n.t("Inpatient")}</button>
         </div>
 
         <div className="h-8 w-px bg-slate-200 hidden xl:block"></div>
@@ -469,15 +464,11 @@ const EMRWorklist: React.FC = () => {
             <button
               onClick={() => setFilterType('TODAY')}
               className={`px-4 py-2.5 rounded-xl text-xs font-bold border transition-all whitespace-nowrap ${filterType === 'TODAY' ? 'bg-brand-active border-brand-active text-brand-primary' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}`}
-            >
-              Today's List
-            </button>
+            >{i18n.t("Today's List")}</button>
             <button
               onClick={() => setFilterType('ALL')}
               className={`px-4 py-2.5 rounded-xl text-xs font-bold border transition-all whitespace-nowrap ${filterType === 'ALL' ? 'bg-brand-active border-brand-active text-brand-primary' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}`}
-            >
-              All History
-            </button>
+            >{i18n.t("All History")}</button>
 
             <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border transition-all ${filterType === 'DATE' ? 'bg-brand-active border-brand-active' : 'bg-white border-slate-200'}`}>
               <input
@@ -500,11 +491,11 @@ const EMRWorklist: React.FC = () => {
 
           <div className="flex items-center gap-3 flex-1 max-w-[280px] xl:max-w-md">
             <div className="relative flex-1 group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-brand-primary transition-colors" />
+              <Search className="absolute start-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-brand-primary transition-colors" />
               <input
                 type="text"
-                placeholder="Search by name or MRN..."
-                className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-4 focus:ring-brand-active0/10 outline-none transition-all"
+                placeholder={i18n.t("Search by name or MRN...")}
+                className="w-full ps-11 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-4 focus:ring-brand-active0/10 outline-none transition-all"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -513,9 +504,7 @@ const EMRWorklist: React.FC = () => {
               onClick={handleRefresh}
               className="flex items-center gap-2 px-4 py-2.5 md:px-5 md:py-3 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 text-slate-600 text-xs font-bold transition-colors shadow-sm whitespace-nowrap"
             >
-              <Loader2 size={16} className={loading ? "animate-spin" : ""} />
-              Refresh
-            </button>
+              <Loader2 size={16} className={loading ? "animate-spin" : ""} />{i18n.t("Refresh")}</button>
           </div>
         </div>
       </div>
@@ -524,28 +513,28 @@ const EMRWorklist: React.FC = () => {
         {loading ? (
           <div className="flex flex-col items-center justify-center h-full py-20">
             <Loader2 className="animate-spin text-brand-primary mb-4" size={40} />
-            <p className="text-sm font-bold text-slate-400">Loading encounters...</p>
+            <p className="text-sm font-bold text-slate-400">{i18n.t("Loading encounters...")}</p>
           </div>
         ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full py-20 px-6 text-center">
             <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-4">
               <ClipboardList className="text-slate-300" size={32} />
             </div>
-            <p className="text-sm font-bold text-slate-400">No active encounters found.</p>
+            <p className="text-sm font-bold text-slate-400">{i18n.t("No active encounters found.")}</p>
           </div>
         ) : (
           <>
             {/* Desktop Table View */}
             <div className="hidden lg:block overflow-x-auto">
-              <table className="w-full text-left">
+              <table className="w-full text-start">
                 <thead>
                   <tr className="bg-slate-50/50 border-b border-slate-100">
-                    <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Patient Details</th>
-                    <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Provider & Spec.</th>
-                    <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Ward/Bed Number</th>
-                    <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Visit Info</th>
-                    <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
-                    <th className="px-6 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Action</th>
+                    <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Patient Details")}</th>
+                    <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Provider & Spec.")}</th>
+                    <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Ward/Bed Number")}</th>
+                    <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Visit Info")}</th>
+                    <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Status")}</th>
+                    <th className="px-6 py-5 text-end text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Action")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
@@ -564,13 +553,13 @@ const EMRWorklist: React.FC = () => {
                             <p className="text-sm font-black text-slate-800">{item.patientName}</p>
                             <div className="flex flex-wrap items-center gap-1.5 mt-0.5">
                               <span className="text-[17px] font-mono font-bold text-brand-primary">{item.mrn}</span>
-                              {item.gender && <span className="text-[10px] font-bold text-slate-400">• {item.gender}</span>}
+                              {item.gender && <span className="text-[10px] font-bold text-slate-400">• {i18n.tv(item.gender)}</span>}
                             </div>
                             <div>
                               
-                              {item.age_years && <span className="text-[12px] font-bold">{item.age_years}Y </span>}
-                              {item.age_months && <span className="text-[12px] font-bold">{item.age_months}M </span>}
-                              {item.age_days && <span className="text-[12px] font-bold">{item.age_days}D </span>}
+                              {item.age_years && <span className="text-[12px] font-bold">{item.age_years}{i18n.t("Y")}{" "}</span>}
+                              {item.age_months && <span className="text-[12px] font-bold">{item.age_months}{i18n.t("M")}{" "}</span>}
+                              {item.age_days && <span className="text-[12px] font-bold">{item.age_days}{i18n.t("D")}{" "}</span>}
 
                             </div>
                             {(item.phone || item.payer) && (
@@ -592,7 +581,7 @@ const EMRWorklist: React.FC = () => {
                             </div>
                           )}
                           {item.specialization_name && (
-                            <span className="text-[12px] font-bold text-brand-primary ml-5">{item.specialization_name}</span>
+                            <span className="text-[12px] font-bold text-brand-primary ms-5">{item.specialization_name}</span>
                           )}
                         </div>
                       </td>
@@ -614,7 +603,7 @@ const EMRWorklist: React.FC = () => {
                       <td className="px-6 py-6">
                         <div className="flex flex-col items-start gap-1.5">
                           <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border ${getStatusStyle(item.status)}`}>
-                            {item.status}
+                            {i18n.tv(item.status)}
                           </div>
                           {item.discharge_stage && item.discharge_stage !== 'ACTIVE' && item.discharge_stage !== 'NONE' && (
                             <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[9.5px] font-bold uppercase tracking-widest bg-brand-active text-brand-primary border border-brand-active">
@@ -623,7 +612,7 @@ const EMRWorklist: React.FC = () => {
                           )}
                         </div>
                       </td>
-                      <td className="px-6 py-6 text-right relative">
+                      <td className="px-6 py-6 text-end relative">
                         {(activeTab === 'IPD' || activeTab === 'ERD') ? (
                           <div className="flex justify-end items-center gap-2">
                             <button
@@ -642,14 +631,12 @@ const EMRWorklist: React.FC = () => {
                               onClick={(e) => handleOrderEntry(e, item)}
                               className="flex items-center gap-1.5 text-[10px] font-black text-emerald-600 uppercase tracking-widest bg-emerald-50 px-3 py-2 rounded-xl hover:bg-emerald-600 hover:text-white transition-all shadow-sm"
                             >
-                              <FilePlus size={14} /> Orders
-                            </button>
+                              <FilePlus size={14} />{" "}{i18n.t("Orders")}</button>
                             <button
                               onClick={() => handlePatientClick(item)}
                               className="flex items-center gap-1.5 text-[10px] font-black text-brand-primary uppercase tracking-widest bg-brand-active px-3 py-2 rounded-xl hover:bg-brand-primary hover:text-white transition-all shadow-sm"
                             >
-                              <Stethoscope size={14} /> Chart
-                            </button>
+                              <Stethoscope size={14} />{" "}{i18n.t("Chart")}</button>
                           </div>
                         )}
                       </td>
@@ -676,7 +663,7 @@ const EMRWorklist: React.FC = () => {
                         <p className="text-sm font-black text-slate-800 truncate">{item.patientName}</p>
                         <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mt-1">
                           <span className="text-[10px] font-mono font-bold text-brand-primary shrink-0">{item.mrn}</span>
-                          {item.gender && <span className="text-[10px] font-bold text-slate-400 shrink-0">• {item.gender}</span>}
+                          {item.gender && <span className="text-[10px] font-bold text-slate-400 shrink-0">• {i18n.tv(item.gender)}</span>}
                           {item.age && <span className="text-[10px] font-bold text-slate-400 shrink-0">• {item.age}</span>}
                           
                           <div className="w-full flex flex-col gap-1.5 mt-1">
@@ -689,7 +676,7 @@ const EMRWorklist: React.FC = () => {
                                 <Stethoscope size={10} className="text-slate-400" />
                                 <span className="text-[10px] font-bold text-slate-700">{item.doctor_name}</span>
                                 {item.specialization_name && (
-                                  <span className="text-[10px] font-bold text-brand-primary ml-2">• {item.specialization_name}</span>
+                                  <span className="text-[10px] font-bold text-brand-primary ms-2">• {item.specialization_name}</span>
                                 )}
                               </div>
                             )}
@@ -705,16 +692,16 @@ const EMRWorklist: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="flex flex-col items-end gap-2 shrink-0 ml-4">
+                    <div className="flex flex-col items-end gap-2 shrink-0 ms-4">
                       <div className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider border ${getStatusStyle(item.status)}`}>
-                        {item.status}
+                        {i18n.tv(item.status)}
                       </div>
                     </div>
                   </div>
 
                   <div className="mb-4 bg-slate-50/50 p-3 rounded-xl border border-slate-100">
                     <p className="text-xs font-medium text-slate-500 leading-relaxed italic line-clamp-2">
-                      <span className="text-[10px] font-black uppercase text-slate-400 mr-2 not-italic tracking-widest">Complaint:</span>
+                      <span className="text-[10px] font-black uppercase text-slate-400 me-2 not-italic tracking-widest">{i18n.t("Complaint:")}</span>
                       {item.complaint}
                     </p>
                   </div>
@@ -726,7 +713,7 @@ const EMRWorklist: React.FC = () => {
                       </div>
                     )}
                     
-                    <div className="flex items-center gap-2 ml-auto w-full sm:w-auto">
+                    <div className="flex items-center gap-2 ms-auto w-full sm:w-auto">
                       {(activeTab === 'IPD' || activeTab === 'ERD') ? (
                         <div className="flex items-center gap-2 w-full justify-between sm:justify-end">
                           <button
@@ -743,14 +730,12 @@ const EMRWorklist: React.FC = () => {
                               onClick={(e) => handleOrderEntry(e, item)}
                               className="flex items-center justify-center gap-1.5 flex-1 px-4 py-2.5 text-[10px] font-black text-emerald-600 uppercase tracking-widest bg-emerald-50 rounded-xl border border-emerald-100 active:scale-95 transition-transform"
                             >
-                              <FilePlus size={14} /> Orders
-                            </button>
+                              <FilePlus size={14} />{" "}{i18n.t("Orders")}</button>
                             <button
                               onClick={() => handlePatientClick(item)}
                               className="flex items-center justify-center gap-1.5 flex-1 px-4 py-2.5 text-[10px] font-black text-brand-primary uppercase tracking-widest bg-brand-active rounded-xl border border-brand-active active:scale-95 transition-transform"
                             >
-                              <Stethoscope size={14} /> Chart
-                            </button>
+                              <Stethoscope size={14} />{" "}{i18n.t("Chart")}</button>
                           </div>
                         </div>
                       ) : (
@@ -759,14 +744,12 @@ const EMRWorklist: React.FC = () => {
                             onClick={(e) => handleOrderEntry(e, item)}
                             className="flex items-center justify-center gap-2 flex-1 px-4 py-3 text-[10px] font-black text-emerald-600 uppercase tracking-widest bg-emerald-50 rounded-xl border border-emerald-100 active:scale-95 transition-transform"
                           >
-                            <FilePlus size={16} /> Orders
-                          </button>
+                            <FilePlus size={16} />{" "}{i18n.t("Orders")}</button>
                           <button
                             onClick={() => handlePatientClick(item)}
                             className="flex items-center justify-center gap-2 flex-1 px-4 py-3 text-[10px] font-black text-brand-primary uppercase tracking-widest bg-brand-active rounded-xl border border-brand-active active:scale-95 transition-transform"
                           >
-                            <Stethoscope size={16} /> Chart
-                          </button>
+                            <Stethoscope size={16} />{" "}{i18n.t("Chart")}</button>
                         </div>
                       )}
                     </div>
@@ -796,19 +779,16 @@ const EMRWorklist: React.FC = () => {
                     }
                     setShowDischargeModal(null);
                   }}
-                  className="p-2 -ml-2 text-slate-400 hover:text-slate-600 hover:bg-slate-200/50 rounded-full transition-colors shrink-0"
+                  className="p-2 -ms-2 text-slate-400 hover:text-slate-600 hover:bg-slate-200/50 rounded-full transition-colors shrink-0"
                 >
-                  <ArrowLeft size={20} className="md:w-6 md:h-6" />
+                  <ArrowLeft size={20} className="md:w-6 md:h-6 rtl:-scale-x-100" />
                 </button>
                 <div className="p-2 md:p-3 bg-rose-600 text-white rounded-xl md:rounded-2xl shadow-lg shadow-rose-200 shrink-0">
                   <LogOut size={20} className="md:w-6 md:h-6" />
                 </div>
                 <div className="min-w-0">
-                  <h2 className="text-lg md:text-xl font-black text-slate-800 tracking-tight truncate">
-                    Mark for Discharge
-                  </h2>
-                  <p className="text-[9px] md:text-xs text-rose-600 font-bold uppercase tracking-widest truncate">
-                    Patient: {showDischargeModal.patient.name}
+                  <h2 className="text-lg md:text-xl font-black text-slate-800 tracking-tight truncate">{i18n.t("Mark for Discharge")}</h2>
+                  <p className="text-[9px] md:text-xs text-rose-600 font-bold uppercase tracking-widest truncate">{i18n.t("Patient:")}{" "}{showDischargeModal.patient.name}
                   </p>
                 </div>
               </div>
@@ -822,15 +802,13 @@ const EMRWorklist: React.FC = () => {
 
             <div className="p-6 md:p-10 space-y-6 overflow-y-auto">
               <div className="relative">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Discharge Reason
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Discharge Reason")}</label>
                 <div className="relative group mt-1.5">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-rose-600 transition-colors" size={16} />
+                  <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-rose-600 transition-colors" size={16} />
                   <input
                     type="text"
-                    placeholder="Search or select reason..."
-                    className="w-full pl-12 pr-4 py-3 md:py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-rose-500 transition-all shadow-sm"
+                    placeholder={i18n.t("Search or select reason...")}
+                    className="w-full ps-12 pe-4 py-3 md:py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-rose-500 transition-all shadow-sm"
                     value={reasonSearchTerm}
                     onChange={(e) => { setReasonSearchTerm(e.target.value); setShowReasonList(true); }}
                     onFocus={() => setShowReasonList(true)}
@@ -838,7 +816,7 @@ const EMRWorklist: React.FC = () => {
                   />
 
                   {showReasonList && (
-                    <div className="absolute top-full left-0 right-0 mt-2 max-h-48 overflow-y-auto bg-white border border-slate-100 rounded-2xl shadow-xl space-y-1 p-1 z-[60] no-scrollbar">
+                    <div className="absolute top-full start-0 end-0 mt-2 max-h-48 overflow-y-auto bg-white border border-slate-100 rounded-2xl shadow-xl space-y-1 p-1 z-[60] no-scrollbar">
                       {dischargeReasons
                         .filter(r => r.name.toLowerCase().includes(reasonSearchTerm.toLowerCase()))
                         .map((reason) => (
@@ -850,7 +828,7 @@ const EMRWorklist: React.FC = () => {
                               setReasonSearchTerm(reason.name);
                               setShowReasonList(false);
                             }}
-                            className={`w-full text-left px-4 py-2.5 rounded-xl text-xs font-bold transition-all
+                            className={`w-full text-start px-4 py-2.5 rounded-xl text-xs font-bold transition-all
                               ${dischargeFormData.discharge_reason_id === reason.id.toString()
                                 ? 'bg-rose-600 text-white'
                                 : 'text-slate-600 hover:bg-rose-50 hover:text-rose-600'}
@@ -865,78 +843,74 @@ const EMRWorklist: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Discharge Notes
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Discharge Notes")}</label>
 
                 {dischargeFormData.discharge_reason_id === '5' ? (
                 <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-4">
                   <div className="flex items-center gap-2 mb-2 border-b border-slate-200 pb-3">
                     <AlertCircle className="text-rose-600" size={18} />
-                    <h3 className="text-xs font-black text-rose-800 uppercase tracking-widest">Medical Certificate of Cause of Death</h3>
+                    <h3 className="text-xs font-black text-rose-800 uppercase tracking-widest">{i18n.t("Medical Certificate of Cause of Death")}</h3>
                   </div>
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Date of Death *</label>
+                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Date of Death *")}</label>
                       <input type="date" value={deathCertData.date_of_death} onChange={e => setDeathCertData({...deathCertData, date_of_death: e.target.value})} className="w-full mt-1.5 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none" />
                     </div>
                     <div>
-                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Time of Death *</label>
+                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Time of Death *")}</label>
                       <input type="time" value={deathCertData.time_of_death} onChange={e => setDeathCertData({...deathCertData, time_of_death: e.target.value})} className="w-full mt-1.5 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none" />
                     </div>
                   </div>
 
                   <div>
-                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Part IA — Direct / Immediate Cause *</label>
-                    <input type="text" value={deathCertData.cause_part_1a} onChange={e => setDeathCertData({...deathCertData, cause_part_1a: e.target.value})} placeholder="e.g. Acute Myocardial Infarction" className="w-full mt-1.5 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-rose-500" />
+                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Part IA — Direct / Immediate Cause *")}</label>
+                    <input type="text" value={deathCertData.cause_part_1a} onChange={e => setDeathCertData({...deathCertData, cause_part_1a: e.target.value})} placeholder={i18n.t("e.g. Acute Myocardial Infarction")} className="w-full mt-1.5 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-rose-500" />
                   </div>
                   
                   <div>
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Part IB — Due to / Antecedent Cause</label>
-                    <input type="text" value={deathCertData.cause_part_1b} onChange={e => setDeathCertData({...deathCertData, cause_part_1b: e.target.value})} placeholder="e.g. Coronary Artery Disease" className="w-full mt-1.5 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none" />
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Part IB — Due to / Antecedent Cause")}</label>
+                    <input type="text" value={deathCertData.cause_part_1b} onChange={e => setDeathCertData({...deathCertData, cause_part_1b: e.target.value})} placeholder={i18n.t("e.g. Coronary Artery Disease")} className="w-full mt-1.5 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none" />
                   </div>
 
                   <div>
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Part IC — Underlying / Remote Cause</label>
-                    <input type="text" value={deathCertData.cause_part_1c} onChange={e => setDeathCertData({...deathCertData, cause_part_1c: e.target.value})} placeholder="e.g. Type 2 Diabetes Mellitus" className="w-full mt-1.5 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none" />
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Part IC — Underlying / Remote Cause")}</label>
+                    <input type="text" value={deathCertData.cause_part_1c} onChange={e => setDeathCertData({...deathCertData, cause_part_1c: e.target.value})} placeholder={i18n.t("e.g. Type 2 Diabetes Mellitus")} className="w-full mt-1.5 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none" />
                   </div>
 
                   <div>
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Part II — Other Contributing Conditions</label>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Part II — Other Contributing Conditions")}</label>
                     <input type="text" value={deathCertData.cause_part_2} onChange={e => setDeathCertData({...deathCertData, cause_part_2: e.target.value})} className="w-full mt-1.5 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none" />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Manner of Death *</label>
+                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Manner of Death *")}</label>
                       <select value={deathCertData.manner_of_death} onChange={e => setDeathCertData({...deathCertData, manner_of_death: e.target.value})} className="w-full mt-1.5 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none">
-                        <option value="Natural">Natural</option>
-                        <option value="Accident">Accident</option>
-                        <option value="Suicide">Suicide</option>
-                        <option value="Homicide">Homicide</option>
-                        <option value="Undetermined">Undetermined</option>
+                        <option value="Natural">{i18n.t("Natural")}</option>
+                        <option value="Accident">{i18n.t("Accident")}</option>
+                        <option value="Suicide">{i18n.t("Suicide")}</option>
+                        <option value="Homicide">{i18n.t("Homicide")}</option>
+                        <option value="Undetermined">{i18n.t("Undetermined")}</option>
                       </select>
                     </div>
                     <div>
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Post-Mortem?</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Post-Mortem?")}</label>
                       <select value={deathCertData.post_mortem_performed} onChange={e => setDeathCertData({...deathCertData, post_mortem_performed: e.target.value})} className="w-full mt-1.5 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none">
-                        <option value="No">No</option>
-                        <option value="Yes">Yes</option>
+                        <option value="No">{i18n.t("No")}</option>
+                        <option value="Yes">{i18n.t("Yes")}</option>
                       </select>
                     </div>
                   </div>
                 </div>
               ) : (
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    Discharge Notes
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Discharge Notes")}</label>
                   <textarea
                     value={dischargeFormData.discharge_notes}
                     onChange={(e) => setDischargeFormData({...dischargeFormData, discharge_notes: e.target.value})}
                     className="w-full mt-1.5 px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-rose-500 min-h-[120px] shadow-sm resize-none"
-                    placeholder="Enter clinical notes..."
+                    placeholder={i18n.t("Enter clinical notes...")}
                   />
                 </div>
               )}
@@ -955,9 +929,7 @@ const EMRWorklist: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Doctor Signature
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Doctor Signature")}</label>
                 <div className="mt-1.5 h-32 bg-slate-50 border border-dashed border-slate-300 rounded-2xl overflow-hidden">
                   <SignaturePad
                     onEnd={(dataUrl) => setDischargeFormData({ ...dischargeFormData, doctor_signature: dataUrl })}
@@ -968,23 +940,19 @@ const EMRWorklist: React.FC = () => {
 
               {!showDischargeModal.patient.isERD && (
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    Patient Witness Name
-                  </label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Patient Witness Name")}</label>
                   <input
                     type="text"
                     value={dischargeFormData.patient_witness_name}
                     onChange={(e) => setDischargeFormData({ ...dischargeFormData, patient_witness_name: e.target.value })}
-                    placeholder="e.g. John Doe (Brother)"
+                    placeholder={i18n.t("e.g. John Doe (Brother)")}
                     className="w-full mt-1.5 px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-rose-500 transition-all"
                   />
                 </div>
               )}
 
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Patient Witness Signature
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Patient Witness Signature")}</label>
                 <div className="mt-1.5 h-32 bg-slate-50 border border-dashed border-slate-300 rounded-2xl overflow-hidden">
                   <SignaturePad
                     onEnd={(dataUrl) => setDischargeFormData({ ...dischargeFormData, patient_witness: dataUrl })}
@@ -998,17 +966,13 @@ const EMRWorklist: React.FC = () => {
               <button
                 onClick={() => setShowDischargeModal(null)}
                 className="px-6 py-2.5 text-xs font-black text-slate-400 uppercase tracking-widest order-2 sm:order-1"
-              >
-                Cancel
-              </button>
+              >{i18n.t("Cancel")}</button>
               <button
                 onClick={handleMarkForDischarge}
                 disabled={!dischargeFormData.discharge_reason_id || !dischargeFormData.doctor_signature || isSubmittingDischarge}
                 className="bg-rose-600 text-white px-8 py-3.5 md:py-3 rounded-2xl md:rounded-[24px] font-black uppercase text-[10px] md:text-xs tracking-widest shadow-xl shadow-rose-200 hover:bg-rose-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed order-1 sm:order-2 flex items-center justify-center gap-2"
               >
-                {isSubmittingDischarge ? <Loader2 size={16} className="animate-spin" /> : null}
-                Confirm Discharge
-              </button>
+                {isSubmittingDischarge ? <Loader2 size={16} className="animate-spin" /> : null}{i18n.t("Confirm Discharge")}</button>
             </div>
           </div>
         </div>
@@ -1036,8 +1000,8 @@ const EMRWorklist: React.FC = () => {
       <ReversalModal
         isOpen={!!showReversalModal}
         onClose={() => setShowReversalModal(null)}
-        title={showReversalModal?.title || ''}
-        description={showReversalModal?.description || ''}
+        title={i18n.tx(showReversalModal?.title) || ''}
+        description={i18n.tx(showReversalModal?.description) || ''}
         patientName={showReversalModal?.patientName}
         onConfirm={async (reason) => {
           if (!showReversalModal) return;

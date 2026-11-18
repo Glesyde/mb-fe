@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { useNotification } from "../context/NotificationContext";
 import { billingService } from "../services/billing.service";
 import InvoiceDetailsModal from "./InvoiceDetailsModal";
+import { i18n } from "../i18n";
 
 interface PatientInfo {
   id: number;
@@ -683,16 +684,14 @@ const BillingHistory: React.FC = () => {
       <div className="bg-gradient-to-r from-slate-700 to-slate-600 rounded-2xl p-6 shadow-lg">
         <div className="flex gap-3 mb-6">
           <div className="flex-1">
-            <label className="block text-sm font-semibold text-white mb-2">
-              Patient MRN / ID
-            </label>
+            <label className="block text-sm font-semibold text-white mb-2">{i18n.t("Patient MRN / ID")}</label>
             <div className="flex gap-2">
               <input
                 type="text"
                 value={searchMrn}
                 onChange={(e) => setSearchMrn(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSearch()}
-                placeholder="Enter patient MRN (e.g., GSH-2026-000002)"
+                placeholder={i18n.t("Enter patient MRN (e.g., GSH-2026-000002)")}
                 className="flex-1 px-4 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-active0"
               />
               <button
@@ -705,7 +704,7 @@ const BillingHistory: React.FC = () => {
                 ) : (
                   <Search size={16} />
                 )}
-                {loading ? "Searching..." : "Search"}
+                {loading ? i18n.t("Searching...") : i18n.t("Search")}
               </button>
             </div>
           </div>
@@ -715,39 +714,29 @@ const BillingHistory: React.FC = () => {
         {patient && (
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 pt-4 border-t border-slate-500">
             <div className="text-white">
-              <p className="text-xs font-semibold text-slate-200 uppercase tracking-wider">
-                Patient Name
-              </p>
+              <p className="text-xs font-semibold text-slate-200 uppercase tracking-wider">{i18n.t("Patient Name")}</p>
               <p className="text-lg font-bold mt-1">
                 {patient.first_name} {patient.last_name}
               </p>
             </div>
             <div className="text-white">
-              <p className="text-xs font-semibold text-slate-200 uppercase tracking-wider">
-                MRN
-              </p>
+              <p className="text-xs font-semibold text-slate-200 uppercase tracking-wider">{i18n.t("MRN")}</p>
               <p className="text-lg font-mono font-bold mt-1">{patient.mrn}</p>
             </div>
             <div className="text-white">
-              <p className="text-xs font-semibold text-slate-200 uppercase tracking-wider">
-                Age
-              </p>
+              <p className="text-xs font-semibold text-slate-200 uppercase tracking-wider">{i18n.t("Age")}</p>
               <p className="text-lg font-bold mt-1">
                 {patient.age}
               </p>
             </div>
             <div className="text-white">
-              <p className="text-xs font-semibold text-slate-200 uppercase tracking-wider">
-                Gender
-              </p>
+              <p className="text-xs font-semibold text-slate-200 uppercase tracking-wider">{i18n.t("Gender")}</p>
               <p className="text-lg font-bold mt-1">
-                {patient.gender}
+                {i18n.tv(patient.gender)}
               </p>
             </div>
             <div className="text-white">
-              <p className="text-xs font-semibold text-slate-200 uppercase tracking-wider">
-                Contact
-              </p>
+              <p className="text-xs font-semibold text-slate-200 uppercase tracking-wider">{i18n.t("Contact")}</p>
               <p className="text-sm font-semibold mt-1">{patient.phone}</p>
               <p className="text-xs text-slate-200">{patient.email}</p>
             </div>
@@ -761,9 +750,7 @@ const BillingHistory: React.FC = () => {
           <AlertCircle size={20} className="text-red-600 flex-shrink-0" />
           <div>
             <p className="text-sm font-semibold text-red-900">{error}</p>
-            <p className="text-xs text-red-700 mt-1">
-              Please check the MRN and try again
-            </p>
+            <p className="text-xs text-red-700 mt-1">{i18n.t("Please check the MRN and try again")}</p>
           </div>
         </div>
       )}
@@ -777,9 +764,7 @@ const BillingHistory: React.FC = () => {
             <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
               <div className="flex flex-col md:flex-row gap-4 items-end">
                 <div className="flex-1">
-                  <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
-                    Status
-                  </label>
+                  <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">{i18n.t("Status")}</label>
                   <select
                     value={statusFilter}
                     onChange={(e) => {
@@ -788,17 +773,15 @@ const BillingHistory: React.FC = () => {
                     }}
                     className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-active0"
                   >
-                    <option value="ALL">All Statuses</option>
-                    <option value="PAID">Paid</option>
-                    <option value="OPEN">Open</option>
-                    <option value="PENDING">Pending</option>
-                    <option value="SUCCESS">Success</option>
+                    <option value="ALL">{i18n.t("All Statuses")}</option>
+                    <option value="PAID">{i18n.t("Paid")}</option>
+                    <option value="OPEN">{i18n.t("Open")}</option>
+                    <option value="PENDING">{i18n.t("Pending")}</option>
+                    <option value="SUCCESS">{i18n.t("Success")}</option>
                   </select>
                 </div>
                 <div className="flex-1">
-                  <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
-                    Type
-                  </label>
+                  <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">{i18n.t("Type")}</label>
                   <select
                     value={typeFilter}
                     onChange={(e) => {
@@ -807,15 +790,13 @@ const BillingHistory: React.FC = () => {
                     }}
                     className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-active0"
                   >
-                    <option value="ALL">All Types</option>
-                    <option value="INVOICE">Invoices</option>
-                    <option value="ADVANCE">Advances</option>
+                    <option value="ALL">{i18n.t("All Types")}</option>
+                    <option value="INVOICE">{i18n.t("Invoices")}</option>
+                    <option value="ADVANCE">{i18n.t("Advances")}</option>
                   </select>
                 </div>
                 <div className="flex-1">
-                  <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
-                    From Date
-                  </label>
+                  <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">{i18n.t("From Date")}</label>
                   <input
                     type="date"
                     value={dateFilters.startDate}
@@ -830,9 +811,7 @@ const BillingHistory: React.FC = () => {
                   />
                 </div>
                 <div className="flex-1">
-                  <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
-                    To Date
-                  </label>
+                  <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">{i18n.t("To Date")}</label>
                   <input
                     type="date"
                     value={dateFilters.endDate}
@@ -854,9 +833,7 @@ const BillingHistory: React.FC = () => {
                     setPagination({ ...pagination, offset: 0 });
                   }}
                   className="px-4 py-2.5 bg-slate-600 text-white text-sm font-semibold rounded-lg hover:bg-slate-700 transition-colors whitespace-nowrap"
-                >
-                  Clear Filters
-                </button>
+                >{i18n.t("Clear Filters")}</button>
               </div>
             </div>
 
@@ -866,12 +843,9 @@ const BillingHistory: React.FC = () => {
               dateFilters.startDate ||
               dateFilters.endDate) && (
                 <div className="px-4 py-3 bg-brand-active border border-brand-active rounded-lg text-sm text-slate-700">
-                  <span className="font-medium">
-                    Showing{" "}
+                  <span className="font-medium">{i18n.t("Showing")}{" "}
                     {groupedRecords.INVOICE.length +
-                      groupedRecords.ADVANCE.length}{" "}
-                    of {historyData.length} records
-                  </span>
+                      groupedRecords.ADVANCE.length}{" "}{i18n.t("of")}{" "}{historyData.length}{" "}{i18n.t("records")}</span>
                 </div>
               )}
 
@@ -886,11 +860,10 @@ const BillingHistory: React.FC = () => {
                     {expandedGroups.has("INVOICE") ? (
                       <ChevronDown size={18} className="text-brand-primary" />
                     ) : (
-                      <ChevronRight size={18} className="text-slate-600" />
+                      <ChevronRight size={18} className="text-slate-600 rtl:-scale-x-100" />
                     )}
                     <FileText size={18} className="text-brand-primary" />
-                    <span className="font-bold text-slate-900">
-                      Invoices ({groupedRecords.INVOICE.length})
+                    <span className="font-bold text-slate-900">{i18n.t("Invoices (")}{groupedRecords.INVOICE.length})
                     </span>
                   </div>
                   <span className="text-sm font-semibold text-slate-600">
@@ -920,7 +893,7 @@ const BillingHistory: React.FC = () => {
                             ) : (
                               <ChevronRight
                                 size={16}
-                                className="text-slate-600 flex-shrink-0"
+                                className="text-slate-600 flex-shrink-0 rtl:-scale-x-100"
                               />
                             )}
                             <div className="min-w-0 flex-1">
@@ -928,13 +901,13 @@ const BillingHistory: React.FC = () => {
                                 {record.reference}
                               </p>
                               <p className="text-xs text-slate-500 mt-0.5">
-                                {formatDate(record.date)} at{" "}
+                                {formatDate(record.date)}{" "}{i18n.t("at")}{" "}
                                 {formatTime(record.date)}
                               </p>
                             </div>
                           </div>
-                          <div className="flex items-center gap-3 flex-shrink-0 ml-4">
-                            <div className="text-right">
+                          <div className="flex items-center gap-3 flex-shrink-0 ms-4">
+                            <div className="text-end">
                               <p className="font-bold text-slate-900">
                                 {formatCurrency(record.financials.net_payable)}
                               </p>
@@ -943,7 +916,7 @@ const BillingHistory: React.FC = () => {
                                   record.status,
                                 )}`}
                               >
-                                {record.status}
+                                {i18n.tv(record.status)}
                               </span>
                             </div>
                           </div>
@@ -954,36 +927,28 @@ const BillingHistory: React.FC = () => {
                           <div className="bg-slate-50 px-4 py-4 border-t border-slate-200">
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
                               <div>
-                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                                  Encounter
-                                </p>
+                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Encounter")}</p>
                                 <p className="font-semibold text-slate-900 mt-1">
-                                  {record.encounter.number || "N/A"}
+                                  {record.encounter.number || i18n.t("N/A")}
                                 </p>
                                 <p className="text-xs text-slate-500">
-                                  ({record.encounter.type || "N/A"})
+                                  ({record.encounter.type || i18n.t("N/A")})
                                 </p>
                               </div>
                               <div>
-                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                                  Doctor
-                                </p>
+                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Doctor")}</p>
                                 <p className="font-semibold text-slate-900 mt-1">
-                                  {record.doctor || "N/A"}
+                                  {record.doctor || i18n.t("N/A")}
                                 </p>
                               </div>
                               <div>
-                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                                  Payer
-                                </p>
+                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Payer")}</p>
                                 <p className="font-semibold text-slate-900 mt-1">
                                   {record.payer.name}
                                 </p>
                               </div>
                               <div>
-                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                                  Gross Amount
-                                </p>
+                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Gross Amount")}</p>
                                 <p className="font-semibold text-slate-900 mt-1">
                                   {formatCurrency(
                                     record.financials.total_gross,
@@ -991,18 +956,14 @@ const BillingHistory: React.FC = () => {
                                 </p>
                               </div>
                               <div>
-                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                                  Discount
-                                </p>
+                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Discount")}</p>
                                 <p className="font-semibold text-slate-900 mt-1">
                                   {formatCurrency(record.financials.discount)}
                                 </p>
                               </div>
 
                               <div>
-                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                                  Paid Amount
-                                </p>
+                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Paid Amount")}</p>
                                 <p className="font-bold text-emerald-600 mt-1">
                                   {formatCurrency(
                                     record.financials.amount_paid !== undefined
@@ -1014,9 +975,7 @@ const BillingHistory: React.FC = () => {
                                 </p>
                               </div>
                               <div>
-                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                                  Outstanding
-                                </p>
+                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Outstanding")}</p>
                                 <p className="font-bold text-red-600 mt-1">
                                   {formatCurrency(
                                     record.financials.outstanding,
@@ -1032,9 +991,7 @@ const BillingHistory: React.FC = () => {
                                 }}
                                 className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold text-brand-primary hover:bg-brand-active rounded-lg transition-colors border border-brand-active"
                               >
-                                <Eye size={14} />
-                                View Details
-                              </button>
+                                <Eye size={14} />{i18n.t("View Details")}</button>
                               <button
                                 onClick={() =>
                                   window.open(
@@ -1044,9 +1001,7 @@ const BillingHistory: React.FC = () => {
                                 }
                                 className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-200 rounded-lg transition-colors border border-slate-200"
                               >
-                                <Printer size={14} />
-                                Print Receipt
-                              </button>
+                                <Printer size={14} />{i18n.t("Print Receipt")}</button>
                               {record.status === "PAID" && (
                                 <button
                                   onClick={() => {
@@ -1055,9 +1010,7 @@ const BillingHistory: React.FC = () => {
                                   }}
                                   className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors border border-indigo-100"
                                 >
-                                  <Tag size={14} />
-                                  Request Discount
-                                </button>
+                                  <Tag size={14} />{i18n.t("Request Discount")}</button>
                               )}
                               {record.financials.outstanding > 0 && record.encounter?.number && (
                                 <button
@@ -1070,9 +1023,7 @@ const BillingHistory: React.FC = () => {
                                     <Loader2 size={14} className="animate-spin" />
                                   ) : (
                                     <CheckCircle2 size={14} />
-                                  )}
-                                  Settle with Advance
-                                </button>
+                                  )}{i18n.t("Settle with Advance")}</button>
                               )}
                               {record.status !== "CANCELLED" && (
                                 <button
@@ -1082,9 +1033,7 @@ const BillingHistory: React.FC = () => {
                                   }}
                                   className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 rounded-lg transition-colors border border-rose-100"
                                 >
-                                  <Ban size={14} />
-                                  Cancel Invoice
-                                </button>
+                                  <Ban size={14} />{i18n.t("Cancel Invoice")}</button>
                               )}
 
                               {record.type === "INVOICE" && record.status !== "CANCELLED" && (
@@ -1095,9 +1044,7 @@ const BillingHistory: React.FC = () => {
                                   }}
                                   className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold text-amber-600 hover:bg-amber-50 rounded-lg transition-colors border border-amber-100"
                                 >
-                                  <Unlock size={14} />
-                                  Reopen (Late Charge)
-                                </button>
+                                  <Unlock size={14} />{i18n.t("Reopen (Late Charge)")}</button>
                               )}
 
                             </div>
@@ -1121,11 +1068,10 @@ const BillingHistory: React.FC = () => {
                     {expandedGroups.has("ADVANCE") ? (
                       <ChevronDown size={18} className="text-purple-600" />
                     ) : (
-                      <ChevronRight size={18} className="text-slate-600" />
+                      <ChevronRight size={18} className="text-slate-600 rtl:-scale-x-100" />
                     )}
                     <DollarSign size={18} className="text-purple-600" />
-                    <span className="font-bold text-slate-900">
-                      Advances ({groupedRecords.ADVANCE.length})
+                    <span className="font-bold text-slate-900">{i18n.t("Advances (")}{groupedRecords.ADVANCE.length})
                     </span>
                   </div>
                   <span className="text-sm font-semibold text-slate-600">
@@ -1155,7 +1101,7 @@ const BillingHistory: React.FC = () => {
                             ) : (
                               <ChevronRight
                                 size={16}
-                                className="text-slate-600 flex-shrink-0"
+                                className="text-slate-600 flex-shrink-0 rtl:-scale-x-100"
                               />
                             )}
                             <div className="min-w-0 flex-1">
@@ -1163,13 +1109,13 @@ const BillingHistory: React.FC = () => {
                                 {record.reference}
                               </p>
                               <p className="text-xs text-slate-500 mt-0.5">
-                                {formatDate(record.date)} at{" "}
+                                {formatDate(record.date)}{" "}{i18n.t("at")}{" "}
                                 {formatTime(record.date)}
                               </p>
                             </div>
                           </div>
-                          <div className="flex items-center gap-3 flex-shrink-0 ml-4">
-                            <div className="text-right">
+                          <div className="flex items-center gap-3 flex-shrink-0 ms-4">
+                            <div className="text-end">
                               <p className="font-bold text-slate-900">
                                 {formatCurrency(record.financials.total_gross)}
                               </p>
@@ -1178,7 +1124,7 @@ const BillingHistory: React.FC = () => {
                                   record.status,
                                 )}`}
                               >
-                                {record.status}
+                                {i18n.tv(record.status)}
                               </span>
                             </div>
                           </div>
@@ -1189,17 +1135,13 @@ const BillingHistory: React.FC = () => {
                           <div className="bg-slate-50 px-4 py-4 border-t border-slate-200">
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
                               <div>
-                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                                  Payer
-                                </p>
+                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Payer")}</p>
                                 <p className="font-semibold text-slate-900 mt-1">
                                   {record.payer.name}
                                 </p>
                               </div>
                               <div>
-                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                                  Amount
-                                </p>
+                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Amount")}</p>
                                 <p className="font-semibold text-slate-900 mt-1">
                                   {formatCurrency(
                                     record.financials.total_gross,
@@ -1207,9 +1149,7 @@ const BillingHistory: React.FC = () => {
                                 </p>
                               </div>
                               <div>
-                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                                  Paid Amount
-                                </p>
+                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Paid Amount")}</p>
                                 <p className="font-bold text-emerald-600 mt-1">
                                   {formatCurrency(
                                     record.financials.amount_paid !== undefined
@@ -1221,9 +1161,7 @@ const BillingHistory: React.FC = () => {
                                 </p>
                               </div>
                               <div>
-                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                                  Outstanding
-                                </p>
+                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Outstanding")}</p>
                                 <p className="font-bold text-red-600 mt-1">
                                   {formatCurrency(
                                     record.financials.outstanding,
@@ -1239,9 +1177,7 @@ const BillingHistory: React.FC = () => {
                                 }}
                                 className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold text-brand-primary hover:bg-brand-active rounded-lg transition-colors border border-brand-active"
                               >
-                                <Eye size={14} />
-                                View Details
-                              </button>
+                                <Eye size={14} />{i18n.t("View Details")}</button>
                               <button
                                 onClick={() =>
                                   window.open(
@@ -1251,9 +1187,7 @@ const BillingHistory: React.FC = () => {
                                 }
                                 className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-200 rounded-lg transition-colors border border-slate-200"
                               >
-                                <Printer size={14} />
-                                Print Receipt
-                              </button>
+                                <Printer size={14} />{i18n.t("Print Receipt")}</button>
                             </div>
                           </div>
                         )}
@@ -1267,14 +1201,10 @@ const BillingHistory: React.FC = () => {
             {/* Pagination Controls */}
             {pagination.totalRecords > 0 && (
               <div className="bg-white rounded-xl border border-slate-200 p-4 flex items-center justify-between flex-wrap gap-4">
-                <div className="text-sm text-slate-600">
-                  Showing <span className="font-semibold">{startRecord}</span>{" "}
-                  to <span className="font-semibold">{endRecord}</span> of{" "}
+                <div className="text-sm text-slate-600">{i18n.t("Showing")}{" "}<span className="font-semibold">{startRecord}</span>{" "}{i18n.t("to")}{" "}<span className="font-semibold">{endRecord}</span>{" "}{i18n.t("of")}{" "}
                   <span className="font-semibold">
                     {pagination.totalRecords}
-                  </span>{" "}
-                  records
-                </div>
+                  </span>{" "}{i18n.t("records")}</div>
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() =>
@@ -1284,11 +1214,8 @@ const BillingHistory: React.FC = () => {
                     }
                     disabled={pagination.offset === 0}
                     className="px-3 py-2 text-sm font-semibold text-slate-600 border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    Previous
-                  </button>
-                  <div className="text-sm font-semibold text-slate-600">
-                    Page <span className="text-brand-primary">{currentPage}</span> of{" "}
+                  >{i18n.t("Previous")}</button>
+                  <div className="text-sm font-semibold text-slate-600">{i18n.t("Page")}{" "}<span className="text-brand-primary">{currentPage}</span>{" "}{i18n.t("of")}{" "}
                     <span className="text-brand-primary">{totalPages}</span>
                   </div>
                   <button
@@ -1302,14 +1229,10 @@ const BillingHistory: React.FC = () => {
                     }
                     disabled={currentPage >= totalPages}
                     className="px-3 py-2 text-sm font-semibold text-slate-600 border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    Next
-                  </button>
+                  >{i18n.t("Next")}</button>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold text-slate-600">
-                    Records per page:
-                  </span>
+                  <span className="text-xs font-semibold text-slate-600">{i18n.t("Records per page:")}</span>
                   <select
                     value={pagination.limit}
                     onChange={(e) =>
@@ -1331,46 +1254,34 @@ const BillingHistory: React.FC = () => {
             {financialPosition && (
               <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
                 <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-                  <DollarSign size={18} className="text-purple-600" />
-                  Financial Position
-                </h3>
+                  <DollarSign size={18} className="text-purple-600" />{i18n.t("Financial Position")}</h3>
                 <div className="space-y-3">
                   <div className="bg-slate-50 rounded-lg p-3">
-                    <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                      Invoice Gross
-                    </p>
+                    <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Invoice Gross")}</p>
                     <p className="text-xl font-bold text-slate-900 mt-1">
                       {formatCurrency(financialPosition.invoice_gross)}
                     </p>
                   </div>
                   <div className="bg-slate-50 rounded-lg p-3">
-                    <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                      Invoice Discount
-                    </p>
+                    <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Invoice Discount")}</p>
                     <p className="text-lg font-bold text-slate-800 mt-1">
                       {formatCurrency(financialPosition.invoice_discount)}
                     </p>
                   </div>
                   <div className="bg-emerald-50 rounded-lg p-3 border border-emerald-100">
-                    <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wider">
-                      Invoice Paid
-                    </p>
+                    <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wider">{i18n.t("Invoice Paid")}</p>
                     <p className="text-xl font-bold text-emerald-700 mt-1">
                       {formatCurrency(financialPosition.invoice_paid)}
                     </p>
                   </div>
                   <div className="bg-red-50 rounded-lg p-3 border border-red-100">
-                    <p className="text-xs font-semibold text-red-600 uppercase tracking-wider">
-                      Invoice Outstanding
-                    </p>
+                    <p className="text-xs font-semibold text-red-600 uppercase tracking-wider">{i18n.t("Invoice Outstanding")}</p>
                     <p className="text-xl font-bold text-red-700 mt-1">
                       {formatCurrency(financialPosition.invoice_outstanding)}
                     </p>
                   </div>
                   <div className="bg-purple-50 rounded-lg p-3 border border-purple-100">
-                    <p className="text-xs font-semibold text-purple-600 uppercase tracking-wider">
-                      Available Advance
-                    </p>
+                    <p className="text-xs font-semibold text-purple-600 uppercase tracking-wider">{i18n.t("Available Advance")}</p>
                     <p className="text-xl font-bold text-purple-700 mt-1">
                       {formatCurrency(financialPosition.advance_available)}
                     </p>
@@ -1383,38 +1294,28 @@ const BillingHistory: React.FC = () => {
               <>
                 <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
                   <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-                    <DollarSign size={18} className="text-brand-primary" />
-                    Filtered Summary
-                  </h3>
+                    <DollarSign size={18} className="text-brand-primary" />{i18n.t("Filtered Summary")}</h3>
                   <div className="space-y-3">
                     <div className="bg-slate-50 rounded-lg p-3">
-                      <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                        Invoice Gross
-                      </p>
+                      <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{i18n.t("Invoice Gross")}</p>
                       <p className="text-xl font-bold text-slate-900 mt-1">
                         {formatCurrency(summary.invoice_gross)}
                       </p>
                     </div>
                     <div className="bg-emerald-50 rounded-lg p-3 border border-emerald-100">
-                      <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wider">
-                        Invoice Paid
-                      </p>
+                      <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wider">{i18n.t("Invoice Paid")}</p>
                       <p className="text-xl font-bold text-emerald-700 mt-1">
                         {formatCurrency(summary.invoice_paid)}
                       </p>
                     </div>
                     <div className="bg-red-50 rounded-lg p-3 border border-red-100">
-                      <p className="text-xs font-semibold text-red-600 uppercase tracking-wider">
-                        Invoice Outstanding
-                      </p>
+                      <p className="text-xs font-semibold text-red-600 uppercase tracking-wider">{i18n.t("Invoice Outstanding")}</p>
                       <p className="text-xl font-bold text-red-700 mt-1">
                         {formatCurrency(summary.invoice_outstanding)}
                       </p>
                     </div>
                     <div className="bg-purple-50 rounded-lg p-3 border border-purple-100">
-                      <p className="text-xs font-semibold text-purple-600 uppercase tracking-wider">
-                        Available Advance
-                      </p>
+                      <p className="text-xs font-semibold text-purple-600 uppercase tracking-wider">{i18n.t("Available Advance")}</p>
                       <p className="text-xl font-bold text-purple-700 mt-1">
                         {formatCurrency(summary.advance_available)}
                       </p>
@@ -1424,40 +1325,34 @@ const BillingHistory: React.FC = () => {
 
                 {/* Statistics Card */}
               <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
-                <h3 className="font-bold text-slate-900 mb-4">Records</h3>
+                <h3 className="font-bold text-slate-900 mb-4">{i18n.t("Records")}</h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center py-2 border-b border-slate-200">
-                    <span className="text-sm text-slate-600">
-                      Total Records
-                    </span>
+                    <span className="text-sm text-slate-600">{i18n.t("Total Records")}</span>
                     <span className="font-bold text-slate-900">
                       {summary.invoiceCount + summary.advanceCount}
                     </span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b border-slate-200">
-                    <span className="text-sm text-slate-600">Invoices</span>
+                    <span className="text-sm text-slate-600">{i18n.t("Invoices")}</span>
                     <span className="font-bold text-brand-primary">
                       {summary.invoiceCount}
                     </span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b border-slate-200">
-                    <span className="text-sm text-slate-600">Advances</span>
+                    <span className="text-sm text-slate-600">{i18n.t("Advances")}</span>
                     <span className="font-bold text-purple-600">
                       {summary.advanceCount}
                     </span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b border-slate-200">
-                    <span className="text-sm text-emerald-600 font-semibold">
-                      Paid
-                    </span>
+                    <span className="text-sm text-emerald-600 font-semibold">{i18n.t("Paid")}</span>
                     <span className="font-bold text-emerald-600">
                       {summary.paidCount}
                     </span>
                   </div>
                   <div className="flex justify-between items-center py-2">
-                    <span className="text-sm text-amber-600 font-semibold">
-                      Pending
-                    </span>
+                    <span className="text-sm text-amber-600 font-semibold">{i18n.t("Pending")}</span>
                     <span className="font-bold text-amber-600">
                       {summary.pendingCount}
                     </span>
@@ -1474,12 +1369,8 @@ const BillingHistory: React.FC = () => {
       {patient && historyData.length === 0 && !loading && (
         <div className="bg-slate-50 rounded-xl border border-slate-200 p-12 text-center">
           <AlertCircle size={48} className="mx-auto text-slate-300 mb-4" />
-          <p className="text-lg font-semibold text-slate-700 mb-2">
-            No Billing History Found
-          </p>
-          <p className="text-sm text-slate-600">
-            This patient has no billing records in the system.
-          </p>
+          <p className="text-lg font-semibold text-slate-700 mb-2">{i18n.t("No Billing History Found")}</p>
+          <p className="text-sm text-slate-600">{i18n.t("This patient has no billing records in the system.")}</p>
         </div>
       )}
 
@@ -1487,13 +1378,8 @@ const BillingHistory: React.FC = () => {
       {!patient && !error && !loading && (
         <div className="bg-brand-active rounded-xl border border-brand-active p-12 text-center">
           <Search size={48} className="mx-auto text-brand-primary mb-4" />
-          <p className="text-lg font-semibold text-brand-primary mb-2">
-            Search for Patient Billing History
-          </p>
-          <p className="text-sm text-brand-primary">
-            Enter a patient MRN to view their complete billing history including
-            invoices and advance payments.
-          </p>
+          <p className="text-lg font-semibold text-brand-primary mb-2">{i18n.t("Search for Patient Billing History")}</p>
+          <p className="text-sm text-brand-primary">{i18n.t("Enter a patient MRN to view their complete billing history including invoices and advance payments.")}</p>
         </div>
       )}
 
@@ -1519,9 +1405,7 @@ const BillingHistory: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
             <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
               <h3 className="text-lg font-black text-slate-800 tracking-tight flex items-center gap-2">
-                <Tag className="text-indigo-600" size={20} />
-                Request Discount
-              </h3>
+                <Tag className="text-indigo-600" size={20} />{i18n.t("Request Discount")}</h3>
               <button
                 onClick={() => setShowDiscountModal(false)}
                 className="text-slate-400 hover:text-slate-600 transition-colors p-1"
@@ -1531,40 +1415,36 @@ const BillingHistory: React.FC = () => {
             </div>
             <div className="p-6 space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  Discount Type
-                </label>
+                <label className="block text-xs font-bold text-slate-700 mb-1">{i18n.t("Discount Type")}</label>
                 <div className="relative">
                   <select
                     value={discountType}
                     onChange={(e) => setDiscountType(e.target.value as any)}
-                    className="w-full pl-3 pr-8 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 text-sm font-medium text-slate-800 appearance-none bg-white"
+                    className="w-full ps-3 pe-8 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 text-sm font-medium text-slate-800 appearance-none bg-white"
                   >
-                    <option value="PERCENTAGE">Percentage (%)</option>
-                    <option value="FLAT">Flat Amount</option>
-                    <option value="WAIVER">Full Waiver</option>
+                    <option value="PERCENTAGE">{i18n.t("Percentage (%)")}</option>
+                    <option value="FLAT">{i18n.t("Flat Amount")}</option>
+                    <option value="WAIVER">{i18n.t("Full Waiver")}</option>
                   </select>
                   <ChevronDown
                     size={16}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+                    className="absolute end-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
                   />
                 </div>
               </div>
 
               {discountType !== "WAIVER" && (
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Value
-                  </label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">{i18n.t("Value")}</label>
                   <div className="relative">
                     <input
                       type="number"
                       value={discountValue}
                       onChange={(e) => setDiscountValue(Number(e.target.value))}
-                      className="w-full pl-3 pr-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 text-sm font-medium text-slate-800"
-                      placeholder={discountType === "PERCENTAGE" ? "e.g. 10" : "e.g. 5000"}
+                      className="w-full ps-3 pe-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 text-sm font-medium text-slate-800"
+                      placeholder={discountType === "PERCENTAGE" ? i18n.t("e.g. 10") : i18n.t("e.g. 5000")}
                     />
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">
+                    <div className="absolute end-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">
                       {discountType === "PERCENTAGE" ? "%" : "₦"}
                     </div>
                   </div>
@@ -1572,15 +1452,13 @@ const BillingHistory: React.FC = () => {
               )}
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  Reason / Justification
-                </label>
+                <label className="block text-xs font-bold text-slate-700 mb-1">{i18n.t("Reason / Justification")}</label>
                 <textarea
                   value={discountReason}
                   onChange={(e) => setDiscountReason(e.target.value)}
                   className="w-full p-3 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 text-sm resize-none"
                   rows={3}
-                  placeholder="Provide a reason for this request..."
+                  placeholder={i18n.t("Provide a reason for this request...")}
                 />
               </div>
             </div>
@@ -1588,17 +1466,13 @@ const BillingHistory: React.FC = () => {
               <button
                 onClick={() => setShowDiscountModal(false)}
                 className="px-4 py-2 text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors"
-              >
-                Cancel
-              </button>
+              >{i18n.t("Cancel")}</button>
               <button
                 onClick={handleRequestDiscount}
                 disabled={isRequestingDiscount}
                 className="px-4 py-2 text-xs font-bold text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 shadow-sm shadow-indigo-200 transition-all flex items-center gap-2 disabled:opacity-50"
               >
-                {isRequestingDiscount && <Loader2 size={14} className="animate-spin" />}
-                Submit Request
-              </button>
+                {isRequestingDiscount && <Loader2 size={14} className="animate-spin" />}{i18n.t("Submit Request")}</button>
             </div>
           </div>
         </div>
@@ -1610,9 +1484,7 @@ const BillingHistory: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
             <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-rose-50">
               <h3 className="text-lg font-black text-rose-900 tracking-tight flex items-center gap-2">
-                <Ban className="text-rose-600" size={20} />
-                Cancel Invoice
-              </h3>
+                <Ban className="text-rose-600" size={20} />{i18n.t("Cancel Invoice")}</h3>
               <button
                 onClick={() => setShowCancelModal(false)}
                 className="text-slate-400 hover:text-slate-600 transition-colors p-1"
@@ -1622,28 +1494,24 @@ const BillingHistory: React.FC = () => {
             </div>
             <div className="p-6 space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  Reason for Cancellation
-                </label>
+                <label className="block text-xs font-bold text-slate-700 mb-1">{i18n.t("Reason for Cancellation")}</label>
                 <input
                   type="text"
                   value={cancelReason}
                   onChange={(e) => setCancelReason(e.target.value)}
                   className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-rose-500 text-sm font-medium text-slate-800"
-                  placeholder="e.g. Duplicate invoice"
+                  placeholder={i18n.t("e.g. Duplicate invoice")}
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  Additional Notes
-                </label>
+                <label className="block text-xs font-bold text-slate-700 mb-1">{i18n.t("Additional Notes")}</label>
                 <textarea
                   value={cancelNotes}
                   onChange={(e) => setCancelNotes(e.target.value)}
                   className="w-full p-3 border border-slate-200 rounded-xl focus:outline-none focus:border-rose-500 text-sm resize-none"
                   rows={2}
-                  placeholder="Testing invoice cancellation workflow..."
+                  placeholder={i18n.t("Testing invoice cancellation workflow...")}
                 />
               </div>
 
@@ -1653,7 +1521,7 @@ const BillingHistory: React.FC = () => {
                     {cancelReverse && <CheckCircle2 size={14} className="text-white" />}
                   </div>
                   <input type="checkbox" className="hidden" checked={cancelReverse} onChange={(e) => setCancelReverse(e.target.checked)} />
-                  <span className="text-sm font-bold text-slate-700">Reverse Payments</span>
+                  <span className="text-sm font-bold text-slate-700">{i18n.t("Reverse Payments")}</span>
                 </label>
                 
                 <label className="flex items-center gap-3 cursor-pointer group">
@@ -1661,7 +1529,7 @@ const BillingHistory: React.FC = () => {
                     {cancelRefund && <CheckCircle2 size={14} className="text-white" />}
                   </div>
                   <input type="checkbox" className="hidden" checked={cancelRefund} onChange={(e) => setCancelRefund(e.target.checked)} />
-                  <span className="text-sm font-bold text-slate-700">Generate Refund Request</span>
+                  <span className="text-sm font-bold text-slate-700">{i18n.t("Generate Refund Request")}</span>
                 </label>
               </div>
             </div>
@@ -1669,17 +1537,13 @@ const BillingHistory: React.FC = () => {
               <button
                 onClick={() => setShowCancelModal(false)}
                 className="px-4 py-2 text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors"
-              >
-                Close
-              </button>
+              >{i18n.t("Close")}</button>
               <button
                 onClick={handleCancelInvoice}
                 disabled={isCancelling}
                 className="px-4 py-2 text-xs font-bold text-white bg-rose-600 rounded-xl hover:bg-rose-700 shadow-sm shadow-rose-200 transition-all flex items-center gap-2 disabled:opacity-50"
               >
-                {isCancelling && <Loader2 size={14} className="animate-spin" />}
-                Confirm Cancellation
-              </button>
+                {isCancelling && <Loader2 size={14} className="animate-spin" />}{i18n.t("Confirm Cancellation")}</button>
             </div>
           </div>
         </div>
@@ -1691,9 +1555,7 @@ const BillingHistory: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
             <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-amber-50">
               <h3 className="text-lg font-black text-amber-900 tracking-tight flex items-center gap-2">
-                <Unlock className="text-amber-600" size={20} />
-                Reopen Invoice
-              </h3>
+                <Unlock className="text-amber-600" size={20} />{i18n.t("Reopen Invoice")}</h3>
               <button
                 onClick={() => setShowReopenModal(false)}
                 className="text-slate-400 hover:text-slate-600 transition-colors p-1"
@@ -1703,44 +1565,38 @@ const BillingHistory: React.FC = () => {
             </div>
             
             <div className="p-6 space-y-4">
-              <div className="bg-amber-50 text-amber-800 p-3 rounded-xl text-xs font-medium border border-amber-200">
-                This action will cancel the current invoice and refund all settled payments into the patient's advance wallet. It will rollback the discharge workflow to allow late charges to be posted.
-              </div>
+              <div className="bg-amber-50 text-amber-800 p-3 rounded-xl text-xs font-medium border border-amber-200">{i18n.t("This action will cancel the current invoice and refund all settled payments into the patient's advance wallet. It will rollback the discharge workflow to allow late charges to be posted.")}</div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  Audit Reason (Required) <span className="text-red-500">*</span>
+                <label className="block text-xs font-bold text-slate-700 mb-1">{i18n.t("Audit Reason (Required)")}{" "}<span className="text-red-500">*</span>
                 </label>
                 <textarea
                   value={reopenReason}
                   onChange={(e) => setReopenReason(e.target.value)}
                   className="w-full p-3 border border-slate-200 rounded-xl focus:outline-none focus:border-amber-500 text-sm resize-none"
                   rows={3}
-                  placeholder="e.g. Readmitting to post unbilled CBC lab results..."
+                  placeholder={i18n.t("e.g. Readmitting to post unbilled CBC lab results...")}
                 />
               </div>
 
               {/* Dynamic Bed Selection UI - Only visible if old bed is taken */}
               {needsNewBed && (
                 <div className="mt-4 p-4 border border-rose-200 bg-rose-50 rounded-xl">
-                    <label className="block text-xs font-bold text-rose-800 mb-1">
-                      New Bed Assignment Required <span className="text-red-500">*</span>
+                    <label className="block text-xs font-bold text-rose-800 mb-1">{i18n.t("New Bed Assignment Required")}{" "}<span className="text-red-500">*</span>
                     </label>
-                    <p className="text-xs text-rose-600 mb-3">
-                        The patient's previous bed is currently occupied by another patient. Please assign them to an available bed to complete the readmission.
-                    </p>
+                    <p className="text-xs text-rose-600 mb-3">{i18n.t("The patient's previous bed is currently occupied by another patient. Please assign them to an available bed to complete the readmission.")}</p>
                     <select
                       value={selectedNewBedId}
                       onChange={(e) => setSelectedNewBedId(e.target.value ? Number(e.target.value) : "")}
                       className="w-full px-3 py-2 border border-rose-200 rounded-lg focus:outline-none focus:border-rose-500 text-sm font-medium text-slate-800 bg-white"
                     >
-                      <option value="">-- Select Available Bed --</option>
+                      <option value="">{i18n.t("-- Select Available Bed --")}</option>
                       {/* Map your available beds here, e.g.: */}
                       {/* {availableBeds.map(bed => <option key={bed.id} value={bed.id}>{bed.bed_number} ({bed.ward_name})</option>)} */}
                       
                       {/* Temporary Mock Data for testing */}
-                      <option value="1">Bed A1 (General Ward)</option>
-                      <option value="2">Bed A2 (General Ward)</option>
+                      <option value="1">{i18n.t("Bed A1 (General Ward)")}</option>
+                      <option value="2">{i18n.t("Bed A2 (General Ward)")}</option>
                     </select>
                 </div>
               )}
@@ -1751,17 +1607,13 @@ const BillingHistory: React.FC = () => {
               <button
                 onClick={() => setShowReopenModal(false)}
                 className="px-4 py-2 text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors"
-              >
-                Cancel
-              </button>
+              >{i18n.t("Cancel")}</button>
               <button
                 onClick={handleReopenInvoice}
                 disabled={isReopening || !reopenReason.trim()}
                 className="px-4 py-2 text-xs font-bold text-white bg-amber-600 rounded-xl hover:bg-amber-700 shadow-sm shadow-amber-200 transition-all flex items-center gap-2 disabled:opacity-50"
               >
-                {isReopening && <Loader2 size={14} className="animate-spin" />}
-                Confirm Reopen
-              </button>
+                {isReopening && <Loader2 size={14} className="animate-spin" />}{i18n.t("Confirm Reopen")}</button>
             </div>
           </div>
         </div>

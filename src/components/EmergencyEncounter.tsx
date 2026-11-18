@@ -24,6 +24,7 @@ import { erdService } from '../services/erd.service';
 import { wardService } from '../services/ward.service';
 import DischargeSummaryModal from './DischargeSummaryModal';
 import SignaturePad from './SignaturePad';
+import { i18n } from "../i18n";
 
 interface EDEncounter {
   id: string | number; // Updated to support number IDs from API
@@ -88,7 +89,7 @@ const EmergencyEncounter: React.FC = () => {
 
   const handleFinalize = async () => {
     if (!disposition) {
-      alert("Please select a disposition (Admit/Discharge/Transfer) before finalizing.");
+      alert(i18n.t("Please select a disposition (Admit/Discharge/Transfer) before finalizing."));
       return;
     }
 
@@ -130,11 +131,11 @@ const EmergencyEncounter: React.FC = () => {
 
   const handleMarkForDischarge = async () => {
     if (!dischargeFormData.discharge_reason_id) {
-      alert("Please select a discharge reason");
+      alert(i18n.t("Please select a discharge reason"));
       return;
     }
     if (!dischargeFormData.doctor_signature) {
-      alert("Doctor signature is required");
+      alert(i18n.t("Doctor signature is required"));
       return;
     }
 
@@ -153,21 +154,20 @@ const EmergencyEncounter: React.FC = () => {
         <div className="bg-white border border-slate-200 rounded-[40px] p-6 shadow-sm flex flex-col flex-1 overflow-hidden">
           <div className="mb-6">
             <h3 className="text-sm font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
-              <Activity size={16} className="text-red-600" /> My Active Cases
-            </h3>
-            <p className="text-[10px] font-bold text-slate-400 mt-1">Assigned clinical encounters</p>
+              <Activity size={16} className="text-red-600" />{" "}{i18n.t("My Active Cases")}</h3>
+            <p className="text-[10px] font-bold text-slate-400 mt-1">{i18n.t("Assigned clinical encounters")}</p>
           </div>
           
           <div className="relative mb-6 group">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-red-600 transition-colors" size={16} />
+            <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-red-600 transition-colors" size={16} />
             <input 
               type="text" 
-              placeholder="Quick filter..." 
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold outline-none focus:bg-white transition-all"
+              placeholder={i18n.t("Quick filter...")} 
+              className="w-full ps-10 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold outline-none focus:bg-white transition-all"
             />
           </div>
 
-          <div className="space-y-3 flex-1 overflow-y-auto no-scrollbar pr-1">
+          <div className="space-y-3 flex-1 overflow-y-auto no-scrollbar pe-1">
             {MOCK_ACTIVE_PATIENTS.map(e => (
               <div 
                 key={e.id}
@@ -209,14 +209,14 @@ const EmergencyEncounter: React.FC = () => {
                   <Stethoscope size={40} />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-black text-slate-800 tracking-tight leading-tight">Rapid Trauma Assessment</h2>
+                  <h2 className="text-2xl font-black text-slate-800 tracking-tight leading-tight">{i18n.t("Rapid Trauma Assessment")}</h2>
                   <p className="text-sm text-slate-500 font-bold uppercase tracking-[0.15em] mt-1">{selected.patientName} • {selected.mrn}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
                  <div className="flex flex-col items-end">
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Triage Priority</span>
-                    <span className="text-sm font-black text-red-600 uppercase">Immediate / Red</span>
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Triage Priority")}</span>
+                    <span className="text-sm font-black text-red-600 uppercase">{i18n.t("Immediate / Red")}</span>
                  </div>
               </div>
             </div>
@@ -224,7 +224,7 @@ const EmergencyEncounter: React.FC = () => {
             <div className="p-10 space-y-10 overflow-y-auto no-scrollbar">
               {/* Primary Survey (ABCDE) */}
               <div className="space-y-6">
-                <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] border-l-4 border-red-500 pl-4">Primary Survey (ABC)</h3>
+                <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] border-s-4 border-red-500 ps-4">{i18n.t("Primary Survey (ABC)")}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {[
                     { key: 'A' as const, label: 'Airway', desc: 'Patent & Clear', icon: Wind },
@@ -234,7 +234,7 @@ const EmergencyEncounter: React.FC = () => {
                     <button 
                       key={item.key}
                       onClick={() => toggleSurvey(item.key)}
-                      className={`flex items-center gap-4 p-5 rounded-[28px] border-2 transition-all text-left group
+                      className={`flex items-center gap-4 p-5 rounded-[28px] border-2 transition-all text-start group
                         ${survey[item.key] 
                           ? 'bg-emerald-50 border-emerald-500 text-emerald-700 shadow-md shadow-emerald-100' 
                           : 'bg-slate-50 border-slate-100 hover:border-slate-300 text-slate-400'}
@@ -245,10 +245,10 @@ const EmergencyEncounter: React.FC = () => {
                       </div>
                       <div>
                         <p className="text-[10px] font-black uppercase tracking-widest opacity-60 leading-none mb-1">{item.key}</p>
-                        <p className="text-base font-black leading-none mb-1">{item.label}</p>
-                        <p className="text-[10px] font-bold">{survey[item.key] ? 'Status Verified' : item.desc}</p>
+                        <p className="text-base font-black leading-none mb-1">{i18n.tx(item.label)}</p>
+                        <p className="text-[10px] font-bold">{survey[item.key] ? i18n.t("Status Verified") : item.desc}</p>
                       </div>
-                      {survey[item.key] && <CheckCircle2 size={20} className="ml-auto text-emerald-600 animate-in zoom-in duration-300" />}
+                      {survey[item.key] && <CheckCircle2 size={20} className="ms-auto text-emerald-600 animate-in zoom-in duration-300" />}
                     </button>
                   ))}
                 </div>
@@ -257,8 +257,8 @@ const EmergencyEncounter: React.FC = () => {
               {/* Quick Orders */}
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] border-l-4 border-red-500 pl-4">Rapid Order Entry</h3>
-                  <span className="text-[9px] font-black text-brand-active0 bg-brand-active px-2 py-0.5 rounded uppercase tracking-widest">Instant Fulfillment</span>
+                  <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] border-s-4 border-red-500 ps-4">{i18n.t("Rapid Order Entry")}</h3>
+                  <span className="text-[9px] font-black text-brand-active0 bg-brand-active px-2 py-0.5 rounded uppercase tracking-widest">{i18n.t("Instant Fulfillment")}</span>
                 </div>
                 <div className="flex flex-wrap gap-3">
                   {[
@@ -276,43 +276,40 @@ const EmergencyEncounter: React.FC = () => {
                       `}
                     >
                       {activeOrders.includes(order.label) ? <CheckCircle2 size={14}/> : <order.icon size={14} />}
-                      {order.label}
+                      {i18n.tx(order.label)}
                     </button>
                   ))}
                   <button className="flex items-center gap-2 px-5 py-3 rounded-2xl border-2 border-dashed border-slate-200 text-slate-400 hover:border-brand-active0 hover:text-brand-primary transition-all font-black text-xs uppercase tracking-widest">
-                    <Plus size={14} /> Other
-                  </button>
+                    <Plus size={14} />{" "}{i18n.t("Other")}</button>
                 </div>
               </div>
 
               {/* Clinical Impression & Disposition */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div className="space-y-4">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Assessment / Impression</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Assessment / Impression")}</label>
                   <textarea 
                     rows={4} 
                     className="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-[32px] text-sm font-medium outline-none focus:bg-white focus:border-red-500 transition-all resize-none leading-relaxed" 
-                    placeholder="Enter rapid clinical findings..." 
+                    placeholder={i18n.t("Enter rapid clinical findings...")} 
                   />
                 </div>
                 <div className="space-y-4">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Clinical Disposition</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Clinical Disposition")}</label>
                   <select 
                     className="w-full px-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-[28px] text-lg font-black text-slate-800 outline-none focus:bg-white focus:border-red-500 appearance-none cursor-pointer shadow-inner"
                     value={disposition}
                     onChange={(e) => setDisposition(e.target.value)}
                   >
-                    <option value="">Select Disposition...</option>
-                    <option value="Admit to Ward">Admit to Ward</option>
-                    <option value="Discharge with FU">Discharge (Follow-up)</option>
-                    <option value="Transfer to Theatre">Transfer to Theatre</option>
-                    <option value="Refer to Specialist">Refer to Specialist</option>
+                    <option value="">{i18n.t("Select Disposition...")}</option>
+                    <option value="Admit to Ward">{i18n.t("Admit to Ward")}</option>
+                    <option value="Discharge with FU">{i18n.t("Discharge (Follow-up)")}</option>
+                    <option value="Transfer to Theatre">{i18n.t("Transfer to Theatre")}</option>
+                    <option value="Refer to Specialist">{i18n.t("Refer to Specialist")}</option>
                   </select>
                   <div className="p-5 bg-amber-50 border border-amber-100 rounded-[24px] flex items-start gap-4">
                     <AlertCircle className="text-amber-600 flex-shrink-0" size={20} />
-                    <p className="text-[10px] text-amber-700 font-bold leading-relaxed uppercase">
-                      Confirming disposition will trigger an automatic notification to the respective department head.
-                    </p>
+                    <p className="text-[10px] text-amber-700 font-bold leading-relaxed uppercase">{i18n.t("Confirming disposition will trigger an automatic notification to the respective department head.")}</p>
                   </div>
                 </div>
               </div>
@@ -323,27 +320,23 @@ const EmergencyEncounter: React.FC = () => {
                <div className="flex items-center gap-4">
                  <div className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-xl shadow-sm">
                     <div className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Active System Connection Verified</span>
+                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{i18n.t("Active System Connection Verified")}</span>
                  </div>
                  {selected.admission_id && (
                    <button 
                      onClick={() => setShowSummaryModal(selected.admission_id!)}
                      className="px-5 py-2.5 bg-indigo-50 text-indigo-600 border border-indigo-100 rounded-xl shadow-sm text-[10px] font-black uppercase tracking-widest hover:bg-indigo-100 transition-colors"
-                   >
-                     View Summary
-                   </button>
+                   >{i18n.t("View Summary")}</button>
                  )}
                </div>
                <div className="flex items-center gap-4">
-                 <button onClick={() => setSelected(null)} className="px-8 py-3 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-slate-800 transition-colors">Discard Session</button>
+                 <button onClick={() => setSelected(null)} className="px-8 py-3 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-slate-800 transition-colors">{i18n.t("Discard Session")}</button>
                  <button 
                   onClick={handleFinalize}
                   disabled={isFinalizing}
                   className="bg-red-600 text-white px-12 py-5 rounded-[24px] font-black uppercase text-xs tracking-[0.2em] shadow-2xl shadow-red-200 hover:bg-red-700 active:scale-95 transition-all flex items-center gap-3 disabled:opacity-70"
                  >
-                   {isFinalizing ? <Loader2 size={20} className="animate-spin" /> : <ShieldCheck size={20} />}
-                   Finalize Encounter
-                 </button>
+                   {isFinalizing ? <Loader2 size={20} className="animate-spin" /> : <ShieldCheck size={20} />}{i18n.t("Finalize Encounter")}</button>
                </div>
             </div>
           </div>
@@ -352,18 +345,16 @@ const EmergencyEncounter: React.FC = () => {
              <div className="w-32 h-32 bg-slate-50 text-slate-200 rounded-[44px] flex items-center justify-center mb-8 shadow-inner">
                <Zap size={64} className="animate-pulse" />
              </div>
-             <h3 className="text-3xl font-black text-slate-800 tracking-tight">Active Clinical Interface</h3>
-             <p className="text-slate-500 max-w-sm mx-auto mt-4 font-medium leading-relaxed">
-              Select a patient from your active ED list to open the Rapid Documentation interface. Sessions are secured and logged in real-time.
-             </p>
+             <h3 className="text-3xl font-black text-slate-800 tracking-tight">{i18n.t("Active Clinical Interface")}</h3>
+             <p className="text-slate-500 max-w-sm mx-auto mt-4 font-medium leading-relaxed">{i18n.t("Select a patient from your active ED list to open the Rapid Documentation interface. Sessions are secured and logged in real-time.")}</p>
              <div className="mt-12 grid grid-cols-2 gap-4 w-full max-w-md">
                 <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                   <p className="text-[10px] font-black text-slate-400 uppercase mb-1">Session Limit</p>
-                   <p className="text-sm font-black text-slate-700 uppercase">3 Concurrent</p>
+                   <p className="text-[10px] font-black text-slate-400 uppercase mb-1">{i18n.t("Session Limit")}</p>
+                   <p className="text-sm font-black text-slate-700 uppercase">{i18n.t("3 Concurrent")}</p>
                 </div>
                 <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                   <p className="text-[10px] font-black text-slate-400 uppercase mb-1">Current Load</p>
-                   <p className="text-sm font-black text-red-600 uppercase">High Utility</p>
+                   <p className="text-[10px] font-black text-slate-400 uppercase mb-1">{i18n.t("Current Load")}</p>
+                   <p className="text-sm font-black text-red-600 uppercase">{i18n.t("High Utility")}</p>
                 </div>
              </div>
           </div>
@@ -384,11 +375,8 @@ const EmergencyEncounter: React.FC = () => {
                   <LogOut size={24} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-black text-slate-800 tracking-tight">
-                    Mark for Discharge
-                  </h2>
-                  <p className="text-xs text-rose-600 font-bold uppercase tracking-widest">
-                    Patient: {showDischargeModal.patient.name}
+                  <h2 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Mark for Discharge")}</h2>
+                  <p className="text-xs text-rose-600 font-bold uppercase tracking-widest">{i18n.t("Patient:")}{" "}{showDischargeModal.patient.name}
                   </p>
                 </div>
               </div>
@@ -402,15 +390,13 @@ const EmergencyEncounter: React.FC = () => {
 
             <div className="p-10 space-y-6 overflow-y-auto">
               <div className="relative">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Discharge Reason
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Discharge Reason")}</label>
                 <div className="relative group">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-rose-600 transition-colors" size={16} />
+                  <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-rose-600 transition-colors" size={16} />
                   <input
                     type="text"
-                    placeholder="Search or select reason..."
-                    className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-rose-500 transition-all"
+                    placeholder={i18n.t("Search or select reason...")}
+                    className="w-full ps-12 pe-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-rose-500 transition-all"
                     value={reasonSearchTerm}
                     onChange={(e) => { setReasonSearchTerm(e.target.value); setShowReasonList(true); }}
                     onFocus={() => setShowReasonList(true)}
@@ -418,7 +404,7 @@ const EmergencyEncounter: React.FC = () => {
                   />
 
                   {showReasonList && (
-                    <div className="absolute top-full left-0 right-0 mt-2 max-h-48 overflow-y-auto bg-white border border-slate-100 rounded-2xl shadow-xl space-y-1 p-1 z-[60]">
+                    <div className="absolute top-full start-0 end-0 mt-2 max-h-48 overflow-y-auto bg-white border border-slate-100 rounded-2xl shadow-xl space-y-1 p-1 z-[60]">
                       {dischargeReasons
                         .filter(r => r.name.toLowerCase().includes(reasonSearchTerm.toLowerCase()))
                         .map((reason) => (
@@ -430,7 +416,7 @@ const EmergencyEncounter: React.FC = () => {
                               setReasonSearchTerm(reason.name);
                               setShowReasonList(false);
                             }}
-                            className={`w-full text-left px-4 py-2.5 rounded-xl text-xs font-bold transition-all
+                            className={`w-full text-start px-4 py-2.5 rounded-xl text-xs font-bold transition-all
                               ${dischargeFormData.discharge_reason_id === reason.id.toString()
                                 ? 'bg-rose-600 text-white'
                                 : 'text-slate-600 hover:bg-rose-50 hover:text-rose-600'}
@@ -445,9 +431,7 @@ const EmergencyEncounter: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Discharge Notes
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Discharge Notes")}</label>
                 <textarea
                   value={dischargeFormData.discharge_notes}
                   onChange={(e) =>
@@ -457,14 +441,12 @@ const EmergencyEncounter: React.FC = () => {
                     })
                   }
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:border-rose-500 min-h-[120px]"
-                  placeholder="Enter clinical notes..."
+                  placeholder={i18n.t("Enter clinical notes...")}
                 />
               </div>
 
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Doctor Signature
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Doctor Signature")}</label>
                 <div className="mt-1.5 h-32 bg-slate-50 border border-dashed border-slate-300 rounded-2xl overflow-hidden">
                   <SignaturePad
                     onEnd={(dataUrl) => setDischargeFormData({ ...dischargeFormData, doctor_signature: dataUrl })}
@@ -474,9 +456,7 @@ const EmergencyEncounter: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Patient Witness Signature
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Patient Witness Signature")}</label>
                 <div className="mt-1.5 h-32 bg-slate-50 border border-dashed border-slate-300 rounded-2xl overflow-hidden">
                   <SignaturePad
                     onEnd={(dataUrl) => setDischargeFormData({ ...dischargeFormData, patient_witness: dataUrl })}
@@ -490,15 +470,13 @@ const EmergencyEncounter: React.FC = () => {
               <button
                 onClick={() => setShowDischargeModal(null)}
                 className="px-6 py-2.5 text-xs font-black text-slate-400 uppercase tracking-widest"
-              >
-                Cancel
-              </button>
+              >{i18n.t("Cancel")}</button>
               <button
                 onClick={handleMarkForDischarge}
                 disabled={!dischargeFormData.discharge_reason_id || !dischargeFormData.doctor_signature || isFinalizing}
                 className="bg-rose-600 text-white px-8 py-3 rounded-[24px] font-black uppercase text-xs tracking-widest shadow-xl shadow-rose-200 hover:bg-rose-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isFinalizing ? <Loader2 size={16} className="animate-spin" /> : 'Confirm Discharge'}
+                {isFinalizing ? <Loader2 size={16} className="animate-spin" /> : i18n.t("Confirm Discharge")}
               </button>
             </div>
           </div>

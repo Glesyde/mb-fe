@@ -17,6 +17,7 @@ import {
   type Permission,
   type Role,
 } from "../services/permission.service";
+import { i18n } from "../i18n";
 
 const formatLabel = (value: string) =>
   value.replace(/[._]/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
@@ -248,12 +249,9 @@ const AccessControl: React.FC = () => {
             <Lock size={24} />
           </div>
           <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-              Active Roles
-            </p>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Active Roles")}</p>
             <p className="text-xl font-black text-slate-800">
-              {roles.length} Defined
-            </p>
+              {roles.length}{" "}{i18n.t("Defined")}</p>
           </div>
         </div>
         <div className="bg-white p-6 rounded-[32px] border border-slate-200 shadow-sm flex items-center gap-4">
@@ -261,12 +259,9 @@ const AccessControl: React.FC = () => {
             <ShieldCheck size={24} />
           </div>
           <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-              Permission Points
-            </p>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Permission Points")}</p>
             <p className="text-xl font-black text-slate-800">
-              {permissions.length} Objects
-            </p>
+              {permissions.length}{" "}{i18n.t("Objects")}</p>
           </div>
         </div>
         <div className="bg-white p-6 rounded-[32px] border border-slate-200 shadow-sm flex items-center justify-between">
@@ -275,12 +270,8 @@ const AccessControl: React.FC = () => {
               <ShieldAlert size={24} />
             </div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                Security Mode
-              </p>
-              <p className="text-xl font-black text-slate-800">
-                High Strictness
-              </p>
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Security Mode")}</p>
+              <p className="text-xl font-black text-slate-800">{i18n.t("High Strictness")}</p>
             </div>
           </div>
         </div>
@@ -289,38 +280,30 @@ const AccessControl: React.FC = () => {
       <div className="bg-white border border-slate-200 rounded-[44px] shadow-sm overflow-hidden flex flex-col">
         <div className="p-8 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h2 className="text-xl font-black text-slate-800 tracking-tight">
-              Privilege Matrix
-            </h2>
-            <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">
-              Define role-based clinical and administrative access protocols
-            </p>
+            <h2 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Privilege Matrix")}</h2>
+            <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">{i18n.t("Define role-based clinical and administrative access protocols")}</p>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowAddRoleModal(true)}
               className="flex items-center gap-2 px-5 py-2.5 bg-slate-800 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-900 transition-all shadow-md active:scale-95"
             >
-              <ShieldPlus size={14} /> Define Custom Role
-            </button>
+              <ShieldPlus size={14} />{" "}{i18n.t("Define Custom Role")}</button>
             <button className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 text-slate-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all">
-              <Settings2 size={14} /> System Defaults
-            </button>
+              <Settings2 size={14} />{" "}{i18n.t("System Defaults")}</button>
           </div>
         </div>
 
         <div className="overflow-x-auto overflow-y-auto max-h-[70vh]">
-          <table className="w-full text-left border-separate border-spacing-0">
+          <table className="w-full text-start border-separate border-spacing-0">
             <thead className="sticky top-0 z-30">
               <tr className="border-b border-slate-100">
-                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest bg-slate-50/95 sticky top-0 left-0 z-40 border-r border-slate-100 backdrop-blur-md">
-                  Permissions \ Roles
-                </th>
+                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest bg-slate-50/95 sticky top-0 start-0 z-40 border-e border-slate-100 backdrop-blur-md">{i18n.t("Permissions \\ Roles")}</th>
                 {roles.map((role) => (
                   <th
                     key={role.id}
-                    title={role.description || role.name}
-                    className="px-8 py-6 text-center text-xs font-black text-slate-800 border-r border-slate-50 last:border-r-0 uppercase tracking-widest min-w-[140px] bg-white/95 sticky top-0 z-30 backdrop-blur-md"
+                    title={i18n.tx(role.description) || role.name}
+                    className="px-8 py-6 text-center text-xs font-black text-slate-800 border-e border-slate-50 last:border-e-0 uppercase tracking-widest min-w-[140px] bg-white/95 sticky top-0 z-30 backdrop-blur-md"
                   >
                     {formatLabel(role.name)}
                   </th>
@@ -335,9 +318,7 @@ const AccessControl: React.FC = () => {
                     className="px-8 py-10 text-center text-sm font-bold text-slate-400"
                   >
                     <span className="inline-flex items-center gap-2">
-                      <Loader2 size={16} className="animate-spin" /> Loading
-                      access control data...
-                    </span>
+                      <Loader2 size={16} className="animate-spin" />{" "}{i18n.t("Loading access control data...")}</span>
                   </td>
                 </tr>
               ) : permissions.length === 0 ? (
@@ -345,9 +326,7 @@ const AccessControl: React.FC = () => {
                   <td
                     colSpan={Math.max(roles.length + 1, 2)}
                     className="px-8 py-10 text-center text-sm font-bold text-slate-400"
-                  >
-                    No permissions available from the backend yet.
-                  </td>
+                  >{i18n.t("No permissions available from the backend yet.")}</td>
                 </tr>
               ) : (
                 permissions.map((permission) => (
@@ -355,10 +334,10 @@ const AccessControl: React.FC = () => {
                     key={permission.id}
                     className="hover:bg-slate-50/50 transition-colors group"
                   >
-                    <td className="px-8 py-5 text-xs font-black text-slate-600 bg-white sticky left-0 z-20 border-r border-slate-100 backdrop-blur-md shadow-[6px_0_12px_-10px_rgba(15,23,42,0.18)]">
+                    <td className="px-8 py-5 text-xs font-black text-slate-600 bg-white sticky start-0 z-20 border-e border-slate-100 backdrop-blur-md shadow-[6px_0_12px_-10px_rgba(15,23,42,0.18)]">
                       <div className="flex flex-col gap-1">
                         <span>
-                          {permission.description ||
+                          {i18n.tx(permission.description) ||
                             formatLabel(permission.code)}
                         </span>
                         <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
@@ -374,7 +353,7 @@ const AccessControl: React.FC = () => {
                       return (
                         <td
                           key={role.id}
-                          className="px-8 py-5 text-center border-r border-slate-50 last:border-r-0"
+                          className="px-8 py-5 text-center border-e border-slate-50 last:border-e-0"
                         >
                           <label className="flex justify-center cursor-pointer">
                             <div className="relative">
@@ -417,10 +396,7 @@ const AccessControl: React.FC = () => {
         <div className="p-8 bg-slate-50 border-t border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3 text-slate-400">
             <Info size={18} className="text-brand-active0" />
-            <p className="text-[10px] font-black uppercase tracking-widest leading-relaxed">
-              Caution: Permission assignments and removals are sent live to the
-              backend. Review changes carefully before committing.
-            </p>
+            <p className="text-[10px] font-black uppercase tracking-widest leading-relaxed">{i18n.t("Caution: Permission assignments and removals are sent live to the backend. Review changes carefully before committing.")}</p>
           </div>
           <button
             onClick={handleSaveChanges}
@@ -429,12 +405,10 @@ const AccessControl: React.FC = () => {
           >
             {isSaving ? (
               <>
-                <Loader2 size={14} className="animate-spin" /> Synchronizing...
-              </>
+                <Loader2 size={14} className="animate-spin" />{" "}{i18n.t("Synchronizing...")}</>
             ) : (
               <>
-                <Save size={14} /> Commit Changes
-              </>
+                <Save size={14} />{" "}{i18n.t("Commit Changes")}</>
             )}
           </button>
         </div>
@@ -453,9 +427,7 @@ const AccessControl: React.FC = () => {
             <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
               <div className="flex items-center gap-3 text-slate-800">
                 <ShieldPlus size={20} />
-                <h2 className="text-lg font-black tracking-tight uppercase">
-                  Define Custom Role
-                </h2>
+                <h2 className="text-lg font-black tracking-tight uppercase">{i18n.t("Define Custom Role")}</h2>
               </div>
               <button
                 type="button"
@@ -467,25 +439,19 @@ const AccessControl: React.FC = () => {
             </div>
             <div className="p-8 space-y-4">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                  Unique Role Title
-                </label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Unique Role Title")}</label>
                 <input
                   autoFocus
                   required
                   type="text"
-                  placeholder="e.g. Clinical Auditor"
+                  placeholder={i18n.t("e.g. Clinical Auditor")}
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:bg-white focus:ring-8 focus:ring-slate-900/5 transition-all"
                   value={newRoleName}
                   onChange={(e) => setNewRoleName(e.target.value)}
                 />
               </div>
               <div className="bg-amber-50 border border-amber-100 p-4 rounded-2xl">
-                <p className="text-[9px] text-amber-700 font-bold uppercase tracking-tight leading-relaxed">
-                  New roles should be created from the backend setup. Once
-                  available there, they will appear automatically in this
-                  matrix.
-                </p>
+                <p className="text-[9px] text-amber-700 font-bold uppercase tracking-tight leading-relaxed">{i18n.t("New roles should be created from the backend setup. Once available there, they will appear automatically in this matrix.")}</p>
               </div>
             </div>
             <div className="px-8 py-6 bg-slate-50 border-t border-slate-100 flex justify-end gap-3">
@@ -493,15 +459,11 @@ const AccessControl: React.FC = () => {
                 type="button"
                 onClick={() => setShowAddRoleModal(false)}
                 className="px-5 py-2 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-slate-600 transition-colors"
-              >
-                Cancel
-              </button>
+              >{i18n.t("Cancel")}</button>
               <button
                 type="submit"
                 className="bg-slate-900 text-white px-8 py-2 rounded-xl font-black text-[10px] uppercase tracking-widest shadow-md active:scale-95 transition-all"
-              >
-                Register Role
-              </button>
+              >{i18n.t("Register Role")}</button>
             </div>
           </form>
         </div>

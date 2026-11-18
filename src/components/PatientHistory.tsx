@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { patientService } from '../services/patient.service';
 import { useNotification } from '../context/NotificationContext';
+import { i18n } from "../i18n";
 
 // Helper Component for rendering redacted fields safely
 const RedactableField = ({ label, value }: { label: string; value: string | null | undefined }) => {
@@ -38,8 +39,7 @@ const RedactableField = ({ label, value }: { label: string; value: string | null
       <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5">{label}</span>
       {value === 'REDACTED' ? (
         <div className="text-amber-500 font-bold italic flex items-center gap-1.5 text-xs py-1">
-          <ShieldCheck size={14} /> Restricted by role
-        </div>
+          <ShieldCheck size={14} />{" "}{i18n.t("Restricted by role")}</div>
       ) : (
         <div 
           className="text-xs font-medium text-slate-800 bg-slate-50 p-3.5 rounded-xl border border-slate-100 whitespace-pre-wrap break-words overflow-hidden [&_p]:whitespace-pre-wrap [&_p]:break-words [&_p]:mb-1.5 last:[&_p]:mb-0 leading-relaxed font-sans" 
@@ -139,19 +139,19 @@ const PatientHistory: React.FC = () => {
             <HistoryIcon size={24} />
           </div>
           <div>
-            <h1 className="text-xl font-black text-slate-800 tracking-tight">Comprehensive History</h1>
-            <p className="text-xs text-slate-500 font-medium">Verify historical patient encounters, surgical reports, and clinical logs.</p>
+            <h1 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Comprehensive History")}</h1>
+            <p className="text-xs text-slate-500 font-medium">{i18n.t("Verify historical patient encounters, surgical reports, and clinical logs.")}</p>
           </div>
         </div>
 
         <form onSubmit={handleSearch} className="relative group w-full md:w-[450px]">
           <div className="relative flex items-center gap-2 bg-slate-50 border border-slate-200 p-1.5 rounded-full shadow-inner group-focus-within:border-brand-primary group-focus-within:bg-white transition-all">
-            <div className="pl-3 text-slate-400">
+            <div className="ps-3 text-slate-400">
               <Search size={18} />
             </div>
             <input 
               type="text" 
-              placeholder="Enter Patient MRN (e.g. 100049)"
+              placeholder={i18n.t("Enter Patient MRN (e.g. 100049)")}
               className="flex-1 py-1.5 bg-transparent font-bold text-xs text-slate-800 outline-none uppercase tracking-wider"
               value={mrn}
               onChange={(e) => setMrn(e.target.value)}
@@ -161,7 +161,7 @@ const PatientHistory: React.FC = () => {
               disabled={searching || !mrn.trim()}
               className="bg-slate-900 text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-slate-800 disabled:opacity-40 transition-all flex items-center gap-2 shadow-sm"
             >
-              {searching ? <Loader2 className="animate-spin" size={16} /> : 'Search'}
+              {searching ? <Loader2 className="animate-spin" size={16} /> : i18n.t("Search")}
             </button>
           </div>
         </form>
@@ -173,16 +173,16 @@ const PatientHistory: React.FC = () => {
           <div className="w-16 h-16 rounded-2xl bg-brand-primary flex items-center justify-center text-white text-2xl font-black shadow-lg shrink-0">
             {patient.first_name?.charAt(0)}
           </div>
-          <div className="flex-1 text-center md:text-left">
+          <div className="flex-1 text-center md:text-start">
             <h2 className="text-xl font-black text-white tracking-tight">
               {patient.first_name} {patient.middle_name ? `${patient.middle_name} ` : ''}{patient.last_name}
             </h2>
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-2 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
-              <span className="text-brand-active0">MRN: {patient.mrn}</span>
-              <span className="flex items-center gap-1.5"><Calendar size={13}/> Age: {patient.display_age || 'N/A'}</span>
-              <span className="flex items-center gap-1.5"><User size={13}/> Gender: {patient.gender}</span>
-              <span className="flex items-center gap-1.5"><Droplets size={13} className="text-red-400"/> Blood Group: {patient.blood_group || 'Unknown'}</span>
-              {patient.phone && <span>Tel: {patient.phone}</span>}
+              <span className="text-brand-active0">{i18n.t("MRN:")}{" "}{patient.mrn}</span>
+              <span className="flex items-center gap-1.5"><Calendar size={13}/>{" "}{i18n.t("Age:")}{" "}{patient.display_age || i18n.t("N/A")}</span>
+              <span className="flex items-center gap-1.5"><User size={13}/>{" "}{i18n.t("Gender:")}{" "}{i18n.tv(patient.gender)}</span>
+              <span className="flex items-center gap-1.5"><Droplets size={13} className="text-red-400"/>{" "}{i18n.t("Blood Group:")}{" "}{patient.blood_group || i18n.t("Unknown")}</span>
+              {patient.phone && <span>{i18n.t("Tel:")}{" "}{patient.phone}</span>}
             </div>
           </div>
         </div>
@@ -191,7 +191,7 @@ const PatientHistory: React.FC = () => {
       ) : (
         <div className="bg-white/50 border-2 border-dashed border-slate-200 rounded-[40px] p-16 text-center">
           <Clock className="mx-auto text-slate-300 mb-3" size={48} />
-          <p className="text-slate-400 font-black text-xs uppercase tracking-widest">Enter an MRN to inspect patient clinical history</p>
+          <p className="text-slate-400 font-black text-xs uppercase tracking-widest">{i18n.t("Enter an MRN to inspect patient clinical history")}</p>
         </div>
       )}
 
@@ -202,11 +202,11 @@ const PatientHistory: React.FC = () => {
           {/* LEFT COLUMN: Past Encounters Timeline */}
           <div className="xl:col-span-1 bg-white border border-slate-200 rounded-[32px] p-5 shadow-sm flex flex-col h-[calc(100vh-280px)] overflow-hidden">
             <h3 className="text-xs font-black text-slate-800 mb-3 uppercase tracking-wider flex items-center gap-2 shrink-0">
-              <HistoryIcon size={16} className="text-brand-primary" /> Past Encounters ({encounters.length})
+              <HistoryIcon size={16} className="text-brand-primary" />{" "}{i18n.t("Past Encounters (")}{encounters.length})
             </h3>
-            <div className="flex-1 overflow-y-auto no-scrollbar pr-2 space-y-5 relative pl-6 border-l border-slate-100 ml-2 py-2">
+            <div className="flex-1 overflow-y-auto no-scrollbar pe-2 space-y-5 relative ps-6 border-s border-slate-100 ms-2 py-2">
               {encounters.length === 0 ? (
-                <p className="text-xs font-semibold text-slate-400">No encounters found</p>
+                <p className="text-xs font-semibold text-slate-400">{i18n.t("No encounters found")}</p>
               ) : (
                 encounters.map((enc) => {
                   const isSelected = selectedEncounterNumber === enc.encounter_number;
@@ -219,7 +219,7 @@ const PatientHistory: React.FC = () => {
                         setOrdersPage(1);
                       }}
                     >
-                      <div className={`absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full ring-4 ring-white transition-colors ${
+                      <div className={`absolute -start-[31px] top-1 w-3.5 h-3.5 rounded-full ring-4 ring-white transition-colors ${
                         isSelected ? "bg-brand-primary" : "bg-slate-300 group-hover:bg-brand-primary"
                       }`} />
                       <div>
@@ -235,13 +235,13 @@ const PatientHistory: React.FC = () => {
                             {new Date(enc.started_at || enc.created_at).toLocaleString([], { dateStyle: "short", timeStyle: "short" })}
                           </span>
                           {enc.attending_doctor && (
-                            <span className="text-[10px] font-bold text-slate-500">Dr. {enc.attending_doctor}</span>
+                            <span className="text-[10px] font-bold text-slate-500">{i18n.t("Dr.")}{" "}{enc.attending_doctor}</span>
                           )}
                         </div>
                         <span className={`inline-block mt-1 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest ${
                           enc.encounter_status === "OPEN" ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-500"
                         }`}>
-                          {enc.encounter_status}
+                          {i18n.tv(enc.encounter_status)}
                         </span>
                       </div>
                     </div>
@@ -255,7 +255,7 @@ const PatientHistory: React.FC = () => {
           <div className="xl:col-span-3 bg-white border border-slate-200 rounded-[32px] p-6 shadow-sm h-[calc(100vh-280px)] overflow-y-auto no-scrollbar">
             {!selectedEncounter ? (
               <div className="flex flex-col items-center justify-center h-full py-20 text-slate-400">
-                <p className="text-sm font-medium">Select an encounter from the timeline to view details.</p>
+                <p className="text-sm font-medium">{i18n.t("Select an encounter from the timeline to view details.")}</p>
               </div>
             ) : (
               <div className="space-y-6 animate-in fade-in duration-300">
@@ -263,18 +263,17 @@ const PatientHistory: React.FC = () => {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 gap-3">
                   <div>
                     <h3 className="text-lg font-black text-slate-800">
-                      {selectedEncounter.encounter_type} Encounter
-                    </h3>
+                      {selectedEncounter.encounter_type}{" "}{i18n.t("Encounter")}</h3>
                     <p className="text-xs font-mono font-bold text-slate-400 mt-0.5">{selectedEncounter.encounter_number}</p>
                     {selectedEncounter.visit_reason && (
-                      <p className="text-xs font-bold text-slate-600 mt-1">Visit Reason: {selectedEncounter.visit_reason}</p>
+                      <p className="text-xs font-bold text-slate-600 mt-1">{i18n.t("Visit Reason:")}{" "}{selectedEncounter.visit_reason}</p>
                     )}
                   </div>
                   <div className="flex items-center gap-3">
                     <span className={`px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase ${
                       selectedEncounter.encounter_status === "OPEN" ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-600"
                     }`}>
-                      {selectedEncounter.encounter_status}
+                      {i18n.tv(selectedEncounter.encounter_status)}
                     </span>
                     <span className="text-xs font-bold text-slate-500 font-mono">
                       {new Date(selectedEncounter.started_at).toLocaleString([], { dateStyle: "short", timeStyle: "short" })}
@@ -286,15 +285,15 @@ const PatientHistory: React.FC = () => {
                 {/* Encounter Metadata Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4">
-                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">Attending Clinician</span>
-                    <span className="text-sm font-bold text-slate-700 break-words">{selectedEncounter.attending_doctor || "Unassigned"}</span>
+                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">{i18n.t("Attending Clinician")}</span>
+                    <span className="text-sm font-bold text-slate-700 break-words">{selectedEncounter.attending_doctor || i18n.t("Unassigned")}</span>
                   </div>
                   <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4">
-                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">Specialty</span>
+                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">{i18n.t("Specialty")}</span>
                     <span className="text-sm font-bold text-slate-700 break-words">{selectedEncounter.specialty || "--"}</span>
                   </div>
                   <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4">
-                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">Patient Phone</span>
+                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">{i18n.t("Patient Phone")}</span>
                     <span className="text-sm font-bold text-slate-700 break-words">{patient.phone || "--"}</span>
                   </div>
                 </div>
@@ -304,7 +303,7 @@ const PatientHistory: React.FC = () => {
                   <details className="group bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all duration-200">
                     <summary className="flex items-center justify-between p-4 cursor-pointer select-none hover:bg-slate-50 transition-colors list-none [&::-webkit-details-marker]:hidden">
                       <h4 className="text-sm font-black text-slate-800 flex items-center gap-2">
-                        <Activity size={18} className="text-rose-500" /> Vitals Log ({selectedEncounter.vitals.length})
+                        <Activity size={18} className="text-rose-500" />{" "}{i18n.t("Vitals Log (")}{selectedEncounter.vitals.length})
                       </h4>
                       <ChevronDown className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-200" />
                     </summary>
@@ -317,14 +316,13 @@ const PatientHistory: React.FC = () => {
                               <span className="text-[9px] font-mono text-slate-400">{new Date(v.recorded_at).toLocaleString([], { dateStyle: "short", timeStyle: "short" })}</span>
                             </div>
                             <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-[11px] font-bold text-slate-600">
-                              <span>Temp: {v.temperature}°C</span>
-                              <span>Pulse: {v.pulse} bpm</span>
-                              <span>Resp: {v.respiration} cpm</span>
-                              <span>SpO2: {v.spo2}%</span>
-                              <span className="col-span-2">BP: {vitalsFor(v).bp}</span>
+                              <span>{i18n.t("Temp:")}{" "}{v.temperature}{i18n.t("°C")}</span>
+                              <span>{i18n.t("Pulse:")}{" "}{v.pulse}{" "}{i18n.t("bpm")}</span>
+                              <span>{i18n.t("Resp:")}{" "}{v.respiration}{" "}{i18n.t("cpm")}</span>
+                              <span>{i18n.t("SpO2:")}{" "}{v.spo2}%</span>
+                              <span className="col-span-2">{i18n.t("BP:")}{" "}{vitalsFor(v).bp}</span>
                               {v.news2_score != null && (
-                                <span className={`col-span-2 ${v.news2_risk_level === "HIGH" ? "text-red-600 font-black" : ""}`}>
-                                  NEWS2: {v.news2_score} ({v.news2_risk_level})
+                                <span className={`col-span-2 ${v.news2_risk_level === "HIGH" ? "text-red-600 font-black" : ""}`}>{i18n.t("NEWS2:")}{" "}{v.news2_score} ({v.news2_risk_level})
                                 </span>
                               )}
                             </div>
@@ -340,7 +338,7 @@ const PatientHistory: React.FC = () => {
                   <details open className="group bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all duration-200">
                     <summary className="flex items-center justify-between p-4 cursor-pointer select-none hover:bg-slate-50 transition-colors list-none [&::-webkit-details-marker]:hidden">
                       <h4 className="text-sm font-black text-slate-800 flex items-center gap-2">
-                        <Scissors size={18} className="text-rose-600" /> Surgical History & Operative Records ({selectedEncounter.surgeries.length})
+                        <Scissors size={18} className="text-rose-600" />{" "}{i18n.t("Surgical History & Operative Records (")}{selectedEncounter.surgeries.length})
                       </h4>
                       <ChevronDown className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-200" />
                     </summary>
@@ -367,7 +365,7 @@ const PatientHistory: React.FC = () => {
                                 <div className="flex items-center gap-3">
                                   <h5 className="font-black text-lg">{sx.surgery_name}</h5>
                                   <span className="text-[10px] font-black bg-rose-700/80 border border-rose-400/40 px-2.5 py-0.5 rounded-full uppercase tracking-widest">
-                                    {sx.case_status}
+                                    {i18n.tv(sx.case_status)}
                                   </span>
                                 </div>
                                 <p className="text-xs text-rose-200 font-bold uppercase tracking-wider mt-1 flex items-center gap-2">
@@ -376,9 +374,9 @@ const PatientHistory: React.FC = () => {
                                   {sx.anesthesia_type && <><span>•</span> {sx.anesthesia_type}</>}
                                 </p>
                               </div>
-                              <div className="text-left md:text-right font-mono text-xs text-rose-100">
-                                <p className="text-[10px] uppercase font-bold text-rose-300">Operative Window</p>
-                                <p>{sx.op_start_time || sx.case_start_time || "N/A"} — {sx.op_end_time || sx.case_end_time || "N/A"}</p>
+                              <div className="text-start md:text-end font-mono text-xs text-rose-100">
+                                <p className="text-[10px] uppercase font-bold text-rose-300">{i18n.t("Operative Window")}</p>
+                                <p>{sx.op_start_time || sx.case_start_time || i18n.t("N/A")} — {sx.op_end_time || sx.case_end_time || i18n.t("N/A")}</p>
                               </div>
                             </div>
 
@@ -387,12 +385,11 @@ const PatientHistory: React.FC = () => {
                               {teamMembers.length > 0 && (
                                 <div>
                                   <h6 className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3 flex items-center gap-1.5">
-                                    <Users size={14} className="text-rose-500" /> Surgical Team Roster
-                                  </h6>
+                                    <Users size={14} className="text-rose-500" />{" "}{i18n.t("Surgical Team Roster")}</h6>
                                   <div className="flex flex-wrap gap-2">
                                     {teamMembers.map((member: any, i: number) => (
                                       <div key={i} className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs">
-                                        <span className="font-bold text-slate-400 uppercase text-[9px]">{member.role}:</span>
+                                        <span className="font-bold text-slate-400 uppercase text-[9px]">{i18n.tv(member.role)}:</span>
                                         <span className="font-black text-slate-700">{member.name || member.staff_name}</span>
                                       </div>
                                     ))}
@@ -406,13 +403,12 @@ const PatientHistory: React.FC = () => {
                                   {sx.huddle && (
                                     <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200">
                                       <h6 className="text-[10px] font-black text-slate-700 uppercase tracking-widest mb-3 flex items-center gap-1.5">
-                                        <Users size={14} className="text-brand-primary" /> Pre-Op Huddle
-                                      </h6>
+                                        <Users size={14} className="text-brand-primary" />{" "}{i18n.t("Pre-Op Huddle")}</h6>
                                       <div className="grid grid-cols-2 gap-2 text-xs">
-                                        <div><span className="text-[9px] text-slate-400 uppercase font-bold block">Identity Verified</span><span className="font-black text-slate-800">{sx.huddle.identity_confirmed ? 'Yes' : 'No'}</span></div>
-                                        <div><span className="text-[9px] text-slate-400 uppercase font-bold block">Airway Risk</span><span className="font-black text-slate-800">{sx.huddle.airway_risk || 'N/A'}</span></div>
-                                        <div><span className="text-[9px] text-slate-400 uppercase font-bold block">Blood Loss Risk</span><span className="font-black text-slate-800">{sx.huddle.blood_loss_risk ? 'Prepared' : 'None'}</span></div>
-                                        <div><span className="text-[9px] text-slate-400 uppercase font-bold block">ASA Grade</span><span className="font-black text-slate-800">{sx.huddle.asa_grade || 'N/A'}</span></div>
+                                        <div><span className="text-[9px] text-slate-400 uppercase font-bold block">{i18n.t("Identity Verified")}</span><span className="font-black text-slate-800">{sx.huddle.identity_confirmed ? i18n.t("Yes") : i18n.t("No")}</span></div>
+                                        <div><span className="text-[9px] text-slate-400 uppercase font-bold block">{i18n.t("Airway Risk")}</span><span className="font-black text-slate-800">{sx.huddle.airway_risk || i18n.t("N/A")}</span></div>
+                                        <div><span className="text-[9px] text-slate-400 uppercase font-bold block">{i18n.t("Blood Loss Risk")}</span><span className="font-black text-slate-800">{sx.huddle.blood_loss_risk ? i18n.t("Prepared") : i18n.t("None")}</span></div>
+                                        <div><span className="text-[9px] text-slate-400 uppercase font-bold block">{i18n.t("ASA Grade")}</span><span className="font-black text-slate-800">{sx.huddle.asa_grade || i18n.t("N/A")}</span></div>
                                       </div>
                                     </div>
                                   )}
@@ -420,8 +416,7 @@ const PatientHistory: React.FC = () => {
                                   {sx.checklist && (
                                     <div className="bg-emerald-50/50 p-4 rounded-2xl border border-emerald-100">
                                       <h6 className="text-[10px] font-black text-emerald-800 uppercase tracking-widest mb-3 flex items-center gap-1.5">
-                                        <ListChecks size={14} className="text-emerald-600" /> Surgical Safety Checklist
-                                      </h6>
+                                        <ListChecks size={14} className="text-emerald-600" />{" "}{i18n.t("Surgical Safety Checklist")}</h6>
                                       <div className="flex flex-wrap gap-2">
                                         {[
                                           { l: 'Ward Check 1', d: sx.checklist.wc1_done },
@@ -445,30 +440,28 @@ const PatientHistory: React.FC = () => {
                                 <div className="bg-indigo-50/30 p-5 rounded-2xl border border-indigo-100 space-y-4">
                                   <div className="flex justify-between items-center border-b border-indigo-100 pb-3">
                                     <h6 className="text-xs font-black text-indigo-950 uppercase tracking-widest flex items-center gap-1.5">
-                                      <FileEdit size={16} className="text-indigo-600" /> Operative Findings & Procedure
-                                    </h6>
-                                    <span className="text-[10px] font-bold text-indigo-700 bg-indigo-100/60 px-2 py-0.5 rounded">
-                                      Documented by: {sx.author_name || sx.operating_surgeon_name || sx.documented_by_name || "Surgeon"}
+                                      <FileEdit size={16} className="text-indigo-600" />{" "}{i18n.t("Operative Findings & Procedure")}</h6>
+                                    <span className="text-[10px] font-bold text-indigo-700 bg-indigo-100/60 px-2 py-0.5 rounded">{i18n.t("Documented by:")}{" "}{sx.author_name || sx.operating_surgeon_name || sx.documented_by_name || i18n.t("Surgeon")}
                                     </span>
                                   </div>
 
                                   {sx.procedures_performed && (
                                     <div>
-                                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Procedures Performed</span>
+                                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">{i18n.t("Procedures Performed")}</span>
                                       <p className="text-xs font-bold text-indigo-800 bg-white p-3 rounded-xl border border-indigo-100">{sx.procedures_performed}</p>
                                     </div>
                                   )}
 
                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <RedactableField label="Pre-Operative Diagnosis" value={sx.preop_diagnosis} />
-                                    <RedactableField label="Post-Operative Diagnosis" value={sx.postop_diagnosis} />
+                                    <RedactableField label={i18n.t("Pre-Operative Diagnosis")} value={sx.preop_diagnosis} />
+                                    <RedactableField label={i18n.t("Post-Operative Diagnosis")} value={sx.postop_diagnosis} />
                                   </div>
 
-                                  <RedactableField label="Operative Findings" value={sx.operative_findings} />
+                                  <RedactableField label={i18n.t("Operative Findings")} value={sx.operative_findings} />
 
                                   {sx.operative_procedure_steps && (
                                     <div>
-                                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Operative Procedure Steps</span>
+                                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">{i18n.t("Operative Procedure Steps")}</span>
                                       <div className="text-xs text-slate-700 whitespace-pre-wrap bg-white p-3.5 rounded-xl border border-slate-100 max-h-64 overflow-y-auto no-scrollbar font-mono text-[11px] leading-relaxed">
                                         {sx.operative_procedure_steps}
                                       </div>
@@ -478,31 +471,31 @@ const PatientHistory: React.FC = () => {
                                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-2">
                                     {sx.estimated_blood_loss != null && (
                                       <div className="bg-white p-2.5 rounded-xl border border-slate-100">
-                                        <span className="text-[9px] text-slate-400 uppercase font-black block">Est. Blood Loss</span>
-                                        <span className="text-xs font-black text-rose-600">{sx.estimated_blood_loss} mL</span>
+                                        <span className="text-[9px] text-slate-400 uppercase font-black block">{i18n.t("Est. Blood Loss")}</span>
+                                        <span className="text-xs font-black text-rose-600">{sx.estimated_blood_loss}{" "}{i18n.t("mL")}</span>
                                       </div>
                                     )}
                                     {sx.blood_products && (
                                       <div className="bg-white p-2.5 rounded-xl border border-slate-100">
-                                        <span className="text-[9px] text-slate-400 uppercase font-black block">Transfusions</span>
+                                        <span className="text-[9px] text-slate-400 uppercase font-black block">{i18n.t("Transfusions")}</span>
                                         <span className="text-xs font-bold text-slate-800">{sx.blood_products}</span>
                                       </div>
                                     )}
                                     {sx.outcome && (
                                       <div className="bg-white p-2.5 rounded-xl border border-slate-100">
-                                        <span className="text-[9px] text-slate-400 uppercase font-black block">Outcome</span>
+                                        <span className="text-[9px] text-slate-400 uppercase font-black block">{i18n.t("Outcome")}</span>
                                         <span className="text-xs font-bold text-emerald-600">{sx.outcome}</span>
                                       </div>
                                     )}
                                     {sx.transfer_to && (
                                       <div className="bg-white p-2.5 rounded-xl border border-slate-100">
-                                        <span className="text-[9px] text-slate-400 uppercase font-black block">Transferred To</span>
+                                        <span className="text-[9px] text-slate-400 uppercase font-black block">{i18n.t("Transferred To")}</span>
                                         <span className="text-xs font-bold text-slate-800">{sx.transfer_to}</span>
                                       </div>
                                     )}
                                   </div>
 
-                                  <RedactableField label="Post-Op Instructions" value={sx.postop_instructions} />
+                                  <RedactableField label={i18n.t("Post-Op Instructions")} value={sx.postop_instructions} />
                                 </div>
                               )}
 
@@ -510,16 +503,16 @@ const PatientHistory: React.FC = () => {
                               {sx.instrument_counts?.length > 0 && (
                                 <div>
                                   <h6 className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-1.5">
-                                    <Package size={14} className="text-slate-500" /> Instrument & Swab Count ({sx.instrument_counts.length})
+                                    <Package size={14} className="text-slate-500" />{" "}{i18n.t("Instrument & Swab Count (")}{sx.instrument_counts.length})
                                   </h6>
                                   <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
-                                    <table className="w-full text-left text-xs whitespace-nowrap">
+                                    <table className="w-full text-start text-xs whitespace-nowrap">
                                       <thead className="bg-slate-50 text-[9px] font-black text-slate-400 uppercase border-b border-slate-100">
                                         <tr>
-                                          <th className="px-4 py-2.5">Item Description</th>
-                                          <th className="px-4 py-2.5 text-center">Count In</th>
-                                          <th className="px-4 py-2.5 text-center">Count Out</th>
-                                          <th className="px-4 py-2.5 text-right">Status</th>
+                                          <th className="px-4 py-2.5">{i18n.t("Item Description")}</th>
+                                          <th className="px-4 py-2.5 text-center">{i18n.t("Count In")}</th>
+                                          <th className="px-4 py-2.5 text-center">{i18n.t("Count Out")}</th>
+                                          <th className="px-4 py-2.5 text-end">{i18n.t("Status")}</th>
                                         </tr>
                                       </thead>
                                       <tbody className="divide-y divide-slate-100">
@@ -528,8 +521,8 @@ const PatientHistory: React.FC = () => {
                                             <td className="px-4 py-2 font-bold text-slate-700">{ic.item_name}</td>
                                             <td className="px-4 py-2 text-center font-mono">{ic.count_in ?? '-'}</td>
                                             <td className="px-4 py-2 text-center font-mono">{ic.count_out ?? '-'}</td>
-                                            <td className="px-4 py-2 text-right">
-                                              <span className={`text-[9px] font-black px-2 py-0.5 rounded uppercase ${ic.status === 'MATCHED' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>{ic.status}</span>
+                                            <td className="px-4 py-2 text-end">
+                                              <span className={`text-[9px] font-black px-2 py-0.5 rounded uppercase ${ic.status === 'MATCHED' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>{i18n.tv(ic.status)}</span>
                                             </td>
                                           </tr>
                                         ))}
@@ -546,14 +539,14 @@ const PatientHistory: React.FC = () => {
                                     {surgeonSig ? (
                                       <img 
                                         src={surgeonSig} 
-                                        alt="Surgeon Signature" 
+                                        alt={i18n.t("Surgeon Signature")} 
                                         className="h-14 max-w-[180px] object-contain mx-auto mb-1 border-b border-slate-200/80 pb-1"
                                       />
                                     ) : (
-                                      <div className="h-10 flex items-center justify-center italic text-xs text-slate-400">Digitally Signed</div>
+                                      <div className="h-10 flex items-center justify-center italic text-xs text-slate-400">{i18n.t("Digitally Signed")}</div>
                                     )}
-                                    <span className="text-[11px] font-black text-slate-800 block">Dr. {sx.surgeon_signed_by_name || sx.operating_surgeon_name}</span>
-                                    <span className="text-[9px] uppercase tracking-widest text-slate-400 block font-bold">Consultant Surgeon</span>
+                                    <span className="text-[11px] font-black text-slate-800 block">{i18n.t("Dr.")}{" "}{sx.surgeon_signed_by_name || sx.operating_surgeon_name}</span>
+                                    <span className="text-[9px] uppercase tracking-widest text-slate-400 block font-bold">{i18n.t("Consultant Surgeon")}</span>
                                     {sx.surgeon_signed_at && (
                                       <span className="text-[8px] font-mono text-slate-400">{new Date(sx.surgeon_signed_at).toLocaleString()}</span>
                                     )}
@@ -573,7 +566,7 @@ const PatientHistory: React.FC = () => {
                   <details open className="group bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all duration-200">
                     <summary className="flex items-center justify-between p-4 cursor-pointer select-none hover:bg-slate-50 transition-colors list-none [&::-webkit-details-marker]:hidden">
                       <h4 className="text-sm font-black text-slate-800 flex items-center gap-2">
-                        <Activity size={18} className="text-fuchsia-600" /> Perfusion & CPB Flowsheets ({selectedEncounter.perfusion.length})
+                        <Activity size={18} className="text-fuchsia-600" />{" "}{i18n.t("Perfusion & CPB Flowsheets (")}{selectedEncounter.perfusion.length})
                       </h4>
                       <ChevronDown className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-200" />
                     </summary>
@@ -590,27 +583,26 @@ const PatientHistory: React.FC = () => {
                             <div className="flex justify-between items-start border-b border-slate-100 pb-3">
                               <div>
                                 <h5 className="font-black text-slate-800 text-sm flex items-center gap-1.5">
-                                  <Activity size={16} className="text-fuchsia-500" /> Cardiopulmonary Bypass (CPB) Record
-                                </h5>
-                                <p className="text-[10px] text-slate-400 font-bold mt-0.5">Logged by Perf. {perfName} • {new Date(perf.created_at).toLocaleString()}</p>
+                                  <Activity size={16} className="text-fuchsia-500" />{" "}{i18n.t("Cardiopulmonary Bypass (CPB) Record")}</h5>
+                                <p className="text-[10px] text-slate-400 font-bold mt-0.5">{i18n.t("Logged by Perf.")}{" "}{perfName} • {new Date(perf.created_at).toLocaleString()}</p>
                               </div>
-                              <span className="text-[9px] font-black bg-fuchsia-100 text-fuchsia-700 px-3 py-1 rounded-full uppercase tracking-wider">{perf.status}</span>
+                              <span className="text-[9px] font-black bg-fuchsia-100 text-fuchsia-700 px-3 py-1 rounded-full uppercase tracking-wider">{i18n.tv(perf.status)}</span>
                             </div>
 
                             {/* CPB Timings */}
                             {(timings.bypass_time || timings.cross_clamp_time) && (
                               <div className="grid grid-cols-3 gap-3">
                                 <div className="bg-fuchsia-50 p-3 rounded-xl border border-fuchsia-100 text-center">
-                                  <span className="text-[9px] font-black text-fuchsia-500 uppercase block">Total Bypass Time</span>
-                                  <span className="text-base font-black text-fuchsia-900">{timings.bypass_time || '-'} mins</span>
+                                  <span className="text-[9px] font-black text-fuchsia-500 uppercase block">{i18n.t("Total Bypass Time")}</span>
+                                  <span className="text-base font-black text-fuchsia-900">{timings.bypass_time || '-'}{" "}{i18n.t("mins")}</span>
                                 </div>
                                 <div className="bg-rose-50 p-3 rounded-xl border border-rose-100 text-center">
-                                  <span className="text-[9px] font-black text-rose-500 uppercase block">Cross Clamp Time</span>
-                                  <span className="text-base font-black text-rose-900">{timings.cross_clamp_time || '-'} mins</span>
+                                  <span className="text-[9px] font-black text-rose-500 uppercase block">{i18n.t("Cross Clamp Time")}</span>
+                                  <span className="text-base font-black text-rose-900">{timings.cross_clamp_time || '-'}{" "}{i18n.t("mins")}</span>
                                 </div>
                                 <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 text-center">
-                                  <span className="text-[9px] font-black text-slate-400 uppercase block">Lowest Temp</span>
-                                  <span className="text-base font-black text-slate-800">{timings.lowest_temp || '-'}°C</span>
+                                  <span className="text-[9px] font-black text-slate-400 uppercase block">{i18n.t("Lowest Temp")}</span>
+                                  <span className="text-base font-black text-slate-800">{timings.lowest_temp || '-'}{i18n.t("°C")}</span>
                                 </div>
                               </div>
                             )}
@@ -618,26 +610,26 @@ const PatientHistory: React.FC = () => {
                             {/* Circuit Prime & Fluid Balance */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                               <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-100 space-y-1">
-                                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">Circuit & Prime</span>
-                                <p><span className="font-bold">Oxygenator:</span> {prime.oxygenator || '-'}</p>
-                                <p><span className="font-bold">Pump Type:</span> {prime.pump_type || '-'}</p>
-                                <p><span className="font-bold">Total Prime Vol:</span> {prime.total_prime_vol || '-'}</p>
-                                <p><span className="font-bold">Cardioplegia Sys:</span> {prime.cardioplegia_system || '-'}</p>
+                                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">{i18n.t("Circuit & Prime")}</span>
+                                <p><span className="font-bold">{i18n.t("Oxygenator:")}</span> {prime.oxygenator || '-'}</p>
+                                <p><span className="font-bold">{i18n.t("Pump Type:")}</span> {prime.pump_type || '-'}</p>
+                                <p><span className="font-bold">{i18n.t("Total Prime Vol:")}</span> {prime.total_prime_vol || '-'}</p>
+                                <p><span className="font-bold">{i18n.t("Cardioplegia Sys:")}</span> {prime.cardioplegia_system || '-'}</p>
                               </div>
                               <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-100 space-y-1">
-                                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">Fluid Balance</span>
-                                <p><span className="font-bold">Total Inflow:</span> {fluids.total_in || '-'} mL</p>
-                                <p><span className="font-bold">Ultrafiltration (UF):</span> {fluids.uf || '-'} mL</p>
-                                <p><span className="font-bold">Urine Output:</span> {fluids.urine || '-'} mL</p>
-                                <p><span className="font-bold">Net Balance:</span> <strong className={Number(fluids.net_balance) < 0 ? "text-rose-600" : "text-emerald-600"}>{fluids.net_balance || '-'} mL</strong></p>
+                                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">{i18n.t("Fluid Balance")}</span>
+                                <p><span className="font-bold">{i18n.t("Total Inflow:")}</span> {fluids.total_in || '-'}{" "}{i18n.t("mL")}</p>
+                                <p><span className="font-bold">{i18n.t("Ultrafiltration (UF):")}</span> {fluids.uf || '-'}{" "}{i18n.t("mL")}</p>
+                                <p><span className="font-bold">{i18n.t("Urine Output:")}</span> {fluids.urine || '-'}{" "}{i18n.t("mL")}</p>
+                                <p><span className="font-bold">{i18n.t("Net Balance:")}</span> <strong className={Number(fluids.net_balance) < 0 ? "text-rose-600" : "text-emerald-600"}>{fluids.net_balance || '-'}{" "}{i18n.t("mL")}</strong></p>
                               </div>
                             </div>
 
                             {/* CPB Events (Cardioplegia & ABG Labs) */}
                             {perf.events?.length > 0 && (
                               <div className="pt-2">
-                                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-2">CPB Interventions, ABGs & Cardioplegia ({perf.events.length})</span>
-                                <div className="max-h-56 overflow-y-auto no-scrollbar space-y-2 pr-1">
+                                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-2">{i18n.t("CPB Interventions, ABGs & Cardioplegia (")}{perf.events.length})</span>
+                                <div className="max-h-56 overflow-y-auto no-scrollbar space-y-2 pe-1">
                                   {perf.events.map((ev: any) => {
                                     const evDet = safeJSONParse(ev.details);
                                     return (
@@ -663,12 +655,12 @@ const PatientHistory: React.FC = () => {
                               <div className="pt-3 border-t border-slate-100 flex justify-end">
                                 <div className="bg-slate-50 border border-slate-200 p-3 rounded-2xl text-center min-w-[190px] shadow-inner">
                                   {perfSig ? (
-                                    <img src={perfSig} alt="Perfusionist Signature" className="h-12 max-w-[170px] object-contain mx-auto mb-1 border-b border-slate-200/80 pb-1" />
+                                    <img src={perfSig} alt={i18n.t("Perfusionist Signature")} className="h-12 max-w-[170px] object-contain mx-auto mb-1 border-b border-slate-200/80 pb-1" />
                                   ) : (
-                                    <div className="h-10 flex items-center justify-center italic text-xs text-slate-400">Digitally Verified</div>
+                                    <div className="h-10 flex items-center justify-center italic text-xs text-slate-400">{i18n.t("Digitally Verified")}</div>
                                   )}
-                                  <span className="text-[11px] font-black text-slate-800 block">Perf. {perfName}</span>
-                                  <span className="text-[8px] uppercase tracking-widest text-slate-400 block font-bold">Certified Clinical Perfusionist</span>
+                                  <span className="text-[11px] font-black text-slate-800 block">{i18n.t("Perf.")}{" "}{perfName}</span>
+                                  <span className="text-[8px] uppercase tracking-widest text-slate-400 block font-bold">{i18n.t("Certified Clinical Perfusionist")}</span>
                                 </div>
                               </div>
                             )}
@@ -684,21 +676,20 @@ const PatientHistory: React.FC = () => {
                   <details className="group bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all duration-200">
                     <summary className="flex items-center justify-between p-4 cursor-pointer select-none hover:bg-slate-50 transition-colors list-none [&::-webkit-details-marker]:hidden">
                       <h4 className="text-sm font-black text-slate-800 flex items-center gap-2">
-                        <Pill size={18} className="text-indigo-500" /> Medication Administration Record (MAR) & Infusions
-                      </h4>
+                        <Pill size={18} className="text-indigo-500" />{" "}{i18n.t("Medication Administration Record (MAR) & Infusions")}</h4>
                       <ChevronDown className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-200" />
                     </summary>
                     <div className="p-5 border-t border-slate-100 bg-slate-50/50 space-y-4">
                       {selectedEncounter.mar?.length > 0 && (
                         <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
-                          <table className="w-full text-left text-xs whitespace-nowrap">
+                          <table className="w-full text-start text-xs whitespace-nowrap">
                             <thead className="bg-slate-50 text-[9px] font-black text-slate-400 uppercase border-b border-slate-100">
                               <tr>
-                                <th className="px-4 py-3">Administered At</th>
-                                <th className="px-4 py-3">Drug</th>
-                                <th className="px-4 py-3">Dose & Route</th>
-                                <th className="px-4 py-3">Administered By</th>
-                                <th className="px-4 py-3 text-right">Status</th>
+                                <th className="px-4 py-3">{i18n.t("Administered At")}</th>
+                                <th className="px-4 py-3">{i18n.t("Drug")}</th>
+                                <th className="px-4 py-3">{i18n.t("Dose & Route")}</th>
+                                <th className="px-4 py-3">{i18n.t("Administered By")}</th>
+                                <th className="px-4 py-3 text-end">{i18n.t("Status")}</th>
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
@@ -707,9 +698,9 @@ const PatientHistory: React.FC = () => {
                                   <td className="px-4 py-2.5 font-mono text-slate-500">{new Date(m.administered_at).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}</td>
                                   <td className="px-4 py-2.5 font-bold text-slate-800">{m.drug_name}</td>
                                   <td className="px-4 py-2.5 text-slate-600 font-bold">{m.dose} • {m.route}</td>
-                                  <td className="px-4 py-2.5 font-bold text-slate-600"><User size={12} className="inline mr-1 text-slate-400" />{m.administered_by_name}</td>
-                                  <td className="px-4 py-2.5 text-right">
-                                    <span className={`text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase ${m.status?.toLowerCase() === 'given' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>{m.status}</span>
+                                  <td className="px-4 py-2.5 font-bold text-slate-600"><User size={12} className="inline me-1 text-slate-400" />{m.administered_by_name}</td>
+                                  <td className="px-4 py-2.5 text-end">
+                                    <span className={`text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase ${m.status?.toLowerCase() === 'given' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>{i18n.tv(m.status)}</span>
                                   </td>
                                 </tr>
                               ))}
@@ -726,21 +717,21 @@ const PatientHistory: React.FC = () => {
                   <details className="group bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all duration-200">
                     <summary className="flex items-center justify-between p-4 cursor-pointer select-none hover:bg-slate-50 transition-colors list-none [&::-webkit-details-marker]:hidden">
                       <h4 className="text-sm font-black text-slate-800 flex items-center gap-2">
-                        <Droplets size={18} className="text-cyan-600" /> Fluid Intake & Output (I/O) ({selectedEncounter.io_chart.length})
+                        <Droplets size={18} className="text-cyan-600" />{" "}{i18n.t("Fluid Intake & Output (I/O) (")}{selectedEncounter.io_chart.length})
                       </h4>
                       <ChevronDown className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-200" />
                     </summary>
                     <div className="p-5 border-t border-slate-100 bg-slate-50/50">
                       <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white max-h-72 overflow-y-auto no-scrollbar">
-                        <table className="w-full text-left text-xs whitespace-nowrap">
+                        <table className="w-full text-start text-xs whitespace-nowrap">
                           <thead className="bg-slate-50 text-[9px] font-black text-slate-400 uppercase border-b border-slate-100 sticky top-0 z-10">
                             <tr>
-                              <th className="px-4 py-3">Time</th>
-                              <th className="px-4 py-3">Type</th>
-                              <th className="px-4 py-3">Category</th>
-                              <th className="px-4 py-3">Volume</th>
-                              <th className="px-4 py-3">Remarks</th>
-                              <th className="px-4 py-3 text-right">Logged By</th>
+                              <th className="px-4 py-3">{i18n.t("Time")}</th>
+                              <th className="px-4 py-3">{i18n.t("Type")}</th>
+                              <th className="px-4 py-3">{i18n.t("Category")}</th>
+                              <th className="px-4 py-3">{i18n.t("Volume")}</th>
+                              <th className="px-4 py-3">{i18n.t("Remarks")}</th>
+                              <th className="px-4 py-3 text-end">{i18n.t("Logged By")}</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-slate-100 font-medium">
@@ -751,9 +742,9 @@ const PatientHistory: React.FC = () => {
                                   <span className={`text-[9px] font-black px-2 py-0.5 rounded uppercase ${io.type === 'INTAKE' ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>{io.type}</span>
                                 </td>
                                 <td className="px-4 py-2.5 font-bold text-slate-700">{io.category}</td>
-                                <td className="px-4 py-2.5 font-mono font-black text-slate-900">{parseFloat(io.volume).toFixed(1)} mL</td>
+                                <td className="px-4 py-2.5 font-mono font-black text-slate-900">{parseFloat(io.volume).toFixed(1)}{" "}{i18n.t("mL")}</td>
                                 <td className="px-4 py-2.5 text-slate-500 truncate max-w-xs">{io.remarks || '-'}</td>
-                                <td className="px-4 py-2.5 text-right text-slate-600 font-bold">{io.recorded_by_name}</td>
+                                <td className="px-4 py-2.5 text-end text-slate-600 font-bold">{io.recorded_by_name}</td>
                               </tr>
                             ))}
                           </tbody>
@@ -768,7 +759,7 @@ const PatientHistory: React.FC = () => {
                   <details className="group bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all duration-200">
                     <summary className="flex items-center justify-between p-4 cursor-pointer select-none hover:bg-slate-50 transition-colors list-none [&::-webkit-details-marker]:hidden">
                       <h4 className="text-sm font-black text-slate-800 flex items-center gap-2">
-                        <Droplets size={18} className="text-rose-600 fill-rose-600" /> Blood Transfusion Records ({selectedEncounter.blood_transfusions.length})
+                        <Droplets size={18} className="text-rose-600 fill-rose-600" />{" "}{i18n.t("Blood Transfusion Records (")}{selectedEncounter.blood_transfusions.length})
                       </h4>
                       <ChevronDown className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-200" />
                     </summary>
@@ -777,19 +768,18 @@ const PatientHistory: React.FC = () => {
                         <div key={idx} className="bg-white border border-rose-200 rounded-2xl p-4 shadow-sm">
                           <div className="flex justify-between items-center border-b border-rose-100 pb-2 mb-3">
                             <div>
-                              <h5 className="font-black text-rose-900 text-sm">Request #{bt.request_number} • {bt.urgency}</h5>
-                              <p className="text-[10px] text-rose-700 font-bold uppercase tracking-wider mt-0.5">Indication: {bt.indication || 'Not Specified'}</p>
+                              <h5 className="font-black text-rose-900 text-sm">{i18n.t("Request #")}{bt.request_number} • {i18n.tv(bt.urgency)}</h5>
+                              <p className="text-[10px] text-rose-700 font-bold uppercase tracking-wider mt-0.5">{i18n.t("Indication:")}{" "}{bt.indication || i18n.t("Not Specified")}</p>
                             </div>
-                            <span className="text-[10px] font-black bg-rose-50 text-rose-700 border border-rose-200 px-3 py-1 rounded-full uppercase">{bt.request_status || bt.status}</span>
+                            <span className="text-[10px] font-black bg-rose-50 text-rose-700 border border-rose-200 px-3 py-1 rounded-full uppercase">{i18n.tv(bt.request_status) || i18n.tv(bt.status)}</span>
                           </div>
                           <div className="text-xs text-slate-700 space-y-1">
-                            <p><span className="font-bold">Requested By:</span> Dr. {bt.clinician_name || bt.requested_by_name} • <span className="font-bold">Location:</span> {bt.ward_location} ({bt.bed_no})</p>
+                            <p><span className="font-bold">{i18n.t("Requested By:")}</span>{" "}{i18n.t("Dr.")}{" "}{bt.clinician_name || bt.requested_by_name} • <span className="font-bold">{i18n.t("Location:")}</span> {bt.ward_location} ({bt.bed_no})</p>
                             {bt.components?.length > 0 && (
                               <div className="mt-2 flex flex-wrap gap-2">
                                 {bt.components.map((c: any, i: number) => (
                                   <span key={i} className="text-[10px] font-bold bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg">
-                                    {c.component} ({c.units_requested} Unit / {c.mls}mL)
-                                  </span>
+                                    {c.component} ({c.units_requested}{" "}{i18n.t("Unit /")}{" "}{c.mls}{i18n.t("mL)")}</span>
                                 ))}
                               </div>
                             )}
@@ -805,7 +795,7 @@ const PatientHistory: React.FC = () => {
                   <details className="group bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all duration-200">
                     <summary className="flex items-center justify-between p-4 cursor-pointer select-none hover:bg-slate-50 transition-colors list-none [&::-webkit-details-marker]:hidden">
                       <h4 className="text-sm font-black text-slate-800 flex items-center gap-2">
-                        <FileText size={18} className="text-brand-primary" /> Clinical Notes & Plans ({selectedEncounter.clinical_notes.length})
+                        <FileText size={18} className="text-brand-primary" />{" "}{i18n.t("Clinical Notes & Plans (")}{selectedEncounter.clinical_notes.length})
                       </h4>
                       <ChevronDown className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-200" />
                     </summary>
@@ -814,16 +804,16 @@ const PatientHistory: React.FC = () => {
                         <div key={note.id} className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
                           <div className="flex justify-between items-center mb-3 border-b border-slate-100 pb-2">
                             <span className="text-[10px] font-black bg-brand-active text-brand-primary px-3 py-1 rounded-lg border border-brand-active uppercase tracking-widest">{note.note_type}</span>
-                            <div className="text-right">
+                            <div className="text-end">
                               <span className="text-[10px] font-mono text-slate-400 block font-bold mb-0.5">{new Date(note.created_at).toLocaleString()}</span>
-                              <span className="text-[10px] font-bold text-slate-600">Dr. {note.documented_by_name}</span>
+                              <span className="text-[10px] font-bold text-slate-600">{i18n.t("Dr.")}{" "}{note.documented_by_name}</span>
                             </div>
                           </div>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
-                            <RedactableField label="Subjective" value={note.subjective} />
-                            <RedactableField label="Objective" value={note.objective} />
-                            <RedactableField label="Assessment" value={note.assessment} />
-                            <RedactableField label="Plan" value={note.plan} />
+                            <RedactableField label={i18n.t("Subjective")} value={note.subjective} />
+                            <RedactableField label={i18n.t("Objective")} value={note.objective} />
+                            <RedactableField label={i18n.t("Assessment")} value={note.assessment} />
+                            <RedactableField label={i18n.t("Plan")} value={note.plan} />
                           </div>
                         </div>
                       ))}
@@ -836,23 +826,23 @@ const PatientHistory: React.FC = () => {
                   <details className="group bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all duration-200">
                     <summary className="flex items-center justify-between p-4 cursor-pointer select-none hover:bg-slate-50 transition-colors list-none [&::-webkit-details-marker]:hidden">
                       <h4 className="text-sm font-black text-slate-800 flex items-center gap-2">
-                        <Clipboard size={18} className="text-purple-600" /> Nursing Notes ({selectedEncounter.nursing_notes.length})
+                        <Clipboard size={18} className="text-purple-600" />{" "}{i18n.t("Nursing Notes (")}{selectedEncounter.nursing_notes.length})
                       </h4>
                       <ChevronDown className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-200" />
                     </summary>
                     <div className="p-5 border-t border-slate-100 bg-slate-50/50 space-y-4">
                       {selectedEncounter.nursing_notes.map((note: any, idx: number) => (
-                        <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm border-l-4 border-l-purple-500 space-y-3">
+                        <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm border-s-4 border-s-purple-500 space-y-3">
                           <div className="flex justify-between items-center border-b border-slate-100 pb-2">
                             <span className="text-[10px] font-black bg-purple-50 text-purple-700 px-2.5 py-1 rounded-lg border border-purple-100 uppercase tracking-widest">{note.note_type} • {note.care_level}</span>
-                            <div className="text-right">
+                            <div className="text-end">
                               <span className="text-[10px] font-mono text-slate-400 block">{new Date(note.documented_at).toLocaleString()}</span>
-                              <span className="text-[10px] font-bold text-slate-600">Nurse {note.nurse_name}</span>
+                              <span className="text-[10px] font-bold text-slate-600">{i18n.t("Nurse")}{" "}{note.nurse_name}</span>
                             </div>
                           </div>
                           <div className="space-y-2">
-                            <RedactableField label="Clinical Summary" value={note.clinical_summary} />
-                            <RedactableField label="Vitals Summary" value={note.vitals_summary} />
+                            <RedactableField label={i18n.t("Clinical Summary")} value={note.clinical_summary} />
+                            <RedactableField label={i18n.t("Vitals Summary")} value={note.vitals_summary} />
                           </div>
                         </div>
                       ))}
@@ -865,7 +855,7 @@ const PatientHistory: React.FC = () => {
                   <details className="group bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all duration-200">
                     <summary className="flex items-center justify-between p-4 cursor-pointer select-none hover:bg-slate-50 transition-colors list-none [&::-webkit-details-marker]:hidden">
                       <h4 className="text-sm font-black text-slate-800 flex items-center gap-2">
-                        <Stethoscope size={18} className="text-emerald-500" /> Diagnoses ({selectedEncounter.diagnoses.length})
+                        <Stethoscope size={18} className="text-emerald-500" />{" "}{i18n.t("Diagnoses (")}{selectedEncounter.diagnoses.length})
                       </h4>
                       <ChevronDown className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-200" />
                     </summary>
@@ -877,7 +867,7 @@ const PatientHistory: React.FC = () => {
                               {diag.icd10_code}
                             </span>
                             <div>
-                              <p className="text-sm font-bold text-slate-800">{diag.diagnosis_description || diag.description}</p>
+                              <p className="text-sm font-bold text-slate-800">{diag.diagnosis_description || i18n.tx(diag.description)}</p>
                               <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-1">{diag.diagnosis_type}</p>
                             </div>
                           </div>
@@ -892,22 +882,22 @@ const PatientHistory: React.FC = () => {
                   <details className="group bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all duration-200">
                     <summary className="flex items-center justify-between p-4 cursor-pointer select-none hover:bg-slate-50 transition-colors list-none [&::-webkit-details-marker]:hidden">
                       <h4 className="text-sm font-black text-slate-800 flex items-center gap-2">
-                        <Pill size={18} className="text-teal-600" /> Prescriptions / Orders ({selectedEncounter.prescriptions.length})
+                        <Pill size={18} className="text-teal-600" />{" "}{i18n.t("Prescriptions / Orders (")}{selectedEncounter.prescriptions.length})
                       </h4>
                       <ChevronDown className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-200" />
                     </summary>
                     <div className="p-5 border-t border-slate-100 bg-slate-50/50">
                       <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
                         <div className="overflow-x-auto">
-                          <table className="w-full text-xs text-left whitespace-nowrap">
+                          <table className="w-full text-xs text-start whitespace-nowrap">
                             <thead className="bg-slate-50 text-[9px] font-black text-slate-400 uppercase border-b border-slate-100">
                               <tr>
-                                <th className="px-5 py-3">Drug</th>
-                                <th className="px-5 py-3">Dosage</th>
-                                <th className="px-5 py-3">Frequency</th>
-                                <th className="px-5 py-3">Duration</th>
-                                <th className="px-5 py-3">Route</th>
-                                <th className="px-5 py-3 text-right">Prescribed</th>
+                                <th className="px-5 py-3">{i18n.t("Drug")}</th>
+                                <th className="px-5 py-3">{i18n.t("Dosage")}</th>
+                                <th className="px-5 py-3">{i18n.t("Frequency")}</th>
+                                <th className="px-5 py-3">{i18n.t("Duration")}</th>
+                                <th className="px-5 py-3">{i18n.t("Route")}</th>
+                                <th className="px-5 py-3 text-end">{i18n.t("Prescribed")}</th>
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
@@ -921,9 +911,9 @@ const PatientHistory: React.FC = () => {
                                     </td>
                                     <td className="px-5 py-3 text-slate-600 font-bold">{rx.dosage}</td>
                                     <td className="px-5 py-3 text-slate-600">{rx.frequency}</td>
-                                    <td className="px-5 py-3 text-slate-600">{rx.duration} {rx.duration_unit || "days"}</td>
+                                    <td className="px-5 py-3 text-slate-600">{rx.duration} {rx.duration_unit || i18n.t("days")}</td>
                                     <td className="px-5 py-3 text-slate-600">{rx.route}</td>
-                                    <td className="px-5 py-3 text-right font-mono text-slate-400">
+                                    <td className="px-5 py-3 text-end font-mono text-slate-400">
                                       {new Date(rx.prescribed_at).toLocaleString([], { dateStyle: "short", timeStyle: "short" })}
                                       {rx.prescribed_by_name && <div className="font-bold text-slate-500 font-sans">{rx.prescribed_by_name}</div>}
                                     </td>
@@ -934,12 +924,11 @@ const PatientHistory: React.FC = () => {
                         </div>
                         {selectedEncounter.prescriptions.length > itemsPerPage && (
                           <div className="p-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
-                            <span className="text-[10px] font-bold text-slate-500">
-                              Page {ordersPage} of {Math.ceil(selectedEncounter.prescriptions.length / itemsPerPage)}
+                            <span className="text-[10px] font-bold text-slate-500">{i18n.t("Page")}{" "}{ordersPage}{" "}{i18n.t("of")}{" "}{Math.ceil(selectedEncounter.prescriptions.length / itemsPerPage)}
                             </span>
                             <div className="flex gap-1">
-                              <button onClick={() => setOrdersPage((p) => Math.max(1, p - 1))} disabled={ordersPage === 1} className="p-1 rounded border border-slate-200 disabled:opacity-30"><ChevronLeft size={14}/></button>
-                              <button onClick={() => setOrdersPage((p) => Math.min(Math.ceil(selectedEncounter.prescriptions.length / itemsPerPage), p + 1))} disabled={ordersPage >= Math.ceil(selectedEncounter.prescriptions.length / itemsPerPage)} className="p-1 rounded border border-slate-200 disabled:opacity-30"><ChevronRight size={14}/></button>
+                              <button onClick={() => setOrdersPage((p) => Math.max(1, p - 1))} disabled={ordersPage === 1} className="p-1 rounded border border-slate-200 disabled:opacity-30"><ChevronLeft className="rtl:-scale-x-100" size={14}/></button>
+                              <button onClick={() => setOrdersPage((p) => Math.min(Math.ceil(selectedEncounter.prescriptions.length / itemsPerPage), p + 1))} disabled={ordersPage >= Math.ceil(selectedEncounter.prescriptions.length / itemsPerPage)} className="p-1 rounded border border-slate-200 disabled:opacity-30"><ChevronRight className="rtl:-scale-x-100" size={14}/></button>
                             </div>
                           </div>
                         )}
@@ -953,7 +942,7 @@ const PatientHistory: React.FC = () => {
                   <details className="group bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all duration-200">
                     <summary className="flex items-center justify-between p-4 cursor-pointer select-none hover:bg-slate-50 transition-colors list-none [&::-webkit-details-marker]:hidden">
                       <h4 className="text-sm font-black text-slate-800 flex items-center gap-2">
-                        <FlaskConical size={18} className="text-indigo-600" /> Laboratory Orders & Results ({selectedEncounter.labs.length})
+                        <FlaskConical size={18} className="text-indigo-600" />{" "}{i18n.t("Laboratory Orders & Results (")}{selectedEncounter.labs.length})
                       </h4>
                       <ChevronDown className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-200" />
                     </summary>
@@ -963,23 +952,23 @@ const PatientHistory: React.FC = () => {
                           <summary className="flex items-center justify-between p-3.5 cursor-pointer hover:bg-slate-50 list-none [&::-webkit-details-marker]:hidden">
                             <div>
                               <p className="text-xs font-black text-slate-800">{lab.service_name}</p>
-                              <p className="text-[10px] text-slate-400 font-mono mt-0.5">Ordered: {new Date(lab.ordered_at).toLocaleString([], { dateStyle: "short", timeStyle: "short" })} by {lab.ordered_by}</p>
+                              <p className="text-[10px] text-slate-400 font-mono mt-0.5">{i18n.t("Ordered:")}{" "}{new Date(lab.ordered_at).toLocaleString([], { dateStyle: "short", timeStyle: "short" })}{" "}{i18n.t("by")}{" "}{lab.ordered_by}</p>
                             </div>
                             <div className="flex items-center gap-2">
-                              <span className={`text-[9px] font-black px-2 py-0.5 rounded-full uppercase ${lab.lab_status === 'RELEASED' || lab.lab_status === 'COMPLETED' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}>{lab.lab_status || 'PENDING'}</span>
+                              <span className={`text-[9px] font-black px-2 py-0.5 rounded-full uppercase ${lab.lab_status === 'RELEASED' || lab.lab_status === 'COMPLETED' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}>{i18n.tv(lab.lab_status) || i18n.t("PENDING")}</span>
                               <ChevronDown size={14} className="text-slate-400 group-open/lab:rotate-180 transition-transform" />
                             </div>
                           </summary>
                           {lab.results?.length > 0 && (
                             <div className="p-3 border-t border-slate-100 overflow-x-auto">
-                              <table className="w-full text-xs text-left whitespace-nowrap">
+                              <table className="w-full text-xs text-start whitespace-nowrap">
                                 <thead className="bg-slate-50 text-[9px] font-black text-slate-400 uppercase">
                                   <tr>
-                                    <th className="px-3 py-2">Parameter</th>
-                                    <th className="px-3 py-2 text-center">Value</th>
-                                    <th className="px-3 py-2 text-center">Unit</th>
-                                    <th className="px-3 py-2 text-center">Reference Range</th>
-                                    <th className="px-3 py-2 text-center">Flag</th>
+                                    <th className="px-3 py-2">{i18n.t("Parameter")}</th>
+                                    <th className="px-3 py-2 text-center">{i18n.t("Value")}</th>
+                                    <th className="px-3 py-2 text-center">{i18n.t("Unit")}</th>
+                                    <th className="px-3 py-2 text-center">{i18n.t("Reference Range")}</th>
+                                    <th className="px-3 py-2 text-center">{i18n.t("Flag")}</th>
                                   </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-100 font-medium">
@@ -993,7 +982,7 @@ const PatientHistory: React.FC = () => {
                                         {r.flagged && r.flagged !== 'NORMAL' ? (
                                           <span className="text-[9px] font-black px-2 py-0.5 rounded bg-rose-100 text-rose-700">{r.flagged}</span>
                                         ) : (
-                                          <span className="text-[9px] font-bold text-emerald-600">NORMAL</span>
+                                          <span className="text-[9px] font-bold text-emerald-600">{i18n.t("NORMAL")}</span>
                                         )}
                                       </td>
                                     </tr>
@@ -1013,19 +1002,19 @@ const PatientHistory: React.FC = () => {
                   <details className="group bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all duration-200">
                     <summary className="flex items-center justify-between p-4 cursor-pointer select-none hover:bg-slate-50 transition-colors list-none [&::-webkit-details-marker]:hidden">
                       <h4 className="text-sm font-black text-slate-800 flex items-center gap-2">
-                        <Scan size={18} className="text-blue-600" /> Radiology & Imaging ({selectedEncounter.radiology.length})
+                        <Scan size={18} className="text-blue-600" />{" "}{i18n.t("Radiology & Imaging (")}{selectedEncounter.radiology.length})
                       </h4>
                       <ChevronDown className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-200" />
                     </summary>
                     <div className="p-5 border-t border-slate-100 bg-slate-50/50 space-y-3">
                       {selectedEncounter.radiology.map((rad: any, idx: number) => (
-                        <div key={idx} className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm border-l-4 border-l-blue-500">
+                        <div key={idx} className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm border-s-4 border-s-blue-500">
                           <div className="flex justify-between items-center mb-1">
                             <p className="text-xs font-black text-slate-800">{rad.service_name}</p>
-                            <span className="text-[9px] font-bold text-slate-400 font-mono">Ordered by {rad.ordered_by}</span>
+                            <span className="text-[9px] font-bold text-slate-400 font-mono">{i18n.t("Ordered by")}{" "}{rad.ordered_by}</span>
                           </div>
-                          <RedactableField label="Radiologist Findings" value={rad.findings} />
-                          <RedactableField label="Impression" value={rad.impression} />
+                          <RedactableField label={i18n.t("Radiologist Findings")} value={rad.findings} />
+                          <RedactableField label={i18n.t("Impression")} value={rad.impression} />
                         </div>
                       ))}
                     </div>
@@ -1037,21 +1026,20 @@ const PatientHistory: React.FC = () => {
                   <details className="group bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all duration-200">
                     <summary className="flex items-center justify-between p-4 cursor-pointer select-none hover:bg-slate-50 transition-colors list-none [&::-webkit-details-marker]:hidden">
                       <h4 className="text-sm font-black text-slate-800 flex items-center gap-2">
-                        <Droplets size={18} className="text-blue-500" /> Renal Dialysis Charts ({selectedEncounter.renal_dialysis.length})
+                        <Droplets size={18} className="text-blue-500" />{" "}{i18n.t("Renal Dialysis Charts (")}{selectedEncounter.renal_dialysis.length})
                       </h4>
                       <ChevronDown className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-200" />
                     </summary>
                     <div className="p-5 border-t border-slate-100 bg-slate-50/50 space-y-3">
                       {selectedEncounter.renal_dialysis.map((rd: any, idx: number) => (
-                        <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm border-l-4 border-l-blue-500">
+                        <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm border-s-4 border-s-blue-500">
                           <div className="flex items-center justify-between mb-2">
-                            <p className="text-sm font-bold text-slate-800">Dialysis Session ({rd.modality})</p>
-                            <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 uppercase tracking-widest">{rd.status}</span>
+                            <p className="text-sm font-bold text-slate-800">{i18n.t("Dialysis Session (")}{rd.modality})</p>
+                            <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 uppercase tracking-widest">{i18n.tv(rd.status)}</span>
                           </div>
-                          <p className="text-[10px] text-slate-400 font-bold mb-3 border-b border-slate-100 pb-2">
-                            Logged by {rd.created_by_name || "System"} • {new Date(rd.created_at).toLocaleString()}
+                          <p className="text-[10px] text-slate-400 font-bold mb-3 border-b border-slate-100 pb-2">{i18n.t("Logged by")}{" "}{rd.created_by_name || i18n.t("System")} • {new Date(rd.created_at).toLocaleString()}
                           </p>
-                          <RedactableField label="Complications" value={rd.complications} />
+                          <RedactableField label={i18n.t("Complications")} value={rd.complications} />
                         </div>
                       ))}
                     </div>
@@ -1062,16 +1050,16 @@ const PatientHistory: React.FC = () => {
                   <details className="group bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all duration-200">
                     <summary className="flex items-center justify-between p-4 cursor-pointer select-none hover:bg-slate-50 transition-colors list-none [&::-webkit-details-marker]:hidden">
                       <h4 className="text-sm font-black text-slate-800 flex items-center gap-2">
-                        <Activity size={18} className="text-red-500" /> Critical Care Flowsheet ({selectedEncounter.ccu_chart.length})
+                        <Activity size={18} className="text-red-500" />{" "}{i18n.t("Critical Care Flowsheet (")}{selectedEncounter.ccu_chart.length})
                       </h4>
                       <ChevronDown className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-200" />
                     </summary>
                     <div className="p-5 border-t border-slate-100 bg-slate-50/50 space-y-3">
                       {selectedEncounter.ccu_chart.map((ccu: any, idx: number) => (
-                        <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm border-l-4 border-l-red-500">
+                        <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm border-s-4 border-s-red-500">
                           <div className="flex items-center justify-between mb-2">
-                            <p className="text-sm font-bold text-slate-800">Critical Care Chart</p>
-                            <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-red-50 text-red-600 uppercase tracking-widest">{ccu.status}</span>
+                            <p className="text-sm font-bold text-slate-800">{i18n.t("Critical Care Chart")}</p>
+                            <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-red-50 text-red-600 uppercase tracking-widest">{i18n.tv(ccu.status)}</span>
                           </div>
                           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                             {['sedation_analgesia', 'cardiovascular', 'diuretics', 'other_drugs'].map((key) => {
@@ -1080,7 +1068,7 @@ const PatientHistory: React.FC = () => {
                               return (
                                 <div key={key} className="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-center">
                                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest truncate">{key.replace('_', ' ')}</p>
-                                  <p className={`text-xs font-black mt-1 ${count > 0 ? 'text-emerald-600' : 'text-slate-300'}`}>{count > 0 ? `${count} Logs` : 'Empty'}</p>
+                                  <p className={`text-xs font-black mt-1 ${count > 0 ? 'text-emerald-600' : 'text-slate-300'}`}>{count > 0 ? `${count} Logs` : i18n.t("Empty")}</p>
                                 </div>
                               );
                             })}
@@ -1095,29 +1083,28 @@ const PatientHistory: React.FC = () => {
                   <details className="group bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all duration-200">
                     <summary className="flex items-center justify-between p-4 cursor-pointer select-none hover:bg-slate-50 transition-colors list-none [&::-webkit-details-marker]:hidden">
                       <h4 className="text-sm font-black text-slate-800 flex items-center gap-2">
-                        <User size={18} className="text-pink-500" /> Maternity & Delivery ({selectedEncounter.maternity.length})
+                        <User size={18} className="text-pink-500" />{" "}{i18n.t("Maternity & Delivery (")}{selectedEncounter.maternity.length})
                       </h4>
                       <ChevronDown className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-200" />
                     </summary>
                     <div className="p-5 border-t border-slate-100 bg-slate-50/50 space-y-3">
                       {selectedEncounter.maternity.map((mat: any, idx: number) => (
-                        <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm border-l-4 border-l-pink-500">
-                          <p className="text-sm font-bold text-slate-800">Delivery Record ({mat.mode_of_delivery})</p>
-                          <p className="text-[10px] text-slate-400 font-bold mb-3 border-b border-slate-100 pb-2">
-                            Midwife: {mat.midwife_name || "System"} • Date: {new Date(mat.delivery_datetime).toLocaleString()}
+                        <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm border-s-4 border-s-pink-500">
+                          <p className="text-sm font-bold text-slate-800">{i18n.t("Delivery Record (")}{mat.mode_of_delivery})</p>
+                          <p className="text-[10px] text-slate-400 font-bold mb-3 border-b border-slate-100 pb-2">{i18n.t("Midwife:")}{" "}{mat.midwife_name || i18n.t("System")}{" "}{i18n.t("• Date:")}{" "}{new Date(mat.delivery_datetime).toLocaleString()}
                           </p>
                           <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-center text-xs">
                             <div className="bg-slate-50 p-2 rounded-xl border border-slate-100">
-                              <span className="text-[9px] text-slate-400 uppercase font-black block">Blood Loss</span>
-                              <span className="font-bold text-slate-800">{mat.estimated_blood_loss_ml ? `${mat.estimated_blood_loss_ml} ml` : 'N/A'}</span>
+                              <span className="text-[9px] text-slate-400 uppercase font-black block">{i18n.t("Blood Loss")}</span>
+                              <span className="font-bold text-slate-800">{mat.estimated_blood_loss_ml ? `${mat.estimated_blood_loss_ml} ml` : i18n.t("N/A")}</span>
                             </div>
                             <div className="bg-slate-50 p-2 rounded-xl border border-slate-100">
-                              <span className="text-[9px] text-slate-400 uppercase font-black block">Perineum</span>
-                              <span className="font-bold text-slate-800">{mat.perineal_status || 'N/A'}</span>
+                              <span className="text-[9px] text-slate-400 uppercase font-black block">{i18n.t("Perineum")}</span>
+                              <span className="font-bold text-slate-800">{i18n.tv(mat.perineal_status) || i18n.t("N/A")}</span>
                             </div>
                             <div className="bg-slate-50 p-2 rounded-xl border border-slate-100 col-span-2">
-                              <span className="text-[9px] text-slate-400 uppercase font-black block">Partogram</span>
-                              <span className="font-bold text-slate-800">{mat.partogram?.length || 0} observations logged</span>
+                              <span className="text-[9px] text-slate-400 uppercase font-black block">{i18n.t("Partogram")}</span>
+                              <span className="font-bold text-slate-800">{mat.partogram?.length || 0}{" "}{i18n.t("observations logged")}</span>
                             </div>
                           </div>
                         </div>
@@ -1131,7 +1118,7 @@ const PatientHistory: React.FC = () => {
                   <details open className="group bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all duration-200">
                     <summary className="flex items-center justify-between p-4 cursor-pointer select-none hover:bg-slate-50 transition-colors list-none [&::-webkit-details-marker]:hidden">
                       <h4 className="text-sm font-black text-slate-800 flex items-center gap-2">
-                        <ShieldCheck size={18} className="text-emerald-600" /> Informed Consents & Legal Signatures ({selectedEncounter.consents.length})
+                        <ShieldCheck size={18} className="text-emerald-600" />{" "}{i18n.t("Informed Consents & Legal Signatures (")}{selectedEncounter.consents.length})
                       </h4>
                       <ChevronDown className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-200" />
                     </summary>
@@ -1148,36 +1135,35 @@ const PatientHistory: React.FC = () => {
                             <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b border-emerald-100 pb-3">
                               <div>
                                 <h5 className="font-black text-emerald-950 text-sm">{c.consent_form_name}</h5>
-                                <p className="text-[10px] text-emerald-700 font-bold uppercase tracking-wider mt-0.5">
-                                  Signed At: {new Date(c.signed_at).toLocaleString([], { dateStyle: "short", timeStyle: "short" })}
+                                <p className="text-[10px] text-emerald-700 font-bold uppercase tracking-wider mt-0.5">{i18n.t("Signed At:")}{" "}{new Date(c.signed_at).toLocaleString([], { dateStyle: "short", timeStyle: "short" })}
                                 </p>
                               </div>
                               <span className="text-[9px] font-black bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full uppercase tracking-wider">
-                                {c.workflow_stage || "COMPLETED"}
+                                {c.workflow_stage || i18n.t("COMPLETED")}
                               </span>
                             </div>
 
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs bg-emerald-50/30 p-3 rounded-xl border border-emerald-100">
-                              <div><span className="text-[9px] text-slate-400 uppercase font-black block">Patient/Legal Rep</span><span className="font-bold text-slate-800">{formData.patient_name || formData.parent_name || "-"}</span></div>
-                              <div><span className="text-[9px] text-slate-400 uppercase font-black block">Relationship</span><span className="font-bold text-slate-800">{formData.relationship || "Self"}</span></div>
-                              <div><span className="text-[9px] text-slate-400 uppercase font-black block">Blood Transfusion</span><span className="font-bold text-slate-800">{formData.blood_transfusion_consent || "Consented"}</span></div>
-                              <div><span className="text-[9px] text-slate-400 uppercase font-black block">Specimen Handling</span><span className="font-bold text-slate-800">{formData.tissue_consent ? "Consented" : "-"}</span></div>
+                              <div><span className="text-[9px] text-slate-400 uppercase font-black block">{i18n.t("Patient/Legal Rep")}</span><span className="font-bold text-slate-800">{formData.patient_name || formData.parent_name || "-"}</span></div>
+                              <div><span className="text-[9px] text-slate-400 uppercase font-black block">{i18n.t("Relationship")}</span><span className="font-bold text-slate-800">{formData.relationship || i18n.t("Self")}</span></div>
+                              <div><span className="text-[9px] text-slate-400 uppercase font-black block">{i18n.t("Blood Transfusion")}</span><span className="font-bold text-slate-800">{formData.blood_transfusion_consent || i18n.t("Consented")}</span></div>
+                              <div><span className="text-[9px] text-slate-400 uppercase font-black block">{i18n.t("Specimen Handling")}</span><span className="font-bold text-slate-800">{formData.tissue_consent ? i18n.t("Consented") : "-"}</span></div>
                             </div>
 
                             {/* Digital Signatures Gallery */}
                             <div>
-                              <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-2">Executed Digital Signatures</span>
+                              <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-2">{i18n.t("Executed Digital Signatures")}</span>
                               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
                                 {/* Patient/Parent Signature */}
                                 {(patientSig || formData.patient_name || formData.parent_name) && (
                                   <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
                                     {patientSig ? (
-                                      <img src={patientSig} alt="Patient Signature" className="h-12 max-w-[140px] object-contain mx-auto mb-1 border-b border-slate-200/80 pb-1" />
+                                      <img src={patientSig} alt={i18n.t("Patient Signature")} className="h-12 max-w-[140px] object-contain mx-auto mb-1 border-b border-slate-200/80 pb-1" />
                                     ) : (
-                                      <div className="h-10 flex items-center justify-center text-xs text-slate-400 italic">Signed Digitally</div>
+                                      <div className="h-10 flex items-center justify-center text-xs text-slate-400 italic">{i18n.t("Signed Digitally")}</div>
                                     )}
                                     <span className="text-[10px] font-black text-slate-800 block truncate">{formData.parent_name || formData.patient_name}</span>
-                                    <span className="text-[8px] uppercase tracking-widest text-slate-400 font-bold block">{formData.relationship || "Patient"} Signature</span>
+                                    <span className="text-[8px] uppercase tracking-widest text-slate-400 font-bold block">{formData.relationship || i18n.t("Patient")}{" "}{i18n.t("Signature")}</span>
                                   </div>
                                 )}
 
@@ -1185,12 +1171,12 @@ const PatientHistory: React.FC = () => {
                                 {(clinicianSig || formData.clinician_name) && (
                                   <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
                                     {clinicianSig ? (
-                                      <img src={clinicianSig} alt="Clinician Signature" className="h-12 max-w-[140px] object-contain mx-auto mb-1 border-b border-slate-200/80 pb-1" />
+                                      <img src={clinicianSig} alt={i18n.t("Clinician Signature")} className="h-12 max-w-[140px] object-contain mx-auto mb-1 border-b border-slate-200/80 pb-1" />
                                     ) : (
-                                      <div className="h-10 flex items-center justify-center text-xs text-slate-400 italic">Signed Digitally</div>
+                                      <div className="h-10 flex items-center justify-center text-xs text-slate-400 italic">{i18n.t("Signed Digitally")}</div>
                                     )}
                                     <span className="text-[10px] font-black text-slate-800 block truncate">{formData.clinician_name}</span>
-                                    <span className="text-[8px] uppercase tracking-widest text-slate-400 font-bold block">Consenting Clinician</span>
+                                    <span className="text-[8px] uppercase tracking-widest text-slate-400 font-bold block">{i18n.t("Consenting Clinician")}</span>
                                   </div>
                                 )}
 
@@ -1198,12 +1184,12 @@ const PatientHistory: React.FC = () => {
                                 {(secondClinicianSig || formData.second_clinician_name) && (
                                   <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
                                     {secondClinicianSig ? (
-                                      <img src={secondClinicianSig} alt="Second Clinician Signature" className="h-12 max-w-[140px] object-contain mx-auto mb-1 border-b border-slate-200/80 pb-1" />
+                                      <img src={secondClinicianSig} alt={i18n.t("Second Clinician Signature")} className="h-12 max-w-[140px] object-contain mx-auto mb-1 border-b border-slate-200/80 pb-1" />
                                     ) : (
-                                      <div className="h-10 flex items-center justify-center text-xs text-slate-400 italic">Signed Digitally</div>
+                                      <div className="h-10 flex items-center justify-center text-xs text-slate-400 italic">{i18n.t("Signed Digitally")}</div>
                                     )}
                                     <span className="text-[10px] font-black text-slate-800 block truncate">{formData.second_clinician_name}</span>
-                                    <span className="text-[8px] uppercase tracking-widest text-slate-400 font-bold block">Second Clinician</span>
+                                    <span className="text-[8px] uppercase tracking-widest text-slate-400 font-bold block">{i18n.t("Second Clinician")}</span>
                                   </div>
                                 )}
 
@@ -1211,12 +1197,12 @@ const PatientHistory: React.FC = () => {
                                 {(witnessSig || formData.witness_name) && (
                                   <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
                                     {witnessSig ? (
-                                      <img src={witnessSig} alt="Witness Signature" className="h-12 max-w-[140px] object-contain mx-auto mb-1 border-b border-slate-200/80 pb-1" />
+                                      <img src={witnessSig} alt={i18n.t("Witness Signature")} className="h-12 max-w-[140px] object-contain mx-auto mb-1 border-b border-slate-200/80 pb-1" />
                                     ) : (
-                                      <div className="h-10 flex items-center justify-center text-xs text-slate-400 italic">Signed Digitally</div>
+                                      <div className="h-10 flex items-center justify-center text-xs text-slate-400 italic">{i18n.t("Signed Digitally")}</div>
                                     )}
                                     <span className="text-[10px] font-black text-slate-800 block truncate">{formData.witness_name}</span>
-                                    <span className="text-[8px] uppercase tracking-widest text-slate-400 font-bold block">Witness / Staff</span>
+                                    <span className="text-[8px] uppercase tracking-widest text-slate-400 font-bold block">{i18n.t("Witness / Staff")}</span>
                                   </div>
                                 )}
                               </div>
@@ -1235,7 +1221,7 @@ const PatientHistory: React.FC = () => {
                   !selectedEncounter.renal_dialysis?.length && !selectedEncounter.ccu_chart?.length && !selectedEncounter.maternity?.length && 
                   !selectedEncounter.consents?.length && !selectedEncounter.mar?.length && !selectedEncounter.io_chart?.length && (
                   <div className="py-16 text-center border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50/50">
-                    <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">No clinical data recorded for this encounter.</p>
+                    <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">{i18n.t("No clinical data recorded for this encounter.")}</p>
                   </div>
                 )}
               </div>

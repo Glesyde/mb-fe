@@ -4,6 +4,7 @@ import {
 } from 'lucide-react';
 import { radiologyService } from '../services/radiology.service';
 import { useNotification } from '../context/NotificationContext';
+import { i18n } from "../i18n";
 
 interface RadiologyOrder {
   id: number;
@@ -126,28 +127,28 @@ const RadiologyWorklist: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white p-5 rounded-[28px] border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Pending Scans</p>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Pending Scans")}</p>
             <p className="text-xl font-black text-slate-800">{orders.filter(o => o.status === 'Pending').length}</p>
           </div>
           <div className="p-2.5 bg-slate-100 text-slate-600 rounded-xl border border-slate-200"><Clock size={20}/></div>
         </div>
         <div className="bg-white p-5 rounded-[28px] border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Active (In-Room)</p>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Active (In-Room)")}</p>
             <p className="text-xl font-black text-brand-primary">{orders.filter(o => o.status === 'In-Progress').length}</p>
           </div>
           <div className="p-2.5 bg-brand-active text-brand-primary rounded-xl border border-brand-active animate-pulse"><Activity size={20}/></div>
         </div>
         <div className="bg-white p-5 rounded-[28px] border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Stat Alerts</p>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Stat Alerts")}</p>
             <p className="text-xl font-black text-red-600">0</p>
           </div>
           <div className="p-2.5 bg-red-50 text-red-600 rounded-xl border border-red-100"><AlertCircle size={20}/></div>
         </div>
         <div className="bg-white p-5 rounded-[28px] border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Orders</p>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Total Orders")}</p>
             <p className="text-xl font-black text-emerald-600">{orders.length}</p>
           </div>
           <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl border border-emerald-100"><CheckCircle2 size={20}/></div>
@@ -157,11 +158,11 @@ const RadiologyWorklist: React.FC = () => {
       {/* Control Bar */}
       <div className="bg-white p-4 rounded-3xl border border-slate-200 flex flex-col md:flex-row gap-4 items-center shadow-sm">
         <div className="relative flex-1 w-full group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-slate-700 transition-colors" />
+          <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-slate-700 transition-colors" />
           <input 
             type="text" 
-            placeholder="Search imaging worklist by Patient, MRN, Service..."
-            className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:bg-white focus:ring-4 focus:ring-slate-400/10 outline-none transition-all font-bold"
+            placeholder={i18n.t("Search imaging worklist by Patient, MRN, Service...")}
+            className="w-full ps-12 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:bg-white focus:ring-4 focus:ring-slate-400/10 outline-none transition-all font-bold"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -170,22 +171,21 @@ const RadiologyWorklist: React.FC = () => {
           onClick={fetchOrders}
           className="flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 transition-all w-full md:w-auto"
         >
-          <Filter size={16} /> Refresh List
-        </button>
+          <Filter size={16} />{" "}{i18n.t("Refresh List")}</button>
       </div>
 
       {/* Main Table */}
       <div className="bg-white rounded-[40px] border border-slate-200 shadow-sm min-h-[400px]">
         <div className="overflow-x-auto pb-48">
-          <table className="w-full text-left">
+          <table className="w-full text-start">
             <thead>
               <tr className="bg-slate-50/50 border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                <th className="px-6 py-5 whitespace-nowrap">Order Info</th>
-                <th className="px-6 py-5 whitespace-nowrap">Patient Details</th>
-                <th className="px-6 py-5 whitespace-nowrap">Location</th>
-                <th className="px-6 py-5 whitespace-nowrap">Imaging Study</th>
-                <th className="px-6 py-5 whitespace-nowrap">Status</th>
-                <th className="px-6 py-5 whitespace-nowrap text-right">Actions</th>
+                <th className="px-6 py-5 whitespace-nowrap">{i18n.t("Order Info")}</th>
+                <th className="px-6 py-5 whitespace-nowrap">{i18n.t("Patient Details")}</th>
+                <th className="px-6 py-5 whitespace-nowrap">{i18n.t("Location")}</th>
+                <th className="px-6 py-5 whitespace-nowrap">{i18n.t("Imaging Study")}</th>
+                <th className="px-6 py-5 whitespace-nowrap">{i18n.t("Status")}</th>
+                <th className="px-6 py-5 whitespace-nowrap text-end">{i18n.t("Actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -193,15 +193,15 @@ const RadiologyWorklist: React.FC = () => {
                 <tr>
                   <td colSpan={6} className="text-center py-20 text-slate-400">
                     <Loader2 className="animate-spin mx-auto mb-3" size={32} />
-                    <p className="font-medium">Loading orders...</p>
+                    <p className="font-medium">{i18n.t("Loading orders...")}</p>
                   </td>
                 </tr>
               ) : filtered.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="text-center py-20 text-slate-400">
                     <FileText size={48} className="mx-auto mb-3 opacity-20" />
-                    <p className="font-bold text-lg text-slate-600">No orders found.</p>
-                    <p className="text-sm">Try adjusting your search filters.</p>
+                    <p className="font-bold text-lg text-slate-600">{i18n.t("No orders found.")}</p>
+                    <p className="text-sm">{i18n.t("Try adjusting your search filters.")}</p>
                   </td>
                 </tr>
               ) : filtered.map((order) => {
@@ -221,7 +221,7 @@ const RadiologyWorklist: React.FC = () => {
                         </span>
                         <div className="flex flex-col text-[10px] font-bold text-slate-400 leading-tight">
                           <span className="flex items-center gap-1"><Clock size={10} /> {order.ordered_at?.split(' ')[0]}</span>
-                          <span className="ml-3.5 whitespace-nowrap">{order.ordered_at?.split(' ')[1]}</span>
+                          <span className="ms-3.5 whitespace-nowrap">{order.ordered_at?.split(' ')[1]}</span>
                         </div>
                       </div>
                     </td>
@@ -233,8 +233,8 @@ const RadiologyWorklist: React.FC = () => {
                         <div>
                           <p className="text-sm font-black text-slate-800">{order.first_name} {order.last_name}</p>
                           <div className="flex items-center gap-2 mt-1">
-                            <span className="text-[10px] font-mono font-bold text-brand-primary uppercase bg-brand-active/50 px-1.5 py-0.5 rounded">MRN: {order.mrn}</span>
-                            <span className="text-[10px] font-bold text-slate-500">{order.display_age || `${order.age_years}y`} · {order.gender}</span>
+                            <span className="text-[10px] font-mono font-bold text-brand-primary uppercase bg-brand-active/50 px-1.5 py-0.5 rounded">{i18n.t("MRN:")}{" "}{order.mrn}</span>
+                            <span className="text-[10px] font-bold text-slate-500">{order.display_age || `${order.age_years}y`} · {i18n.tv(order.gender)}</span>
                           </div>
                         </div>
                       </div>
@@ -246,7 +246,7 @@ const RadiologyWorklist: React.FC = () => {
                           <p className="text-[10px] font-medium text-slate-500">{order.room_number} · {order.bed_number}</p>
                         </div>
                       ) : (
-                        <span className="text-xs font-medium text-slate-400">Outpatient</span>
+                        <span className="text-xs font-medium text-slate-400">{i18n.t("Outpatient")}</span>
                       )}
                     </td>
                     <td className="px-6 py-4">
@@ -260,20 +260,19 @@ const RadiologyWorklist: React.FC = () => {
                       <div className="flex flex-col gap-1.5 items-start">
                         {locked ? (
                           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-widest bg-slate-800 text-white border border-slate-700 shadow-sm">
-                            <Lock size={12} className="text-amber-400" /> Unpaid (Locked)
-                          </span>
+                            <Lock size={12} className="text-amber-400" />{" "}{i18n.t("Unpaid (Locked)")}</span>
                         ) : (
                           <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-widest border
                             ${order.status === 'Pending' ? 'bg-amber-50 text-amber-600 border-amber-200' : 
                               order.status === 'In-Progress' ? 'bg-brand-active text-brand-primary border-brand-active' : 
                               'bg-emerald-50 text-emerald-600 border-emerald-200'}
                           `}>
-                            {order.status}
+                            {i18n.tv(order.status)}
                           </span>
                         )}
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-right relative">
+                    <td className="px-6 py-4 text-end relative">
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
@@ -285,21 +284,20 @@ const RadiologyWorklist: React.FC = () => {
                       </button>
                       
                       {activeMenu === uniqueId && (
-                        <div className="absolute right-8 top-10 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 animate-in fade-in slide-in-from-top-2" onClick={(e) => e.stopPropagation()}>
+                        <div className="absolute end-8 top-10 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 animate-in fade-in slide-in-from-top-2" onClick={(e) => e.stopPropagation()}>
                           <button 
                             onClick={() => {
                               setSelectedOrder(order);
                               setActiveMenu(null);
                             }}
-                            className="w-full text-left px-4 py-2.5 text-sm font-bold text-slate-600 hover:bg-slate-50 hover:text-slate-900 flex items-center gap-2"
+                            className="w-full text-start px-4 py-2.5 text-sm font-bold text-slate-600 hover:bg-slate-50 hover:text-slate-900 flex items-center gap-2"
                           >
-                            <Eye size={16} /> View Order Details
-                          </button>
+                            <Eye size={16} />{" "}{i18n.t("View Order Details")}</button>
                           {order.status === 'Pending' && (
                             <button 
                               onClick={() => handleStartScan(order)}
                               disabled={processingId === uniqueId || locked}
-                              className={`w-full text-left px-4 py-2.5 text-sm font-bold flex items-center gap-2 border-t border-slate-50 transition-colors ${
+                              className={`w-full text-start px-4 py-2.5 text-sm font-bold flex items-center gap-2 border-t border-slate-50 transition-colors ${
                                 locked
                                   ? 'text-slate-400 bg-slate-50 cursor-not-allowed'
                                   : 'text-brand-primary hover:bg-brand-active0/10'
@@ -312,7 +310,7 @@ const RadiologyWorklist: React.FC = () => {
                               ) : (
                                 <Play size={16} fill="currentColor" />
                               )}
-                              {locked ? 'Awaiting Payment' : 'Start Scan'}
+                              {locked ? i18n.t("Awaiting Payment") : i18n.t("Start Scan")}
                             </button>
                           )}
                         </div>
@@ -332,8 +330,8 @@ const RadiologyWorklist: React.FC = () => {
           <div className="bg-white rounded-[32px] shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95">
             <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
               <div>
-                <h3 className="text-xl font-black text-slate-800 tracking-tight">Order Details</h3>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Ref #{selectedOrder.order_id || selectedOrder.id}</p>
+                <h3 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Order Details")}</h3>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">{i18n.t("Ref #")}{selectedOrder.order_id || selectedOrder.id}</p>
               </div>
               <button 
                 onClick={() => setSelectedOrder(null)}
@@ -349,44 +347,40 @@ const RadiologyWorklist: React.FC = () => {
                 <div className="bg-amber-50 border border-amber-200 text-amber-900 p-4 rounded-2xl flex items-start gap-3">
                   <AlertTriangle className="text-amber-600 shrink-0 mt-0.5" size={18} />
                   <div>
-                    <h4 className="font-black text-xs uppercase tracking-widest">Locked — Awaiting Billing Payment</h4>
-                    <p className="text-xs mt-1 font-medium text-amber-800">
-                      This imaging study cannot be performed until the outpatient fee has been settled at the billing counter.
-                    </p>
+                    <h4 className="font-black text-xs uppercase tracking-widest">{i18n.t("Locked — Awaiting Billing Payment")}</h4>
+                    <p className="text-xs mt-1 font-medium text-amber-800">{i18n.t("This imaging study cannot be performed until the outpatient fee has been settled at the billing counter.")}</p>
                   </div>
                 </div>
               )}
 
               <div>
                 <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                  <User size={14} /> Patient Information
-                </h4>
+                  <User size={14} />{" "}{i18n.t("Patient Information")}</h4>
                 <div className="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100">
                   <div>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase">Name</p>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Name")}</p>
                     <p className="text-sm font-bold text-slate-800">{selectedOrder.first_name} {selectedOrder.last_name}</p>
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase">MRN</p>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("MRN")}</p>
                     <p className="text-sm font-mono font-bold text-slate-800">{selectedOrder.mrn}</p>
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase">Encounter</p>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Encounter")}</p>
                     <p className="text-sm font-mono font-bold text-slate-800">{selectedOrder.encounter_number} ({selectedOrder.encounter_type})</p>
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase">Billing Status</p>
-                    <p className="text-sm font-bold text-slate-800">{isOrderLocked(selectedOrder) ? 'UNPAID (LOCKED)' : (selectedOrder.order_status || 'PAID')}</p>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase">{i18n.t("Billing Status")}</p>
+                    <p className="text-sm font-bold text-slate-800">{isOrderLocked(selectedOrder) ? i18n.t("UNPAID (LOCKED)") : (i18n.tv(selectedOrder.order_status) || i18n.t("PAID"))}</p>
                   </div>
                 </div>
               </div>
 
               <div>
                 <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                  <Stethoscope size={14} /> Diagnostic Request
-                </h4>
+                  <Stethoscope size={14} />{" "}{i18n.t("Diagnostic Request")}</h4>
                 <div className="bg-brand-active/30 p-4 rounded-2xl border border-brand-active">
-                  <p className="text-[10px] font-bold text-brand-primary uppercase mb-1">Imaging Study</p>
+                  <p className="text-[10px] font-bold text-brand-primary uppercase mb-1">{i18n.t("Imaging Study")}</p>
                   <p className="text-sm font-bold text-brand-primary">
                     {selectedOrder.service_name}
                   </p>
@@ -398,14 +392,11 @@ const RadiologyWorklist: React.FC = () => {
               <button 
                 onClick={() => setSelectedOrder(null)}
                 className="px-6 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-200 transition-colors"
-              >
-                Close
-              </button>
+              >{i18n.t("Close")}</button>
               {selectedOrder.status === 'Pending' && (
                 isOrderLocked(selectedOrder) ? (
                   <div className="px-6 py-2.5 rounded-xl text-sm font-bold text-slate-400 bg-slate-200/70 border border-slate-300 cursor-not-allowed flex items-center gap-2">
-                    <Lock size={16} /> Locked (Awaiting Payment)
-                  </div>
+                    <Lock size={16} />{" "}{i18n.t("Locked (Awaiting Payment)")}</div>
                 ) : (
                   <button 
                     onClick={() => {
@@ -414,8 +405,7 @@ const RadiologyWorklist: React.FC = () => {
                     }}
                     className="px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-slate-800 hover:bg-slate-900 transition-colors shadow-lg shadow-slate-200 flex items-center gap-2"
                   >
-                    <Play size={16} fill="currentColor" /> Start Scan
-                  </button>
+                    <Play size={16} fill="currentColor" />{" "}{i18n.t("Start Scan")}</button>
                 )
               )}
             </div>

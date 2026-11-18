@@ -38,6 +38,7 @@ import AtrialMyxomaConsentForm from "./consent-templates/AtrialMyxomaConsentForm
 import AtrialMyxomaConsentPrintTemplate from "./print-templates/theatre/AtrialMyxomaConsentPrintTemplate";
 import AsdPdaRepairConsentForm from "./consent-templates/ASDRepairPDAClosure";
 import AsdPdaRepairConsentPrintTemplate from "./print-templates/theatre/AsdPdaRepairConsentPrintTemplate";
+import { i18n } from "../i18n";
 
 export interface OTSurgery {
   id: number;
@@ -280,7 +281,7 @@ const ConsentModal: React.FC<ConsentModalProps> = ({
       <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
         <div className="bg-white rounded-2xl shadow-2xl p-10 flex flex-col items-center gap-4">
           <Loader2 className="animate-spin text-brand-primary" size={40} />
-          <p className="text-slate-500 font-bold text-sm">Loading consent...</p>
+          <p className="text-slate-500 font-bold text-sm">{i18n.t("Loading consent...")}</p>
         </div>
       </div>
     );
@@ -340,8 +341,8 @@ const ConsentModal: React.FC<ConsentModalProps> = ({
                     <Printer className="text-[#1e40af] animate-pulse" size={24} />
                   </div>
                 </div>
-                <h2 className="text-2xl font-black text-[#1e40af] tracking-tighter uppercase italic">Generating Document</h2>
-                <p className="text-slate-500 font-bold mt-2 animate-pulse">Syncing checkboxes and signatures...</p>
+                <h2 className="text-2xl font-black text-[#1e40af] tracking-tighter uppercase italic">{i18n.t("Generating Document")}</h2>
+                <p className="text-slate-500 font-bold mt-2 animate-pulse">{i18n.t("Syncing checkboxes and signatures...")}</p>
              </div>
           )}
         </div>
@@ -384,8 +385,8 @@ const ConsentModal: React.FC<ConsentModalProps> = ({
                     <Printer className="text-[#1e40af] animate-pulse" size={24} />
                   </div>
                 </div>
-                <h2 className="text-2xl font-black text-[#1e40af] tracking-tighter uppercase italic">Generating Document</h2>
-                <p className="text-slate-500 font-bold mt-2 animate-pulse">Syncing checkboxes and signatures...</p>
+                <h2 className="text-2xl font-black text-[#1e40af] tracking-tighter uppercase italic">{i18n.t("Generating Document")}</h2>
+                <p className="text-slate-500 font-bold mt-2 animate-pulse">{i18n.t("Syncing checkboxes and signatures...")}</p>
              </div>
           )}
         </div>
@@ -433,8 +434,8 @@ const ConsentModal: React.FC<ConsentModalProps> = ({
                     <Printer className="text-[#3B309A] animate-pulse" size={24} />
                   </div>
                 </div>
-                <h2 className="text-2xl font-black text-[#3B309A] tracking-tighter uppercase italic">Generating Document</h2>
-                <p className="text-slate-500 font-bold mt-2 animate-pulse">Syncing checkboxes and signatures...</p>
+                <h2 className="text-2xl font-black text-[#3B309A] tracking-tighter uppercase italic">{i18n.t("Generating Document")}</h2>
+                <p className="text-slate-500 font-bold mt-2 animate-pulse">{i18n.t("Syncing checkboxes and signatures...")}</p>
              </div>
           )}
         </div>
@@ -480,8 +481,8 @@ const ConsentModal: React.FC<ConsentModalProps> = ({
                     <Printer className="text-[#7c3aed] animate-pulse" size={24} />
                   </div>
                 </div>
-                <h2 className="text-2xl font-black text-[#7c3aed] tracking-tighter uppercase italic">Generating Document</h2>
-                <p className="text-slate-500 font-bold mt-2 animate-pulse">Syncing checkboxes and signatures...</p>
+                <h2 className="text-2xl font-black text-[#7c3aed] tracking-tighter uppercase italic">{i18n.t("Generating Document")}</h2>
+                <p className="text-slate-500 font-bold mt-2 animate-pulse">{i18n.t("Syncing checkboxes and signatures...")}</p>
              </div>
           )}
         </div>
@@ -527,8 +528,8 @@ const ConsentModal: React.FC<ConsentModalProps> = ({
                     <Printer className="text-[#1e40af] animate-pulse" size={24} />
                   </div>
                 </div>
-                <h2 className="text-2xl font-black text-[#1e40af] tracking-tighter uppercase italic">Generating Document</h2>
-                <p className="text-slate-500 font-bold mt-2 animate-pulse">Syncing checkboxes and signatures...</p>
+                <h2 className="text-2xl font-black text-[#1e40af] tracking-tighter uppercase italic">{i18n.t("Generating Document")}</h2>
+                <p className="text-slate-500 font-bold mt-2 animate-pulse">{i18n.t("Syncing checkboxes and signatures...")}</p>
              </div>
           )}
         </div>
@@ -574,8 +575,8 @@ const ConsentModal: React.FC<ConsentModalProps> = ({
                     <Printer className="text-[#1e40af] animate-pulse" size={24} />
                   </div>
                 </div>
-                <h2 className="text-2xl font-black text-[#1e40af] tracking-tighter uppercase italic">Generating Document</h2>
-                <p className="text-slate-500 font-bold mt-2 animate-pulse">Syncing checkboxes and signatures...</p>
+                <h2 className="text-2xl font-black text-[#1e40af] tracking-tighter uppercase italic">{i18n.t("Generating Document")}</h2>
+                <p className="text-slate-500 font-bold mt-2 animate-pulse">{i18n.t("Syncing checkboxes and signatures...")}</p>
              </div>
           )}
         </div>
@@ -665,8 +666,8 @@ const ConsentModal: React.FC<ConsentModalProps> = ({
                   <Printer className="text-[#1e40af] animate-pulse" size={24} />
                 </div>
               </div>
-              <h2 className="text-2xl font-black text-[#1e40af] tracking-tighter uppercase italic">Generating Document</h2>
-              <p className="text-slate-500 font-bold mt-2 animate-pulse">Syncing signatures and loading PDF...</p>
+              <h2 className="text-2xl font-black text-[#1e40af] tracking-tighter uppercase italic">{i18n.t("Generating Document")}</h2>
+              <p className="text-slate-500 font-bold mt-2 animate-pulse">{i18n.t("Syncing signatures and loading PDF...")}</p>
            </div>
         )}
       </div>
@@ -758,8 +759,8 @@ const ConsentModal: React.FC<ConsentModalProps> = ({
                     <Printer className="text-[#1e40af] animate-pulse" size={24} />
                   </div>
                 </div>
-                <h2 className="text-2xl font-black text-[#1e40af] tracking-tighter uppercase italic">Generating Document</h2>
-                <p className="text-slate-500 font-bold mt-2 animate-pulse">Syncing signatures and loading PDF...</p>
+                <h2 className="text-2xl font-black text-[#1e40af] tracking-tighter uppercase italic">{i18n.t("Generating Document")}</h2>
+                <p className="text-slate-500 font-bold mt-2 animate-pulse">{i18n.t("Syncing signatures and loading PDF...")}</p>
              </div>
           )}
         </div>
@@ -799,17 +800,15 @@ const ConsentModal: React.FC<ConsentModalProps> = ({
             {onBackToActions && (
               <button
                 onClick={onBackToActions}
-                className="p-1.5 bg-white border border-slate-200 shadow-sm text-slate-500 rounded-lg hover:bg-slate-100 transition-colors mr-1"
-                title="Back to Actions"
+                className="p-1.5 bg-white border border-slate-200 shadow-sm text-slate-500 rounded-lg hover:bg-slate-100 transition-colors me-1"
+                title={i18n.t("Back to Actions")}
               >
-                <ArrowLeft size={18} />
+                <ArrowLeft className="rtl:-scale-x-100" size={18} />
               </button>
             )}
             <div>
               <h3 className="font-black text-slate-800 text-lg flex items-center gap-2">
-                <FileText className="text-brand-primary" size={20} />
-                View Consent
-              </h3>
+                <FileText className="text-brand-primary" size={20} />{i18n.t("View Consent")}</h3>
               <p className="text-xs text-slate-500 font-bold uppercase">
                 {extConsent?.consent_form_name || procedureName}
               </p>
@@ -823,15 +822,12 @@ const ConsentModal: React.FC<ConsentModalProps> = ({
           </button>
         </div>
         <div className="p-6 overflow-y-auto flex-1">
-          <div className="text-center p-8 bg-slate-50 rounded-xl border border-slate-200 text-slate-500 font-bold text-sm">
-            Legacy consent format detected. Please view Full PDF for details.
-          </div>
+          <div className="text-center p-8 bg-slate-50 rounded-xl border border-slate-200 text-slate-500 font-bold text-sm">{i18n.t("Legacy consent format detected. Please view Full PDF for details.")}</div>
         </div>
         <div className="p-6 bg-slate-50 border-t border-slate-100 flex justify-end gap-3 shrink-0">
-          <button onClick={onClose} className="px-6 py-3 rounded-xl font-bold text-slate-500 hover:bg-slate-200 transition-colors">Close</button>
+          <button onClick={onClose} className="px-6 py-3 rounded-xl font-bold text-slate-500 hover:bg-slate-200 transition-colors">{i18n.t("Close")}</button>
           <button onClick={() => setIsPrintViewOpen(true)} className="px-6 py-3 rounded-xl font-bold text-white bg-brand-primary hover:bg-brand-primary shadow-lg shadow-brand-active transition-all flex items-center gap-2">
-            <Printer size={18} /> View Full PDF
-          </button>
+            <Printer size={18} />{" "}{i18n.t("View Full PDF")}</button>
         </div>
       </div>
       <ConsentPrintView

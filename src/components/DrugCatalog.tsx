@@ -12,6 +12,7 @@ import {
   ChevronRight,
   Database
 } from 'lucide-react';
+import { i18n } from "../i18n";
 
 interface DrugEntry {
   id: string;
@@ -43,22 +44,20 @@ const DrugCatalog: React.FC = () => {
       {/* Search & Action Bar */}
       <div className="bg-white p-4 rounded-3xl border border-slate-200 flex flex-col md:flex-row gap-4 items-center shadow-sm">
         <div className="relative flex-1 w-full group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-teal-600 transition-colors" />
+          <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-teal-600 transition-colors" />
           <input 
             type="text" 
-            placeholder="Search master drug registry by Brand or Generic name..."
-            className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:bg-white focus:ring-4 focus:ring-teal-500/10 outline-none transition-all font-bold"
+            placeholder={i18n.t("Search master drug registry by Brand or Generic name...")}
+            className="w-full ps-12 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:bg-white focus:ring-4 focus:ring-teal-500/10 outline-none transition-all font-bold"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
         <div className="flex items-center gap-2">
           <button className="flex items-center gap-2 px-5 py-3 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 transition-all">
-            <Filter size={16} /> All Forms
-          </button>
+            <Filter size={16} />{" "}{i18n.t("All Forms")}</button>
           <button className="bg-teal-600 text-white px-6 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-teal-700 transition-all shadow-lg active:scale-95 text-xs uppercase tracking-widest">
-            <Plus size={18} /> Add New Drug
-          </button>
+            <Plus size={18} />{" "}{i18n.t("Add New Drug")}</button>
         </div>
       </div>
 
@@ -67,9 +66,8 @@ const DrugCatalog: React.FC = () => {
         <div className="p-8 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
            <div>
              <h3 className="text-xl font-black text-slate-800 tracking-tight flex items-center gap-2">
-               <Database size={20} className="text-teal-600" /> Pharmacological Master Registry
-             </h3>
-             <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">Official Hospital Drug List & Standardized Pricing</p>
+               <Database size={20} className="text-teal-600" />{" "}{i18n.t("Pharmacological Master Registry")}</h3>
+             <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">{i18n.t("Official Hospital Drug List & Standardized Pricing")}</p>
            </div>
            <button className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-teal-600 transition-all shadow-sm">
               <Settings2 size={18} />
@@ -77,15 +75,15 @@ const DrugCatalog: React.FC = () => {
         </div>
         
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="w-full text-start">
             <thead>
               <tr className="bg-white border-b border-slate-100">
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Drug Name (Brand)</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Generic Name</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Form</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Strength</th>
-                <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Selling Price</th>
-                <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Actions</th>
+                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Drug Name (Brand)")}</th>
+                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Generic Name")}</th>
+                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">{i18n.t("Form")}</th>
+                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">{i18n.t("Strength")}</th>
+                <th className="px-8 py-5 text-end text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Selling Price")}</th>
+                <th className="px-8 py-5 text-end text-[10px] font-black text-slate-400 uppercase tracking-widest">{i18n.t("Actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -106,10 +104,10 @@ const DrugCatalog: React.FC = () => {
                   <td className="px-8 py-6 text-center">
                     <span className="text-xs font-bold text-slate-600">{drug.strength}</span>
                   </td>
-                  <td className="px-8 py-6 text-right">
+                  <td className="px-8 py-6 text-end">
                     <p className="text-sm font-black text-slate-900">₦{drug.price.toLocaleString()}</p>
                   </td>
-                  <td className="px-8 py-6 text-right">
+                  <td className="px-8 py-6 text-end">
                     <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                       <button className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-brand-primary transition-all shadow-sm">
                         <Edit2 size={16} />
@@ -130,7 +128,7 @@ const DrugCatalog: React.FC = () => {
             <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-200">
                <Layers size={32} />
             </div>
-            <p className="text-slate-400 font-bold uppercase tracking-widest">No matching drugs in registry</p>
+            <p className="text-slate-400 font-bold uppercase tracking-widest">{i18n.t("No matching drugs in registry")}</p>
           </div>
         )}
       </div>
@@ -141,10 +139,8 @@ const DrugCatalog: React.FC = () => {
             <Activity size={24} />
          </div>
          <div>
-            <h4 className="text-lg font-black text-teal-900 tracking-tight">Catalog Intelligence</h4>
-            <p className="text-sm text-teal-700/80 leading-relaxed font-medium mt-1">
-              All entries are categorized based on clinical class. Changes to selling prices are automatically audited and applied to the Billing module for all active OPD and IPD encounters.
-            </p>
+            <h4 className="text-lg font-black text-teal-900 tracking-tight">{i18n.t("Catalog Intelligence")}</h4>
+            <p className="text-sm text-teal-700/80 leading-relaxed font-medium mt-1">{i18n.t("All entries are categorized based on clinical class. Changes to selling prices are automatically audited and applied to the Billing module for all active OPD and IPD encounters.")}</p>
          </div>
       </div>
     </div>

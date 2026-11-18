@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { X, Plus, Trash2, Loader2, Layers, AlertCircle } from "lucide-react";
 import { billingService } from "../services/billing.service";
 import { useNotification } from "../context/NotificationContext";
+import { i18n } from "../i18n";
 
 const COMPONENT_TYPES = [
   "SURGERY_FEE", "ANESTHETIST_FEE", "ANESTHESIA", "OPERATION_THEATRE",
@@ -67,7 +68,7 @@ const TariffComponentsModal: React.FC<Props> = ({ tariff, onClose }) => {
   };
 
   const handleDelete = async (componentId: number) => {
-    if (!confirm("Remove this component?")) return;
+    if (!confirm(i18n.t("Remove this component?"))) return;
     try {
       await billingService.deleteTariffComponent(componentId);
       notify("Component removed", "success");
@@ -89,7 +90,7 @@ const TariffComponentsModal: React.FC<Props> = ({ tariff, onClose }) => {
               <Layers size={20} />
             </div>
             <div>
-              <h2 className="text-lg font-black text-slate-800 tracking-tight">Tariff Breakdown</h2>
+              <h2 className="text-lg font-black text-slate-800 tracking-tight">{i18n.t("Tariff Breakdown")}</h2>
               <p className="text-[10px] text-indigo-600 font-bold uppercase tracking-widest">{tariff.billable_name}</p>
             </div>
           </div>
@@ -100,11 +101,11 @@ const TariffComponentsModal: React.FC<Props> = ({ tariff, onClose }) => {
 
         <div className="flex flex-1 overflow-hidden">
           {/* Left Panel: Form */}
-          <div className="w-1/3 bg-slate-50 border-r border-slate-100 p-6 flex flex-col gap-4">
-            <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">Add New Component</h3>
+          <div className="w-1/3 bg-slate-50 border-e border-slate-100 p-6 flex flex-col gap-4">
+            <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">{i18n.t("Add New Component")}</h3>
             <form onSubmit={handleAddComponent} className="space-y-4">
               <div className="space-y-1">
-                <label className="text-[10px] font-bold text-slate-500 uppercase ml-1">Type</label>
+                <label className="text-[10px] font-bold text-slate-500 uppercase ms-1">{i18n.t("Type")}</label>
                 <select 
                   className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm outline-none"
                   value={newComponent.component_type}
@@ -116,17 +117,17 @@ const TariffComponentsModal: React.FC<Props> = ({ tariff, onClose }) => {
                 </select>
               </div>
               <div className="space-y-1">
-                <label className="text-[10px] font-bold text-slate-500 uppercase ml-1">Name / Description</label>
+                <label className="text-[10px] font-bold text-slate-500 uppercase ms-1">{i18n.t("Name / Description")}</label>
                 <input 
                   type="text" 
-                  placeholder="e.g. Lead Surgeon Fee"
+                  placeholder={i18n.t("e.g. Lead Surgeon Fee")}
                   className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm outline-none"
                   value={newComponent.component_name}
                   onChange={e => setNewComponent({...newComponent, component_name: e.target.value})}
                 />
               </div>
               <div className="space-y-1">
-                <label className="text-[10px] font-bold text-slate-500 uppercase ml-1">Amount (₦)</label>
+                <label className="text-[10px] font-bold text-slate-500 uppercase ms-1">{i18n.t("Amount (₦)")}</label>
                 <input 
                   type="number" 
                   placeholder="0.00"
@@ -142,7 +143,7 @@ const TariffComponentsModal: React.FC<Props> = ({ tariff, onClose }) => {
                   onChange={e => setNewComponent({...newComponent, is_mandatory: e.target.checked ? 1 : 0})}
                   className="rounded text-indigo-600 focus:ring-indigo-500"
                 />
-                <span className="text-xs font-bold text-slate-700">Mandatory inclusion in billing</span>
+                <span className="text-xs font-bold text-slate-700">{i18n.t("Mandatory inclusion in billing")}</span>
               </label>
 
               <button 
@@ -150,24 +151,21 @@ const TariffComponentsModal: React.FC<Props> = ({ tariff, onClose }) => {
                 disabled={isSubmitting}
                 className="w-full mt-4 bg-indigo-600 text-white py-3 rounded-xl font-bold flex justify-center items-center gap-2 hover:bg-indigo-700 disabled:opacity-50"
               >
-                {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Plus size={16} />} Add Component
-              </button>
+                {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Plus size={16} />}{" "}{i18n.t("Add Component")}</button>
             </form>
 
             <div className="mt-auto bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
                <div className="flex justify-between items-center mb-1">
-                 <span className="text-xs font-bold text-slate-500">Base Price:</span>
+                 <span className="text-xs font-bold text-slate-500">{i18n.t("Base Price:")}</span>
                  <span className="text-sm font-black">₦{parseFloat(tariff.unit_price).toLocaleString()}</span>
                </div>
                <div className="flex justify-between items-center mb-1">
-                 <span className="text-xs font-bold text-slate-500">Components (Mandatory):</span>
+                 <span className="text-xs font-bold text-slate-500">{i18n.t("Components (Mandatory):")}</span>
                  <span className="text-sm font-black text-indigo-600">₦{(summary.total_mandatory || 0).toLocaleString()}</span>
                </div>
                {summary.total_mandatory !== parseFloat(tariff.unit_price) && (
                  <div className="flex items-start gap-2 mt-3 p-2 bg-amber-50 text-amber-700 rounded-lg text-[10px] font-bold">
-                   <AlertCircle size={14} className="shrink-0 mt-0.5" />
-                   Warning: The sum of mandatory components does not equal the base unit price of the tariff.
-                 </div>
+                   <AlertCircle size={14} className="shrink-0 mt-0.5" />{i18n.t("Warning: The sum of mandatory components does not equal the base unit price of the tariff.")}</div>
                )}
             </div>
           </div>
@@ -181,7 +179,7 @@ const TariffComponentsModal: React.FC<Props> = ({ tariff, onClose }) => {
             ) : components.length === 0 ? (
                <div className="flex flex-col justify-center items-center h-full opacity-40">
                  <Layers size={48} className="text-slate-300 mb-4" />
-                 <p className="text-xs font-black uppercase tracking-widest text-slate-400">No components configured</p>
+                 <p className="text-xs font-black uppercase tracking-widest text-slate-400">{i18n.t("No components configured")}</p>
                </div>
             ) : (
               <div className="space-y-3">
@@ -193,9 +191,7 @@ const TariffComponentsModal: React.FC<Props> = ({ tariff, onClose }) => {
                           {c.component_type.replace(/_/g, ' ')}
                         </span>
                         {!c.is_mandatory && (
-                           <span className="text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded bg-amber-100 text-amber-600">
-                             Optional
-                           </span>
+                           <span className="text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded bg-amber-100 text-amber-600">{i18n.t("Optional")}</span>
                         )}
                       </div>
                       <p className="text-sm font-bold text-slate-800">{c.component_name}</p>

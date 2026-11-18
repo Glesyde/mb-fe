@@ -9,6 +9,7 @@ import {
   ReportShell,
   KpiCard,
 } from "./billingReportShared";
+import { i18n } from "../../i18n";
 
 const PasOverviewReport: React.FC = () => {
   const [metadata, setMetadata] = useState<any>(null);
@@ -48,8 +49,8 @@ const PasOverviewReport: React.FC = () => {
 
   return (
     <ReportShell
-      title="Executive PAS Overview"
-      subtitle="High-level patient administration KPIs across the selected period."
+      title={i18n.t("Executive PAS Overview")}
+      subtitle={i18n.t("High-level patient administration KPIs across the selected period.")}
       metaLine={metadata ? `Period: ${renderValue(metadata.period)}` : undefined}
       isLoading={isLoading}
       onClear={() => {
@@ -70,13 +71,13 @@ const PasOverviewReport: React.FC = () => {
       }
     >
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KpiCard icon={Users} label="Total Registrations" value={renderValue(kpis?.total_registrations)} colorClass="bg-blue-50 border-blue-100 text-blue-900" />
-        <KpiCard icon={Mars} label="Male" value={renderValue(kpis?.male_count)} colorClass="bg-sky-50 border-sky-100 text-sky-900" />
-        <KpiCard icon={Venus} label="Female" value={renderValue(kpis?.female_count)} colorClass="bg-pink-50 border-pink-100 text-pink-900" />
-        <KpiCard icon={Activity} label="Active Patients" value={renderValue(kpis?.active_patients)} colorClass="bg-emerald-50 border-emerald-100 text-emerald-900" />
-        <KpiCard icon={Skull} label="Deceased" value={renderValue(kpis?.deceased_count)} colorClass="bg-slate-50 border-slate-200 text-slate-900" />
-        <KpiCard icon={Baby} label="Pediatric" value={renderValue(kpis?.pediatric_count)} colorClass="bg-amber-50 border-amber-100 text-amber-900" />
-        <KpiCard icon={Accessibility} label="Geriatric" value={renderValue(kpis?.geriatric_count)} colorClass="bg-purple-50 border-purple-100 text-purple-900" />
+        <KpiCard icon={Users} label={i18n.t("Total Registrations")} value={renderValue(kpis?.total_registrations)} colorClass="bg-blue-50 border-blue-100 text-blue-900" />
+        <KpiCard icon={Mars} label={i18n.t("Male")} value={renderValue(kpis?.male_count)} colorClass="bg-sky-50 border-sky-100 text-sky-900" />
+        <KpiCard icon={Venus} label={i18n.t("Female")} value={renderValue(kpis?.female_count)} colorClass="bg-pink-50 border-pink-100 text-pink-900" />
+        <KpiCard icon={Activity} label={i18n.t("Active Patients")} value={renderValue(kpis?.active_patients)} colorClass="bg-emerald-50 border-emerald-100 text-emerald-900" />
+        <KpiCard icon={Skull} label={i18n.t("Deceased")} value={renderValue(kpis?.deceased_count)} colorClass="bg-slate-50 border-slate-200 text-slate-900" />
+        <KpiCard icon={Baby} label={i18n.t("Pediatric")} value={renderValue(kpis?.pediatric_count)} colorClass="bg-amber-50 border-amber-100 text-amber-900" />
+        <KpiCard icon={Accessibility} label={i18n.t("Geriatric")} value={renderValue(kpis?.geriatric_count)} colorClass="bg-purple-50 border-purple-100 text-purple-900" />
       </div>
     </ReportShell>
   );

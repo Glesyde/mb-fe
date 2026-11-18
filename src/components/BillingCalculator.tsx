@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Calculator as CalcIcon, X, GripVertical, Delete } from "lucide-react";
+import { i18n } from "../i18n";
 
 const POS_KEY = "hims_calc_pos";
 
@@ -168,9 +169,9 @@ const BillingCalculator: React.FC = () => {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          title="Open Calculator"
+          title={i18n.t("Open Calculator")}
           style={{ width: 52, height: 52 }}
-          className="fixed z-[9998] bottom-6 right-20 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-2xl shadow-xl shadow-blue-200/70 transition-all duration-200 hover:scale-110 active:scale-95"
+          className="fixed z-[9998] bottom-6 end-20 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-2xl shadow-xl shadow-blue-200/70 transition-all duration-200 hover:scale-110 active:scale-95"
         >
           <CalcIcon size={22} />
         </button>
@@ -191,7 +192,7 @@ const BillingCalculator: React.FC = () => {
             <div className="flex items-center gap-2">
               <GripVertical size={14} className="text-blue-300" />
               <CalcIcon size={14} className="text-blue-100" />
-              <span className="text-[10px] font-black text-blue-100 uppercase tracking-widest">Calculator</span>
+              <span className="text-[10px] font-black text-blue-100 uppercase tracking-widest">{i18n.t("Calculator")}</span>
             </div>
             <button
               onMouseDown={(e) => e.stopPropagation()}
@@ -205,11 +206,11 @@ const BillingCalculator: React.FC = () => {
           {/* Display */}
           <div className="bg-slate-800 px-4 pt-3 pb-2">
             {/* Expression row */}
-            <div className="text-right text-xs text-slate-500 font-mono min-h-[16px] truncate">
+            <div className="text-end text-xs text-slate-500 font-mono min-h-[16px] truncate">
               {prev !== null ? `${prev} ${op ?? ""}` : ""}
             </div>
             {/* Main number */}
-            <div className={`text-right font-black text-white leading-tight mt-0.5 ${displayFontSize} font-mono truncate`}>
+            <div className={`text-end font-black text-white leading-tight mt-0.5 ${displayFontSize} font-mono truncate`}>
               {formattedDisplay}
             </div>
           </div>
@@ -222,7 +223,7 @@ const BillingCalculator: React.FC = () => {
                 onClick={b.action}
                 className={btnClass(b.type) + " py-3.5"}
               >
-                {b.label === "⌫" ? <Delete size={15} /> : b.label}
+                {b.label === "⌫" ? <Delete size={15} /> : i18n.tx(b.label)}
               </button>
             ))}
           </div>
@@ -230,7 +231,7 @@ const BillingCalculator: React.FC = () => {
           {/* History */}
           {history.length > 0 && (
             <div className="border-t border-slate-100 bg-white px-3 py-2 max-h-32 overflow-y-auto">
-              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1.5">History</p>
+              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1.5">{i18n.t("History")}</p>
               {history.map((h, i) => (
                 <p key={i} className="text-[10px] text-slate-500 font-mono leading-relaxed truncate">{h}</p>
               ))}

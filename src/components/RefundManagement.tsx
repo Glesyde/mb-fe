@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { billingService } from '../services/billing.service';
 import { useNotification } from '../context/NotificationContext';
+import { i18n } from "../i18n";
 
 const RefundManagement: React.FC = () => {
   const { notify } = useNotification();
@@ -172,33 +173,30 @@ const RefundManagement: React.FC = () => {
           <h1 className="text-3xl font-black text-slate-800 tracking-tight flex items-center gap-3">
              <div className="p-2 bg-rose-50 text-rose-600 rounded-xl">
               <RotateCcw size={28} />
-            </div>
-            Refund & Reversals
-          </h1>
-          <p className="text-slate-500 font-medium">Manage clinical cancellations and patient payment returns.</p>
+            </div>{i18n.t("Refund & Reversals")}</h1>
+          <p className="text-slate-500 font-medium">{i18n.t("Manage clinical cancellations and patient payment returns.")}</p>
         </div>
         <button 
           onClick={() => setShowRequestModal(true)}
           className="bg-slate-900 text-white px-6 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-slate-800 transition-all shadow-lg active:scale-95"
         >
-          <Plus size={20} /> Request New Refund
-        </button>
+          <Plus size={20} />{" "}{i18n.t("Request New Refund")}</button>
       </div>
 
       <div className="bg-white border border-slate-200 rounded-[40px] shadow-sm overflow-hidden flex flex-col">
         <div className="p-8 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row gap-4 justify-between items-center">
-           <h3 className="text-lg font-black text-slate-800 tracking-tight">Active Refund Registry</h3>
+           <h3 className="text-lg font-black text-slate-800 tracking-tight">{i18n.t("Active Refund Registry")}</h3>
            <div className="flex items-center gap-3 w-full md:w-auto">
               <select 
                 value={statusFilter} 
                 onChange={e => setStatusFilter(e.target.value)}
                 className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-700 outline-none"
               >
-                <option value="">All Statuses</option>
-                <option value="PENDING">Pending</option>
-                <option value="APPROVED">Approved</option>
-                <option value="COMPLETED">Completed</option>
-                <option value="REJECTED">Rejected</option>
+                <option value="">{i18n.t("All Statuses")}</option>
+                <option value="PENDING">{i18n.t("Pending")}</option>
+                <option value="APPROVED">{i18n.t("Approved")}</option>
+                <option value="COMPLETED">{i18n.t("Completed")}</option>
+                <option value="REJECTED">{i18n.t("Rejected")}</option>
               </select>
               <input 
                 type="date" 
@@ -224,17 +222,17 @@ const RefundManagement: React.FC = () => {
           ) : requests.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-[300px] text-slate-400">
               <AlertCircle size={48} className="mb-4 opacity-50" />
-              <p className="text-lg font-bold">No refunds found</p>
+              <p className="text-lg font-bold">{i18n.t("No refunds found")}</p>
             </div>
           ) : (
-            <table className="w-full text-left">
+            <table className="w-full text-start">
               <thead>
                 <tr className="bg-white border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                  <th className="px-8 py-5">Patient & Invoice</th>
-                  <th className="px-8 py-5">Refund Reason</th>
-                  <th className="px-8 py-5">Amount</th>
-                  <th className="px-8 py-5">Status</th>
-                  <th className="px-8 py-5 text-right">Action</th>
+                  <th className="px-8 py-5">{i18n.t("Patient & Invoice")}</th>
+                  <th className="px-8 py-5">{i18n.t("Refund Reason")}</th>
+                  <th className="px-8 py-5">{i18n.t("Amount")}</th>
+                  <th className="px-8 py-5">{i18n.t("Status")}</th>
+                  <th className="px-8 py-5 text-end">{i18n.t("Action")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
@@ -262,14 +260,12 @@ const RefundManagement: React.FC = () => {
                         {req.status_name}
                       </span>
                     </td>
-                    <td className="px-8 py-5 text-right flex justify-end gap-2">
+                    <td className="px-8 py-5 text-end flex justify-end gap-2">
                       {req.status_code === 'APPROVED' && (
                         <button 
                           onClick={() => { setSelectedRefund(req); setShowPayoutModal(true); }}
                           className="px-3 py-1.5 bg-emerald-50 text-emerald-600 text-xs font-bold rounded-lg border border-emerald-100 hover:bg-emerald-100 transition-colors"
-                        >
-                          Payout
-                        </button>
+                        >{i18n.t("Payout")}</button>
                       )}
                     </td>
                   </tr>
@@ -291,8 +287,8 @@ const RefundManagement: React.FC = () => {
                   <RotateCcw size={20} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-slate-800">New Refund Request</h2>
-                  <p className="text-xs text-rose-600 font-bold uppercase tracking-widest">Partial or Full Reversal</p>
+                  <h2 className="text-xl font-bold text-slate-800">{i18n.t("New Refund Request")}</h2>
+                  <p className="text-xs text-rose-600 font-bold uppercase tracking-widest">{i18n.t("Partial or Full Reversal")}</p>
                 </div>
               </div>
               <button onClick={() => { setShowRequestModal(false); resetRequestForm(); }} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400">
@@ -303,26 +299,26 @@ const RefundManagement: React.FC = () => {
             <div className="p-8 space-y-8 max-h-[70vh] overflow-y-auto no-scrollbar">
               {!foundInvoice ? (
                 <form onSubmit={handleSearchInvoice} className="space-y-4">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Search Receipt/Invoice ID</label>
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Search Receipt/Invoice ID")}</label>
                   <div className="relative flex items-center">
-                    <Search className="absolute left-4 text-slate-400" size={20} />
+                    <Search className="absolute start-4 text-slate-400" size={20} />
                     <input 
                       autoFocus
                       type="text" 
-                      placeholder="e.g. OP/2026/122"
-                      className="w-full pl-12 pr-24 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-slate-800 outline-none focus:bg-white transition-all"
+                      placeholder={i18n.t("e.g. OP/2026/122")}
+                      className="w-full ps-12 pe-24 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-slate-800 outline-none focus:bg-white transition-all"
                       value={searchId}
                       onChange={(e) => setSearchId(e.target.value)}
                     />
                     <button 
                       type="submit"
                       disabled={isSearching || !searchId.trim()}
-                      className="absolute right-2 px-4 py-2 bg-brand-primary text-white text-sm font-bold rounded-xl disabled:opacity-50"
+                      className="absolute end-2 px-4 py-2 bg-brand-primary text-white text-sm font-bold rounded-xl disabled:opacity-50"
                     >
-                      {isSearching ? <Loader2 size={16} className="animate-spin" /> : 'Search'}
+                      {isSearching ? <Loader2 size={16} className="animate-spin" /> : i18n.t("Search")}
                     </button>
                   </div>
-                  <p className="text-[10px] text-slate-400 italic">Only finalized and paid invoices can be refunded.</p>
+                  <p className="text-[10px] text-slate-400 italic">{i18n.t("Only finalized and paid invoices can be refunded.")}</p>
                 </form>
               ) : (
                 <div className="space-y-8 animate-in slide-in-from-right-4 duration-300">
@@ -332,15 +328,15 @@ const RefundManagement: React.FC = () => {
                         {foundInvoice.patient_details.full_name.charAt(0)}
                       </div>
                       <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Found Invoice</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{i18n.t("Found Invoice")}</p>
                         <p className="text-sm font-black text-slate-800">{foundInvoice.patient_details.full_name} • {foundInvoice.header.reference}</p>
                       </div>
                     </div>
-                    <button onClick={() => setFoundInvoice(null)} className="text-[10px] font-black text-brand-primary uppercase hover:underline">Change</button>
+                    <button onClick={() => setFoundInvoice(null)} className="text-[10px] font-black text-brand-primary uppercase hover:underline">{i18n.t("Change")}</button>
                   </div>
 
                   <div className="space-y-4">
-                    <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Invoice Items</h4>
+                    <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Invoice Items")}</h4>
                     <div className="space-y-2">
                       {foundInvoice.items.map((item: any) => (
                         <div 
@@ -359,11 +355,11 @@ const RefundManagement: React.FC = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Reason for Refund</label>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ms-1">{i18n.t("Reason for Refund")}</label>
                     <textarea 
                       required
                       rows={2}
-                      placeholder="e.g. Service cancelled by clinical team..."
+                      placeholder={i18n.t("e.g. Service cancelled by clinical team...")}
                       className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium outline-none focus:bg-white transition-all resize-none"
                       value={reason}
                       onChange={(e) => setReason(e.target.value)}
@@ -372,7 +368,7 @@ const RefundManagement: React.FC = () => {
 
                   <div className="bg-slate-900 rounded-[32px] p-6 text-white shadow-xl flex flex-col md:flex-row gap-4 items-center justify-between">
                      <div className="flex-1">
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Refund Amount (₦)</p>
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{i18n.t("Refund Amount (₦)")}</p>
                         <input
                           type="number"
                           className="w-full max-w-[200px] bg-slate-800 border-none rounded-xl px-4 py-2 text-2xl font-black text-rose-500 outline-none focus:ring-2 focus:ring-rose-500"
@@ -385,9 +381,7 @@ const RefundManagement: React.FC = () => {
                        onClick={submitRequest}
                        className="bg-white text-slate-900 px-8 py-3 rounded-2xl font-black uppercase text-xs hover:bg-rose-50 transition-all flex items-center gap-2 disabled:opacity-50"
                      >
-                       {isSubmitting && <Loader2 size={14} className="animate-spin" />}
-                       Submit Request
-                     </button>
+                       {isSubmitting && <Loader2 size={14} className="animate-spin" />}{i18n.t("Submit Request")}</button>
                   </div>
                 </div>
               )}
@@ -403,22 +397,20 @@ const RefundManagement: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
             <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-emerald-50">
               <h3 className="text-lg font-black text-emerald-900 tracking-tight flex items-center gap-2">
-                <Wallet className="text-emerald-600" size={20} />
-                Process Payout
-              </h3>
+                <Wallet className="text-emerald-600" size={20} />{i18n.t("Process Payout")}</h3>
               <button onClick={() => setShowPayoutModal(false)} className="text-slate-400 hover:text-slate-600 transition-colors p-1">
                 <X size={20} />
               </button>
             </div>
             <div className="p-6 space-y-4">
               <div className="p-4 bg-emerald-500 text-white rounded-xl shadow-inner">
-                <p className="text-xs font-bold uppercase text-emerald-100 mb-1">Amount to Pay</p>
+                <p className="text-xs font-bold uppercase text-emerald-100 mb-1">{i18n.t("Amount to Pay")}</p>
                 <p className="text-3xl font-black">₦{parseFloat(selectedRefund.refund_amount).toLocaleString()}</p>
-                <p className="text-sm font-medium text-emerald-50 mt-2">To: {selectedRefund.first_name} {selectedRefund.last_name}</p>
+                <p className="text-sm font-medium text-emerald-50 mt-2">{i18n.t("To:")}{" "}{selectedRefund.first_name} {selectedRefund.last_name}</p>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Payment Method</label>
+                <label className="block text-xs font-bold text-slate-700 mb-1">{i18n.t("Payment Method")}</label>
                 <select
                   value={payoutMethod}
                   onChange={e => setPayoutMethod(Number(e.target.value))}
@@ -431,28 +423,24 @@ const RefundManagement: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Payment Reference</label>
+                <label className="block text-xs font-bold text-slate-700 mb-1">{i18n.t("Payment Reference")}</label>
                 <input
                   type="text"
                   value={payoutReference}
                   onChange={e => setPayoutReference(e.target.value)}
                   className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-500 text-sm font-medium"
-                  placeholder="e.g. Bank Ref / Voucher ID"
+                  placeholder={i18n.t("e.g. Bank Ref / Voucher ID")}
                 />
               </div>
             </div>
             <div className="px-6 py-4 border-t border-slate-100 flex items-center justify-end gap-2 bg-slate-50">
-              <button onClick={() => setShowPayoutModal(false)} className="px-4 py-2 text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">
-                Cancel
-              </button>
+              <button onClick={() => setShowPayoutModal(false)} className="px-4 py-2 text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">{i18n.t("Cancel")}</button>
               <button
                 onClick={submitPayout}
                 disabled={isSubmitting || !payoutReference.trim()}
                 className="px-4 py-2 text-xs font-bold text-white bg-emerald-600 rounded-xl hover:bg-emerald-700 transition-all flex items-center gap-2 disabled:opacity-50"
               >
-                {isSubmitting && <Loader2 size={14} className="animate-spin" />}
-                Confirm Payout
-              </button>
+                {isSubmitting && <Loader2 size={14} className="animate-spin" />}{i18n.t("Confirm Payout")}</button>
             </div>
           </div>
         </div>
@@ -463,10 +451,8 @@ const RefundManagement: React.FC = () => {
             <ShieldAlert size={24} />
          </div>
          <div>
-            <h4 className="text-lg font-black text-amber-900 tracking-tight">Financial Compliance Alert</h4>
-            <p className="text-sm text-amber-700/80 leading-relaxed font-medium mt-1">
-              All refunds exceeding ₦50,000 require secondary authorization from the Audit Department. Processed refunds are automatically logged in the Daily Liquidity Report.
-            </p>
+            <h4 className="text-lg font-black text-amber-900 tracking-tight">{i18n.t("Financial Compliance Alert")}</h4>
+            <p className="text-sm text-amber-700/80 leading-relaxed font-medium mt-1">{i18n.t("All refunds exceeding ₦50,000 require secondary authorization from the Audit Department. Processed refunds are automatically logged in the Daily Liquidity Report.")}</p>
          </div>
       </div>
     </div>

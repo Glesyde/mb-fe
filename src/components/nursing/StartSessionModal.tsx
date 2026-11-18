@@ -3,6 +3,7 @@ import { X, PlayCircle, Loader2 } from "lucide-react";
 import { nursingService } from "../../services/nursingService";
 import { IPDAdmission } from "../../types/nursing.types";
 import { useNotification } from "../../context/NotificationContext";
+import { i18n } from "../../i18n";
 
 interface StartSessionModalProps {
   admission: IPDAdmission;
@@ -85,11 +86,8 @@ const StartSessionModal: React.FC<StartSessionModalProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/50">
           <div>
-            <h2 className="text-lg font-bold text-slate-800">
-              Start Labour Session
-            </h2>
-            <p className="text-xs text-slate-500 mt-1">
-              Patient: {admission.first_name} {admission.last_name} (MRN: {admission.mrn})
+            <h2 className="text-lg font-bold text-slate-800">{i18n.t("Start Labour Session")}</h2>
+            <p className="text-xs text-slate-500 mt-1">{i18n.t("Patient:")}{" "}{admission.first_name} {admission.last_name}{" "}{i18n.t("(MRN:")}{" "}{admission.mrn})
             </p>
           </div>
           <button
@@ -105,9 +103,7 @@ const StartSessionModal: React.FC<StartSessionModalProps> = ({
           <form id="start-session-form" onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  Gravida *
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Gravida *")}</label>
                 <input
                   type="number"
                   name="gravida"
@@ -119,9 +115,7 @@ const StartSessionModal: React.FC<StartSessionModalProps> = ({
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  Para *
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Para *")}</label>
                 <input
                   type="number"
                   name="para"
@@ -133,9 +127,7 @@ const StartSessionModal: React.FC<StartSessionModalProps> = ({
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  Gestational Age (wks) *
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Gestational Age (wks) *")}</label>
                 <input
                   type="number"
                   name="gestational_age_weeks"
@@ -151,110 +143,96 @@ const StartSessionModal: React.FC<StartSessionModalProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  Membrane State
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Membrane State")}</label>
                 <select
                   name="membranes_state"
                   value={formData.membranes_state}
                   onChange={handleChange}
                   className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 transition-all"
                 >
-                  <option value="Intact">Intact</option>
-                  <option value="Ruptured">Ruptured</option>
+                  <option value="Intact">{i18n.t("Intact")}</option>
+                  <option value="Ruptured">{i18n.t("Ruptured")}</option>
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  Blood Group
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Blood Group")}</label>
                 <select
                   name="blood_group"
                   value={formData.blood_group}
                   onChange={handleChange}
                   className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 transition-all"
                 >
-                  <option value="Unknown">Unknown</option>
-                  <option value="A+">A+</option>
-                  <option value="A-">A-</option>
-                  <option value="B+">B+</option>
-                  <option value="B-">B-</option>
-                  <option value="AB+">AB+</option>
-                  <option value="AB-">AB-</option>
-                  <option value="O+">O+</option>
-                  <option value="O-">O-</option>
+                  <option value="Unknown">{i18n.t("Unknown")}</option>
+                  <option value="A+">{i18n.t("A+")}</option>
+                  <option value="A-">{i18n.t("A-")}</option>
+                  <option value="B+">{i18n.t("B+")}</option>
+                  <option value="B-">{i18n.t("B-")}</option>
+                  <option value="AB+">{i18n.t("AB+")}</option>
+                  <option value="AB-">{i18n.t("AB-")}</option>
+                  <option value="O+">{i18n.t("O+")}</option>
+                  <option value="O-">{i18n.t("O-")}</option>
                 </select>
               </div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  GBS Status
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("GBS Status")}</label>
                 <select
                   name="gbs_status"
                   value={formData.gbs_status}
                   onChange={handleChange}
                   className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 transition-all"
                 >
-                  <option value="Unknown">Unknown</option>
-                  <option value="Positive">Positive</option>
-                  <option value="Negative">Negative</option>
+                  <option value="Unknown">{i18n.t("Unknown")}</option>
+                  <option value="Positive">{i18n.t("Positive")}</option>
+                  <option value="Negative">{i18n.t("Negative")}</option>
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  HIV Status
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("HIV Status")}</label>
                 <select
                   name="hiv_status"
                   value={formData.hiv_status}
                   onChange={handleChange}
                   className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 transition-all"
                 >
-                  <option value="Unknown">Unknown</option>
-                  <option value="Positive">Positive</option>
-                  <option value="Negative">Negative</option>
+                  <option value="Unknown">{i18n.t("Unknown")}</option>
+                  <option value="Positive">{i18n.t("Positive")}</option>
+                  <option value="Negative">{i18n.t("Negative")}</option>
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  HB Status
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("HB Status")}</label>
                 <select
                   name="hb_status"
                   value={formData.hb_status}
                   onChange={handleChange}
                   className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 transition-all"
                 >
-                  <option value="Unknown">Unknown</option>
-                  <option value="Positive">Positive</option>
-                  <option value="Negative">Negative</option>
+                  <option value="Unknown">{i18n.t("Unknown")}</option>
+                  <option value="Positive">{i18n.t("Positive")}</option>
+                  <option value="Negative">{i18n.t("Negative")}</option>
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  HBsAg Status
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("HBsAg Status")}</label>
                 <select
                   name="hbsag_status"
                   value={formData.hbsag_status}
                   onChange={handleChange}
                   className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 transition-all"
                 >
-                  <option value="Unknown">Unknown</option>
-                  <option value="Positive">Positive</option>
-                  <option value="Negative">Negative</option>
+                  <option value="Unknown">{i18n.t("Unknown")}</option>
+                  <option value="Positive">{i18n.t("Positive")}</option>
+                  <option value="Negative">{i18n.t("Negative")}</option>
                 </select>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  Allergies
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Allergies")}</label>
                 <textarea
                   name="allergies"
                   value={formData.allergies}
@@ -264,9 +242,7 @@ const StartSessionModal: React.FC<StartSessionModalProps> = ({
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  Analgesia Plan
-                </label>
+                <label className="block text-xs font-medium text-slate-700 mb-1">{i18n.t("Analgesia Plan")}</label>
                 <textarea
                   name="analgesia_plan"
                   value={formData.analgesia_plan}
@@ -285,9 +261,7 @@ const StartSessionModal: React.FC<StartSessionModalProps> = ({
             type="button"
             onClick={onClose}
             className="px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
-          >
-            Cancel
-          </button>
+          >{i18n.t("Cancel")}</button>
           <button
             type="submit"
             form="start-session-form"
@@ -298,9 +272,7 @@ const StartSessionModal: React.FC<StartSessionModalProps> = ({
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
               <PlayCircle className="w-4 h-4" />
-            )}
-            Start Session
-          </button>
+            )}{i18n.t("Start Session")}</button>
         </div>
       </div>
     </div>

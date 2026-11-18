@@ -15,6 +15,7 @@ import {
   TrendingUp,
   FileText
 } from 'lucide-react';
+import { i18n } from "../i18n";
 
 interface Tariff {
   id: string;
@@ -49,22 +50,20 @@ const HMOTariffs: React.FC = () => {
       {/* Header Controls */}
       <div className="bg-white p-6 rounded-[40px] border border-slate-200 shadow-sm flex flex-col md:flex-row gap-6 items-center">
         <div className="relative flex-1 w-full group">
-          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-brand-primary transition-colors" />
+          <Search className="absolute start-5 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-brand-primary transition-colors" />
           <input 
             type="text" 
-            placeholder="Search by service name or provider..."
-            className="w-full pl-14 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-[28px] text-sm font-bold text-slate-800 outline-none focus:bg-white focus:ring-4 focus:ring-brand-active0/10 focus:border-brand-active0 transition-all"
+            placeholder={i18n.t("Search by service name or provider...")}
+            className="w-full ps-14 pe-4 py-4 bg-slate-50 border border-slate-200 rounded-[28px] text-sm font-bold text-slate-800 outline-none focus:bg-white focus:ring-4 focus:ring-brand-active0/10 focus:border-brand-active0 transition-all"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
         <div className="flex items-center gap-3 w-full md:w-auto">
           <button className="flex items-center gap-2 px-6 py-4 bg-white border border-slate-200 rounded-[24px] text-xs font-black uppercase tracking-widest text-slate-500 hover:text-slate-800 transition-all shadow-sm">
-            <Filter size={16} /> All Providers
-          </button>
+            <Filter size={16} />{" "}{i18n.t("All Providers")}</button>
           <button className="flex-1 md:flex-none bg-brand-primary text-white px-8 py-4 rounded-[24px] font-black text-xs uppercase tracking-widest hover:bg-brand-primary transition-all shadow-lg shadow-brand-active flex items-center justify-center gap-2">
-            <Download size={18} /> Export List
-          </button>
+            <Download size={18} />{" "}{i18n.t("Export List")}</button>
         </div>
       </div>
 
@@ -72,24 +71,23 @@ const HMOTariffs: React.FC = () => {
       <div className="bg-white border border-slate-200 rounded-[44px] overflow-hidden shadow-sm">
         <div className="p-8 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
            <div>
-             <h3 className="text-xl font-black text-slate-800 tracking-tight">Active Price Schedules</h3>
-             <p className="text-xs font-bold text-slate-400 mt-1">Master registry of negotiated HMO service tariffs.</p>
+             <h3 className="text-xl font-black text-slate-800 tracking-tight">{i18n.t("Active Price Schedules")}</h3>
+             <p className="text-xs font-bold text-slate-400 mt-1">{i18n.t("Master registry of negotiated HMO service tariffs.")}</p>
            </div>
            <button className="bg-slate-900 text-white px-6 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-slate-800 transition-all shadow-lg active:scale-95 text-xs uppercase tracking-widest">
-            <Plus size={18} /> Add Tariff Rule
-          </button>
+            <Plus size={18} />{" "}{i18n.t("Add Tariff Rule")}</button>
         </div>
         
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="w-full text-start">
             <thead>
               <tr className="bg-white border-b border-slate-100">
-                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Service Description</th>
-                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Partner</th>
-                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Standard Price</th>
-                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Negotiated Tariff</th>
-                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Variance</th>
-                <th className="px-8 py-6 text-right text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Actions</th>
+                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Service Description")}</th>
+                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Partner")}</th>
+                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Standard Price")}</th>
+                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Negotiated Tariff")}</th>
+                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Variance")}</th>
+                <th className="px-8 py-6 text-end text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{i18n.t("Actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -121,10 +119,9 @@ const HMOTariffs: React.FC = () => {
                     </td>
                     <td className="px-8 py-6">
                        <div className="flex items-center gap-1.5 text-emerald-600 font-black text-xs">
-                          <TrendingUp size={14} /> {variance.toFixed(0)}% Disc.
-                       </div>
+                          <TrendingUp size={14} /> {variance.toFixed(0)}{i18n.t("% Disc.")}</div>
                     </td>
-                    <td className="px-8 py-6 text-right">
+                    <td className="px-8 py-6 text-end">
                       <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                          <button 
                           onClick={() => setShowEditTariff(tariff)}
@@ -149,7 +146,7 @@ const HMOTariffs: React.FC = () => {
             <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-200">
                <FileText size={32} />
             </div>
-            <p className="text-slate-400 font-bold">No tariff rules found for "{searchTerm}"</p>
+            <p className="text-slate-400 font-bold">{i18n.t("No tariff rules found for \"")}{searchTerm}"</p>
           </div>
         )}
       </div>
@@ -169,37 +166,35 @@ const HMOTariffs: React.FC = () => {
             </div>
             
             <div className="p-10 pt-6">
-              <h3 className="text-2xl font-black text-slate-800 tracking-tight mb-1">Negotiated Price Update</h3>
-              <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-8">{showEditTariff.hmoName} Contract</p>
+              <h3 className="text-2xl font-black text-slate-800 tracking-tight mb-1">{i18n.t("Negotiated Price Update")}</h3>
+              <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-8">{showEditTariff.hmoName}{" "}{i18n.t("Contract")}</p>
               
               <div className="space-y-8">
                 <div className="p-6 bg-slate-50 rounded-[32px] border border-slate-100">
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Service Item</p>
+                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">{i18n.t("Service Item")}</p>
                    <p className="text-lg font-black text-slate-800 leading-tight">{showEditTariff.service}</p>
                    <div className="mt-4 flex items-center justify-between pt-4 border-t border-slate-200/50">
-                      <span className="text-xs font-bold text-slate-500">Base Hospital Price</span>
+                      <span className="text-xs font-bold text-slate-500">{i18n.t("Base Hospital Price")}</span>
                       <span className="text-sm font-black text-slate-800">₦{showEditTariff.basePrice.toLocaleString()}</span>
                    </div>
                 </div>
 
                 <div className="space-y-3">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">New Agreed HMO Price (₦)</label>
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ms-1">{i18n.t("New Agreed HMO Price (₦)")}</label>
                   <div className="relative">
-                     <span className="absolute left-5 top-1/2 -translate-y-1/2 text-lg font-black text-brand-primary">₦</span>
+                     <span className="absolute start-5 top-1/2 -translate-y-1/2 text-lg font-black text-brand-primary">₦</span>
                      <input 
                         type="number"
                         defaultValue={showEditTariff.hmoPrice}
                         autoFocus
-                        className="w-full pl-12 pr-6 py-5 bg-brand-active/30 border-2 border-brand-active rounded-[32px] text-2xl font-black text-brand-primary outline-none focus:ring-8 focus:ring-brand-active0/5 focus:border-brand-active0 transition-all"
+                        className="w-full ps-12 pe-6 py-5 bg-brand-active/30 border-2 border-brand-active rounded-[32px] text-2xl font-black text-brand-primary outline-none focus:ring-8 focus:ring-brand-active0/5 focus:border-brand-active0 transition-all"
                       />
                   </div>
                 </div>
 
                 <div className="bg-amber-50 border border-amber-100 p-6 rounded-[32px] flex items-start gap-4">
                   <AlertCircle className="text-amber-600 flex-shrink-0" size={24} />
-                  <p className="text-xs text-amber-700 leading-relaxed font-bold uppercase tracking-tight">
-                    Warning: Price changes are effective immediately for all pending and future bills under this provider schedule.
-                  </p>
+                  <p className="text-xs text-amber-700 leading-relaxed font-bold uppercase tracking-tight">{i18n.t("Warning: Price changes are effective immediately for all pending and future bills under this provider schedule.")}</p>
                 </div>
               </div>
 
@@ -208,14 +203,11 @@ const HMOTariffs: React.FC = () => {
                   onClick={() => setShowEditTariff(null)}
                   className="w-full bg-slate-900 text-white py-5 rounded-[28px] font-black uppercase tracking-[0.2em] text-xs shadow-xl active:scale-95 transition-all flex items-center justify-center gap-2"
                 >
-                  <CheckCircle2 size={18} /> Apply Tariff Update
-                </button>
+                  <CheckCircle2 size={18} />{" "}{i18n.t("Apply Tariff Update")}</button>
                 <button 
                   onClick={() => setShowEditTariff(null)}
                   className="w-full text-slate-400 py-3 text-xs font-black uppercase tracking-widest hover:text-slate-600 transition-colors"
-                >
-                  Discard Changes
-                </button>
+                >{i18n.t("Discard Changes")}</button>
               </div>
             </div>
           </div>
